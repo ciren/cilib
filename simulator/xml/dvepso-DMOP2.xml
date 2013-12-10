@@ -6,88 +6,89 @@
 ]>
 <simulator>
     <algorithms>
-      <algorithm id="pso" class="pso.PSO">
-	<initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-	  <entityNumber value="30"/>
-	  <entityType class="pso.particle.StandardParticle">
-	    <particleBehavior class="pso.particle.ParticleBehavior">
-	      <velocityProvider class="pso.velocityprovider.MOVelocityProvider"/>
-	      <positionProvider class="pso.positionprovider.StandardPositionProvider"/> 	      
-	      <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
-	      <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
-		<knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
-		  <populationSelection class="util.selection.recipes.RandomSelector"/>
-		  <entitySelection class="util.selection.recipes.TournamentSelector"/>
-		</knowledgeTransferStrategy>
-	      </globalGuideProvider>
-	    </particleBehavior>
-	    <neighbourhoodBestUpdateStrategy class="pso.positionprovider.RelaxedNonDominatedNeighbourhoodBestUpdateStrategy"/>
-	    <personalBestUpdateStrategy class="pso.pbestupdate.MOOStandardPersonalBestUpdateStrategy"/>
-	  </entityType>
-	</initialisationStrategy>
-	<iterationStrategy class="pso.iterationstrategies.moo.RelaxedNonDominatedMOOSynchronousIterationStrategy">
-	  <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>               
-	</iterationStrategy>
-      </algorithm>
+        <algorithm id="pso" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="30"/>
+	            <entityType class="pso.particle.StandardParticle">
+	                <particleBehavior class="pso.particle.ParticleBehavior">
+	                    <velocityProvider class="pso.velocityprovider.MOVelocityProvider">
+                            <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
+		                        <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
+		                            <populationSelection class="util.selection.recipes.RandomSelector"/>
+		                            <entitySelection class="util.selection.recipes.TournamentSelector"/>
+		                        </knowledgeTransferStrategy>
+	                        </globalGuideProvider>
+    	                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
+                        </velocityProvider>
+	                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
+	                </particleBehavior>
+	                <neighbourhoodBestUpdateStrategy class="pso.positionprovider.RelaxedNonDominatedNeighbourhoodBestUpdateStrategy"/>
+	                <personalBestUpdateStrategy class="pso.pbestupdate.MOOStandardPersonalBestUpdateStrategy"/>
+                </entityType>
+	        </initialisationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.moo.RelaxedNonDominatedMOOSynchronousIterationStrategy">
+	            <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>               
+            </iterationStrategy>
+        </algorithm>
 
-      <algorithm id="dvepso-default2obj" class="algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm">
-	<addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
-	<objectiveAssignmentStrategy class="moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy"/>
-	<addPopulationBasedAlgorithm idref="pso"/>
-	<addPopulationBasedAlgorithm idref="pso"/>
-	<iterationStrategy class="moo.iterationstrategies.HigherLevelArchivingIterationStrategy">
-	  <archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="1000">
-	    <pruningSelection class="util.selection.recipes.DistanceBasedElitistSelector">
-	      <comparator class="util.selection.arrangement.DistanceComparator"/>
-	    </pruningSelection>
-	  </archive>
-	  <iterationStrategy class="pso.dynamic.HigherLevelChangedDynamicIterationStrategy">
-	    <iterationStrategy class="pso.iterationstrategies.moo.RelaxedNonDominatedMOOSynchronousIterationStrategy">
-	      <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
-	    </iterationStrategy>
-	    <detectionStrategy class="pso.dynamic.detectionstrategies.MOORandomArchiveSentriesDetectionStrategy">
-	      <iterationsModulus value="1"/>
-	      <numberOfSentries class="controlparameter.ConstantControlParameter" parameter="2"/>
-	    </detectionStrategy>
-	    <responseStrategy class="pso.dynamic.responsestrategies.MultiReactionStrategy">
-	      <addResponseStrategy class="pso.dynamic.responsestrategies.ArchiveReevaluationResponseStrategy"/>
-	      <addResponseStrategy class="pso.dynamic.responsestrategies.ReinitialisationReevaluationReactionStrategy">
-		<reinitialisationRatio value="0.3"/>
-	      </addResponseStrategy> 
-	    </responseStrategy>
-	  </iterationStrategy>
-	</iterationStrategy>
-      </algorithm>
+        <algorithm id="dvepso-default2obj" class="algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <objectiveAssignmentStrategy class="moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <iterationStrategy class="moo.iterationstrategies.HigherLevelArchivingIterationStrategy">
+                <archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="1000">
+                    <pruningSelection class="util.selection.recipes.DistanceBasedElitistSelector">
+                    <comparator class="util.selection.arrangement.DistanceComparator"/>
+                    </pruningSelection>
+                </archive>
+                <iterationStrategy class="pso.dynamic.HigherLevelChangedDynamicIterationStrategy">
+                    <iterationStrategy class="pso.iterationstrategies.moo.RelaxedNonDominatedMOOSynchronousIterationStrategy">
+                        <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                    </iterationStrategy>
+                    <detectionStrategy class="pso.dynamic.detectionstrategies.MOORandomArchiveSentriesDetectionStrategy">
+                        <iterationsModulus value="1"/>
+                        <numberOfSentries class="controlparameter.ConstantControlParameter" parameter="2"/>
+                    </detectionStrategy>
+                    <responseStrategy class="pso.dynamic.responsestrategies.MultiReactionStrategy">
+                        <addResponseStrategy class="pso.dynamic.responsestrategies.ArchiveReevaluationResponseStrategy"/>
+                        <addResponseStrategy class="pso.dynamic.responsestrategies.ReinitialisationReevaluationReactionStrategy">
+                            <reinitialisationRatio value="0.3"/>
+                        </addResponseStrategy> 
+                    </responseStrategy>
+                </iterationStrategy>
+            </iterationStrategy>
+        </algorithm>
 
-      <algorithm id="dvepso-default3obj" class="algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm">
-	<addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
-	<objectiveAssignmentStrategy class="moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy"/>
-	<addPopulationBasedAlgorithm idref="pso"/>
-	<addPopulationBasedAlgorithm idref="pso"/>
-	<addPopulationBasedAlgorithm idref="pso"/>
-	<iterationStrategy class="moo.iterationstrategies.HigherLevelArchivingIterationStrategy">
-	  <archive class="moo.archive.constrained.DistanceBasedSetBasedConstrainedArchive" capacity="1000">
-	    <pruningSelection class="util.selection.recipes.DistanceBasedElitistSelector">
-	      <comparator class="util.selection.arrangement.DistanceComparator"/>
-	    </pruningSelection>
-	  </archive>
-	  <iterationStrategy class="pso.dynamic.HigherLevelChangedDynamicIterationStrategy">
-	    <iterationStrategy class="moo.iterationstrategies.pso.MOOSynchronousIterationStrategy">
-	      <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
-	    </iterationStrategy>
-	    <detectionStrategy class="pso.dynamic.detectionstrategies.MOORandomArchiveSentriesDetectionStrategy">
-	      <iterationsModulus value="1"/>
-	      <numberOfSentries class="controlparameter.ConstantControlParameter" parameter="2"/>
-	    </detectionStrategy>
-	    <responseStrategy class="pso.dynamic.responsestrategies.MultipleResponseStrategy">
-	      <addResponseStrategy class="pso.dynamic.responsestrategies.ArchiveReevaluateResponseStrategy"/>
-	      <addResponseStrategy class="pso.dynamic.responsestrategies.ReinitializationReevaluationReactionStrategy">
-		<reinitializationRatio value="0.3"/>
-	      </addResponseStrategy> 
-	    </responseStrategy>
-	  </iterationStrategy>
-	</iterationStrategy>
-      </algorithm>
+        <algorithm id="dvepso-default3obj" class="algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
+            <objectiveAssignmentStrategy class="moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <iterationStrategy class="moo.iterationstrategies.HigherLevelArchivingIterationStrategy">
+                <archive class="moo.archive.constrained.DistanceBasedSetBasedConstrainedArchive" capacity="1000">
+                    <pruningSelection class="util.selection.recipes.DistanceBasedElitistSelector">
+                    <comparator class="util.selection.arrangement.DistanceComparator"/>
+                    </pruningSelection>
+                </archive>
+                <iterationStrategy class="pso.dynamic.HigherLevelChangedDynamicIterationStrategy">
+                    <iterationStrategy class="moo.iterationstrategies.pso.MOOSynchronousIterationStrategy">
+                        <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+                    </iterationStrategy>
+                    <detectionStrategy class="pso.dynamic.detectionstrategies.MOORandomArchiveSentriesDetectionStrategy">
+                        <iterationsModulus value="1"/>
+                        <numberOfSentries class="controlparameter.ConstantControlParameter" parameter="2"/>
+                    </detectionStrategy>
+                    <responseStrategy class="pso.dynamic.responsestrategies.MultipleResponseStrategy">
+                        <addResponseStrategy class="pso.dynamic.responsestrategies.ArchiveReevaluateResponseStrategy"/>
+                        <addResponseStrategy class="pso.dynamic.responsestrategies.ReinitializationReevaluationReactionStrategy">
+                            <reinitializationRatio value="0.3"/>
+                        </addResponseStrategy> 
+                    </responseStrategy>
+                </iterationStrategy>
+            </iterationStrategy>
+        </algorithm>
 
     </algorithms>
         

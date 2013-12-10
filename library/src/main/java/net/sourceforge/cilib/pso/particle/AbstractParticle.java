@@ -95,24 +95,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract StructuredType getVelocity();
 
     /**
-     * Get the global guide of the {@code Particle}.
-     * @return A {@link StructuredType} representing the {@code Particle}'s global guide.
-     */
-    @Override
-    public StructuredType getGlobalGuide() {
-        return this.behavior.getGlobalGuideProvider().get(this);
-    }
-
-    /**
-     * Get the local guide of the {@code Particle}.
-     * @return A {@link StructuredType} representing the {@code Particle}'s local guide.
-     */
-    @Override
-    public StructuredType getLocalGuide() {
-        return this.behavior.getLocalGuideProvider().get(this);
-    }
-
-    /**
      * Set the neighbourhood best particle for the current Particle based on the
      * topology of the current particle.
      *
@@ -175,38 +157,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     @Override
     public void setVelocityProvider(VelocityProvider velocityProvider) {
         this.behavior.setVelocityProvider(velocityProvider);
-    }
-
-    /**
-     * Get the current global {@link GuideProvider} associated with this {@code Particle}.
-     * @return The currently associated global {@link GuideProvider}.
-     */
-    public GuideProvider getGlobalGuideProvider() {
-        return this.behavior.getGlobalGuideProvider();
-    }
-
-    /**
-     * Set the {@link GuideProvider} for the {@code Particle}.
-     * @param globalGuideProvider The global {@link GuideProvider} to use.
-     */
-    public void setGlobalGuideProvider(GuideProvider globalGuideProvider) {
-        this.behavior.setGlobalGuideProvider(globalGuideProvider);
-    }
-
-    /**
-     * Get the current local {@link GuideProvider} associated with this {@code Particle}.
-     * @return The currently associated local {@link GuideProvider}.
-     */
-    public GuideProvider getLocalGuideProvider() {
-        return this.behavior.getLocalGuideProvider();
-    }
-
-    /**
-     * Set the {@link GuideProvider} for the {@code Particle}.
-     * @param localGuideProvider The local {@link GuideProvider} to use.
-     */
-    public void setLocalGuideProvider(GuideProvider localGuideProvider) {
-        this.behavior.setLocalGuideProvider(localGuideProvider);
     }
 
     /**
