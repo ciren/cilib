@@ -1,7 +1,5 @@
 seq(scalariformSettings: _*)
 
-scalacOptions += "-deprecation"
-
 parallelExecution in Test := false
 
 resolvers ++= Seq(

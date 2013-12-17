@@ -6,8 +6,6 @@ name := "cilib-simulator"
 
 description := "Simulator environment fo running experiments using the CIlib library"
 
-scalacOptions += "-deprecation"
-
 parallelExecution in Test := false
 
 test in assembly := {}
@@ -22,11 +20,6 @@ libraryDependencies ++= Seq(
 )
 
 autoScalaLibrary := false
-
-// Handle the scala compiler dependency
-//libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-//    deps :+ ("org.scala-lang" % "scala-compiler" % sv)
-//}
 
 resourceDirectory in Test <<= baseDirectory { _ / "simulator" }
 
