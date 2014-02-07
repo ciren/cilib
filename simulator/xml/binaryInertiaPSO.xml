@@ -6,13 +6,15 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <positionProvider class="pso.positionprovider.binary.BinaryInertiaPositionProvider">
-                        <!-- delta value influences convergence speed -->
-                        <delta class="controlparameter.LinearlyVaryingControlParameter">
-                            <initialValue value="0.25" />
-                            <finalValue value="0.0" />
-                        </delta>
-                    </positionProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <positionProvider class="pso.positionprovider.binary.BinaryInertiaPositionProvider">
+                            <!-- delta value influences convergence speed -->
+                            <delta class="controlparameter.LinearlyVaryingControlParameter">
+                                <initialValue value="0.25" />
+                                <finalValue value="0.0" />
+                            </delta>
+                        </positionProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

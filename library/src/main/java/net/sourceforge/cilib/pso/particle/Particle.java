@@ -56,18 +56,6 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
     void updateVelocity(StructuredType newVelocity);
 
     /**
-     * Get the strategy that will be used to update the velocity.
-     * @return The current {@linkplain VelocityProvider}.
-     */
-    VelocityProvider getVelocityProvider();
-
-    /**
-     * Set the {@linkplain VelocityProvider} to be used during velocity updates.
-     * @param velocityProvider the {@linkplain VelocityProvider} to use.
-     */
-    void setVelocityProvider(VelocityProvider velocityProvider);
-
-    /**
      * Get the strategy for the initialisation of the velocity.
      * @return The velocity {@linkplain InitialisationStrategy} that is currently set.
      */
@@ -80,18 +68,6 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
     void setVelocityInitialisationStrategy(InitialisationStrategy velocityInitialisationStrategy);
 
     /**
-     * Get the current {@linkplain PositionProvider} of the {@linkplain Particle}.
-     * @return The current {@linkplain PositionProvider}.
-     */
-    PositionProvider getPositionProvider();
-
-    /**
-     * Set the {@linkplain PositionProvider} to use for particle position updates.
-     * @param positionProvider The {@linkplain PositionProvider} to set.
-     */
-    void setPositionProvider(PositionProvider positionProvider);
-
-    /**
      * Get the current strategy to perform personal best updates.
      * @return The current {@link PersonalBestUpdateStrategy}.
      */
@@ -102,17 +78,5 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
      * @param personalBestUpdateStrategy The instance to set.
      */
     void setPersonalBestUpdateStrategy(PersonalBestUpdateStrategy personalBestUpdateStrategy);
-
-    /**
-     * Get the behavior associated with the current Particle.
-     * @return The {@link ParticleBehavior} associated with the current Particle.
-     */
-    ParticleBehavior getParticleBehavior();
-
-    /**
-     * Set the behavior that the current particle should follow.
-     * @param particleBehavior The {@linkplain ParticleBehavior} to use.
-     */
-    void setParticleBehavior(ParticleBehavior particleBehavior);
 
 }

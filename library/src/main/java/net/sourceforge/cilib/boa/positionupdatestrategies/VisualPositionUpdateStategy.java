@@ -45,7 +45,7 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
 
         //Determine if new position is better than old and update
         Fitness oldFitness = bee.getFitness().getClone();
-        bee.calculateFitness();
+        bee.updateFitness(bee.getBehaviour().getFitnessCalculator().getFitness(bee));
         Fitness newFitness = bee.getFitness();
         if (newFitness.compareTo(oldFitness) < 0) {
             bee.setPosition(oldPosition);

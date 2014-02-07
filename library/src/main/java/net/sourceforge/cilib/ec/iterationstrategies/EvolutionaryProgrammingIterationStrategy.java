@@ -49,7 +49,7 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
 
         for (Individual individual : offspring) {
             boundaryConstraint.enforce(individual);
-            individual.calculateFitness();
+            individual.updateFitness(individual.getBehaviour().getFitnessCalculator().getFitness(individual));
         }
         
         // Perform new population selection

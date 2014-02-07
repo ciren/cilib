@@ -16,6 +16,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.real.ParentCentricCrossoverStrategy;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.positionprovider.LinearPositionProvider;
 import net.sourceforge.cilib.pso.positionprovider.StandardPositionProvider;
@@ -89,7 +90,7 @@ public class DistinctCrossoverVelocityProvider implements VelocityProvider {
      */
     @Override
     public StructuredType get(Particle particle) {
-        particle.setPositionProvider(new LinearPositionProvider());
+        ((StandardParticleBehaviour) particle.getBehaviour()).setPositionProvider(new LinearPositionProvider());
 
         Vector solution = (Vector) particle.getPosition();
         Vector pBest = (Vector) particle.getBestPosition();
@@ -112,7 +113,7 @@ public class DistinctCrossoverVelocityProvider implements VelocityProvider {
             return applyCrossover(particle, Lists.newLinkedList(solutions), alternateCrossover);
         }
 
-        particle.setPositionProvider(new StandardPositionProvider());
+        ((StandardParticleBehaviour) particle.getBehaviour()).setPositionProvider(new StandardPositionProvider());
         return delegate.get(particle);
     }
 

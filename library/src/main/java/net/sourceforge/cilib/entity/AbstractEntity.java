@@ -6,6 +6,7 @@
  */
 package net.sourceforge.cilib.entity;
 
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -23,16 +24,14 @@ public abstract class AbstractEntity implements Entity {
 
     private static final long serialVersionUID = 3104817182593047611L;
 
-    private long id;
+    protected Behaviour behaviour;
     private final Blackboard<Property, Type> properties;
-    private FitnessCalculator<Entity> fitnessCalculator;
 
     /**
      * Initialise the candidate solution of the {@linkplain Entity}.
      */
     protected AbstractEntity() {
         this.properties = new Blackboard();
-        this.fitnessCalculator = new EntityBasedFitnessCalculator();
     }
 
     /**
@@ -41,7 +40,8 @@ public abstract class AbstractEntity implements Entity {
      */
     protected AbstractEntity(AbstractEntity copy) {
         this.properties = copy.properties.getClone();
-        this.fitnessCalculator = copy.fitnessCalculator.getClone();
+
+        this.behaviour = copy.behaviour;
     }
 
     /**
@@ -107,30 +107,13 @@ public abstract class AbstractEntity implements Entity {
         return getFitness();
     }
 
-    /**
-     * Get the current {@code FitnessCalculator} for the current {@code Entity}.
-     * @return The {@code FitnessCalculator} associated with this {@code Entity}.
-     */
-    @Override
-    public FitnessCalculator<Entity> getFitnessCalculator() {
-        return fitnessCalculator;
-    }
-
-    /**
-     * Set the {@code FitnessCalculator} for the current {@code Entity}.
-     * @param fitnessCalculator The value to set.
-     */
-    public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
-        this.fitnessCalculator = fitnessCalculator;
-    }
-
     @Override
     public abstract AbstractEntity getClone();
 
     @Override
-    public void calculateFitness() {
-        put(Property.PREVIOUS_FITNESS, getFitness().getClone());
-        put(Property.FITNESS, fitnessCalculator.getFitness(this));
+    public void updateFitness(Fitness newFitness) {
+        properties.put(Property.PREVIOUS_FITNESS, getFitness().getClone());
+        properties.put(Property.FITNESS, newFitness);
     }
 
     @Override
@@ -149,4 +132,13 @@ public abstract class AbstractEntity implements Entity {
         return getFitness().compareTo(o.getFitness());
     }
 
+    @Override
+    public void setBehaviour(Behaviour behaviour) {
+        this.behaviour = behaviour;
+    }
+
+    @Override
+    public Behaviour getBehaviour() {
+        return behaviour;
+    }
 }

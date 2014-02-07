@@ -85,7 +85,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         // Evaluate the fitness values of the generated offspring
         for (Entity entity : crossedOver) {
             boundaryConstraint.enforce(entity);
-            entity.calculateFitness();
+            entity.updateFitness(entity.getBehaviour().getFitnessCalculator().getFitness(entity));
         }
 
         // Perform new population selection

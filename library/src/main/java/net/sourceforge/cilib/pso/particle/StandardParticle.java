@@ -102,8 +102,8 @@ public class StandardParticle extends AbstractParticle {
      * {@inheritDoc}
      */
     @Override
-    public void calculateFitness() {
-        super.calculateFitness();
+    public void updateFitness(Fitness newFitness) {
+        super.updateFitness(newFitness);
         this.personalBestUpdateStrategy.updatePersonalBest(this);
     }
 

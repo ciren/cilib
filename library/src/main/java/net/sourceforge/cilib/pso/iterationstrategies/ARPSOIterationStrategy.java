@@ -9,8 +9,8 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -34,8 +34,8 @@ public class ARPSOIterationStrategy extends AbstractIterationStrategy<PSO> {
     protected Measurement<Real> diversityMeasure;
     protected ControlParameter minDiversity;
     protected ControlParameter maxDiversity;
-    protected ParticleBehavior attractionBehavior;
-    protected ParticleBehavior repulsionBehavior;
+    protected StandardParticleBehaviour attractionBehavior;
+    protected StandardParticleBehaviour repulsionBehavior;
 
     public ARPSOIterationStrategy() {
         attracting = true;
@@ -46,8 +46,8 @@ public class ARPSOIterationStrategy extends AbstractIterationStrategy<PSO> {
         minDiversity = ConstantControlParameter.of(5e-6);
         maxDiversity = ConstantControlParameter.of(0.25);
 
-        attractionBehavior = new ParticleBehavior();
-        repulsionBehavior = new ParticleBehavior();
+        attractionBehavior = new StandardParticleBehaviour();
+        repulsionBehavior = new StandardParticleBehaviour();
         StandardVelocityProvider repulsionVelocity = new StandardVelocityProvider();
         repulsionVelocity.setCognitiveAcceleration(ConstantControlParameter.of(-1.496180));
         repulsionVelocity.setSocialAcceleration(ConstantControlParameter.of(-1.496180));
@@ -83,9 +83,9 @@ public class ARPSOIterationStrategy extends AbstractIterationStrategy<PSO> {
     @Override
     public void performIteration(PSO pso) {
         if (switchPhase(pso)) {
-            ParticleBehavior phaseBehavior = attracting ? attractionBehavior : repulsionBehavior;
+            StandardParticleBehaviour phaseBehavior = attracting ? attractionBehavior : repulsionBehavior;
         for (Particle current : pso.getTopology()) {
-                current.setParticleBehavior(phaseBehavior);
+                current.setBehaviour(phaseBehavior);
             }
         }
         delegate.performIteration(pso);
@@ -146,7 +146,7 @@ public class ARPSOIterationStrategy extends AbstractIterationStrategy<PSO> {
      *
      * @param behavior  the {@code attraction} {@link ParticleBehavior}
      */
-    public void setAttractionBehavior(ParticleBehavior behavior) {
+    public void setAttractionBehavior(StandardParticleBehaviour behavior) {
         this.attractionBehavior = behavior;
     }
 
@@ -156,7 +156,7 @@ public class ARPSOIterationStrategy extends AbstractIterationStrategy<PSO> {
      *
      * @param behavior  the {@code repulsion} {@link ParticleBehavior}
      */
-    public void setRepulsionBehavior(ParticleBehavior behavior) {
+    public void setRepulsionBehavior(StandardParticleBehaviour behavior) {
         this.repulsionBehavior = behavior;
     }
 }

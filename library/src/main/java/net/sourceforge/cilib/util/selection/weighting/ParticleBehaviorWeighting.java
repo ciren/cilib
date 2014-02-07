@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.util.selection.WeightedObject;
 
 /**
@@ -32,11 +32,11 @@ public class ParticleBehaviorWeighting implements Weighting {
 
     @Override
     public <T> Iterable<WeightedObject> weigh(Iterable<T> iterable) {
-        Preconditions.checkArgument(Iterables.get(iterable, 0) instanceof ParticleBehavior);
+        Preconditions.checkArgument(Iterables.get(iterable, 0) instanceof Behaviour);
         List<WeightedObject> result = Lists.newArrayList();
 
         for (T t : iterable) {
-            double weight = ratio.getRatio((ParticleBehavior) t);
+            double weight = ratio.getRatio((Behaviour) t);
             result.add(new WeightedObject(t, weight));
         }
 

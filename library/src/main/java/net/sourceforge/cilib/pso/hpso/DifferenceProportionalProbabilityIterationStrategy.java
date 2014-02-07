@@ -15,6 +15,7 @@ import net.sourceforge.cilib.algorithm.initialisation.HeterogeneousPopulationIni
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
 import net.sourceforge.cilib.math.random.UniformDistribution;
@@ -25,7 +26,6 @@ import net.sourceforge.cilib.pso.hpso.detectionstrategies.BehaviorChangeTriggerD
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 
 /**
  * Iteration strategy for adaptive dynamic heterogeneous particle swarms using
@@ -41,8 +41,8 @@ import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 public class DifferenceProportionalProbabilityIterationStrategy implements IterationStrategy<PSO>, HeterogeneousIterationStrategy {
     private IterationStrategy<PSO> iterationStrategy;
     private BehaviorChangeTriggerDetectionStrategy detectionStrategy;
-    private List<ParticleBehavior> behaviorPool;
-    private Map<ParticleBehavior, List<Particle>> rigidParticles;
+    private List<Behaviour> behaviorPool;
+    private Map<Behaviour, List<Particle>> rigidParticles;
     private ControlParameter rigidCountPerBehavior;
     private ControlParameter beta;
     private ProbabilityDistributionFunction random;
@@ -53,8 +53,8 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
     public DifferenceProportionalProbabilityIterationStrategy() {
         this.iterationStrategy = new SynchronousIterationStrategy();
         this.detectionStrategy = new PersonalBestStagnationDetectionStrategy();
-        this.behaviorPool = new ArrayList<ParticleBehavior>();
-        this.rigidParticles = new HashMap<ParticleBehavior, List<Particle>>();
+        this.behaviorPool = new ArrayList<Behaviour>();
+        this.rigidParticles = new HashMap<Behaviour, List<Particle>>();
         this.beta = ConstantControlParameter.of(5.0);
         this.random = new UniformDistribution();
         this.rigidCountPerBehavior = ConstantControlParameter.of(1);
@@ -67,8 +67,8 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
     public DifferenceProportionalProbabilityIterationStrategy(DifferenceProportionalProbabilityIterationStrategy copy) {
         this.iterationStrategy = copy.iterationStrategy.getClone();
         this.detectionStrategy = copy.detectionStrategy.getClone();
-        this.behaviorPool = new ArrayList<ParticleBehavior>(copy.behaviorPool);
-        this.rigidParticles = new HashMap<ParticleBehavior, List<Particle>>(copy.rigidParticles);
+        this.behaviorPool = new ArrayList<Behaviour>(copy.behaviorPool);
+        this.rigidParticles = new HashMap<Behaviour, List<Particle>>(copy.rigidParticles);
         this.beta = copy.beta.getClone();
         this.random = copy.random;
         this.rigidCountPerBehavior = copy.rigidCountPerBehavior.getClone();
@@ -91,18 +91,18 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
 
         setRigidParticles(algorithm);
 
-        ParticleBehavior behavior;
+        Behaviour behavior;
         for(Entity e : algorithm.getTopology()) {
             Particle p = (Particle)e;
 
-            if (detectionStrategy.detect(p) && !rigidParticles.get(p.getParticleBehavior()).contains(p)) {
+            if (detectionStrategy.detect(p) && !rigidParticles.get(p.getBehaviour()).contains(p)) {
                 Particle other = p.getNeighbourhoodBest();
                 double diff = fitnessDifference(other.getBestFitness(), p.getBestFitness());
 
                 if(random.getRandomNumber() < 1.0 / (1 + Math.exp(-beta.getParameter() * (diff / Math.abs(other.getBestFitness().getValue()))))) {
-                    behavior = other.getParticleBehavior();
+                    behavior = other.getBehaviour();
                     behavior.incrementSelectedCounter();
-                    p.setParticleBehavior(behavior);
+                    p.setBehaviour(behavior);
                 }
             }
         }
@@ -131,7 +131,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
                 List<Particle> rigidParticleList = new ArrayList<Particle>();
 
                 for(int i = 0; i < rigidCountPerBehavior.getParameter(); i++) {
-                    top.index(i + (int) rigidCountPerBehavior.getParameter()*j).setParticleBehavior(behaviorPool.get(j));
+                    top.index(i + (int) rigidCountPerBehavior.getParameter()*j).setBehaviour(behaviorPool.get(j));
                     rigidParticleList.add(top.index(i + (int) rigidCountPerBehavior.getParameter() * j));
                 }
 
@@ -182,7 +182,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
      * {@inheritDoc}
      */
     @Override
-    public void addBehavior(ParticleBehavior behavior) {
+    public void addBehavior(Behaviour behavior) {
         behaviorPool.add(behavior);
     }
 
@@ -190,7 +190,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
      * {@inheritDoc}
      */
     @Override
-    public void setBehaviorPool(List<ParticleBehavior> pool) {
+    public void setBehaviorPool(List<Behaviour> pool) {
         behaviorPool = pool;
     }
 
@@ -198,7 +198,7 @@ public class DifferenceProportionalProbabilityIterationStrategy implements Itera
      * {@inheritDoc}
      */
     @Override
-    public List<ParticleBehavior> getBehaviorPool() {
+    public List<Behaviour> getBehaviorPool() {
         return behaviorPool;
     }
 

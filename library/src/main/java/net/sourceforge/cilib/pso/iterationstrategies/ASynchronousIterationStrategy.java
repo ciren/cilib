@@ -57,12 +57,8 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
         algorithm.setTopology(topology.zipIndex().foldLeft(new F2<fj.data.List<Particle>, P2<Particle, Integer>, fj.data.List<Particle>>() {
 			@Override
 			public List<Particle> f(List<Particle> accum, P2<Particle, Integer> item) {
-				item._1().updateVelocity(item._1().getParticleBehavior().getVelocityProvider().get(item._1()));
-	            item._1().updatePosition(item._1().getParticleBehavior().getPositionProvider().get(item._1()));
-
-	            boundaryConstraint.enforce(item._1());
-	            item._1().calculateFitness();
-
+				item._1().getBehaviour().performIteration(item._1());
+                
 	            Particle newParticle = additionalStep.f(item._1());
                 List<Particle> result = accum.snoc(newParticle);
 	            fj.data.List<Particle> intermediate = result.append(topology.drop(item._2()+1));

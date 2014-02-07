@@ -9,6 +9,7 @@ package net.sourceforge.cilib.pso.dynamic;
 import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -26,7 +27,7 @@ public class ChargedParticle extends DynamicParticle {
     private double charge;
 
     public ChargedParticle() {
-        this.behavior.setVelocityProvider(new ChargedVelocityProvider());
+        ((StandardParticleBehaviour) this.behaviour).setVelocityProvider(new ChargedVelocityProvider());
     }
 
     public ChargedParticle(ChargedParticle copy) {

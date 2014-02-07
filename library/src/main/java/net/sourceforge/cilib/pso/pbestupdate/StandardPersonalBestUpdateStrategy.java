@@ -40,7 +40,7 @@ public class StandardPersonalBestUpdateStrategy implements PersonalBestUpdateStr
     @Override
     public void updatePersonalBest(Particle particle) {
         if (particle.getFitness().compareTo(particle.getBestFitness()) > 0) {
-            particle.getParticleBehavior().incrementSuccessCounter();
+            particle.getBehaviour().incrementSuccessCounter();
             particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
             particle.put(Property.BEST_FITNESS, particle.getFitness());
             particle.put(Property.BEST_POSITION, particle.getPosition().getClone());

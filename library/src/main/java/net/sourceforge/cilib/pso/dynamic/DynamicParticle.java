@@ -37,8 +37,8 @@ public class DynamicParticle extends StandardParticle {
     public void reevaluate() {
         DynamicParticle dp = this.getClone();
         dp.put(Property.CANDIDATE_SOLUTION, dp.getBestPosition());
-        put(Property.BEST_FITNESS, getFitnessCalculator().getFitness(dp));
+        put(Property.BEST_FITNESS, behaviour.getFitnessCalculator().getFitness(dp));
 
-        this.calculateFitness();
+        this.getProperties().put(Property.FITNESS, behaviour.getFitnessCalculator().getFitness(this));
     }
 }

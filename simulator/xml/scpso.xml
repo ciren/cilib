@@ -11,7 +11,9 @@
         <algorithm id="gcpso" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <neighbourhood class="entity.topologies.LBestNeighbourhood"/>

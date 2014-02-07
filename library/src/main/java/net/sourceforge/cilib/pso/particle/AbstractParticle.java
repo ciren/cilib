@@ -14,6 +14,7 @@ import net.sourceforge.cilib.entity.initialisation.RandomInitialisationStrategy;
 import net.sourceforge.cilib.entity.initialisation.StandardPBestPositionInitialisationStrategy;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.guideprovider.GuideProvider;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.pbestupdate.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy;
@@ -29,8 +30,6 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
     private static final long serialVersionUID = 7511192728112990230L;
 
-    protected ParticleBehavior behavior;
-
     protected InitialisationStrategy<Particle> velocityInitialisationStrategy;
     protected InitialisationStrategy<Particle> positionInitialisationStrategy;
     protected InitialisationStrategy<Particle> personalBestInitialisationStrategy;
@@ -42,7 +41,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Default constructor for all {@code Particle}s.
      */
     public AbstractParticle() {
-        this.behavior = new ParticleBehavior();
+        this.behaviour = new StandardParticleBehaviour();
 
         this.velocityInitialisationStrategy = new ConstantInitialisationStrategy<Particle>(0.0);
         this.positionInitialisationStrategy = new RandomInitialisationStrategy<Particle>();
@@ -58,7 +57,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     public AbstractParticle(AbstractParticle copy) {
         super(copy);
-        this.behavior = copy.behavior.getClone();
 
         this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
         this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
@@ -126,42 +124,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     @Override
     public void updateVelocity(StructuredType newVelocity) {
         put(Property.VELOCITY, newVelocity);
-    }
-
-    /**
-     * Get the current {@link PositionProvider} associated with this {@code Particle}.
-     * @return The currently associated {@link PositionProvider}.
-     */
-    @Override
-    public PositionProvider getPositionProvider() {
-        return this.behavior.getPositionProvider();
-    }
-
-    /**
-     * Set the {@link PositionProvider} for the {@code Particle}.
-     * @param positionProvider The {@link PositionProvider} to use.
-     */
-    @Override
-    public void setPositionProvider(PositionProvider positionProvider) {
-        this.behavior.setPositionProvider(positionProvider);
-    }
-
-    /**
-     * Get the {@link VelocityProvider} of the current particle.
-     * @return the {@link VelocityProvider}.
-     */
-    @Override
-    public VelocityProvider getVelocityProvider() {
-        return this.behavior.getVelocityProvider();
-    }
-
-    /**
-     * Set the velocity updating strategy for the particle.
-     * @param velocityProvider The VelocityProvider to set.
-     */
-    @Override
-    public void setVelocityProvider(VelocityProvider velocityProvider) {
-        this.behavior.setVelocityProvider(velocityProvider);
     }
 
     /**
@@ -239,16 +201,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     @Override
     public void setPersonalBestUpdateStrategy(PersonalBestUpdateStrategy personalBestUpdateStrategy) {
         this.personalBestUpdateStrategy = personalBestUpdateStrategy;
-    }
-
-    @Override
-    public ParticleBehavior getParticleBehavior() {
-        return this.behavior;
-    }
-
-    @Override
-    public void setParticleBehavior(ParticleBehavior particleBehavior) {
-        this.behavior = particleBehavior;
     }
 
     public void setPersonalBestInitialisationStrategy(InitialisationStrategy<Particle> personalBestInitialisationStrategy) {

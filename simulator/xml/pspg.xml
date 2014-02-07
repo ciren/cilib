@@ -14,7 +14,9 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="25"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.ConstrictionVelocityProvider"/>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ConstrictionVelocityProvider"/>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
 

@@ -16,6 +16,7 @@ import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.pbestupdate.StandardPersonalBestUpdateStrategy;
@@ -49,8 +50,8 @@ public class ClusterParticle extends AbstractParticle{
         numberOfClusters = 1;
         isCharged = false;
 
-        behavior.setVelocityProvider(new StandardDataClusteringVelocityProvider());
-        behavior.setPositionProvider(new StandardDataClusteringPositionProvider());
+        ((StandardParticleBehaviour) behaviour).setVelocityProvider(new StandardDataClusteringVelocityProvider());
+        ((StandardParticleBehaviour) behaviour).setPositionProvider(new StandardDataClusteringPositionProvider());
     }
 
     /*
@@ -76,13 +77,14 @@ public class ClusterParticle extends AbstractParticle{
     }
 
     /*
-     * Calculates the fitness of the ClusterParticle accordingly
-     * Sets the fitness after it is calculated
+     * Updates the fitness of the ClusterParticle\
      * Updates the Personal Best values
+     * 
+     * @param newFitness The new fitness to update with.
      */
     @Override
-    public void calculateFitness() {
-        super.calculateFitness();
+    public void updateFitness(Fitness newFitness) {
+        super.updateFitness(newFitness);
         this.personalBestUpdateStrategy.updatePersonalBest(this);
     }
 

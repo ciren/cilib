@@ -201,7 +201,7 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
             }
         }
 
-        newHarmony.calculateFitness();
+        newHarmony.updateFitness(newHarmony.getBehaviour().getFitnessCalculator().getFitness(newHarmony));
         harmonyMemory.add(newHarmony);
         harmonyMemory.remove(harmonyMemory.get(0)/*getFirst()*/); // Remove the worst harmony in the memory
     }

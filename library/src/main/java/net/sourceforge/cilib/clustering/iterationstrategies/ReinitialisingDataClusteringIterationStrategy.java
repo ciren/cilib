@@ -88,7 +88,7 @@ public class ReinitialisingDataClusteringIterationStrategy extends SinglePopulat
         for(int i = index; i < topology.length(); i+=reinitialisationInterval) {
             ClusterParticle c = topology.index(i);
             c.reinitialise();
-            c.calculateFitness();
+            c.updateFitness(c.getBehaviour().getFitnessCalculator().getFitness(c));
         }
     }
 

@@ -12,10 +12,12 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
                     <neighbourhoodBestUpdateStrategy class="pso.positionprovider.IterationNeighbourhoodBestUpdateStrategy"/>
-                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
-                        <vMax class="controlparameter.ConstantControlParameter" parameter="0.1"/>
-                        <delegate class="pso.velocityprovider.LinearVelocityProvider"/>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="0.1"/>
+                            <delegate class="pso.velocityprovider.LinearVelocityProvider"/>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

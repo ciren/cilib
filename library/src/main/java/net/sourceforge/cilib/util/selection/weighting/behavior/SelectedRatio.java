@@ -6,14 +6,14 @@
  */
 package net.sourceforge.cilib.util.selection.weighting.behavior;
 
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 
 /**
  * Obtains the ratio of the ParticleBehavior based on how often it gets selected.
  */
 public class SelectedRatio implements ParticleBehaviorRatio {
     @Override
-    public double getRatio(ParticleBehavior particleBehavior) {
+    public double getRatio(Behaviour particleBehavior) {
         return particleBehavior.getSelectedCounter();
     }
 }

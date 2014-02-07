@@ -37,7 +37,7 @@ public class NeighbourhoodBestSentriesDetectionStrategy extends EnvironmentChang
 
             for (Entity sentry : sentries) {
                 double previousFitness = sentry.getFitness().getValue();
-                sentry.calculateFitness();
+                sentry.updateFitness(sentry.getBehaviour().getFitnessCalculator().getFitness(sentry));
                 double currentFitness = sentry.getFitness().getValue();
 
                 if(Math.abs(previousFitness - currentFitness) >=  epsilon) {

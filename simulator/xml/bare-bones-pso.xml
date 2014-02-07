@@ -11,10 +11,12 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="20"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider">
-                        <exploitProbability class="controlparameter.ConstantControlParameter" parameter="0"/>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                        <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider">
+                            <exploitProbability class="controlparameter.ConstantControlParameter" parameter="0"/>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
@@ -25,10 +27,12 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="20"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
-                    <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider">
-                        <exploitProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <positionProvider class="pso.positionprovider.LinearPositionProvider"/>
+                        <velocityProvider class="pso.velocityprovider.BareBonesVelocityProvider">
+                            <exploitProbability class="controlparameter.ConstantControlParameter" parameter="0.5"/>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>

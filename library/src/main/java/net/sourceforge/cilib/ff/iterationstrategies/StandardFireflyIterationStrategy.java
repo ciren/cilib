@@ -50,7 +50,7 @@ public class StandardFireflyIterationStrategy extends AbstractIterationStrategy<
                 if (other.isBrighter(current)) {
                     current.updatePosition(other);
                     boundaryConstraint.enforce(current);
-                    current.calculateFitness();
+                    current.updateFitness(current.getBehaviour().getFitnessCalculator().getFitness(current));
                 }
             }
         }

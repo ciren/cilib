@@ -9,7 +9,9 @@
         <algorithm id="gcpso-gbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <neighbourhood class="entity.topologies.GBestNeighbourhood"/>
@@ -20,7 +22,9 @@
         <algorithm id="gcpso-lbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <neighbourhood class="entity.topologies.LBestNeighbourhood"/>
@@ -31,7 +35,9 @@
         <algorithm id="gcpso-vn" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.GCVelocityProvider"/>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <neighbourhood class="entity.topologies.VonNeumannNeighbourhood"/>

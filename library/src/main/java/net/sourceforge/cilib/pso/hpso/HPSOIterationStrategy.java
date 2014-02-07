@@ -16,6 +16,7 @@ import net.sourceforge.cilib.algorithm.initialisation.HeterogeneousPopulationIni
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
@@ -23,7 +24,6 @@ import net.sourceforge.cilib.pso.hpso.detectionstrategies.BehaviorChangeTriggerD
 import net.sourceforge.cilib.pso.hpso.detectionstrategies.PersonalBestStagnationDetectionStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.util.selection.recipes.Selector;
 import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
 
@@ -88,9 +88,9 @@ import net.sourceforge.cilib.util.selection.recipes.TournamentSelector;
 public class HPSOIterationStrategy implements IterationStrategy<PSO>, HeterogeneousIterationStrategy {
     private IterationStrategy<PSO> iterationStrategy;
     private BehaviorChangeTriggerDetectionStrategy detectionStrategy;
-    private Selector<ParticleBehavior> behaviorSelectionRecipe;
-    private List<ParticleBehavior> behaviorPool;
-    private Map<ParticleBehavior, List<Integer>> successCounters;
+    private Selector<Behaviour> behaviorSelectionRecipe;
+    private List<Behaviour> behaviorPool;
+    private Map<Behaviour, List<Integer>> successCounters;
     private ControlParameter windowSize;
 
     /**
@@ -99,12 +99,12 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
     public HPSOIterationStrategy() {
         this.iterationStrategy = new SynchronousIterationStrategy();
         this.detectionStrategy = new PersonalBestStagnationDetectionStrategy();
-        this.behaviorSelectionRecipe = new TournamentSelector<ParticleBehavior>();
-        this.behaviorPool = new ArrayList<ParticleBehavior>();
+        this.behaviorSelectionRecipe = new TournamentSelector<Behaviour>();
+        this.behaviorPool = new ArrayList<Behaviour>();
         this.windowSize = ConstantControlParameter.of(10);
-        this.successCounters = new HashMap<ParticleBehavior, List<Integer>>();
+        this.successCounters = new HashMap<Behaviour, List<Integer>>();
 
-        ((TournamentSelector<ParticleBehavior>) this.behaviorSelectionRecipe).setTournamentSize(ConstantControlParameter.of(0.4));
+        ((TournamentSelector<Behaviour>) this.behaviorSelectionRecipe).setTournamentSize(ConstantControlParameter.of(0.4));
     }
 
     /**
@@ -115,8 +115,8 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
         this.iterationStrategy = copy.iterationStrategy.getClone();
         this.detectionStrategy = copy.detectionStrategy.getClone();
         this.behaviorSelectionRecipe = copy.behaviorSelectionRecipe;
-        this.behaviorPool = new ArrayList<ParticleBehavior>(copy.behaviorPool);
-        this.successCounters = new HashMap<ParticleBehavior, List<Integer>>(copy.successCounters);
+        this.behaviorPool = new ArrayList<Behaviour>(copy.behaviorPool);
+        this.successCounters = new HashMap<Behaviour, List<Integer>>(copy.successCounters);
         this.windowSize = copy.windowSize;
     }
 
@@ -149,12 +149,12 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
 
         //reset for algorithm
         if (AbstractAlgorithm.get().getIterations() == 0) {
-            for(ParticleBehavior pb : behaviorPool) {
+            for(Behaviour pb : behaviorPool) {
                 addToSuccessCounters(pb);
             }
         }
 
-        for(ParticleBehavior pb : behaviorPool) {
+        for(Behaviour pb : behaviorPool) {
             int sum = 0;
 
             for(int i = 0; i < (int) windowSize.getParameter(); i++) {
@@ -164,24 +164,24 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
             pb.setSuccessCounter(sum);
         }
 
-        ParticleBehavior behavior;
+        Behaviour behavior;
         for(Entity e : algorithm.getTopology()) {
             Particle p = (Particle)e;
 
             if (detectionStrategy.detect(p)) {
                 behavior = behaviorSelectionRecipe.on(behaviorPool).select();
                 behavior.incrementSelectedCounter();
-                p.setParticleBehavior(behavior);
+                p.setBehaviour(behavior);
             }
         }
 
-        for(ParticleBehavior pb : behaviorPool) {
+        for(Behaviour pb : behaviorPool) {
             pb.resetSuccessCounter();
         }
 
         iterationStrategy.performIteration(algorithm);
 
-        for(ParticleBehavior pb : behaviorPool) {
+        for(Behaviour pb : behaviorPool) {
             successCounters.get(pb).set(AbstractAlgorithm.get().getIterations()%(int)windowSize.getParameter(), pb.getSuccessCounter());
         }
     }
@@ -228,7 +228,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
      * Get the currently defined {@linkplain Selector},
      * @return The current {@linkplain Selector}.
      */
-    public Selector<ParticleBehavior> getSelectionRecipe() {
+    public Selector<Behaviour> getSelectionRecipe() {
         return behaviorSelectionRecipe;
     }
 
@@ -236,11 +236,11 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
      * Set the current {@linkplain Selector} to use.
      * @param recipe The {@linkplain Selector} to set.
      */
-    public void setSelectionRecipe(Selector<ParticleBehavior> recipe) {
+    public void setSelectionRecipe(Selector<Behaviour> recipe) {
         this.behaviorSelectionRecipe = recipe;
     }
 
-    private void addToSuccessCounters(ParticleBehavior behavior) {
+    private void addToSuccessCounters(Behaviour behavior) {
         ArrayList<Integer> zeroList = new ArrayList<Integer>((int)windowSize.getParameter());
         for(int i = 0; i < (int) windowSize.getParameter(); i++) {
             zeroList.add(0);
@@ -253,7 +253,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
      * {@inheritDoc}
      */
     @Override
-    public void addBehavior(ParticleBehavior behavior) {
+    public void addBehavior(Behaviour behavior) {
         behaviorPool.add(behavior);
     }
 
@@ -269,7 +269,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
      * {@inheritDoc}
      */
     @Override
-    public void setBehaviorPool(List<ParticleBehavior> pool) {
+    public void setBehaviorPool(List<Behaviour> pool) {
         behaviorPool = pool;
     }
 
@@ -277,7 +277,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
      * {@inheritDoc}
      */
     @Override
-    public List<ParticleBehavior> getBehaviorPool() {
+    public List<Behaviour> getBehaviorPool() {
         return behaviorPool;
     }
 

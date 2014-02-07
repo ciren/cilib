@@ -16,10 +16,10 @@
                 <diversityMeasure class="measurement.single.diversity.Diversity">
                     <normalisationParameter class="measurement.single.diversity.normalisation.DiagonalSpaceNormalisation" />
                 </diversityMeasure>
-                <attractionBehavior class="pso.particle.ParticleBehavior">
+                <attractionBehavior class="pso.behaviour.StandardParticleBehaviour">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider" />
                 </attractionBehavior>
-                <repulsionBehavior class="pso.particle.ParticleBehavior">
+                <repulsionBehavior class="pso.behaviour.StandardParticleBehaviour">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                         <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="-1.496180" />
                         <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="-1.496180" />

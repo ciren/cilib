@@ -31,7 +31,7 @@ public class SelectiveContextUpdateStrategyTest {
          Vector testContext = Vector.of(1,1);
 
          contextEntity.setPosition(testContext);
-         contextEntity.setFitnessCalculator(test);
+         contextEntity.getBehaviour().setFitnessCalculator(test);
          Vector solution = Vector.of(0);
          DimensionAllocation allocation = new SequentialDimensionAllocation(0, 1);
 

@@ -13,7 +13,7 @@
             </addStoppingCondition>
 
             <nicheCreator class="niching.creation.VectorBasedNicheCreationStrategy">
-                <swarmBehavior class="pso.particle.ParticleBehavior">
+                <swarmBehavior class="pso.behaviour.StandardParticleBehaviour">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                         <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                         <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>
@@ -43,7 +43,7 @@
             </addStoppingCondition>
 
             <nicheCreator class="niching.creation.VectorBasedNicheCreationStrategy">
-                <swarmBehavior class="pso.particle.ParticleBehavior">
+                <swarmBehavior class="pso.behaviour.StandardParticleBehaviour">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                         <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                         <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>
@@ -74,7 +74,7 @@
             </addStoppingCondition>
 
             <nicheCreator class="niching.creation.VectorBasedNicheCreationStrategy">
-                <swarmBehavior class="pso.particle.ParticleBehavior">
+                <swarmBehavior class="pso.behaviour.StandardParticleBehaviour">
                     <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
                         <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.8"/>
                         <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0"/>

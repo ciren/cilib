@@ -11,14 +11,16 @@
         <algorithm id="xpso-lovbjerg-hybrid" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
-                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
-                        <delegate class="pso.velocityprovider.StandardVelocityProvider">
-                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
-                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
-                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.7" finalValue="0.4" />
-                        </delegate>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                            <delegate class="pso.velocityprovider.StandardVelocityProvider">
+                                <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                                <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                                <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="0.7" finalValue="0.4" />
+                            </delegate>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -40,11 +42,13 @@
         <algorithm id="xpso-gliw-glac-arithmetic" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
-                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
-                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
-                        <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                            <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
+                            <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -66,12 +70,14 @@
         <algorithm id="xpso-gliw-fac-arithmetic" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
-                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
-                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
-                            <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
-                        </delegate>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                            <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
+                                <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                            </delegate>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -93,11 +99,13 @@
         <algorithm id="xpso-gliw-glac-averageConvex" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
-                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
-                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
-                        <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                            <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
+                            <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -119,12 +127,14 @@
         <algorithm id="xpso-gliw-fac-averageConvex" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
-                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
-                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
-                            <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
-                        </delegate>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                            <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
+                                <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                            </delegate>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -146,11 +156,13 @@
         <algorithm id="xpso-gliw-glac-rootProbability" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
-                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
-                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
-                        <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                            <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider" />
+                            <!-- Do not set acceleration and inertia to use the default GLbestIW and GLbestAC -->
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -172,12 +184,14 @@
         <algorithm id="xpso-gliw-fac-rootProbability" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
-                        <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
-                        <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
-                            <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
-                        </delegate>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.ClampingVelocityProvider">
+                            <vMax class="controlparameter.ConstantControlParameter" parameter="600" />
+                            <delegate class="pso.velocityprovider.GlobalLocalBestVelocityProvider">
+                                <acceleration class="controlparameter.ConstantControlParameter" parameter="2.0" />
+                            </delegate>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.PSOCrossoverIterationStrategy">
@@ -243,11 +257,13 @@
         <algorithm id="xpso-hea" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0" />
-                        <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0" />
-                        <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.6" />
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                            <cognitiveAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0" />
+                            <socialAcceleration class="controlparameter.ConstantControlParameter" parameter="1.0" />
+                            <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.6" />
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <iterationStrategy class="pso.iterationstrategies.HybridEAIterationStrategy">

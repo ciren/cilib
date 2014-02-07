@@ -38,13 +38,13 @@ public class DistinctPersonalBestUpdateStrategy implements PersonalBestUpdateStr
     @Override
     public void updatePersonalBest(Particle particle) {
         if (particle.getFitness().compareTo(particle.getBestFitness()) > 0) {
-            particle.getParticleBehavior().incrementSuccessCounter();
+            particle.getBehaviour().incrementSuccessCounter();
             particle.put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
 
             Particle temp = particle.getClone();
             temp.setPosition(positionProvider.f(particle));
 
-            Fitness tempFitness = particle.getFitnessCalculator().getFitness(temp);
+            Fitness tempFitness = particle.getBehaviour().getFitnessCalculator().getFitness(temp);
 
             if (tempFitness.compareTo(particle.getFitness()) > 0) {
                 particle.put(Property.BEST_FITNESS, tempFitness);

@@ -73,7 +73,7 @@ public class ArchiveRepeatingCrossoverSelection extends CrossoverSelection {
             p.put(Property.CANDIDATE_SOLUTION, (StructuredType) sol.getPosition());
             p.put(Property.BEST_FITNESS, InferiorFitness.instance());
             p.put(Property.BEST_POSITION, (StructuredType) sol.getPosition());
-            p.calculateFitness();
+            p.updateFitness(p.getBehaviour().getFitnessCalculator().getFitness(p));
             p.put(Property.BEST_FITNESS, p.getFitness());
             p.put(Property.PREVIOUS_FITNESS, p.getFitness());
             parents.add(p);

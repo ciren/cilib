@@ -6,9 +6,11 @@
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="1.4" finalValue="0.4"/>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter" initialValue="1.4" finalValue="0.4"/>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
         </algorithm>

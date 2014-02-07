@@ -19,6 +19,7 @@ import net.sourceforge.cilib.entity.initialisation.StandardCentroidInitialisatio
 import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
 import net.sourceforge.cilib.problem.solution.MinimisationFitness;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.Int;
@@ -229,7 +230,7 @@ public class ClusterParticleTest {
         instance.put(Property.FITNESS, new MinimisationFitness(6.0));
         instance.put(Property.BEST_FITNESS, new MinimisationFitness(6.0));
         instance.setNeighbourhoodBest(instance);
-        instance.updatePosition(instance.getPositionProvider().get(instance));
+        instance.updatePosition(((StandardParticleBehaviour) instance.getBehaviour()).getPositionProvider().get(instance));
 
         Assert.assertNotSame(instance.getPosition(), holder);
     }
@@ -252,7 +253,7 @@ public class ClusterParticleTest {
         instance.put(Property.FITNESS, new MinimisationFitness(6.0));
         instance.put(Property.BEST_FITNESS, new MinimisationFitness(6.0));
         instance.setNeighbourhoodBest(instance);
-        instance.updateVelocity(instance.getVelocityProvider().get(instance));
+        instance.updateVelocity(((StandardParticleBehaviour) instance.getBehaviour()).getVelocityProvider().get(instance));
 
         Assert.assertNotSame(instance.getVelocity(), holder);
     }

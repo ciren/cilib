@@ -11,12 +11,14 @@
 	    <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
-                        <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter">
-                            <initialValue value="0.9"/>
-                            <finalValue value="0.4"/>
-                        </inertiaWeight>
-                    </velocityProvider>
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                        <velocityProvider class="pso.velocityprovider.StandardVelocityProvider">
+                            <inertiaWeight class="controlparameter.LinearlyVaryingControlParameter">
+                                <initialValue value="0.9"/>
+                                <finalValue value="0.4"/>
+                            </inertiaWeight>
+                        </velocityProvider>
+                    </behaviour>
                 </entityType>
             </initialisationStrategy>
             <neighbourhood class="entity.topologies.VonNeumannNeighbourhood"/>

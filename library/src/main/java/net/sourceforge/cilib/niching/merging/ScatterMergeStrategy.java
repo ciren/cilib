@@ -20,7 +20,7 @@ public class ScatterMergeStrategy extends MergeStrategy {
 
         for (int i = subSwarm1.getTopology().length(); i < newSwarm.getTopology().length(); i++) {
             newSwarm.getTopology().index(i).reinitialise();
-            newSwarm.getTopology().index(i).calculateFitness();
+            newSwarm.getTopology().index(i).updateFitness(newSwarm.getTopology().index(i).getBehaviour().getFitnessCalculator().getFitness(newSwarm.getTopology().index(i)));
         }
 
         return newSwarm;

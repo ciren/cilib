@@ -15,6 +15,7 @@ import net.sourceforge.cilib.measurement.generic.Iterations;
 import net.sourceforge.cilib.problem.QuantisationErrorMinimisationProblem;
 import net.sourceforge.cilib.problem.boundaryconstraint.CentroidBoundaryConstraint;
 import net.sourceforge.cilib.problem.boundaryconstraint.RandomBoundaryConstraint;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
@@ -198,7 +199,7 @@ public class StandardClusteringMultiSwarmIterationStrategyTest {
         when(vProvider.getClone()).thenReturn(vProvider);
 
         ClusterParticle particle = new ClusterParticle();
-        particle.setVelocityProvider(vProvider);
+        ((StandardParticleBehaviour) particle.getBehaviour()).setVelocityProvider(vProvider);
         init.setEntityType(particle);
         init.setEntityNumber(2);
         instance.setInitialisationStrategy(init);

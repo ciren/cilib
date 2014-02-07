@@ -33,6 +33,7 @@ import net.sourceforge.cilib.niching.merging.detection.RadiusOverlapMergeDetecti
 import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.behaviour.StandardParticleBehaviour;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -111,7 +112,7 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements H
 
         Particle particle = new StandardParticle();
         particle.setVelocityInitialisationStrategy(new RandomInitialisationStrategy());
-        particle.setVelocityProvider(velocityUpdateStrategy);
+        ((StandardParticleBehaviour) particle.getBehaviour()).setVelocityProvider(velocityUpdateStrategy);
         this.entityType = particle;
 
         ((ClonedPopulationInitialisationStrategy) ((PSO) this.mainSwarm).getInitialisationStrategy()).setEntityType(entityType);

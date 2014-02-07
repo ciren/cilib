@@ -75,7 +75,7 @@ public class FFA extends SinglePopulationBasedAlgorithm<Firefly> {
     	topology = fj.data.List.iterableList(initialisationStrategy.<Firefly>initialise(optimisationProblem));
 
         for (Firefly f : topology) {
-            f.calculateFitness();
+            f.updateFitness(f.getBehaviour().getFitnessCalculator().getFitness(f));
         }
     }
 

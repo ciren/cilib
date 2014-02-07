@@ -36,9 +36,9 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
 	protected <P extends Particle, A extends SinglePopulationBasedAlgorithm<P>> void performReaction(
 			A algorithm) {
         for (Entity entity : algorithm.getTopology()) {
-            entity.put(Property.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity));
+            entity.put(Property.BEST_FITNESS, entity.getBehaviour().getFitnessCalculator().getFitness(entity));
             //entity.put(Property.BEST_POSITION, entity.getPosition());
-            entity.calculateFitness();
+            entity.updateFitness(entity.getBehaviour().getFitnessCalculator().getFitness(entity));
         }
 
         Problem problem = AbstractAlgorithm.getAlgorithmList().head().getOptimisationProblem();

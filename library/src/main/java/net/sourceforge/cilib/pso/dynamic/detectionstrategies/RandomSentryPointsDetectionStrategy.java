@@ -74,7 +74,7 @@ public class RandomSentryPointsDetectionStrategy extends RandomSentriesDetection
         if (algorithm.getIterations() % interval == 0) {
             for (Entity sentry : sentries) {
                 double previousFitness = sentry.getFitness().getValue();
-                sentry.calculateFitness();
+                sentry.updateFitness(sentry.getBehaviour().getFitnessCalculator().getFitness(sentry));
                 double currentFitness = sentry.getFitness().getValue();
 
                 if(Math.abs(previousFitness - currentFitness) >=  epsilon) {
@@ -109,7 +109,7 @@ public class RandomSentryPointsDetectionStrategy extends RandomSentriesDetection
         for (int i = 0; i < size; ++i) {
             Entity sentry = prototype.getClone();
             sentry.reinitialise();
-            sentry.calculateFitness();
+            sentry.updateFitness(sentry.getBehaviour().getFitnessCalculator().getFitness(sentry));
             sentries.add(sentry);
         }
     }

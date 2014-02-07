@@ -82,7 +82,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
                 // Replace the parent (current) if the offspring is better
                 Individual offspringEntity = offspring.get(0);
                 boundaryConstraint.enforce(offspringEntity);
-                offspringEntity.calculateFitness();
+                offspringEntity.updateFitness(offspringEntity.getBehaviour().getFitnessCalculator().getFitness(offspringEntity));
 
                 if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
                     return offspringEntity; // Replace the parent with the offspring individual

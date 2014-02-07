@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.util.selection.weighting.behavior;
 
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 
 /**
  * Obtain the ratio of a ParticleBehavior.
@@ -19,5 +19,5 @@ public interface ParticleBehaviorRatio {
      * @param particleBehavior The ParticleBehavior to query.
      * @return The obtained ratio value.
      */
-    double getRatio(ParticleBehavior particleBehavior);
+    double getRatio(Behaviour particleBehavior);
 }

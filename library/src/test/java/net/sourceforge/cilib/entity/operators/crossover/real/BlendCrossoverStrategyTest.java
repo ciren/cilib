@@ -9,6 +9,7 @@ package net.sourceforge.cilib.entity.operators.crossover.real;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Property;
+import net.sourceforge.cilib.entity.behaviour.DoNothingBehaviour;
 import net.sourceforge.cilib.entity.operators.CrossoverOperator;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.problem.solution.InferiorFitness;
@@ -29,11 +30,14 @@ public class BlendCrossoverStrategyTest {
         Individual i1 = new Individual();
         Individual i2 = new Individual();
 
+        i1.setBehaviour(new DoNothingBehaviour());
+        i2.setBehaviour(new DoNothingBehaviour());
+
         i1.put(Property.CANDIDATE_SOLUTION, Vector.of(0.0, 1.0, 2.0, 3.0, 4.0));
         i2.put(Property.CANDIDATE_SOLUTION, Vector.of(5.0, 6.0, 7.0, 8.0, 9.0));
 
-        i1.setFitnessCalculator(new MockFitnessCalculator());
-        i2.setFitnessCalculator(new MockFitnessCalculator());
+        i1.getBehaviour().setFitnessCalculator(new MockFitnessCalculator());
+        i2.getBehaviour().setFitnessCalculator(new MockFitnessCalculator());
 
         fj.data.List<Individual> parents = fj.data.List.list(i1, i2);
         

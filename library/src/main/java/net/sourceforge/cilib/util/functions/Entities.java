@@ -62,7 +62,7 @@ public final class Entities {
         return new F<E, E>() {
             @Override
             public E f(E a) {
-                a.calculateFitness();
+                a.updateFitness(a.getBehaviour().getFitnessCalculator().getFitness(a));
                 return a;
             }
         };

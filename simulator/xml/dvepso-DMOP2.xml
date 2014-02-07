@@ -10,7 +10,7 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="30"/>
 	            <entityType class="pso.particle.StandardParticle">
-	                <particleBehavior class="pso.particle.ParticleBehavior">
+                    <behaviour class="pso.behaviour.StandardParticleBehaviour">
 	                    <velocityProvider class="pso.velocityprovider.MOVelocityProvider">
                             <globalGuideProvider class="pso.guideprovider.VEPSOGuideProvider">
 		                        <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
@@ -21,14 +21,13 @@
     	                    <localGuideProvider class="pso.guideprovider.PBestGuideProvider"/>
                         </velocityProvider>
 	                    <positionProvider class="pso.positionprovider.StandardPositionProvider"/>
-	                </particleBehavior>
+        	            <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>
+	                </behaviour>
 	                <neighbourhoodBestUpdateStrategy class="pso.positionprovider.RelaxedNonDominatedNeighbourhoodBestUpdateStrategy"/>
 	                <personalBestUpdateStrategy class="pso.pbestupdate.MOOStandardPersonalBestUpdateStrategy"/>
                 </entityType>
 	        </initialisationStrategy>
-            <iterationStrategy class="pso.iterationstrategies.moo.RelaxedNonDominatedMOOSynchronousIterationStrategy">
-	            <boundaryConstraint class="problem.boundaryconstraint.ClampingBoundaryConstraint"/>               
-            </iterationStrategy>
+            <iterationStrategy class="pso.iterationstrategies.moo.RelaxedNonDominatedMOOSynchronousIterationStrategy"/>
         </algorithm>
 
         <algorithm id="dvepso-default2obj" class="algorithm.population.RespondingMultiPopulationCriterionBasedAlgorithm">

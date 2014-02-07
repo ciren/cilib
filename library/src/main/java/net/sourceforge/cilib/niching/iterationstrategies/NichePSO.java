@@ -55,7 +55,7 @@ public class NichePSO extends AbstractIterationStrategy<NichingAlgorithm> {
                 .andThen(absorb(alg.getAbsorptionDetector(),
                     alg.getMainSwarmAbsorber(),
                     alg.getSubSwarmAbsorber()))
-                .andThen(onMainSwarm(enforceTopology(((Particle) alg.getEntityType()).getParticleBehavior())))
+                .andThen(onMainSwarm(enforceTopology(((Particle) alg.getEntityType()).getBehaviour())))
                 .andThen(createNiches(alg.getNicheDetector(),
                     alg.getNicheCreator(),
                     alg.getMainSwarmCreationMerger()))

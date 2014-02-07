@@ -20,6 +20,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.behaviour.Behaviour;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.math.random.ProbabilityDistributionFunction;
@@ -27,7 +28,6 @@ import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleBehavior;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -52,8 +52,8 @@ import net.sourceforge.cilib.entity.Property;
  * </li></ul>
  */
 public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy<PSO> implements HeterogeneousIterationStrategy {
-    private Selector<ParticleBehavior> behaviorSelectionRecipe;
-    private List<ParticleBehavior> behaviorPool;
+    private Selector<Behaviour> behaviorSelectionRecipe;
+    private List<Behaviour> behaviorPool;
     private SpecialisedRatio weighting;
     private ControlParameter minRatio;
     private ControlParameter q;
@@ -152,8 +152,8 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
             //get behavior
             weighting.setWeights(props.common.selectionRatio);
 
-            ParticleBehavior behavior = behaviorSelectionRecipe.on(behaviorPool).select();
-            particle.setParticleBehavior(behavior);
+            Behaviour behavior = behaviorSelectionRecipe.on(behaviorPool).select();
+            particle.setBehaviour(behavior);
 
             int i = behaviorPool.indexOf(behavior);
             props.common.incrementSelected(i);
@@ -167,11 +167,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
             Fitness prevPBest = (Fitness) particle.get(BEST_FITNESS);
 
             //update particle
-            particle.updateVelocity(particle.getParticleBehavior().getVelocityProvider().get(particle));
-            particle.updatePosition(particle.getParticleBehavior().getPositionProvider().get(particle));
-
-            boundaryConstraint.enforce(particle);
-            particle.calculateFitness();
+            particle.getBehaviour().performIteration(particle);
 
             //if particle improved
             if (particle.getFitness().compareTo(prevFitness) > 0) {
@@ -186,7 +182,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
 
                         aBestVector.setReal(j, ((Vector)particle.getPosition()).doubleValueOf(j));
                         aBestClone.setPosition(aBestVector);
-                        Fitness fitness = particle.getFitnessCalculator().getFitness(aBestClone);
+                        Fitness fitness = particle.getBehaviour().getFitnessCalculator().getFitness(aBestClone);
 
                         if(fitness.compareTo(aBest.getBestFitness()) > 0) {
                             aBest.put(BEST_POSITION, aBestVector);
@@ -330,7 +326,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
      * {@inheritDoc}
      */
     @Override
-    public void addBehavior(ParticleBehavior behavior) {
+    public void addBehavior(Behaviour behavior) {
         behaviorPool.add(behavior);
     }
 
@@ -338,7 +334,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
      * {@inheritDoc}
      */
     @Override
-    public void setBehaviorPool(List<ParticleBehavior> pool) {
+    public void setBehaviorPool(List<Behaviour> pool) {
         behaviorPool = pool;
     }
 
@@ -346,7 +342,7 @@ public class AdaptiveLearningIterationStrategy extends AbstractIterationStrategy
      * {@inheritDoc}
      */
     @Override
-    public List<ParticleBehavior> getBehaviorPool() {
+    public List<Behaviour> getBehaviorPool() {
         return behaviorPool;
     }
 
