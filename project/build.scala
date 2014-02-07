@@ -4,13 +4,13 @@ import Keys._
 object CIlibBuild extends Build {
 
   val buildSettings = Defaults.defaultSettings ++ Seq(
-    scalaVersion := "2.10.0",
+    scalaVersion := "2.10.3",
     version := "0.9-SNAPSHOT",
     organization := "net.cilib",
     organizationName := "CIRG @ UP",
     organizationHomepage := Some(url("http://cirg.cs.up.ac.za")),
-    javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7"),
-    javacOptions in doc := Seq("-encoding", "UTF-8", "-source", "1.7"),
+    //javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7"),
+    //javacOptions in doc := Seq("-encoding", "UTF-8", "-source", "1.7"),
     scalacOptions += "-deprecation",
     publishMavenStyle := true,
     publishSetting,
@@ -57,17 +57,13 @@ object CIlibBuild extends Build {
 
   lazy val root = Project(id = "cilib",
     base = file("."),
-    settings = buildSettings) aggregate(library, simulator) settings (
+    settings = buildSettings) aggregate(core) settings (
       headerCheckSetting
     )
 
-  lazy val library = Project(id = "library",
-    base = file("library"),
+  lazy val core = Project(id = "core",
+    base = file("core"),
     settings = buildSettings)
-
-  lazy val simulator = Project(id = "simulator",
-    base = file("simulator"),
-    settings = buildSettings) dependsOn(library)
 
 
   // Header task definition
@@ -82,13 +78,13 @@ object CIlibBuild extends Build {
   val headerCheck = TaskKey[Unit]("update-source-headers")
 
   val headerCheckSetting = headerCheck <<= (
-    sources in (library, Compile), sources in (library, Test), sources in (simulator, Compile), sources in (simulator, Test),
-    streams) map { (librarySources, libraryTestSources, simulatorSources, simulatorTestSources, s) =>
+    sources in (core, Compile), sources in (core, Test), //sources in (simulator, Compile), sources in (simulator, Test),
+    streams) map { (librarySources, libraryTestSources, /*simulatorSources, simulatorTestSources,*/ s) =>
       val logger = s.log
       updateHeaders(librarySources, logger)
-      updateHeaders(simulatorSources, logger)
+      //updateHeaders(simulatorSources, logger)
       updateHeaders(libraryTestSources, logger)
-      updateHeaders(simulatorTestSources, logger)
+      //updateHeaders(simulatorTestSources, logger)
     }
 
   private final def updateHeaders(xs: Seq[File], logger: Logger) = {
