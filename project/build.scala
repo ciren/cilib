@@ -1,9 +1,10 @@
 import sbt._
 import Keys._
+import sbtrelease.ReleasePlugin._
 
 object CIlibBuild extends Build {
 
-  val buildSettings = Defaults.defaultSettings ++ Seq(
+  val buildSettings = Defaults.defaultSettings ++ releaseSettings ++ Seq(
     scalaVersion := "2.10.3",
     version := "0.9-SNAPSHOT",
     organization := "net.cilib",
