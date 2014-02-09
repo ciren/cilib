@@ -6,13 +6,10 @@ object CIlibBuild extends Build {
 
   val buildSettings = Defaults.defaultSettings ++ releaseSettings ++ Seq(
     scalaVersion := "2.10.3",
-    version := "0.9-SNAPSHOT",
     organization := "net.cilib",
     organizationName := "CIRG @ UP",
     organizationHomepage := Some(url("http://cirg.cs.up.ac.za")),
-    //javacOptions ++= Seq("-encoding", "UTF8", "-source", "1.7", "-target", "1.7"),
-    //javacOptions in doc := Seq("-encoding", "UTF-8", "-source", "1.7"),
-    scalacOptions += "-deprecation",
+    scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature"),
     publishMavenStyle := true,
     publishSetting,
     publishArtifact in Test := false,
