@@ -231,10 +231,27 @@
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition"/>
         </algorithm>
+
+        <algorithm id="probabilistic" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" />
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="20"/>
+                <entityType class="pso.particle.StandardParticle">
+                    <neighbourhoodBestUpdateStrategy class="pso.positionprovider.ProbabilisticNeighbourhoodBestUpdateStrategy">
+                      <strategy1 class="pso.positionprovider.IterationNeighbourhoodBestUpdateStrategy" />
+                      <strategy2 class="pso.positionprovider.MemoryNeighbourhoodBestUpdateStrategy" />
+                      <probability class="controlparameter.LinearlyVaryingControlParameter">
+                        <initialValue value="0.9" />
+                        <finalValue value="0.2" />
+                      </probability>
+                    </neighbourhoodBestUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
     </algorithms>
 
     <problems>
-        <problem id="rosenbrock" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^10">
+        <problem id="spherical" class="problem.FunctionOptimisationProblem" domain="R(-5.12:5.12)^10">
             <function class="functions.continuous.unconstrained.Spherical"/>
         </problem>
     </problems>
@@ -246,81 +263,87 @@
     <simulations>
         <simulation samples="1">
             <algorithm idref="gbest"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/gbest-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="weighted"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/weighted-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xover-pbest-pos"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/xover-pbest-pos-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xover-gbest-pos"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/xover-gbest-pos-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="xover-gbest-pbest"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/xover-gbest-pbest-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="selection-tournament-perEntity-pos"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/selection-tournament-perEntity-pos-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="selection-tournament-perEntity-pbest"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/selection-tournament-perEntity-pbest-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="selection-tournament-perDimension-pos"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/selection-tournament-perDimension-pos-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="selection-tournament-perDimension-pbest"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/selection-tournament-perDimension-pbest-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="selection-roulette-perEntity-pos"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/selection-roulette-perEntity-pos-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="selection-roulette-perEntity-pbest"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/selection-roulette-perEntity-pbest-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="selection-roulette-perDimension-pos"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/selection-roulette-perDimension-pos-gp.txt" />
         </simulation>
         <simulation samples="1">
             <algorithm idref="selection-roulette-perDimension-pbest"/>
-            <problem idref="rosenbrock"/>
+            <problem idref="spherical"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/selection-roulette-perDimension-pbest-gp.txt" />
+        </simulation>
+        <simulation samples="1">
+            <algorithm idref="probabilistic"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/probabilistic-iteration-memory.txt" />
         </simulation>
     </simulations>
 </simulator>
