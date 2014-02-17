@@ -25,7 +25,9 @@ public class Onemax extends ContinuousFunction {
         double result = 0.0;
 
         for (int i = 0; i < input.size(); i++) {
-            result += input.doubleValueOf(i);
+            if(input.booleanValueOf(i)) {
+                result++;
+            }
         }
 
         return result;

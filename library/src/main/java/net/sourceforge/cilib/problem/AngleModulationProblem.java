@@ -48,7 +48,10 @@ public class AngleModulationProblem extends AbstractProblem {
         
         for (int i = 0; i < bits.length(); i += bitsPerDimension) {
             double tmp = valueOf(bits, i, i + bitsPerDimension);
-            tmp = transform(tmp);
+            
+            if (bitsPerDimension > 1) {
+                tmp = transform(tmp);
+            }
 
             vector.add(tmp);
         }
