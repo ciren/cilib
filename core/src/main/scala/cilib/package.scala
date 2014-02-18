@@ -9,6 +9,7 @@ package object cilib {
   // Aliases
   type Solution = Vector[Double]
 
+  // Tags to allow for specific values
   sealed trait Positive
   sealed trait Negative
 

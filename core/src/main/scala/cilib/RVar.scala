@@ -127,9 +127,25 @@ object RVar {
     }
   }
 
-  /* This is a partial function - not defined for empty lists */
-  def sample[A](n: Int, xs: List[A]): RVar[List[A]] =
-    shuffle(xs) map { _.take(n) }
+  import scalaz.syntax.std.list._
+
+  def sample[A](n: Int, xs: List[A]) =
+    xs.toNel.map(choices(n, _))
+
+  def choices[A](n: Int, xs: NonEmptyList[A]): RVar[List[A]] = {
+    import scalaz.syntax.foldable._
+    import scalaz.std.list._
+    type M[B] = StateT[RVar, List[A], B]
+
+    (0 to xs.size).toList.reverse.take(n).foldLeftM[M, List[A]](List.empty) {
+      case (s, a) => StateT[RVar, List[A], List[A]] {
+        currentList => Dist.uniformInt(0, a).map(r => {
+          val selected = currentList(r)
+          (currentList diff List(selected), selected :: s)
+        })
+      }
+    } eval xs.list
+  }
 }
 
 trait Generator[A] {
