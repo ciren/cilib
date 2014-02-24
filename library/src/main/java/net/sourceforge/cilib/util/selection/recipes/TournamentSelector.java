@@ -68,8 +68,8 @@ public class TournamentSelector<E extends Comparable> implements Selector<E> {
      * Set the size of the tournament.
      * @param tournamanetSize The value to set.
      */
-    public void setTournamentSize(ControlParameter tournamanetSize) {
-        this.tournamentProportion = tournamanetSize;
+    public void setTournamentSize(ControlParameter tournamentSize) {
+        this.tournamentProportion = tournamentSize;
     }
 
     /**
