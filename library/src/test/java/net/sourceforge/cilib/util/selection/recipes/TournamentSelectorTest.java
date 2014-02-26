@@ -32,7 +32,7 @@ public class TournamentSelectorTest {
     public void selectSingle() {
         List<Integer> elements = Lists.newArrayList(1);
         TournamentSelector<Integer> selection = new TournamentSelector<Integer>();
-        selection.setTournamentSize(new ProportionalControlParameter(1.0));
+        selection.setTournamentProportion(new ProportionalControlParameter(1.0));
         int selected = selection.on(elements).select();
         Assert.assertThat(selected, is(1));
     }
@@ -46,7 +46,7 @@ public class TournamentSelectorTest {
     public void fullTournament() {
         List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         TournamentSelector<Integer> selection = new TournamentSelector<Integer>();
-        selection.setTournamentSize(new ProportionalControlParameter(1.0));
+        selection.setTournamentProportion(new ProportionalControlParameter(1.0));
         int selected = selection.on(list).select();
         Assert.assertThat(selected, is(9));
     }
@@ -56,7 +56,7 @@ public class TournamentSelectorTest {
         Rand.setSeed(0);
         List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         TournamentSelector<Integer> selection = new TournamentSelector<Integer>();
-        selection.setTournamentSize(ConstantControlParameter.of(0.5));
+        selection.setTournamentProportion(ConstantControlParameter.of(0.5));
         int selected = selection.on(list).select();
 
         List<Integer> otherList = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -66,7 +66,11 @@ public class TournamentSelectorTest {
         Collections.shuffle(otherList, new RandomAdaptor());
 
         // Select tournament list.
-        int tournamentSize = Double.valueOf(selection.getTournamentSize().getParameter() * otherList.size()).intValue();
+        /**
+         * Here we can reference to tournamentSize,
+         * as the size = TournamentProportion*List.size
+         */
+        int tournamentSize = Double.valueOf(selection.getTournamentProportion().getParameter() * otherList.size()).intValue();
         List<Integer> tournamentList = otherList.subList(otherList.size() - tournamentSize, otherList.size());
         Assert.assertThat(tournamentList, hasItem(selected));
 

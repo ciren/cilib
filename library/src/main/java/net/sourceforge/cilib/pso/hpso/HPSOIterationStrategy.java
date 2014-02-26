@@ -104,7 +104,7 @@ public class HPSOIterationStrategy implements IterationStrategy<PSO>, Heterogene
         this.windowSize = ConstantControlParameter.of(10);
         this.successCounters = new HashMap<Behaviour, List<Integer>>();
 
-        ((TournamentSelector<Behaviour>) this.behaviorSelectionRecipe).setTournamentSize(ConstantControlParameter.of(0.4));
+        ((TournamentSelector<Behaviour>) this.behaviorSelectionRecipe).setTournamentProportion(ConstantControlParameter.of(0.4));
     }
 
     /**
