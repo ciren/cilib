@@ -48,7 +48,7 @@ object RVar {
       def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
         a flatMap f
       def point[A](a: => A) =
-        RVar(StateT.stateT[Trampoline, RNG, A](a))
+        RVar.point(a)
     }
 
   def next[A](implicit e: Generator[A]): RVar[A] =
