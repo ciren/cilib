@@ -58,7 +58,7 @@ object DE {
     ???
 
   def crossover(points: Int => RVar[List[Boolean]]): (Solution, Solution) => RVar[Solution] = (parent: Solution, trial: Solution) =>
-    points(parent.length).map(p => (p zip (parent zip trial)).map(x => if (x._1) x._2._2 else x._2._2).toVector)
+    points(parent.length).map(p => (p zip (parent zip trial)).map(x => if (x._1) x._2._2 else x._2._1).toVector)
 
   def bin = crossover(binomial(0.5))
   def exp = crossover(exponential(0.8))
