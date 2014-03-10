@@ -61,7 +61,7 @@ object RVar {
     next[Double](Generator.doubleGen) replicateM n
 
   def choose[A](xs: NonEmptyList[A]) =
-    Dist.uniformInt(0, xs.size) map { xs.list.apply(_) }
+    Dist.uniformInt(0, xs.size - 1) map { xs.list.apply(_) }
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
@@ -137,7 +137,7 @@ object RVar {
     import scalaz.std.list._
     type M[B] = StateT[RVar, List[A], B]
 
-    (0 to xs.size).toList.reverse.take(n).foldLeftM[M, List[A]](List.empty) {
+    (0 until xs.size).toList.reverse.take(n).foldLeftM[M, List[A]](List.empty) {
       case (s, a) => StateT[RVar, List[A], List[A]] {
         currentList => Dist.uniformInt(0, a).map(r => {
           val selected = currentList(r)
@@ -185,15 +185,20 @@ object Dist {
   val stdLaplace = laplace(0.0, 1.0)
   val stdLognormal = lognormal(0.0, 1.0)
 
-  def uniformInt(a: Int, b: Int) =
-    uniform(a, b) map (_.toInt)
+  /** Generate a discrete uniform value in [from, to] */
+  def uniformInt(from: Int, to: Int) =
+    next[Int].map(x => {
+      val (ll, hh) = if (to < from) (to, from) else (from, to)
+      val diff = hh.toLong - ll.toLong
+      if (diff == 0) ll
+      else (ll.toLong + (math.abs(x.toLong) % (diff + 1))).toInt
+    })
 
-  // Can we make this polymorphic with some typeclass for only Int and Double?
-  def uniform(a: Double, b: Double): RVar[Double] =
-    stdUniform map { x => a + (b - a) * x }
+  def uniform(a: Double, b: Double) =
+    stdUniform map { x => a + x * (b - a) }
 
   // TODO: This should be an implementation of Doornik's improved ziggurat method
-  def gaussian(mean: Double, variance: Double): RVar[Double] = RVar(StateT { rng =>
+  def gaussian(mean: Double, variance: Double) = RVar(StateT { rng =>
 
     def uniformPair = stdUniform zip stdUniform
 
