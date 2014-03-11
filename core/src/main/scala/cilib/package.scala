@@ -21,4 +21,8 @@ package object cilib {
     if (d < 0.0) Tag.subst(Some(d))
     else None
 
+  implicit object SolutionMultiplicativeSemigroup extends spire.algebra.MultiplicativeSemigroup[Solution] {
+    def times(x: Solution, y: Solution): Solution =
+      (x, y).zipped map { _ * _ }
+  }
 }

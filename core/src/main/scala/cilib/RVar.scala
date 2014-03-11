@@ -139,6 +139,7 @@ object RVar {
 
     (0 until xs.size).toList.reverse.take(n).foldLeftM[M, List[A]](List.empty) {
       case (s, a) => StateT[RVar, List[A], List[A]] {
+        println("a: " + a + " s:" + s)
         currentList => Dist.uniformInt(0, a).map(r => {
           val selected = currentList(r)
           (currentList diff List(selected), selected :: s)
