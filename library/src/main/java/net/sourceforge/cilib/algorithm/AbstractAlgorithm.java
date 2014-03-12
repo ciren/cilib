@@ -8,6 +8,7 @@ package net.sourceforge.cilib.algorithm;
 
 import com.google.common.base.Preconditions;
 import fj.Equal;
+import fj.F;
 import fj.data.List;
 import fj.function.Booleans;
 import net.sourceforge.cilib.moo.archive.Archive;
@@ -67,7 +68,12 @@ public abstract class AbstractAlgorithm implements Algorithm {
      * @param copy The instance to copy.
      */
     protected AbstractAlgorithm(AbstractAlgorithm copy) {
-        stoppingConditions = copy.stoppingConditions;
+        stoppingConditions = copy.stoppingConditions.map(new F<StoppingCondition,StoppingCondition>() {
+                @Override
+                public StoppingCondition f(StoppingCondition sc) {
+                    return sc.getClone();
+                }
+            });
         algorithmListeners = copy.algorithmListeners;
 
         if (copy.optimisationProblem != null) {

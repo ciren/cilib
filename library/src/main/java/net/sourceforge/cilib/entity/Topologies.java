@@ -13,6 +13,7 @@ import java.util.Set;
 
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.Neighbourhood;
+import net.sourceforge.cilib.pso.particle.Particle;
 
 import com.google.common.collect.Lists;
 
@@ -25,6 +26,19 @@ import fj.data.List;
 public final class Topologies {
 
     private Topologies() {
+    }
+
+    public static Set<Particle> getNBestEntities(List<Particle> p) {
+        Set<Particle> nBests = new LinkedHashSet<Particle>(p.length());
+
+        for (Particle e : p) {
+            Particle best = e.getNeighbourhoodBest();
+            if (best != null) {
+                nBests.add(best);
+            }
+        }
+
+        return nBests;
     }
 
     /**

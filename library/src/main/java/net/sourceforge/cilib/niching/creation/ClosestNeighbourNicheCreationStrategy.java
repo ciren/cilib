@@ -25,6 +25,7 @@ import net.sourceforge.cilib.pso.velocityprovider.GCVelocityProvider;
 import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
+import fj.Equal;
 import fj.F;
 
 /**
@@ -71,12 +72,7 @@ public class ClosestNeighbourNicheCreationStrategy extends NicheCreationStrategy
     public NichingSwarms f(NichingSwarms a, final Entity b) {
         //There should be at least two particles
         fj.data.List<Entity> t = a.getMainSwarm().getTopology();
-        if (a.getMainSwarm().getTopology().length() <= 1 || !t.exists(new F<Entity, Boolean>() {
-                @Override
-            public Boolean f(Entity e) {
-                        return e.equals(b);
-                }
-        })) {
+        if (a.getMainSwarm().getTopology().length() <= 1 || !t.exists(Equal.<Entity>anyEqual().eq(b))) {
             return a;
         }
 

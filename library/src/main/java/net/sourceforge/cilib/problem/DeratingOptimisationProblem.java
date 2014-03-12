@@ -70,10 +70,13 @@ public class DeratingOptimisationProblem extends FunctionOptimisationProblem {
         double fitness = super.calculateFitness(input).getValue();
 
         for (Vector v : solutions) {
-            double distance = distanceMeasure.distance(input.normalize(), v.normalize());
+            double distance = distanceMeasure.distance(input, v);
 
             if (distance < deratingFunction.getRadius()) {
-                fitness *= getDeratingFunction().f(Vector.of(distance));
+                if (getObjective() instanceof Maximise)
+                    fitness *= getDeratingFunction().f(Vector.of(distance));
+                else
+                    fitness /= getDeratingFunction().f(Vector.of(distance));
             }
         }
 

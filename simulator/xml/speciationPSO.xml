@@ -6,8 +6,21 @@
 ]>
 <simulator>
     <algorithms>
+      <algorithm id="speciationPSO" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="25000">
+                <predicate class="stoppingcondition.Maximum"/>
+                <measurement class="measurement.single.ParticlePositionUpdates"/>
+            </addStoppingCondition>
+
+            <iterationStrategy class="pso.iterationstrategies.SpeciationIterationStrategy">
+                <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="20"/>
+                <radius class="controlparameter.ConstantControlParameter" parameter="0.1"/>
+            </iterationStrategy>
+        </algorithm>
+
         <algorithm id="speciation" class="pso.PSO">
             <neighbourhood class="entity.topologies.SpeciationNeighbourhood">
+	      <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="30"/>
                 <radius class="controlparameter.ConstantControlParameter" parameter="0.1"/>
             </neighbourhood>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
@@ -16,6 +29,7 @@
         <algorithm id="speciationWithRedundantParticleReinitialisation" class="pso.PSO">
             <iterationStrategy class="niching.iterationstrategies.EnhancedSpeciation"/>
             <neighbourhood class="entity.topologies.SpeciationNeighbourhood">
+	      <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="30"/>
                 <radius class="controlparameter.ConstantControlParameter" parameter="0.1"/>
             </neighbourhood>
             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="1000"/>
@@ -55,13 +69,13 @@
 
     <simulations>
         <simulation samples="1">
-            <algorithm idref="speciation"/>
+            <algorithm idref="speciationPSO"/>
             <problem idref="f1"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/speciation-f1.txt"/>
         </simulation>
         <simulation samples="1">
-            <algorithm idref="speciation"/>
+            <algorithm idref="speciationPSO"/>
             <problem idref="f2"/>
             <measurements idref="fitness" />
             <output format="TXT" file="data/speciation-f2.txt"/>

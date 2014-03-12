@@ -1,10 +1,16 @@
+/**           __  __
+ *    _____ _/ /_/ /_    Computational Intelligence Library (CIlib)
+ *   / ___/ / / / __ \   (c) CIRG @ UP
+ *  / /__/ / / / /_/ /   http://cilib.net
+ *  \___/_/_/_/_.___/
+ */
 package net.sourceforge.cilib.entity.topologies;
 
 import fj.Equal;
 import fj.F;
 import fj.data.List;
 
-public class HypercudeNeighbourhood<E> extends Neighbourhood<E> {
+public class HypercubeNeighbourhood<E> extends Neighbourhood<E> {
     private int n = 5;
 
     @Override

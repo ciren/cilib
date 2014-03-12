@@ -12,6 +12,8 @@ import net.sourceforge.cilib.entity.Entity;
 public class AlwaysTrueNicheDetection extends NicheDetection {
     @Override
     public Boolean f(SinglePopulationBasedAlgorithm a, Entity b) {
-        return true;
+	if (b != null && a.getTopology().isNotEmpty())
+               return true;
+       return false;
     }
 }

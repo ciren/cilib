@@ -10,12 +10,15 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topologies;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.niching.NichingFunctions.NichingFunction;
 import net.sourceforge.cilib.niching.NichingSwarms;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
+import fj.Equal;
 import fj.F2;
 import fj.P;
 import fj.P2;
@@ -56,7 +59,8 @@ public class MergingSubswarmIterator extends SubswarmIterator {
                 SinglePopulationBasedAlgorithm newB = b.getClone();
                 newB.setTopology(List.nil());
 
-                List<Entity> local = b.getTopology();
+		Particle gbest = Topologies.getBestEntity((List<Particle>) b.getTopology(), new SocialBestFitnessComparator<>());
+                List<Entity> local = b.getTopology().removeAll(Equal.anyEqual().eq(gbest));
                 for (Entity e : local) {
                     double d2 = distanceMeasure.distance((Vector) a.getBestSolution().getPosition(), e.getPosition());
 
@@ -70,6 +74,13 @@ public class MergingSubswarmIterator extends SubswarmIterator {
                     } else {
                     	newB.setTopology(newB.getTopology().snoc(e));
                     }
+
+		    if (newB.getTopology().isEmpty()) {
+			newA.setTopology(newA.getTopology().snoc(gbest));
+			gbest.setBehaviour(((Particle) a.getTopology().head()).getBehaviour());
+		    } else {
+			newB.setTopology(newB.getTopology().snoc(gbest));
+		    }
                 }
 
                 // we clone to set the nBests

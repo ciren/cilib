@@ -6,34 +6,36 @@
  */
 package net.sourceforge.cilib.pso.velocityprovider;
 
+import fj.Ord;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
+import net.sourceforge.cilib.niching.VectorBasedFunctions;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
-public class FIPSVelocityProvider implements VelocityProvider {
-
-    private static final long serialVersionUID = 6391914534943249737L;
+public class LIPSVelocityProvider implements VelocityProvider {
 
     private ControlParameter inertiaWeight;
-    private ControlParameter phi;
+    private ControlParameter nSize;
 
-    public FIPSVelocityProvider() {
+    public LIPSVelocityProvider() {
         this.inertiaWeight = ConstantControlParameter.of(0.729844);
-        this.phi = ConstantControlParameter.of(1.496180);
+        this.nSize = new LinearlyVaryingControlParameter(2, 5);
     }
 
-    public FIPSVelocityProvider(FIPSVelocityProvider copy) {
+    public LIPSVelocityProvider(LIPSVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
-        this.phi = copy.phi.getClone();
+        this.nSize = copy.nSize.getClone();
     }
 
     @Override
-    public FIPSVelocityProvider getClone() {
-        return new FIPSVelocityProvider(this);
+    public LIPSVelocityProvider getClone() {
+        return new LIPSVelocityProvider(this);
     }
 
     @Override
@@ -41,36 +43,35 @@ public class FIPSVelocityProvider implements VelocityProvider {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
         PSO algorithm = (PSO) AbstractAlgorithm.get();
-        fj.data.List<Particle> topology = algorithm.getTopology();
+        int ns = (int) nSize.getParameter();
+        fj.data.List<Particle> neighbours = algorithm.getTopology()
+                .sort(Ord.ord(VectorBasedFunctions.sortByDistance(particle, new EuclideanDistanceMeasure())))
+                .take(ns);
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
             double informationSum = 0.0;
-            int numberOfNeighbours = 0;
+            double randomSum=0;
 
-            for (Particle currentTarget : algorithm.getNeighbourhood().f(topology, particle)) {
+            for (Particle currentTarget : neighbours) {
                 Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
-
-                double randomComponent = (this.phi.getParameter()) * Rand.nextDouble();
-
-                informationSum += randomComponent * (currentTargetPosition.doubleValueOf(i) - position.doubleValueOf(i));
-
-                numberOfNeighbours++;
+                double randomComponent = Rand.nextDouble()*(4.1/ns);
+                informationSum += randomComponent * currentTargetPosition.doubleValueOf(i);
+                randomSum += randomComponent;
             }
 
-            double value = this.inertiaWeight.getParameter() * (velocity.doubleValueOf(i) + (informationSum / numberOfNeighbours));
-
+            double value = inertiaWeight.getParameter() * (velocity.doubleValueOf(i) + randomSum * ((informationSum / (ns * randomSum) - position.doubleValueOf(i))));
             builder.add(value);
         }
 
         return builder.build();
     }
-
+    
     public void setInertiaWeight(ControlParameter inertiaWeight) {
         this.inertiaWeight = inertiaWeight;
     }
 
-    public void setPhi(ControlParameter phi) {
-        this.phi = phi;
+    public void setnSize(ControlParameter nSize) {
+        this.nSize = nSize;
     }
 }

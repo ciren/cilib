@@ -10,7 +10,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
-import net.sourceforge.cilib.util.distancemeasure.ManhattanDistanceMeasure;
+import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
 
 /**
  * used to check if optimisation algorithm has stalled. still a very crude implementation. if the
@@ -23,6 +23,7 @@ public class OptimiserStalled extends StoppingCondition {
     protected double minChange;
     protected int maxConsecutiveMinChange;
     protected int minChangeCounter;
+    protected int lastIteration;
 
     private final DistanceMeasure distMeasure;
     private OptimisationSolution previousBest;
@@ -31,18 +32,20 @@ public class OptimiserStalled extends StoppingCondition {
      * Creates a new instance of OptimiserStalled.
      */
     public OptimiserStalled() {
+        lastIteration = -1;
         minChange = 0.05;
         maxConsecutiveMinChange = 5;
 
         minChangeCounter = 0;
-        distMeasure = new ManhattanDistanceMeasure();
+        distMeasure = new EuclideanDistanceMeasure();
     }
 
     public OptimiserStalled(OptimiserStalled rhs) {
+        lastIteration = -1;
         minChange = rhs.minChange;
         maxConsecutiveMinChange = rhs.maxConsecutiveMinChange;
 
-        minChangeCounter = rhs.minChangeCounter;
+        minChangeCounter = 0;
         distMeasure = rhs.distMeasure;
     }
 
@@ -74,17 +77,22 @@ public class OptimiserStalled extends StoppingCondition {
     @Override
     public double getPercentageCompleted(Algorithm algorithm) {
         // check if this is the first iteration
-        if (previousBest == null) {
+        if (algorithm.getIterations() == 0 || previousBest == null) {
             previousBest = algorithm.getBestSolution();
 
+            lastIteration = algorithm.getIterations();
             return 0.0;
         }
 
-        // get the distance between previous and current best
-        double distance = distMeasure.distance((Vector) previousBest.getPosition(), (Vector) algorithm.getBestSolution().getPosition());
+        if (algorithm.getIterations() != lastIteration) {
+            // get the distance between previous and current best
+            double distance = distMeasure.distance((Vector) previousBest.getPosition(), (Vector) algorithm.getBestSolution().getPosition());
 
-        // compare to see change
-        minChangeCounter = (distance < minChange) ? minChangeCounter + 1 : 0;
+            // compare to see change
+            minChangeCounter = (distance < minChange) ? minChangeCounter + 1 : 0;
+        }
+
+        lastIteration = algorithm.getIterations();
 
         return minChangeCounter / maxConsecutiveMinChange;
     }

@@ -4,10 +4,10 @@
  *  / /__/ / / / /_/ /   http://cilib.net
  *  \___/_/_/_/_.___/
  */
-package net.sourceforge.cilib.entity.topologies;
+package net.sourceforge.cilib.functions;
 
-import fj.F2;
-import fj.data.List;
-
-public abstract class Neighbourhood<E> extends F2<List<E>, E, List<E>>{
+public interface NichingFunction {
+    
+    public double getNicheRadius();
+    
 }

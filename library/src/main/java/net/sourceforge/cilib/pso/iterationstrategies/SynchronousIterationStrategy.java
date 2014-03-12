@@ -22,7 +22,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
      * {@inheritDoc}
      */
     @Override
-    public SynchronousIterationStrategy getClone() {
+        public SynchronousIterationStrategy getClone() {
         return this;
     }
 
@@ -48,7 +48,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
      * @param pso The {@link PSO} to have an iteration applied.
      */
     @Override
-    public void performIteration(final PSO pso) {
+        public void performIteration(final PSO pso) {
         final fj.data.List<Particle> topology = pso.getTopology();
 
         final F<Particle, Particle> first = new F<Particle, Particle>() {
