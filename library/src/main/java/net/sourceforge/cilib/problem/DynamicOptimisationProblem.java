@@ -69,8 +69,8 @@ public class DynamicOptimisationProblem extends AbstractProblem {
         return function;
     }
 
-    public void setFunction(DynamicFunction<Type, ? extends Number> function) {
-        this.function = function;
+    public void setFunction(DynamicFunction<? extends Type, ? extends Number> function) {
+        this.function = (DynamicFunction<Type, ? extends Number>) function;
     }
 
     public void setChangeStrategy(ChangeStrategy changeStrategy) {
