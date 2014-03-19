@@ -186,7 +186,7 @@ object Dist {
   val stdLaplace = laplace(0.0, 1.0)
   val stdLognormal = lognormal(0.0, 1.0)
 
-  /** Generate a discrete uniform value in [from, to] */
+  /** Generate a discrete uniform value in [from, to]. Note that the upper bound is *inclusive* */
   def uniformInt(from: Int, to: Int) =
     next[Int].map(x => {
       val (ll, hh) = if (to < from) (to, from) else (from, to)
