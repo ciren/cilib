@@ -28,7 +28,7 @@ public class VonNeumannNeighbourhood<E> extends Neighbourhood<E> {
         };
 
         final E north = find(list, sqSide, (row - 1 + nRows) % nRows - ((col >= colsInRow.f((row - 1 + nRows) % nRows)) ? 1 : 0), col);
-        final E south = find(list, sqSide, (row + 1) % nRows - ((col >= colsInRow.f((row + 1) % nRows)) ? sqSide : 0), col);
+        final E south = find(list, sqSide, ((col >= colsInRow.f((row + 1) % nRows)) ? 0 : (row + 1) % nRows), col);
         final E east = find(list, sqSide, row, (col + 1) % colsInRow.f(row));
         final E west = find(list, sqSide, row, (col - 1 + colsInRow.f(row)) % colsInRow.f(row));
 
