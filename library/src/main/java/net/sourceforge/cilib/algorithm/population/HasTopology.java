@@ -13,6 +13,6 @@ public interface HasTopology<E> {
      * Set the <tt>Topology</tt> for the population-based algorithm.
      * @param topology The {@linkplain Topology} to be set.
      */
-    void setTopology(List<E> topology);
+    void setTopology(List<? extends E> topology);
 
 }

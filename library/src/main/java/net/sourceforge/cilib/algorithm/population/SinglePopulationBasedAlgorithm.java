@@ -77,8 +77,8 @@ public abstract class SinglePopulationBasedAlgorithm<E extends Entity> extends A
      * @param topology The {@linkplain Topology} to be set.
      */
     @Override
-    public void setTopology(List<E> topology) {
-        this.topology = topology;
+    public void setTopology(List<? extends E> topology) {
+        this.topology = (List<E>) topology;
     }
 
     /**
