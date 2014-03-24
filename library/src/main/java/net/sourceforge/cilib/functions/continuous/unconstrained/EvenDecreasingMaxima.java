@@ -11,57 +11,45 @@ import net.sourceforge.cilib.functions.Gradient;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Generalised Griewank function.
- *This is a minimisation problem
- * <p>
- * Characteristics:
- * <ul>
- * <li>Multi-modal</li>
- * <li>Non-separable</li>
- * <li>Regular</li>
- * </ul>
- *
- * f(x) = 0; x = (0,0,...,0);
- * x_i e (-600,600)
- *
- * R(-600, 600)^30
+ * Multimodal2 function.
+ *This is a maximisation problem
+ * Minimum: 0.0
+ * R(0, 1)^1
  *
  */
-public class Griewank extends ContinuousFunction implements Gradient{
+public class EvenDecreasingMaxima extends ContinuousFunction implements Gradient {
 
-    private static final long serialVersionUID = 1095225532651577254L;
+    private static final long serialVersionUID = -5046586719830749372L;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Double f(Vector input) {
-        double sumsq = 0;
-        double prod = 1;
-        
-        for (int i = 0; i < input.size(); ++i) {
-            sumsq += input.doubleValueOf(i) * input.doubleValueOf(i);
-            prod *= Math.cos(input.doubleValueOf(i) / Math.sqrt(i+1));
+        double sum = 0.0;
+        for (int i = 0; i < input.size(); i++) {
+            double x1 = Math.pow(Math.sin(5.0 * Math.PI * input.doubleValueOf(i)), 6.0);
+            double exp1 = Math.pow((input.doubleValueOf(i) - 0.1) / 0.8, 2.0);
+            double exp2 = -2.0 * Math.log(2.0)* exp1;
+            double x2 = Math.exp(exp2);
+            sum += x1 * x2;
         }
-        return 1 + sumsq * (1.0 / 4000.0) - prod;
+        return sum;
     }
     
     public Double df(Vector input, int i){
-    double result=0.0;
 	
-	double value1=(1.0/2000.0)*input.doubleValueOf(i-1);
-	double value2=(Math.sin(input.doubleValueOf(i-1)/Math.sqrt(i))*(1.0/Math.sqrt(i)));
-                       
-	double value3=1;
-	for (int j=1;j<input.size();j++) {
-           value3*=(Math.cos(input.doubleValueOf(j-1)/Math.sqrt(j))*(1.0/Math.sqrt(j)));
-        }
-	double currentInputcos=(Math.cos(input.doubleValueOf(i-1)/Math.sqrt(i))*(1.0/Math.sqrt(i)));
-        value3=(value3/currentInputcos);
-   
-        result=value1+(value2*value3);
-    
-        return result;
+        double result=0.0;
+	
+	double exp= Math.exp(-2.0 * Math.log(2)*(Math.pow((input.doubleValueOf(i-1) - 0.1) / 0.8, 2.0)));
+        double sin5=Math.pow(Math.sin(5.0 * Math.PI *input.doubleValueOf(i-1)),5);
+	double cos = 30*Math.PI*Math.cos(5.0*Math.PI*input.doubleValueOf(i-1));  	
+	double value=(4*(input.doubleValueOf(i-1)-0.1)*Math.log(2))/ (0.8 * 0.8);
+	double sin6=Math.pow(Math.sin(5.0 * Math.PI *input.doubleValueOf(i-1)),6);
+	
+    result=(exp*sin5*cos)-(exp*value*sin6);
+    return result;
+	
     }
     
     public double getAverageGradientVector ( Vector x)

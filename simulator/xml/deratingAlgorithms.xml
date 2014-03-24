@@ -111,7 +111,7 @@
     <problems>
         <problem id="f1" class="problem.DeratingOptimisationProblem" domain="R(0:1)">
             <objective class="problem.objective.Maximise"/>
-            <function class="functions.continuous.unconstrained.MultimodalFunction1"/>
+            <function class="functions.continuous.unconstrained.EqualMaxima"/>
             <deratingFunction class="functions.continuous.derating.PowerDeratingFunction">
                 <radius class="controlparameter.ConstantControlParameter" parameter="0.01"/>
                 <alpha class="controlparameter.ConstantControlParameter" parameter="0.8"/>

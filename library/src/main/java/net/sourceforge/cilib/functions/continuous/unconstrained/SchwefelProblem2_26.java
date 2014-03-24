@@ -8,60 +8,50 @@ package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Gradient;
+import net.sourceforge.cilib.functions.NichingFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Generalised Griewank function.
+ * SchwefelProblem 2_26.
  *This is a minimisation problem
- * <p>
  * Characteristics:
- * <ul>
- * <li>Multi-modal</li>
- * <li>Non-separable</li>
- * <li>Regular</li>
- * </ul>
  *
- * f(x) = 0; x = (0,0,...,0);
- * x_i e (-600,600)
+ * f(x) = -12569.5, x = (420.9687,...,420.9687);
  *
- * R(-600, 600)^30
+ * x e [-500,500]
+ *
+ * R(-500, 500)^30
  *
  */
-public class Griewank extends ContinuousFunction implements Gradient{
+// TODO: Check discontinuous / continuous
+public class SchwefelProblem2_26 extends ContinuousFunction implements Gradient,NichingFunction  {
 
-    private static final long serialVersionUID = 1095225532651577254L;
+    private static final long serialVersionUID = -4483598483574144341L;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Double f(Vector input) {
-        double sumsq = 0;
-        double prod = 1;
-        
-        for (int i = 0; i < input.size(); ++i) {
-            sumsq += input.doubleValueOf(i) * input.doubleValueOf(i);
-            prod *= Math.cos(input.doubleValueOf(i) / Math.sqrt(i+1));
+        double sum = 0.0;
+
+        for (int i = 0; i < input.size(); i++) {
+            sum += input.doubleValueOf(i)*Math.sin(Math.sqrt(Math.abs(input.doubleValueOf(i))));
         }
-        return 1 + sumsq * (1.0 / 4000.0) - prod;
+        return -sum;
     }
     
     public Double df(Vector input, int i){
-    double result=0.0;
+     double result=0.0;
 	
-	double value1=(1.0/2000.0)*input.doubleValueOf(i-1);
-	double value2=(Math.sin(input.doubleValueOf(i-1)/Math.sqrt(i))*(1.0/Math.sqrt(i)));
-                       
-	double value3=1;
-	for (int j=1;j<input.size();j++) {
-           value3*=(Math.cos(input.doubleValueOf(j-1)/Math.sqrt(j))*(1.0/Math.sqrt(j)));
-        }
-	double currentInputcos=(Math.cos(input.doubleValueOf(i-1)/Math.sqrt(i))*(1.0/Math.sqrt(i)));
-        value3=(value3/currentInputcos);
-   
-        result=value1+(value2*value3);
+     double value1=Math.sin(Math.sqrt(Math.abs(input.doubleValueOf(i-1))));        
+     double value2=input.doubleValueOf(i-1)*input.doubleValueOf(i-1)*Math.cos(Math.sqrt(Math.abs(input.doubleValueOf(i-1))));
+     double denom=2*Math.pow(Math.abs(input.doubleValueOf(i-1)),1.5);
+        
+     result=value1 +(value2/denom); 
     
-        return result;
+     return -result;
+     
     }
     
     public double getAverageGradientVector ( Vector x)
@@ -100,4 +90,12 @@ public class Griewank extends ContinuousFunction implements Gradient{
         
         return vectorBuilder.build();
     }
+
+    @Override
+    public double getNicheRadius() {
+        return 0.01;
+    }
+    
+    
 }
+

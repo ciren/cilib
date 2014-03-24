@@ -32,7 +32,7 @@
 
     <problems>
         <problem id="f4" class="problem.FunctionOptimisationProblem" domain="R(0:1)">
-            <function class="functions.continuous.unconstrained.MultimodalFunction1"/>
+            <function class="functions.continuous.unconstrained.EqualMaxima"/>
         </problem>
     </problems>
 
