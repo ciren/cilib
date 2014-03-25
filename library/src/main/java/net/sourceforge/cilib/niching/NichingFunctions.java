@@ -161,7 +161,9 @@ public final class NichingFunctions {
 
                 NichingSwarms createdSwarms = swarms;
                 for (Entity e : filteredEntities) {
-                    createdSwarms = creationStrategy.f(createdSwarms, e);
+		    if (createdSwarms.getMainSwarm().getTopology().isNotEmpty())
+			createdSwarms = creationStrategy.f(createdSwarms, e);
+
                 }
 
                 SinglePopulationBasedAlgorithm newMainSwarm = createdSwarms.getMainSwarm();

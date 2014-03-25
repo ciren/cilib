@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+    <algorithms>
+        <algorithm id="LIPS" class="pso.PSO">
+             <addStoppingCondition class="stoppingcondition.MeasuredStoppingCondition" target="25000">
+                <predicate class="stoppingcondition.Maximum"/>
+                <measurement class="measurement.single.ParticlePositionUpdates"/>
+            </addStoppingCondition>
+            
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="40"/>
+                <entityType class="pso.particle.StandardParticle">
+		  <behaviour class="pso.behaviour.StandardParticleBehaviour">
+                    <velocityProvider class="pso.velocityprovider.LIPSVelocityProvider">
+                       <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.9"/>
+                    </velocityProvider>
+		  </behaviour>
+                </entityType>
+            </initialisationStrategy>
+            
+            <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.ReinitialisationBoundary"/>
+            </iterationStrategy>
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="f4" class="problem.FunctionOptimisationProblem" domain="R(0:1)">
+            <function class="functions.continuous.unconstrained.EqualMaxima"/>
+        </problem>
+    </problems>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.SwarmSize"/>
+        <addMeasurement class="measurement.single.ParticlePositionUpdates"/>
+        <addMeasurement class="measurement.single.Niches">
+            <radius value="0.1"/>
+            <peakHeight value="-1.0"/>
+        </addMeasurement>
+        <addMeasurement class="measurement.multiple.CompositeMeasurement">
+            <addMeasurement class="measurement.single.Solution"/>
+            <addMeasurement class="measurement.single.Fitness"/>
+        </addMeasurement>
+    </measurements>
+
+    <simulations>
+        <simulation  samples="1">
+            <algorithm idref="LIPS"/>
+            <problem idref="f4"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/LIPS-test.txt"/>
+        </simulation>
+    </simulations>
+</simulator>

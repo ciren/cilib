@@ -40,6 +40,6 @@ public class SixHumpCamelBackTest {
      */
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidEvaluate() {
-        function.f(Vector.of(1.0, 2.0, 3.0));
+        function.f(Vector.of(1.0));
     }
 }

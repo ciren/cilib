@@ -10,10 +10,11 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import com.google.common.base.Preconditions;
+import net.sourceforge.cilib.functions.Gradient;
 
 /**
  * <p><b>Bukin 6 Function.</b></p>
- *
+ *This is a minisation problem
  * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions
  * for Global Optimization and Performance of Repulsive Particle Swarm Methods</i>
  * North-Eastern Hill University, India, 2002</p>
@@ -38,7 +39,7 @@ import com.google.common.base.Preconditions;
  * R(-15,-5),R(-3,3)
  *
  */
-public class Bukin6 extends ContinuousFunction {
+public class Bukin6 extends ContinuousFunction implements Gradient {
 
     private static final long serialVersionUID = -5557883529972004157L;
 
@@ -52,6 +53,62 @@ public class Bukin6 extends ContinuousFunction {
         double x1 = input.doubleValueOf(0);
         double x2 = input.doubleValueOf(1);
 
-        return 100 * Math.sqrt(Math.abs(x2 - 0.01 * x1 * x1)) + 0.01 * Math.abs(x1 + 10);
+        return 100.0 * Math.sqrt(Math.abs(x2 - 0.01 * x1 * x1)) + 0.01 * Math.abs(x1 + 10.0);
+    }
+    
+    public Double df(Vector input, int i) {
+        Preconditions.checkArgument(input.size() == 2, "Bukin 6 function is only defined for 2 dimensions");
+
+        double x1 = input.doubleValueOf(0);
+        double x2 = input.doubleValueOf(1);
+        double res = 0.0;
+        
+        if(i==1)
+        {
+            res = 0.01*(x1+10.0)/Math.abs(x1+10.0) - (x1*(x2-0.01*x1*x1))/(Math.pow(Math.abs(x2-0.01*x1*x1),1.5));
+        }
+        else
+        {
+            res = 50.0*(x2-0.01*x1*x1)/(Math.pow(Math.abs(x2-0.01*x1*x1),1.5));
+        }
+
+        return res;
+    }
+    
+    public double getAverageGradientVector ( Vector x)
+    {
+        
+        double sum = 0;
+        
+        for (int i = 1; i <= x.size(); ++i)
+        {
+            sum += this.df(x,i);
+        }
+           
+        return sum/x.size();
+    }
+    
+    public double getGradientVectorLength (Vector x)
+    {
+        double sumsqrt = 0;
+        
+        for (int i = 1; i <= x.size(); ++i)
+        {
+            sumsqrt += this.df(x,i)*this.df(x,i);
+        }
+        
+        return Math.sqrt(sumsqrt);
+    }
+    
+    public Vector getGradientVector (Vector x)
+    {
+        Vector.Builder vectorBuilder = Vector.newBuilder();
+        
+        for (int i = 1; i <= x.size(); ++i)
+        {
+             vectorBuilder.add(this.df(x,i));
+        }
+        
+        return vectorBuilder.build();
     }
 }

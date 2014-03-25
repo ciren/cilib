@@ -10,6 +10,7 @@ import fj.F;
 import static fj.data.List.range;
 import static fj.function.Doubles.sum;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.MeasuringListener;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.*;
@@ -32,6 +33,7 @@ public class TuningProblem extends AbstractProblem {
         this.measurement = new net.sourceforge.cilib.measurement.single.Fitness();
         this.samples = 1;
         this.measuringListener = new MeasuringListener();
+        this.measuringListener.setResolution(5000);
     }
     
     public TuningProblem(TuningProblem copy) {
@@ -56,6 +58,7 @@ public class TuningProblem extends AbstractProblem {
                 targetAlgorithm.setOptimisationProblem(currentProblem);
                 targetAlgorithm.performInitialisation();
                 targetAlgorithm.runAlgorithm();
+                measuringListener.algorithmFinished(new AlgorithmEvent(targetAlgorithm));
                 return ((Real)measuringListener.getLastMeasurement()).doubleValue();
             }                    
         })) / samples;

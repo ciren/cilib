@@ -31,6 +31,7 @@ import net.sourceforge.cilib.pso.velocityprovider.StandardVelocityProvider;
 import net.sourceforge.cilib.stoppingcondition.Maximum;
 import net.sourceforge.cilib.stoppingcondition.MeasuredStoppingCondition;
 import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.distancemeasure.DistanceMeasure;
 import net.sourceforge.cilib.util.distancemeasure.EuclideanDistanceMeasure;
@@ -87,13 +88,13 @@ public class VectorBasedNicheCreationStrategy extends NicheCreationStrategy {
             Particle newP = gBest.getClone();
 
             // new position within the niche
-            Vector solution = (Vector) newP.getPosition();
-            solution = solution.multiply(new P1<Number>() {
-                @Override
-                public Number _1() {
-                    return uniform.getRandomNumber(-nicheRadius, nicheRadius);
-                }
-            }).plus((Vector) gBest.getPosition());
+	    Vector solution = ((Vector) gBest.getPosition())
+                .plus(Vector.newBuilder().repeat(gBest.getDimension(), Real.valueOf(1.0)).build().multiply(new P1<Number>() {
+                    @Override
+                    public Number _1() {
+                        return uniform.getRandomNumber(-nicheRadius, nicheRadius);
+                    }
+                }));
 
             newP.setPosition(solution);
             newP.put(Property.POPULATION_ID, Int.valueOf(swarms.getSubswarms().length() + 1));

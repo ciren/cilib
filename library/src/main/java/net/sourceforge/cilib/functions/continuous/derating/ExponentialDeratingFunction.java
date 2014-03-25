@@ -31,10 +31,6 @@ public class ExponentialDeratingFunction extends DeratingFunction {
             throw new RuntimeException("Derating functions may only be used in one dimension.");
         }
 
-        if (input.doubleValueOf(0) >= radius.getParameter()) {
-            return 1.0;
-        }
-
         return input.doubleValueOf(0) >= radius.getParameter() ?
                 1.0 : Math.exp(Math.log(m.getParameter()) * (radius.getParameter() - input.doubleValueOf(0)) / radius.getParameter());
     }

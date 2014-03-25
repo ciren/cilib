@@ -42,6 +42,6 @@ public class RastriginTest {
     public void testGradient() {
         Vector x = Vector.of(1.0);
 
-        assertEquals(Vector.of(2.0).length(), function.getGradient(x).length(), 0.0000000001);
+        assertEquals(Vector.of(2.0).length(), function.getGradientVector(x).length(), 0.0000000001);
     }
 }
