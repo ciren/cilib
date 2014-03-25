@@ -127,26 +127,28 @@ object RVar {
     }
   }
 
-  import scalaz.syntax.std.list._
-
   def sample[A](n: Int, xs: List[A]) =
-    xs.toNel.map(choices(n, _))
+    choices(n, xs)
 
-  def choices[A](n: Int, xs: NonEmptyList[A]): RVar[List[A]] = {
-    import scalaz.syntax.foldable._
-    import scalaz.std.list._
-    type M[B] = StateT[RVar, List[A], B]
+  def choices[A](n: Int, xs: List[A]): OptionT[RVar, List[A]] =
+    OptionT {
+      if (xs.length < n) RVar.point(None)
+      else {
+        import scalaz.syntax.foldable._
+        import scalaz.std.list._
+        type M[B] = StateT[RVar, List[A], B]
 
-    (0 until xs.size).toList.reverse.take(n).foldLeftM[M, List[A]](List.empty) {
-      case (s, a) => StateT[RVar, List[A], List[A]] {
-        println("a: " + a + " s:" + s)
-        currentList => Dist.uniformInt(0, a).map(r => {
-          val selected = currentList(r)
-          (currentList diff List(selected), selected :: s)
-        })
+        ((0 until xs.size).toList.reverse.take(n).foldLeftM[M, List[A]](List.empty) {
+          case (s, a) => StateT[RVar, List[A], List[A]] {
+            currentList => Dist.uniformInt(0, a).map(r => {
+              val selected = currentList(r)
+              (currentList diff List(selected), selected :: s)
+            })
+          }
+        } eval xs).map(Some(_))
       }
-    } eval xs.list
-  }
+    }
+
 }
 
 trait Generator[A] {
