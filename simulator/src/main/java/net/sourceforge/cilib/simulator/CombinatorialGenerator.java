@@ -59,7 +59,7 @@ public class CombinatorialGenerator {
 		String compID;
 		SimulationComponent component;
 		ComboSimulation simulation;
-		Element simElement, compElement, outputElem;
+		Element simElement, compElement, compRefElement, outputElem;
 		String[] compTypes = { "algorithm", "problem", "measurements" };
 		for (int sim = 0; sim < simElemList.getLength(); ++sim) {
 			simElement = (Element) simElemList.item(sim);
@@ -70,20 +70,14 @@ public class CombinatorialGenerator {
 							.getAttribute("format").toString());
 
 			for (String type : compTypes) {
-				compElement = (Element) simElement.getElementsByTagName(type)
-						.item(0);
-
-				compID = compElement.getAttribute("idref").toString();
+				compRefElement = (Element) simElement
+						.getElementsByTagName(type).item(0);
+				compID = compRefElement.getAttribute("idref").toString();
 				if (components.containsKey(compID)) {
 					component = components.get(compID);
 				} else {
-					component = getCTags(
-							compID,
-							xmlToString(getReferencedElement(compElement,
-									config)));
-					component.combos = recursiveCombination(
-							component.getAttributesList(), 0);
-					components.put(compID, component);
+					compElement = getReferencedElement(compRefElement, config);
+					component = buildElement(compElement, null, components);
 				}
 				simulation.addComponent(type, component);
 			}
@@ -111,6 +105,47 @@ public class CombinatorialGenerator {
 		stringToFile(outputDir, getConfigHeader() + configXML);
 		// System.out.println(configXML);
 
+	}
+
+	protected SimulationComponent buildElement(Element compElement,
+			SimulationComponent parent, Map<String, SimulationComponent> comps)
+			throws TransformerException {
+
+		// if parent is passed then we assume we are not creating a simComponent
+		// for the passed element
+		// otherwise we build the passed element
+		SimulationComponent ret = parent;
+		String retID = null;
+		if (parent == null) {
+			retID = compElement.getAttribute("id").toString();
+			String xml = xmlToString(compElement);
+			ret = getCTags(retID, xml);
+		}
+		String childID;
+		for (Element e = getFirstChildElement(compElement); e != null; e = getNextSiblingElement(e)) {
+			if (e.hasAttribute("idref")) {
+				childID = e.getAttribute("idref").toString();
+				if (!comps.containsKey(childID)) {
+					ret.addChild(
+							childID,
+							buildElement(getReferencedElement(e, config), null,
+									comps));
+				}
+			}
+			if (e.hasChildNodes()) {
+				buildElement(e, ret, comps);
+			}
+		}
+
+		// only do this on the level that "ret" was created
+		// when parent != null ret == parent which is created in a higher
+		// buildElement() call
+		if (parent == null) {
+			ret.combos = recursiveCombination(ret.getAttributesList(), 0);
+			comps.put(retID, ret);
+		}
+
+		return ret;
 	}
 
 	protected SimulationComponent getCTags(String compID, String orig) {
@@ -181,6 +216,22 @@ public class CombinatorialGenerator {
 		return xmlRef;
 	}
 
+	private Element getNextSiblingElement(Node current) {
+		current = current.getNextSibling();
+		while (current != null && current.getNodeType() != Node.ELEMENT_NODE) {
+			current = current.getNextSibling();
+		}
+		return (Element) current;
+	}
+
+	private Element getFirstChildElement(Node current) {
+		current = current.getFirstChild();
+		while (current != null && current.getNodeType() != Node.ELEMENT_NODE) {
+			current = current.getNextSibling();
+		}
+		return (Element) current;
+	}
+
 	protected static String xmlToString(Node xmlNode)
 			throws TransformerException {
 
@@ -247,6 +298,9 @@ public class CombinatorialGenerator {
 		// [list of all combinations of <attributeName,value>]
 		List<Map<String, String>> combos;
 
+		// child components - allows components to be recursively defined
+		Map<String, SimulationComponent> childComponents;
+
 		public SimulationComponent(String id, String xml, String original,
 				Map<String, List<String>> attributeVals) {
 
@@ -254,6 +308,13 @@ public class CombinatorialGenerator {
 			this.xml = xml;
 			this.originalXML = original;
 			this.attributeVals = attributeVals;
+			this.childComponents = new HashMap<String, SimulationComponent>();
+		}
+
+		public void addChild(String childID, SimulationComponent child) {
+
+			attributeVals.put(childID, child.getAllSignatures());
+			childComponents.put(childID, child);
 		}
 
 		public List<Entry<String, List<String>>> getAttributesList() {
@@ -262,6 +323,7 @@ public class CombinatorialGenerator {
 		}
 
 		public int comboCount() {
+
 			return (combos == null || combos.size() < 1) ? 1 : combos.size();
 		}
 
@@ -274,7 +336,11 @@ public class CombinatorialGenerator {
 			String ret = xml;
 
 			for (Entry<String, String> att : combo.entrySet()) {
-				ret = ret.replace("@C" + att.getKey(), att.getValue());
+				if (childComponents.containsKey(att.getKey())) {
+					ret = ret.replace(att.getKey(), att.getValue());
+				} else {
+					ret = ret.replace("@C" + att.getKey(), att.getValue());
+				}
 			}
 			ret = ret.replaceFirst("id=\"" + id + "\"", "id=\""
 					+ getComboSignature(index) + "\"");
@@ -291,7 +357,12 @@ public class CombinatorialGenerator {
 			String ret = id + "_";
 
 			for (Entry<String, String> att : combo.entrySet()) {
-				ret += att.getKey() + "(" + att.getValue() + ")_";
+				if (childComponents.containsKey(att.getKey())) {
+					ret += "(" + att.getValue() + ")_";
+				} else {
+					ret += att.getKey() + "(" + att.getValue() + ")_";
+				}
+
 			}
 
 			return ret.substring(0, ret.length() - 1);
