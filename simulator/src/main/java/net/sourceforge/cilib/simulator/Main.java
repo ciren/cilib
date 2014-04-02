@@ -30,7 +30,7 @@ public final class Main {
      */
     public static void main(String[] args) {
         final String usage = "Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml> | cb <template.xml> <output.xml>";
-System.out.println(Arrays.toString(args));
+
         if (args.length != 1 && args.length != 3) {
             System.out.println(usage);
             System.exit(1);
