@@ -25,7 +25,7 @@ import net.sourceforge.cilib.util.selection.arrangement.SortedArrangement;
  * Tournament selection is performed by:
  * <ol>
  *   <li>Randomly ordering a list of elements.</li>
- *   <li>Selecting a sublist of {@code tournamentSize}.</li>
+ *   <li>Selecting a sublist of {@code tournamentProportion}.</li>
  *   <li>Sorting the created sublist.</li>
  *   <li>Selecting the best performing element.</li>
  *   <li>Return the result.</li>
@@ -57,19 +57,19 @@ public class TournamentSelector<E extends Comparable> implements Selector<E> {
     }
 
     /**
-     * Get the size of the tournament.
-     * @return The size of the tournament.
+     * Get the proportion of the tournament.
+     * @return The proportion of the tournament.
      */
-    public ControlParameter getTournamentSize() {
+    public ControlParameter getTournamentProportion() {
         return this.tournamentProportion;
     }
 
     /**
-     * Set the size of the tournament.
-     * @param tournamanetSize The value to set.
+     * Set the proportion of the tournament.
+     * @param tournamanetProportion The value to set.
      */
-    public void setTournamentSize(ControlParameter tournamentSize) {
-        this.tournamentProportion = tournamentSize;
+    public void setTournamentProportion(ControlParameter tournamentProportion) {
+        this.tournamentProportion = tournamentProportion;
     }
 
     /**
@@ -94,6 +94,11 @@ public class TournamentSelector<E extends Comparable> implements Selector<E> {
     @Override
     public PartialSelection<E> on(Iterable<E> iterable) {
         int size = Iterables.size(iterable);
+        
+        /**
+         * Here we can reference to tournamentSize,
+         * as the size = TournamentProportion*List.size
+         */
         int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter() * size).intValue();
         List<E> intermediate = Selection.copyOf(iterable).orderBy(new RandomArrangement()).select(Samples.last(tournamentSize));
         return Selection.copyOf(intermediate).orderBy(new SortedArrangement(comparator)).orderBy(new ReverseArrangement());
