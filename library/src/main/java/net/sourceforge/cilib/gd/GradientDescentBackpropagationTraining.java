@@ -163,4 +163,8 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
     public void setMomentum(ControlParameter momentum) {
         this.momentum = momentum;
     }
+
+    public void setBpVisitor(BackPropagationVisitor bpVisitor) {
+        this.bpVisitor = bpVisitor;
+    }    
 }
