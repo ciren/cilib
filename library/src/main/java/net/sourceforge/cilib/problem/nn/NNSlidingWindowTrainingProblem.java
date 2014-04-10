@@ -15,12 +15,10 @@ import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
-import net.sourceforge.cilib.nn.NeuralNetworks;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
 import net.sourceforge.cilib.problem.AbstractProblem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -139,6 +137,30 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
             }
         }
 
+        operateOnData(); // slide the window!
+        
+        neuralNetwork.setWeights((Vector) solution);
+
+        double errorTraining = 0.0;
+        OutputErrorVisitor visitor = new OutputErrorVisitor();
+        Vector error = null;
+        for (StandardPattern pattern : trainingSet) {
+            neuralNetwork.evaluatePattern(pattern);
+            visitor.setInput(pattern);
+            neuralNetwork.getArchitecture().accept(visitor);
+            error = visitor.getOutput();
+            for (Numeric real : error) {
+                errorTraining += real.doubleValue() * real.doubleValue();
+            }
+        }
+        errorTraining /= trainingSet.getNumRows() * error.size();
+
+        return objective.evaluate(errorTraining);
+    }
+    
+    @Override
+    public void operateOnData() {
+        int currentIteration = AbstractAlgorithm.get().getIterations();
         if(currentIteration - changeFrequency * dataChangesCounter == 0 && currentIteration != previousIteration) { // update training & generalisation sets (slide the window)
             try {
                 previousIteration = currentIteration;
@@ -174,24 +196,6 @@ public class NNSlidingWindowTrainingProblem extends NNTrainingProblem {
                 exception.printStackTrace();
             }
         }
-
-        neuralNetwork.setWeights((Vector) solution);
-
-        double errorTraining = 0.0;
-        OutputErrorVisitor visitor = new OutputErrorVisitor();
-        Vector error = null;
-        for (StandardPattern pattern : trainingSet) {
-            Vector output = neuralNetwork.evaluatePattern(pattern);
-            visitor.setInput(pattern);
-            neuralNetwork.getArchitecture().accept(visitor);
-            error = visitor.getOutput();
-            for (Numeric real : error) {
-                errorTraining += real.doubleValue() * real.doubleValue();
-            }
-        }
-        errorTraining /= trainingSet.getNumRows() * error.size();
-
-        return objective.evaluate(errorTraining);
     }
 
     /**
