@@ -1,85 +1,84 @@
 package cilib
 
 import scalaz._
+import Scalaz._
 
-object Velocity {
+import spire.math._
+import spire.algebra._
+import Position._
 
-  case class Params(
-    val w: Double = 0.72,
-    val c1: Double = 1.496,
-    val c2: Double = 1.496,
-    val vel: Solution = Vector(1.0, 2.0, 3.0),
-    val pbest: Solution = Vector(1.0, 2.0, 3.0)
-  )
+object PSO {
+  case class Memory[F[_], A](b: Position[F, A], v: Position[F, A])
+  case class Particle[F[_]: Traverse, A: Numeric](x: Position[F, A], m: Memory[F, A]) {
+    def + (other: Position[F, A]) =
+      Particle(x + other, m)
 
-  import scalaz._
-  import scalaz.Id._
-  import scalaz.StateT._
-  import scalaz.syntax.apply._
-  import spire.implicits._
+    def - (other: Position[F, A]) =
+      Particle(x - other, m)
 
-  type Guide[A, B] = NonEmptyList[Entity] => Entity => StateT[RVar, A, B]
-
-  def inertia[A](w: Lens[A, Double]): Solution => VState[A, Solution] =
-    x => VState.get[A].map(w.get(_) *: x)
-
-  def cognitive[A](c1: Lens[A, Double]): Solution => VState[A, Solution] =
-    x => for {
-      s <- VState.get[A]
-    } yield c1.get(s) *: x
-
-  def social[A](c2: Lens[A, Double]): /*NonEmptyList[Solution] =>*/ Solution => VState[A, Solution] =
-    /*xs =>*/ x => for {
-      s <- VState.get[A]
-      r <- VState.pointR(Dist.stdUniform.replicateM(x.length))
-    } yield (c2.get(s) *: r.toVector) * x
-
-  val wL:  Lens[Params, Double] = Lens.lensu((a, b) => a.copy(w = b), _.w)
-  val c1L: Lens[Params, Double] = Lens.lensu((a, b) => a.copy(c1 = b), _.c1)
-  val c2L: Lens[Params, Double] = Lens.lensu((a, b) => a.copy(c2 = b), _.c2)
-
-  // TODO: Make VState its own definition to avoid the roundabout definitions
-  def stdVel(velL: Lens[Params, Solution]): VState[Params, Solution] =
-    for {
-      c <- VState.get[Params]
-      vel = velL.get(c)
-      w <- inertia(wL)(vel)
-      cog <- cognitive(c1L)(vel)
-      soc <- social(c2L)(vel)
-    } yield w + cog + soc
-
-  def withStep[A](step: VState[A, Solution]): Solution => VState[A, Solution] =
-    x => step.map(_ + x)
-
-  final class VState[A, B](val v: StateT[RVar, A, B]) {
-    def map[C](f: B => C): VState[A, C] =
-      new VState(v map f)
-
-    def flatMap[C](f: B => VState[A, C]): VState[A, C] =
-      new VState(v flatMap (f(_).v))
+    def *: (scalar: A) =
+      Particle(scalar *: x, m)
   }
 
-  object VState {
-    def apply[A, B](a: StateT[RVar, A, B]) =
-      new VState(a)
-
-    def point[A, B](a: A) =
-      new VState(StateT((s: A) => RVar.point((s, a))))
-
-    def pointR[A, B](a: RVar[B]) =
-      new VState(StateT((s: A) => a.map(x => (s, x))))
-
-    def get[A] = new VState(StateT.stateTMonadState[A, RVar].get)
+  object Particle {
+    implicit def particleFitness[F[_], A] = new Fitness[Particle[F, A]] {
+      def fitness(a: Particle[F, A]) =
+        a.x.fit
+    }
   }
 
+  type Guide[F[_], A] = Particle[F, A] => NonEmptyList[Particle[F, A]] => Reader[Opt, Position[F, A]]
 
-  // def stdVelocity(inertia: Kleisli[VState, Solution, Solution], cog: Kleisli[VState, Solution, Solution], soc: Kleisli[VState, Solution, Solution]) =
-  //   (inertia |@| cog |@| soc) { _ + _ + _ }
+  def pso_update[F[_]: Monad: Traverse, A: Numeric](guides: List[Guide[F, A]]): Particle[F, A] => NonEmptyList[Particle[F, A]] => ReaderT[RVar, Opt, Particle[F, A]] =
+    current => collection => for {
+      velocity <- stdVelocity(current, guides.traverseU(x => x(current)(collection)))
+    } yield current + velocity
 
-  // def position: Kleisli[VState, Solution, Solution] =
-  //   Kleisli[VState, Solution, Solution](sol => State[Params, Solution] { params => (params, sol) })
+    // params injected, from something
+  def stdVelocity[F[_]: Traverse, A](x: Particle[F, A], guides: Reader[Opt, List[Position[F, A]]])(implicit N: Numeric[A]): ReaderT[RVar, Opt, Position[F, A]] = {
+    val diffs: Reader[Opt, List[RVar[Position[F, A]]]] = guides map { _.map { p => Dist.stdUniform.map(r => N.fromDouble(r) *: (p - x.x)) } } // random per dimension - needs to be vector or scalar
 
-  // def update =
-  //   (position |@| stdVelocity(inertia, inertia, inertia)) { _ + _ }
+    Kleisli[RVar, Opt, Position[F, A]] { opt => diffs.map(d => d.sequence.map(_.foldLeft(N.fromDouble(0.8) *: x.m.v)(_ + _))) run opt }
+  }
 
+  def stdStep[F[_]: Traverse, A](x: Particle[F, A]) =
+    Step({
+
+      })
+
+
+  // 1 -> Need to extract a notion of a step size calculation (like the velocity)
 }
+
+object Guide {
+  import PSO.{ Guide, Particle, Memory }
+
+  def pbest[F[_], A]: Guide[F, A] =
+    x => collection => Reader(o => x.m.b)
+
+  def nbest[F[_], A]: Guide[F, A] = // This is nothing more than the gbest particle
+    x => collection => {
+      Reader(o => collection.foldLeft(x)(Fitness.compare(_, _).run(o)).x)
+    }
+}
+
+case class Step[F[_]: Traverse, A, B](run: ReaderT[RVar, B, Position[F, A]])
+
+
+/*
+next pso work:
+==============
+- dynamic psos (quantum, charged, etc) bennie
+- vepso / dvepso (robert afer moo & dmoo)
+- cooperative & variations
+- heterogenous filipe
+
+- niching (less important for now)
+
+commonalities:
+- subswarms
+
+functions:
+- moo & dmoo functions (benchmarks) robert
+
+*/

@@ -281,7 +281,7 @@ object Dist {
     } yield (a + b) * theta
   }
 
-  def exponential(l: Option[Double @@ Positive]) =
+  def exponential(l: Option[Double @@ Tags.Positive]) =
     l.cata(x => stdUniform map { math.log(_) / x }, RVar.point(0.0))
 
   def laplace(b0: Double, b1: Double) =
