@@ -39,14 +39,16 @@ object Position {
   import spire.math._
   import spire.implicits._
 
-  implicit class ToPositionVectorOps[F[_]: Traverse, A: Numeric](x: Position[F, A]) {
-    def + (other: Position[F, A]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ + a).getOrElse(a))._2)
-    def - (other: Position[F, A]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ - a).getOrElse(a))._2)
-    def * (other: Position[F, A]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2)
-    def *:(scalar: A) = Solution(x.pos.map(_ * scalar))
+  implicit class ToPositionVectorOps[F[_], A: Numeric](x: Position[F, A]) {
+    def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]) = Solution {
+      Z.zipWith(x.pos, other.pos)(_ + _)
+    }
+    /*def - (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ - a).getOrElse(a))._2)
+    def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
+    def *:(scalar: A)(implicit F: Functor[F]) = Solution(x.pos.map(_ * scalar))
   }
 
-  implicit def positionFitness[F[_], A] = new Fitness[Position[F, A]] {   
+  implicit def positionFitness[F[_], A] = new Fitness[Position[F, A]] {
     def fitness(a: Position[F, A]) =
       a.fit
   }

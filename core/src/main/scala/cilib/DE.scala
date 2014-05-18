@@ -22,7 +22,7 @@ object DE {
   type Selection[F[_], A] = NonEmptyList[Position[F, A]] => RVar[Position[F, A]]
   type Crossover[F[_], A] = (Position[F, A], Position[F, A]) => Kleisli[RVar, Double, Position[F, A]]
 
-  def de[F[_]: Monad :Traverse, A: Numeric: Monoid](x: Selection[F, A], y: Int, z: Crossover[F, A]): Position[F, A] => NonEmptyList[Position[F, A]] => ReaderT[RVar, Opt, Position[F, A]] = {
+/*  def de[F[_]: Monad :Traverse, A: Numeric: Monoid](x: Selection[F, A], y: Int, z: Crossover[F, A]): Position[F, A] => NonEmptyList[Position[F, A]] => ReaderT[RVar, Opt, Position[F, A]] = {
     import Position._
     current => collection => Kleisli(opt => for {
       target <- x(collection)
@@ -43,7 +43,7 @@ object DE {
   }
 
 
-
+ */
 
   // ----------------
 
