@@ -44,11 +44,11 @@ case class Mem[F[_], A](b: Position[F, A], v: Position[F, A])
 
 object PSO {
 
-  def stdVelocity[S, F[_]: Zip: Traverse, A: Numeric](globalG: Neighbour[F, A], M: Memory[F, S, A], V: StepSize[F, S, A])(w: Double, c1: Double, c2: Double)(x: (S, Position[F, A])): RVar[(S, Position[F, A])] = {
+  def stdVelocity[S, F[_]: Zip: Traverse, A: Numeric](globalG: Neighbour[F, A], M: Memory[F, S, A], V: StepSize[F, S, A])(w: Double, c1: Double, c2: Double)(coll: List[Position[F, A]], x: (S, Position[F, A])): RVar[(S, Position[F, A])] = {
     val n = implicitly[Numeric[A]]
     val newVel: RVar[Position[F, A]] = for {
       b <- (M.mem.get(x._1) - x._2).traverse(q => Dist.stdUniform.map(r => n.fromDouble(r * c1 * n.toDouble(q))))
-      a <- (globalG.neighbour(List.empty, x._2) - x._2).traverse(q => Dist.stdUniform.map(r => n.fromDouble(r * c2 * n.toDouble(q))))
+      a <- (globalG.neighbour(coll, x._2) - x._2).traverse(q => Dist.stdUniform.map(r => n.fromDouble(r * c2 * n.toDouble(q))))
     } yield n.fromDouble(w) *: x._2 + b + a
 
     newVel.map(y => (V.step.set(x._1, y), x._2))
@@ -58,11 +58,10 @@ object PSO {
     RVar.point((x._1, x._2 + vel.step.get(x._1)))
 
   // Iterations are of the form: A => RVar[A], where A = (Mem[F,A], Position[F,A])
-  def stdPSOIter[F[_]:Zip:Traverse, A:Numeric] = (s: Mem[F, A], x: Position[F, A]) => for {
-    vel <- stdVelocity[Mem[F, A], F, A](Neighbour.gbest, Memory.basicMemory, StepSize.memStepSize)(0.8, 1.4, 1.4)((s, x))
+  def stdPSOIter[F[_]:Zip:Traverse, A:Numeric] = (coll: List[Position[F, A]], a: (Mem[F, A], Position[F, A])) => for {
+    vel <- stdVelocity[Mem[F, A], F, A](Neighbour.gbest, Memory.basicMemory, StepSize.memStepSize)(0.8, 1.4, 1.4)(coll, a)
     pos <- stdPos[F, A, Mem[F, A]](StepSize.memStepSize)(vel)
   } yield pos
-
 
 }
 
