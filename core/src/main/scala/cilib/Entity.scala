@@ -29,6 +29,10 @@ sealed abstract class Position[F[_], A] {
       a <- pos
       b <- other.pos
     } yield (a, b))
+
+  def traverse[G[_]: Applicative, B](f: A => G[B])(implicit F: Traverse[F]): G[Position[F, B]] =
+    F.traverse(pos)(f).map(Solution(_))
+
 }
 
 final case class Solution[F[_], A](x: F[A]) extends Position[F, A]
@@ -43,8 +47,8 @@ object Position {
     def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]) = Solution {
       Z.zipWith(x.pos, other.pos)(_ + _)
     }
-    /*def - (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ - a).getOrElse(a))._2)
-    def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
+    def - (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]) = Solution(Z.zipWith(x.pos, other.pos)(_ - _))
+    /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
     def *:(scalar: A)(implicit F: Functor[F]) = Solution(x.pos.map(_ * scalar))
   }
 

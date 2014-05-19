@@ -44,42 +44,34 @@ case class Mem[F[_], A](b: Position[F, A], v: Position[F, A])
 
 object PSO {
 
-  // the ideal is the following:
-  // There is a single function that creates the initial "state" which is just a Memory instance for the computation
-  // If there are situations where "extra" information is required in the state, then the initial state needs to be transformed into the required state type
-  type PSOState[S, A] = (S, A) => (S, A)
+  def stdVelocity[S, F[_]: Zip: Traverse, A: Numeric](globalG: Neighbour[F, A], M: Memory[F, S, A], V: StepSize[F, S, A])(w: Double, c1: Double, c2: Double)(x: (S, Position[F, A])): RVar[(S, Position[F, A])] = {
+    val n = implicitly[Numeric[A]]
+    val newVel: RVar[Position[F, A]] = for {
+      b <- (M.mem.get(x._1) - x._2).traverse(q => Dist.stdUniform.map(r => n.fromDouble(r * c1 * n.toDouble(q))))
+      a <- (globalG.neighbour(List.empty, x._2) - x._2).traverse(q => Dist.stdUniform.map(r => n.fromDouble(r * c2 * n.toDouble(q))))
+    } yield n.fromDouble(w) *: x._2 + b + a
 
-  // What about the parameters? c1, c2, w? Are they stored in S?
-  def stdVel[F[_]: Zip: Functor, A: Numeric, S](globalG: Neighbour[F, A], M: Memory[F, S, A], V: StepSize[F, S, A])(w: Double, c1: Double, c2: Double): PSOState[S, Position[F, A]] =
-    (s: S, x: Position[F, A]) => {
-      val G = globalG.neighbour(List.empty, x)
-      val localG = M.mem
-      val vel = V.step
-      val n = implicitly[Numeric[A]]
-      (vel.set(s, n.fromDouble(w) *: vel.get(s) + localG.get(s) + G), x)
-    }
-
-  def stdPos[F[_]: Zip: Functor, A: Numeric, S](vel: StepSize[F, S, A]): PSOState[S, Position[F, A]] =
-    (s: S, x: Position[F, A]) => (s, x + vel.step.get(s))
-
-  def stdPSOIter[F[_]:Zip:Functor, A:Numeric] = (s: Mem[F, A], x: Position[F, A]) => {
-    val a = stdVel[F, A, Mem[F, A]](Neighbour.gbest, Memory.basicMemory, StepSize.memStepSize)(0.8, 1.4, 1.4)
-    val b = stdPos[F, A, Mem[F, A]](StepSize.memStepSize)
-
-    b.tupled(a(s,x))
+    newVel.map(y => (V.step.set(x._1, y), x._2))
   }
 
-  def pbestL[F[_], A] = Lens.lensu[Mem[F, A], Position[F, A]]((a, b) => a.copy(b = b), _.b)
-  def velL[F[_], A] = Lens.lensu[Mem[F, A], Position[F, A]]((a, b) => a.copy(v = b), _.v)
+  def stdPos[F[_]: Zip: Functor, A: Numeric, S](vel: StepSize[F, S, A])(x: (S, Position[F, A])): RVar[(S, Position[F, A])] =
+    RVar.point((x._1, x._2 + vel.step.get(x._1)))
+
+  // Iterations are of the form: A => RVar[A], where A = (Mem[F,A], Position[F,A])
+  def stdPSOIter[F[_]:Zip:Traverse, A:Numeric] = (s: Mem[F, A], x: Position[F, A]) => for {
+    vel <- stdVelocity[Mem[F, A], F, A](Neighbour.gbest, Memory.basicMemory, StepSize.memStepSize)(0.8, 1.4, 1.4)((s, x))
+    pos <- stdPos[F, A, Mem[F, A]](StepSize.memStepSize)(vel)
+  } yield pos
+
+
 }
 
-object Guide {
-  //import PSO.{ Guide, Particle, Memory }
+case class Result[S, A](run: RVar[(S, A)]) {
+  def mapfst[X](f: S => X) =
+    Result(run map { x => (f(x._1), x._2) })
 
-  //def pbest[F[_], A]: Guide[F, A] =
-
-//  def nbest[F[_], A]: Guide[F, A] = // This is nothing more than the gbest particle
-
+  def mapsnd[B](f: A => B) =
+    Result(run map { x => (x._1, f(x._2)) })
 }
 
 
