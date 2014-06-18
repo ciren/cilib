@@ -8,7 +8,6 @@ import spire.algebra._
 import Position._
 
 case class Mem[A](b: Position[IList, A], v: Position[IList, A])
-case class PosState[S, A: Numeric](s: S, p: Position[IList, A])
 
 object PSO {
 
@@ -19,7 +18,7 @@ object PSO {
 
   import Position._
 
-  def velUp[S, A:Numeric](v: Lens[S, Pos[A]], local: Guide[A], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
+  def velUp[S, A:Numeric](v: Lens[S, Pos[A]], local: Guide[A], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] = // Should the collection not be partially applied to the guides already?
     Kleisli {
       case (s, a) => {
         val A = implicitly[Numeric[A]]
@@ -30,7 +29,7 @@ object PSO {
         for {
           cog <- (a - localG)  traverse (x => Dist.stdUniform.map(y => A.times(A.fromDouble(y), x)))
           soc <- (a - globalG) traverse (x => Dist.stdUniform.map(y => A.times(A.fromDouble(y), x)))
-        } yield (s, v.get(s) + cog + soc)
+        } yield (v.mod(_ + cog + soc, s), a)
       }
     }
 

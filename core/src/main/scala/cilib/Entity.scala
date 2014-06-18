@@ -6,6 +6,8 @@ import Scalaz._
 
 // Transformer of some sort, over the type F
 sealed abstract class Position[F[_], A] {
+  import Position._
+
   def pos =
     this match {
       case Solution(x)  => x
@@ -40,9 +42,6 @@ sealed abstract class Position[F[_], A] {
     }
 }
 
-final case class Solution[F[_], A](x: F[A]) extends Position[F, A]
-final case class Entity[F[_], A](x: F[A], f: Fit) extends Position[F, A]
-
 object Position {
   import spire.algebra._
   import spire.math._
@@ -54,13 +53,16 @@ object Position {
       fa flatMap f
   }
 
+  private final case class Solution[F[_], A](x: F[A]) extends Position[F, A]
+  private final case class Entity[F[_], A](x: F[A], f: Fit) extends Position[F, A]
+
   implicit class ToPositionVectorOps[F[_], A: Numeric](x: Position[F, A]) {
-    def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]) = Solution {
+    def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]): Position[F, A] = Solution {
       Z.zipWith(x.pos, other.pos)(_ + _)
     }
-    def - (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]) = Solution(Z.zipWith(x.pos, other.pos)(_ - _))
+    def - (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]): Position[F, A] = Solution(Z.zipWith(x.pos, other.pos)(_ - _))
     /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
-    def *:(scalar: A)(implicit F: Functor[F]) = Solution(x.pos.map(_ * scalar))
+    def *:(scalar: A)(implicit F: Functor[F]): Position[F, A] = Solution(x.pos.map(_ * scalar))
   }
 
   implicit def positionFitness[F[_], A] = new Fitness[Position[F, A]] {
@@ -68,9 +70,13 @@ object Position {
       a.fit
   }
 
+  // Smart constructor
+  def apply[A](xs: List[A]): Position[List, A] =
+    Solution(xs)
+
 }
 
-object Entity {
+/*object Entity {
 
   def fromBounds(bounds: List[Interval]): RVar[Solution[Vector, Double]] =
     bounds.traverse(b => Dist.uniform(b.lower, b.upper)).map(_.toVector).map(Solution(_))
@@ -78,7 +84,7 @@ object Entity {
   def mkCollection(n: Int, bounds: List[Interval]) =
     fromBounds(bounds) replicateM n
 
-}
+}*/
 
 final class Interval(val lower: Double, val upper: Double) {
   def ^ (n: Int): List[Interval] =
