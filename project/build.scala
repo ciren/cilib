@@ -5,7 +5,7 @@ import sbtrelease.ReleasePlugin._
 object CIlibBuild extends Build {
 
   val buildSettings = Defaults.defaultSettings ++ releaseSettings ++ Seq(
-    scalaVersion := "2.10.3",
+    scalaVersion := "2.11.1",
     organization := "net.cilib",
     organizationName := "CIRG @ UP",
     organizationHomepage := Some(url("http://cirg.cs.up.ac.za")),
@@ -17,13 +17,13 @@ object CIlibBuild extends Build {
       "-language:higherKinds",
       "-language:implicitConversions",
       "-unchecked",
-      "-Xfatal-warnings",       
+      "-Xfatal-warnings",
       "-Xlint",
-      "-Yno-adapted-args",       
+      //"-Yno-predef",
+      "-Yno-adapted-args",
       "-Ywarn-dead-code",        // N.B. doesn't work well with the ??? hole
-      "-Ywarn-numeric-widen",   
+      "-Ywarn-numeric-widen",
       "-Ywarn-value-discard"),
-      //"-Yno-predef"),
     publishMavenStyle := true,
     publishSetting,
     publishArtifact in Test := false,

@@ -33,6 +33,11 @@ sealed abstract class Position[F[_], A] {
   def traverse[G[_]: Applicative, B](f: A => G[B])(implicit F: Traverse[F]): G[Position[F, B]] =
     F.traverse(pos)(f).map(Solution(_))
 
+  def eval(problem: F[A] => Fit) =
+    this match {
+      case Solution(x) => Entity(x, problem(x))
+      case Entity(_ ,_) => this
+    }
 }
 
 final case class Solution[F[_], A](x: F[A]) extends Position[F, A]
@@ -42,6 +47,12 @@ object Position {
   import spire.algebra._
   import spire.math._
   import spire.implicits._
+
+  implicit def positionMonad[F[_]: Monad] = new Monad[({type λ[α] = Position[F,α]})#λ] {
+    def point[A](a: => A): cilib.Position[F,A] = Solution(Applicative[F].point(a))
+    def bind[A, B](fa: cilib.Position[F,A])(f: A => cilib.Position[F,B]): cilib.Position[F,B] =
+      fa flatMap f
+  }
 
   implicit class ToPositionVectorOps[F[_], A: Numeric](x: Position[F, A]) {
     def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]) = Solution {

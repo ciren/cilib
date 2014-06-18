@@ -3,9 +3,13 @@ package cilib
 import scalaz._
 import Ordering._
 
+import scalaz.std.anyVal._
+import scalaz.syntax.equal._
+
 sealed trait Fit
 final case class Penalty(v: Double, p: Double) extends Fit
 final case class Valid(v: Double) extends Fit
+//final object Invalid extends Fit
 
 @annotation.implicitNotFound("Cannot find instance of type class Fitness[${A}]")
 trait Fitness[A] {
@@ -18,7 +22,7 @@ object Fitness {
     Reader(o => {
       val a = implicitly[Fitness[A]].fitness(x)
       val b = implicitly[Fitness[A]].fitness(y)
-      if (o.order(a, b) == GT) x else y
+      if (o.order(a, b) === GT) x else y
     })
 }
 
@@ -28,7 +32,7 @@ sealed trait Opt extends Order[Option[Fit]] {
 }
 
 final case object Min extends Opt {
-  private val D = implicitly[Order[Double]].reverseOrder
+  private val D = Order[Double].reverseOrder
   private val fitnessOrder: Order[Fit] = new Order[Fit] {
     def order(x: Fit, y: Fit) =
       (x, y) match {
@@ -46,7 +50,7 @@ final case object Min extends Opt {
 }
 
 final case object Max extends Opt {
-  private val D = implicitly[Order[Double]]
+  private val D = Order[Double]
   private val fitnessOrder: Order[Fit] = new Order[Fit] {
     def order(x: Fit, y: Fit) =
       (x, y) match {

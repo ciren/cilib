@@ -1,76 +1,45 @@
 package cilib
 
 import scalaz._
-import Scalaz._
+import scalaz.IList._
 
 import spire.math._
 import spire.algebra._
 import Position._
 
-// These are some typeclasses that are needed to make the code much more generic and simpler, and can be extended.
-trait Memory[F[_], S, A] {
-  def mem: Lens[S, Position[F, A]]
-}
-
-object Memory {
-  implicit def basicMemory[F[_], A] = new Memory[F, Mem[F, A], A] {
-    def mem: Lens[Mem[F, A], Position[F, A]] = Lens.lensu((a, b) => a.copy(b = b), _.b)
-  }
-}
-
-trait Neighbour[F[_], A] {
-  type Collection = List[Position[F, A]]
-
-  def neighbour: (Collection, Position[F, A]) => Position[F, A]
-}
-
-object Neighbour {
-  def gbest[F[_], A] = new Neighbour[F, A] {
-    def neighbour = (col, x) => x
-  }
-}
-
-trait StepSize[F[_], S, A] {
-  def step: Lens[S, Position[F, A]]
-}
-
-object StepSize {
-  implicit def memStepSize[F[_], A] = new StepSize[F, Mem[F, A], A] {
-    def step: Lens[Mem[F, A], Position[F, A]] = Lens.lensu((a, b) => a.copy(v = b), _.v)
-  }
-}
-
-case class Mem[F[_], A](b: Position[F, A], v: Position[F, A])
+case class Mem[A](b: Position[IList, A], v: Position[IList, A])
+case class PosState[S, A: Numeric](s: S, p: Position[IList, A])
 
 object PSO {
 
-  def stdVelocity[S, F[_]: Zip: Traverse, A: Numeric](globalG: Neighbour[F, A], M: Memory[F, S, A], V: StepSize[F, S, A])(w: Double, c1: Double, c2: Double)(coll: List[Position[F, A]], x: (S, Position[F, A])): RVar[(S, Position[F, A])] = {
-    val n = implicitly[Numeric[A]]
-    val newVel: RVar[Position[F, A]] = for {
-      b <- (M.mem.get(x._1) - x._2).traverse(q => Dist.stdUniform.map(r => n.fromDouble(r * c1 * n.toDouble(q))))
-      a <- (globalG.neighbour(coll, x._2) - x._2).traverse(q => Dist.stdUniform.map(r => n.fromDouble(r * c2 * n.toDouble(q))))
-    } yield n.fromDouble(w) *: x._2 + b + a
+  // (S, A) => M[(S, A)] - This is the Kleisli arrow, where M = RVar
+  type C[S, A] = Kleisli[RVar, (S, Position[IList, A]), (S, Position[IList, A])]
+  type Pos[A] = Position[IList, A]
+  type Guide[A] = (IList[Pos[A]], Pos[A]) => Pos[A] // Should expand into a typeclass?
 
-    newVel.map(y => (V.step.set(x._1, y), x._2))
+  import Position._
+
+  def velUp[S, A:Numeric](v: Lens[S, Pos[A]], local: Guide[A], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
+    Kleisli {
+      case (s, a) => {
+        val A = implicitly[Numeric[A]]
+
+        val localG = local(collection, a)
+        val globalG = global(collection, a)
+
+        for {
+          cog <- (a - localG)  traverse (x => Dist.stdUniform.map(y => A.times(A.fromDouble(y), x)))
+          soc <- (a - globalG) traverse (x => Dist.stdUniform.map(y => A.times(A.fromDouble(y), x)))
+        } yield (s, v.get(s) + cog + soc)
+      }
+    }
+
+  def posUp[S, A:Numeric](v: Lens[S, Pos[A]]): C[S, A] = Kleisli {
+    case (s, a) => RVar.point((s, a + v.get(s)))
   }
 
-  def stdPos[F[_]: Zip: Functor, A: Numeric, S](vel: StepSize[F, S, A])(x: (S, Position[F, A])): RVar[(S, Position[F, A])] =
-    RVar.point((x._1, x._2 + vel.step.get(x._1)))
+//  def c[S, A:Numeric] = (velUp[S,A] _) >==> (posUp _)
 
-  // Iterations are of the form: A => RVar[A], where A = (Mem[F,A], Position[F,A])
-  def stdPSOIter[F[_]:Zip:Traverse, A:Numeric] = (coll: List[Position[F, A]], a: (Mem[F, A], Position[F, A])) => for {
-    vel <- stdVelocity[Mem[F, A], F, A](Neighbour.gbest, Memory.basicMemory, StepSize.memStepSize)(0.8, 1.4, 1.4)(coll, a)
-    pos <- stdPos[F, A, Mem[F, A]](StepSize.memStepSize)(vel)
-  } yield pos
-
-}
-
-case class Result[S, A](run: RVar[(S, A)]) {
-  def mapfst[X](f: S => X) =
-    Result(run map { x => (f(x._1), x._2) })
-
-  def mapsnd[B](f: A => B) =
-    Result(run map { x => (x._1, f(x._2)) })
 }
 
 
@@ -91,3 +60,14 @@ functions:
 - moo & dmoo functions (benchmarks) robert
 
 */
+
+
+/*
+ Stopping conditions:
+ ====================
+ iteration based stopping conditions
+ fitness evaluations
+ dimension based updates
+ # of position updates (on;y defined if change is some epislon based on the position vector)
+ # of dimensional updates > epsilon
+ */

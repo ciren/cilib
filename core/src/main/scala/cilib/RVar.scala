@@ -4,9 +4,10 @@ import scalaz._
 import syntax.state._
 import syntax.applicative._
 import syntax.std.option._
+import syntax.traverse._
 import scalaz.Free._
 
-final class RVar[+A](val state: StateT[Trampoline, RNG, A]) {
+final class RVar[A](val state: StateT[Trampoline, RNG, A]) {
   import Trampoline._
 
   def map[B](f: A => B): RVar[B] =
@@ -116,7 +117,6 @@ object RVar {
     }
 
     import scalaz.std.list._
-    import scalaz.syntax.traverse._
 
     val length = xs.length - 1
     val randoms = (0 until length).foldLeft(List[RVar[Int]]())((a, c) => Dist.uniformInt(0, length - c + 1) :: a).reverse.sequence // TODO / FIX: Remove the need to reverse!
@@ -177,8 +177,10 @@ object Generator {
 }
 
 object Dist {
-
   import RVar._
+
+  import scalaz.std.AllInstances._
+  import scalaz.syntax.std.list._
 
   val stdUniform = next[Double]
   val stdNormal = gaussian(0.0, 1.0)
@@ -202,7 +204,6 @@ object Dist {
 
   // TODO: This should be an implementation of Doornik's improved ziggurat method
   def gaussian(mean: Double, variance: Double) = RVar(StateT { rng =>
-
     def uniformPair = stdUniform zip stdUniform
 
     def update(x: Double, y: Double, i: Int) = { (rng: RNG) =>
@@ -245,7 +246,10 @@ object Dist {
     stdUniform map { x => l + s * math.tan(math.Pi * (x - 0.5)) }
 
   def gamma(k: Double, theta: Double) = {
-    import Scalaz._
+    implicit def doubleInstance: Monoid[Double] = new Monoid[Double] {
+      def zero = 0.0
+      def append(f1: Double, f2: => Double) = f1 + f2
+    }
 
     val n = k.toInt
     val gammaInt = (stdUniform replicateM n).map(_.foldMap(x => -math.log(x)))
@@ -293,7 +297,6 @@ object Dist {
   def lognormal(mean: Double, dev: Double) =
     stdNormal map (x => math.exp(mean + dev * x))
 
-  import Scalaz._
   def dirichlet(alphas: List[Double]) =
     alphas.traverse(gamma(_, 1)).map(ys => {
       val sum = ys.sum
