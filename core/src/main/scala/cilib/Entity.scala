@@ -14,7 +14,7 @@ sealed abstract class Position[F[_], A] {
       case Solution(x, _) => x
     }
 
-  def fit =
+  def fit: Option[Fit] =
     this match {
       case Point(_)  => None
       case Solution(_, f) => Some(f)
@@ -47,11 +47,22 @@ object Position {
   import spire.math._
   import spire.implicits._
 
-  implicit def positionMonad[F[_]: Monad] = new Monad[({type λ[α] = Position[F,α]})#λ] {
-    def point[A](a: => A): cilib.Position[F,A] = Point(Applicative[F].point(a))
-    def bind[A, B](fa: cilib.Position[F,A])(f: A => cilib.Position[F,B]): cilib.Position[F,B] =
-      fa flatMap f
-  }
+  implicit def positionInstances[F[_]](implicit F0: Monad[F]): Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] =
+    new Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] {
+
+      def point[A](a: => A): cilib.Position[F,A] =
+        Point(Applicative[F].point(a))
+
+      def map[A, B](fa: Position[F, A])(f: A => B): Position[F, B] =
+        fa map f
+
+      def bind[A, B](fa: Position[F, A])(f: A => Position[F,B]): Position[F, B] =
+        fa flatMap f
+
+      def zip[A, B](a: => Position[F, A], b: => Position[F, B]): Position[F, (A, B)] =
+        a zip b
+
+    }
 
   private final case class Point[F[_], A](x: F[A]) extends Position[F, A]
   private final case class Solution[F[_], A](x: F[A], f: Fit) extends Position[F, A]

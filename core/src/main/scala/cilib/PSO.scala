@@ -2,9 +2,11 @@ package cilib
 
 import scalaz._
 import scalaz.IList._
+import scalaz.syntax.zip._
 
 import spire.math._
 import spire.algebra._
+import spire.implicits._
 import Position._
 
 case class Mem[A](b: Position[IList, A], v: Position[IList, A])
@@ -36,6 +38,25 @@ object PSO {
   def posUp[S, A:Numeric](v: Lens[S, Pos[A]]): C[S, A] = Kleisli {
     case (s, a) => RVar.point((s, a + v.get(s)))
   }
+
+  def barebonesVel[S, A:Fractional](v: Lens[S, Pos[A]], p: Lens[S, Pos[A]], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
+    Kleisli {
+      case (s, a) =>
+        val A = implicitly[Fractional[A]]
+        val pbest = p.get(s)
+        val gbest = global(collection, a)
+
+        val sigmas = Zip[Pos].zipWith(pbest, gbest)((x, y) => spire.math.abs(x - y))
+        val means = Zip[Pos].zipWith(pbest, gbest)((x, y) => (x + y) / 2.0)
+        val vel = (means zip sigmas) traverse (x => Dist.gaussian(A.toDouble(x._1), A.toDouble(x._2))) map (x => x.map(A.fromDouble(_))) // This needs to be nicer.... A needs to disappear
+
+        vel.map(x => (v.mod(_ => x, s), a))
+    }
+
+  def replace[S, A:Numeric](v: Lens[S, Pos[A]]): C[S, A] =
+    Kleisli {
+      case (s, a) => RVar.point((s, v.get(s)))
+    }
 
 //  def c[S, A:Numeric] = (velUp[S,A] _) >==> (posUp _)
 
