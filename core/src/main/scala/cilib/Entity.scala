@@ -67,7 +67,7 @@ object Position {
   private final case class Point[F[_], A](x: F[A]) extends Position[F, A]
   private final case class Solution[F[_], A](x: F[A], f: Fit) extends Position[F, A]
 
-  implicit class ToPositionVectorOps[F[_], A: Numeric](x: Position[F, A]) {
+  implicit class ToPositionVectorOps[F[_], A: Fractional](x: Position[F, A]) {
     def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]): Position[F, A] = Point {
       Z.zipWith(x.pos, other.pos)(_ + _)
     }

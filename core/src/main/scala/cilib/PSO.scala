@@ -20,22 +20,21 @@ object PSO {
 
   import Position._
 
-  def velUp[S, A:Numeric](v: Lens[S, Pos[A]], local: Guide[A], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] = // Should the collection not be partially applied to the guides already?
+  // Should the collection not be partially applied to the guides already?
+  def velUp[S, A:Fractional](v: Lens[S, Pos[A]], local: Guide[A], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
     Kleisli {
       case (s, a) => {
-        val A = implicitly[Numeric[A]]
-
         val localG = local(collection, a)
         val globalG = global(collection, a)
 
         for {
-          cog <- (a - localG)  traverse (x => Dist.stdUniform.map(y => A.times(A.fromDouble(y), x)))
-          soc <- (a - globalG) traverse (x => Dist.stdUniform.map(y => A.times(A.fromDouble(y), x)))
+          cog <- (a - localG)  traverse (x => Dist.stdUniform.map(y => x * y))
+          soc <- (a - globalG) traverse (x => Dist.stdUniform.map(y => x * y))
         } yield (v.mod(_ + cog + soc, s), a)
       }
     }
 
-  def posUp[S, A:Numeric](v: Lens[S, Pos[A]]): C[S, A] = Kleisli {
+  def posUp[S, A:Fractional](v: Lens[S, Pos[A]]): C[S, A] = Kleisli {
     case (s, a) => RVar.point((s, a + v.get(s)))
   }
 
