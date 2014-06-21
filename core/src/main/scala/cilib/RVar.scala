@@ -56,10 +56,10 @@ object RVar {
     implicitly[Generator[A]].gen
 
   def ints(n: Int) =
-    next[Int](Generator.intGen) replicateM n
+    next[Int](Generator.IntGen) replicateM n
 
   def doubles(n: Int) =
-    next[Double](Generator.doubleGen) replicateM n
+    next[Double](Generator.DoubleGen) replicateM n
 
   def choose[A](xs: NonEmptyList[A]) =
     Dist.uniformInt(0, xs.size - 1) map { xs.list.apply(_) }
@@ -160,12 +160,15 @@ object Generator {
   private def nextBits(bits: Int): RVar[Int] =
     RVar(StateT((rng: RNG) => Trampoline.delay(rng.next(bits))))
 
-  implicit object doubleGen extends Generator[Double] {
+  implicit object DoubleGen extends Generator[Double] {
     def gen =
-      (nextBits(26) |@| nextBits(27)) { (a, b) => ((a.toLong << 27) + b) / (1L << 53).toDouble }
+      for {
+        a <- nextBits(26)
+        b <- nextBits(27)
+      } yield ((a.toLong << 27) + b) / (1L << 53).toDouble
   }
 
-  implicit object intGen extends Generator[Int] {
+  implicit object IntGen extends Generator[Int] {
     def gen =
       nextBits(32)
   }
