@@ -44,7 +44,7 @@ object GeneratorTest extends Properties("Distribution") {
         val n = a.size
         val a2 = -n - S(a, cdf_gauss)
 
-        a2 < 1.13 //6.044 //5.9694 // This value was obtained from: http://stats.stackexchange.com/questions/11310/critical-values-for-anderson-darling-test
+        a2 < 3.857 //6.044 //5.9694 // This value was obtained from: http://stats.stackexchange.com/questions/11310/critical-values-for-anderson-darling-test
       }
     }
   }
@@ -52,21 +52,21 @@ object GeneratorTest extends Properties("Distribution") {
   val uniformRandom =
     Gen.sized { n => Dist.stdUniform.replicateM(n).run(RNG.init()).run._2.toVector }
 
-  /*property("Uniform hypothesis test") = forAll(uniformRandom) {
+  property("Uniform hypothesis test") = forAll(uniformRandom) {
     (a: Vector[Double]) => (a.size >= 100 && a.size <= 200) ==> {
       val n = a.size
-      println("n: " + n)
 
-      def cdf_uniform = (z: Double) => {
-        if (z < -1) 0.0
-        else if(z >= -1.0 && z < 1.0) ((z - -1.0) / (1.0 - -1.0))
-        else 1.0
-      }
+      // The expected bins for the uniform distribution imply that the probability for each number is 1/n
+      val expected = List(n/2, n/2)
+      val (o1, o2) = a.partition(_ < 0.5)
+      val observed = List(o1, o2).map(_.length)
 
-      val a2 = -n - S(a, cdf_uniform)
-      println("a2: " + a2)
-
-      a2 < 6.0
+      (expected zip observed).map {
+        case (e, o) => {
+          val dev = o - e
+          (dev * dev) / e
+        }
+      }.sum < 10.83
     }
-  }*/
+  }
 }
