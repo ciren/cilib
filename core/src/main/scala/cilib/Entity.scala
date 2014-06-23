@@ -26,11 +26,8 @@ sealed abstract class Position[F[_], A] {
   def flatMap[B](f: A => Position[F, B])(implicit F: Monad[F]): Position[F, B] =
     Point(F.bind(pos)(f(_).pos))
 
-  def zip[B](other: Position[F, B])(implicit M: Monad[F]): Position[F, (A, B)] =
-    Point(for {
-      a <- pos
-      b <- other.pos
-    } yield (a, b))
+  def zip[B](other: Position[F, B])(implicit F: Zip[F]): Position[F, (A, B)] =
+    Point(F.zip(pos, other.pos))
 
   def traverse[G[_]: Applicative, B](f: A => G[B])(implicit F: Traverse[F]): G[Position[F, B]] =
     F.traverse(pos)(f).map(Point(_))
@@ -47,7 +44,7 @@ object Position {
   import spire.math._
   import spire.implicits._
 
-  implicit def positionInstances[F[_]](implicit F0: Monad[F]): Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] =
+  implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] =
     new Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] {
 
       def point[A](a: => A): cilib.Position[F,A] =

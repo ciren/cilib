@@ -7,7 +7,7 @@ import org.scalacheck.Prop._
 object GeneratorTest extends Properties("Distribution") {
 
   def sizedGen(r: RVar[Double]) =
-    Gen.sized { n => r.replicateM(n).run(RNG.init()).run._2.toVector }
+    Gen.sized { _ => r.replicateM(250).run(RNG.init()).run._2.toVector }
 
   val gaussianRandom =
     sizedGen(Dist.stdNormal)
@@ -44,7 +44,7 @@ object GeneratorTest extends Properties("Distribution") {
     }
 
     forAll(gaussianRandom) {
-      (a: Vector[Double]) => (a.size >= 100 && a.size <= 200) ==> {
+      (a: Vector[Double]) => {
         val n = a.size
         val a2 = -n - S(a, cdf_gauss)
 
@@ -54,20 +54,20 @@ object GeneratorTest extends Properties("Distribution") {
   }
 
   property("Uniform hypothesis test") = forAll(uniformRandom) {
-    (a: Vector[Double]) => (a.size >= 100 && a.size <= 200) ==> {
+    (a: Vector[Double]) => {
       val n = a.size
+      val b = 10
 
       // The expected bins for the uniform distribution imply that the probability for each number is 1/n
-      val expected = List(n/2, n/2)
-      val (o1, o2) = a.partition(_ < 0.5)
-      val observed = List(o1, o2).map(_.length)
+      val expected = (1 to b).map(_ => n/b).toList
+      val observed = a.groupBy(x => (x * b).toInt).toList.sortBy(_._1).map(x => x._2.length)
 
       (expected zip observed).map {
         case (e, o) => {
           val dev = o - e
           (dev * dev) / e
         }
-      }.sum < 10.83
+      }.sum < 27.83 && a.forall(x => x >= 0 && x < 1.0)
     }
   }
 }
