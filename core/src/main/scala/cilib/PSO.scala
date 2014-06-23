@@ -13,13 +13,6 @@ case class Mem[A](b: Position[IList, A], v: Position[IList, A])
 
 object PSO {
 
-  // (S, A) => M[(S, A)] - This is the Kleisli arrow, where M = RVar
-  type C[S, A] = Kleisli[RVar, (S, Position[IList, A]), (S, Position[IList, A])]
-  type Pos[A] = Position[IList, A]
-  type Guide[A] = (IList[Pos[A]], Pos[A]) => Pos[A] // Should expand into a typeclass?
-
-  import Position._
-
   // Should the collection not be partially applied to the guides already?
   def velUp[S, A:Fractional](v: Lens[S, Pos[A]], local: Guide[A], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
     Kleisli {
