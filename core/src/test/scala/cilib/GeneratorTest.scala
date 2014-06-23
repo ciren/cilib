@@ -1,13 +1,10 @@
 package cilib
 
+import scalaz._, Scalaz._
 import org.scalacheck._
 import org.scalacheck.Prop._
 
 object GeneratorTest extends Properties("Distribution") {
-  @annotation.tailrec
-  def until[A](p: A => Boolean)(f: A => A)(z: A): A = if (p(z)) z else until(p)(f)(f(z))
-
-  import scalaz._, Scalaz._
 
   // Generator for gaussian numbers
   val gaussianRandom =
@@ -15,6 +12,8 @@ object GeneratorTest extends Properties("Distribution") {
 
   // Perform a hypothesis test using the Anderson-Darling test for normality
   property("Gaussian hypothesis test") = {
+    @annotation.tailrec def until[A](p: A => Boolean)(f: A => A)(z: A): A = if (p(z)) z else until(p)(f)(f(z))
+
     def phi_gauss(x: Double) = math.exp(-x * x / 2) / math.sqrt(2 * math.Pi)
 
     def cdf_gauss = (z: Double) => {
@@ -44,7 +43,7 @@ object GeneratorTest extends Properties("Distribution") {
         val n = a.size
         val a2 = -n - S(a, cdf_gauss)
 
-        a2 < 3.857 //6.044 //5.9694 // This value was obtained from: http://stats.stackexchange.com/questions/11310/critical-values-for-anderson-darling-test
+        a2 < 3.857
       }
     }
   }

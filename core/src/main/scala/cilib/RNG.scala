@@ -5,13 +5,6 @@ trait RNG {
   def next(bits: Int): (RNG, Int)
 }
 
-private final class LCG(val seed: Long) extends RNG {
-  def next(bits: Int): (RNG, Int) = {
-    val next = (seed * 25214903917L + 11L) & ((1L << 48) - 1)
-    (new LCG(next), (next >>> (48 - bits)).toInt)
-  }
-}
-
 final class CMWC(val seed: Long, carry: Long, index: Int, state: Array[Long]) extends RNG {
   val multiplier = 18782L//1030770L
   val r = 4096L
@@ -38,6 +31,13 @@ object RNG {
     val seedGenState = RVar.next[Int].map(_ & 0xFFFFFFFFL).replicateM(4097).run(seedGen).run._2
 
     new CMWC(seed, seedGenState(4096), 4095, seedGenState.take(4096).toArray)
+  }
+
+  private final class LCG(val seed: Long) extends RNG {
+    def next(bits: Int): (RNG, Int) = {
+      val next = (seed * 25214903917L + 11L) & ((1L << 48) - 1)
+      (new LCG(next), (next >>> (48 - bits)).toInt)
+    }
   }
 
   private def initLCG(seed: Long = System.currentTimeMillis): RNG =
