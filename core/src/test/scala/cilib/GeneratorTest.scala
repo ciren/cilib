@@ -6,9 +6,14 @@ import org.scalacheck.Prop._
 
 object GeneratorTest extends Properties("Distribution") {
 
-  // Generator for gaussian numbers
+  def sizedGen(r: RVar[Double]) =
+    Gen.sized { n => r.replicateM(n).run(RNG.init()).run._2.toVector }
+
   val gaussianRandom =
-    Gen.sized { n => (Dist.stdNormal replicateM n).run(RNG.init()).run._2.toVector }
+    sizedGen(Dist.stdNormal)
+
+  val uniformRandom =
+    sizedGen(Dist.stdUniform)
 
   // Perform a hypothesis test using the Anderson-Darling test for normality
   property("Gaussian hypothesis test") = {
@@ -47,9 +52,6 @@ object GeneratorTest extends Properties("Distribution") {
       }
     }
   }
-
-  val uniformRandom =
-    Gen.sized { n => Dist.stdUniform.replicateM(n).run(RNG.init()).run._2.toVector }
 
   property("Uniform hypothesis test") = forAll(uniformRandom) {
     (a: Vector[Double]) => (a.size >= 100 && a.size <= 200) ==> {
