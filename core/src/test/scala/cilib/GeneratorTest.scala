@@ -62,12 +62,19 @@ object GeneratorTest extends Properties("Distribution") {
       val expected = (1 to b).map(_ => n/b).toList
       val observed = a.groupBy(x => (x * b).toInt).toList.sortBy(_._1).map(x => x._2.length)
 
-      (expected zip observed).map {
-        case (e, o) => {
-          val dev = o - e
-          (dev * dev) / e
-        }
-      }.sum < 27.83 && a.forall(x => x >= 0 && x < 1.0)
+      def calc(o: Int, e: Int): Double = {
+        val dev = o - e
+        (dev * dev) / e.toDouble
+      }
+
+      val F = Align[List]
+      val sum = F.pad(observed, expected).foldLeft(0.0)((a, c) => a + (c match {
+        case (Some(o), Some(e)) => calc(o, e)
+        case (None, Some(e)) => calc(0, e)
+        case _ => sys.error("impossible")
+      }))
+
+      sum < 27.83 && a.forall(x => x >= 0.0 && x < 1.0)
     }
   }
 }
