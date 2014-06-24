@@ -60,7 +60,7 @@ object GeneratorTest extends Properties("Distribution") {
 
       // The expected bins for the uniform distribution imply that the probability for each number is 1/n
       val expected = (1 to b).map(_ => n/b).toList
-      val observed = a.groupBy(x => (x * b).toInt).toList.sortBy(_._1).map(x => x._2.length)
+      val observed = a.groupBy(x => (x * b).toInt).toList.map(x => x._2.length)
 
       def calc(o: Int, e: Int): Double = {
         val dev = o - e
