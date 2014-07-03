@@ -1,6 +1,9 @@
 import sbt._
 import Keys._
-import sbtrelease.ReleasePlugin._
+import sbtrelease._
+import ReleaseStateTransformations._
+import ReleasePlugin._
+import ReleaseKeys._
 
 object CIlibBuild extends Build {
 
