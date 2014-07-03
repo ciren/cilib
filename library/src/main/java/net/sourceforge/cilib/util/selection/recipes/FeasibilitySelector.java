@@ -114,10 +114,10 @@ public class FeasibilitySelector <E extends Individual> implements Selector<E>{
         }
 
         if(feasibleEntities.size() > 0) {
-            return Selection.copyOf(Arrays.asList(selectBestOfFeasible(feasibleEntities)));
+            return Selection.copyOf(Arrays.asList((E) selectBestOfFeasible(feasibleEntities)));
         }
 
-        return Selection.copyOf(Arrays.asList(selectBestOfInfeasible(inFeasibleEntities)));
+        return Selection.copyOf(Arrays.asList((E) selectBestOfInfeasible(inFeasibleEntities)));
 
     }
 

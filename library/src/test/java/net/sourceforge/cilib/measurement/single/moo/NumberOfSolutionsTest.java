@@ -19,8 +19,10 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
+import org.junit.Ignore;
 import static org.mockito.Mockito.*;
 
+@Ignore
 public class NumberOfSolutionsTest {
 
     @Test

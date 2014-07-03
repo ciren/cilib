@@ -16,12 +16,14 @@ import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 /**
  *
  */
+@Ignore
 public class SolutionDistributionTest {
 
     @Test

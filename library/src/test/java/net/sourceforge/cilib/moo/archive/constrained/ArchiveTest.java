@@ -20,7 +20,9 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class ArchiveTest {
 
     private static Archive archive;

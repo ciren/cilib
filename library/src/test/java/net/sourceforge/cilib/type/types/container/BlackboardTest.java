@@ -23,6 +23,6 @@ public class BlackboardTest {
 
         // The output will be different as the hascode of the string "second" evaluates before
         // the value of "first"
-        assertEquals("{second=2.0, first=1.0}", properties.toString());
+        assertEquals("{first=1.0, second=2.0}", properties.toString());
     }
 }

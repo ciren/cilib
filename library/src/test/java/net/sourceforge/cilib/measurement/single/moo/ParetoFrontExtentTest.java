@@ -17,11 +17,13 @@ import net.sourceforge.cilib.type.types.Type;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 import static org.mockito.Mockito.*;
 
 /**
  *
  */
+@Ignore
 public class ParetoFrontExtentTest {
 
     @Test

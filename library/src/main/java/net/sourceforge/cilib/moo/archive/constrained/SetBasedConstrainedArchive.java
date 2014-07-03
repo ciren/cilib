@@ -11,7 +11,10 @@ import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.moo.archive.Archive;
+import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.solution.OptimisationSolution;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.recipes.DistanceBasedElitistSelector;
@@ -52,8 +55,11 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
 
     @Override
     public boolean dominates(OptimisationSolution candidateSolution) {
+        Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().index(0);
+        MOOptimisationProblem mooProblem = ((MOOptimisationProblem)populationBasedAlgorithm.getOptimisationProblem());
+
         for (OptimisationSolution archiveSolution : this.solutions) {
-            if (archiveSolution.compareTo(candidateSolution) > 0) {
+            if (mooProblem.getFitness(archiveSolution.getPosition()).compareTo(mooProblem.getFitness(candidateSolution.getPosition())) > 0) {
                 return true;
             }
         }
@@ -62,8 +68,11 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
 
     @Override
     public boolean isDominatedBy(OptimisationSolution candidateSolution) {
+        Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().index(0);
+        MOOptimisationProblem mooProblem = ((MOOptimisationProblem)populationBasedAlgorithm.getOptimisationProblem());
+
         for (OptimisationSolution archiveSolution : this.solutions) {
-            if (candidateSolution.compareTo(archiveSolution) > 0) {
+            if (mooProblem.getFitness(candidateSolution.getPosition()).compareTo(mooProblem.getFitness(archiveSolution.getPosition())) > 0) {
                 return true;
             }
         }
@@ -72,9 +81,12 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
 
     @Override
     public Collection<OptimisationSolution> getDominant(OptimisationSolution candidateSolution) {
+        Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().index(0);
+        MOOptimisationProblem mooProblem = ((MOOptimisationProblem)populationBasedAlgorithm.getOptimisationProblem());
+
         List<OptimisationSolution> dominantSolutions = Lists.newLinkedList();
         for (OptimisationSolution archiveSolution : this.solutions) {
-            if (archiveSolution.compareTo(candidateSolution) > 0) {
+            if (mooProblem.getFitness(archiveSolution.getPosition()).compareTo(mooProblem.getFitness(candidateSolution.getPosition())) > 0) {
                 dominantSolutions.add(archiveSolution);
             }
         }
@@ -83,9 +95,12 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
 
     @Override
     public Collection<OptimisationSolution> getDominated(OptimisationSolution candidateSolution) {
+        Algorithm populationBasedAlgorithm = AbstractAlgorithm.getAlgorithmList().index(0);
+        MOOptimisationProblem mooProblem = ((MOOptimisationProblem)populationBasedAlgorithm.getOptimisationProblem());
+
         List<OptimisationSolution> dominatedSolutions = Lists.newLinkedList();
         for (OptimisationSolution archiveSolution : this.solutions) {
-            if (candidateSolution.compareTo(archiveSolution) > 0) {
+            if (mooProblem.getFitness(candidateSolution.getPosition()).compareTo(mooProblem.getFitness(archiveSolution.getPosition())) > 0) {
                 dominatedSolutions.add(archiveSolution);
             }
         }

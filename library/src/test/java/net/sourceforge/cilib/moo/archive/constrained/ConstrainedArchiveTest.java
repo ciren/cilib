@@ -25,9 +25,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 import net.sourceforge.cilib.util.selection.recipes.RandomSelector;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  */
+@Ignore
 public class ConstrainedArchiveTest {
 
     private class SubOptimisationProblem1 extends AbstractProblem {
