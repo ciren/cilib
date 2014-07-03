@@ -1,5 +1,3 @@
-seq(scalariformSettings: _*)
-
 name := "cilib-library"
 
 description := "A library of composable components enabling simpler Computational Intelligence"

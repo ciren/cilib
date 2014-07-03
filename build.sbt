@@ -1,5 +1,3 @@
-seq(scalariformSettings: _*)
-
 parallelExecution in Test := false
 
 resolvers ++= Seq(

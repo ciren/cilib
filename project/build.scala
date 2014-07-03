@@ -4,7 +4,7 @@ import Keys._
 object CIlibBuild extends Build {
 
   val buildSettings = Defaults.defaultSettings ++ Seq(
-    scalaVersion := "2.10.0",
+    scalaVersion := "2.11.1",
     version := "0.9-SNAPSHOT",
     organization := "net.cilib",
     organizationName := "CIRG @ UP",
