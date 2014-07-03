@@ -69,6 +69,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
     public void algorithmIteration() {
         try {
             NNTrainingProblem problem = (NNTrainingProblem) getOptimisationProblem();
+            problem.operateOnData(); // do the necessary (eg, slide the window!)
             NeuralNetwork neuralNetwork = problem.getNeuralNetwork();
             StandardPatternDataTable trainingSet = problem.getTrainingSet();
             problem.getShuffler().operate(trainingSet);

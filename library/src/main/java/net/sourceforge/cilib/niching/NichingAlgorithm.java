@@ -42,6 +42,10 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.Int;
 
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.Collections;
+import net.sourceforge.cilib.algorithm.AlgorithmEvent;
+import net.sourceforge.cilib.algorithm.AlgorithmListener;
 
 /**
  * <p>
@@ -76,6 +80,8 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements H
     protected MergeStrategy mainSwarmAbsorber;
     protected MergeStrategy subSwarmAbsorber;
     protected MergeDetection absorptionDetector;
+
+    protected boolean finalMerge = false;
 
     /**
      * Default constructor. The defaults are:
@@ -174,12 +180,13 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements H
      */
     @Override
     public void algorithmInitialisation() {
+	/*
         for (StoppingCondition stoppingCondition : getStoppingConditions()) {
             this.mainSwarm.addStoppingCondition(stoppingCondition);
         }
+	*/
 
         this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
-
         this.mainSwarm.performInitialisation();
 
         for (Entity e : mainSwarm.getTopology()) {
@@ -187,6 +194,36 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements H
         }
 
         this.entityType = this.mainSwarm.getTopology().head();
+
+	this.setPopulations(new ArrayList());
+        
+        if (finalMerge) {
+            this.addAlgorithmListener(new AlgorithmListener() {
+                @Override
+                public void algorithmStarted(AlgorithmEvent e) {}
+
+                @Override
+                public void algorithmFinished(AlgorithmEvent e) {
+                    NichingSwarms s = NichingFunctions.merge(mergeDetector, mainSwarmMerger, subSwarmMerger)
+                            .f(NichingSwarms.of(mainSwarm, subPopulationsAlgorithms));
+                    mainSwarm = s._1();
+                    subPopulationsAlgorithms = new ArrayList<>(s._2().toCollection());
+                }
+
+                @Override
+                public void iterationCompleted(AlgorithmEvent e) {}
+
+                @Override
+                public AlgorithmListener getClone() {
+                    return this;
+                }
+            });
+        }
+    }
+
+    public void setFinalMerge(boolean finalMerge) {
+        this.finalMerge = finalMerge;
+
     }
 
     @Override
@@ -201,7 +238,9 @@ public class NichingAlgorithm extends MultiPopulationBasedAlgorithm implements H
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        throw new UnsupportedOperationException("Niching algorithms do not have a single solution.");
+	java.util.List<OptimisationSolution> ss = getSolutions();
+        Collections.sort(ss);
+        return ss.get(ss.size() - 1);
     }
 
     /**

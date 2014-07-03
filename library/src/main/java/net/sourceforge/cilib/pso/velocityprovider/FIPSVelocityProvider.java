@@ -19,19 +19,16 @@ public class FIPSVelocityProvider implements VelocityProvider {
     private static final long serialVersionUID = 6391914534943249737L;
 
     private ControlParameter inertiaWeight;
-    private ControlParameter socialAcceleration;
-    private ControlParameter cognitiveAcceleration;
+    private ControlParameter phi;
 
     public FIPSVelocityProvider() {
         this.inertiaWeight = ConstantControlParameter.of(0.729844);
-        this.socialAcceleration = ConstantControlParameter.of(1.496180);
-        this.cognitiveAcceleration = ConstantControlParameter.of(1.496180);
+        this.phi = ConstantControlParameter.of(1.496180);
     }
 
     public FIPSVelocityProvider(FIPSVelocityProvider copy) {
         this.inertiaWeight = copy.inertiaWeight.getClone();
-        this.socialAcceleration = copy.socialAcceleration.getClone();
-        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+        this.phi = copy.phi.getClone();
     }
 
     @Override
@@ -54,7 +51,7 @@ public class FIPSVelocityProvider implements VelocityProvider {
             for (Particle currentTarget : algorithm.getNeighbourhood().f(topology, particle)) {
                 Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
-                double randomComponent = (this.cognitiveAcceleration.getParameter() + this.socialAcceleration.getParameter()) * Rand.nextDouble();
+                double randomComponent = (this.phi.getParameter()) * Rand.nextDouble();
 
                 informationSum += randomComponent * (currentTargetPosition.doubleValueOf(i) - position.doubleValueOf(i));
 
@@ -67,5 +64,13 @@ public class FIPSVelocityProvider implements VelocityProvider {
         }
 
         return builder.build();
+    }
+
+    public void setInertiaWeight(ControlParameter inertiaWeight) {
+        this.inertiaWeight = inertiaWeight;
+    }
+
+    public void setPhi(ControlParameter phi) {
+        this.phi = phi;
     }
 }

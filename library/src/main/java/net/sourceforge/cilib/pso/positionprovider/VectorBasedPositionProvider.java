@@ -9,9 +9,11 @@ package net.sourceforge.cilib.pso.positionprovider;
 import fj.P1;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.Property;
 import net.sourceforge.cilib.math.random.UniformDistribution;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class VectorBasedPositionProvider implements PositionProvider {
@@ -43,12 +45,12 @@ public class VectorBasedPositionProvider implements PositionProvider {
         Fitness newFitness = particle.getBehaviour().getFitnessCalculator().getFitness(tmp);
 
         final UniformDistribution uniform = new UniformDistribution();
-        Vector newPBest = newPos.multiply(new P1<Number>() {
-            @Override
-            public Number _1() {
-                return uniform.getRandomNumber(-granularity.getParameter(), granularity.getParameter());
-            }
-        }).plus(newPos);
+        Vector newPBest = newPos.plus(Vector.newBuilder().repeat(newPos.size(), Real.valueOf(1.0)).build().multiply(new P1<Number>() {
+                    @Override
+                    public Number _1() {
+                        return uniform.getRandomNumber(-granularity.getParameter(), granularity.getParameter());
+                    }
+                }));
         tmp.setPosition(newPos);
         Fitness newPBestFitness = particle.getBehaviour().getFitnessCalculator().getFitness(tmp);
 
@@ -56,6 +58,8 @@ public class VectorBasedPositionProvider implements PositionProvider {
             Vector tmpVector = Vector.copyOf(newPos);
             newPos = newPBest;
             newPBest = tmpVector;
+
+            newPBestFitness = newFitness;
         }
 
         double dot = ((Vector) particle.getNeighbourhoodBest().getBestPosition())
@@ -64,6 +68,9 @@ public class VectorBasedPositionProvider implements PositionProvider {
         if (dot < 0) {
             return (Vector) particle.getPosition();
         }
+
+        particle.put(Property.BEST_POSITION, newPBest);
+        particle.put(Property.BEST_FITNESS, newPBestFitness);
 
         return newPos;
     }

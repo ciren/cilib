@@ -48,6 +48,7 @@ public class Property<T extends Type> {
      */
     public final static Property<StructuredType> VELOCITY = new Property();
     public final static Property<Int> PBEST_STAGNATION_COUNTER = new Property();
+    public final static Property<Int> POSITION_UPDATE_COUNTER = new Property();
     
     /**
      * Quantum properties

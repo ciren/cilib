@@ -41,7 +41,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public StandardParticle getClone() {
-           return new StandardParticle(this);
+        return new StandardParticle(this);
     }
 
     /**
@@ -85,16 +85,17 @@ public class StandardParticle extends AbstractParticle {
         put(Property.BEST_POSITION, Vector.copyOf((Vector) getPosition()));
         put(Property.VELOCITY, Vector.copyOf((Vector) getPosition()));
 
-        this.positionInitialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
-        this.personalBestInitialisationStrategy.initialise(Property.BEST_POSITION, this);
-        this.velocityInitialisationStrategy.initialise(Property.VELOCITY, this);
-
         put(Property.FITNESS, InferiorFitness.instance());
         put(Property.BEST_FITNESS, InferiorFitness.instance());
         put(Property.PREVIOUS_FITNESS, InferiorFitness.instance());
         this.neighbourhoodBest = this;
 
+        this.positionInitialisationStrategy.initialise(Property.CANDIDATE_SOLUTION, this);
+        this.personalBestInitialisationStrategy.initialise(Property.BEST_POSITION, this);
+        this.velocityInitialisationStrategy.initialise(Property.VELOCITY, this);
+
         put(Property.PBEST_STAGNATION_COUNTER, Int.valueOf(0));
+        put(Property.POSITION_UPDATE_COUNTER, Int.valueOf(0));
         put(Property.PREVIOUS_SOLUTION, getPosition());
     }
 

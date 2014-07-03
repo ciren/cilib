@@ -10,7 +10,7 @@ import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.controlparameter.LinearlyVaryingControlParameter;
+import net.sourceforge.cilib.controlparameter.ExponentiallyVaryingControlParameter;
 import net.sourceforge.cilib.math.random.generator.Rand;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -21,7 +21,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Implementation of the FDR-PSO velocity update equation.
  *
  * <p>
- * BibTex entry:<br/>
+ * BibTex entry:<br>
  * <code>
  * &#64;ARTICLE{1202264,<br>
  * title={Fitness-distance-ratio based particle swarm optimization},<br>
@@ -29,13 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * journal={Swarm Intelligence Symposium, 2003. SIS '03. Proceedings of the 2003 IEEE},<br>
  * year={2003},<br>
  * month={April},<br>
- * volume={},<br>
- * number={},<br>
- * pages={ 174-181},<br>
- * abstract={ This paper presents a modification of the particle swarm optimization algorithm (PSO) intended to combat the problem of premature convergence observed in many applications of PSO. The proposed new algorithm moves particles towards nearby particles of higher fitness, instead of attracting each particle towards just the best position discovered so far by any particle. This is accomplished by using the ratio of the relative fitness and the distance of other particles to determine the direction in which each component of the particle position needs to be changed. The resulting algorithm (FDR-PSO) is shown to perform significantly better than the original PSO algorithm and some of its variants, on many different benchmark optimization problems. Empirical examination of the evolution of the particles demonstrates that the convergence of the algorithm does not occur at an early phase of particle evolution, unlike PSO. Avoiding premature convergence allows FDR-PSO to continue search for global optima in difficult multimodal optimization problems.},<br>
- * keywords={ convergence of numerical methods, evolutionary computation, optimisation, search problems FDR-PSO, fitness-distance ratio, global optima search, multimodal optimization problems, particle position, particle swarm optimization, premature convergence, relative fitness},<br>
- * doi={10.1109/SIS.2003.1202264},<br>
- * ISSN={ }, }<br>
+ * pages={ 174-181}}<br>
  * </code>
  * </p>
  *
@@ -51,14 +45,10 @@ public class FDRVelocityProvider implements VelocityProvider {
     public FDRVelocityProvider() {
         this.fdrMaximizerAcceleration = ConstantControlParameter.of(2);
 
-        this.delegate = new StandardVelocityProvider();
         //TODO: recheck this inertia, the original paper has some weird values that become negative early on
-        LinearlyVaryingControlParameter inertia = new LinearlyVaryingControlParameter();
-        inertia.setInitialValue(0.9);
-        inertia.setFinalValue(0.4);
-        this.delegate.setInertiaWeight(inertia);
-        this.delegate.setCognitiveAcceleration(ConstantControlParameter.of(1));
-        this.delegate.setSocialAcceleration(ConstantControlParameter.of(2));
+        this.delegate = new StandardVelocityProvider(new ExponentiallyVaryingControlParameter(0.9, 0.4),
+                                                     ConstantControlParameter.of(1),
+                                                     ConstantControlParameter.of(1));
     }
 
     public FDRVelocityProvider(FDRVelocityProvider copy) {
@@ -81,37 +71,34 @@ public class FDRVelocityProvider implements VelocityProvider {
     public Vector get(Particle particle) {
         Vector position = (Vector) particle.getPosition();
 
-        Vector standardVelocity = this.delegate.get(particle);
+        fj.data.List<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
 
         Vector.Builder builder = Vector.newBuilder();
         for (int i = 0; i < particle.getDimension(); ++i) {
-            fj.data.List<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
-            Iterator<Particle> swarmIterator = topology.iterator();
-            Particle fdrMaximizer = swarmIterator.next();
-            double maxFDR = 0.0;
+            Particle fdrMaximizer = topology.head();
+            double maxFDR = Double.NEGATIVE_INFINITY;
 
-            while (swarmIterator.hasNext()) {
-                Particle currentTarget = swarmIterator.next();
+            for (Particle p : topology) {
+                if (p != particle) {
+                    Fitness f = p.getBestFitness();
+                    Vector pos = (Vector) p.getBestPosition();
 
-                if (currentTarget != particle) {
-                    Fitness currentTargetFitness = currentTarget.getBestFitness();
-                    Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
-
-                    double fitnessDifference = (currentTargetFitness.getValue() - particle.getFitness().getValue());
-                    double testFDR = fitnessDifference / Math.abs(position.doubleValueOf(i) - currentTargetPosition.doubleValueOf(i));
+                    double testFDR = Math.abs(f.getValue() - particle.getFitness().getValue()) * f.compareTo(particle.getFitness()) / 
+                        Math.abs(position.doubleValueOf(i) - pos.doubleValueOf(i));
 
                     if (testFDR > maxFDR) {
                         maxFDR = testFDR;
-                        fdrMaximizer = currentTarget;
+                        fdrMaximizer = p;
                     }
                 }
             }
 
             Vector fdrMaximizerPosition = (Vector) fdrMaximizer.getBestPosition();
-            builder.add(standardVelocity.doubleValueOf(i) + this.fdrMaximizerAcceleration.getParameter() * Rand.nextDouble()
+            builder.add(fdrMaximizerAcceleration.getParameter() * Rand.nextDouble()
                     * (fdrMaximizerPosition.doubleValueOf(i) - position.doubleValueOf(i)));
         }
-        return builder.build();
+
+        return delegate.get(particle).plus(builder.build());
     }
 
     /**

@@ -7,7 +7,11 @@
 package net.sourceforge.cilib.simulator;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  * This is the entry point for the CIlib simulator. This class accepts one
@@ -25,14 +29,36 @@ public final class Main {
      * @param args provided arguments.
      */
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml>");
+        final String usage = "Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml> | cb <template.xml> <output.xml>";
+
+        if (args.length != 1 && args.length != 3) {
+            System.out.println(usage);
             System.exit(1);
         }
+        // call generator instead if |params| == 3
+        if(args.length == 3){
+        	if(args[0].equalsIgnoreCase("cb")){
+        		generate(args[1],args[2]);
+        	} else {
+                System.out.println(usage);
+                System.exit(1);
+            }
+        } else {
+        	final List<Simulator> simulators = SimulatorShell.prepare(new File(args[0]));
+            ProgressText progress = new ProgressText(simulators.size());
 
-        final List<Simulator> simulators = SimulatorShell.prepare(new File(args[0]));
-        ProgressText progress = new ProgressText(simulators.size());
-
-        SimulatorShell.execute(simulators, progress);
+            SimulatorShell.execute(simulators, progress);
+        }
     }
+    
+    // Call generator with cmd args
+    private static void generate(String templateDir, String outputDir){
+    	
+    	try {
+			new CombinatorialGenerator(templateDir,outputDir).generate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
 }

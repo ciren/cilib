@@ -129,7 +129,7 @@ public class ClusterParticle extends AbstractParticle{
      * @param problem The optimisation problem being dealt with
      */
     @Override
-    public void initialise(Problem problem) {
+    public void initialise(Problem problem) {	
         numberOfClusters = ((ClusteringProblem) problem).getNumberOfClusters();
 
         put(Property.CANDIDATE_SOLUTION, new CentroidHolder(numberOfClusters, problem.getDomain().getDimension()));

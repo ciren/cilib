@@ -21,6 +21,7 @@ import net.sourceforge.cilib.pso.positionprovider.MemoryNeighbourhoodBestUpdateS
 import net.sourceforge.cilib.pso.positionprovider.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionprovider.PositionProvider;
 import net.sourceforge.cilib.pso.velocityprovider.VelocityProvider;
+import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -49,6 +50,8 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
         this.personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
         this.neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
+
+	put(Property.POSITION_UPDATE_COUNTER, Int.valueOf(0));
     }
 
     /**
@@ -116,6 +119,9 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public void updatePosition(StructuredType newPosition) {
         put(Property.PREVIOUS_SOLUTION, getPosition());
         put(Property.CANDIDATE_SOLUTION, newPosition);
+        
+        int posUpdates = get(Property.POSITION_UPDATE_COUNTER).intValue();
+        put(Property.POSITION_UPDATE_COUNTER, Int.valueOf(posUpdates + 1));
     }
 
     /**

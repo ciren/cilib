@@ -94,12 +94,12 @@
 
         <problem id="f2" class="problem.FunctionOptimisationProblem" domain="R(0:1)">
             <objective class="problem.objective.Maximise"/>
-            <function class="functions.continuous.unconstrained.MultimodalFunction1"/>
+            <function class="functions.continuous.unconstrained.EqualMaxima"/>
         </problem>
 
         <problem id="f3" class="problem.FunctionOptimisationProblem" domain="R(0:1)">
             <objective class="problem.objective.Maximise"/>
-            <function class="functions.continuous.unconstrained.MultimodalFunction4"/>
+            <function class="functions.continuous.unconstrained.UnevenDecreasingMaxima"/>
         </problem>
 
         <problem id="f4" class="problem.FunctionOptimisationProblem" domain="R(-6:6)^2">

@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.functions.Gradient;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -33,10 +34,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * R(0, 3.141592653589793)^10
  *
  */
-public class Michalewicz extends ContinuousFunction {
+public class Michalewicz extends ContinuousFunction implements Gradient {
 
     private static final long serialVersionUID = -4391269929189674709L;
     /**
+     * This is a MINIMISATION PROBLEM
      * m controls the steepness of the valleys; the larger m, the
      * more difficult the search
      */
@@ -51,12 +53,21 @@ public class Michalewicz extends ContinuousFunction {
 
         for (int i = 0; i < input.size(); i++) {
             double x = input.doubleValueOf(i);
-            sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
+            sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1)*x * x)/Math.PI), 2.0*m);
         }
 
         return -sumsq;
     }
 
+    public Double df(Vector input, int i){
+	
+    double x=input.doubleValueOf(i-1);         
+    double result=-(Math.cos(x)*Math.pow(Math.sin(i*x*x/Math.PI),(2.0*m)))-((40*i*x)*(Math.sin(x))*(Math.cos(i*x*x/Math.PI))*(Math.pow(Math.sin(i*x*x/Math.PI),(2.0*m-1)))/Math.PI);
+    
+    return result;
+    }
+    
+    
     /**
      * Get the current value of <code>M</code>.
      * @return The value of <code>M</code>.
@@ -71,5 +82,42 @@ public class Michalewicz extends ContinuousFunction {
      */
     public void setM(int m) {
         this.m = m;
+    }
+    
+    public double getAverageGradientVector ( Vector x)
+    {
+        
+        double sum = 0;
+        
+        for (int i = 1; i <= x.size(); ++i)
+        {
+            sum += this.df(x,i);
+        }
+           
+        return sum/x.size();
+    }
+    
+    public double getGradientVectorLength (Vector x)
+    {
+        double sumsqrt = 0;
+        
+        for (int i = 1; i <= x.size(); ++i)
+        {
+            sumsqrt += this.df(x,i)*this.df(x,i);
+        }
+        
+        return Math.sqrt(sumsqrt);
+    }
+    
+    public Vector getGradientVector (Vector x)
+    {
+        Vector.Builder vectorBuilder = Vector.newBuilder();
+        
+        for (int i = 1; i <= x.size(); ++i)
+        {
+             vectorBuilder.add(this.df(x,i));
+        }
+        
+        return vectorBuilder.build();
     }
 }
