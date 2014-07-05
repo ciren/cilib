@@ -1,5 +1,7 @@
 package cilib
 
+import Predef.{any2stringadd => _, _}
+
 trait RNG {
   val seed: Long
   def next(bits: Int): (RNG, Int)

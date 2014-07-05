@@ -1,5 +1,6 @@
 package cilib
 
+import Predef.{any2stringadd => _, _}
 import scalaz._
 import syntax.state._
 import syntax.applicative._

@@ -1,6 +1,7 @@
 package cilib
 
 import scala.language.higherKinds
+import Predef.{any2stringadd => _, _}
 import scalaz._
 import Scalaz._
 
@@ -41,12 +42,11 @@ sealed abstract class Position[F[_], A] {
 
 object Position {
   import spire.algebra._
-  import spire.math._
+  import spire.math.{ Interval => _, _ }
   import spire.implicits._
 
   implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] =
     new Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] {
-
       def point[A](a: => A): cilib.Position[F,A] =
         Point(Applicative[F].point(a))
 
@@ -58,7 +58,6 @@ object Position {
 
       def zip[A, B](a: => Position[F, A], b: => Position[F, B]): Position[F, (A, B)] =
         a zip b
-
     }
 
   private final case class Point[F[_], A](x: F[A]) extends Position[F, A]
@@ -82,24 +81,37 @@ object Position {
   def apply[A](xs: List[A]): Position[List, A] =
     Point(xs)
 
+  // Construction utilities
+  def mkPos[A](i: List[Interval[A]])(implicit N: Numeric[A]) =
+    i traverse (_.fold((x, y) => Dist.uniform(N.toDouble(x), N.toDouble(y)))) map (Position(_))
+
+  def mkColl[A: Numeric](i: List[Interval[A]], n: Int) =
+    mkPosInterval(i) replicateM n
 }
 
-/*object Entity {
+sealed trait Bound[A]
+case class Closed[A](a: A) extends Bound[A]
+case class Open[A](a: A) extends Bound[A]
 
-  def fromBounds(bounds: List[Interval]): RVar[Solution[Vector, Double]] =
-    bounds.traverse(b => Dist.uniform(b.lower, b.upper)).map(_.toVector).map(Solution(_))
+final class Interval[A](val lower: Bound[A], val upper: Bound[A]) {
 
-  def mkCollection(n: Int, bounds: List[Interval]) =
-    fromBounds(bounds) replicateM n
+  def fold[B](f: (A, A) => B): B =
+    (lower, upper) match {
+      case (Closed(a), Closed(b)) => f(a, b)
+      case (Closed(a), Open(b)) => f(a, b)
+      case (Open(a), Closed(b)) => f(a, b)
+      case (Open(a), Open(b)) => f(a, b)
+    }
 
-}*/
-
-final class Interval(val lower: Double, val upper: Double) {
-  def ^ (n: Int): List[Interval] =
+  def ^(n: Int): List[Interval[A]] =
     (1 to n).map(_ => this).toList
+
 }
 
 object Interval {
-  def apply(l: Double, r: Double) =
+  def apply[A](l: Bound[A], r: Bound[A]) =
     new Interval(l, r)
+
+  def closed[A](lower: A, upper: A) =
+    new Interval(Closed(lower), Closed(upper))
 }

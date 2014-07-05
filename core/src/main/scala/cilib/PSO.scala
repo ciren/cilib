@@ -1,5 +1,6 @@
 package cilib
 
+import Predef.{any2stringadd => _, _}
 import scalaz._
 import scalaz.IList._
 import scalaz.syntax.zip._
@@ -12,7 +13,6 @@ import Position._
 case class Mem[A](b: Position[IList, A], v: Position[IList, A])
 
 object PSO {
-
   // Should the collection not be partially applied to the guides already?
   def velUp[S, A:Fractional](v: Lens[S, Pos[A]], local: Guide[A], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
     Kleisli {
