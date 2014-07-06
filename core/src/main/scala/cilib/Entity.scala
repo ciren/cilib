@@ -86,7 +86,7 @@ object Position {
     i traverse (_.fold((x, y) => Dist.uniform(N.toDouble(x), N.toDouble(y)))) map (Position(_))
 
   def mkColl[A: Numeric](i: List[Interval[A]], n: Int) =
-    mkPosInterval(i) replicateM n
+    mkPos(i) replicateM n
 }
 
 sealed trait Bound[A]
