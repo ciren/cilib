@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.entity;
 
 import net.sourceforge.cilib.entity.behaviour.Behaviour;
+import net.sourceforge.cilib.entity.behaviour.DoNothingBehaviour;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.solution.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -31,6 +32,7 @@ public abstract class AbstractEntity implements Entity {
      * Initialise the candidate solution of the {@linkplain Entity}.
      */
     protected AbstractEntity() {
+        this.behaviour = new DoNothingBehaviour();
         this.properties = new Blackboard();
     }
 
