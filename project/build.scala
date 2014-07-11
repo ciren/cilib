@@ -7,11 +7,13 @@ import ReleaseKeys._
 
 object CIlibBuild extends Build {
 
-  val buildSettings = Defaults.defaultSettings ++ releaseSettings ++ Seq(
+  override lazy val settings = super.settings ++ Seq(
     scalaVersion := "2.11.1",
     organization := "net.cilib",
     organizationName := "CIRG @ UP",
     organizationHomepage := Some(url("http://cirg.cs.up.ac.za")),
+    homepage := Some(url("http://cilib.net")),
+    licenses := Seq("BSD-style" -> url("http://opensource.org/licenses/BSD-2-Clause")),
     scalacOptions ++= Seq(
       "-deprecation",
       "-encoding", "UTF-8",
@@ -33,13 +35,6 @@ object CIlibBuild extends Build {
     pomIncludeRepository := { _ => false },
     pomExtra := (
       <url>http://cilib.net</url>
-      <licenses>
-        <license>
-          <name>LGPL</name>
-          <url>http://www.gnu.org/licenses/lgpl.html</url>
-          <distribution>repo</distribution>
-        </license>
-      </licenses>
       <scm>
         <url>git@github.com:cilib/cilib.git</url>
         <connection>scm:git:git@github.com:cilib/cilib.git</connection>
@@ -70,15 +65,41 @@ object CIlibBuild extends Build {
       else Some(Resolvers.sonatypeReleases)
   }
 
-  lazy val root = Project(id = "cilib",
-    base = file("."),
-    settings = buildSettings) aggregate(core) settings (
-      headerCheckSetting
-    )
+  lazy val noPublish = Seq(
+    publish := (),
+    publishLocal := (),
+    publishArtifact := false
+  )
 
-  lazy val core = Project(id = "core",
-    base = file("core"),
-    settings = buildSettings)
+  lazy val cilib = Project("cilib", file(".")).
+    aggregate(core, tests).
+    settings(cilibSettings: _*)
+
+  lazy val cilibSettings = Seq(
+    name := "cilib-aggregate"
+  ) ++ noPublish ++ releaseSettings ++ headerCheckSetting
+
+  lazy val core = Project("core", file("core")).
+    settings(coreSettings: _*)
+
+  lazy val coreSettings = Seq(
+    name := "cilib",
+    libraryDependencies ++= Seq(
+      "org.scalaz"     %% "scalaz-core"   % "7.1.0-M7",
+      "org.spire-math" %% "spire"         % "0.7.5"
+    )
+  ) ++ buildSettings
+
+  lazy val tests = Project("tests", file("tests")).
+    settings(testsSettings: _*).
+    dependsOn(core)
+
+  lazy val testsSettings = Seq(
+    name := "cilib-tests",
+    libraryDependencies ++= Seq(
+      "org.scalacheck" %% "scalacheck" % "1.11.3" % "test"
+    )
+  ) ++ noPublish
 
 
   // Header task definition
