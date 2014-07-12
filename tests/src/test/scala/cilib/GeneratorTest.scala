@@ -16,7 +16,7 @@ object GeneratorTest extends Properties("Distribution") {
     sizedGen(Dist.stdUniform)
 
   // Perform a hypothesis test using the Anderson-Darling test for normality
-  property("Gaussian hypothesis test") = {
+  property("stdNormal") = {
     @annotation.tailrec def until[A](p: A => Boolean)(f: A => A)(z: A): A = if (p(z)) z else until(p)(f)(f(z))
 
     def phi_gauss(x: Double) = math.exp(-x * x / 2) / math.sqrt(2 * math.Pi)
@@ -53,7 +53,7 @@ object GeneratorTest extends Properties("Distribution") {
     }
   }
 
-  property("Uniform hypothesis test") = forAll(uniformRandom) {
+  property("stdUniform") = forAll(uniformRandom) {
     (a: Vector[Double]) => {
       val n = a.size
       val b = 10
@@ -77,4 +77,6 @@ object GeneratorTest extends Properties("Distribution") {
       sum < 27.83 && a.forall(x => x >= 0.0 && x < 1.0)
     }
   }
+
+  //property("Hypothesis test: uniformInt") = forAll()
 }

@@ -17,7 +17,7 @@ final class CMWC(val seed: Long, carry: Long, index: Int, state: Array[Long]) ex
     val div32: Long = t >>> 32 // div32 = t / (b+1)
     val newCarry = div32 + (if ((t & 0xFFFFFFFFL) >= 0xFFFFFFFFL - div32) 1L else 0L)
     // seeds[n] = (b-1)-t%b (done in an unsigned way)
-    val result = 0xFFFFFFFEL - (t & 0xFFFFFFFFL) - (carry - div32 << 32) - carry & 0xFFFFFFFFL
+    val result = 0xFFFFFFFEL - (t & 0xFFFFFFFFL) - (newCarry - div32 << 32) - newCarry & 0xFFFFFFFFL
     val updated = state.updated(index, result)
 
     (new CMWC(seed, newCarry, (index + 1 & r - 1).toInt, updated), (result >>> 32 - bits).toInt)
