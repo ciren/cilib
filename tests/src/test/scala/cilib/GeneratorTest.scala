@@ -7,7 +7,7 @@ import org.scalacheck.Prop._
 object GeneratorTest extends Properties("Distribution") {
 
   def sizedGen(r: RVar[Double]) =
-    Gen.sized { _ => r.replicateM(250).run(RNG.init()).run._2.toVector }
+    Gen.sized { _ => r.replicateM(250).run(RNG.fromTime).run._2.toVector }
 
   val gaussianRandom =
     sizedGen(Dist.stdNormal)

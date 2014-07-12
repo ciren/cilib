@@ -26,7 +26,10 @@ final class CMWC(val seed: Long, carry: Long, index: Int, state: Array[Long]) ex
 
 object RNG {
 
-  def init(seed: Long = System.currentTimeMillis): RNG = {
+  def fromTime: RNG =
+    init(System.currentTimeMillis)
+
+  def init(seed: Long): RNG = {
     import scalaz._, Scalaz._, Free._
 
     val seedGen = initLCG(seed)

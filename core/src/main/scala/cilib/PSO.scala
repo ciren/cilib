@@ -80,6 +80,6 @@ functions:
  iteration based stopping conditions
  fitness evaluations
  dimension based updates
- # of position updates (on;y defined if change is some epislon based on the position vector)
+ # of position updates (only defined if change is some epislon based on the position vector)
  # of dimensional updates > epsilon
  */
