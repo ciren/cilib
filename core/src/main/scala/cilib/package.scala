@@ -4,7 +4,7 @@ package object cilib {
 
   // Type aliases
   // (S, A) => M[(S, A)] - This is the Kleisli arrow, where M = RVar
-  type C[S, A] = Kleisli[RVar, (S, Position[IList, A]), (S, Position[IList, A])]
+  type C[S, A] = Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]
   type Pos[A] = Position[IList, A]
   type Guide[A] = (IList[Pos[A]], Pos[A]) => Pos[A] // Should expand into a typeclass?
 
