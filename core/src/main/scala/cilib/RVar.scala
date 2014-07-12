@@ -120,7 +120,7 @@ object RVar {
     import scalaz.std.list._
 
     val length = xs.length - 1
-    val randoms = (0 until length).foldLeft(List[RVar[Int]]())((a, c) => Dist.uniformInt(0, length - c + 1) :: a).reverse.sequence // TODO / FIX: Remove the need to reverse!
+    val randoms = (0 until length).foldLeft(List.empty[RVar[Int]])((a, c) => Dist.uniformInt(0, length - c) :: a).reverse.sequence // TODO / FIX: Remove the need to reverse!
 
     xs match {
       case Nil => RVar(StateT.stateT(xs))

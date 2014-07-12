@@ -72,12 +72,14 @@ object CIlibBuild extends Build {
   )
 
   lazy val cilib = Project("cilib", file(".")).
-    aggregate(core, tests).
+    aggregate(core, example, tests).
     settings(cilibSettings: _*)
 
   lazy val cilibSettings = Seq(
     name := "cilib-aggregate"
   ) ++ noPublish ++ releaseSettings ++ headerCheckSetting
+
+  // Core
 
   lazy val core = Project("core", file("core")).
     settings(coreSettings: _*)
@@ -89,6 +91,18 @@ object CIlibBuild extends Build {
       "org.spire-math" %% "spire"         % "0.7.5"
     )
   ) ++ buildSettings
+
+  // Examples
+
+  lazy val example = Project("example", file("example")).
+    settings(exampleSettings: _*).
+    dependsOn(core)
+
+  lazy val exampleSettings = Seq(
+    name := "cilib-example"
+  ) ++ noPublish
+
+  // Tests
 
   lazy val tests = Project("tests", file("tests")).
     settings(testsSettings: _*).
