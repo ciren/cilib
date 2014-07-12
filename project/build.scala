@@ -1,11 +1,41 @@
 import sbt._
 import Keys._
+
 import sbtrelease._
-import ReleaseStateTransformations._
-import ReleasePlugin._
-import ReleaseKeys._
+import sbtrelease.ReleasePlugin._
+import sbtrelease.ReleasePlugin.ReleaseKeys._
+import sbtrelease.ReleaseStateTransformations._
+import sbtrelease.Utilities._
+
+import com.typesafe.sbt.pgp.PgpKeys._
 
 object CIlibBuild extends Build {
+
+  // Release step
+
+  lazy val publishSignedArtifacts = ReleaseStep(
+    action = st => {
+      val extracted = st.extract
+      val ref = extracted.get(thisProjectRef)
+      extracted.runAggregated(publishSigned in Global in ref, st)
+    },
+    check = st => {
+      // getPublishTo fails if no publish repository is set up.
+      val ex = st.extract
+      val ref = ex.get(thisProjectRef)
+      Classpaths.getPublishTo(ex.get(publishTo in Global in ref))
+      st
+    },
+    enableCrossBuild = true
+  )
+
+  lazy val noPublish = Seq(
+    publish := (),
+    publishLocal := (),
+    publishArtifact := false
+  )
+
+  // Settings
 
   override lazy val settings = super.settings ++ Seq(
     scalaVersion := "2.11.1",
@@ -29,10 +59,18 @@ object CIlibBuild extends Build {
       "-Ywarn-dead-code",        // N.B. doesn't work well with the ??? hole
       "-Ywarn-numeric-widen",
       "-Ywarn-value-discard"),
+
     publishMavenStyle := true,
-    publishSetting,
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
+
+    publishTo <<= (version).apply {
+      v =>
+        Some(if (v.trim.endsWith("SNAPSHOT"))
+          Resolvers.sonatypeSnapshots
+        else Resolvers.sonatypeReleases)
+    },
+
     pomExtra := (
       <url>http://cilib.net</url>
       <scm>
@@ -58,18 +96,7 @@ object CIlibBuild extends Build {
       </developers>)
   )
 
-  lazy val publishSetting = publishTo <<= (version).apply {
-    v =>
-      if (v.trim.endsWith("SNAPSHOT"))
-        Some(Resolvers.sonatypeSnapshots)
-      else Some(Resolvers.sonatypeReleases)
-  }
-
-  lazy val noPublish = Seq(
-    publish := (),
-    publishLocal := (),
-    publishArtifact := false
-  )
+  // Main
 
   lazy val cilib = Project("cilib", file(".")).
     aggregate(core, example, tests).
@@ -77,7 +104,20 @@ object CIlibBuild extends Build {
 
   lazy val cilibSettings = Seq(
     name := "cilib-aggregate"
-  ) ++ noPublish ++ releaseSettings ++ headerCheckSetting
+  ) ++ noPublish ++ headerCheckSetting ++ releaseSettings ++ Seq(
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      runTest,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      publishSignedArtifacts,
+      setNextVersion,
+      commitNextVersion,
+      pushChanges
+    )
+  )
 
   // Core
 
