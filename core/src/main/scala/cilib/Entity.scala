@@ -33,11 +33,16 @@ sealed abstract class Position[F[_], A] {
   def traverse[G[_]: Applicative, B](f: A => G[B])(implicit F: Traverse[F]): G[Position[F, B]] =
     F.traverse(pos)(f).map(Point(_))
 
-  def eval(problem: F[A] => Fit) =
-    this match {
-      case Point(x) => Solution(x, problem(x))
-      case Solution(_ ,_) => this
-    }
+  def eval: State[Problem[F, A], Position[F, A]] =
+    State(problem => {
+      this match {
+        case Point(x) =>
+          val (np, fit) = problem.eval(x)
+          (np, Solution(x, fit))
+        case Solution(_, _) =>
+          (problem, this)
+      }
+    })
 }
 
 object Position {

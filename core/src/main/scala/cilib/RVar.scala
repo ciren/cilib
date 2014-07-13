@@ -8,7 +8,7 @@ import syntax.std.option._
 import syntax.traverse._
 import scalaz.Free._
 
-final class RVar[A](val state: StateT[Trampoline, RNG, A]) {
+final class RVar[A] private[cilib] (val state: StateT[Trampoline, RNG, A]) {
   import Trampoline._
 
   def map[B](f: A => B): RVar[B] =
