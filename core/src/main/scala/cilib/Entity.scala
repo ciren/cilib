@@ -9,18 +9,6 @@ import Scalaz._
 sealed abstract class Position[F[_], A] {
   import Position._
 
-  def pos =
-    this match {
-      case Point(x)  => x
-      case Solution(x, _) => x
-    }
-
-  def fit: Option[Fit] =
-    this match {
-      case Point(_)  => None
-      case Solution(_, f) => Some(f)
-    }
-
   def map[B](f: A => B)(implicit F: Monad[F]): Position[F, B] =
     Point(pos map f)
 
@@ -33,6 +21,18 @@ sealed abstract class Position[F[_], A] {
   def traverse[G[_]: Applicative, B](f: A => G[B])(implicit F: Traverse[F]): G[Position[F, B]] =
     F.traverse(pos)(f).map(Point(_))
 
+  def pos =
+    this match {
+      case Point(x)  => x
+      case Solution(x, _) => x
+    }
+
+  def fit: Option[Fit] =
+    this match {
+      case Point(_)  => None
+      case Solution(_, f) => Some(f)
+    }
+
   def eval: State[Problem[F, A], Position[F, A]] =
     State(problem => {
       this match {
@@ -43,6 +43,12 @@ sealed abstract class Position[F[_], A] {
           (problem, this)
       }
     })
+
+  def toPoint: Position[F, A] =
+    this match {
+      case Point(x) => this
+      case Solution(x, _) => Point(x)
+    }
 }
 
 object Position {

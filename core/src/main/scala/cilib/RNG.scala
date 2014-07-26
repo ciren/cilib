@@ -2,12 +2,12 @@ package cilib
 
 import Predef.{any2stringadd => _, _}
 
-trait RNG {
+sealed trait RNG {
   val seed: Long
   def next(bits: Int): (RNG, Int)
 }
 
-final class CMWC(val seed: Long, carry: Long, index: Int, state: Vector[Long]) extends RNG {
+private final class CMWC(val seed: Long, carry: Long, index: Int, state: Vector[Long]) extends RNG {
   val multiplier = 18782L//1030770L
   val r = 4096L
 

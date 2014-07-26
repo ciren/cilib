@@ -29,9 +29,6 @@ final class RVar[A] private[cilib] (val state: StateT[Trampoline, RNG, A]) {
   def zipWith[B, C](zb: RVar[B], f: A => B => C): RVar[C] =
     zb.ap(map(f))
 
-  def replicateM(n: Int) =
-    new RVar(state replicateM n)
-
   def run(r: RNG) =
     state.run(r)
 }
@@ -152,7 +149,7 @@ object RVar {
 
 }
 
-trait Generator[A] {
+sealed trait Generator[A] {
   def gen: RVar[A]
 }
 

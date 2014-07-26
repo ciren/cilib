@@ -27,7 +27,6 @@ object Fitness {
     })
 }
 
-
 sealed trait Opt extends Order[Option[Fit]] {
   def order(x: Option[Fit], y: Option[Fit]): Ordering
 }

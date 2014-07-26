@@ -38,7 +38,7 @@ object CIlibBuild extends Build {
   // Settings
 
   override lazy val settings = super.settings ++ Seq(
-    scalaVersion := "2.11.1",
+    scalaVersion := "2.11.2",
     organization := "net.cilib",
     organizationName := "CIRG @ UP",
     organizationHomepage := Some(url("http://cirg.cs.up.ac.za")),
