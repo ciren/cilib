@@ -166,24 +166,24 @@ object PSO {
     Fitness.compare(pos, pbestL.get(state)).map(x => (pbestL.set(state, x), pos))
   }
 
-
   type Guide[A] = List[A] => A => A
   type Particle[S,A] = (S,Position[List,A])
 
   // The funciton bwlow needs the guides for the particle, for the standard PSO update and will eventually live in the simulator
-  def gbest[S:Velocity](
-    x: (S,Position[List,Double]),
-    cognitive: Particle[S,Double] => Particle[S,Double],
-    social: Particle[S,Double] => Particle[S,Double]
-  ): Instruction[RVar, State[Problem[List,Double], (S,Position[List,Double])]] =
-    for {
-      v <- updateVelocity(x, social(x)._2, cognitive(x)._2, 0.8, 1.4, 1.4)
+  def gbest[S:Memory:Velocity](w: Double, c1: Double, c2: Double,
+    cognitive: Guide[Particle[S,Double]],
+    social: Guide[Particle[S,Double]]
+  ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[RVar, State[Problem[List,Double], Reader[Opt, Particle[S,Double]]]] =
+    collection => x => for {
+      v <- updateVelocity(x, social(collection)(x)._2, cognitive(collection)(x)._2, w, c1, c2)
       p <- updatePosition(x, v)
-    } yield evalParticle(p)
+    } yield evalParticle(p) map updatePBest[S]
 
-  def syncUpdate[S:Velocity](collection: List[(S,Position[List,Double])],
-    f: ((S,Position[List,Double])) => Instruction[RVar, State[Problem[List,Double], List[(S,Position[List,Double])]]]) =
-    collection.traverseU(f)
+  def syncUpdate[S](collection: List[Particle[S,Double]],
+    f: (Particle[S,Double]) => Instruction[RVar, State[Problem[List,Double], Reader[Opt,Particle[S,Double]]]]) = {
+    val x: Instruction[RVar, List[State[Problem[List,Double], Reader[Opt,Particle[S,Double]]]]]  = collection.traverseU(f)
+    x.map(_.sequenceU)
+  }
 
   // Some helper code for translating Instruction to some monad F
   @annotation.tailrec
