@@ -104,105 +104,88 @@ object PSO {
     does both and continues the computation. The Instruction is nothing more than a free
     monad, but suited to our uses.
     */
-  sealed trait Instruction[F[_],A] {
-    def flatMap[B](f: A => Instruction[F,B]): Instruction[F,B] =
-      FlatMap(this, f)
-    def map[B](f: A => B): Instruction[F,B] =
-      flatMap(f andThen (Return(_)))
+
+  // This should be extracted to use transformers - Does this mean we need RVarT?
+  trait InstructionFunctions {
+
   }
 
-  case class Return[F[_],A](x: A) extends Instruction[F,A]
-  case class Suspend[F[_],A](s: F[A]) extends Instruction[F,A]
-  case class FlatMap[F[_],A,B](sub: Instruction[F,A], k: A => Instruction[F,B]) extends Instruction[F,B]
+
 
   object Instruction {
-    implicit def instrucitonMonad[F[_]]: Monad[({type f[a] = Instruction[F,a]})#f] =
-      new Monad[({type f[a]=Instruction[F,a]})#f] {
-        def point[A](a: => A): Instruction[F,A] = Return(a)
-        def bind[A, B](fa: Instruction[F,A])(f: A => Instruction[F,B]): Instruction[F,B] = FlatMap(fa, f)
-      }
+    import scalaz._, Scalaz._
 
-    def suspend[F[_],A](s: F[A]): Instruction[F,A] = // This should go into the package object
-      Suspend(s)
+    type X[A] = StateT[RVar, Problem[List,Double], A]
+
+    //case class Instruction[F[_],D,A](run: RVar[State[Problem[F,D],Reader[Opt,A]]]) {
+    //case class Instruction[F[_],D,A](run: StateT[RVar, Problem[F,D], Reader[Opt,A]]) {
+    final class Instruction[F[_],D,A](val run: ReaderT[X, Opt, A]) {
+
+      def map[B](f: A => B): Instruction[F,D,B] =
+        new Instruction(run map f)
+
+      def flatMap[B](f: A => Instruction[F,D,B]): Instruction[F,D,B] =
+        new Instruction(run flatMap (f(_).run))
+    }
+
+    def point[A](a: A): Instruction[List,Double,A] =
+      new Instruction(Kleisli[X, Opt, A]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point((p, a)))))
+
+    def pointR[A](a: RVar[A]): Instruction[List,Double,A] =
+      new Instruction(Kleisli[X,Opt,A]((o: Opt) => StateT((p: Problem[List,Double]) => a.map(x => (p,x)))))
+
+    def pointS[A](a: StateT[RVar, Problem[List,Double],A]): Instruction[List,Double,A] =
+      new Instruction(Kleisli[X,Opt,A]((o: Opt) => a))
+
+    def liftK[A](a: Reader[Opt, A]): Instruction[List,Double,A] =
+      new Instruction(Kleisli[X, Opt, A]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point((p, a.run(o))))))
   }
 
   import Instruction._
 
-  def createPosition(n: Int/*, domain: List[Interval]*/) = //: Instruction[RVar, Position[List,Double]] =
-    suspend(Dist.uniform(-5.12, 5.12).replicateM(n) map (Position(_)))
-
-  def createCollection(n: Int, d: Int) =
-    createPosition(d) replicateM n
-
-  // This should not be a direct funciton, possibly usage via `map`?
-  def createParticle[S](f: Position[List,Double] => (S, Position[List,Double]))(pos: Position[List,Double]) =
-    f(pos)
-
-  // Instruction to evaluate the particle // what about cooperative?
-  def evalParticle[F[_],S](entity: (S,Position[List,Double])): State[Problem[List,Double],(S,Position[List,Double])] = {
-    State(p => {
-      val r = entity._2.eval(p)
-      (r._1, (entity._1, r._2))
-    })
-  }
-
-  def updatePosition[S](c: (S,Position[List,Double]), v: Position[List,Double]) =
-    suspend(RVar.point((c._1, c._2 + v)))
+  def updatePosition[S](c: (S,Position[List,Double]), v: Position[List,Double]): Instruction[List,Double,(S,Position[List,Double])] =
+    Instruction.point((c._1, c._2 + v))
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists
-  def updateVelocity[S](entity: (S,Position[List,Double]), social: Position[List,Double], cognitive: Position[List, Double], w: Double, c1: Double, c2: Double)(implicit V: Velocity[S]) = {
+  def updateVelocity[S](entity: (S,Position[List,Double]), social: Position[List,Double], cognitive: Position[List, Double], w: Double, c1: Double, c2: Double)(implicit V: Velocity[S]): Instruction[List,Double,Position[List,Double]] = {
     val (state,pos) = entity
-    suspend(for {
+    Instruction.pointR(for {
       cog <- (cognitive - pos) traverse (x => Dist.stdUniform.map(_ * x))
       soc <- (social - pos) traverse (x => Dist.stdUniform.map(_ * x))
     } yield (w *: pos) + (c1 *: cog) + (c2 *: soc))
   }
 
+  // Instruction to evaluate the particle // what about cooperative?
+  def evalParticle[F[_],S](entity: (S,Position[List,Double])): Instruction[List,Double,(S,Position[List,Double])] = {
+    Instruction.pointS(StateT(p => {
+      val r = entity._2.eval(p)
+      RVar.point((r._1, (entity._1, r._2)))
+    }))
+  }
+
   // The following function needs a lot of work... the biggest issue is the case of the state 'S' and how to get the values out of it and how to update again??? Lenses? Typeclasses?
-  def updatePBest[S](p: (S,Position[List,Double]))(implicit M: Memory[S]): Reader[Opt, (S,Position[List,Double])] = {
+  def updatePBest[S](p: (S,Position[List,Double]))(implicit M: Memory[S]): Instruction[List,Double,Particle[S,Double]] = {
     val pbestL = M.memoryLens
     val (state, pos) = p
-    Fitness.compare(pos, pbestL.get(state)).map(x => (pbestL.set(state, x), pos))
+    Instruction.liftK(Fitness.compare(pos, pbestL.get(state)).map(x => (pbestL.set(state, x), pos)))
   }
 
   type Guide[A] = List[A] => A => A
   type Particle[S,A] = (S,Position[List,A])
 
-  // The funciton bwlow needs the guides for the particle, for the standard PSO update and will eventually live in the simulator
+  // The function below needs the guides for the particle, for the standard PSO update and will eventually live in the simulator
   def gbest[S:Memory:Velocity](w: Double, c1: Double, c2: Double,
     cognitive: Guide[Particle[S,Double]],
     social: Guide[Particle[S,Double]]
-  ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[RVar, State[Problem[List,Double], Reader[Opt, Particle[S,Double]]]] =
+  ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[List,Double,Particle[S,Double]] =
     collection => x => for {
       v <- updateVelocity(x, social(collection)(x)._2, cognitive(collection)(x)._2, w, c1, c2)
       p <- updatePosition(x, v)
-    } yield evalParticle(p) map updatePBest[S]
+      p2 <- evalParticle(p)
+      updated <- updatePBest(p2)
+    } yield updated
 
-  def syncUpdate[S](collection: List[Particle[S,Double]],
-    f: (Particle[S,Double]) => Instruction[RVar, State[Problem[List,Double], Reader[Opt,Particle[S,Double]]]]) = {
-    val x: Instruction[RVar, List[State[Problem[List,Double], Reader[Opt,Particle[S,Double]]]]]  = collection.traverseU(f)
-    x.map(_.sequenceU)
-  }
-
-  // Some helper code for translating Instruction to some monad F
-  @annotation.tailrec
-  def step[F[_],A](inst: Instruction[F,A])(implicit F: Monad[F]): Instruction[F,A] = inst match {
-    case FlatMap(FlatMap(x,f), g) => step(x flatMap (a => f(a) flatMap g))
-    case FlatMap(Return(x), f) => step(f(x))
-    case _ => inst
-  }
-
-  def interpret[F[_],A](inst: Instruction[F,A])(implicit F: Monad[F]): F[A] = run(inst)
-
-  def run[F[_],A](inst: Instruction[F,A])(implicit F: Monad[F]): F[A] = step(inst) match {
-    case Return(a) => F.point(a)
-    case Suspend(r) => F.bind(r)(a => run(Return[F,A](a)))
-    case FlatMap(x, f) => x match {
-      case Suspend(r) => F.bind(r)(a => run(f(a)))
-      case _ => sys.error("Impossible")
-    }
-  }
 }
 
 
