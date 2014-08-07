@@ -110,23 +110,22 @@ object PSO {
 
   }
 
+  //case class Instruction[F[_],D,A](run: RVar[State[Problem[F,D],Reader[Opt,A]]]) {
+  //case class Instruction[F[_],D,A](run: StateT[RVar, Problem[F,D], Reader[Opt,A]]) {
+  final class Instruction[F[_],D,A](val run: ReaderT[X, Opt, A]) {
 
+    def map[B](f: A => B): Instruction[F,D,B] =
+      new Instruction(run map f)
+
+    def flatMap[B](f: A => Instruction[F,D,B]): Instruction[F,D,B] =
+      new Instruction(run flatMap (f(_).run))
+  }
 
   object Instruction {
     import scalaz._, Scalaz._
 
-    type X[A] = StateT[RVar, Problem[List,Double], A]
-
-    //case class Instruction[F[_],D,A](run: RVar[State[Problem[F,D],Reader[Opt,A]]]) {
-    //case class Instruction[F[_],D,A](run: StateT[RVar, Problem[F,D], Reader[Opt,A]]) {
-    final class Instruction[F[_],D,A](val run: ReaderT[X, Opt, A]) {
-
-      def map[B](f: A => B): Instruction[F,D,B] =
-        new Instruction(run map f)
-
-      def flatMap[B](f: A => Instruction[F,D,B]): Instruction[F,D,B] =
-        new Instruction(run flatMap (f(_).run))
-    }
+    def apply[A](s: Kleisli[X,Opt,A]) =
+      new Instruction(s)
 
     def point[A](a: A): Instruction[List,Double,A] =
       new Instruction(Kleisli[X, Opt, A]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point((p, a)))))
@@ -185,6 +184,20 @@ object PSO {
       p2 <- evalParticle(p)
       updated <- updatePBest(p2)
     } yield updated
+
+  def createPosition(n: Int/*, domain: List[Interval]*/) = //: Instruction[RVar, Position[List,Double]] =
+    Dist.uniform(-5.12, 5.12).replicateM(n) map (Position(_))
+
+  def createCollection(n: Int, d: Int) =
+    createPosition(d) replicateM n
+
+  def createParticle[S](f: Position[List,Double] => (S, Position[List,Double]))(pos: Position[List,Double]) =
+    f(pos)
+
+  def syncUpdate[S](collection: List[Particle[S,Double]],
+    f: (Particle[S,Double]) => Instruction[List,Double,Particle[S,Double]]) = {
+    new Instruction[List,Double,List[Particle[S,Double]]](collection.traverseU(f(_).run))
+  }
 
 }
 
