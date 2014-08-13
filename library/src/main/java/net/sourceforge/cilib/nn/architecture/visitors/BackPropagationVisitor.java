@@ -13,6 +13,8 @@ import net.sourceforge.cilib.nn.architecture.ForwardingLayer;
 import net.sourceforge.cilib.nn.architecture.Layer;
 import net.sourceforge.cilib.nn.components.Neuron;
 import net.sourceforge.cilib.nn.components.PatternInputSource;
+import net.sourceforge.cilib.nn.penalty.NNPenalty;
+import net.sourceforge.cilib.nn.penalty.NoPenalty;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -27,6 +29,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
     private double momentum;
     private double learningRate;
     private double[][] previousWeightUpdates;
+    private NNPenalty penalty;
 
     /**
      * Default constructor.
@@ -34,6 +37,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
     public BackPropagationVisitor() {
         learningRate = 0.1;
         momentum = 0.9;
+        penalty = new NoPenalty();
     }
 
     public BackPropagationVisitor(BackPropagationVisitor rhs) {
@@ -143,7 +147,7 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
                 for (int j = 0; j < previousLayerSize; j++) {
                     double weight = currentNeuron.getWeights().doubleValueOf(j);
                     double newWeightUpdate = tmp * previousLayer.getNeuralInput(j);
-                    double update = newWeightUpdate + momentum * previousWeightUpdates[currentLayerIdx - 1][k * previousLayerSize + j];
+                    double update = newWeightUpdate + momentum * previousWeightUpdates[currentLayerIdx - 1][k * previousLayerSize + j] - penalty.calculatePenaltyDerivative(weight);
                     currentNeuron.getWeights().setReal(j, weight + update);
                     previousWeightUpdates[currentLayerIdx - 1][k * previousLayerSize + j] = newWeightUpdate;
                 }
@@ -222,4 +226,9 @@ public class BackPropagationVisitor implements ArchitectureVisitor {
     public void setPreviousPattern(StandardPattern previousPattern) {
         this.previousPattern = previousPattern;
     }
+
+    public void setPenalty(NNPenalty penalty) {
+        this.penalty = penalty;
+    }   
+    
 }
