@@ -33,7 +33,7 @@ object RNG {
     import scalaz._, Scalaz._, Free._
 
     val seedGen = initLCG(seed)
-    val seedGenState = RVar.next[Int].map(_ & 0xFFFFFFFFL).replicateM(4097).run(seedGen).run._2
+    val seedGenState = RVar.next[Int].map(_ & 0xFFFFFFFFL).replicateM(4097).run(seedGen)._2
 
     new CMWC(seed, seedGenState(4096), 4095, seedGenState.take(4096).toVector)
   }

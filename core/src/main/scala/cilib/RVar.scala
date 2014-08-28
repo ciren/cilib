@@ -30,7 +30,7 @@ final class RVar[A] private[cilib] (val state: StateT[Trampoline, RNG, A]) {
     zb.ap(map(f))
 
   def run(r: RNG) =
-    state.run(r)
+    state.run(r).run
 }
 
 object RVar {
@@ -211,10 +211,10 @@ object Dist {
       if (i < 127) {
         val y0 = ytab(i)
         val y1 = ytab(i + 1)
-        val (rng1, uni) = stdUniform.run(rng).run
+        val (rng1, uni) = stdUniform.run(rng)
         (rng1, (x, y1 + (y0 - y1) * uni))
       } else {
-        val (rng1, (a, b)) = uniformPair.run(rng).run
+        val (rng1, (a, b)) = uniformPair.run(rng)
         val x1 = PARAM_R - math.log(1.0 - a) / PARAM_R
         val y1 = math.exp(-PARAM_R * (x - 0.5 * PARAM_R)) * b
         (rng1, (x1, y1))
@@ -225,7 +225,7 @@ object Dist {
     import Trampoline._
 
     def inner(y: Double): StateT[Trampoline, RNG, Double] = StateT { rng =>
-      val (rng1, u) = next[Int].run(rng).run
+      val (rng1, u) = next[Int].run(rng)
       val i = u & 0x0000007F
       val sign = u & 0x00000080
       val j = u >> 8
@@ -287,7 +287,7 @@ object Dist {
   }
 
   def exponential(l: Option[Double @@ Tags.Positive]) =
-    l.cata(x => stdUniform map { math.log(_) / x }, RVar.point(0.0))
+    l.map(Tag.unwrap(_)).cata(x => stdUniform map { math.log(_) / x }, RVar.point(0.0))
 
   def laplace(b0: Double, b1: Double) =
     stdUniform map { x =>

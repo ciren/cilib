@@ -14,8 +14,8 @@ object ShufflingTest extends Properties("Shuffling") {
     forAll(Gen.chooseNum(1, 1000)) { (n: Int) =>
       val ints = RVar.ints(n)
 
-      val shuffled = ints.flatMap(x => RVar.shuffle(x)).run(rng).run._2.sorted
-      val sorted = ints.run(rng).run._2.sorted
+      val shuffled = ints.flatMap(x => RVar.shuffle(x)).run(rng)._2.sorted
+      val sorted = ints.run(rng)._2.sorted
 
       shuffled === sorted && shuffled.size === n
     }

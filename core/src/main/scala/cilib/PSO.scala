@@ -37,24 +37,6 @@ object Velocity {
 
 object PSO {
   /*
-  // Should the collection not be partially applied to the guides already?
-  def velUp[S, A:Fractional](v: Lens[S, Pos[A]], local: Guide[A], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
-    Kleisli {
-      case (s, a) => {
-        val localG = local(collection, a)
-        val globalG = global(collection, a)
-
-        for {
-          cog <- (a - localG)  traverse (x => Dist.stdUniform.map(y => x * y))
-          soc <- (a - globalG) traverse (x => Dist.stdUniform.map(y => x * y))
-        } yield (v.mod(_ + cog + soc, s), a)
-      }
-    }
-
-  def posUp[S, A:Fractional](v: Lens[S, Pos[A]]): C[S, A] = Kleisli {
-    case (s, a) => RVar.point((s, a + v.get(s)))
-  }
-
   def barebonesVel[S, A:Fractional](v: Lens[S, Pos[A]], p: Lens[S, Pos[A]], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
     Kleisli {
       case (s, a) =>
@@ -74,20 +56,7 @@ object PSO {
       case (s, a) => RVar.point((s, v.get(s)))
     }
 
-  def pbestUpdate[S, A: Numeric](pbL: Lens[S, Pos[A]]): Reader[Opt, Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]] =
-    Reader(opt =>
-      Kleisli {
-        case (s, a) =>
-          RVar.point((pbL.mod((pbest: Pos[A]) => Fitness.compare(pbest, a) run opt, s), a))
-      }
-    )
-
-
-  //  def c[S, A:Numeric] = (velUp[S,A] _) >==> (posUp _)
    */
-
-  // The below is a different approach to building up a description of the algorithm
-
 
   /**
     A Instruction is a type that models a single step in an Algorithm's operation.
@@ -112,12 +81,12 @@ object PSO {
 
   //case class Instruction[F[_],D,A](run: RVar[State[Problem[F,D],Reader[Opt,A]]]) {
   //case class Instruction[F[_],D,A](run: StateT[RVar, Problem[F,D], Reader[Opt,A]]) {
-  final class Instruction[F[_],D,A](val run: ReaderT[X, Opt, A]) {
+  final class Instruction[A](val run: ReaderT[X, Opt, A]) {
 
-    def map[B](f: A => B): Instruction[F,D,B] =
+    def map[B](f: A => B): Instruction[B] =
       new Instruction(run map f)
 
-    def flatMap[B](f: A => Instruction[F,D,B]): Instruction[F,D,B] =
+    def flatMap[B](f: A => Instruction[B]): Instruction[B] =
       new Instruction(run flatMap (f(_).run))
   }
 
@@ -127,36 +96,45 @@ object PSO {
     def apply[A](s: Kleisli[X,Opt,A]) =
       new Instruction(s)
 
-    def point[A](a: A): Instruction[List,Double,A] =
+    def point[A](a: A): Instruction[A] =
       new Instruction(Kleisli[X, Opt, A]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point((p, a)))))
 
-    def pointR[A](a: RVar[A]): Instruction[List,Double,A] =
+    def pointR[A](a: RVar[A]): Instruction[A] =
       new Instruction(Kleisli[X,Opt,A]((o: Opt) => StateT((p: Problem[List,Double]) => a.map(x => (p,x)))))
 
-    def pointS[A](a: StateT[RVar, Problem[List,Double],A]): Instruction[List,Double,A] =
+    def pointS[A](a: StateT[RVar, Problem[List,Double],A]): Instruction[A] =
       new Instruction(Kleisli[X,Opt,A]((o: Opt) => a))
 
-    def liftK[A](a: Reader[Opt, A]): Instruction[List,Double,A] =
+    def liftK[A](a: Reader[Opt, A]): Instruction[A] =
       new Instruction(Kleisli[X, Opt, A]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point((p, a.run(o))))))
+
+    implicit val instrMonad: Monad[Instruction] = new Monad[Instruction] {
+      def point[A](a: => A) =
+        Instruction.point(a)
+
+      def bind[A, B](fa: Instruction[A])(f: A => Instruction[B]): Instruction[B] =
+        fa flatMap f
+    }
+
   }
 
   import Instruction._
 
-  def updatePosition[S](c: (S,Position[List,Double]), v: Position[List,Double]): Instruction[List,Double,(S,Position[List,Double])] =
+  def updatePosition[S](c: (S,Position[List,Double]), v: Position[List,Double]): Instruction[(S,Position[List,Double])] =
     Instruction.point((c._1, c._2 + v))
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists
-  def updateVelocity[S](entity: (S,Position[List,Double]), social: Position[List,Double], cognitive: Position[List, Double], w: Double, c1: Double, c2: Double)(implicit V: Velocity[S]): Instruction[List,Double,Position[List,Double]] = {
+  def updateVelocity[S](entity: (S,Position[List,Double]), social: RVar[Position[List,Double]], cognitive: RVar[Position[List, Double]], w: Double, c1: Double, c2: Double)(implicit V: Velocity[S]): Instruction[Position[List,Double]] = {
     val (state,pos) = entity
     Instruction.pointR(for {
-      cog <- (cognitive - pos) traverse (x => Dist.stdUniform.map(_ * x))
-      soc <- (social - pos) traverse (x => Dist.stdUniform.map(_ * x))
+      cog <- cognitive map (_ - pos) flatMap (_ traverse (x => Dist.stdUniform.map(_ * x)))
+      soc <- social map (_ - pos) flatMap (_ traverse (x => Dist.stdUniform.map(_ * x)))
     } yield (w *: pos) + (c1 *: cog) + (c2 *: soc))
   }
 
   // Instruction to evaluate the particle // what about cooperative?
-  def evalParticle[F[_],S](entity: (S,Position[List,Double])): Instruction[List,Double,(S,Position[List,Double])] = {
+  def evalParticle[F[_],S](entity: (S,Position[List,Double])): Instruction[(S,Position[List,Double])] = {
     Instruction.pointS(StateT(p => {
       val r = entity._2.eval(p)
       RVar.point((r._1, (entity._1, r._2)))
@@ -164,22 +142,22 @@ object PSO {
   }
 
   // The following function needs a lot of work... the biggest issue is the case of the state 'S' and how to get the values out of it and how to update again??? Lenses? Typeclasses?
-  def updatePBest[S](p: (S,Position[List,Double]))(implicit M: Memory[S]): Instruction[List,Double,Particle[S,Double]] = {
+  def updatePBest[S](p: (S,Position[List,Double]))(implicit M: Memory[S]): Instruction[Particle[S,Double]] = {
     val pbestL = M.memoryLens
     val (state, pos) = p
     Instruction.liftK(Fitness.compare(pos, pbestL.get(state)).map(x => (pbestL.set(state, x), pos)))
   }
 
-  type Guide[A] = List[A] => A => A
+  type Guide[A] = List[A] => A => RVar[A]
   type Particle[S,A] = (S,Position[List,A])
 
   // The function below needs the guides for the particle, for the standard PSO update and will eventually live in the simulator
   def gbest[S:Memory:Velocity](w: Double, c1: Double, c2: Double,
     cognitive: Guide[Particle[S,Double]],
     social: Guide[Particle[S,Double]]
-  ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[List,Double,Particle[S,Double]] =
+  ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
     collection => x => for {
-      v <- updateVelocity(x, social(collection)(x)._2, cognitive(collection)(x)._2, w, c1, c2)
+      v <- updateVelocity(x, social(collection)(x).map(_._2), cognitive(collection)(x).map(_._2), w, c1, c2)
       p <- updatePosition(x, v)
       p2 <- evalParticle(p)
       updated <- updatePBest(p2)
@@ -195,8 +173,8 @@ object PSO {
     f(pos)
 
   def syncUpdate[S](collection: List[Particle[S,Double]],
-    f: (Particle[S,Double]) => Instruction[List,Double,Particle[S,Double]]) = {
-    new Instruction[List,Double,List[Particle[S,Double]]](collection.traverseU(f(_).run))
+    f: (Particle[S,Double]) => Instruction[Particle[S,Double]]) = {
+    new Instruction[List[Particle[S,Double]]](collection.traverseU(f(_).run))
   }
 
 }

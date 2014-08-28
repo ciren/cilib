@@ -7,7 +7,7 @@ import org.scalacheck.Prop._
 object GeneratorTest extends Properties("Distribution") {
 
   def sizedGen(r: RVar[Double]) =
-    Gen.sized { _ => r.replicateM(250).run(RNG.fromTime).run._2.toVector }
+    Gen.sized { _ => r.replicateM(250).run(RNG.fromTime)._2.toVector }
 
   val gaussianRandom =
     sizedGen(Dist.stdNormal)
@@ -74,6 +74,7 @@ object GeneratorTest extends Properties("Distribution") {
         case _ => sys.error("impossible")
       }))
 
+      println("sum: " + sum)
       sum < 27.83 && a.forall(x => x >= 0.0 && x < 1.0)
     }
   }

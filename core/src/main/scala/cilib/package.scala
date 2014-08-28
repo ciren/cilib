@@ -9,6 +9,7 @@ package object cilib {
   //  type Guide[A] = (IList[Pos[A]], Pos[A]) => Pos[A] // Should expand into a typeclass?
 
   type X[A] = StateT[RVar, Problem[List,Double], A]
+  type Y[A] = ReaderT[X, Opt, A]
 
   def positive(d: Double): Option[Double @@ Tags.Positive] =
     if (d > 0.0) Tag.subst(Some(d))

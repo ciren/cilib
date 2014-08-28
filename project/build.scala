@@ -127,7 +127,7 @@ object CIlibBuild extends Build {
   lazy val coreSettings = Seq(
     name := "cilib",
     libraryDependencies ++= Seq(
-      "org.scalaz"     %% "scalaz-core"   % "7.1.0-M7",
+      "org.scalaz"     %% "scalaz-core"   % "7.1.0",
       "org.spire-math" %% "spire"         % "0.7.5"
     )
   ) ++ buildSettings
