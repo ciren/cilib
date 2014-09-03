@@ -20,4 +20,9 @@ object Scheme {
   // algorithms have the shape: [a] -> a -> Instruction a
   def sync[A](f: List[A] => A => Instruction[A]) =
     Scheme((l: List[A]) => l traverse (f(l)))
+
+  def async[A](f: List[A] => A => Instruction[A]) = // This needs to be profiled. The drop is expensive - perhaps a zipper is better
+    Scheme((l: List[A]) =>
+      l.foldLeftM(List.empty[A])((a, c) => f(a ++ l.drop(a.length)).apply(c).map(a :+ _))
+    )
 }

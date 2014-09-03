@@ -88,11 +88,11 @@ object PSO {
 
   // The function below needs the guides for the particle, for the standard PSO update and will eventually live in the simulator
   def gbest[S:Memory:Velocity](w: Double, c1: Double, c2: Double,
-    cognitive: Guide[Particle[S,Double]],
-    social: Guide[Particle[S,Double]]
+    cognitive: Guide[S,Double],
+    social: Guide[S,Double]
   ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
     collection => x => for {
-      v <- updateVelocity(x, social(collection)(x).map(_._2), cognitive(collection)(x).map(_._2), w, c1, c2)
+      v <- updateVelocity(x, social(collection, x), cognitive(collection, x), w, c1, c2)
       p <- updatePosition(x, v)
       p2 <- evalParticle(p)
       updated <- updatePBest(p2)

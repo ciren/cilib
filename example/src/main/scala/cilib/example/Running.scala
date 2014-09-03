@@ -10,8 +10,8 @@ object Running {
     val sum = Problem.static((a: List[Double]) => Valid(a.sum))
 
     // Define a normal GBest PSO and run it for a single iteration
-    val cognitive: Guide[Particle[Mem[Double],Double]] = c => x => RVar.point(x)
-    val social: Guide[Particle[Mem[Double],Double]] = c => x => RVar.point(x)
+    val cognitive: Guide[Mem[Double],Double] = (c, x) => RVar.point(x._2)
+    val social: Guide[Mem[Double],Double] = (c, x) => RVar.point(x._2)
 
     val gbest = PSO.gbest[Mem[Double]](0.8, 1.4, 1.4, cognitive, social)
     val a = Instruction.pointR(
