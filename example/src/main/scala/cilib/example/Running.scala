@@ -14,7 +14,7 @@ object Running {
     val social: PSO.Guide[PSO.Particle[Mem[Double],Double]] = c => x => RVar.point(x)
 
     val gbest = PSO.gbest[Mem[Double]](0.8, 1.4, 1.4, cognitive, social)
-    val a = PSO.Instruction.pointR(
+    val a = Instruction.pointR(
       PSO.createCollection(20, 20).map(_.map(PSO.createParticle(x => (Mem(x,x),x))))
     )
     val b2 = Scheme.sync(gbest)
