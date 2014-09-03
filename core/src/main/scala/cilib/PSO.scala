@@ -86,9 +86,6 @@ object PSO {
     Instruction.liftK(Fitness.compare(pos, pbestL.get(state)).map(x => (pbestL.set(state, x), pos)))
   }
 
-  type Guide[A] = List[A] => A => RVar[A]
-  type Particle[S,A] = (S,Position[List,A])
-
   // The function below needs the guides for the particle, for the standard PSO update and will eventually live in the simulator
   def gbest[S:Memory:Velocity](w: Double, c1: Double, c2: Double,
     cognitive: Guide[Particle[S,Double]],

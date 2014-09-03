@@ -6,7 +6,9 @@ package object cilib {
   // (S, A) => M[(S, A)] - This is the Kleisli arrow, where M = RVar
   type C[S, A] = Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]
   type Pos[A] = Position[IList, A]
-  //  type Guide[A] = (IList[Pos[A]], Pos[A]) => Pos[A] // Should expand into a typeclass?
+
+  type Guide[A] = List[A] => A => RVar[A] // Should expand into a typeclass?
+  type Particle[S,A] = (S,Position[List,A])
 
   type X[A] = StateT[RVar, Problem[List,Double], A]
   type Y[A] = ReaderT[X, Opt, A]
