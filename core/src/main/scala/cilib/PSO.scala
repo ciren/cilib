@@ -98,19 +98,26 @@ object PSO {
       updated <- updatePBest(p2)
     } yield updated
 
-  def createPosition(n: Int/*, domain: List[Interval]*/) = //: Instruction[RVar, Position[List,Double]] =
-    Dist.uniform(-5.12, 5.12).replicateM(n) map (Position(_))
+  case class GCParams(p: Double, successes: Int, failures: Int, e_s: Double, e_f: Double)
 
-  def createCollection(n: Int, d: Int) =
-    createPosition(d) replicateM n
+  // This is only defined for the gbest topology because the "method" described in Edwin's paper for alternate topologies does not make sense
+  // I can only assume that there is some additional research that needs to be done to correctly create an algorithm to apply gcpso to other
+  // topology structures. Stating that you simply "copy" something into something else is not elegant and does not have a solid reasoning
+  // attached to it.
+  def gcpso[S](w: Double, c1: Double, c2: Double, cognitive: Guide[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Instruction[State[GCParams,Particle[S,Double]]] =
+    collection => x => Instruction.point(
+      State { s => (s, x) }
+    )
 
-  def createParticle[S](f: Position[List,Double] => (S, Position[List,Double]))(pos: Position[List,Double]) =
+  def createParticle[S](f: Position[List,Double] => Particle[S,Double])(pos: Position[List,Double]) =
     f(pos)
 
-  def syncUpdate[S](collection: List[Particle[S,Double]],
-    f: (Particle[S,Double]) => Instruction[Particle[S,Double]]) = {
-    new Instruction[List[Particle[S,Double]]](collection.traverseU(f(_).run))
-  }
+}
+
+object Guide {
+
+  def identity[S,A]: Guide[S,A] =
+    (collection, x) => RVar.point(x._2)
 
 }
 

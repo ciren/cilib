@@ -93,26 +93,30 @@ object Position {
     Point(xs)
 
   // Construction utilities
-  def mkPos[A](i: List[Interval[A]])(implicit N: Numeric[A]) =
-    i traverse (_.fold((x, y) => Dist.uniform(N.toDouble(x), N.toDouble(y)))) map (Position(_))
+  // def mkPos[A](i: List[Interval[A]])(implicit N: Numeric[A]) =
+  //   i traverse (_.fold((x, y) => Dist.uniform(N.toDouble(x), N.toDouble(y)))) map (Position(_))
 
-  def mkColl[A: Numeric](i: List[Interval[A]], n: Int) =
-    mkPos(i) replicateM n
+  // def mkColl[A: Numeric](i: List[Interval[A]], n: Int) =
+  //   mkPos(i) replicateM n
+
+  def createPosition(domain: List[Interval[Double]]) =
+    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))
+
+  def createPositions(domain: List[Interval[Double]], n: Int) =
+    createPosition(domain) replicateM n
+
+  def createCollection[A](f: Pos[Double] => A)(domain: List[Interval[Double]], n: Int) =
+    createPositions(domain, n) map (_ map f)
+
 }
 
-sealed trait Bound[A]
-case class Closed[A](a: A) extends Bound[A]
-case class Open[A](a: A) extends Bound[A]
+sealed trait Bound[A] {
+  def value: A
+}
+case class Closed[A](value: A) extends Bound[A]
+case class Open[A](value: A) extends Bound[A]
 
-final class Interval[A](val lower: Bound[A], val upper: Bound[A]) {
-
-  def fold[B](f: (A, A) => B): B =
-    (lower, upper) match {
-      case (Closed(a), Closed(b)) => f(a, b)
-      case (Closed(a), Open(b)) => f(a, b)
-      case (Open(a), Closed(b)) => f(a, b)
-      case (Open(a), Open(b)) => f(a, b)
-    }
+final class Interval[A] private[cilib] (val lower: Bound[A], val upper: Bound[A]) {
 
   def ^(n: Int): List[Interval[A]] =
     (1 to n).map(_ => this).toList
@@ -120,9 +124,7 @@ final class Interval[A](val lower: Bound[A], val upper: Bound[A]) {
 }
 
 object Interval {
-  def apply[A](l: Bound[A], r: Bound[A]) =
-    new Interval(l, r)
+  def apply[A](lower: Bound[A], upper: Bound[A]) =
+    new Interval(lower, upper)
 
-  def closed[A](lower: A, upper: A) =
-    new Interval(Closed(lower), Closed(upper))
 }

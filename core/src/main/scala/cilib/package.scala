@@ -21,4 +21,11 @@ package object cilib {
     if (d < 0.0) Tag.subst(Some(d))
     else None
 
+
+  def closed[A](point: A): Bound[A] =
+    Closed(point)
+
+  def open[A](point: A): Bound[A] =
+    Open(point)
+
 }

@@ -14,9 +14,8 @@ object Running {
     val social: Guide[Mem[Double],Double] = (c, x) => RVar.point(x._2)
 
     val gbest = PSO.gbest[Mem[Double]](0.8, 1.4, 1.4, cognitive, social)
-    val a = Instruction.pointR(
-      PSO.createCollection(20, 20).map(_.map(PSO.createParticle(x => (Mem(x,x),x))))
-    )
+    val a = Instruction.pointR(Position.createCollection(PSO.createParticle(x => (Mem(x,x), x)))(Interval(closed(-5.12),closed(5.12))^20, 20))
+
     val b2 = Scheme.sync(gbest)
     val w = a flatMap (l => b2.run(l))
 
@@ -47,5 +46,11 @@ object Running {
     // )
 
     //functions.foldLeft()
+
+    // GCPSO
+    val tmp = Guide.identity[Mem[Double],Double]
+    val gcpso = PSO.gcpso(0.8, 1.4, 1.4, tmp)
+
+    val ss = Scheme.syncS(gcpso)
   }
 }
