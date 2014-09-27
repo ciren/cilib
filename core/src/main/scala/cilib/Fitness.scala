@@ -1,6 +1,6 @@
 package cilib
 
-import Predef.{any2stringadd => _, _}
+import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
 import Ordering._
 
@@ -19,12 +19,9 @@ trait Fitness[A] {
 
 object Fitness {
 
-  def compare[A: Fitness](x: A, y: A): Reader[Opt, A] =
-    Reader(o => {
-      val a = implicitly[Fitness[A]].fitness(x)
-      val b = implicitly[Fitness[A]].fitness(y)
-      if (o.order(a, b) === GT) x else y
-    })
+  def compare[A](x: A, y: A)(implicit F: Fitness[A]): Reader[Opt, A] =
+    Reader(o => if (o.order(F.fitness(x), F.fitness(y)) === GT) x else y)
+
 }
 
 sealed trait Opt extends Order[Option[Fit]] {
