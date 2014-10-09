@@ -13,11 +13,11 @@ object FitnessTest extends Properties("Fitness") {
   }
 
   property("Minimization compare") = forAll { (x: Int, y: Int) =>
-    Fitness.compare(x, y).run(Min) == (x min y)
+    Fitness.compare(x, y).run(Min) === (x min y)
   }
 
   property("Maximization compare") = forAll { (x: Int, y: Int) =>
-    Fitness.compare(x, y).run(Max) == (x max y)
+    Fitness.compare(x, y).run(Max) === (x max y)
   }
 
 }

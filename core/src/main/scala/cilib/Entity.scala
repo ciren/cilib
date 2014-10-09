@@ -1,7 +1,7 @@
 package cilib
 
 import scala.language.higherKinds
-import Predef.{any2stringadd => _, _}
+import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
 import Scalaz._
 

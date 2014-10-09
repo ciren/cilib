@@ -1,6 +1,6 @@
 package cilib
 
-import Predef.{any2stringadd => _, _}
+import _root_.scala.Predef.{any2stringadd => _, _}
 
 sealed trait RNG {
   val seed: Long

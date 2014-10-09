@@ -1,6 +1,8 @@
 package cilib
 package example
 
+import cilib.Predef._
+
 import scalaz._
 import Scalaz._
 
@@ -10,13 +12,13 @@ object Running {
     val sum = Problem.static((a: List[Double]) => Valid(a.sum))
 
     // Define a normal GBest PSO and run it for a single iteration
-    val cognitive: Guide[Mem[Double],Double] = (c, x) => RVar.point(x._2)
-    val social: Guide[Mem[Double],Double] = (c, x) => RVar.point(x._2)
+    val cognitive: Guide[Mem[Double],Double] = (c, x) => Instruction.point(x._2)
+    val social: Guide[Mem[Double],Double] = (c, x) => Instruction.point(x._2)
 
-    val gbest = PSO.gbest[Mem[Double]](0.8, 1.4, 1.4, cognitive, social)
+    val gbestPSO = gbest[Mem[Double]](0.8, 1.4, 1.4, cognitive, social)
     val a = Instruction.pointR(Position.createCollection(PSO.createParticle(x => (Mem(x,x), x)))(Interval(closed(-5.12),closed(5.12))^20, 20))
 
-    val b2 = Scheme.sync(gbest)
+    val b2 = Scheme.sync(gbestPSO)
     val w = a flatMap (l => b2.run(l))
 
     val m = w.run(Min)
@@ -48,9 +50,9 @@ object Running {
     //functions.foldLeft()
 
     // GCPSO
-    val tmp = Guide.identity[Mem[Double],Double]
-    val gcpso = PSO.gcpso(0.8, 1.4, 1.4, tmp)
+    // val tmp = Guide.identity[Mem[Double],Double]
+    // val gcp = gcpso(0.8, 1.4, 1.4, tmp)
 
-    val ss = Scheme.syncS(gcpso)
+    // val ss = Scheme.syncS(gcp)
   }
 }
