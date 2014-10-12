@@ -51,7 +51,7 @@ object Instruction {
   def liftK[A](a: Reader[Opt, A]): Instruction[A] =
     new Instruction(Kleisli[X, Opt, A]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point((p, a.run(o))))))
 
-  implicit val instrMonad: Monad[Instruction] = new Monad[Instruction] {
+  implicit val instructionMonad: Monad[Instruction] = new Monad[Instruction] {
     def point[A](a: => A) =
       Instruction.point(a)
 
