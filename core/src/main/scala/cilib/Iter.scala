@@ -2,29 +2,24 @@ package cilib
 
 import scalaz._
 import Scalaz._
-import Kleisli.kleisli
 
 final case class SchemeS[S,A](run: List[A] => Instruction[State[S,List[A]]])
 
-final case class Scheme[A](run: List[A] => Instruction[List[A]]) extends KleisliFunctions {
-//final case class Scheme[A](run: Kleisli[Y, List[A], List[A]]) extends KleisliFunctions {
-  def >=>(s: Scheme[A]): Scheme[A] =
-    Scheme(kleisli(run) >=> kleisli(s.run))
-
-  def repeat(n: Int) = {
-    val k = kleisli(run)
-    Scheme((1 until n).foldLeft(k)((a, _) => a >=> k))
-  }
+final case class Iter[A](run: List[A] => Instruction[List[A]]) {
+  def repeat(n: Int) =
+    (l: List[A]) => (1 to n).toStream.map(_ => run).foldLeftM(l) {
+      (a, c) => c(a)
+    }
 }
 
-object Scheme {
+object Iter {
 
   // algorithms have the shape: [a] -> a -> Instruction a
   def sync[A](f: List[A] => A => Instruction[A]) =
-    Scheme((l: List[A]) => l traverse f(l))
+    Iter((l: List[A]) => l traverse f(l))
 
   def async[A](f: List[A] => A => Instruction[A]) = // This needs to be profiled. The drop is expensive - perhaps a zipper is better
-    Scheme((l: List[A]) =>
+    Iter((l: List[A]) =>
       l.foldLeftM(List.empty[A])((a, c) => f(a ++ l.drop(a.length)).apply(c).map(a :+ _))
     )
 

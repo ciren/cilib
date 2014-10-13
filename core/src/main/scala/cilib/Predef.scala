@@ -20,11 +20,24 @@ object Predef {
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
-      v       <- updateVelocity(x, soc, cog, w, c1, c2)
-      p       <- updatePosition(x, v)
+      v       <- stdVelocity(x, soc, cog, w, c1, c2)
+      p       <- stdPosition(x, v)
       p2      <- evalParticle(p)
-      updated <- updatePBest(p2)
-    } yield updated
+      p3      <- updateVelocity(p2, v)
+      updated <- updatePBest(p3)
+    } yield {
+      // println("cog: " + cog)
+      // println("soc: " + soc)
+
+      // println("cog diff: " + (cog - x._2))
+      // println("soc diff: " + (soc - x._2))
+      // println("v: " + v)
+      // println("p: " + p)
+      // println("p2: " + p2)
+      // println("p3: " + p3)
+      // println("updated: " + updated)
+      updated
+    }
 
   case class GCParams(p: Double = 1.0, successes: Int = 0, failures: Int = 0, e_s: Double = 15, e_f: Double = 5)
 
@@ -49,10 +62,11 @@ object Predef {
         gbest   <- hoist.liftM(Guide.nbest(collection, x))
         cog     <- hoist.liftM(cognitive(collection, x))
         isBest  <- hoist.liftM(Instruction.point(x._2 eq gbest))
-        v       <- hoist.liftM(if (isBest) gcVelocity(x, gbest, w, s) else updateVelocity(x, gbest, cog, w, c1, c2)) // Yes, we do want reference equality
-        p       <- hoist.liftM(updatePosition(x, v))
+        v       <- hoist.liftM(if (isBest) gcVelocity(x, gbest, w, s) else stdVelocity(x, gbest, cog, w, c1, c2)) // Yes, we do want reference equality
+        p       <- hoist.liftM(stdPosition(x, v))
         p2      <- hoist.liftM(evalParticle(p))
-        updated <- hoist.liftM(updatePBest(p2))
+        p3      <- hoist.liftM(updateVelocity(p2, v))
+        updated <- hoist.liftM(updatePBest(p3))
         failure  <- hoist.liftM(Instruction.liftK(Fitness.compare(x._2, updated._2) map (_ eq x._2)))
         _       <- S.modify(params =>
           if (isBest) {

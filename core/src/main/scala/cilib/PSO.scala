@@ -1,9 +1,9 @@
 package cilib
 
 import _root_.scala.Predef.{any2stringadd => _, _}
+
 import scalaz._
-import scalaz.syntax.applicative._
-import scalaz.syntax.traverse._
+import scalaz.syntax.functor._
 import scalaz.std.tuple._
 import scalaz.std.list._
 
@@ -30,44 +30,22 @@ trait Velocity[A] {
 
 object Velocity {
   implicit object MemVelocity extends Velocity[Mem[Double]] {
-    def velocityLens: Lens[Mem[Double], Position[List,Double]] = Lens.lensu((a,b) => a.copy(b = b), _.b)
+    def velocityLens: Lens[Mem[Double], Position[List,Double]] = Lens.lensu((a,b) => a.copy(v = b), _.v)
   }
 }
 
 object PSO {
-  /*
-  def barebonesVel[S, A:Fractional](v: Lens[S, Pos[A]], p: Lens[S, Pos[A]], global: Guide[A])(collection: IList[Pos[A]]): C[S, A] =
-    Kleisli {
-      case (s, a) =>
-        val A = implicitly[Fractional[A]]
-        val pbest = p.get(s)
-        val gbest = global(collection, a)
-
-        val sigmas = Zip[Pos].zipWith(pbest, gbest)((x, y) => spire.math.abs(x - y))
-        val means = Zip[Pos].zipWith(pbest, gbest)((x, y) => (x + y) / 2.0)
-        val vel = (means zip sigmas) traverse (x => Dist.gaussian(A.toDouble(x._1), A.toDouble(x._2))) map (x => x.map(A.fromDouble(_))) // This needs to be nicer.... A needs to disappear
-
-        vel.map(x => (v.mod(_ => x, s), a))
-    }
-
-  def replace[S, A:Numeric](v: Lens[S, Pos[A]]): C[S, A] =
-    Kleisli {
-      case (s, a) => RVar.point((s, v.get(s)))
-    }
-
-   */
-
-  def updatePosition[S](c: Particle[S,Double], v: Position[List,Double]): Instruction[Particle[S,Double]] =
+  def stdPosition[S](c: Particle[S,Double], v: Position[List,Double]): Instruction[Particle[S,Double]] =
     Instruction.point((c._1, c._2 + v))
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists
-  def updateVelocity[S](entity: (S,Position[List,Double]), social: Position[List,Double], cognitive: Position[List, Double], w: Double, c1: Double, c2: Double)(implicit V: Velocity[S]): Instruction[Position[List,Double]] = {
+  def stdVelocity[S](entity: (S,Position[List,Double]), social: Position[List,Double], cognitive: Position[List, Double], w: Double, c1: Double, c2: Double)(implicit V: Velocity[S]): Instruction[Position[List,Double]] = {
     val (state,pos) = entity
     Instruction.pointR(for {
       cog <- (cognitive - pos) traverse (x => Dist.stdUniform.map(_ * x))
       soc <- (social - pos) traverse (x => Dist.stdUniform.map(_ * x))
-    } yield (w *: pos) + (c1 *: cog) + (c2 *: soc))
+    } yield (w *: V.velocityLens.get(state)) + (c1 *: cog) + (c2 *: soc))
   }
 
   // Instruction to evaluate the particle // what about cooperative?
@@ -84,6 +62,9 @@ object PSO {
     val (state, pos) = p
     Instruction.liftK(Fitness.compare(pos, pbestL.get(state)).map(x => (pbestL.set(state, x), pos)))
   }
+
+  def updateVelocity[S](p: Particle[S,Double], v: Position[List,Double])(implicit V: Velocity[S]) =
+    Instruction.pointS(StateT(s => RVar.point((s, (V.velocityLens.set(p._1, v), p._2)))))
 
   def createParticle[S](f: Position[List,Double] => Particle[S,Double])(pos: Position[List,Double]) =
     f(pos)
