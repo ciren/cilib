@@ -79,10 +79,11 @@ object Guide {
   def pbest[S](implicit M: Memory[S]): Guide[S,Double] =
     (collection, x) => Instruction.point(M.memoryLens.get(x._1))
 
-  def nbest[S,A]: Guide[S,A] = // TODO: Change the collection type to NonEmptyList because reduce is unsafe on List
-    (collection, x) => new Instruction(Kleisli[X, Opt, Pos[A]]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point {
-      (p, collection.map(_._2).reduceLeft((a, c) => Fitness.compare(a, c) run o))
+  def nbest[S](implicit M: Memory[S]): Guide[S,Double] = {// TODO: Change the collection type to NonEmptyList because reduce is unsafe on List
+    (collection, x) => new Instruction(Kleisli[X, Opt, Pos[Double]]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point {
+      (p, collection.map(e => M.memoryLens.get(e._1)).reduceLeft((a, c) => Fitness.compare(a, c) run o))
     })))
+  }
 
 }
 

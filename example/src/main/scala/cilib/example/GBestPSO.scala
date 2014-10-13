@@ -15,16 +15,16 @@ object Running {
     val cognitive: Guide[Mem[Double],Double] = Guide.pbest
     val social: Guide[Mem[Double],Double] = Guide.nbest
 
-    val gbestPSO = gbest[Mem[Double]](0.8, 1.4, 1.4, cognitive, social)
-    val a = Instruction.pointR(Position.createCollection(PSO.createParticle(x => (Mem(x,x.map(_ => 0.0)), x)))(Interval(closed(-5.12),closed(5.12))^20, 40))
+    val gbestPSO = gbest[Mem[Double]](0.729844, 1.496180, 1.496180, cognitive, social)
+    val a = Instruction.pointR(Position.createCollection(PSO.createParticle(x => (Mem(x,x.map(_ => 0.0)), x)))(Interval(closed(-5.12),closed(5.12))^30, 20))
 
-    val b2 = Iter.sync(gbestPSO).repeat(5000)
+    val b2 = Iter.sync(gbestPSO).repeat(1000)
     val w = a flatMap (b2(_))
     val m = w.run(Min)
     val y = m run sum
     val z = y.run(RNG.fromTime)
 
-    println(z._2._2.map(_._2))
+    println(z)//._2._2.map(_._1.b.fit.get))
 
     // Run the above algorithm 1000 times, without any parameter changes
     // val r = b2.repeat(1000)

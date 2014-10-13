@@ -57,9 +57,10 @@ object Predef {
       import scalaz.StateT._
       val S = StateT.stateTMonadState[GCParams, Instruction]
       val hoist = StateT.StateMonadTrans[GCParams]
+      val g = Guide.nbest[S]
       for {
         s       <- S.get
-        gbest   <- hoist.liftM(Guide.nbest(collection, x))
+        gbest   <- hoist.liftM(g(collection, x))
         cog     <- hoist.liftM(cognitive(collection, x))
         isBest  <- hoist.liftM(Instruction.point(x._2 eq gbest))
         v       <- hoist.liftM(if (isBest) gcVelocity(x, gbest, w, s) else stdVelocity(x, gbest, cog, w, c1, c2)) // Yes, we do want reference equality
