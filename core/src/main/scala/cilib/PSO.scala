@@ -69,6 +69,25 @@ object PSO {
   def createParticle[S](f: Position[List,Double] => Particle[S,Double])(pos: Position[List,Double]) =
     f(pos)
 
+  def singleComponentVelocity[S](entity: (S,Position[List,Double]), component: Position[List,Double], w: Double, c: Double)(implicit V: Velocity[S], M: Memory[S]) = {
+    val (state,pos) = entity
+    Instruction.pointR(for {
+      cog <- (component - pos) traverse (x => Dist.stdUniform.map(_ * x))
+    } yield (w *: V.velocityLens.get(state)) + (c *: cog))
+  }
+
+  def barebones[S](p: Particle[S,Double], global: Position[List,Double])(implicit M: Memory[S], V: Velocity[S]) =
+    Instruction.pointR {
+      type P[A] = Position[List,A]
+
+      val (state,x) = p
+      val pbest = M.memoryLens.get(state)
+      val sigmas = Zip[P].zipWith(pbest, global)((x, y) => math.abs(x - y))
+      val means  = Zip[P].zipWith(pbest, global)((x, y) => (x + y) / 2.0)
+
+      (means zip sigmas) traverse (x => Dist.gaussian(x._1, x._2))
+    }
+
 }
 
 object Guide {
@@ -103,7 +122,6 @@ commonalities:
 
 functions:
 - moo & dmoo functions (benchmarks) robert
-
 */
 
 

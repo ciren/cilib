@@ -74,7 +74,7 @@ object GeneratorTest extends Properties("Distribution") {
         case _ => sys.error("impossible")
       }))
 
-      println("sum: " + sum)
+      //println("sum: " + sum)
       sum < 27.83 && a.forall(x => x >= 0.0 && x < 1.0)
     }
   }

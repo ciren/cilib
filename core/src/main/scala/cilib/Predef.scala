@@ -25,19 +25,40 @@ object Predef {
       p2      <- evalParticle(p)
       p3      <- updateVelocity(p2, v)
       updated <- updatePBest(p3)
-    } yield {
-      // println("cog: " + cog)
-      // println("soc: " + soc)
+    } yield updated
 
-      // println("cog diff: " + (cog - x._2))
-      // println("soc diff: " + (soc - x._2))
-      // println("v: " + v)
-      // println("p: " + p)
-      // println("p2: " + p2)
-      // println("p3: " + p3)
-      // println("updated: " + updated)
-      updated
+  def cognitive[S:Memory:Velocity](
+    w: Double,
+    c1: Double,
+    cognitive: Guide[S,Double]
+  ): List[Particle[S,Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
+    collection => x => {
+      for {
+        cog     <- cognitive(collection, x)
+        v       <- singleComponentVelocity(x, cog, w, c1)
+        p       <- stdPosition(x, v)
+        p2      <- evalParticle(p)
+        p3      <- updateVelocity(p2, v)
+        updated <- updatePBest(p3)
+      } yield updated
     }
+
+  def social[S:Memory:Velocity](
+    w: Double,
+    c1: Double,
+    social: Guide[S,Double]
+  ): List[Particle[S,Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
+    collection => x => {
+      for {
+        soc     <- social(collection, x)
+        v       <- singleComponentVelocity(x, soc, w, c1)
+        p       <- stdPosition(x, v)
+        p2      <- evalParticle(p)
+        p3      <- updateVelocity(p2, v)
+        updated <- updatePBest(p3)
+      } yield updated
+    }
+
 
   case class GCParams(p: Double = 1.0, successes: Int = 0, failures: Int = 0, e_s: Double = 15, e_f: Double = 5)
 
