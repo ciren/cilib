@@ -59,9 +59,6 @@ object Predef {
       } yield updated
     }
 
-
-  case class GCParams(p: Double = 1.0, successes: Int = 0, failures: Int = 0, e_s: Double = 15, e_f: Double = 5)
-
   // This is only defined for the gbest topology because the "method" described in Edwin's
   // paper for alternate topologies _does not_ make sense. I can only assume that there is
   // some additional research that needs to be done to correctly create an algorithm to
@@ -101,10 +98,4 @@ object Predef {
       } yield updated
     }
 
-  def gcVelocity[S](entity: Particle[S,Double], nbest: Position[List,Double], w: Double, s: GCParams)(implicit V: Velocity[S]): Instruction[Pos[Double]] =
-    Instruction.pointR(
-      nbest traverse (_ => Dist.stdUniform.map(x => s.p * (1 - 2*x))) map (a =>
-        -1.0 *: entity._2 + nbest + w *: V._velocity.get(entity._1) + a
-      )
-    )
 }

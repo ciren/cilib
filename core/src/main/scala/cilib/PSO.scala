@@ -36,6 +36,10 @@ object Velocity {
   }
 }
 
+trait Charge[A] {
+  def _charge: SimpleLens[A,Double]
+}
+
 object PSO {
   def stdPosition[S](c: Particle[S,Double], v: Position[List,Double]): Instruction[Particle[S,Double]] =
     Instruction.point((c._1, c._2 + v))
@@ -78,6 +82,13 @@ object PSO {
     } yield (w *: V._velocity.get(state)) + (c *: cog))
   }
 
+  case class GCParams(p: Double = 1.0, successes: Int = 0, failures: Int = 0, e_s: Double = 15, e_f: Double = 5)
+  def gcVelocity[S](entity: Particle[S,Double], nbest: Position[List,Double], w: Double, s: GCParams)(implicit V: Velocity[S]): Instruction[Pos[Double]] =
+    Instruction.pointR(
+      nbest traverse (_ => Dist.stdUniform.map(x => s.p * (1 - 2*x))) map (a =>
+        -1.0 *: entity._2 + nbest + w *: V._velocity.get(entity._1) + a
+      ))
+
   def barebones[S](p: Particle[S,Double], global: Position[List,Double])(implicit M: Memory[S], V: Velocity[S]) =
     Instruction.pointR {
       import scalaz.Zip
@@ -91,6 +102,47 @@ object PSO {
       (means zip sigmas) traverse (x => Dist.gaussian(x._1, x._2))
     }
 
+  def quantum[S](
+    collection: List[Particle[S,Double]],
+    x: Particle[S,Double],
+    center: Position[List,Double],
+    r: Double
+  ): Instruction[Position[List,Double]] =
+    Instruction.pointR(
+      for {
+        u <- Dist.uniform(0,1)
+        rand_x <- x._2.traverse(_ => Dist.stdNormal)
+      } yield {
+        val sum_sq = rand_x.pos.foldLeft(0.0)(_**2 + _)
+        val scale = r * math.pow(u, 1.0 / x._2.pos.length) / math.sqrt(sum_sq)
+        (scale) *: rand_x + center
+      }
+    )
+
+  def acceleration[S](
+    collection: List[Particle[S,Double]],
+    x: Particle[S,Double],
+    distance: (Position[List,Double], Position[List,Double]) => Double,
+    rp: Double,
+    rc: Double
+  )(implicit C: Charge[S]): Instruction[Position[List,Double]] = {
+    def charge(x: Particle[S,Double]) =
+      C._charge.get(x._1)
+
+    Instruction.point(
+      collection
+        .filter(z => charge(z) > 0.0)
+        .foldLeft(x._2.map(_ => 0.0)) { (p1, p2) => {
+          val d = distance(x._2, p2._2)
+          if (d > rp || (x eq p2))
+            p1
+          else if (d < rc)
+            (charge(x) * charge(p2) / (d * rc * rc)) *: (x._2 - p2._2) + p1
+          else // rc <= d <= rp
+            (charge(x) * charge(p2) / (d * d * d)) *: (x._2 - p2._2) + p1
+        }
+      })
+  }
 }
 
 object Guide {
@@ -113,7 +165,6 @@ object Guide {
 /*
 next pso work:
 ==============
-- dynamic psos (quantum, charged, etc) bennie
 - vepso / dvepso (robert afer moo & dmoo)
 - cooperative & variations
 - heterogenous filipe
@@ -126,7 +177,6 @@ commonalities:
 functions:
 - moo & dmoo functions (benchmarks) robert
 */
-
 
 /*
  Stopping conditions:
