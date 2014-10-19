@@ -2,7 +2,7 @@ package cilib
 
 import _root_.scala.Predef.{any2stringadd => _, _}
 
-import scalaz._
+import scalaz.{Kleisli,StateT}
 import scalaz.syntax.functor._
 import scalaz.std.tuple._
 import scalaz.std.list._
@@ -10,27 +10,29 @@ import scalaz.std.list._
 import spire.math._
 import spire.algebra._
 import spire.implicits._
+
+import monocle._
 import Position._
 
 case class Mem[A](b: Position[List, A], v: Position[List, A])
 
 trait Memory[A] {
-  def memoryLens: Lens[A, Position[List,Double]]
+  def _memory: SimpleLens[A, Position[List,Double]]
 }
 
 object Memory {
   implicit object MemMemory extends Memory[Mem[Double]] {
-    def memoryLens: Lens[Mem[Double],Position[List,Double]] = Lens.lensu((a,b) => a.copy(b = b), _.b)
+    def _memory = SimpleLens[Mem[Double],Position[List,Double]](_.b, (a,b) => a.copy(b = b))
   }
 }
 
 trait Velocity[A] {
-  def velocityLens: Lens[A, Position[List,Double]]
+  def _velocity: SimpleLens[A, Position[List,Double]]
 }
 
 object Velocity {
   implicit object MemVelocity extends Velocity[Mem[Double]] {
-    def velocityLens: Lens[Mem[Double], Position[List,Double]] = Lens.lensu((a,b) => a.copy(v = b), _.v)
+    def _velocity = SimpleLens[Mem[Double], Position[List,Double]](_.v, (a,b) => a.copy(v = b))
   }
 }
 
@@ -45,7 +47,7 @@ object PSO {
     Instruction.pointR(for {
       cog <- (cognitive - pos) traverse (x => Dist.stdUniform.map(_ * x))
       soc <- (social - pos) traverse (x => Dist.stdUniform.map(_ * x))
-    } yield (w *: V.velocityLens.get(state)) + (c1 *: cog) + (c2 *: soc))
+    } yield (w *: V._velocity.get(state)) + (c1 *: cog) + (c2 *: soc))
   }
 
   // Instruction to evaluate the particle // what about cooperative?
@@ -58,13 +60,13 @@ object PSO {
 
   // The following function needs a lot of work... the biggest issue is the case of the state 'S' and how to get the values out of it and how to update again??? Lenses? Typeclasses?
   def updatePBest[S](p: Particle[S,Double])(implicit M: Memory[S]): Instruction[Particle[S,Double]] = {
-    val pbestL = M.memoryLens
+    val pbestL = M._memory
     val (state, pos) = p
     Instruction.liftK(Fitness.compare(pos, pbestL.get(state)).map(x => (pbestL.set(state, x), pos)))
   }
 
   def updateVelocity[S](p: Particle[S,Double], v: Position[List,Double])(implicit V: Velocity[S]) =
-    Instruction.pointS(StateT(s => RVar.point((s, (V.velocityLens.set(p._1, v), p._2)))))
+    Instruction.pointS(StateT(s => RVar.point((s, (V._velocity.set(p._1, v), p._2)))))
 
   def createParticle[S](f: Position[List,Double] => Particle[S,Double])(pos: Position[List,Double]) =
     f(pos)
@@ -73,15 +75,16 @@ object PSO {
     val (state,pos) = entity
     Instruction.pointR(for {
       cog <- (component - pos) traverse (x => Dist.stdUniform.map(_ * x))
-    } yield (w *: V.velocityLens.get(state)) + (c *: cog))
+    } yield (w *: V._velocity.get(state)) + (c *: cog))
   }
 
   def barebones[S](p: Particle[S,Double], global: Position[List,Double])(implicit M: Memory[S], V: Velocity[S]) =
     Instruction.pointR {
+      import scalaz.Zip
       type P[A] = Position[List,A]
 
       val (state,x) = p
-      val pbest = M.memoryLens.get(state)
+      val pbest = M._memory.get(state)
       val sigmas = Zip[P].zipWith(pbest, global)((x, y) => math.abs(x - y))
       val means  = Zip[P].zipWith(pbest, global)((x, y) => (x + y) / 2.0)
 
@@ -96,11 +99,11 @@ object Guide {
     (collection, x) => Instruction.point(x._2)
 
   def pbest[S](implicit M: Memory[S]): Guide[S,Double] =
-    (collection, x) => Instruction.point(M.memoryLens.get(x._1))
+    (collection, x) => Instruction.point(M._memory.get(x._1))
 
   def nbest[S](implicit M: Memory[S]): Guide[S,Double] = {// TODO: Change the collection type to NonEmptyList because reduce is unsafe on List
     (collection, x) => new Instruction(Kleisli[X, Opt, Pos[Double]]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point {
-      (p, collection.map(e => M.memoryLens.get(e._1)).reduceLeft((a, c) => Fitness.compare(a, c) run o))
+      (p, collection.map(e => M._memory.get(e._1)).reduceLeft((a, c) => Fitness.compare(a, c) run o))
     })))
   }
 

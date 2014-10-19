@@ -104,7 +104,7 @@ object Predef {
   def gcVelocity[S](entity: Particle[S,Double], nbest: Position[List,Double], w: Double, s: GCParams)(implicit V: Velocity[S]): Instruction[Pos[Double]] =
     Instruction.pointR(
       nbest traverse (_ => Dist.stdUniform.map(x => s.p * (1 - 2*x))) map (a =>
-        -1.0 *: entity._2 + nbest + w *: V.velocityLens.get(entity._1) + a
+        -1.0 *: entity._2 + nbest + w *: V._velocity.get(entity._1) + a
       )
     )
 }
