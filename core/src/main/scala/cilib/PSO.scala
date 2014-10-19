@@ -136,12 +136,9 @@ object PSO {
           val d = distance(x._2, p2._2)
           if (d > rp || (x eq p2))
             p1
-          else if (d < rc)
-            (charge(x) * charge(p2) / (d * rc * rc)) *: (x._2 - p2._2) + p1
-          else // rc <= d <= rp
-            (charge(x) * charge(p2) / (d * d * d)) *: (x._2 - p2._2) + p1
-        }
-      })
+          else
+            (charge(x) * charge(p2) / (d * (if (d < rc) (rc * rc) else (d * d)))) *: (x._2 - p2._2) + p1
+      }})
   }
 }
 

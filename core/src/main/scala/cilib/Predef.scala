@@ -98,4 +98,26 @@ object Predef {
       } yield updated
     }
 
+  def charged[S:Memory:Velocity:Charge](
+    w: Double,
+    c1: Double,
+    c2: Double,
+    cognitive: Guide[S,Double],
+    social: Guide[S,Double],
+    distance: (Position[List,Double], Position[List,Double]) => Double,
+    rp: Double,
+    rc: Double
+  ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
+    collection => x => for {
+      cog     <- cognitive(collection, x)
+      soc     <- social(collection, x)
+      accel   <- acceleration(collection, x, distance, rp, rc)
+      v       <- stdVelocity(x, soc, cog, w, c1, c2)
+      p       <- stdPosition(x, v + accel)
+      p2      <- evalParticle(p)
+      p3      <- updateVelocity(p2, v)
+      updated <- updatePBest(p3)
+    } yield updated
+
+
 }
