@@ -16,6 +16,12 @@ import Position._
 
 case class Mem[A](b: Position[List, A], v: Position[List, A])
 
+case class ChargedMem[A](c: Double, m: Mem[A])
+
+object ChargedMem {
+  implicit def memLens[A]: Lens[ChargedMem[A], Mem[A]] = Lens.lensu((a,b) => a.copy(m = b), _.m)
+}
+
 trait Memory[A] {
   def _memory: SimpleLens[A, Position[List,Double]]
 }
@@ -23,6 +29,10 @@ trait Memory[A] {
 object Memory {
   implicit object MemMemory extends Memory[Mem[Double]] {
     def _memory = SimpleLens[Mem[Double],Position[List,Double]](_.b, (a,b) => a.copy(b = b))
+  }
+
+  implicit object ChargedMemMemory extends Memory[ChargedMem[Double]] {
+    def memoryLens: Lens[ChargedMem[Double], Position[List,Double]] = ChargedMem.memLens >=> MemMemory.memoryLens
   }
 }
 
@@ -33,6 +43,23 @@ trait Velocity[A] {
 object Velocity {
   implicit object MemVelocity extends Velocity[Mem[Double]] {
     def _velocity = SimpleLens[Mem[Double], Position[List,Double]](_.v, (a,b) => a.copy(v = b))
+  }
+
+  implicit object ChargedMemVelocity extends Velocity[ChargedMem[Double]] {
+    def velocityLens: Lens[ChargedMem[Double], Position[List,Double]] = ChargedMem.memLens >=> MemVelocity.velocityLens
+  }
+}
+
+trait Charge[A] {
+  def chargeLens: Lens[A, Double]
+}
+
+object Charge {
+
+  def hasCharge[A](implicit C: Charge[A]): A => Boolean = x => implicitly[Charge[A]].chargeLens.get(x) > 0.0
+
+  implicit object ChargedMeMCharge extends Charge[ChargedMem[Double]] {
+    def chargeLens: Lens[ChargedMem[Double], Double] = Lens.lensu((a,b) => a.copy(c = b), _.c)
   }
 }
 
@@ -53,6 +80,48 @@ object PSO {
       soc <- (social - pos) traverse (x => Dist.stdUniform.map(_ * x))
     } yield (w *: V._velocity.get(state)) + (c1 *: cog) + (c2 *: soc))
   }
+
+  def acceleration[S](
+    collection: List[Particle[S,Double]],
+    x: Particle[S,Double],
+    distance: (Position[List,Double], Position[List,Double]) => Double,
+    rp: Double,
+    rc: Double
+  )(implicit C: Charge[S]): Instruction[Position[List,Double]] = {
+    def charge(x: Particle[S,Double]) =
+      C.chargeLens.get(x._1)
+
+    Instruction.point(
+      collection
+      .filter(z => charge(z) > 0.0)
+      .foldLeft(0.0 *: x._2) { (p1, p2) => {
+        val d = distance(x._2, p2._2)
+        if (d > rp || (x eq p2))
+          p1
+        else if (d < rc)
+          (charge(x) * charge(p2) / (d * rc * rc)) *: (x._2 - p2._2) + p1
+        else // rc <= d <= rp
+          (charge(x) * charge(p2) / (d * d * d)) *: (x._2 - p2._2) + p1
+      }
+    })
+  }
+
+  def quantum[S](
+    collection: List[Particle[S,Double]],
+    x: Particle[S,Double],
+    center: Position[List,Double],
+    r: Double
+  ): Instruction[Position[List,Double]] =
+    Instruction.pointR(
+      for {
+        u      <- Dist.uniform(0,1)
+        rand_x <- x._2.traverse(_ => Dist.stdNormal)
+      } yield {
+        val sum_sq = rand_x.pos.foldLeft(0.0)(_**2 + _)
+        val scale = r * math.pow(u, 1.0 / x._2.pos.length) / math.sqrt(sum_sq)
+        (scale) *: rand_x + center
+      }
+    )
 
   // Instruction to evaluate the particle // what about cooperative?
   def evalParticle[S](entity: Particle[S,Double]): Instruction[Particle[S,Double]] = {
