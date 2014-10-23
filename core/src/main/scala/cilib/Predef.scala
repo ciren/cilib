@@ -75,7 +75,7 @@ object Predef {
       import scalaz.StateT._
       val S = StateT.stateTMonadState[GCParams, Instruction]
       val hoist = StateT.StateMonadTrans[GCParams]
-      val g = Guide.nbest[S]
+      val g = Guide.gbest[S]
       for {
         s       <- S.get
         gbest   <- hoist.liftM(g(collection, x))

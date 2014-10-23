@@ -10,6 +10,8 @@ package object cilib {
   type Particle[S,A] = (S,Pos[A])
   type Guide[S,A] = (List[Particle[S,A]], Particle[S,A]) => Instruction[Pos[A]] // Should expand into a typeclass? Getter?
 
+  type Selection[A] = (List[A], A) => List[A]
+
   type X[A] = StateT[RVar, Problem[List,Double], A]
   type Y[A] = ReaderT[X, Opt, A]
 

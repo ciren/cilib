@@ -6,14 +6,18 @@ import cilib.Predef._
 import scalaz._
 import Scalaz._
 
-object GBestPSO {
+object LBestPSO {
 
   def main(args: Array[String]): Unit = {
     val sum = Problem.static((a: List[Double]) => Valid(a.map(x => x*x).sum))
 
-    // Define a normal GBest PSO and run it for a single iteration
+    // LBest is a network topology where every Paricle 'x' has (n/2) neighbours
+    // on each side. For example, a neighbourhood size of 3 means that there is
+    // a single neighbour on both sides of the current particle.
+
+    // Define a LBest PSO and run it for a single iteration
     val cognitive: Guide[Mem[Double],Double] = Guide.pbest
-    val social: Guide[Mem[Double],Double] = Guide.gbest
+    val social: Guide[Mem[Double],Double] = Guide.lbest[Mem[Double]](3)
 
     val gbestPSO = gbest[Mem[Double]](0.729844, 1.496180, 1.496180, cognitive, social)
     val a = Instruction.pointR(Position.createCollection(PSO.createParticle(x => (Mem(x,x.map(_ => 0.0)), x)))(Interval(closed(-5.12),closed(5.12))^30, 20))

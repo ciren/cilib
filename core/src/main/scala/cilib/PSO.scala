@@ -150,11 +150,14 @@ object Guide {
   def pbest[S](implicit M: Memory[S]): Guide[S,Double] =
     (collection, x) => Instruction.point(M._memory.get(x._1))
 
-  def nbest[S](implicit M: Memory[S]): Guide[S,Double] = {// TODO: Change the collection type to NonEmptyList because reduce is unsafe on List
+  def nbest[S](selection: Selection[Particle[S,Double]])(implicit M: Memory[S]): Guide[S,Double] = {// TODO: Change the collection type to NonEmptyList because reduce is unsafe on List
     (collection, x) => new Instruction(Kleisli[X, Opt, Pos[Double]]((o: Opt) => StateT((p: Problem[List,Double]) => RVar.point {
-      (p, collection.map(e => M._memory.get(e._1)).reduceLeft((a, c) => Fitness.compare(a, c) run o))
+      (p, selection(collection, x).map(e => M._memory.get(e._1)).reduceLeft((a, c) => Fitness.compare(a, c) run o))
     })))
   }
+
+  def gbest[S:Memory]: Guide[S,Double] = nbest((c, _) => c)
+  def lbest[S:Memory](n: Int) = nbest(Selection.indexNeighbours[Particle[S,Double]](n))
 
 }
 
