@@ -115,8 +115,8 @@ object CIlibBuild extends Build {
       tagRelease,
       publishSignedArtifacts,
       setNextVersion,
-      commitNextVersion,
-      pushChanges
+      commitNextVersion
+//      pushChanges
     )
   )
 
