@@ -38,12 +38,13 @@ object CIlibBuild extends Build {
   // Settings
 
   override lazy val settings = super.settings ++ Seq(
-    scalaVersion := "2.11.2",
-    organization := "net.cilib",
-    organizationName := "CIRG @ UP",
+    scalaVersion         := "2.11.2",
+    crossScalaVersions   := Seq("2.10.4", "2.11.2"),
+    organization         := "net.cilib",
+    organizationName     := "CIRG @ UP",
     organizationHomepage := Some(url("http://cirg.cs.up.ac.za")),
-    homepage := Some(url("http://cilib.net")),
-    licenses := Seq("BSD-style" -> url("http://opensource.org/licenses/BSD-2-Clause")),
+    homepage             := Some(url("http://cilib.net")),
+    licenses             := Seq("BSD-style" -> url("http://opensource.org/licenses/BSD-2-Clause")),
     scalacOptions ++= Seq(
       "-deprecation",
       "-encoding", "UTF-8",
@@ -60,7 +61,7 @@ object CIlibBuild extends Build {
       "-Ywarn-numeric-widen",
       "-Ywarn-value-discard"),
 
-    publishMavenStyle := true,
+    publishMavenStyle    := true,
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
 
