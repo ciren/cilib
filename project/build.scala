@@ -7,7 +7,7 @@ import sbtrelease.ReleasePlugin.ReleaseKeys._
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.Utilities._
 
-import com.typesafe.sbt.pgp.PgpKeys._
+import com.typesafe.sbt.pgp._
 
 object CIlibBuild extends Build {
 
@@ -17,7 +17,7 @@ object CIlibBuild extends Build {
     action = st => {
       val extracted = st.extract
       val ref = extracted.get(thisProjectRef)
-      extracted.runAggregated(publishSigned in Global in ref, st)
+      extracted.runAggregated(PgpKeys.publishSigned in Global in ref, st)
     },
     check = st => {
       // getPublishTo fails if no publish repository is set up.
@@ -73,7 +73,6 @@ object CIlibBuild extends Build {
     },
 
     pomExtra := (
-      <url>http://cilib.net</url>
       <scm>
         <url>git@github.com:cilib/cilib.git</url>
         <connection>scm:git:git@github.com:cilib/cilib.git</connection>
@@ -106,6 +105,7 @@ object CIlibBuild extends Build {
   lazy val cilibSettings = Seq(
     name := "cilib-aggregate"
   ) ++ noPublish ++ headerCheckSetting ++ releaseSettings ++ Seq(
+    publishArtifactsAction := PgpKeys.publishSigned.value,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
       inquireVersions,
@@ -204,6 +204,6 @@ object CIlibBuild extends Build {
 }
 
 object Resolvers {
-  val sonatypeSnapshots = "sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
-  val sonatypeReleases = "sonatype releases" at "http://oss.sonatype.org/service/local/staging/deploy/maven2"
+  val sonatypeSnapshots = "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+  val sonatypeReleases = "sonatype releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
 }
