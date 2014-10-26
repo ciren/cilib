@@ -1,6 +1,6 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _, _}
+import _root_.scala.Predef.{any2stringadd => _}
 
 sealed trait RNG {
   val seed: Long
@@ -30,7 +30,7 @@ object RNG {
     init(System.currentTimeMillis)
 
   def init(seed: Long): RNG = {
-    import scalaz._, Scalaz._, Free._
+    import scalaz._, Scalaz._
 
     val seedGen = initLCG(seed)
     val seedGenState = RVar.next[Int].map(_ & 0xFFFFFFFFL).replicateM(4097).run(seedGen)._2

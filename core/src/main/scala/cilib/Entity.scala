@@ -52,7 +52,6 @@ sealed abstract class Position[F[_], A] {
 }
 
 object Position {
-  import spire.algebra._
   import spire.math.{ Interval => _, _ }
   import spire.implicits._
 
@@ -99,13 +98,13 @@ object Position {
   // def mkColl[A: Numeric](i: List[Interval[A]], n: Int) =
   //   mkPos(i) replicateM n
 
-  def createPosition(domain: List[Interval[Double]]) =
-    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))
+  def createPosition[A: Numeric](domain: List[Interval[A]]) =
+    domain.traverseU(x => Dist.uniform(x.lower.value.toDouble, x.upper.value.toDouble)) map (Position(_))
 
-  def createPositions(domain: List[Interval[Double]], n: Int) =
+  def createPositions[A: Numeric](domain: List[Interval[A]], n: Int) =
     createPosition(domain) replicateM n
 
-  def createCollection[A](f: Pos[Double] => A)(domain: List[Interval[Double]], n: Int) =
+  def createCollection[A, B: Numeric](f: Pos[Double] => A)(domain: List[Interval[B]], n: Int) =
     createPositions(domain, n) map (_ map f)
 
 }

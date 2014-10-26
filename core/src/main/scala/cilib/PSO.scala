@@ -1,14 +1,10 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _, _}
+import _root_.scala.Predef.{any2stringadd => _}
 
 import scalaz.{Kleisli,StateT}
-import scalaz.syntax.functor._
-import scalaz.std.tuple._
 import scalaz.std.list._
 
-import spire.math._
-import spire.algebra._
 import spire.implicits._
 
 import monocle._

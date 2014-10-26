@@ -34,7 +34,7 @@ final class Instruction[A](val run: ReaderT[X, Opt, A]) {
 }
 
 object Instruction {
-  import scalaz._, Scalaz._
+  import scalaz._
 
   def apply[A](s: Kleisli[X,Opt,A]) =
     new Instruction(s)

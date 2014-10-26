@@ -1,8 +1,7 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _, _}
+import _root_.scala.Predef.{any2stringadd => _}
 import scalaz._
-import scalaz.syntax.equal._
 import scalaz.std.list._
 import PSO._
 
@@ -72,7 +71,6 @@ object Predef {
     cognitive: Guide[S,Double]
   ): List[Particle[S,Double]] => Particle[S,Double] => StateT[Instruction, GCParams, Particle[S,Double]] =
     collection => x => {
-      import scalaz.StateT._
       val S = StateT.stateTMonadState[GCParams, Instruction]
       val hoist = StateT.StateMonadTrans[GCParams]
       val g = Guide.gbest[S]

@@ -54,12 +54,15 @@ object CIlibBuild extends Build {
       "-language:implicitConversions",
       "-unchecked",
       "-Xfatal-warnings",
+      "-Xfuture",
       "-Xlint",
+      //"-Yno-imports",
       //"-Yno-predef",
       "-Yno-adapted-args",
       "-Ywarn-dead-code",        // N.B. doesn't work well with the ??? hole
       "-Ywarn-numeric-widen",
-      "-Ywarn-value-discard"),
+      "-Ywarn-value-discard",
+      "-Ywarn-unused-import"),
 
     publishMavenStyle    := true,
     publishArtifact in Test := false,

@@ -2,7 +2,6 @@ package cilib
 
 import scala.Predef.{any2stringadd => _, _}
 import scalaz._
-import Scalaz._
 
 /*
   NB NB NB:
@@ -16,8 +15,6 @@ import Scalaz._
 object DE {
 
   import spire.algebra.{ Monoid }
-  import spire.math._
-  import scalaz._
 
   type Selection[F[_], A] = NonEmptyList[Position[F, A]] => RVar[Position[F, A]]
   type Crossover[F[_], A] = (Position[F, A], Position[F, A]) => Kleisli[RVar, Double, Position[F, A]]

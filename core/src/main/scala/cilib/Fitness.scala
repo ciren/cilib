@@ -1,6 +1,6 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _, _}
+import _root_.scala.Predef.{any2stringadd => _}
 import scalaz._
 import Ordering._
 

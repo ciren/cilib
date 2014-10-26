@@ -1,7 +1,5 @@
 package cilib
 
-import scalaz._
-
 abstract class Problem[F[_], A] {
   def eval(a: F[A]): (Problem[F, A], Fit)
 }

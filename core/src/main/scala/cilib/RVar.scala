@@ -2,7 +2,6 @@ package cilib
 
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
-import syntax.state._
 import syntax.applicative._
 import syntax.std.option._
 import syntax.traverse._
@@ -179,9 +178,7 @@ object Generator {
 
 object Dist {
   import RVar._
-
   import scalaz.std.AllInstances._
-  import scalaz.syntax.std.list._
 
   val stdUniform = next[Double]
   val stdNormal = gaussian(0.0, 1.0)
