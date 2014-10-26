@@ -1,9 +1,6 @@
 package cilib
 
 import org.scalacheck._
-import org.scalacheck.Prop._
-import scalaz._
-import Scalaz._
 
 object DETest extends Properties("DE") {
 

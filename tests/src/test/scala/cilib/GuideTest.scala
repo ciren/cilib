@@ -1,10 +1,6 @@
 package cilib
 
-import scalaz._
-//import Scalaz._
-
 import org.scalacheck._
-import org.scalacheck.Prop._
 
 object GuideTest extends Properties("Guides") {
 
