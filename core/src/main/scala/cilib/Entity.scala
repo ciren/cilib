@@ -87,16 +87,8 @@ object Position {
       a.fit
   }
 
-  // Smart constructor
   def apply[A](xs: List[A]): Position[List, A] =
     Point(xs)
-
-  // Construction utilities
-  // def mkPos[A](i: List[Interval[A]])(implicit N: Numeric[A]) =
-  //   i traverse (_.fold((x, y) => Dist.uniform(N.toDouble(x), N.toDouble(y)))) map (Position(_))
-
-  // def mkColl[A: Numeric](i: List[Interval[A]], n: Int) =
-  //   mkPos(i) replicateM n
 
   def createPosition[A: Numeric](domain: List[Interval[A]]) =
     domain.traverseU(x => Dist.uniform(x.lower.value.toDouble, x.upper.value.toDouble)) map (Position(_))

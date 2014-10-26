@@ -58,7 +58,6 @@ object PSO {
     }))
   }
 
-  // The following function needs a lot of work... the biggest issue is the case of the state 'S' and how to get the values out of it and how to update again??? Lenses? Typeclasses?
   def updatePBest[S](p: Particle[S,Double])(implicit M: Memory[S]): Instruction[Particle[S,Double]] = {
     val pbestL = M._memory
     val (state, pos) = p
