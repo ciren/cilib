@@ -23,23 +23,29 @@ sealed abstract class Position[F[_], A] {
 
   def pos =
     this match {
-      case Point(x)  => x
-      case Solution(x, _) => x
+      case Point(x)          => x
+      case Solution(x, _, _) => x
     }
 
   def fit: Maybe[Fit] =
     this match {
-      case Point(_)  => Maybe.empty
-      case Solution(_, f) => Maybe.just(f)
+      case Point(_)          => Maybe.empty
+      case Solution(_, f, _) => Maybe.just(f)
+    }
+
+  def violations: Maybe[List[Violation]] =
+    this match {
+      case Point(_)          => Maybe.empty
+      case Solution(_, _, v) => Maybe.just(v)
     }
 
   def eval: State[Problem[F, A], Position[F, A]] =
     State(problem => {
       this match {
         case Point(x) =>
-          val (np, fit) = problem.eval(x)
-          (np, Solution(x, fit))
-        case Solution(_, _) =>
+          val (np, fit, vio) = problem.eval(x)
+          (np, Solution(x, fit, vio))
+        case Solution(_, _, _) =>
           (problem, this)
       }
     })
@@ -47,7 +53,7 @@ sealed abstract class Position[F[_], A] {
   def toPoint: Position[F, A] =
     this match {
       case Point(x) => this
-      case Solution(x, _) => Point(x)
+      case Solution(x, _, _) => Point(x)
     }
 }
 
@@ -70,8 +76,8 @@ object Position {
         a zip b
     }
 
-  private final case class Point[F[_], A](x: F[A]) extends Position[F, A]
-  private final case class Solution[F[_], A](x: F[A], f: Fit) extends Position[F, A]
+  private final case class Point[F[_],A](x: F[A]) extends Position[F,A]
+  private final case class Solution[F[_],A](x: F[A], f: Fit, v: List[Violation]) extends Position[F,A]
 
   implicit class ToPositionVectorOps[F[_], A: Fractional](x: Position[F, A]) {
     def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]): Position[F, A] = Point {
