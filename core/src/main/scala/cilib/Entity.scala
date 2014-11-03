@@ -4,6 +4,8 @@ import scala.language.higherKinds
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
 import Scalaz._
+import spire.math.{ Interval => _, _ }
+import spire.implicits._
 
 // Transformer of some sort, over the type F
 sealed abstract class Position[F[_], A] {
@@ -30,7 +32,7 @@ sealed abstract class Position[F[_], A] {
   def fit: Option[Fit] =
     this match {
       case Point(_)  => None
-      case Solution(_, f) => Some(f)
+      case Solution(_, f) => f
     }
 
   def eval: State[Problem[F, A], Position[F, A]] =
@@ -52,8 +54,6 @@ sealed abstract class Position[F[_], A] {
 }
 
 object Position {
-  import spire.math.{ Interval => _, _ }
-  import spire.implicits._
 
   implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] =
     new Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] {
@@ -71,7 +71,7 @@ object Position {
     }
 
   private final case class Point[F[_], A](x: F[A]) extends Position[F, A]
-  private final case class Solution[F[_], A](x: F[A], f: Fit) extends Position[F, A]
+  private final case class Solution[F[_], A](x: F[A], f: Option[Fit]) extends Position[F, A]
 
   implicit class ToPositionVectorOps[F[_], A: Fractional](x: Position[F, A]) {
     def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]): Position[F, A] = Point {
@@ -115,15 +115,28 @@ sealed trait Bound[A] {
 case class Closed[A](value: A) extends Bound[A]
 case class Open[A](value: A) extends Bound[A]
 
-final class Interval[A] private[cilib] (val lower: Bound[A], val upper: Bound[A]) {
+final case class Interval[A: Numeric] (val lower: Bound[A], val upper: Bound[A]) {
 
   def ^(n: Int): List[Interval[A]] =
     (1 to n).map(_ => this).toList
 
+  def contains(x: A) = this match {
+    case Interval(Open(a),   Closed(b)) => (x > lower.value)  && (x <= upper.value)
+    case Interval(Open(a),   Open(b))   => (x > lower.value)  && (x < upper.value)
+    case Interval(Closed(a), Closed(b)) => (x >= lower.value) && (x <= upper.value)
+    case Interval(Closed(a), Open(b))   => (x >= lower.value) && (x < upper.value)
+  }
+
 }
 
 object Interval {
-  def apply[A](lower: Bound[A], upper: Bound[A]) =
-    new Interval(lower, upper)
+
+  implicit class valueIntervalOps[A](x: A) {
+    def in(i: Interval[A]) = i.contains(x)
+  }
+
+  implicit class containerIntervalOps[A](x: Seq[A]) {
+    def in(i: Interval[A]) = !x.isEmpty && x.forall(i.contains(_))
+  }
 
 }
