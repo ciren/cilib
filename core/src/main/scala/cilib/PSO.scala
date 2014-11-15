@@ -74,8 +74,8 @@ object PSO {
   def singleComponentVelocity[S](entity: (S,Position[List,Double]), component: Position[List,Double], w: Double, c: Double)(implicit V: Velocity[S], M: Memory[S]) = {
     val (state,pos) = entity
     Instruction.pointR(for {
-      cog <- (component - pos) traverse (x => Dist.stdUniform.map(_ * x))
-    } yield (w *: V._velocity.get(state)) + (c *: cog))
+      comp <- (component - pos) traverse (x => Dist.stdUniform.map(_ * x))
+    } yield (w *: V._velocity.get(state)) + (c *: comp))
   }
 
   case class GCParams(p: Double = 1.0, successes: Int = 0, failures: Int = 0, e_s: Double = 15, e_f: Double = 5)
