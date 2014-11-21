@@ -111,7 +111,7 @@ object PSO {
       } yield {
         val sum_sq = rand_x.pos.foldLeft(0.0)(_**2 + _)
         val scale = r * math.pow(u, 1.0 / x._2.pos.length) / math.sqrt(sum_sq)
-        (scale) *: rand_x + center
+        scale *: rand_x + center
       }
     )
 
@@ -136,6 +136,10 @@ object PSO {
             (charge(x) * charge(p2) / (d * (if (d < rc) (rc * rc) else (d * d)))) *: (x._2 - p2._2) + p1
       }})
   }
+
+  // Naming?
+  def replace[S](entity: Particle[S,Double], p: Position[List,Double]): Instruction[Particle[S,Double]] =
+    Instruction.point((entity._1, p))
 }
 
 object Guide {
