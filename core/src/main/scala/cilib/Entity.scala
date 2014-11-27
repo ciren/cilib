@@ -121,10 +121,10 @@ final case class Interval[A: Numeric] (val lower: Bound[A], val upper: Bound[A])
     (1 to n).map(_ => this).toList
 
   def contains(x: A) = this match {
-    case Interval(Open(a),   Closed(b)) => (x > lower.value)  && (x <= upper.value)
-    case Interval(Open(a),   Open(b))   => (x > lower.value)  && (x < upper.value)
-    case Interval(Closed(a), Closed(b)) => (x >= lower.value) && (x <= upper.value)
-    case Interval(Closed(a), Open(b))   => (x >= lower.value) && (x < upper.value)
+    case Interval(Open(l),   Closed(u)) => (x > l)  && (x <= u)
+    case Interval(Open(l),   Open(u))   => (x > l)  && (x < u)
+    case Interval(Closed(l), Closed(u)) => (x >= l) && (x <= u)
+    case Interval(Closed(l), Open(u))   => (x >= l) && (x < u)
   }
 
 }
