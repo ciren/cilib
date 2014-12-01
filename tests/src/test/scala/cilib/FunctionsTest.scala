@@ -1,17 +1,20 @@
 package cilib
 
 import cilib.Functions._
+import cilib.FunctionWrappers._
 
 import org.scalacheck._
 import org.scalacheck.Prop._
 import org.scalacheck.Gen
 import org.scalacheck.Arbitrary
 
+import spire.implicits._
+
 object FunctionsTest extends Properties("Functions") {
 
   val x = List(0.0, 0.0, 0.0)
   val y = List(1.0, 2.0, 3.0)
-  val epsilon = 1E-15
+  val epsilon = 1e-15
 
   property("absoluteValue") = forAll { (g: List[Double]) =>
     val abs = absoluteValue(g)
@@ -118,8 +121,8 @@ object FunctionsTest extends Properties("Functions") {
   } && goldsteinPrice(List(0.0, -1.0)) == Some(3.0)
 
   property("griewank") = forAll { (g: List[Double]) =>
-    griewank(g).forall(_ >= 0.0)
-  } && griewank(x) == Some(0.0)
+    griewank[Double](g).forall(_ >= 0.0)
+  } && griewank[Double](x) == Some(0.0)
 
   val genHimmelblau = Gen.containerOfN[List, Double](2, Arbitrary.arbitrary[Double])
 
@@ -211,12 +214,12 @@ object FunctionsTest extends Properties("Functions") {
   }
 
   property("step") = forAll { (g: List[Double]) =>
-    step(g).forall(_ >= 0.0)
+    step[Double](g).forall(_ >= 0.0)
   } && {
     val y = List(1.3, 2.5, 3.7)
 
-    step(x) == Some(0.75) &&
-    step(y) == Some(2.25 + 6.25 + 12.25)
+    step[Double](x) == Some(0.75) &&
+    step[Double](y) == Some(2.25 + 6.25 + 12.25)
   }
 
   val genSchwefel = Gen.containerOf[List, Double](Gen.choose(-500.0, 500))
@@ -253,3 +256,18 @@ object FunctionsTest extends Properties("Functions") {
 
 }
 
+object FunctionWrappersTest extends Properties("FunctionWrappers") {
+
+  val x = List(0.0, 0.0, 0.0)
+  val y = List(1.0, 2.0, 3.0)
+
+  val shift = shifted[Double]((spherical _), 10.0, 10.0)
+
+  property("shifted") = forAll { (g: List[Double]) =>
+    shift(g).forall(sh => spherical(g).forall(sp => sh >= sp - 10.0))
+  } && {
+    shift(x) == Some(100 * 3 - 10.0) &&
+    shift(y) == Some(81.0 + 64.0 + 49.0 - 10.0)
+  }
+
+}

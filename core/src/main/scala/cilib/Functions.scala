@@ -3,12 +3,12 @@ package cilib
 import cilib.Interval._
 
 import spire.math._
+import spire.algebra._
 import spire.implicits._
-import spire.math.Numeric._
 
 object Functions {
 
-  def absoluteValue(x: List[Double]) = Some(x.map(abs).sum)
+  def absoluteValue[T: Field : Signed](x: List[T]) = Some(x.map(abs(_)).qsum)
 
   def ackley(x: List[Double]) = {
     val domain = Interval(Closed(-32.768), Closed(32.768))
@@ -21,8 +21,8 @@ object Functions {
     } else None
   }
 
-  def alpine(x: List[Double]) =
-    Some(x.map(xi => abs((xi * sin(xi)) + (0.1 * xi))).sum)
+  def alpine[T: Field : Signed : Trig](x: List[T]) =
+    Some(x.map(xi => abs((xi * sin(xi)) + (0.1 * xi))).qsum)
 
   def beale(x: List[Double]) = {
     val domain = Interval(Closed(-4.5), Closed(4.5))
@@ -37,12 +37,12 @@ object Functions {
     }
   }
 
-  def bentCigar(x: List[Double]) =
+  def bentCigar[T: Field](x: List[T]) =
     if (x.length >= 2)
-      Some(x.head ** 2 + 10 ** 6 * x.tail.map(_ ** 2).sum)
+      Some(x.head ** 2 + 10 ** 6 * x.tail.map(_ ** 2).qsum)
     else None
 
-  def bird(x: List[Double]) = x match {
+  def bird[T: Field : Trig](x: List[T]) = x match {
     case List(x1, x2) => Some(sin(x1) * exp((1 - cos(x2)) ** 2) +
                               cos(x2) * exp((1 - sin(x1)) ** 2) +
                               (x1 - x2) ** 2)
@@ -133,8 +133,8 @@ object Functions {
     }
   }
 
-  def dejongF4(x: List[Double]) =
-    Some(x.zipWithIndex.map { case (xi, i) => (i + 1) * (xi ** 4) }.sum)
+  def dejongF4[T: Field](x: List[T]) =
+    Some(x.zipWithIndex.map { case (xi, i) => (i + 1) * (xi ** 4) }.qsum)
 
   def easom(x: List[Double]) = {
     val domain = Interval(Closed(-100.0), Closed(100.0))
@@ -172,15 +172,15 @@ object Functions {
     }
   }
 
-  def griewank(x: List[Double]) = {
+  def griewank[T: Field : NRoot : Trig](x: List[Double]) = {
     val prod = x.zipWithIndex.map { case (xi, i) =>
       cos(xi / sqrt(i + 1))
-    }.product
+    }.qproduct
 
     spherical(x).map(sum => 1 + sum * (1.0 / 4000.0) - prod)
   }
 
-  def himmelblau(x: List[Double]) = x match {
+  def himmelblau[T: Field](x: List[T]) = x match {
     case List(x1, x2) => Some((x1 ** 2 + x2 - 11) ** 2 + (x1 + x2 ** 2 - 7) ** 2)
     case _            => None
   }
@@ -256,7 +256,7 @@ object Functions {
     } else None
   }
 
-  def nastyBenchmark(x: List[Double]) =
+  def nastyBenchmark[T: Field](x: List[T]) =
     Some(x.zipWithIndex.map { case(xi, i) => (xi - (i + 1)) ** 2 })
 
   def rastrigin(x: List[Double]) = {
@@ -266,25 +266,26 @@ object Functions {
     else None
   }
 
-  def rosenbrock(x: List[Double]) =
+  def rosenbrock[T: Field](x: List[T]) =
     Some((0 until x.length - 1).map(i => {
       val term1 = 100 * (x(i + 1) - x(1) ** 2) ** 2
       val term2 = (x(1) - 1) ** 2
       term1 + term2
-    }).sum)
+    }).qsum)
 
-  def salomon(x: List[Double]) =
+  def salomon[T: Field : NRoot : Trig](x: List[T]) =
     spherical(x).map(sum => -cos(2 * pi * sqrt(sum)) + (0.1 * sqrt(sum)) + 1)
 
-  def schaffer2(x: List[Double]) = x match {
+  def schaffer2[T: Field : NRoot](x: List[T]) = x match {
     case List(_, _) => spherical(x).map(sum =>
       (sum ** 0.25) * (50 * (sum ** 0.1) + 1))
     case _          => None
   }
 
-  def spherical(x: List[Double]) = Some(x.map(_ ** 2).sum)
+  def spherical[T: Field](x: List[T]) = Some(x.map(_ ** 2).qsum)
 
-  def step(x: List[Double]) = Some(x.map(xi => (floor(xi) + 0.5) ** 2).sum)
+  def step[T: Field : IsReal](x: List[Double]) =
+    Some(x.map(xi => (floor(xi) + 0.5) ** 2).qsum)
 
   def schwefel(x: List[Double]) = {
     val domain = Interval(Closed(-500.0), Closed(500.0))
@@ -326,5 +327,12 @@ object Functions {
       spherical(x).map(sum => sum + term ** 2 + term ** 4)
     } else None
   }
+
+}
+
+object FunctionWrappers {
+
+  def shifted[T: Ring](f: (List[T]) => Option[T], horizontal: T, vertical: T) =
+    (x: List[T]) => f(x.map(_ - horizontal)).map(_ - vertical)
 
 }

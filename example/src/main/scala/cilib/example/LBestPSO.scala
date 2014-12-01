@@ -2,10 +2,11 @@ package cilib
 package example
 
 import cilib.Predef._
-import cilib.Functions
 
 import scalaz._
 import Scalaz._
+
+import spire.implicits._
 
 object LBestPSO {
 
