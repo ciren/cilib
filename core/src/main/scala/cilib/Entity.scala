@@ -4,8 +4,8 @@ import scala.language.higherKinds
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
 import Scalaz._
-import spire.math.{ Interval => _, _ }
 import spire.implicits._
+import spire.math.{ Interval => _, _ }
 
 // Transformer of some sort, over the type F
 sealed abstract class Position[F[_], A] {
@@ -130,13 +130,21 @@ final case class Interval[A: Numeric] (val lower: Bound[A], val upper: Bound[A])
 }
 
 object Interval {
+  import spire.algebra.IsReal
 
-  implicit class valueIntervalOps[A](x: A) {
+  implicit class isRealIntervalOps[A](x: A)(implicit ev: IsReal[A]) {
     def in(i: Interval[A]) = i.contains(x)
   }
 
-  implicit class containerIntervalOps[A](x: Seq[A]) {
-    def in(i: Interval[A]) = !x.isEmpty && x.forall(i.contains(_))
+  implicit class isRealIntervalDoubleOps[A](x: A)(implicit ev: IsReal[A]) {
+    def in(i: Interval[Double]) = i.contains(ev.toDouble(x))
+  }
+
+  implicit class isRealContainerIntervalDoubleOps[A](x: Seq[A])
+    (implicit ev: IsReal[A]) {
+
+    def in(i: Interval[Double]) =
+      !x.isEmpty && x.map(ev.toDouble(_)).forall(i.contains(_))
   }
 
 }

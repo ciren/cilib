@@ -69,8 +69,8 @@ object FunctionsTest extends Properties("Functions") {
   property("booth") = forAll(genBooth) { g =>
     booth(g).forall(_ >= 0.0)
   } && {
-    booth(List(1, 3)) == Some(0.0)
-    booth(x) == None
+    booth(List(1.0, 3.0)) == Some(0.0)
+    booth(x)              == None
   }
 
   val genBukin = Gen.containerOfN[List, List[Double]](1, for {
@@ -81,10 +81,10 @@ object FunctionsTest extends Properties("Functions") {
   property("bukin") = forAll(genBukin) { g =>
     (bukin4(g.flatten).forall(_ >= 0.0)) && (bukin6(g.flatten)forall(_ >= 0.0))
   } && {
-    bukin4(List(-10, 0)) == Some(0.0) &&
-    bukin6(List(-10, 1)) == Some(0.0) &&
-    bukin4(x)            == None &&
-    bukin6(x)            == None
+    bukin4(List(-10.0, 0.0)) == Some(0.0) &&
+    bukin6(List(-10.0, 1.0)) == Some(0.0) &&
+    bukin4(x)                == None &&
+    bukin6(x)                == None
   }
 
   val genDamavandi = Gen.containerOfN[List, Double](2, Gen.choose(0.0, 14.0))
