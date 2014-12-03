@@ -6,10 +6,12 @@ import cilib.Predef._
 import scalaz._
 import Scalaz._
 
+import spire.implicits._
+
 object LBestPSO {
 
   def main(args: Array[String]): Unit = {
-    val sum = Problem.static((a: List[Double]) => Valid(a.map(x => x*x).sum))
+    val sum = Problem.static((a: List[Double]) => Functions.spherical(a).map(Valid(_)))
 
     // LBest is a network topology where every Paricle 'x' has (n/2) neighbours
     // on each side. For example, a neighbourhood size of 3 means that there is
@@ -24,18 +26,18 @@ object LBestPSO {
 
     val b2 = Iter.sync(gbestPSO)
     val w = a flatMap (b2.run)
-    val m = w.run(Min)
+    val m = w run Min
     val y = m run sum
-    val z = y.run(RNG.fromTime)
+    val z = y run RNG.fromTime
 
     println(z)
 
     // Run the above algorithm 1000 times, without any parameter changes
-    val r = b2.repeat(1000)
+    val r = b2 repeat 1000
     val w2 = a flatMap (r)
     val m2 = w2 run Min
     val y2 = m2 run sum
-    val z2 = y2.run(RNG.fromTime)
+    val z2 = y2 run RNG.fromTime
 
     println(z2)
   }
