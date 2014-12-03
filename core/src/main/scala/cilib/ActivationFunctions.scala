@@ -1,20 +1,22 @@
 package cilib
 
 import spire.math._
+import spire.algebra._
+import spire.implicits._
 
 object ActivationFunctions {
 
-  def hyperbolic(lambda: Double = 1.0) = (x: Double) => {
+  def hyperbolic[T: Field : Trig](lambda: T = 1.0) = (x: T) => {
     val lx = lambda * x
     (exp(lx) - exp(-lx)) / ((exp(lx) + exp(-lx)))
   }
 
-  def linear(lambda: Double) = (x: Double) => lambda * x
+  def linear[T: Field](lambda: T = 1.0) = (x: T) => lambda * x
 
-  def sigmoid(lambda: Double = 1.0, gamma: Double = 1.0, offset: Double = 0.0) =
-    (x: Double) => gamma / (1.0 + exp(-1.0 * lambda * (x - offset)))
+  def sigmoid[T: Field : Trig](lambda: T = 1.0, gamma: T = 1.0, offset: T = 0.0) =
+    (x: T) => gamma / (1.0 + exp(-1.0 * lambda * (x - offset)))
 
-  def step(threshold: Double = 0.0) =
-    (x: Double ) => if (x >= threshold) 1.0 else 0.0
+  def step[T: Order](threshold: T = 0.0) =
+    (x: T ) => if (x.compare(threshold) < 0) 0.0 else 1.0
 
 }

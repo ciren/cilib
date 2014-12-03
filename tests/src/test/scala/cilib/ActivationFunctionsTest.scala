@@ -7,9 +7,12 @@ import org.scalacheck.Prop._
 import org.scalacheck.Gen
 import org.scalacheck.Arbitrary
 
+import spire.implicits._
+
 object ActivationFunctionsTest extends Properties("ActivationFunctions") {
 
-  property("linear") = forAll { (x: Double) => linear(1.0)(x) == x }
+  val lin = linear(1.0)
+  property("linear") = forAll { (x: Double) => lin(x) == x }
 
   val sig = sigmoid(1.0, 1.0, 0.0)
   property("sigmoid") = forAll { (x: Double) =>
@@ -23,8 +26,9 @@ object ActivationFunctionsTest extends Properties("ActivationFunctions") {
     hyper(x) <= 1.0
   } && hyper(0.0) == 0.0
 
+  val st = step(0.0)
   property("step") = forAll { (x: Double) =>
-    if (x >= 0.0) step(0.0)(x) == 1.0 else step(0.0)(x) == 0.0
+    if (x >= 0.0) st(x) == 1.0 else st(x) == 0.0
   }
 
 }
