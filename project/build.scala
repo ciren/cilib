@@ -134,7 +134,7 @@ object CIlibBuild extends Build {
     libraryDependencies ++= Seq(
       "org.scalaz"                  %% "scalaz-core"   % "7.1.0",
       "org.spire-math"              %% "spire"         % "0.7.5",
-      "com.github.julien-truffaut"  %% "monocle-core"  % "0.5.1"
+      "com.github.julien-truffaut"  %% "monocle-core"  % "1.0.1"
     )
   ) ++ buildSettings
 

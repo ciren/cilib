@@ -15,13 +15,13 @@ package object cilib {
   type X[A] = StateT[RVar, Problem[List,Double], A]
   type Y[A] = ReaderT[X, Opt, A]
 
-  def positive(d: Double): Option[Double @@ Tags.Positive] =
-    if (d > 0.0) Tag.subst(Some(d))
-    else None
+  def positive(d: Double): Maybe[Double @@ Tags.Positive] =
+    if (d > 0.0) Tag.subst(Maybe.just(d))
+    else Maybe.empty
 
-  def negative(d: Double): Option[Double @@ Tags.Negative] =
-    if (d < 0.0) Tag.subst(Some(d))
-    else None
+  def negative(d: Double): Maybe[Double @@ Tags.Negative] =
+    if (d < 0.0) Tag.subst(Maybe.just(d))
+    else Maybe.empty
 
   def closed[A](point: A): Bound[A] =
     Closed(point)

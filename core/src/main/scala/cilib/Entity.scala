@@ -27,10 +27,10 @@ sealed abstract class Position[F[_], A] {
       case Solution(x, _) => x
     }
 
-  def fit: Option[Fit] =
+  def fit: Maybe[Fit] =
     this match {
-      case Point(_)  => None
-      case Solution(_, f) => Some(f)
+      case Point(_)  => Maybe.empty
+      case Solution(_, f) => Maybe.just(f)
     }
 
   def eval: State[Problem[F, A], Position[F, A]] =

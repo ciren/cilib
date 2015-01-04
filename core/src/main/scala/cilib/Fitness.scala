@@ -14,7 +14,7 @@ final case class Valid(v: Double) extends Fit
 
 @annotation.implicitNotFound("Cannot find instance of type class Fitness[${A}]")
 trait Fitness[A] {
-  def fitness(a: A): Option[Fit]
+  def fitness(a: A): Maybe[Fit]
 }
 
 object Fitness {
@@ -24,8 +24,8 @@ object Fitness {
 
 }
 
-sealed trait Opt extends Order[Option[Fit]] {
-  def order(x: Option[Fit], y: Option[Fit]): Ordering
+sealed trait Opt extends Order[Maybe[Fit]] {
+  def order(x: Maybe[Fit], y: Maybe[Fit]): Ordering
 }
 
 final case object Min extends Opt {
@@ -40,9 +40,9 @@ final case object Min extends Opt {
       }
   }
 
-  private val ord = scalaz.std.option.optionOrder[Fit](fitnessOrder)
+  private val ord = scalaz.Maybe.maybeOrder[Fit](fitnessOrder)
 
-  def order(x: Option[Fit], y: Option[Fit]) =
+  def order(x: Maybe[Fit], y: Maybe[Fit]) =
     ord.order(x, y)
 }
 
@@ -58,7 +58,7 @@ final case object Max extends Opt {
       }
   }
 
-  private val ord = scalaz.std.option.optionOrder[Fit](fitnessOrder)
-  def order(x: Option[Fit], y: Option[Fit]) =
+  private val ord = scalaz.Maybe.maybeOrder[Fit](fitnessOrder)
+  def order(x: Maybe[Fit], y: Maybe[Fit]) =
     ord.order(x, y)
 }
