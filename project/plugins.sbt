@@ -9,4 +9,6 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-pgp" % "0.8.3")
 
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.2")
 
+//addSbtPlugin("org.brianmckenna" % "sbt-wartremover" % "0.11")
+
 resolvers += Resolver.sonatypeRepo("releases")

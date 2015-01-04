@@ -9,6 +9,8 @@ import sbtrelease.Utilities._
 
 import com.typesafe.sbt.pgp._
 
+//import wartremover._
+
 object CIlibBuild extends Build {
 
   // Release step
@@ -36,10 +38,28 @@ object CIlibBuild extends Build {
   )
 
   // Settings
+  def standardScalacOptions = Seq(
+    "-deprecation",
+    "-encoding", "UTF-8",
+    "-feature",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked",
+    "-Xfuture",
+    "-Xlint",
+
+    //"-Yno-imports",
+    //"-Yno-predef",
+
+    "-Yno-adapted-args",
+    "-Ywarn-dead-code",        // N.B. doesn't work well with the ??? hole
+    "-Ywarn-numeric-widen",
+    "-Ywarn-value-discard")
 
   override lazy val settings = super.settings ++ Seq(
-    scalaVersion         := "2.11.2",
-    crossScalaVersions   := Seq("2.10.4", "2.11.2"),
+    scalaVersion         := "2.11.4",
+    crossScalaVersions   := Seq("2.10.4", scalaVersion.value),
     organization         := "net.cilib",
     organizationName     := "CIRG @ UP",
     organizationHomepage := Some(url("http://cirg.cs.up.ac.za")),
@@ -66,7 +86,7 @@ object CIlibBuild extends Build {
 
     publishMavenStyle    := true,
     publishArtifact in Test := false,
-    pomIncludeRepository := { _ => false },
+    pomIncludeRepository    := { _ => false },
 
     publishTo <<= (version).apply {
       v =>
@@ -105,7 +125,7 @@ object CIlibBuild extends Build {
     aggregate(core, example, tests).
     settings(cilibSettings: _*)
 
-  lazy val cilibSettings = Seq(
+  lazy val cilibSettings = settings ++ Seq(
     name := "cilib-aggregate"
   ) ++ noPublish ++ headerCheckSetting ++ releaseSettings ++ Seq(
     publishArtifactsAction := PgpKeys.publishSigned.value,
@@ -128,14 +148,16 @@ object CIlibBuild extends Build {
   lazy val core = Project("core", file("core")).
     settings(coreSettings: _*)
 
-  lazy val coreSettings = Seq(
+  lazy val coreSettings = /*wartremoverSettings ++*/ Seq(
     name := "cilib",
     resolvers += Resolver.sonatypeRepo("releases"),
     libraryDependencies ++= Seq(
       "org.scalaz"                  %% "scalaz-core"   % "7.1.0",
+      "org.typelevel"               %% "scalaz-spire"  % "0.2",
       "org.spire-math"              %% "spire"         % "0.9.0",
       "com.github.julien-truffaut"  %% "monocle-core"  % "1.0.1"
     )
+    //wartremoverErrors ++= Warts.all
   ) ++ buildSettings
 
   // Examples
@@ -144,7 +166,7 @@ object CIlibBuild extends Build {
     settings(exampleSettings: _*).
     dependsOn(core)
 
-  lazy val exampleSettings = Seq(
+  lazy val exampleSettings = settings ++ Seq(
     name := "cilib-example"
   ) ++ noPublish
 

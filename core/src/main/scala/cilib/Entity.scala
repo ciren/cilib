@@ -5,11 +5,13 @@ import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
 import Scalaz._
 
-// Transformer of some sort, over the type F
-sealed abstract class Position[F[_], A] {
+import spire.math._
+
+// Transformer of some sort, over the type F?
+sealed abstract class Position[F[_],A] {
   import Position._
 
-  def map[B](f: A => B)(implicit F: Monad[F]): Position[F, B] =
+  def map[B](f: A => B)(implicit F: Monad[F]): Position[F,B] =
     Point(pos map f)
 
   def flatMap[B](f: A => Position[F, B])(implicit F: Monad[F]): Position[F, B] =
@@ -39,27 +41,45 @@ sealed abstract class Position[F[_], A] {
       case Solution(_, _, v) => Maybe.just(v)
     }
 
-  def eval: State[Problem[F, A], Position[F, A]] =
-    State(problem => {
+  //  def eval: StateT[RVar, Problem, Position[F,A]] =
+  def eval(f: Problem[F,A])(implicit F: Foldable[F], A: Numeric[A]): RVar[Position[F,A]] =
+/*    StateT(problem => {
       this match {
         case Point(x) =>
           val (np, fit, vio) = problem.eval(x)
-          (np, Solution(x, fit, vio))
+          np.map((_, Solution(x, fit, vio)))
+          //(np, Solution(x, fit, vio))
         case Solution(_, _, _) =>
-          (problem, this)
+          RVar.point((problem, this))
+          //(problem, this)
       }
-    })
+ })*/
+    RVar.point(
+      this match {
+        case Point(x) =>
+          val (fit, vio) = f.eval(x)
+          Solution(x, fit, vio)
+        case x @ Solution(_, _, _) =>
+          x
+      })
+
 
   def toPoint: Position[F, A] =
     this match {
       case Point(x) => this
       case Solution(x, _, _) => Point(x)
     }
+
+  def feasible: Option[Position[F,A]] =
+    violations.map(_.forall(_ => true)).getOrElse(false).option(this)
 }
 
 object Position {
   import spire.math.{ Interval => _, _ }
   import spire.implicits._
+
+  private final case class Point[F[_],A](x: F[A]) extends Position[F,A]
+  private final case class Solution[F[_],A](x: F[A], f: Fit, v: List[Violation]) extends Position[F,A]
 
   implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] =
     new Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] {
@@ -76,10 +96,7 @@ object Position {
         a zip b
     }
 
-  private final case class Point[F[_],A](x: F[A]) extends Position[F,A]
-  private final case class Solution[F[_],A](x: F[A], f: Fit, v: List[Violation]) extends Position[F,A]
-
-  implicit class ToPositionVectorOps[F[_], A: Fractional](x: Position[F, A]) {
+  implicit class PositionVectorOps[F[_], A: Fractional](x: Position[F, A]) {
     def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]): Position[F, A] = Point {
       Z.zipWith(x.pos, other.pos)(_ + _)
     }
@@ -102,13 +119,17 @@ object Position {
   def createPositions[A: Numeric](domain: List[Interval[A]], n: Int) =
     createPosition(domain) replicateM n
 
-  def createCollection[A, B: Numeric](f: Pos[Double] => A)(domain: List[Interval[B]], n: Int) =
-    createPositions(domain, n) map (_ map f)
+  def createCollection[A, B: Numeric](f: Pos[Double] => A)(domain: List[Interval[B]], n: Int): RVar[List[A]] = {
+    val X = Functor[RVar] compose Functor[List]
+    X.map(createPositions(domain, n))(f)
+  }
 
 }
 
+
 sealed trait Bound[A] {
   def value: A
+  def toDouble(implicit N: Numeric[A]) = N.toDouble(value)
 }
 case class Closed[A](value: A) extends Bound[A]
 case class Open[A](value: A) extends Bound[A]
@@ -125,3 +146,4 @@ object Interval {
     new Interval(lower, upper)
 
 }
+

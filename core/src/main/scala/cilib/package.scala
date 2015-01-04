@@ -15,8 +15,9 @@ package object cilib {
 
   type Selection[A] = (List[A], A) => List[A]
 
-  type X[A] = StateT[RVar, Problem[List,Double], A]
-  type Y[A] = ReaderT[X, Opt, A]
+  type Y[A] = ReaderT[RVar, Opt, A]
+
+  //type Problem[A] = List[A] => (Fit, List[Violation])
 
   def positive(d: Double): Maybe[Double @@ Tags.Positive] =
     if (d > 0.0) Tag.subst(Maybe.just(d))
@@ -26,10 +27,19 @@ package object cilib {
     if (d < 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty
 
+
+  // Use Spire for this!
   def closed[A](point: A): Bound[A] =
     Closed(point)
 
   def open[A](point: A): Bound[A] =
     Open(point)
+
+
+  // Find a better home for this
+  implicit object DoubleMonoid extends Monoid[Double] {
+    def zero = 0.0
+    def append(a: Double, b: => Double) = a + b
+  }
 
 }
