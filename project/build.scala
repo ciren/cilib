@@ -53,11 +53,11 @@ object CIlibBuild extends Build {
       "-language:higherKinds",
       "-language:implicitConversions",
       "-unchecked",
-      "-Xfatal-warnings",
+      //"-Xfatal-warnings",
       "-Xfuture",
       "-Xlint",
       //"-Yno-imports",
-      //"-Yno-predef",
+      "-Yno-predef",
       "-Yno-adapted-args",
       "-Ywarn-dead-code",        // N.B. doesn't work well with the ??? hole
       "-Ywarn-numeric-widen",
@@ -133,7 +133,7 @@ object CIlibBuild extends Build {
     resolvers += Resolver.sonatypeRepo("releases"),
     libraryDependencies ++= Seq(
       "org.scalaz"                  %% "scalaz-core"   % "7.1.0",
-      "org.spire-math"              %% "spire"         % "0.7.5",
+      "org.spire-math"              %% "spire"         % "0.9.0",
       "com.github.julien-truffaut"  %% "monocle-core"  % "1.0.1"
     )
   ) ++ buildSettings

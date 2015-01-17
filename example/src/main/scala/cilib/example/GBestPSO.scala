@@ -5,6 +5,7 @@ import cilib.Predef._
 
 import scalaz._
 import Scalaz._
+import scalaz.std.tuple._
 
 object GBestPSO {
 

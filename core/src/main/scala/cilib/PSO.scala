@@ -8,32 +8,33 @@ import scalaz.std.list._
 import spire.implicits._
 
 import monocle._
+import monocle.syntax._
 import Position._
 
 case class Mem[A](b: Position[List, A], v: Position[List, A])
 
 trait Memory[A] {
-  def _memory: SimpleLens[A, Position[List,Double]]
+  def _memory: Lens[A, Position[List,Double]]
 }
 
 object Memory {
   implicit object MemMemory extends Memory[Mem[Double]] {
-    def _memory = SimpleLens[Mem[Double],Position[List,Double]](_.b, (a,b) => a.copy(b = b))
+    def _memory = Lens[Mem[Double],Position[List,Double]](_.b)(b => a => a.copy(b = b))
   }
 }
 
 trait Velocity[A] {
-  def _velocity: SimpleLens[A, Position[List,Double]]
+  def _velocity: Lens[A, Position[List,Double]]
 }
 
 object Velocity {
   implicit object MemVelocity extends Velocity[Mem[Double]] {
-    def _velocity = SimpleLens[Mem[Double], Position[List,Double]](_.v, (a,b) => a.copy(v = b))
+    def _velocity = Lens[Mem[Double], Position[List,Double]](_.v)(b => a => a.copy(v = b))
   }
 }
 
 trait Charge[A] {
-  def _charge: SimpleLens[A,Double]
+  def _charge: Lens[A,Double]
 }
 
 object PSO {
@@ -61,11 +62,11 @@ object PSO {
   def updatePBest[S](p: Particle[S,Double])(implicit M: Memory[S]): Instruction[Particle[S,Double]] = {
     val pbestL = M._memory
     val (state, pos) = p
-    Instruction.liftK(Fitness.compare(pos, pbestL.get(state)).map(x => (pbestL.set(state, x), pos)))
+    Instruction.liftK(Fitness.compare(pos, (state applyLens pbestL).get).map(x => (state applyLens pbestL set x, pos)))
   }
 
   def updateVelocity[S](p: Particle[S,Double], v: Position[List,Double])(implicit V: Velocity[S]) =
-    Instruction.pointS(StateT(s => RVar.point((s, (V._velocity.set(p._1, v), p._2)))))
+    Instruction.pointS(StateT(s => RVar.point((s, (p._1 applyLens V._velocity set v, p._2)))))
 
   def createParticle[S](f: Position[List,Double] => Particle[S,Double])(pos: Position[List,Double]) =
     f(pos)

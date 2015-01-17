@@ -3,7 +3,6 @@ package cilib
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
 import syntax.applicative._
-import syntax.std.option._
 import syntax.traverse._
 import scalaz.Free._
 

@@ -2,6 +2,9 @@ import scalaz._
 
 package object cilib {
 
+  // Really want this? Should we use Show instances instead?
+  def println[A](a: A) = System.out.println(a)
+
   // Type aliases
   // (S, A) => M[(S, A)] - This is the Kleisli arrow, where M = RVar
   type C[S, A] = Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]
