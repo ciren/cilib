@@ -157,7 +157,7 @@ object CIlibBuild extends Build {
   lazy val testsSettings = Seq(
     name := "cilib-tests",
     libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck" % "1.11.5" % "test"
+      "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
     )
   ) ++ noPublish
 

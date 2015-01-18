@@ -7,7 +7,7 @@ final case class SchemeS[S,A](run: List[A] => Instruction[State[S,List[A]]])
 
 final case class Iter[A](run: List[A] => Instruction[List[A]]) {
   def repeat(n: Int) =
-    (l: List[A]) => Range(1, n).toStream.map(_ => run).foldLeftM(l) {
+    (l: List[A]) => Range.inclusive(1, n).toStream.map(_ => run).foldLeftM(l) {
       (a, c) => c(a)
     }
 }

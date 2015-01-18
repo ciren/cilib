@@ -38,7 +38,7 @@ object GeneratorTest extends Properties("Distribution") {
       val stdDev = math.sqrt((1.0 / (n - 1)) * x.foldLeft(0.0)((a, b) => a + (b - m) * (b - m)))
       val Y = x.map(a => (a - m) / stdDev).map(F).sorted
 
-      (1.0 / n) * (1 to n).foldLeft(0.0) {
+      (1.0 / n) * Range.inclusive(1, n).foldLeft(0.0) {
         (s, i) => s + ((2 * i - 1) * math.log(Y(i - 1)) + (2 * (n - i) + 1) * math.log(1.0 - Y(i - 1)))
       }
     }
@@ -59,7 +59,7 @@ object GeneratorTest extends Properties("Distribution") {
       val b = 10
 
       // The expected bins for the uniform distribution imply that the probability for each number is 1/n
-      val expected = (1 to b).map(_ => n/b).toList
+      val expected = Range.inclusive(1, b).map(_ => n/b).toList
       val observed = a.groupBy(x => (x * b).toInt).toList.map(x => x._2.length)
 
       def calc(o: Int, e: Int): Double = {
@@ -67,8 +67,7 @@ object GeneratorTest extends Properties("Distribution") {
         (dev * dev) / e.toDouble
       }
 
-      val F = Align[List]
-      val sum = F.pad(observed, expected).foldLeft(0.0)((a, c) => a + (c match {
+      val sum = Align[List].pad(expected, observed).foldLeft(0.0)((a, c) => a + (c match {
         case (Some(o), Some(e)) => calc(o, e)
         case (None, Some(e)) => calc(0, e)
         case _ => sys.error("impossible")

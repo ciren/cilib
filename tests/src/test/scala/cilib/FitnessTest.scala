@@ -9,7 +9,7 @@ import org.scalacheck.Prop._
 object FitnessTest extends Properties("Fitness") {
 
   implicit object IntFitness extends Fitness[Int] {
-    def fitness(a: Int) = Some(Valid(a.toDouble))
+    def fitness(a: Int) = Maybe.just(Valid(a.toDouble))
   }
 
   property("Minimization compare") = forAll { (x: Int, y: Int) =>
