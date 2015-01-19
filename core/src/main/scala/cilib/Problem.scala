@@ -10,7 +10,6 @@ object Violation {
 }
 
 import scalaz.Foldable
-import spire.math._
 
 private[cilib] trait Problem[F[_],A] {
   def eval(a: F[A]): (Fit, List[Violation])

@@ -63,30 +63,30 @@ object RVar {
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
   def shuffle[A](xs: List[A]): RVar[List[A]] = {
-    sealed trait BinTree[A]
-    case class Node[A](c: Int, left: BinTree[A], right: BinTree[A]) extends BinTree[A]
-    case class Leaf[A](element: A) extends BinTree[A]
+    sealed trait BinTree
+    case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
+    case class Leaf(element: A) extends BinTree
 
-    def fix[A, B](f: (A => B) => (A => B)): A => B = f(fix(f))(_)
+    def fix[AA, B](f: (AA => B) => (AA => B)): AA => B = f(fix(f))(_)
 
     def buildTree(zs: List[A]) = {
-      def join(left: BinTree[A], right: BinTree[A]) = (left, right) match {
+      def join(left: BinTree, right: BinTree) = (left, right) match {
         case (Leaf(_), Leaf(_)) => Node(2, left, right)
         case (Node(ct, _, _), Leaf(_)) => Node(ct + 1, left, right)
         case (Leaf(_), Node(ct, _, _)) => Node(ct + 1, left, right)
         case (Node(ctl, _, _), Node(ctr, _, _)) => Node(ctl + ctr, left, right)
       }
 
-      def inner(l: List[BinTree[A]]): List[BinTree[A]] = l match {
+      def inner(l: List[BinTree]): List[BinTree] = l match {
         case Nil => Nil
         case e :: Nil => e :: Nil
         case e1 :: e2 :: es => join(e1, e2) :: inner(es)
       }
 
-      fix[List[BinTree[A]], List[BinTree[A]]](f => a => if (a.length == 1) a else f(inner(a)))(zs.map(Leaf(_)))
+      fix[List[BinTree], List[BinTree]](f => a => if (a.length == 1) a else f(inner(a)))(zs.map(Leaf(_)))
     }
 
-    def extractTree(n: Int, t: BinTree[A]): (A, BinTree[A]) = (n, t) match {
+    def extractTree(n: Int, t: BinTree): (A, BinTree) = (n, t) match {
       case (0, Node(_, Leaf(e), r)) => (e, r)
       case (1, Node(2, Leaf(l), Leaf(r))) => (r, Leaf(l))
       case (n, Node(c, Leaf(l), r)) =>
@@ -104,7 +104,7 @@ object RVar {
       case (_, _) => sys.error("[extractTree] impossible")
     }
 
-    def shuffleTree(l: BinTree[A], rs: List[Int]): List[A] = (l, rs) match {
+    def shuffleTree(l: BinTree, rs: List[Int]): List[A] = (l, rs) match {
       case (Leaf(e), Nil) => e :: Nil
       case (tree, r :: rs) =>
         val (b, rest) = extractTree(r, tree)

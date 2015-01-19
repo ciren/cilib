@@ -68,7 +68,7 @@ object PSO {
   }
 
   def updateVelocity[S](p: Particle[S,Double], v: Position[List,Double])(implicit V: Velocity[S]) =
-    Instruction.pointR(RVar.point((V._velocity.set(p._1, v), p._2)))
+    Instruction.pointR(RVar.point((p._1 applyLens V._velocity set v, p._2)))
 
   def createParticle[S](f: Position[List,Double] => Particle[S,Double])(pos: Position[List,Double]) =
     f(pos)

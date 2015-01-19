@@ -18,7 +18,7 @@ import scalaz.std.list._
  */
 final class Iteration[A] private (val run: List[A] => Instruction[List[A]]) {
   def repeat(n: Int) = // Does it not make more sense that this lives on a Scheme? Also, does the type make sense?
-    (l: List[A]) => (1 to n).toStream.map(_ => run).foldLeftM(l) {
+    (l: List[A]) => Range.inclusive(1, n).toStream.map(_ => run).foldLeftM(l) {
       (a, c) => c(a)
     }
 }

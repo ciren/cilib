@@ -7,7 +7,7 @@ package object cilib {
 
   // Type aliases
   // (S, A) => M[(S, A)] - This is the Kleisli arrow, where M = RVar
-  type C[S, A] = Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]
+  type Z[S, A] = Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]
   type Pos[A] = Position[List, A]
 
   type Particle[S,A] = (S,Pos[A])

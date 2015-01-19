@@ -3,10 +3,8 @@ package example
 
 import cilib.Predef._
 
-import scalaz._
 import scalaz.syntax.foldable._
 import scalaz.std.list._
-//import Scalaz._
 import scalaz.contrib.spire.conversions.toScalaz._
 
 object LBestPSO {

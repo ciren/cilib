@@ -3,7 +3,6 @@ package example
 
 object QunatumPSO {
   import scalaz.syntax.functor._
-  import scalaz.std.tuple._
   import scalaz.std.list._
   import PSO._
 
@@ -13,9 +12,9 @@ object QunatumPSO {
 
   object QuantumState {
     implicit object QSMemory extends Memory[QuantumState] with Velocity[QuantumState] with Charge[QuantumState] {
-      def _memory: SimpleLens[QuantumState, Position[List,Double]] = SimpleLens[QuantumState,Position[List,Double]](_.b, (a,b) => a.copy(b = b))
-      def _velocity = SimpleLens[QuantumState, Position[List,Double]](_.v, (a,b) => a.copy(v = b))
-      def _charge = SimpleLens[QuantumState,Double](_.charge, (a,b) => a.copy(charge = b))
+      def _memory = Lens[QuantumState,Position[List,Double]](_.b)(b => a => a.copy(b = b))
+      def _velocity = Lens[QuantumState, Position[List,Double]](_.v)(b => a => a.copy(v = b))
+      def _charge = Lens[QuantumState,Double](_.charge)(b => a => a.copy(charge = b))
     }
   }
 
