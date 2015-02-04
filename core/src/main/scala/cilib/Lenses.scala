@@ -28,6 +28,9 @@ trait Charge[A] {
   def _charge: Lens[A,Double]
 }
 
+trait PBestStagnation[A] {
+  def _pbestStagnation: Lens[A, Int]
+}
 
 object Lenses {
   // Base Entity lenses
