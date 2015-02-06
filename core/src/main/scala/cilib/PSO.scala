@@ -5,35 +5,34 @@ import _root_.scala.Predef.{any2stringadd => _}
 import scalaz.{Kleisli,NonEmptyList,State}
 import scalaz.std.list._
 
-import monocle._
 import monocle.syntax._
 import Position._
 
-case class Mem[A](b: Position[List, A], v: Position[List, A])
+// case class Mem[A](b: Position[List, A], v: Position[List, A])
 
-trait Memory[A] {
-  def _memory: Lens[A, Position[List,Double]]
-}
+// trait Memory[A] {
+//   def _memory: Lens[A, Position[List,Double]]
+// }
 
-object Memory {
-  implicit object MemMemory extends Memory[Mem[Double]] {
-    def _memory = Lens[Mem[Double],Position[List,Double]](_.b)(b => a => a.copy(b = b))
-  }
-}
+// object Memory {
+//   implicit object MemMemory extends Memory[Mem[Double]] {
+//     def _memory = Lens[Mem[Double],Position[List,Double]](_.b)(b => a => a.copy(b = b))
+//   }
+// }
 
-trait Velocity[A] {
-  def _velocity: Lens[A, Position[List,Double]]
-}
+// trait Velocity[A] {
+//   def _velocity: Lens[A, Position[List,Double]]
+// }
 
-object Velocity {
-  implicit object MemVelocity extends Velocity[Mem[Double]] {
-    def _velocity = Lens[Mem[Double], Position[List,Double]](_.v)(b => a => a.copy(v = b))
-  }
-}
+// object Velocity {
+//   implicit object MemVelocity extends Velocity[Mem[Double]] {
+//     def _velocity = Lens[Mem[Double], Position[List,Double]](_.v)(b => a => a.copy(v = b))
+//   }
+// }
 
-trait Charge[A] {
-  def _charge: Lens[A,Double]
-}
+// trait Charge[A] {
+//   def _charge: Lens[A,Double]
+// }
 
 object PSO {
   def stdPosition[S](c: Particle[S,Double], v: Position[List,Double]): Instruction[Particle[S,Double]] =
@@ -52,7 +51,7 @@ object PSO {
   // Instruction to evaluate the particle // what about cooperative?
   import scalaz.std.list._
   def evalParticle[S](entity: Particle[S,Double]): Instruction[Particle[S,Double]] = {
-    Instruction(Kleisli((e: Env) => entity._2.eval(e.prob).map(x => (entity._1, x))))
+    Instruction(Kleisli((e: (Opt,Eval)) => entity._2.eval(e._2).map(x => (entity._1, x))))
 //    Instruction.pointR(entity._2.eval(problem).map(x => (entity._1, x)))
 /*    Instruction.pointS(StateT(p => {
       //val r: RVar[(Problem[List,Double], Position[List,Double])] = entity._2.eval(p)
@@ -154,8 +153,8 @@ object Guide {
     (collection, x) => Instruction.point(M._memory.get(x._1))
 
   def nbest[S](selection: Selection[Particle[S,Double]])(implicit M: Memory[S]): Guide[S,Double] = {
-    (collection, x) => new Instruction(Kleisli[RVar, Env, Pos[Double]]((o: Env) => RVar.point {
-      selection(collection, x).map(e => M._memory.get(e._1)).reduceLeft((a, c) => Fitness.compare(a, c) run o.opt)
+    (collection, x) => new Instruction(Kleisli[RVar, (Opt,Eval), Pos[Double]]((o: (Opt,Eval)) => RVar.point {
+      selection(collection, x).map(e => M._memory.get(e._1)).reduceLeft((a, c) => Fitness.compare(a, c) run o._1)
     }))
   }
 

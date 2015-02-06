@@ -2,7 +2,7 @@ package cilib
 
 import scalaz._
 
-case class Env(opt: Opt, prob: Problem[List,Double]) // Specialization to Double? Good / bad?
+//case class Env(opt: Opt, prob: Problem) // Specialization to Double? Good / bad?
 
 /**
   A Instruction is a type that models a single step in a CI Algorithm's operation.
@@ -20,7 +20,7 @@ case class Env(opt: Opt, prob: Problem[List,Double]) // Specialization to Double
 
 //case class Instruction[F[_],D,A](run: RVar[State[Problem[F,D],Reader[Opt,A]]]) {
 //case class Instruction[F[_],D,A](run: StateT[RVar, Problem[F,D], Reader[Opt,A]]) {
-final class Instruction[A](val run: ReaderT[RVar, Env, A]) {
+final class Instruction[A](val run: ReaderT[RVar, (Opt,Eval), A]) {
 
   def map[B](f: A => B): Instruction[B] =
     new Instruction(run map f)
@@ -32,17 +32,17 @@ final class Instruction[A](val run: ReaderT[RVar, Env, A]) {
 object Instruction {
   import scalaz._
 
-  def apply[A](s: Kleisli[RVar,Env,A]) =
+  def apply[A](s: Kleisli[RVar,(Opt,Eval),A]) =
     new Instruction(s)
 
   def point[A](a: A): Instruction[A] =
-    new Instruction(Kleisli[RVar,Env,A]((e: Env) => RVar.point(a)))
+    new Instruction(Kleisli[RVar,(Opt,Eval),A]((e: (Opt,Eval)) => RVar.point(a)))
 
   def pointR[A](a: RVar[A]): Instruction[A] =
-    new Instruction(Kleisli[RVar,Env,A]((e: Env) => a))
+    new Instruction(Kleisli[RVar,(Opt,Eval),A]((e: (Opt,Eval)) => a))
 
   def liftK[A](a: Reader[Opt, A]): Instruction[A] =
-    new Instruction(Kleisli[RVar,Env,A]((o: Env) => RVar.point(a.run(o.opt))))
+    new Instruction(Kleisli[RVar,(Opt,Eval),A]((o: (Opt,Eval)) => RVar.point(a.run(o._1))))
 
   implicit val instructionMonad: Monad[Instruction] = new Monad[Instruction] {
     def point[A](a: => A) =

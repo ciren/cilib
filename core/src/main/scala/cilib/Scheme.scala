@@ -18,11 +18,11 @@ object Scheme { // Are these not runners?
 
   // TODO: what about issues related to stack overflow?
 
-  def static[F[_],A](i: Iteration[A], l: List[A]): StateT[Instruction, Problem[F,A], List[A]] =
-    StateT { prob => i.run(l).map((prob, _)) }
+  // def static[F[_],A](i: Iteration[A], l: List[A]): StateT[Instruction, Problem[F,A], List[A]] =
+  //   StateT { prob => i.run(l).map((prob, _)) }
 
-  def dynamic[F[_],A](i: Iteration[A], l: List[A])
-                     (update: => Problem[F,A]): StateT[Instruction, Problem[F,A], List[A]] =
-    static(i, l).xmap((p: Problem[F,A]) => update)(identity _)
+  // def dynamic[F[_],A](i: Iteration[A], l: List[A])
+  //                    (update: => Problem[F,A]): StateT[Instruction, Problem[F,A], List[A]] =
+  //   static(i, l).xmap((p: Problem[F,A]) => update)(identity _)
 
 }

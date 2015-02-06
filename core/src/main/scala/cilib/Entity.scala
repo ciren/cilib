@@ -42,7 +42,7 @@ sealed abstract class Position[F[_],A] {
     }
 
   //  def eval: StateT[RVar, Problem, Position[F,A]] =
-  def eval(f: Problem[F,A])(implicit F: Foldable[F], A: Numeric[A]): RVar[Position[F,A]] =
+  def eval(f: Eval)(implicit F: Foldable[F], A: Numeric[A]): RVar[Position[F,A]] =
 /*    StateT(problem => {
       this match {
         case Point(x) =>

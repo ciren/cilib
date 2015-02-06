@@ -11,8 +11,12 @@ object Violation {
 
 import scalaz.Foldable
 
-private[cilib] trait Problem[F[_],A] {
-  def eval(a: F[A]): (Fit, List[Violation])
+trait Eval {
+  def eval[F[_],A](a: F[A]): (Fit,List[Violation])
+}
+
+trait Problem {
+  def eval[S,F[_],A](s: S): Eval
 }
 
 object Problem {
@@ -20,15 +24,15 @@ object Problem {
   import scalaz.Foldable
   import spire.math._
 
-  def static[F[_]:Foldable,A:Numeric](f: F[A] => Fit) =
-    new Problem[F,A] {
-      def eval(a: F[A]) = (f(a), List.empty)
-    }
+  // def static[F[_]:Foldable,A:Numeric](f: F[A] => Fit) =
+  //   new Problem[F,A] {
+  //     def eval(a: F[A]) = (f(a), List.empty)
+  //   }
 
-  def dynamic[F[_]:Foldable,A:Numeric](f: F[A] => (Fit, List[Violation])) =
-    new Problem[F,A] {
-      def eval(a: F[A]) = f(a)
-    }
+  // def dynamic[F[_]:Foldable,A:Numeric](f: F[A] => (Fit, List[Violation])) =
+  //   new Problem[F,A] {
+  //     def eval(a: F[A]) = f(a)
+  //   }
 
   //def dynamic[F[_]:Foldable1,A](f: F[A] => )
 
