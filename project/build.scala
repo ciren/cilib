@@ -58,7 +58,7 @@ object CIlibBuild extends Build {
     "-Ywarn-value-discard")
 
   override lazy val settings = super.settings ++ Seq(
-    scalaVersion         := "2.11.4",
+    scalaVersion         := "2.11.5",
     crossScalaVersions   := Seq("2.10.4", scalaVersion.value),
     organization         := "net.cilib",
     organizationName     := "CIRG @ UP",
