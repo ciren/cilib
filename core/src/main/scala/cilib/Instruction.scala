@@ -2,8 +2,6 @@ package cilib
 
 import scalaz._
 
-//case class Env(opt: Opt, prob: Problem) // Specialization to Double? Good / bad?
-
 /**
   A Instruction is a type that models a single step in a CI Algorithm's operation.
 
@@ -17,9 +15,6 @@ import scalaz._
   `Instruction` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritm instruction.
   */
-
-//case class Instruction[F[_],D,A](run: RVar[State[Problem[F,D],Reader[Opt,A]]]) {
-//case class Instruction[F[_],D,A](run: StateT[RVar, Problem[F,D], Reader[Opt,A]]) {
 final class Instruction[A](val run: ReaderT[RVar, (Opt,Eval), A]) {
 
   def map[B](f: A => B): Instruction[B] =

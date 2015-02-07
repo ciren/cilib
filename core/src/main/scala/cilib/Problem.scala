@@ -16,7 +16,7 @@ trait Eval {
 }
 
 trait Problem {
-  def eval[S,F[_],A](s: S): Eval
+  def eval[S](s: S): (S,Eval)
 }
 
 object Problem {

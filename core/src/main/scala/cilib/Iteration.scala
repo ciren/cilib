@@ -1,7 +1,6 @@
 package cilib
 
 import scalaz.syntax.traverse._
-import scalaz.std.stream._
 import scalaz.std.list._
 
 /**
@@ -17,10 +16,10 @@ import scalaz.std.list._
  * }}}
  */
 final class Iteration[A] private (val run: List[A] => Instruction[List[A]]) {
-  def repeat(n: Int) = // Does it not make more sense that this lives on a Scheme? Also, does the type make sense?
-    (l: List[A]) => Range.inclusive(1, n).toStream.map(_ => run).foldLeftM(l) {
-      (a, c) => c(a)
-    }
+  // def repeat(n: Int) = // Does it not make more sense that this lives on a Scheme? Also, does the type make sense?
+  //   (l: List[A]) => Range.inclusive(1, n).toStream.map(_ => run).foldLeftM(l) {
+  //     (a, c) => c(a)
+  //   }
 }
 
 object Iteration {
