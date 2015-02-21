@@ -110,19 +110,17 @@ object Position {
       a.fit
   }
 
-  def apply[A](xs: List[A]): Position[List, A] =
+  def apply[F[_],A](xs: F[A]): Position[F, A] =
     Point(xs)
 
-  def createPosition[A: Numeric](domain: List[Interval[A]]) =
-    domain.traverseU(x => Dist.uniform(x.lower.value.toDouble, x.upper.value.toDouble)) map (Position(_))
+  def createPosition[A: Numeric](domain: NonEmptyList[Interval[A]]) =
+    domain.list.traverseU(x => Dist.uniform(x.lower.value.toDouble, x.upper.value.toDouble)) map (Position(_))
 
-  def createPositions[A: Numeric](domain: List[Interval[A]], n: Int) =
+  def createPositions[A: Numeric](domain: NonEmptyList[Interval[A]], n: Int) =
     createPosition(domain) replicateM n
 
-  def createCollection[A, B: Numeric](f: Pos[Double] => A)(domain: List[Interval[B]], n: Int): RVar[List[A]] = {
-    val X = Functor[RVar] compose Functor[List]
-    X.map(createPositions(domain, n))(f)
-  }
+  def createCollection[A, B: Numeric](f: Pos[Double] => A)(domain: NonEmptyList[Interval[B]], n: Int): RVar[List[A]] =
+    createPositions(domain,n).map(_.map(f))
 
 }
 
