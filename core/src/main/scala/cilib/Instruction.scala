@@ -15,35 +15,35 @@ import scalaz._
   `Instruction` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritm instruction.
   */
-final class Instruction[A](val run: ReaderT[RVar, (Opt,Eval), A]) {
+final class Instruction[F[_],A,B](val run: ReaderT[RVar, (Opt,Eval[F,A]), B]) {
 
-  def map[B](f: A => B): Instruction[B] =
+  def map[C](f: B => C): Instruction[F,A,C] =
     new Instruction(run map f)
 
-  def flatMap[B](f: A => Instruction[B]): Instruction[B] =
+  def flatMap[C](f: B => Instruction[F,A,C]): Instruction[F,A,C] =
     new Instruction(run flatMap (f(_).run))
 }
 
 object Instruction {
   import scalaz._
 
-  def apply[A](s: Kleisli[RVar,(Opt,Eval),A]) =
+  def apply[F[_],A,B](s: Kleisli[RVar,(Opt,Eval[F,A]),B]) =
     new Instruction(s)
 
-  def point[A](a: A): Instruction[A] =
-    new Instruction(Kleisli[RVar,(Opt,Eval),A]((e: (Opt,Eval)) => RVar.point(a)))
+  def point[F[_],A,B](b: B): Instruction[F,A,B] =
+    new Instruction(Kleisli[RVar,(Opt,Eval[F,A]),B]((e: (Opt,Eval[F,A])) => RVar.point(b)))
 
-  def pointR[A](a: RVar[A]): Instruction[A] =
-    new Instruction(Kleisli[RVar,(Opt,Eval),A]((e: (Opt,Eval)) => a))
+  def pointR[F[_],A,B](a: RVar[B]): Instruction[F,A,B] =
+    new Instruction(Kleisli[RVar,(Opt,Eval[F,A]),B]((e: (Opt,Eval[F,A])) => a))
 
-  def liftK[A](a: Reader[Opt, A]): Instruction[A] =
-    new Instruction(Kleisli[RVar,(Opt,Eval),A]((o: (Opt,Eval)) => RVar.point(a.run(o._1))))
+  def liftK[F[_],A,B](a: Reader[Opt, B]): Instruction[F,A,B] =
+    new Instruction(Kleisli[RVar,(Opt,Eval[F,A]),B]((o: (Opt,Eval[F,A])) => RVar.point(a.run(o._1))))
 
-  implicit val instructionMonad: Monad[Instruction] = new Monad[Instruction] {
-    def point[A](a: => A) =
+  implicit def instructionMonad[F[_],A]: Monad[({type l[a] = Instruction[F,A,a]})#l] = new Monad[({type l[a] = Instruction[F,A,a]})#l] {
+    def point[C](a: => C) =
       Instruction.point(a)
 
-    def bind[A, B](fa: Instruction[A])(f: A => Instruction[B]): Instruction[B] =
+    def bind[B,C](fa: Instruction[F,A,B])(f: B => Instruction[F,A,C]): Instruction[F,A,C] =
       fa flatMap f
   }
 }

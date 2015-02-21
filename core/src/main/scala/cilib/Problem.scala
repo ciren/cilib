@@ -21,6 +21,10 @@ abstract class Eval[F[_],A] {
 
 object Problem {
 
+  val s = new Eval[List,Double] {
+    def eval(a: List[Double]) = (Valid(3.0),List.empty)
+  }
+
   import scalaz.Foldable
   import spire.math._
 
