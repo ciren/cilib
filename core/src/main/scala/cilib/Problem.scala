@@ -11,13 +11,13 @@ object Violation {
 
 import scalaz.Foldable
 
-trait Eval {
-  def eval[F[_],A](a: F[A]): (Fit,List[Violation])
+abstract class Eval[F[_],A] {
+  def eval(a: F[A]): (Fit,List[Violation])
 }
 
-trait Problem {
-  def eval[S](s: S): (S,Eval)
-}
+// trait Problem {
+//   def eval[S](s: S): (S,Eval)
+// }
 
 object Problem {
 

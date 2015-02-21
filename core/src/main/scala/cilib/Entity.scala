@@ -7,8 +7,7 @@ import Scalaz._
 
 import spire.math._
 
-// Transformer of some sort, over the type F?
-sealed abstract class Position[F[_],A] {
+sealed abstract class Position[F[_],A] { // Transformer of some sort, over the type F?
   import Position._
 
   def map[B](f: A => B)(implicit F: Monad[F]): Position[F,B] =
@@ -42,7 +41,7 @@ sealed abstract class Position[F[_],A] {
     }
 
   //  def eval: StateT[RVar, Problem, Position[F,A]] =
-  def eval(f: Eval)(implicit F: Foldable[F], A: Numeric[A]): RVar[Position[F,A]] =
+  def eval(f: Eval[F,A])(implicit F: Foldable[F], A: Numeric[A]): RVar[Position[F,A]] =
 /*    StateT(problem => {
       this match {
         case Point(x) =>
@@ -113,14 +112,14 @@ object Position {
   def apply[F[_],A](xs: F[A]): Position[F, A] =
     Point(xs)
 
-  def createPosition[A: Numeric](domain: NonEmptyList[Interval[A]]) =
-    domain.list.traverseU(x => Dist.uniform(x.lower.value.toDouble, x.upper.value.toDouble)) map (Position(_))
+  // def createPosition[A: Numeric](domain: NonEmptyList[Interval[A]]) =
+  //   domain.list.traverseU(x => Dist.uniform(x.lower.value.toDouble, x.upper.value.toDouble)) map (Position(_))
 
-  def createPositions[A: Numeric](domain: NonEmptyList[Interval[A]], n: Int) =
-    createPosition(domain) replicateM n
+  // def createPositions[A: Numeric](domain: NonEmptyList[Interval[A]], n: Int) =
+  //   createPosition(domain) replicateM n
 
-  def createCollection[A, B: Numeric](f: Pos[Double] => A)(domain: NonEmptyList[Interval[B]], n: Int): RVar[List[A]] =
-    createPositions(domain,n).map(_.map(f))
+  // def createCollection[A, B: Numeric](f: Pos[Double] => A)(domain: NonEmptyList[Interval[B]], n: Int): RVar[List[A]] =
+  //   createPositions(domain,n).map(_.map(f))
 
 }
 
