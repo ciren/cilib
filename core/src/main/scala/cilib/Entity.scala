@@ -74,8 +74,6 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
 }
 
 object Position {
-  import spire.math.{ Interval => _, _ }
-  import spire.implicits._
 
   private final case class Point[F[_],A](x: F[A]) extends Position[F,A]
   private final case class Solution[F[_],A](x: F[A], f: Fit, v: List[Violation]) extends Position[F,A]
@@ -95,13 +93,18 @@ object Position {
         a zip b
     }
 
-  implicit class PositionVectorOps[F[_], A: Fractional](x: Position[F, A]) {
-    def + (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]): Position[F, A] = Point {
-      Z.zipWith(x.pos, other.pos)(_ + _)
-    }
-    def - (other: Position[F, A])(implicit Z: Zip[F], F: Functor[F]): Position[F, A] = Point(Z.zipWith(x.pos, other.pos)(_ - _))
+  implicit class PositionVectorOps[F[_],A](val x: Position[F,A]) extends AnyVal {
+    import spire.algebra._
+    def + (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F, A] =
+      Point(M.plus(x.pos, other.pos))
+
+    def - (other: Position[F, A])(implicit M: Module[F[A],A]): Position[F,A] =
+      Point(M.minus(x.pos, other.pos))
+
     /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
-    def *:(scalar: A)(implicit F: Functor[F]): Position[F, A] = Point(x.pos.map(_ * scalar))
+
+    def *:(scalar: A)(implicit M: Module[F[A],A]): Position[F, A] =
+      Point(M.timesl(scalar, x.pos))
   }
 
   implicit def positionFitness[F[_], A] = new Fitness[Position[F, A]] {
@@ -112,14 +115,14 @@ object Position {
   def apply[F[_],A](xs: F[A]): Position[F, A] =
     Point(xs)
 
-  // def createPosition[A: Numeric](domain: NonEmptyList[Interval[A]]) =
-  //   domain.list.traverseU(x => Dist.uniform(x.lower.value.toDouble, x.upper.value.toDouble)) map (Position(_))
+   def createPosition[A](domain: List[Interval[A]])(implicit A: Numeric[A]) =
+     domain.traverseU(x => Dist.uniform(A.toDouble(x.lower.value), A.toDouble(x.upper.value))) map (Position(_))
 
-  // def createPositions[A: Numeric](domain: NonEmptyList[Interval[A]], n: Int) =
-  //   createPosition(domain) replicateM n
+   def createPositions[A: Numeric](domain: List[Interval[A]], n: Int) =
+     createPosition(domain) replicateM n
 
-  // def createCollection[A, B: Numeric](f: Pos[Double] => A)(domain: NonEmptyList[Interval[B]], n: Int): RVar[List[A]] =
-  //   createPositions(domain,n).map(_.map(f))
+   def createCollection[A, B: Numeric](f: Position[List,Double] => A)(domain: List[Interval[B]], n: Int): RVar[List[A]] =
+     createPositions(domain,n).map(_.map(f))
 
 }
 

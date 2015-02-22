@@ -5,11 +5,10 @@ import cilib.Predef._
 
 import scalaz.syntax.foldable._
 import scalaz.std.list._
-import scalaz.contrib.spire.conversions.toScalaz._
 
 object LBestPSO {
 
-  def main(args: Array[String]): Unit = {
+/*  def main(args: Array[String]): Unit = {
     val sum = Problem.static((a: List[Double]) => Valid(a.foldMap(x => x*x)))
 
     // LBest is a network topology where every Paricle 'x' has (n/2) neighbours
@@ -39,5 +38,5 @@ object LBestPSO {
     val z2 = m2.run(RNG.fromTime)
 
     println(z2)
-  }
+  }*/
 }

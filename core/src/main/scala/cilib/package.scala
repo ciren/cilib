@@ -7,11 +7,10 @@ package object cilib {
 
   // Type aliases
   // (S, A) => M[(S, A)] - This is the Kleisli arrow, where M = RVar
-  type Z[S, A] = Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]
-  type Pos[A] = Position[List, A]
+  //  type Z[S, A] = Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]
 
-  type Particle[S,A] = (S,Pos[A])
-  type Guide[S,A] = (List[Particle[S,A]], Particle[S,A]) => Instruction[Pos[A]] // Should expand into a typeclass? Getter?
+  type Particle[S,F[_],A] = (S,Position[F,A])
+  type Guide[S,F[_],A] = (List[Particle[S,F,A]], Particle[S,F,A]) => Instruction[F,A,Position[F,A]] // Should expand into a typeclass? Getter?
 
   type Selection[A] = (List[A], A) => List[A]
 

@@ -4,18 +4,21 @@ import _root_.scala.Predef.{any2stringadd => _}
 import scalaz._
 import scalaz.std.list._
 import PSO._
+import spire.algebra._
+import spire.implicits._
+import spire.syntax.module._
 
 object Predef {
 
   // The function below needs the guides for the particle, for the standard PSO update
   // and will eventually live in the simulator
-  def gbest[S:Memory:Velocity](
+  def gbest[S,F[_]:Traverse](//:Memory:Velocity](
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,Double],
-    social: Guide[S,Double]
-  ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
+    cognitive: Guide[S,F,Double],
+    social: Guide[S,F,Double]
+  )(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Instruction[F,Double,Particle[S,F,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -26,11 +29,11 @@ object Predef {
       updated <- updatePBest(p3)
     } yield updated
 
-  def cognitive[S:Memory:Velocity](
+  def cognitive[S,F[_]:Traverse](//:Memory:Velocity](
     w: Double,
     c1: Double,
-    cognitive: Guide[S,Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
+    cognitive: Guide[S,F,Double]
+  )(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Instruction[F,Double,Particle[S,F,Double]] =
     collection => x => {
       for {
         cog     <- cognitive(collection, x)
@@ -42,11 +45,11 @@ object Predef {
       } yield updated
     }
 
-  def social[S:Memory:Velocity](
+  def social[S,F[_]:Traverse](//:Memory:Velocity](
     w: Double,
     c1: Double,
-    social: Guide[S,Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
+    social: Guide[S,F,Double]
+  )(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Instruction[F,Double,Particle[S,F,Double]] =
     collection => x => {
       for {
         soc     <- social(collection, x)
@@ -64,16 +67,17 @@ object Predef {
   // apply gcpso to other topology structures. Stating that you simply "copy" something
   // into something else is not elegant and does not have a solid reasoning
   // attached to it.
-  def gcpso[S: Velocity: Memory](
+  /*def gcpso[S,F[_]](//: Velocity: Memory](
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => StateT[Instruction, GCParams, Particle[S,Double]] =
+    cognitive: Guide[S,F,Double]
+  )(implicit M:Memory[S,F,Double], V:Velocity[S,F,Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => StateT[({type l[a] = Instruction[F,Double,a]})#l, GCParams, Particle[S,F,Double]] =
     collection => x => {
-      val S = StateT.stateTMonadState[GCParams, Instruction]
+      type I[A] = Instruction[F,Double,A]
+      val S = StateT.stateTMonadState[GCParams, I]
       val hoist = StateT.StateMonadTrans[GCParams]
-      val g = Guide.gbest[S]
+      val g = Guide.gbest[S,F]
       for {
         s       <- S.get
         gbest   <- hoist.liftM(g(collection, x))
@@ -94,18 +98,18 @@ object Predef {
             )
           } else params)
       } yield updated
-    }
+    }*/
 
-  def charged[S:Memory:Velocity:Charge](
+  def charged[S:Charge,F[_]:Traverse:Monad](
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,Double],
-    social: Guide[S,Double],
-    distance: (Position[List,Double], Position[List,Double]) => Double,
+    cognitive: Guide[S,F,Double],
+    social: Guide[S,F,Double],
+    distance: (Position[F,Double], Position[F,Double]) => Double,
     rp: Double,
     rc: Double
-  ): List[Particle[S, Double]] => Particle[S,Double] => Instruction[Particle[S,Double]] =
+  )(implicit M:Memory[S,F,Double], V:Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Instruction[F,Double,Particle[S,F,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)

@@ -24,10 +24,10 @@ import spire.implicits._
 object Problems {
 
   /* Some of the more common static benchmark problems */
-  import scalaz.Foldable
+//  import scalaz.Foldable
 
-  def spherical[F[_]:Foldable,A](implicit N: Numeric[A]) =
-    Problem.static((a: F[A]) => Valid(a.foldMap(x => N.toDouble(N.times(x, x)))))
+//  def spherical[F[_]:Foldable,A](implicit N: Numeric[A]) =
+//    Problem.static((a: F[A]) => Valid(a.foldMap(x => N.toDouble(N.times(x, x)))))
 
   // Not sure where to put these yet....
 
@@ -158,10 +158,10 @@ object Problems {
       }))
     })
 
-  def movingPeaks(peaks: RVar[List[Peak]]): RVar[Problem[List,Double]] = {
+  def movingPeaks(peaks: RVar[List[Peak]]): RVar[Eval[List,Double]] = {
     peaks.map(p => //new Problem[List,Double] {
                    //      def eval(a: List[Double]) = {
-      new Problem[List,Double] {
+      new Eval[List,Double] {
         def eval(a: List[Double]) = {
           import scalaz.syntax.foldable._
           import scalaz.std.anyVal._

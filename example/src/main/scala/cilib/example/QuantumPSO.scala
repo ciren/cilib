@@ -11,15 +11,15 @@ object QunatumPSO {
   case class QuantumState(b: Position[List,Double], v: Position[List,Double], charge: Double)
 
   object QuantumState {
-    implicit object QSMemory extends Memory[QuantumState] with Velocity[QuantumState] with Charge[QuantumState] {
+/*    implicit object QSMemory extends Memory[QuantumState] with Velocity[QuantumState] with Charge[QuantumState] {
       def _memory = Lens[QuantumState,Position[List,Double]](_.b)(b => a => a.copy(b = b))
       def _velocity = Lens[QuantumState, Position[List,Double]](_.v)(b => a => a.copy(v = b))
       def _charge = Lens[QuantumState,Double](_.charge)(b => a => a.copy(charge = b))
-    }
+    }*/
   }
 
   def main(args: Array[String]): Unit = {
-
+/*
     def quantumPSO[S:Memory:Velocity:Charge](
       w: Double,
       c1: Double,
@@ -62,7 +62,7 @@ object QunatumPSO {
         Problems.initPeaks.run(peakState).map(x => (x._1, x._2.run(RNG.fromTime)))
 
     val r = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, cognitive, social))//.repeat(1000)
-/*
+*
     // Need to track both the problem and the current collection
     (0 to 1000).foldLeft((prob, pop2))((a, c) => {
       val ((peakState, (rng, peaks)), pop3) = a

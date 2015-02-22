@@ -15,7 +15,7 @@ import scalaz._
   `Instruction` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritm instruction.
   */
-final class Instruction[F[_],A,B](val run: ReaderT[RVar, (Opt,Eval[F,A]), B]) {
+final class Instruction[F[_],A,B](val run: ReaderT[RVar,(Opt,Eval[F,A]),B]) {
 
   def map[C](f: B => C): Instruction[F,A,C] =
     new Instruction(run map f)

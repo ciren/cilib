@@ -2,25 +2,25 @@ package cilib
 
 import monocle._
 
-case class Mem[A](b: Position[List, A], v: Position[List, A])
+case class Mem[F[_],A](b: Position[F,A], v: Position[F,A])
 
-trait Memory[A] {
-  def _memory: Lens[A, Position[List,Double]]
+trait Memory[S,F[_],A] {
+  def _memory: Lens[S, Position[F,A]]
 }
 
 object Memory {
-  implicit object MemMemory extends Memory[Mem[Double]] {
-    def _memory = Lens[Mem[Double],Position[List,Double]](_.b)(b => a => a.copy(b = b))
+  implicit def memMemory[F[_]] = new Memory[Mem[F,Double],F,Double] {
+    def _memory = Lens[Mem[F,Double],Position[F,Double]](_.b)(b => a => a.copy(b = b))
   }
 }
 
-trait Velocity[A] {
-  def _velocity: Lens[A, Position[List,Double]]
+trait Velocity[S,F[_],A] {
+  def _velocity: Lens[S, Position[F,A]]
 }
 
 object Velocity {
-  implicit object MemVelocity extends Velocity[Mem[Double]] {
-    def _velocity = Lens[Mem[Double], Position[List,Double]](_.v)(b => a => a.copy(v = b))
+  implicit def memVelocity[F[_]] = new Velocity[Mem[F,Double],F,Double] {
+    def _velocity = Lens[Mem[F,Double], Position[F,Double]](_.v)(b => a => a.copy(v = b))
   }
 }
 
