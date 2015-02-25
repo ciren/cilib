@@ -42,17 +42,6 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
 
   //  def eval: StateT[RVar, Problem, Position[F,A]] =
   def eval(f: Eval[F,A])(implicit F: Foldable[F], A: Numeric[A]): RVar[Position[F,A]] =
-/*    StateT(problem => {
-      this match {
-        case Point(x) =>
-          val (np, fit, vio) = problem.eval(x)
-          np.map((_, Solution(x, fit, vio)))
-          //(np, Solution(x, fit, vio))
-        case Solution(_, _, _) =>
-          RVar.point((problem, this))
-          //(problem, this)
-      }
- })*/
     RVar.point(
       this match {
         case Point(x) =>
@@ -103,7 +92,7 @@ object Position {
 
     /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
 
-    def *:(scalar: A)(implicit M: Module[F[A],A]): Position[F, A] =
+    def *: (scalar: A)(implicit M: Module[F[A],A]): Position[F, A] =
       Point(M.timesl(scalar, x.pos))
   }
 
@@ -112,20 +101,25 @@ object Position {
       a.fit
   }
 
-  def apply[F[_],A](xs: F[A]): Position[F, A] =
+  def apply[F[_]:SolutionRep,A](xs: F[A]): Position[F, A] =
     Point(xs)
 
-   def createPosition[A](domain: List[Interval[A]])(implicit A: Numeric[A]) =
-     domain.traverseU(x => Dist.uniform(A.toDouble(x.lower.value), A.toDouble(x.upper.value))) map (Position(_))
+  def createPosition[A](domain: List[Interval[A]])(implicit A: Numeric[A], F: SolutionRep[List]) =
+    domain.traverseU(x => Dist.uniform(A.toDouble(x.lower.value), A.toDouble(x.upper.value))) map (Position(_))
 
-   def createPositions[A: Numeric](domain: List[Interval[A]], n: Int) =
-     createPosition(domain) replicateM n
+  def createPositions[A: Numeric](domain: List[Interval[A]], n: Int)(implicit ev: SolutionRep[List]) =
+    createPosition(domain) replicateM n
 
-   def createCollection[A, B: Numeric](f: Position[List,Double] => A)(domain: List[Interval[B]], n: Int): RVar[List[A]] =
-     createPositions(domain,n).map(_.map(f))
-
+  def createCollection[A, B: Numeric](f: Position[List,Double] => A)(domain: List[Interval[B]], n: Int)(implicit ev: SolutionRep[List]): RVar[List[A]] =
+    createPositions(domain,n).map(_.map(f))
 }
 
+trait SolutionRep[F[_]]
+
+object SolutionRep {
+  implicit object ListRep extends SolutionRep[List]
+  implicit object VectorRep extends SolutionRep[Vector]
+}
 
 sealed trait Bound[A] {
   def value: A

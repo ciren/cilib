@@ -11,7 +11,7 @@ object Violation {
 
 import scalaz.Foldable
 
-abstract class Eval[F[_],A] {
+abstract class Eval[F[_]:SolutionRep,A] {
   def eval(a: F[A]): (Fit,List[Violation])
 }
 
