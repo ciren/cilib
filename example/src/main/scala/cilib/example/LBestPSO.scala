@@ -1,7 +1,7 @@
 package cilib
 package example
 
-import cilib.Predef._
+import cilib.Defaults._
 
 import scalaz.syntax.foldable._
 import scalaz.std.list._
