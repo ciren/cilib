@@ -2,13 +2,12 @@ package cilib
 
 import _root_.scala.Predef.{any2stringadd => _}
 import scalaz._
-import scalaz.std.list._
 import PSO._
 import spire.algebra._
 import spire.implicits._
 import spire.syntax.module._
 
-object Predef {
+object Defaults {
 
   // The function below needs the guides for the particle, for the standard PSO update
   // and will eventually live in the simulator

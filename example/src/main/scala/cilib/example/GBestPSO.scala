@@ -3,18 +3,13 @@ package example
 
 import cilib.Predef._
 
-//import scalaz.syntax.foldable._
 import scalaz.std.list._
 import spire.implicits._
-//import scalaz.contrib.spire.conversions.toScalaz._
 
 object GBestPSO {
 
   def main(args: Array[String]): Unit = {
-    val sum =
-      new Eval[List,Double] {
-        def eval(a: List[Double]) = (Valid(a.map(x=>x*x).sum),List.empty)
-      }
+    val sum = Problems.spherical[List,Double]
 
     // Define a normal GBest PSO and run it for a single iteration
     val cognitive = Guide.pbest[Mem[List,Double],List,Double]
@@ -27,7 +22,6 @@ object GBestPSO {
     val a = Instruction.pointR[List,Double,List[Particle[Mem[List,Double],List,Double]]](swarm)
 
     val b2 = Iteration.sync(gbestPSO)
-    //    val w = a flatMap (b2.run)
     val w = a flatMap (b2.run)
     val m = w.run((Min, sum))
 //    val y = m run sum
