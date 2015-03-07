@@ -28,7 +28,6 @@ object LBestPSO {
     val b2 = Iteration.sync(lbestPSO)
     val w = a flatMap (b2.run)
     val m = w.run((Min, sum))
-//    val y = m run sum
     val z = m.run(RNG.fromTime)
 
     println(z)

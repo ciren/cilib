@@ -28,15 +28,8 @@ object PSO {
   }
 
   // Instruction to evaluate the particle // what about cooperative?
-  def evalParticle[S,F[_]:Foldable](entity: Particle[S,F,Double]): Instruction[F,Double,Particle[S,F,Double]] = {
+  def evalParticle[S,F[_]:Foldable](entity: Particle[S,F,Double]): Instruction[F,Double,Particle[S,F,Double]] =
     Instruction(Kleisli((e: (Opt,Eval[F,Double])) => entity._2.eval(e._2).map(x => (entity._1, x))))
-//    Instruction.pointR(entity._2.eval(problem).map(x => (entity._1, x)))
-/*    Instruction.pointS(StateT(p => {
-      //val r: RVar[(Problem[List,Double], Position[List,Double])] = entity._2.eval(p)
-      entity._2.eval(p).map(x => (x._1, (entity._1, x._2)))
-      //RVar.point((r._1, (entity._1, r._2)))
-    }))*/
-  }
 
   def updatePBest[S,F[_]](p: Particle[S,F,Double])(implicit M: Memory[S,F,Double]): Instruction[F,Double,Particle[S,F,Double]] = {
     val pbestL = M._memory
@@ -64,18 +57,16 @@ object PSO {
         -1.0 *: entity._2 + nbest + w *: V._velocity.get(entity._1) + a
       ))
 
-/*  def barebones[S,F[_]:Foldable](p: Particle[S,F,Double], global: Position[F,Double])(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double]) =
+  def barebones[S,F[_]:Monad:Traverse:Zip](p: Particle[S,F,Double], global: Position[F,Double])(implicit M: Memory[S,F,Double]) =
     Instruction.pointR {
-      import scalaz.Zip
-      type P[A] = Position[F,A]
-
       val (state,x) = p
       val pbest = M._memory.get(state)
-      val sigmas = Zip[P].zipWith(pbest, global)((x, y) => math.abs(x - y))
-      val means  = Zip[P].zipWith(pbest, global)((x, y) => (x + y) / 2.0)
+      val zipped = pbest.zip(global)
+      val sigmas = zipped map { case (x,y) => math.abs(x - y) }
+      val means  = zipped map { case (x,y) => (x + y) / 2.0 }
 
       (means zip sigmas) traverse (x => Dist.gaussian(x._1, x._2))
-    }*/
+    }
 
   def quantum[S,F[_]:Traverse](
     collection: List[Particle[S,F,Double]],

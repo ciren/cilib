@@ -67,12 +67,12 @@ object Position {
   private final case class Point[F[_],A](x: F[A]) extends Position[F,A]
   private final case class Solution[F[_],A](x: F[A], f: Fit, v: List[Violation]) extends Position[F,A]
 
-  implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] =
-    new Bind[({type λ[α] = Position[F,α]})#λ] with Zip[({type λ[α] = Position[F,α]})#λ] {
+  implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[({type λ[α] = Position[F,α]})#λ] /*with Traverse[({type λ[α] = Position[F,α]})#λ]*/ with Zip[({type λ[α] = Position[F,α]})#λ] =
+    new Bind[({type λ[α] = Position[F,α]})#λ] /*with Traverse[({type λ[α] = Position[F,α]})#λ]*/ with Zip[({type λ[α] = Position[F,α]})#λ] {
       def point[A](a: => A): cilib.Position[F,A] =
         Point(Applicative[F].point(a))
 
-      def map[A, B](fa: Position[F, A])(f: A => B): Position[F, B] =
+      override def map[A, B](fa: Position[F, A])(f: A => B): Position[F, B] =
         fa map f
 
       def bind[A, B](fa: Position[F, A])(f: A => Position[F,B]): Position[F, B] =
@@ -80,6 +80,7 @@ object Position {
 
       def zip[A, B](a: => Position[F, A], b: => Position[F, B]): Position[F, (A, B)] =
         a zip b
+
     }
 
   implicit class PositionVectorOps[F[_],A](val x: Position[F,A]) extends AnyVal {
