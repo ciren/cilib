@@ -5,4 +5,4 @@ algorithms. The goal of the project is to create a library that can be used
 and referenced by individuals and researchers alike.
 
 [![Build Status](https://secure.travis-ci.org/cilib/cilib.png)](http://travis-ci.org/cilib/cilib)
-
+[![Gitter chat](https://badges.gitter.im/cilib/cilib.png)](https://gitter.im/cilib/cilib)

@@ -3,7 +3,6 @@ package example
 
 import cilib.Defaults._
 
-import scalaz.syntax.foldable._
 import scalaz.std.list._
 import spire.implicits._
 
