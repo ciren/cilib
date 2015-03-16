@@ -3,7 +3,6 @@ package cilib
 import _root_.scala.Predef.{ any2stringadd => _, _ }
 import scalaz.syntax.traverse._
 import scalaz.syntax.apply._
-import scalaz.syntax.id._
 import scalaz.std.list._
 import spire.math._
 import spire.implicits._
@@ -56,128 +55,75 @@ object Problems {
     )
   )*/
 
-
-  //  def g24(x1: ) = Problem.
-
-  /*def movingPeaks(
-    interval: List[Interval[Double]],
-    frequency: Int = 10, peaks: Int = 5, widthSeverity: Double = 0.01, heightSeverity: Double = 7.0,
-    shiftSeverity: Double = 1.0, lambda: Double = 0.75,
-    minHeight: Double = 30.0, maxHeight: Double = 70.0, minWidth: Double = 1.0, maxWidth: Double = 12.0
-  )(
-    count: Int = 0,
-    movementDirections: List[List[Double]] = List.fill(peaks)(List.fill(interval.size)(1.0)),
-    shiftVectors: List[List[Double]] = List.fill(peaks)(List.fill(interval.size)(1.0))
-  ): RVar[Problem[List,Double]] = {
-    case class Peak(pos: List[Double], width: Double, height: Double)
-
-    // Initialise the problem peak data
-    val peak = (1 to peaks).toList.traverse(_ => {
-      val position = interval.traverse(x => Dist.uniform(x.lower.value, x.upper.value))
-      val height = Dist.uniform(minHeight, maxHeight)
-      val width = Dist.uniform(minWidth, maxWidth)
-      (position |@| width |@| height) { Peak(_, _, _) }
-    })
-
-    peak.map(p => new Problem[List,Double] {
-      println("peaks: " + p.mkString("\n"))
-      def eval(a: List[Double]) = {
-        import scalaz.syntax.foldable._
-        import scalaz.std.anyVal._
-        import spire.implicits._
-        val r = p.map(x => {
-          val h = (a - x.pos).foldLeft(0.0)((acc,y) => acc + y*y)
-          val w = 1 + (h * x.width)
-          x.height / w
-        })
-
-        if (count == frequency) {
-          import scalaz.syntax.applicative._
-          val random: RVar[List[Double]] = Dist.uniform(-1.0, 1.0).replicateM(interval.size).map(x => shiftSeverity *: x.normalize)
-          val newShift: RVar[List[List[Double]]] = shiftVectors.traverse(old => {
-            val vector: RVar[List[Double]] = random.map((x: List[Double]) => {
-              val a: List[Double] = (1.0 - lambda) *: x
-              val b: List[Double] = lambda *: old
-              a + b
-            })
-            vector.map(v => (1.0 / v.length.toDouble) *: (shiftSeverity *: v))
-          })
-    /*      p.map(np => {
-            val heightOffset = Dist.heightSeverity
-            val weightOffset
-          })*/
-        } else {
-          (RVar.point(this), Valid(r.maximum.getOrElse(-1.0)), List.empty)
-        }
-      }
-    })
-   }*/
-
   case class Peak(pos: List[Double], width: Double, height: Double, movementDirection: List[Double], shiftVector: List[Double])
-  case class PeakState(peaks: Int, interval: List[Interval[Double]],// movementDirection: List[List[Double]], shiftVectors: List[List[Double]],
+  case class PeakState(peaks: List[Peak], interval: List[Interval[Double]],
     frequency: Int = 10,
     widthSeverity: Double = 0.01, heightSeverity: Double = 7.0,
     shiftSeverity: Double = 1.0, lambda: Double = 0.75,
     minHeight: Double = 30.0, maxHeight: Double = 70.0, minWidth: Double = 1.0, maxWidth: Double = 12.0)
 
   import scalaz._
-  def initPeaks: State[PeakState, RVar[List[Peak]]] =
-    State(s => {
-      val t = List.fill(s.interval.size)(1.0)
-      val peak = (1 to s.peaks).toList.traverse(_ => {
-        val position = s.interval.traverse(x => Dist.uniform(x.lower.value, x.upper.value))
-        val height = Dist.uniform(s.minHeight, s.maxHeight)
-        val width = Dist.uniform(s.minWidth, s.maxWidth)
-          (position |@| width |@| height) { Peak(_, _, _, t, t) }
-      })
-      (s, peak)
+
+  def initPeaks[F[_]:SolutionRep:Foldable](n: Int, interval: List[Interval[Double]],
+    minHeight: Double, maxHeight: Double, minWidth: Double, maxWidth: Double
+  ): RVar[(PeakState, Eval[F,Double])] = {
+    val t = List.fill(interval.size)(1.0)
+    val peaks = (1 to n).toList.traverse(_ => {
+      val position = interval.traverse(x => Dist.uniform(x.lower.value, x.upper.value))
+      val height = Dist.uniform(minHeight, maxHeight)
+      val width = Dist.uniform(minWidth, maxWidth)
+
+      (position |@| width |@| height) { Peak(_, _, _, t, t) }
     })
 
-  def modifyPeaks(l: List[Peak]): State[PeakState, RVar[List[Peak]]] =
-    State(s => {
-      (s, l.traverse(p => {
-        val heightOffset = Dist.stdNormal.map(x => {
-          val offset = x * s.heightSeverity
-          if (p.height + offset > s.maxHeight || p.height - offset < s.minHeight)
-            p.height - offset
-          else
-            p.height + offset
-        })
-        val widthOffset  = Dist.stdNormal.map(x => {
-          val offset = x * s.widthSeverity
-          if (p.width + offset > s.maxWidth || p.width - offset < s.minWidth)
-            p.width - offset
-          else
-            p.width + offset
-        })
-
-        val shift = p.pos + ((p.shiftVector, p.movementDirection).zipped map { _ * _ })
-        val newDirection = (shift, p.movementDirection, s.interval).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
-        val newShift = (shift, p.shiftVector, s.interval).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
-        val newPos = p.pos + newShift
-
-        (widthOffset |@| heightOffset) { Peak(newPos, _, _, newDirection, newShift) }
-      }))
-    })
-
-  def movingPeaks(peaks: RVar[List[Peak]]): RVar[Eval[List,Double]] = {
-    peaks.map(p => //new Problem[List,Double] {
-                   //      def eval(a: List[Double]) = {
-      new Eval[List,Double] {
-        def eval(a: List[Double]) = {
-          import scalaz.syntax.foldable._
-          import scalaz.std.anyVal._
-          import spire.implicits._
-          val r : List[Double] = p.map(x => {
-            val h = (a - x.pos).foldLeft(0.0)((acc,y) => acc + y*y)
-            val w = 1 + (h * x.width)
-            x.height / w
-          })
-
-          (Valid(r.maximum.getOrElse(-1.0)), List.empty)
-        }
-      }
-    )
+    peaks.map(p => (PeakState(p, interval, 10, 0.01, 7.0, 1.0, 0.75, minHeight, maxHeight, minWidth, maxWidth), movingPeaksEval(p)))
   }
 
+  def modifyPeaks[F[_]:SolutionRep:Foldable]: StateT[RVar, PeakState, Eval[F,Double]] =
+    StateT {
+      ps => {
+        val newPeaks = ps.peaks.traverse(peak => {
+          val heightOffset: RVar[Double] = Dist.stdNormal.map(x => {
+            val offset = x * ps.heightSeverity
+            if (peak.height + offset > ps.maxHeight || peak.height - offset < ps.minHeight)
+              peak.height - offset
+            else
+              peak.height + offset
+          })
+          val widthOffset  = Dist.stdNormal.map(x => {
+            val offset = x * ps.widthSeverity
+            if (peak.width + offset > ps.maxWidth || peak.width - offset < ps.minWidth)
+              peak.width - offset
+            else
+              peak.width + offset
+          })
+
+          val shift = peak.pos + ((peak.shiftVector, peak.movementDirection).zipped map { _ * _ })
+          val newDirection = (shift, peak.movementDirection, ps.interval).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
+          val newShift = (shift, peak.shiftVector, ps.interval).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
+          val newPos = peak.pos + newShift
+
+          (widthOffset |@| heightOffset) { Peak(newPos, _, _, newDirection, newShift) }
+        })
+
+        newPeaks.map(np => (ps.copy(peaks = np), movingPeaksEval(np)))
+      }
+    }
+
+  def movingPeaksEval[F[_]:SolutionRep](peaks: List[Peak])(implicit F: Foldable[F]) =
+    new Eval[F,Double] {
+      import scalaz.syntax.foldable._
+      import scalaz.std.anyVal._
+      def eval(a: F[Double]) = {
+        val r = peaks.map(x => {
+          val h = (a.toList - x.pos).foldLeft(0.0)((acc,y) => acc + y*y)
+          val w = 1 + (h * x.width)
+          x.height / w
+        })
+        (Valid(r.maximum.getOrElse(-1.0)), List.empty)
+      }
+    }
+
 }
+
+//trait Constraint
