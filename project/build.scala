@@ -11,7 +11,12 @@ import com.typesafe.sbt.pgp._
 
 //import wartremover._
 
+object Dependencies {
+  val kindProjector = compilerPlugin("org.spire-math" %% "kind-projector" % "0.5.2")
+}
+
 object CIlibBuild extends Build {
+  import Dependencies._
 
   // Release step
 
@@ -145,12 +150,18 @@ object CIlibBuild extends Build {
 
   // Core
 
-  lazy val core = Project("core", file("core")).
-    settings(coreSettings: _*)
+  lazy val core = Project("core", file("core"),
+    settings = coreSettings ++ Seq(
+      addCompilerPlugin(kindProjector)
+    )
+  )
 
   lazy val coreSettings = /*wartremoverSettings ++*/ Seq(
     name := "cilib",
-    resolvers += Resolver.sonatypeRepo("releases"),
+    resolvers ++= Seq(
+      Resolver.sonatypeRepo("releases"),
+      "bintray/non" at "http://dl.bintray.com/non/maven"
+    ),
     libraryDependencies ++= Seq(
       "org.scalaz"                  %% "scalaz-core"   % "7.1.0",
       //"org.typelevel"               %% "scalaz-spire"  % "0.2",
@@ -162,8 +173,10 @@ object CIlibBuild extends Build {
 
   // Examples
 
-  lazy val example = Project("example", file("example")).
-    settings(exampleSettings: _*).
+  lazy val example = Project("example", file("example"),
+    settings = exampleSettings ++ Seq(
+      addCompilerPlugin(kindProjector)
+    )).
     dependsOn(core)
 
   lazy val exampleSettings = settings ++ Seq(

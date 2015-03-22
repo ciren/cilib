@@ -1,7 +1,5 @@
 package cilib
 
-import scalaz.StateT
-
 /**
  * `Scheme`s are a higher level of composition for an `Iteration`.
  * They are responsible for determining the manner in which an `Iteration`

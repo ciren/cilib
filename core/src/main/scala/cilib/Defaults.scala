@@ -71,10 +71,9 @@ object Defaults {
     c1: Double,
     c2: Double,
     cognitive: Guide[S,F,Double]
-  )(implicit M:Memory[S,F,Double], V:Velocity[S,F,Double],mod: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => StateT[({type l[a] = Instruction[F,Double,a]})#l, GCParams, Particle[S,F,Double]] =
+  )(implicit M:Memory[S,F,Double], V:Velocity[S,F,Double],mod: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => StateT[Instruction[F,Double,?], GCParams, Particle[S,F,Double]] =
     collection => x => {
-      type I[A] = Instruction[F,Double,A]
-      val S = StateT.stateTMonadState[GCParams, I]
+      val S = StateT.stateTMonadState[GCParams, Instruction[F,Double,?]]
       val hoist = StateT.StateMonadTrans[GCParams]
       val g = Guide.gbest[S,F]
       for {

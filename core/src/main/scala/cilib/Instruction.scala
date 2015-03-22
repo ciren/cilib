@@ -39,7 +39,7 @@ object Instruction {
   def liftK[F[_],A,B](a: Reader[Opt, B]): Instruction[F,A,B] =
     new Instruction(Kleisli[RVar,(Opt,Eval[F,A]),B]((o: (Opt,Eval[F,A])) => RVar.point(a.run(o._1))))
 
-  implicit def instructionMonad[F[_],A]: Monad[({type l[a] = Instruction[F,A,a]})#l] = new Monad[({type l[a] = Instruction[F,A,a]})#l] {
+  implicit def instructionMonad[F[_],A]: Monad[Instruction[F,A,?]] = new Monad[Instruction[F,A,?]] {
     def point[C](a: => C) =
       Instruction.point(a)
 

@@ -34,7 +34,7 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
       case Solution(_, f, _) => Maybe.just(f)
     }
 
-  def violations: Maybe[List[Violation]] =
+  def violations: Maybe[List[Constraint[A,Double]]] =
     this match {
       case Point(_)          => Maybe.empty
       case Solution(_, _, v) => Maybe.just(v)
@@ -51,7 +51,6 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
           x
       })
 
-
   def toPoint: Position[F, A] =
     this match {
       case Point(x) => this
@@ -59,16 +58,24 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
     }
 
   def feasible: Option[Position[F,A]] =
-    violations.map(_.forall(_ => true)).getOrElse(false).option(this)
+    violations.map(_.isEmpty).getOrElse(false).option(this)
+
+  // This is not the nicest.... How to do it in a why that doesn't seem so "hacky"
+  def adjustFit(f: Fit) =
+    this match {
+      case Point(x) => Point(x)
+      case Solution(x, fit, constraints) =>
+        Solution(x, f, constraints)
+    }
 }
 
 object Position {
 
   private final case class Point[F[_],A](x: F[A]) extends Position[F,A]
-  private final case class Solution[F[_],A](x: F[A], f: Fit, v: List[Violation]) extends Position[F,A]
+  private final case class Solution[F[_],A](x: F[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[F,A]
 
-  implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[({type λ[α] = Position[F,α]})#λ] /*with Traverse[({type λ[α] = Position[F,α]})#λ]*/ with Zip[({type λ[α] = Position[F,α]})#λ] =
-    new Bind[({type λ[α] = Position[F,α]})#λ] /*with Traverse[({type λ[α] = Position[F,α]})#λ]*/ with Zip[({type λ[α] = Position[F,α]})#λ] {
+  implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] =
+    new Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] {
       def point[A](a: => A): cilib.Position[F,A] =
         Point(Applicative[F].point(a))
 
@@ -141,4 +148,3 @@ object Interval {
     new Interval(lower, upper)
 
 }
-

@@ -26,9 +26,7 @@ object Problems {
   import scalaz.Foldable
 
   def spherical[F[_]:Foldable:SolutionRep,A](implicit N: Numeric[A]) =
-    new Eval[F,A] {
-      def eval(a: F[A]) = (Valid(a.foldMap(x => N.toDouble(N.times(x, x)))), List.empty)
-    }
+    new Unconstrained[F,A]((a: F[A]) => Valid(a.foldMap(x => N.toDouble(N.times(x, x)))))
 
   // Not sure where to put these yet....
 
@@ -111,19 +109,15 @@ object Problems {
     }
 
   def movingPeaksEval[F[_]:SolutionRep](peaks: List[Peak])(implicit F: Foldable[F]) =
-    new Eval[F,Double] {
+    new Unconstrained[F,Double]((a: F[Double]) => {
       import scalaz.syntax.foldable._
       import scalaz.std.anyVal._
-      def eval(a: F[Double]) = {
-        val r = peaks.map(x => {
-          val h = (a.toList - x.pos).foldLeft(0.0)((acc,y) => acc + y*y)
-          val w = 1 + (h * x.width)
-          x.height / w
-        })
-        (Valid(r.maximum.getOrElse(-1.0)), List.empty)
-      }
-    }
 
+      val r = peaks.map(x => {
+        val h = (a.toList - x.pos).foldLeft(0.0)((acc,y) => acc + y*y)
+        val w = 1 + (h * x.width)
+        x.height / w
+      })
+      Valid(r.maximum.getOrElse(-1.0))
+    })
 }
-
-//trait Constraint
