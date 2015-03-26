@@ -11,7 +11,7 @@ sealed abstract class Eval[F[_], A] {
       case Constrained(f, cs) =>
         import spire.algebra.Eq
         import spire.implicits._
-        (f(a), cs.filterNot(c => Constraint.satisfies(c, a.toList)))
+        (f(a), cs.filter(c => Constraint.satisfies(c, a.toList)))
     }
 
   def constrainBy(cs: List[Constraint[A,Double]])(implicit ev: Foldable[F]) =

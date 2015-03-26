@@ -27,3 +27,10 @@ object Velocity {
 trait Charge[A] {
   def _charge: Lens[A,Double]
 }
+
+
+object Lenses {
+  // Base Entity lenses
+  def _state[S,F[_],A]    = Lens[Entity[S,F,A], S](_.state)(c => e => e.copy(state = c))
+  def _position[S,F[_],A] = Lens[Entity[S,F,A], Position[F,A]](_.pos)(c => e => e.copy(pos = c))
+}

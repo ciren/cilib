@@ -7,6 +7,8 @@ import Scalaz._
 
 import spire.math._
 
+case class Entity[S,F[_],A](state: S, pos: Position[F,A])
+
 sealed abstract class Position[F[_],A] { // Transformer of some sort, over the type F?
   import Position._
 
@@ -53,7 +55,7 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
 
   def toPoint: Position[F, A] =
     this match {
-      case Point(x) => this
+      case Point(_) => this
       case Solution(x, _, _) => Point(x)
     }
 
@@ -63,7 +65,7 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
   // This is not the nicest.... How to do it in a why that doesn't seem so "hacky"
   def adjustFit(f: Fit) =
     this match {
-      case Point(x) => Point(x)
+      case x @ Point(_) => x
       case Solution(x, fit, constraints) =>
         Solution(x, f, constraints)
     }
@@ -76,18 +78,14 @@ object Position {
 
   implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] =
     new Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] {
-      def point[A](a: => A): cilib.Position[F,A] =
-        Point(Applicative[F].point(a))
-
       override def map[A, B](fa: Position[F, A])(f: A => B): Position[F, B] =
         fa map f
 
-      def bind[A, B](fa: Position[F, A])(f: A => Position[F,B]): Position[F, B] =
+      override def bind[A, B](fa: Position[F, A])(f: A => Position[F,B]): Position[F, B] =
         fa flatMap f
 
-      def zip[A, B](a: => Position[F, A], b: => Position[F, B]): Position[F, (A, B)] =
+      override def zip[A, B](a: => Position[F, A], b: => Position[F, B]): Position[F, (A, B)] =
         a zip b
-
     }
 
   implicit class PositionVectorOps[F[_],A](val x: Position[F,A]) extends AnyVal {
@@ -112,13 +110,13 @@ object Position {
   def apply[F[_]:SolutionRep,A](xs: F[A]): Position[F, A] =
     Point(xs)
 
-  def createPosition[A](domain: List[Interval[A]])(implicit A: Numeric[A], F: SolutionRep[List]) =
-    domain.traverseU(x => Dist.uniform(A.toDouble(x.lower.value), A.toDouble(x.upper.value))) map (Position(_))
+  def createPosition[A](domain: List[Interval[Double]])(implicit F: SolutionRep[List]) =
+    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))
 
-  def createPositions[A: Numeric](domain: List[Interval[A]], n: Int)(implicit ev: SolutionRep[List]) =
+  def createPositions(domain: List[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]) =
     createPosition(domain) replicateM n
 
-  def createCollection[A, B: Numeric](f: Position[List,Double] => A)(domain: List[Interval[B]], n: Int)(implicit ev: SolutionRep[List]): RVar[List[A]] =
+  def createCollection[A](f: Position[List,Double] => A)(domain: List[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]): RVar[List[A]] =
     createPositions(domain,n).map(_.map(f))
 }
 

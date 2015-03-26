@@ -14,6 +14,8 @@ case class LessThan[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,
 case class LessThanEqual[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
 case class Equal[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
 case class InInterval[A,B](f: ConstraintFunction[A,B], interval: Interval[B]) extends Constraint[A,B]
+case class GreaterThan[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
+case class GreaterThanEqual[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
 
 object Constraint {
 
@@ -51,6 +53,14 @@ object Constraint {
           case (false, _) => math.pow(math.abs(i.lower.value.toDouble - v2.toDouble), beta) + (i.lower match { case Closed(_) => 0; case Open(_) => 1})*eta
           case (_, false) => math.pow(math.abs(v2.toDouble - i.upper.value.toDouble), beta) + (i.upper match { case Closed(_) => 0; case Open(_) => 1})*eta
         }
+      case GreaterThan(f, v) =>
+        val v2 = f(cs)
+        if (v2 > v) 0.0
+        else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
+      case GreaterThanEqual(f, v) =>
+        val v2 = f(cs)
+        if (v2 >= v) 0.0
+        else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
     }).sum
   }
 
@@ -73,6 +83,7 @@ object Constraint {
           case Closed(value) => v2 <= value
         }
         c1 && c2
+      case GreaterThan(f, v) => f(cs) > v
+      case GreaterThanEqual(f, v) => f(cs) > v
     }
 }
-

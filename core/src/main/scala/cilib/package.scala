@@ -5,18 +5,15 @@ package object cilib {
   // Really want this? Should we use Show instances instead?
   def println[A](a: A) = System.out.println(a)
 
-  // Type aliases
-  // (S, A) => M[(S, A)] - This is the Kleisli arrow, where M = RVar
-  //  type Z[S, A] = Kleisli[RVar, (S, Pos[A]), (S, Pos[A])]
+  type Step[F[_],A,B] = Kleisli[RVar,(Opt,Eval[F,A]),B]
 
-  type Particle[S,F[_],A] = (S,Position[F,A])
-  type Guide[S,F[_],A] = (List[Particle[S,F,A]], Particle[S,F,A]) => Instruction[F,A,Position[F,A]] // Should expand into a typeclass? Getter?
+  type Particle[S,F[_],A] = Entity[S,F,A]
+
+  type Guide[S,F[_],A] = (List[Particle[S,F,A]], Particle[S,F,A]) => Step[F,A,Position[F,A]] // Should expand into a typeclass? Getter?
 
   type Selection[A] = (List[A], A) => List[A]
 
   type Y[A] = ReaderT[RVar, Opt, A]
-
-  //type Problem[A] = List[A] => (Fit, List[Violation])
 
   def positive(d: Double): Maybe[Double @@ Tags.Positive] =
     if (d > 0.0) Tag.subst(Maybe.just(d))
