@@ -13,6 +13,8 @@ import com.typesafe.sbt.pgp._
 
 object Dependencies {
   val kindProjector = compilerPlugin("org.spire-math" %% "kind-projector" % "0.5.2")
+  val scalaz = "org.scalaz" %% "scalaz-core" % "7.1.0"
+  val scalazEffect = "org.scalaz" %% "scalaz-effect" % "7.1.0"
 }
 
 object CIlibBuild extends Build {
@@ -163,7 +165,8 @@ object CIlibBuild extends Build {
       "bintray/non" at "http://dl.bintray.com/non/maven"
     ),
     libraryDependencies ++= Seq(
-      "org.scalaz"                  %% "scalaz-core"   % "7.1.0",
+      scalaz,
+      scalazEffect,
       //"org.typelevel"               %% "scalaz-spire"  % "0.2",
       "org.spire-math"              %% "spire"         % "0.9.0",
       "com.github.julien-truffaut"  %% "monocle-core"  % "1.0.1"

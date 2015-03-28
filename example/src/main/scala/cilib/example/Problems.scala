@@ -16,8 +16,8 @@ import spire.implicits._
 
   There is a very strong link between the quantification of a problem solution
   and the type of fitness that is the result:
-  * Valid(x) - A valid fitness in the environment with `x` and the value
-  * Penalty(x, y) - A valid fitness, but the solution has had a penalty of `y` applied
+    - Valid(x) -> A valid fitness in the environment with `x` and the value
+    - Penalty(x, y) -> A valid fitness, but the solution has had a penalty of `y` applied
 
   */
 object Problems {
