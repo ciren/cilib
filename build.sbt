@@ -5,6 +5,7 @@ import sbtrelease.ReleasePlugin._
 import sbtrelease.ReleasePlugin.ReleaseKeys._
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.Utilities._
+import sbtunidoc.Plugin.UnidocKeys._
 
 val scalazVersion = "7.1.0"
 
@@ -142,6 +143,32 @@ lazy val core = project
       "com.github.julien-truffaut"  %% "monocle-core"  % "1.0.1"
     )
   ))
+
+lazy val docSettings = Seq(
+  autoAPIMappings := true,
+  unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(core),
+  site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "api"),
+  site.addMappingsToSiteDir(tut, "_tut"),
+//  ghpagesNoJekyll := false,
+//  siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
+  scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
+    "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
+    "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
+  ),
+  git.remoteRepo := "git@github.com:cilib/cilib.git"
+//  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md"
+)
+
+lazy val docs = project
+  .settings(moduleName := "cilib-docs")
+  .settings(cilibSettings)
+  .settings(noPublishSettings)
+  .settings(unidocSettings)
+  .settings(site.settings)
+  //.settings(ghpages.settings)
+  .settings(docSettings)
+  .settings(tutSettings)
+  .dependsOn(core)
 
 lazy val example = project.dependsOn(core)
   .settings(moduleName := "cilib-example")
