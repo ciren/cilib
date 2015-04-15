@@ -16,10 +16,7 @@ final class RVar[A] private[cilib] (val state: StateT[Trampoline, RNG, A]) {
     new RVar(state flatMap (f(_).state))
 
   def ap[X](f: RVar[A => X]): RVar[X] =
-    for {
-      ff <- f
-      aa <- this
-    } yield ff(aa)
+    (f |@| this) { (ff, aa) => ff(aa) }
 
   def zip[X](other: RVar[X]): RVar[(A, X)] =
     zipWith(other, a => (a, _: X))
@@ -158,10 +155,9 @@ object Generator {
 
   implicit object DoubleGen extends Generator[Double] {
     def gen =
-      for {
-        a <- nextBits(26)
-        b <- nextBits(27)
-      } yield ((a.toLong << 27) + b) / (1L << 53).toDouble
+      (nextBits(26) |@| nextBits(27)) { (a,b) =>
+        ((a.toLong << 27) + b) / (1L << 53).toDouble
+      }
   }
 
   implicit object IntGen extends Generator[Int] {
@@ -236,10 +232,7 @@ object Dist {
       inner
     }
 
-    for {
-      a <- gammaInt
-      b <- gammaFrac
-    } yield (a + b) * theta
+    (gammaInt |@| gammaFrac) { (a,b) => (a + b) * theta }
   }
 
   def exponential(l: Maybe[Double @@ Tags.Positive]) =
@@ -264,10 +257,7 @@ object Dist {
 
   private def DRandNormalTail(min: Double, ineg: Boolean): RVar[Double] = {
     def sample =
-      for {
-        x <- stdUniform.map(x => math.log(x) / min)
-        y <- stdUniform.map(math.log(_))
-      } yield (x, y)
+      (stdUniform.map(x => math.log(x) / min) |@| stdUniform.map(math.log(_))) { Tuple2.apply }
 
     sample.iterateUntil(v => -2.0 * v._2 >= v._1 * v._1).map(x => if (ineg) x._1 - min else min - x._1)
   }
