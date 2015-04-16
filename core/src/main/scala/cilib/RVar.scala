@@ -278,7 +278,7 @@ object Dist {
         if (a._1 == 0) none else (v, (a._1-1, a._3, v)).some
       }} :+ 0.0
 
-    (blocks.toList, (blocks, blocks.tail).zipped.map(_ / _).toList)
+    (blocks.toList, blocks.apzip(_.tail).map(a => a._1 / a._2).toList)
   }
 
   def gaussian(mean: Double, dev: Double): RVar[Double] =
