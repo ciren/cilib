@@ -52,31 +52,5 @@ object GeneratorTest extends Properties("Distribution") {
       }
     }
   }
-
-  property("stdUniform") = forAll(uniformRandom) {
-    (a: Vector[Double]) => {
-      val n = a.size
-      val b = 10
-
-      // The expected bins for the uniform distribution imply that the probability for each number is 1/n
-      val expected = Range.inclusive(1, b).map(_ => n/b).toList
-      val observed = a.groupBy(x => (x * b).toInt).toList.map(x => x._2.length)
-
-      def calc(o: Int, e: Int): Double = {
-        val dev = o - e
-        (dev * dev) / e.toDouble
-      }
-
-      val sum = Align[List].pad(expected, observed).foldLeft(0.0)((a, c) => a + (c match {
-        case (Some(o), Some(e)) => calc(o, e)
-        case (None, Some(e)) => calc(0, e)
-        case _ => sys.error("impossible")
-      }))
-
-      //println("sum: " + sum)
-      sum < 27.83 && a.forall(x => x >= 0.0 && x < 1.0)
-    }
-  }
-
-  //property("Hypothesis test: uniformInt") = forAll()
 }
+
