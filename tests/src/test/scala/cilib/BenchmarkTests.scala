@@ -27,7 +27,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
   def epsilonF(precision: Double) = 1.0 / (10.0 ** precision)
   val epsilon = 1e-15
 
-  implicit class DoubleEpsilonOps(d: Double) {
+  implicit class DoubleEpsilonOps(val d: Double) extends AnyVal {
     def ~(v: Double, e: Double) = accurate(d, v, e)
     def ~(v: Double) = accurate(d, v, epsilon)
   }
