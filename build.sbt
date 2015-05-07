@@ -185,12 +185,15 @@ lazy val tests = project.dependsOn(core)
     )
   )
   .settings(noPublishSettings)
+  .dependsOn(benchmarks)
 
 lazy val benchmarks = project
   .settings(moduleName := "cilib-benchmarks")
   .settings(cilibSettings)
   .settings(
     libraryDependencies ++= Seq(
+      "org.scalaz"                  %% "scalaz-core"   % scalazVersion,
+      "org.spire-math"              %% "spire"         % "0.9.0",
       "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
     )
   )
