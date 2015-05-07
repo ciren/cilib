@@ -8,6 +8,9 @@ import sbtrelease.Utilities._
 import sbtunidoc.Plugin.UnidocKeys._
 
 val scalazVersion = "7.1.0"
+val spireVersion = "0.9.0"
+val monocleVersion = "1.1.1"
+val scalacheckVersion = "1.12.2"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib",
@@ -140,8 +143,8 @@ lazy val core = project
     libraryDependencies ++= Seq(
       "org.scalaz"                  %% "scalaz-core"   % scalazVersion,
       "org.typelevel"               %% "scalaz-spire"  % "0.2",
-      "org.spire-math"              %% "spire"         % "0.9.0",
-      "com.github.julien-truffaut"  %% "monocle-core"  % "1.0.1"
+      "org.spire-math"              %% "spire"         % spireVersion,
+      "com.github.julien-truffaut"  %% "monocle-core"  % monocleVersion
     )
   ))
 
@@ -181,7 +184,7 @@ lazy val tests = project.dependsOn(core)
   .settings(cilibSettings)
   .settings(
     libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
+      "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test"
     )
   )
   .settings(noPublishSettings)
@@ -192,8 +195,7 @@ lazy val benchmarks = project
   .settings(cilibSettings)
   .settings(
     libraryDependencies ++= Seq(
-      "org.scalaz"                  %% "scalaz-core"   % scalazVersion,
-      "org.spire-math"              %% "spire"         % "0.9.0",
-      "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
+      "org.scalaz"     %% "scalaz-core" % scalazVersion,
+      "org.spire-math" %% "spire"       % spireVersion
     )
   )
