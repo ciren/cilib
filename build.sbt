@@ -34,10 +34,11 @@ lazy val commonSettings = Seq(
     "-Xfuture"
   ),
   resolvers ++= Seq(
-    Resolver.sonatypeRepo("releases")
+    Resolver.sonatypeRepo("releases"),
+    "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
-    compilerPlugin("org.spire-math" %% "kind-projector" % "0.5.2")
+    compilerPlugin("org.spire-math" %% "kind-projector" % "0.5.4")
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cilib/cilib"),
     "git@github.com:cilib/cilib.git"))
@@ -123,8 +124,8 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .aggregate(core, example, tests)
-  .dependsOn(core, example, tests)
+  .aggregate(benchmarks, core, example, tests)
+  .dependsOn(benchmarks, core, example, tests)
 
 //   lazy val cilibSettings = settings ++ Seq(
 //     name := "cilib-aggregate"
@@ -184,3 +185,12 @@ lazy val tests = project.dependsOn(core)
     )
   )
   .settings(noPublishSettings)
+
+lazy val benchmarks = project
+  .settings(moduleName := "cilib-benchmarks")
+  .settings(cilibSettings)
+  .settings(
+    libraryDependencies ++= Seq(
+      "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
+    )
+  )
