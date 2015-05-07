@@ -24,7 +24,7 @@ object Benchmarks {
   type Sized6[A] = (A, A, A, A, A, A)
 
   type Sized1And[F[_], A] = OneAnd[F, A]
-  case class Sized2And[F[_], A](a: A, b: A, rest: F[A])
+  final case class Sized2And[F[_], A](a: A, b: A, rest: F[A])
 
   def toSized1[F[_]: Foldable, A](x: F[A]): Option[Sized1[A]] = x.index(0)
 

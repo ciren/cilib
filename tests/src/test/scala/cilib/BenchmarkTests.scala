@@ -21,7 +21,7 @@ import spire.implicits._
 
 object BenchmarksTest extends Properties("Benchmarks") {
 
-  val zero = NonEmptyList.nels(0.0, 0.0, 0.0)
+  val zero3 = NonEmptyList.nels(0.0, 0.0, 0.0)
   def accurate(v: Double, d: Double, e: Double) = abs(v - d) <= e
 
   def epsilon(precision: Double) = 1.0 / (10.0 ** precision)
@@ -67,14 +67,14 @@ object BenchmarksTest extends Properties("Benchmarks") {
     abs >= 0.0 &&
     abs >= g.foldMap()
   } && {
-    absoluteValue(zero) === 0.0 &&
+    absoluteValue(zero3) === 0.0 &&
     absoluteValue(NonEmptyList.nels(1.0, 2.0, 3.0)) === 6.0 &&
     absoluteValue(NonEmptyList.nels(-1.0, -2.0, -3.0)) === 6.0
   }
 
   property("ackley") = forAll(genNEL(-32.768, 32.768)) { g =>
     ackley(g) >= 0.0
-  } && ackley(zero) < epsilon
+  } && ackley(zero3) < epsilon
 
   property("adjiman") = forAll(gen2(-5.0, 5.0)) { g =>
     adjiman(g) >= -5.02181
@@ -82,11 +82,11 @@ object BenchmarksTest extends Properties("Benchmarks") {
 
   property("alpine1") = forAll(genNEL(-10.0, 10.0)) { g =>
     alpine1(g) >= 0.0
-  } && alpine1(zero) === 0.0
+  } && alpine1(zero3) === 0.0
 
   property("arithmeticMean") = forAll(genNEL(0.0, 1.0)) { g =>
     arithmeticMean(g) >= 0.0
-  } && arithmeticMean(zero) === 0.0
+  } && arithmeticMean(zero3) === 0.0
 
   property("bartelsConn") = forAll(gen2(-50.0, 50.0)) { g =>
     bartelsConn(g) >= 1.0
@@ -158,7 +158,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
 
   property("chungReynolds") = forAll(genNEL(-100.0, 100.0)) { g =>
     chungReynolds(g) >= 0.0
-  } && chungReynolds(zero) === 0.0
+  } && chungReynolds(zero3) === 0.0
 
   property("cigar") = forAll(gen2And(-100.0, 100.0)) { g =>
     cigar(10e6)(g) >= 0.0
@@ -173,7 +173,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
 
   property("cosineMixture") = forAll(genNEL(-1.0, 1.0)) { g =>
     cosineMixture(g) >= -0.1 * g.length
-  } && accurate(cosineMixture(zero), -0.1 * zero.length, epsilon(5))
+  } && accurate(cosineMixture(zero3), -0.1 * zero3.length, epsilon(5))
 
   property("cross") = forAll(genNEL(-10.0, 10.0)) { g =>
     crossInTray(g) >= -2.11 &&
@@ -181,8 +181,8 @@ object BenchmarksTest extends Properties("Benchmarks") {
     crossCrowned(g) >= -0.0001
   } && {
     accurate(crossInTray(NonEmptyList.nels(1.349406685353340,1.349406608602084)), -2.06261218, epsilon(6)) &&
-    crossLegTable(zero) === -1.0 &&
-    crossCrowned(zero) === 0.0001
+    crossLegTable(zero3) === -1.0 &&
+    crossCrowned(zero3) === 0.0001
   }
 
   property("csendes") = forAll(genNEL(-1.0, 1.0)) { g =>
@@ -190,8 +190,8 @@ object BenchmarksTest extends Properties("Benchmarks") {
     if (g.any(_ == 0.0))
       fit === None
     else
-     fit.forall(_ >= 0.0)
-  } && csendes(zero) === None
+      fit.forall(_ >= 0.0)
+  } && csendes(zero3) === None
 
   property("cube") = forAll(gen2(-10.0, 10.0)) { g =>
     cube(g) >= 0.0
@@ -207,7 +207,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
   property("deb") = forAll(genNEL(0.0, 1.0)) { g =>
     deb1(g) >= -1.0 &&
     deb3(g) >= -1.0
-  } && deb1(zero) === 0.0
+  } && deb1(zero3) === 0.0
 
   property("decanomial") = forAll(gen2(-10.0, 10.0)) { g =>
     decanomial(g) >= 0.0
@@ -235,7 +235,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
   property("discus") = forAll(gen1And(-100.0, 100.0)) { g =>
     discus(g) >= 0.0
   } && {
-    discus(OneAnd(0.0, zero))      === 0.0 &&
+    discus(OneAnd(0.0, zero3))      === 0.0 &&
     discus(OneAnd(1.0, Nil))       === 1e6 &&
     discus(OneAnd(1.0, List(1.0))) === 1e6 + 1.0
   }
@@ -246,7 +246,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
 
   property("dropWave") = forAll(genNEL(-5.12, 5.12)) { g =>
     dropWave(g) >= -1.0
-  } && dropWave(zero) === -1.0
+  } && dropWave(zero3) === -1.0
 
   property("easom") = forAll(gen2(-100.0, 100.0)) { g =>
     easom(g) >= -1.0
@@ -254,7 +254,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
 
   property("eggCrate") = forAll(genNEL(-5.0, 5.0)) { g =>
     eggCrate(g) >= 0.0
-  } && eggCrate(zero) === 0.0
+  } && eggCrate(zero3) === 0.0
 
   property("eggHolder") = forAll(gen2And(-512.0, 512.0)) { g =>
     eggHolder(g) >= -959.64 * (g.rest.length + 2)
@@ -270,7 +270,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
 
   property("exponential1") = forAll(genNEL(-1.0, 1.0)) { g =>
     exponential1(g) >= -1.0
-  } && exponential1(zero) === -1.0
+  } && exponential1(zero3) === -1.0
 
   property("exponential2") = forAll(gen2(0.0, 20.0)) { g =>
     exponential2(g) >= 0.0
@@ -305,7 +305,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
 
   property("griewank") = forAll(genNEL(-600, 600)) { g =>
     griewank(g) >= 0.0
-  } && griewank(zero) === 0.0
+  } && griewank(zero3) === 0.0
 
   property("hansen") = forAll(gen2(-10.0, 10.0)) { g =>
     hansen(g) >= -176.54
@@ -340,11 +340,11 @@ object BenchmarksTest extends Properties("Benchmarks") {
   property("hyperEllipsoid") = forAll(genNEL(-10.0, 10.0)) { g =>
     hyperEllipsoid(g.map(-_)) == hyperEllipsoid(g) &&
     hyperEllipsoid(g) >= 0.0
-  } && hyperEllipsoid(zero) === 0.0
+  } && hyperEllipsoid(zero3) === 0.0
 
   property("hyperEllipsoidRotated") = forAll(genNEL(-65.536, 65.536)) { g =>
     hyperEllipsoidRotated (g) >= 0.0
-  } && hyperEllipsoidRotated(zero) === 0.0
+  } && hyperEllipsoidRotated(zero3) === 0.0
 
   property("jennrichSampson") = forAll(gen2(-1.0, 1.0)) { g =>
     jennrichSampson(g) >= 124.3612
@@ -356,7 +356,7 @@ object BenchmarksTest extends Properties("Benchmarks") {
 
   property("katsuura") = forAll(genNEL(0.0, 100.0)) { g =>
     katsuura(g) >= 1.0
-  } && katsuura(zero) === 1.0
+  } && katsuura(zero3) === 1.0
 
   property("kowalik") = forAll(gen4(-5.0, 5.0)) { g =>
     kowalik(g) >= 0.0003074861
