@@ -10,7 +10,7 @@ import sbtunidoc.Plugin.UnidocKeys._
 val scalazVersion = "7.1.0"
 val spireVersion = "0.9.0"
 val monocleVersion = "1.1.1"
-val scalacheckVersion = "1.12.2"
+val scalacheckVersion = "1.11.4"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib",
@@ -184,7 +184,8 @@ lazy val tests = project.dependsOn(core)
   .settings(cilibSettings)
   .settings(
     libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test"
+      "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
+      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion % "test"
     )
   )
   .settings(noPublishSettings)

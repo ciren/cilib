@@ -5,10 +5,12 @@ import _root_.scala.Predef._
 
 import Benchmarks._
 
-import scalaz.{NonEmptyList,OneAnd}
+import scalaz.{Apply,NonEmptyList,OneAnd}
 import scalaz.std.anyVal._
 import scalaz.std.list._
+import scalaz.syntax.apply._
 import scalaz.syntax.traverse1._
+import scalaz.scalacheck.ScalaCheckBinding._
 
 import org.scalacheck._
 import org.scalacheck.Prop._
@@ -30,65 +32,34 @@ object BenchmarksTest extends Properties("Benchmarks") {
     def ~(v: Double) = accurate(d, v, epsilon)
   }
 
-  def gen1(l: Double = Double.MinValue, u: Double = Double.MaxValue) = (Gen.choose(l, u))
+  def gen1(l: Double, u: Double) =
+    Gen.choose(l, u)
 
-  def gen2(l: Double = Double.MinValue, u: Double = Double.MaxValue) =
-    for {
-      a <- Gen.choose(l, u)
-      b <- Gen.choose(l, u)
-    } yield (a, b)
+  def gen2(l: Double, u: Double) =
+    (Gen.choose(l, u) |@| Gen.choose(l, u)) { Tuple2.apply }
 
-  def gen3(l: Double = Double.MinValue, u: Double = Double.MaxValue) =
-    for {
-      a <- Gen.choose(l, u)
-      b <- Gen.choose(l, u)
-      c <- Gen.choose(l, u)
-    } yield (a, b, c)
+  def gen3(l: Double, u: Double) =
+    (Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l, u)) { Tuple3.apply }
 
-  def gen4(l: Double = Double.MinValue, u: Double = Double.MaxValue) =
-    for {
-      a <- Gen.choose(l, u)
-      b <- Gen.choose(l, u)
-      c <- Gen.choose(l, u)
-      d <- Gen.choose(l, u)
-    } yield (a, b, c, d)
+  def gen4(l: Double, u: Double) =
+    (Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l,u)) { Tuple4.apply }
 
-  def gen5(l: Double = Double.MinValue, u: Double = Double.MaxValue) =
-    for {
-      a <- Gen.choose(l, u)
-      b <- Gen.choose(l, u)
-      c <- Gen.choose(l, u)
-      d <- Gen.choose(l, u)
-      e <- Gen.choose(l, u)
-    } yield (a, b, c, d, e)
+  def gen5(l: Double, u: Double) =
+    (Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l,u)) { Tuple5.apply }
 
-  def gen6(l: Double = Double.MinValue, u: Double = Double.MaxValue) =
-    for {
-      a <- Gen.choose(l, u)
-      b <- Gen.choose(l, u)
-      c <- Gen.choose(l, u)
-      d <- Gen.choose(l, u)
-      e <- Gen.choose(l, u)
-      f <- Gen.choose(l, u)
-    } yield (a, b, c, d, e, f)
+  def gen6(l: Double, u: Double) =
+    (Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l, u) |@| Gen.choose(l,u)) { Tuple6.apply }
 
-  def gen1And(l: Double = Double.MinValue, u: Double = Double.MaxValue) =
-    for {
-      a <- Gen.choose(l, u)
-      b <- Gen.containerOf[List, Double](Gen.choose(l, u))
-    } yield OneAnd(a, b)
+  def gen1And(l: Double, u: Double) =
+    (gen1(l, u) |@| Gen.containerOf[List, Double](gen1(l, u)))(OneAnd.apply)
 
-  def gen2And(l: Double = Double.MinValue, u: Double = Double.MaxValue) =
-    for {
-      a <- Gen.choose(l, u)
-      b <- Gen.choose(l, u)
-      c <- Gen.containerOf[List, Double](Gen.choose(l, u))
-    } yield Sized2And(a, b, c)
+  def gen2And(l: Double, u: Double) =
+    (gen2(l, u) |@| Gen.containerOf[List, Double](gen1(l, u))) { (a, b) => Sized2And(a._1, a._2, b) }
 
-  def genNEL(l: Double = Double.MinValue, u: Double = Double.MaxValue) =
+  def genNEL(l: Double, u: Double) =
     gen1And(l, u).map(x => NonEmptyList.nel(x.head, x.tail))
 
-  def genConst(v: Double = Double.MinValue) = genNEL(v, v)
+  def genConst(v: Double) = genNEL(v, v)
 
   property("absoluteValue") = forAll(genNEL(-100.0, 100.0)) { g =>
     val abs = absoluteValue(g)
