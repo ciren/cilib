@@ -1,0 +1,9 @@
+name: CIlib Documentation
+markdown: kramdown
+highlighter: pygments
+baseurl: /
+apidocs: /api/
+
+collections:
+  tut:
+    output: true
