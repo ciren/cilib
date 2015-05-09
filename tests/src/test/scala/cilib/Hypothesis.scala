@@ -25,7 +25,6 @@ object Hypothesis {
       case _ => sys.error("impossible")
     }))
 
-    println("sum: " + sum)
     sum < 27.83 && sample.forall(x => x >= 0.0 && x < 1.0)
   }
 }

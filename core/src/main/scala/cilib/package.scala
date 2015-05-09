@@ -2,14 +2,12 @@ import scalaz._
 
 package object cilib {
 
-  // Really want this? Should we use Show instances instead?
-  def println[A](a: A) = System.out.println(a)
-
   type Step[F[_],A,B] = Kleisli[RVar,(Opt,Eval[F,A]),B]
 
   type Particle[S,F[_],A] = Entity[S,F,A]
 
-  type Guide[S,F[_],A] = (List[Particle[S,F,A]], Particle[S,F,A]) => Step[F,A,Position[F,A]] // Should expand into a typeclass? Getter?
+  // Should expand into a typeclass? Getter?
+  type Guide[S,F[_],A] = (List[Particle[S,F,A]], Particle[S,F,A]) => Step[F,A,Position[F,A]]
 
   type Selection[A] = (List[A], A) => List[A]
 

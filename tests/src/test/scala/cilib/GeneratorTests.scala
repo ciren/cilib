@@ -12,9 +12,6 @@ object GeneratorTest extends Properties("Distribution") {
   val gaussianRandom =
     sizedGen(Dist.stdNormal)
 
-  val uniformRandom =
-    sizedGen(Dist.stdUniform)
-
   // Perform a hypothesis test using the Anderson-Darling test for normality
   property("stdNormal") = {
     @annotation.tailrec def until[A](p: A => Boolean)(f: A => A)(z: A): A = if (p(z)) z else until(p)(f)(f(z))
@@ -48,9 +45,10 @@ object GeneratorTest extends Properties("Distribution") {
         val n = a.size
         val a2 = -n - S(a, cdf_gauss)
 
-        a2 < 3.857
+        a2 < 2.492 // 5% significance  -- 3.857
       }
     }
   }
+
 }
 
