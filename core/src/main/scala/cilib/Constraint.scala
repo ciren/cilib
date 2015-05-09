@@ -84,6 +84,6 @@ object Constraint {
         }
         c1 && c2
       case GreaterThan(f, v) => f(cs) > v
-      case GreaterThanEqual(f, v) => f(cs) > v
+      case GreaterThanEqual(f, v) => f(cs) >= v
     }
 }

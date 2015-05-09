@@ -50,7 +50,11 @@ object PSO {
     } yield (w *: V._velocity.get(entity.state)) + (c *: comp))
   }
 
-  case class GCParams(p: Double = 1.0, successes: Int = 0, failures: Int = 0, e_s: Double = 15, e_f: Double = 5)
+  final case class GCParams(p: Double, successes: Int, failures: Int, e_s: Double, e_f: Double)
+
+  def defaultGCParams =
+    GCParams(p = 1.0, successes = 0, failures = 0, e_s = 15, e_f = 5)
+
   def gcVelocity[S,F[_]:Traverse](entity: Particle[S,F,Double], nbest: Position[F,Double], w: Double, s: GCParams)(implicit V: Velocity[S,F,Double], M: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] =
     Step.pointR(
       nbest traverse (_ => Dist.stdUniform.map(x => s.p * (1 - 2*x))) map (a =>
@@ -121,7 +125,7 @@ object Guide {
 
   def nbest[S,F[_]](selection: Selection[Particle[S,F,Double]])(implicit M: Memory[S,F,Double]): Guide[S,F,Double] = {
     (collection, x) => new Step(Kleisli[RVar, (Opt,Eval[F,Double]), Position[F,Double]]((o: (Opt,Eval[F,Double])) => RVar.point {
-      selection(collection, x).map(e => M._memory.get(e.state)).reduceLeft((a, c) => Fitness.compare(a, c) run o._1)
+      selection(collection, x).map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Fitness.compare(a, c) run o._1).getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
     }))
   }
 

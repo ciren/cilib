@@ -63,7 +63,7 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
     violations.map(_.isEmpty).getOrElse(false).option(this)
 
   // This is not the nicest.... How to do it in a why that doesn't seem so "hacky"
-  def adjustFit(f: Fit) =
+  def adjustFit(f: Fit): Position[F,A] =
     this match {
       case x @ Point(_) => x
       case Solution(x, fit, constraints) =>
@@ -118,6 +118,7 @@ object Position {
 
   def createCollection[A](f: Position[List,Double] => A)(domain: List[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]): RVar[List[A]] =
     createPositions(domain,n).map(_.map(f))
+
 }
 
 trait SolutionRep[F[_]]

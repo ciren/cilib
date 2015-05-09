@@ -145,6 +145,21 @@ lazy val core = project
       "org.typelevel"               %% "scalaz-spire"  % "0.2",
       "org.spire-math"              %% "spire"         % spireVersion,
       "com.github.julien-truffaut"  %% "monocle-core"  % monocleVersion
+    ),
+    wartremoverErrors ++= Seq(
+      //Wart.Any,
+      Wart.Any2StringAdd,
+      //Wart.AsInstanceOf,
+      //Wart.IsInstanceOf,
+      Wart.DefaultArguments,
+      Wart.ListOps,
+      Wart.NonUnitStatements,
+      Wart.Null,
+      Wart.OptionPartial,
+      Wart.Product,
+      Wart.Return,
+      Wart.Serializable,
+      Wart.Var
     )
   ))
 
