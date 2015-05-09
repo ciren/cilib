@@ -1,10 +1,6 @@
 package cilib
 package benchmarks
 
-import _root_.scala.Predef._
-
-import Benchmarks._
-
 import scalaz.{Apply,NonEmptyList,OneAnd}
 import scalaz.std.anyVal._
 import scalaz.std.list._
@@ -20,6 +16,7 @@ import spire.math._
 import spire.implicits._
 
 object BenchmarksTest extends Properties("Benchmarks") {
+  import Benchmarks._
 
   val zero3 = NonEmptyList.nels(0.0, 0.0, 0.0)
   def accurate(v: Double, d: Double, e: Double) = abs(v - d) <= e
@@ -113,10 +110,8 @@ object BenchmarksTest extends Properties("Benchmarks") {
     booth((1.0, 3.0)) === 0.0
   }
 
-  val genBraninRCOS = for {
-    x1 <- Gen.choose(-5.0, 10.0)
-    x2 <- Gen.choose(0.0, 15.0)
-  } yield (x1, x2)
+  val genBraninRCOS =
+    (Gen.choose(-5.0, 10.0) |@| Gen.choose(0.0, 15.0)) { Tuple2.apply }
 
   property("braninRCOS1") = forAll(genBraninRCOS) { g =>
     braninRCOS1(g) >= 0.3978874 - epsilon
@@ -130,10 +125,8 @@ object BenchmarksTest extends Properties("Benchmarks") {
     brown(g) >= 0.0
   } && brown(Sized2And(0.0, 0.0, List(0.0))) === 0.0
 
-  val genBukin = for {
-    a <- Gen.choose(-15.0, -5.0)
-    b <- Gen.choose(-3.0, 3.0)
-  } yield (a, b)
+  val genBukin =
+    (Gen.choose(-15.0, -5.0) |@| Gen.choose(-3.0, 3.0)) { Tuple2.apply }
 
   property("bukin") = forAll(genBukin) { g =>
     bukin2(g) >= 0.0 &&
@@ -395,10 +388,8 @@ object BenchmarksTest extends Properties("Benchmarks") {
     g.any(_ === maximum(g))
   }
 
-  val genMcCormick = for {
-    a <- Gen.choose(-1.5, 1.5)
-    b <- Gen.choose(-3.0, 4.0)
-  } yield (a, b)
+  val genMcCormick =
+    (Gen.choose(-1.5, 1.5) |@| Gen.choose(-3.0, 4.0)) { Tuple2.apply }
 
   property("mcCormick") = forAll(genMcCormick) { g =>
     mcCormick(g) >= -1.9133
