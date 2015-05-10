@@ -3,7 +3,7 @@ package cilib
 /**
   A `Step` is a type that models a single step within a CI Algorithm's operation.
 
-  The general idea would be that you would compose different Instruction instances
+  The general idea would be that you would compose different `Step`s
   to produce the desired algorithmic behaviour.
 
   Even though this is an initial pass at modeling the compuation of CI algorithms
@@ -11,7 +11,7 @@ package cilib
   of different usages (or it is hoped to be so).
 
   `Step` is nothing more than a data structure that hides the details of a
-  monad transformer stack which represents the algoritm instruction.
+  monad transformer stack which represents the algoritm parts.
   */
 object Step {
   import scalaz._
