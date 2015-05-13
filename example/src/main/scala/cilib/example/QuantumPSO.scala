@@ -141,11 +141,11 @@ object QunatumPSO extends SafeApp {
       fit match {
         case Penalty(_, _) => sys.error("??? How?")
         case Valid(v) =>
-          _position.modify((p: Position[F,Double]) =>
-            _fitness.modify((x: Fit) => if (mag > 0.0) Penalty(opt match {
+          (_position[S,F,Double] composeOptional _fitness).modify((x: Fit) =>
+            if (mag > 0.0) Penalty(opt match {
               case Min => v + mag
               case Max => v - mag
-            }, mag) else x)(p)
+            }, mag) else x
           )(e)
       }
     }}.getOrElse(e)
