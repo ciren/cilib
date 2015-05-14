@@ -2,8 +2,8 @@ package cilib
 
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
-import syntax.applicative._
-import syntax.traverse._
+import scalaz.syntax.applicative._
+import scalaz.syntax.traverse._
 import scalaz.Free._
 
 sealed abstract class RVar[A] {
