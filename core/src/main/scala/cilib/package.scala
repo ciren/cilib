@@ -4,6 +4,8 @@ package object cilib {
 
   type Step[F[_],A,B] = Kleisli[RVar,(Opt,Eval[F,A]),B]
 
+  type StepS[F[_],A,S,B] = StateT[Step[F,A,?],S,B]
+
   type Particle[S,F[_],A] = Entity[S,F,A]
 
   // Should expand into a typeclass? Getter?

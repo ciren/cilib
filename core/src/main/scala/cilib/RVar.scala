@@ -2,8 +2,8 @@ package cilib
 
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
-import syntax.applicative._
-import syntax.traverse._
+import scalaz.syntax.applicative._
+import scalaz.syntax.traverse._
 import scalaz.Free._
 
 final class RVar[A] private[cilib] (val state: StateT[Trampoline, RNG, A]) {
