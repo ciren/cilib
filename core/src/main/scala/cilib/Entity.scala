@@ -9,6 +9,22 @@ import spire.math._
 
 case class Entity[S,F[_],A](state: S, pos: Position[F,A])
 
+object Entity {
+
+  // Step to evaluate the particle // what about cooperative?
+  def evalF[S,F[_]:Foldable,A](g: F[A] => F[A])(entity: Entity[S,F,A]): Step[F,A,Entity[S,F,A]] = Step { (e: (Opt, Eval[F,A])) =>
+    val pos: Position[F,A] = entity.pos match {
+      case Point(x) =>
+        val (fit, vio) = e._2.eval(g(x))
+        Solution(x, fit, vio)
+      case x @ Solution(_, _, _) =>
+        x
+    }
+
+    RVar.point(Lenses._position.set(pos)(entity))
+  }
+}
+
 sealed abstract class Position[F[_],A] { // Transformer of some sort, over the type F?
   import Position._
 
@@ -41,17 +57,6 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
       case Point(_)          => Maybe.empty
       case Solution(_, _, v) => Maybe.just(v)
     }
-
-  //  def eval: StateT[RVar, Problem, Position[F,A]] =
-  def eval(f: Eval[F,A])(implicit F: Foldable[F], A: Numeric[A]): RVar[Position[F,A]] =
-    RVar.point(
-      this match {
-        case Point(x) =>
-          val (fit, vio) = f.eval(x)
-          Solution(x, fit, vio)
-        case x @ Solution(_, _, _) =>
-          x
-      })
 
   def toPoint: Position[F, A] =
     this match {

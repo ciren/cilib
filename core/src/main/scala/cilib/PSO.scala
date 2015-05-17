@@ -36,9 +36,9 @@ object PSO {
       soc <- (social - entity.pos)    traverse (x => Dist.stdUniform.map(_ * x))
     } yield (w *: V._velocity.get(entity.state)) + (c1 *: cog) + (c2 *: soc))
 
-  // Step to evaluate the particle // what about cooperative?
+  // Step to evaluate the particle, without any modifications
   def evalParticle[S,F[_]:Foldable](entity: Particle[S,F,Double]): Step[F,Double,Particle[S,F,Double]] =
-    Step(e => entity.pos.eval(e._2).map(x => _position.set(x)(entity)))
+    Entity.evalF[S,F,Double](x => x)(entity)
 
   def updatePBest[S,F[_]](p: Particle[S,F,Double])(implicit M: Memory[S,F,Double]): Step[F,Double,Particle[S,F,Double]] = {
     val pbestL = M._memory

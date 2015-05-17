@@ -44,8 +44,8 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     compilerPlugin("org.spire-math" %% "kind-projector" % "0.5.4")
   ),
-  scmInfo := Some(ScmInfo(url("https://github.com/cilib/cilib"),
-    "git@github.com:cilib/cilib.git"))
+  scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
+    "git@github.com:cirg-up/cilib.git"))
 )
 
 lazy val publishSignedArtifacts = ReleaseStep(
@@ -89,8 +89,8 @@ lazy val publishSettings = Seq(
   },
   pomExtra := (
     <scm>
-      <url>git@github.com:cilib/cilib.git</url>
-      <connection>scm:git:git@github.com:cilib/cilib.git</connection>
+      <url>git@github.com:cirg-up/cilib.git</url>
+      <connection>scm:git:git@github.com:cirg-up/cilib.git</connection>
     </scm>
     <developers>
       {
@@ -159,7 +159,7 @@ lazy val docSettings = Seq(
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
     "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
   ),
-  git.remoteRepo := "git@github.com:cilib/cilib.git",
+  git.remoteRepo := "git@github.com:cirg-up/cilib.git",
   includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md"
 )
 
