@@ -20,10 +20,10 @@ object Step {
     Kleisli[RVar,(Opt,Eval[F,A]),B](f)
 
   def point[F[_],A,B](b: B): Step[F,A,B] =
-    Kleisli[RVar,(Opt,Eval[F,A]),B]((e: (Opt,Eval[F,A])) => RVar.point(b))
+    Kleisli[RVar,(Opt,Eval[F,A]),B](_ => RVar.point(b))
 
   def pointR[F[_],A,B](a: RVar[B]): Step[F,A,B] =
-    Kleisli[RVar,(Opt,Eval[F,A]),B]((e: (Opt,Eval[F,A])) => a)
+    Kleisli[RVar,(Opt,Eval[F,A]),B](_ => a)
 
   def liftK[F[_],A,B](a: Reader[Opt, B]): Step[F,A,B] =
    Kleisli[RVar,(Opt,Eval[F,A]),B]((o: (Opt,Eval[F,A])) => RVar.point(a.run(o._1)))

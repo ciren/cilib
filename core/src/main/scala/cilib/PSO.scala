@@ -37,7 +37,7 @@ object PSO {
     } yield (w *: V._velocity.get(entity.state)) + (c1 *: cog) + (c2 *: soc))
 
   // Step to evaluate the particle, without any modifications
-  def evalParticle[S,F[_]:Foldable](entity: Particle[S,F,Double]): Step[F,Double,Particle[S,F,Double]] =
+  def evalParticle[S,F[_]:Foldable](entity: Particle[S,F,Double]) =
     Entity.evalF[S,F,Double](x => x)(entity)
 
   def updatePBest[S,F[_]](p: Particle[S,F,Double])(implicit M: Memory[S,F,Double]): Step[F,Double,Particle[S,F,Double]] = {
