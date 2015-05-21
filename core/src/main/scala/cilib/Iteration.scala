@@ -26,7 +26,7 @@ object Iteration {
   def sync[F[_]:Traverse,A,B](f: List[B] => B => Step[F,A,B]): Iteration[F,A,List[B]] =
     Kleisli.kleisli[Step[F,A,?],List[B],List[B]]((l: List[B]) => l traverseU f(l))
 
-  // This needs to be profiled. The drop is expensive - perhaps a zipper is better
+  // This needs to be profiled. The drop is _very_ expensive - perhaps a zipper is better
   def async[F[_],A,B](f: List[B] => B => Step[F,A,B]) =
     Kleisli.kleisli[Step[F,A,?],List[B],List[B]]((l: List[B]) =>
       l.foldLeftM[Step[F,A,?], List[B]](List.empty[B]) {

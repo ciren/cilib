@@ -11,25 +11,19 @@ case class Entity[S,F[_],A](state: S, pos: Position[F,A])
 
 object Entity {
 
-  // Step to evaluate the particle // what about cooperative?
-  def evalF[S,F[_]:Foldable,A](g: F[A] => F[A])(entity: Entity[S,F,A]) =
-    Step { (e: (Opt, Eval[F,A])) =>
-      val pos = entity.pos match {
-        case Point(x) =>
-          val (fit, vio) = e._2.eval(g(x))
-          Solution(x, fit, vio)
-        case x @ Solution(_, _, _) =>
-          x
-      }
+  // Step to evaluate the particle
+  def eval[S,F[_]:Foldable,A](f: Position[F,A] => Position[F,A])(entity: Entity[S,F,A]): Step[F,A,Entity[S,F,A]] =
+    Step { (e: (Opt, Eval[F,A])) => {
+      val x = Position.evalF(f(entity.pos)).run(e)
+      x.map(p => Lenses._position.set(p)(entity))
+    }}
 
-      RVar.point(Lenses._position.set(pos)(entity))
-    }
 }
 
 sealed abstract class Position[F[_],A] { // Transformer of some sort, over the type F?
   import Position._
 
-  def map[B](f: A => B)(implicit F: Monad[F]): Position[F,B] =
+  def map[B](f: A => B)(implicit F: Functor[F]): Position[F,B] =
     Point(pos map f)
 
   def flatMap[B](f: A => Position[F, B])(implicit F: Monad[F]): Position[F, B] =
@@ -108,6 +102,17 @@ object Position {
 
   def apply[F[_]:SolutionRep,A](xs: F[A]): Position[F, A] =
     Point(xs)
+
+  def evalF[F[_]:Foldable,A](pos: Position[F,A]) =
+    Step { (e: (Opt, Eval[F,A])) =>
+      RVar.point(pos match {
+        case Point(x) =>
+          val (fit, vio) = e._2.eval(x)
+          Solution(x, fit, vio)
+        case x @ Solution(_, _, _) =>
+          x
+      })
+    }
 
   def createPosition[A](domain: List[Interval[Double]])(implicit F: SolutionRep[List]) =
     domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))

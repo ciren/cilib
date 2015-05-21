@@ -38,7 +38,7 @@ object PSO {
 
   // Step to evaluate the particle, without any modifications
   def evalParticle[S,F[_]:Foldable](entity: Particle[S,F,Double]) =
-    Entity.evalF[S,F,Double](x => x)(entity)
+    Entity.eval[S,F,Double](x => x)(entity)
 
   def updatePBest[S,F[_]](p: Particle[S,F,Double])(implicit M: Memory[S,F,Double]): Step[F,Double,Particle[S,F,Double]] = {
     val pbestL = M._memory
@@ -72,7 +72,7 @@ object PSO {
         -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a
       ))
 
-  def barebones[S,F[_]:Monad:Traverse:Zip](p: Particle[S,F,Double], global: Position[F,Double])(implicit M: Memory[S,F,Double]) =
+  def barebones[S,F[_]:Traverse:Zip](p: Particle[S,F,Double], global: Position[F,Double])(implicit M: Memory[S,F,Double]) =
     Step.pointR {
       val pbest = M._memory.get(p.state)
       val zipped = pbest.zip(global)
@@ -100,7 +100,7 @@ object PSO {
       }
     )
 
-  def acceleration[S,F[_]:Monad]( // Why must this be a Monad?? Surely Functor is enough?
+  def acceleration[S,F[_]:Functor](
     collection: List[Particle[S,F,Double]],
     x: Particle[S,F,Double],
     distance: (Position[F,Double], Position[F,Double]) => Double,
