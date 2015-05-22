@@ -1,7 +1,7 @@
 package cilib
 package example
 
-import cilib.Defaults._
+import cilib.Defaults.gbest
 
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
@@ -18,13 +18,15 @@ object GBestPSO extends SafeApp {
 
   val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x,x.map(_ => 0.0)), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
+  // RVar
+  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
 
   val a = Step.pointR[List,Double,List[Particle[Mem[List,Double],List,Double]]](swarm)
 
   val b2 = Iteration.sync(gbestPSO)
   val w = a flatMap (b2.run)
   val m = w.run((Min, sum))
+
 //    val y = m run sum
 //  val z = m.run(RNG.fromTime)
 

@@ -105,15 +105,15 @@ object PSO {
     x: Particle[S,F,Double],
     distance: (Position[F,Double], Position[F,Double]) => Double,
     rp: Double,
-    rc: Double
-  )(implicit C: Charge[S], MO: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] = {
+    rc: Double)(
+    implicit C: Charge[S], MO: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] = {
     def charge(x: Particle[S,F,Double]) =
       C._charge.get(x.state)
 
     Step.point(
       collection
         .filter(z => charge(z) > 0.0)
-        .foldLeft(x.pos.map(_ => 0.0)) { (p1, p2) => {
+        .foldLeft(x.pos.zeroed) { (p1, p2) => {
           val d = distance(x.pos, p2.pos)
           if (d > rp || (x eq p2)) p1
           else (charge(x) * charge(p2) / (d * (if (d < rc) (rc * rc) else (d * d)))) *: (x.pos - p2.pos) + p1

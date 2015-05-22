@@ -82,21 +82,25 @@ object Position {
     }
 
   implicit class PositionVectorOps[F[_],A](val x: Position[F,A]) extends AnyVal {
+    def zeroed(implicit F: Functor[F], A: Monoid[A]): Position[F,A] =
+      x.map(_ => A.zero)
+
     import spire.algebra._
-    def + (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F, A] =
+    def + (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F,A] =
       Point(M.plus(x.pos, other.pos))
 
-    def - (other: Position[F, A])(implicit M: Module[F[A],A]): Position[F,A] =
+    def - (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F,A] =
       Point(M.minus(x.pos, other.pos))
 
     /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
 
-    def *: (scalar: A)(implicit M: Module[F[A],A]): Position[F, A] =
+    def *: (scalar: A)(implicit M: Module[F[A],A]): Position[F,A] =
       Point(M.timesl(scalar, x.pos))
+
   }
 
-  implicit def positionFitness[F[_], A] = new Fitness[Position[F, A]] {
-    def fitness(a: Position[F, A]) =
+  implicit def positionFitness[F[_],A] = new Fitness[Position[F,A]] {
+    def fitness(a: Position[F,A]) =
       a.fit
   }
 

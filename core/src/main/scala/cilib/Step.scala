@@ -26,6 +26,6 @@ object Step {
     Kleisli[RVar,(Opt,Eval[F,A]),B](_ => a)
 
   def liftK[F[_],A,B](a: Reader[Opt, B]): Step[F,A,B] =
-   Kleisli[RVar,(Opt,Eval[F,A]),B]((o: (Opt,Eval[F,A])) => RVar.point(a.run(o._1)))
+    Kleisli[RVar,(Opt,Eval[F,A]),B]((o: (Opt,Eval[F,A])) => RVar.point(a.run(o._1)))
 
 }

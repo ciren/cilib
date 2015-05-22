@@ -11,7 +11,7 @@ object Defaults {
 
   // The function below needs the guides for the particle, for the standard PSO update
   // and will eventually live in the simulator
-  def gbest[S,F[_]:Traverse](//:Memory:Velocity](
+  def gbest[S,F[_]:Traverse](
     w: Double,
     c1: Double,
     c2: Double,
@@ -28,7 +28,7 @@ object Defaults {
       updated <- updatePBest(p3)
     } yield updated
 
-  def cognitive[S,F[_]:Traverse](//:Memory:Velocity](
+  def cognitive[S,F[_]:Traverse](
     w: Double,
     c1: Double,
     cognitive: Guide[S,F,Double]
@@ -44,7 +44,7 @@ object Defaults {
       } yield updated
     }
 
-  def social[S,F[_]:Traverse](//:Memory:Velocity](
+  def social[S,F[_]:Traverse](
     w: Double,
     c1: Double,
     social: Guide[S,F,Double]
@@ -87,7 +87,7 @@ object Defaults {
         p2      <- hoist.liftMU(evalParticle(p))
         p3      <- hoist.liftMU(updateVelocity(p2, v))
         updated <- hoist.liftMU(updatePBest(p3))
-        failure  <- hoist.liftMU(Step.liftK[F,Double,Boolean](Fitness.compare(x.pos, updated.pos) map (_ eq x.pos)))
+        failure <- hoist.liftMU(Step.liftK[F,Double,Boolean](Fitness.compare(x.pos, updated.pos) map (_ eq x.pos)))
         _       <- S.modify(params =>
           if (isBest) {
             params.copy(

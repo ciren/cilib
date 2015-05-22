@@ -32,8 +32,7 @@ object QunatumPSO extends SafeApp {
     c1: Double,
     c2: Double,
     cognitive: Guide[S,F,Double],
-    social: Guide[S,F,Double]
-  )(
+    social: Guide[S,F,Double])(
     implicit C: Charge[S], V: Velocity[S,F,Double], M: Memory[S,F,Double], mod: Module[F[Double],Double]
   ): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Particle[S,F,Double]] =
     collection => x => {
@@ -50,11 +49,10 @@ object QunatumPSO extends SafeApp {
     }
 
 
-
   val interval = Interval(closed(0.0),closed(100.0))^2//30
   val r = Iteration.sync(quantumPSO[QuantumState,List](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
 
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(QuantumState(x,x.map(_ => 0.0), 0.0), x)))(interval, 40)
+  val swarm = Position.createCollection(PSO.createParticle(x => Entity(QuantumState(x, x.zeroed, 0.0), x)))(interval, 40)
   val pop = Step.pointR[List,Double,List[Particle[QuantumState,List,Double]]](swarm)
 
   // 20% of the swarm are charged particles
