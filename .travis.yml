@@ -11,7 +11,7 @@ notifications:
   irc: "irc.freenode.org#cilib"
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/cb13cbe56247a955e805
+      - https://webhooks.gitter.im/e/9df9c83ef091cee2f675
     on_success: always
     on_failure: always
     on_start: false

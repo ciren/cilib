@@ -9,10 +9,21 @@ import spire.math._
 
 case class Entity[S,F[_],A](state: S, pos: Position[F,A])
 
+object Entity {
+
+  // Step to evaluate the particle
+  def eval[S,F[_]:Foldable,A](f: Position[F,A] => Position[F,A])(entity: Entity[S,F,A]): Step[F,A,Entity[S,F,A]] =
+    Step { (e: (Opt, Eval[F,A])) => {
+      val x = Position.evalF(f(entity.pos)).run(e)
+      x.map(p => Lenses._position.set(p)(entity))
+    }}
+
+}
+
 sealed abstract class Position[F[_],A] { // Transformer of some sort, over the type F?
   import Position._
 
-  def map[B](f: A => B)(implicit F: Monad[F]): Position[F,B] =
+  def map[B](f: A => B)(implicit F: Functor[F]): Position[F,B] =
     Point(pos map f)
 
   def flatMap[B](f: A => Position[F, B])(implicit F: Monad[F]): Position[F, B] =
@@ -42,17 +53,6 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
       case Solution(_, _, v) => Maybe.just(v)
     }
 
-  //  def eval: StateT[RVar, Problem, Position[F,A]] =
-  def eval(f: Eval[F,A])(implicit F: Foldable[F], A: Numeric[A]): RVar[Position[F,A]] =
-    RVar.point(
-      this match {
-        case Point(x) =>
-          val (fit, vio) = f.eval(x)
-          Solution(x, fit, vio)
-        case x @ Solution(_, _, _) =>
-          x
-      })
-
   def toPoint: Position[F, A] =
     this match {
       case Point(_) => this
@@ -62,19 +62,12 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
   def feasible: Option[Position[F,A]] =
     violations.map(_.isEmpty).getOrElse(false).option(this)
 
-  // This is not the nicest.... How to do it in a why that doesn't seem so "hacky"
-  def adjustFit(f: Fit): Position[F,A] =
-    this match {
-      case x @ Point(_) => x
-      case Solution(x, fit, constraints) =>
-        Solution(x, f, constraints)
-    }
 }
 
-object Position {
+final case class Point[F[_],A] private[cilib] (x: F[A]) extends Position[F,A]
+final case class Solution[F[_],A] private[cilib] (x: F[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[F,A]
 
-  private final case class Point[F[_],A](x: F[A]) extends Position[F,A]
-  private final case class Solution[F[_],A](x: F[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[F,A]
+object Position {
 
   implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] =
     new Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] {
@@ -89,26 +82,41 @@ object Position {
     }
 
   implicit class PositionVectorOps[F[_],A](val x: Position[F,A]) extends AnyVal {
+    def zeroed(implicit F: Functor[F], A: Monoid[A]): Position[F,A] =
+      x.map(_ => A.zero)
+
     import spire.algebra._
-    def + (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F, A] =
+    def + (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F,A] =
       Point(M.plus(x.pos, other.pos))
 
-    def - (other: Position[F, A])(implicit M: Module[F[A],A]): Position[F,A] =
+    def - (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F,A] =
       Point(M.minus(x.pos, other.pos))
 
     /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
 
-    def *: (scalar: A)(implicit M: Module[F[A],A]): Position[F, A] =
+    def *: (scalar: A)(implicit M: Module[F[A],A]): Position[F,A] =
       Point(M.timesl(scalar, x.pos))
+
   }
 
-  implicit def positionFitness[F[_], A] = new Fitness[Position[F, A]] {
-    def fitness(a: Position[F, A]) =
+  implicit def positionFitness[F[_],A] = new Fitness[Position[F,A]] {
+    def fitness(a: Position[F,A]) =
       a.fit
   }
 
   def apply[F[_]:SolutionRep,A](xs: F[A]): Position[F, A] =
     Point(xs)
+
+  def evalF[F[_]:Foldable,A](pos: Position[F,A]) =
+    Step { (e: (Opt, Eval[F,A])) =>
+      RVar.point(pos match {
+        case Point(x) =>
+          val (fit, vio) = e._2.eval(x)
+          Solution(x, fit, vio)
+        case x @ Solution(_, _, _) =>
+          x
+      })
+    }
 
   def createPosition[A](domain: List[Interval[Double]])(implicit F: SolutionRep[List]) =
     domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))

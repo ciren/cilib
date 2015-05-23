@@ -6,6 +6,7 @@ import sbtrelease.ReleasePlugin.ReleaseKeys._
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.Utilities._
 import sbtunidoc.Plugin.UnidocKeys._
+import com.typesafe.sbt.SbtSite.SiteKeys._
 
 val scalazVersion = "7.1.0"
 val spireVersion = "0.9.0"
@@ -43,8 +44,8 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     compilerPlugin("org.spire-math" %% "kind-projector" % "0.5.4")
   ),
-  scmInfo := Some(ScmInfo(url("https://github.com/cilib/cilib"),
-    "git@github.com:cilib/cilib.git"))
+  scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
+    "git@github.com:cirg-up/cilib.git"))
 )
 
 lazy val publishSignedArtifacts = ReleaseStep(
@@ -88,8 +89,8 @@ lazy val publishSettings = Seq(
   },
   pomExtra := (
     <scm>
-      <url>git@github.com:cilib/cilib.git</url>
-      <connection>scm:git:git@github.com:cilib/cilib.git</connection>
+      <url>git@github.com:cirg-up/cilib.git</url>
+      <connection>scm:git:git@github.com:cirg-up/cilib.git</connection>
     </scm>
     <developers>
       {
@@ -127,8 +128,8 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .aggregate(benchmarks, core, example, tests)
-  .dependsOn(benchmarks, core, example, tests)
+  .aggregate(benchmarks, core, docs, example, tests)
+  .dependsOn(benchmarks, core, docs, example, tests)
 
 //   lazy val cilibSettings = settings ++ Seq(
 //     name := "cilib-aggregate"
@@ -142,7 +143,6 @@ lazy val core = project
   .settings(Seq(
     libraryDependencies ++= Seq(
       "org.scalaz"                  %% "scalaz-core"   % scalazVersion,
-      "org.typelevel"               %% "scalaz-spire"  % "0.2",
       "org.spire-math"              %% "spire"         % spireVersion,
       "com.github.julien-truffaut"  %% "monocle-core"  % monocleVersion
     ),
@@ -169,13 +169,13 @@ lazy val docSettings = Seq(
   site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "api"),
   site.addMappingsToSiteDir(tut, "_tut"),
 //  ghpagesNoJekyll := false,
-//  siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
+  siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
   scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
     "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
   ),
-  git.remoteRepo := "git@github.com:cilib/cilib.git"
-//  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md"
+  git.remoteRepo := "git@github.com:cirg-up/cilib.git",
+  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md"
 )
 
 lazy val docs = project
@@ -187,12 +187,18 @@ lazy val docs = project
   //.settings(ghpages.settings)
   .settings(docSettings)
   .settings(tutSettings)
-  .dependsOn(core)
+  .dependsOn(core, benchmarks)
 
 lazy val example = project.dependsOn(core)
   .settings(moduleName := "cilib-example")
   .settings(cilibSettings)
   .settings(noPublishSettings)
+  .settings(Seq(
+    libraryDependencies ++= Seq(
+      "org.scalaz"                  %% "scalaz-core"   % scalazVersion,
+      "org.scalaz"                  %% "scalaz-effect" % scalazVersion
+    )
+   ))
 
 lazy val tests = project.dependsOn(core)
   .settings(moduleName := "cilib-tests")

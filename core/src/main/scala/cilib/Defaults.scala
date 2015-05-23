@@ -11,7 +11,7 @@ object Defaults {
 
   // The function below needs the guides for the particle, for the standard PSO update
   // and will eventually live in the simulator
-  def gbest[S,F[_]:Traverse](//:Memory:Velocity](
+  def gbest[S,F[_]:Traverse](
     w: Double,
     c1: Double,
     c2: Double,
@@ -28,7 +28,7 @@ object Defaults {
       updated <- updatePBest(p3)
     } yield updated
 
-  def cognitive[S,F[_]:Traverse](//:Memory:Velocity](
+  def cognitive[S,F[_]:Traverse](
     w: Double,
     c1: Double,
     cognitive: Guide[S,F,Double]
@@ -44,7 +44,7 @@ object Defaults {
       } yield updated
     }
 
-  def social[S,F[_]:Traverse](//:Memory:Velocity](
+  def social[S,F[_]:Traverse](
     w: Double,
     c1: Double,
     social: Guide[S,F,Double]
@@ -66,27 +66,28 @@ object Defaults {
   // apply gcpso to other topology structures. Stating that you simply "copy" something
   // into something else is not elegant and does not have a solid reasoning
   // attached to it.
-  def gcpso[S,F[_]:Traverse](//: Velocity: Memory](
+  def gcpso[S,F[_]:Traverse](
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,F,Double]
-  )(implicit M:Memory[S,F,Double], V:Velocity[S,F,Double],mod: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => StateT[Step[F,Double,?], GCParams, Particle[S,F,Double]] =
+    cognitive: Guide[S,F,Double])(
+    implicit M:Memory[S,F,Double], V:Velocity[S,F,Double],mod: Module[F[Double],Double]
+  ): List[Particle[S,F,Double]] => Particle[S,F,Double] => StateT[Step[F,Double,?], GCParams, Particle[S,F,Double]] =
     collection => x => {
       val S = StateT.stateTMonadState[GCParams, Step[F,Double,?]]
       val hoist = StateT.StateMonadTrans[GCParams]
       val g = Guide.gbest[S,F]
       for {
-        s       <- S.get
         gbest   <- hoist.liftMU(g(collection, x))
         cog     <- hoist.liftMU(cognitive(collection, x))
         isBest  <- hoist.liftMU(Step.point[F,Double,Boolean](x.pos eq gbest))
+        s       <- S.get
         v       <- hoist.liftMU(if (isBest) gcVelocity(x, gbest, w, s) else stdVelocity(x, gbest, cog, w, c1, c2)) // Yes, we do want reference equality
         p       <- hoist.liftMU(stdPosition(x, v))
         p2      <- hoist.liftMU(evalParticle(p))
         p3      <- hoist.liftMU(updateVelocity(p2, v))
         updated <- hoist.liftMU(updatePBest(p3))
-        failure  <- hoist.liftMU(Step.liftK[F,Double,Boolean](Fitness.compare(x.pos, updated.pos) map (_ eq x.pos)))
+        failure <- hoist.liftMU(Step.liftK[F,Double,Boolean](Fitness.compare(x.pos, updated.pos) map (_ eq x.pos)))
         _       <- S.modify(params =>
           if (isBest) {
             params.copy(
@@ -98,7 +99,7 @@ object Defaults {
       } yield updated
     }
 
-  def charged[S:Charge,F[_]:Traverse:Monad](
+  def charged[S:Charge,F[_]:Traverse](
     w: Double,
     c1: Double,
     c2: Double,

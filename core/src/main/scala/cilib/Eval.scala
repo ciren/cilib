@@ -3,7 +3,7 @@ package cilib
 import scalaz.Foldable
 import scalaz.syntax.foldable._
 
-sealed abstract class Eval[F[_], A] {
+sealed abstract class Eval[F[_], A] { // This represents the function F[A] => Fit
 
   def eval(a: F[A])(implicit ev: Foldable[F]): (Fit, List[Constraint[A, Double]]) =
     this match {
@@ -17,10 +17,10 @@ sealed abstract class Eval[F[_], A] {
   def constrainBy(cs: List[Constraint[A,Double]])(implicit ev: Foldable[F]) =
     this match {
       case Unconstrained(f) => Constrained(f, cs)
-      case Constrained(f, x) => Constrained(f, cs)
+      case Constrained(f, _) => Constrained(f, cs)
     }
 
-  def unconstrained =
+  def unconstrain =
     this match {
       case x @ Unconstrained(_) => x
       case Constrained(f, _) => Unconstrained(f)
@@ -29,7 +29,3 @@ sealed abstract class Eval[F[_], A] {
 
 final case class Unconstrained[F[_],A](f: F[A] => Fit) extends Eval[F,A]
 final case class Constrained[F[_]:Foldable,A](f: F[A] => Fit, cs: List[Constraint[A,Double]]) extends Eval[F,A]
-
-// object Problem {
-//   val s = Unconstrained((a: List[Double]) => Valid(3.0))
-// }

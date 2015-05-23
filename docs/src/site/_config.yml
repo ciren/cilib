@@ -1,0 +1,14 @@
+name: CIlib Documentation
+url: http://cilib.net
+paginate: 1
+markdown: kramdown
+highlighter: pygments
+baseurl: ""
+apidocs: /api/
+
+collections:
+  tut:
+    output: true
+
+#permalink:           pretty
+#relative_permalinks: true
