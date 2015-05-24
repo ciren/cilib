@@ -11,13 +11,13 @@ object Defaults {
 
   // The function below needs the guides for the particle, for the standard PSO update
   // and will eventually live in the simulator
-  def gbest[S,F[_]:Traverse](
+  def gbest[S/*,F[_]:Traverse*/](
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,F,Double],
-    social: Guide[S,F,Double]
-  )(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Particle[S,F,Double]] =
+    cognitive: Guide[S,Double],
+    social: Guide[S,Double]
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -28,11 +28,11 @@ object Defaults {
       updated <- updatePBest(p3)
     } yield updated
 
-  def cognitive[S,F[_]:Traverse](
+  def cognitive[S/*,F[_]:Traverse*/](
     w: Double,
     c1: Double,
-    cognitive: Guide[S,F,Double]
-  )(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Particle[S,F,Double]] =
+    cognitive: Guide[S,Double]
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         cog     <- cognitive(collection, x)
@@ -44,11 +44,11 @@ object Defaults {
       } yield updated
     }
 
-  def social[S,F[_]:Traverse](
+  def social[S/*,F[_]:Traverse*/](
     w: Double,
     c1: Double,
-    social: Guide[S,F,Double]
-  )(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Particle[S,F,Double]] =
+    social: Guide[S,Double]
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         soc     <- social(collection, x)
@@ -66,28 +66,28 @@ object Defaults {
   // apply gcpso to other topology structures. Stating that you simply "copy" something
   // into something else is not elegant and does not have a solid reasoning
   // attached to it.
-  def gcpso[S,F[_]:Traverse](
+  def gcpso[S/*,F[_]:Traverse*/](
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,F,Double])(
-    implicit M:Memory[S,F,Double], V:Velocity[S,F,Double],mod: Module[F[Double],Double]
-  ): List[Particle[S,F,Double]] => Particle[S,F,Double] => StateT[Step[F,Double,?], GCParams, Particle[S,F,Double]] =
+    cognitive: Guide[S,Double])(
+    implicit M:Memory[S,Double], V:Velocity[S,Double],mod: Module[Position[Double],Double]
+  ): List[Particle[S,Double]] => Particle[S,Double] => StateT[Step[Double,?], GCParams, Particle[S,Double]] =
     collection => x => {
-      val S = StateT.stateTMonadState[GCParams, Step[F,Double,?]]
+      val S = StateT.stateTMonadState[GCParams, Step[Double,?]]
       val hoist = StateT.StateMonadTrans[GCParams]
-      val g = Guide.gbest[S,F]
+      val g = Guide.gbest[S]
       for {
         gbest   <- hoist.liftMU(g(collection, x))
         cog     <- hoist.liftMU(cognitive(collection, x))
-        isBest  <- hoist.liftMU(Step.point[F,Double,Boolean](x.pos eq gbest))
+        isBest  <- hoist.liftMU(Step.point[Double,Boolean](x.pos eq gbest))
         s       <- S.get
         v       <- hoist.liftMU(if (isBest) gcVelocity(x, gbest, w, s) else stdVelocity(x, gbest, cog, w, c1, c2)) // Yes, we do want reference equality
         p       <- hoist.liftMU(stdPosition(x, v))
         p2      <- hoist.liftMU(evalParticle(p))
         p3      <- hoist.liftMU(updateVelocity(p2, v))
         updated <- hoist.liftMU(updatePBest(p3))
-        failure <- hoist.liftMU(Step.liftK[F,Double,Boolean](Fitness.compare(x.pos, updated.pos) map (_ eq x.pos)))
+        failure <- hoist.liftMU(Step.liftK[Double,Boolean](Fitness.compare(x.pos, updated.pos) map (_ eq x.pos)))
         _       <- S.modify(params =>
           if (isBest) {
             params.copy(
@@ -99,16 +99,16 @@ object Defaults {
       } yield updated
     }
 
-  def charged[S:Charge,F[_]:Traverse](
+  def charged[S:Charge/*,F[_]:Traverse*/](
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,F,Double],
-    social: Guide[S,F,Double],
-    distance: (Position[F,Double], Position[F,Double]) => Double,
+    cognitive: Guide[S,Double],
+    social: Guide[S,Double],
+    distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
     rc: Double
-  )(implicit M:Memory[S,F,Double], V:Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Particle[S,F,Double]] =
+  )(implicit M:Memory[S,Double], V:Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)

@@ -10,18 +10,18 @@ import spire.implicits._
 
 object GBestPSO extends SafeApp {
 
-  val sum = Problems.spherical[List,Double]
+  val sum = Problems.spherical[Double]
 
   // Define a normal GBest PSO and run it for a single iteration
-  val cognitive = Guide.pbest[Mem[List,Double],List,Double]
-  val social = Guide.gbest[Mem[List,Double],List]
+  val cognitive = Guide.pbest[Mem[Double],Double]
+  val social = Guide.gbest[Mem[Double]]
 
   val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
   // RVar
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
 
-  val a = Step.pointR[List,Double,List[Particle[Mem[List,Double],List,Double]]](swarm)
+  val a = Step.pointR[Double,List[Particle[Mem[Double],Double]]](swarm)
 
   val b2 = Iteration.sync(gbestPSO)
   val w = a flatMap (b2.run)

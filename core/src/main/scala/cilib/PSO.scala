@@ -15,45 +15,45 @@ object PSO {
   import Lenses._
 
   // Constrain this better - Not numeric. Operation for vector addition
-  def stdPosition[S,F[_],A](
-    c: Particle[S,F,A],
-    v: Position[F,A]
-  )(implicit A: Module[F[A],A]): Step[F,A,Particle[S,F,A]] =
-    Step.point(_position.modify((_: Position[F,A]) + v)(c))
+  def stdPosition[S,/*F[_],*/A](
+    c: Particle[S,A],
+    v: Position[A]
+  )(implicit A: Module[Position[A],A]): Step[A,Particle[S,A]] =
+    Step.point(_position.modify((_: Position[A]) + v)(c))
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists
-  def stdVelocity[S,F[_]:Traverse](
-    entity: Particle[S,F,Double],
-    social: Position[F,Double],
-    cognitive: Position[F,Double],
+  def stdVelocity[S/*,F[_]:Traverse*/](
+    entity: Particle[S,Double],
+    social: Position[Double],
+    cognitive: Position[Double],
     w: Double,
     c1: Double,
     c2: Double
-  )(implicit V: Velocity[S,F,Double], M: Module[F[Double],Double], F:Field[Double]): Step[F,Double,Position[F,Double]] =
+  )(implicit V: Velocity[S,Double], M: Module[Position[Double],Double], F:Field[Double]): Step[Double,Position[Double]] =
     Step.pointR(for {
       cog <- (cognitive - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
       soc <- (social - entity.pos)    traverse (x => Dist.stdUniform.map(_ * x))
     } yield (w *: V._velocity.get(entity.state)) + (c1 *: cog) + (c2 *: soc))
 
   // Step to evaluate the particle, without any modifications
-  def evalParticle[S,F[_]:Foldable](entity: Particle[S,F,Double]) =
-    Entity.eval[S,F,Double](x => x)(entity)
+  def evalParticle[S/*F[_]:Foldable*/](entity: Particle[S,Double]) =
+    Entity.eval[S,Double](x => x)(entity)
 
-  def updatePBest[S,F[_]](p: Particle[S,F,Double])(implicit M: Memory[S,F,Double]): Step[F,Double,Particle[S,F,Double]] = {
+  def updatePBest[S/*,F[_]*/](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
     val pbestL = M._memory
     Step.liftK(Fitness.compare(p.pos, (p.state applyLens pbestL).get).map(x => Entity(p.state applyLens pbestL set x, p.pos)))
   }
 
-  def updateVelocity[S,F[_]](p: Particle[S,F,Double], v: Position[F,Double])(implicit V: Velocity[S,F,Double]): Step[F,Double,Particle[S,F,Double]] =
+  def updateVelocity[S/*,F[_]*/](p: Particle[S,Double], v: Position[Double])(implicit V: Velocity[S,Double]): Step[Double,Particle[S,Double]] =
     Step.pointR(RVar.point(Entity(p.state applyLens V._velocity set v, p.pos)))
 
-  def singleComponentVelocity[S,F[_]:Traverse](
-    entity: Particle[S,F,Double],
-    component: Position[F,Double],
+  def singleComponentVelocity[S/*,F[_]:Traverse*/](
+    entity: Particle[S,Double],
+    component: Position[Double],
     w: Double,
     c: Double
-  )(implicit V: Velocity[S,F,Double], M: Memory[S,F,Double], MO: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] = {
+  )(implicit V: Velocity[S,Double], M: Memory[S,Double], MO: Module[Position[Double],Double]): Step[Double,Position[Double]] = {
     //val (state,pos) = entity
     Step.pointR(for {
       comp <- (component - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
@@ -65,18 +65,18 @@ object PSO {
   def defaultGCParams =
     GCParams(p = 1.0, successes = 0, failures = 0, e_s = 15, e_f = 5)
 
-  def gcVelocity[S,F[_]:Traverse](
-    entity: Particle[S,F,Double],
-    nbest: Position[F,Double],
+  def gcVelocity[S/*,F[_]:Traverse*/](
+    entity: Particle[S,Double],
+    nbest: Position[Double],
     w: Double,
     s: GCParams
-  )(implicit V: Velocity[S,F,Double], M: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] =
+  )(implicit V: Velocity[S,Double], M: Module[Position[Double],Double]): Step[Double,Position[Double]] =
     Step.pointR(
       nbest traverse (_ => Dist.stdUniform.map(x => s.p * (1 - 2*x))) map (a =>
         -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a
       ))
 
-  def barebones[S,F[_]:Traverse:Zip](p: Particle[S,F,Double], global: Position[F,Double])(implicit M: Memory[S,F,Double]) =
+  def barebones[S/*,F[_]:Traverse:Zip*/](p: Particle[S,Double], global: Position[Double])(implicit M: Memory[S,Double]) =
     Step.pointR {
       val pbest = M._memory.get(p.state)
       val zipped = pbest.zip(global)
@@ -86,12 +86,12 @@ object PSO {
       (means zip sigmas) traverse (x => Dist.gaussian(x._1, x._2))
     }
 
-  def quantum[S,F[_]:Traverse](
-    collection: List[Particle[S,F,Double]],
-    x: Particle[S,F,Double],
-    center: Position[F,Double],
+  def quantum[S/*,F[_]:Traverse*/](
+    collection: List[Particle[S,Double]],
+    x: Particle[S,Double],
+    center: Position[Double],
     r: Double
-  )(implicit M: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] =
+  )(implicit M: Module[Position[Double],Double]): Step[Double,Position[Double]] =
     Step.pointR(
       for {
         u <- Dist.uniform(0,1)
@@ -104,14 +104,14 @@ object PSO {
       }
     )
 
-  def acceleration[S,F[_]:Functor](
-    collection: List[Particle[S,F,Double]],
-    x: Particle[S,F,Double],
-    distance: (Position[F,Double], Position[F,Double]) => Double,
+  def acceleration[S/*,F[_]:Functor*/](
+    collection: List[Particle[S,Double]],
+    x: Particle[S,Double],
+    distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
     rc: Double)(
-    implicit C: Charge[S], MO: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] = {
-    def charge(x: Particle[S,F,Double]) =
+    implicit C: Charge[S], MO: Module[Position[Double],Double]): Step[Double,Position[Double]] = {
+    def charge(x: Particle[S,Double]) =
       C._charge.get(x.state)
 
     Step.point(
@@ -125,29 +125,29 @@ object PSO {
   }
 
   // Naming?
-  def replace[S,F[_]](entity: Particle[S,F,Double], p: Position[F,Double]): Step[F,Double,Particle[S,F,Double]] =
+  def replace[S/*,F[_]*/](entity: Particle[S,Double], p: Position[Double]): Step[Double,Particle[S,Double]] =
     Step.point(entity applyLens _position set p)
 
-  def createParticle[S,F[_]](f: Position[F,Double] => Particle[S,F,Double])(pos: Position[F,Double]): Particle[S,F,Double] =
+  def createParticle[S/*,F[_]*/](f: Position[Double] => Particle[S,Double])(pos: Position[Double]): Particle[S,Double] =
     f(pos)
 }
 
 object Guide {
 
-  def identity[S,F[_],A]: Guide[S,F,A] =
+  def identity[S,/*F[_],*/A]: Guide[S,A] =
     (_, x) => Step.point(x.pos)
 
-  def pbest[S,F[_],A](implicit M: Memory[S,F,A]): Guide[S,F,A] =
+  def pbest[S/*,F[_]*/,A](implicit M: Memory[S,A]): Guide[S,A] =
     (_, x) => Step.point(M._memory.get(x.state))
 
-  def nbest[S,F[_]](selection: Selection[Particle[S,F,Double]])(implicit M: Memory[S,F,Double]): Guide[S,F,Double] = {
-    (collection, x) => new Step(Kleisli[RVar, (Opt,Eval[F,Double]), Position[F,Double]]((o: (Opt,Eval[F,Double])) => RVar.point {
+  def nbest[S/*,F[_]*/](selection: Selection[Particle[S,Double]])(implicit M: Memory[S,Double]): Guide[S,Double] = {
+    (collection, x) => new Step(Kleisli[RVar, (Opt,Eval[Double]), Position[Double]]((o: (Opt,Eval[Double])) => RVar.point {
       selection(collection, x).map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Fitness.compare(a, c) run o._1).getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
     }))
   }
 
-  def gbest[S,F[_]](implicit M: Memory[S,F,Double]): Guide[S,F,Double] = nbest((c, _) => c)
-  def lbest[S,F[_]](n: Int)(implicit M: Memory[S,F,Double]) = nbest(Selection.indexNeighbours[Particle[S,F,Double]](n))
+  def gbest[S/*,F[_]*/](implicit M: Memory[S,Double]): Guide[S,Double] = nbest((c, _) => c)
+  def lbest[S/*,F[_]*/](n: Int)(implicit M: Memory[S,Double]) = nbest(Selection.indexNeighbours[Particle[S,Double]](n))
 
 }
 

@@ -16,16 +16,16 @@ package cilib
 object Step {
   import scalaz._
 
-  def apply[F[_],A,B](f: ((Opt,Eval[F,A])) => RVar[B]) =
-    Kleisli[RVar,(Opt,Eval[F,A]),B](f)
+  def apply[/*F[_],*/A,B](f: ((Opt,Eval[A])) => RVar[B]) =
+    Kleisli[RVar,(Opt,Eval[A]),B](f)
 
-  def point[F[_],A,B](b: B): Step[F,A,B] =
-    Kleisli[RVar,(Opt,Eval[F,A]),B](_ => RVar.point(b))
+  def point[/*F[_],*/A,B](b: B): Step[A,B] =
+    Kleisli[RVar,(Opt,Eval[A]),B](_ => RVar.point(b))
 
-  def pointR[F[_],A,B](a: RVar[B]): Step[F,A,B] =
-    Kleisli[RVar,(Opt,Eval[F,A]),B](_ => a)
+  def pointR[/*F[_],*/A,B](a: RVar[B]): Step[A,B] =
+    Kleisli[RVar,(Opt,Eval[A]),B](_ => a)
 
-  def liftK[F[_],A,B](a: Reader[Opt, B]): Step[F,A,B] =
-    Kleisli[RVar,(Opt,Eval[F,A]),B]((o: (Opt,Eval[F,A])) => RVar.point(a.run(o._1)))
+  def liftK[/*F[_],*/A,B](a: Reader[Opt, B]): Step[A,B] =
+    Kleisli[RVar,(Opt,Eval[A]),B]((o: (Opt,Eval[A])) => RVar.point(a.run(o._1)))
 
 }

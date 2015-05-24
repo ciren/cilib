@@ -20,16 +20,16 @@ import scalaz.std.list._
  */
 object Iteration {
 
-  type Iteration[F[_],A,B] = Kleisli[Step[F,A,?],B,B]
+  type Iteration[/*F[_],*/A,B] = Kleisli[Step[A,?],B,B]
 
   // iterations have the shape: [a] -> a -> Step [a]
-  def sync[F[_]:Traverse,A,B](f: List[B] => B => Step[F,A,B]): Iteration[F,A,List[B]] =
-    Kleisli.kleisli[Step[F,A,?],List[B],List[B]]((l: List[B]) => l traverseU f(l))
+  def sync[/*F[_]:Traverse,*/A,B](f: List[B] => B => Step[A,B]): Iteration[A,List[B]] =
+    Kleisli.kleisli[Step[A,?],List[B],List[B]]((l: List[B]) => l traverseU f(l))
 
   // This needs to be profiled. The drop is _very_ expensive - perhaps a zipper is better
-  def async[F[_],A,B](f: List[B] => B => Step[F,A,B]) =
-    Kleisli.kleisli[Step[F,A,?],List[B],List[B]]((l: List[B]) =>
-      l.foldLeftM[Step[F,A,?], List[B]](List.empty[B]) {
+  def async[/*F[_],*/A,B](f: List[B] => B => Step[A,B]) =
+    Kleisli.kleisli[Step[A,?],List[B],List[B]]((l: List[B]) =>
+      l.foldLeftM[Step[A,?], List[B]](List.empty[B]) {
         (a, c) => f(a ++ l.drop(a.length)).apply(c).map(a :+ _)
       })
 

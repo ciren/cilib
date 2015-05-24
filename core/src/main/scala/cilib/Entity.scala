@@ -7,33 +7,39 @@ import Scalaz._
 
 import spire.math._
 
-case class Entity[S,F[_],A](state: S, pos: Position[F,A])
+case class Entity[S,/*F[_],*/A](state: S, pos: Position[A])
 
 object Entity {
 
   // Step to evaluate the particle
-  def eval[S,F[_]:Foldable,A](f: Position[F,A] => Position[F,A])(entity: Entity[S,F,A]): Step[F,A,Entity[S,F,A]] =
-    Step { (e: (Opt, Eval[F,A])) => {
+  def eval[S,/*F[_]:Foldable,*/A](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
+    Step { (e: (Opt, Eval[A])) => {
       val x = Position.evalF(f(entity.pos)).run(e)
       x.map(p => Lenses._position.set(p)(entity))
     }}
 
 }
 
-sealed abstract class Position[F[_],A] { // Transformer of some sort, over the type F?
+sealed abstract class Position[A] {
   import Position._
 
-  def map[B](f: A => B)(implicit F: Functor[F]): Position[F,B] =
+  def map[B](f: A => B): Position[B] =
     Point(pos map f)
 
-  def flatMap[B](f: A => Position[F, B])(implicit F: Monad[F]): Position[F, B] =
-    Point(F.bind(pos)(f(_).pos))
+  def flatMap[B](f: A => Position[B]): Position[B] =
+    Point(pos flatMap (f(_).pos))
 
-  def zip[B](other: Position[F, B])(implicit F: Zip[F]): Position[F, (A, B)] =
-    Point(F.zip(pos, other.pos))
+  def zip[B](other: Position[B]): Position[(A, B)] =
+    Point(pos.zip(other.pos))
 
-  def traverse[G[_]: Applicative, B](f: A => G[B])(implicit F: Traverse[F]): G[Position[F, B]] =
-    F.traverse(pos)(f).map(Point(_))
+  def traverse[G[_]: Applicative, B](f: A => G[B]): G[Position[B]] =
+    pos.traverse(f).map(Point(_))
+
+  def foldMap1[B](f: A => B)(implicit M: Semigroup[B]) =
+    pos.foldMap1(f)
+
+  def traverse1[G[_], B](f: A => G[B])(implicit G: Apply[G]): G[Position[B]] =
+    pos.traverse1(f).map(Point(_))
 
   def pos =
     this match {
@@ -53,62 +59,66 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
       case Solution(_, _, v) => Maybe.just(v)
     }
 
-  def toPoint: Position[F, A] =
+  def toPoint: Position[A] =
     this match {
       case Point(_) => this
       case Solution(x, _, _) => Point(x)
     }
 
-  def feasible: Option[Position[F,A]] =
+  def feasible: Option[Position[A]] =
     violations.map(_.isEmpty).getOrElse(false).option(this)
 
 }
 
-final case class Point[F[_],A] private[cilib] (x: F[A]) extends Position[F,A]
-final case class Solution[F[_],A] private[cilib] (x: F[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[F,A]
+final case class Point[/*F[_],*/A] private[cilib] (x: NonEmptyList[A]) extends Position[A]
+final case class Solution[/*F[_],*/A] private[cilib] (x: NonEmptyList[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[A]
 
 object Position {
 
-  implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] =
-    new Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] {
-      override def map[A, B](fa: Position[F, A])(f: A => B): Position[F, B] =
+  implicit def positionInstances: Bind[Position] with Traverse1[Position] =
+    new Bind[Position] with Traverse1[Position] {
+      override def map[A, B](fa: Position[A])(f: A => B): Position[B] =
         fa map f
 
-      override def bind[A, B](fa: Position[F, A])(f: A => Position[F,B]): Position[F, B] =
+      override def bind[A, B](fa: Position[A])(f: A => Position[B]): Position[B] =
         fa flatMap f
 
-      override def zip[A, B](a: => Position[F, A], b: => Position[F, B]): Position[F, (A, B)] =
-        a zip b
+      override def traverse1Impl[G[_] : Apply, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
+        fa traverse1 f
+
+      override def foldMapRight1[A, B](fa: cilib.Position[A])(z: A => B)(f: (A, => B) => B): B =
+        fa.pos.foldMapRight1(z)(f)
     }
 
-  implicit class PositionVectorOps[F[_],A](val x: Position[F,A]) extends AnyVal {
-    def zeroed(implicit F: Functor[F], A: Monoid[A]): Position[F,A] =
+  implicit class PositionVectorOps[/*F[_],*/A](val x: Position[/*F,*/A]) extends AnyVal {
+    def zeroed(implicit A: Monoid[A]): Position[A] =
       x.map(_ => A.zero)
 
     import spire.algebra._
-    def + (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F,A] =
-      Point(M.plus(x.pos, other.pos))
+    def + (other: Position[A])(implicit M: Module[Position[A],A]): Position[A] =
+      M.plus(x, other).toPoint
 
-    def - (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F,A] =
-      Point(M.minus(x.pos, other.pos))
+    def - (other: Position[A])(implicit M: Module[Position[A],A]): Position[A] =
+      M.minus(x, other).toPoint
 
     /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
 
-    def *: (scalar: A)(implicit M: Module[F[A],A]): Position[F,A] =
-      Point(M.timesl(scalar, x.pos))
+    def *: (scalar: A)(implicit M: Module[Position[A],A]): Position[A] =
+      M.timesl(scalar, x).toPoint
 
   }
 
-  implicit def positionFitness[F[_],A] = new Fitness[Position[F,A]] {
-    def fitness(a: Position[F,A]) =
+  implicit def positionFitness[/*F[_],*/A] = new Fitness[Position[A]] {
+    def fitness(a: Position[A]) =
       a.fit
   }
 
-  def apply[F[_]:SolutionRep,A](xs: F[A]): Position[F, A] =
+  def apply[/*F[_]:Foldable1,*/A](xs: NonEmptyList[A]): Position[A] = {
     Point(xs)
+  }
 
-  def evalF[F[_]:Foldable,A](pos: Position[F,A]) =
-    Step { (e: (Opt, Eval[F,A])) =>
+  def evalF[/*F[_]:Foldable,*/A](pos: Position[A]) =
+    Step { (e: (Opt, Eval[A])) =>
       RVar.point(pos match {
         case Point(x) =>
           val (fit, vio) = e._2.eval(x)
@@ -118,22 +128,20 @@ object Position {
       })
     }
 
-  def createPosition[A](domain: List[Interval[Double]])(implicit F: SolutionRep[List]) =
+  def createPosition(domain: NonEmptyList[Interval[Double]]) =
     domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))
 
-  def createPositions(domain: List[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]) =
+  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int) =
     createPosition(domain) replicateM n
 
-  def createCollection[A](f: Position[List,Double] => A)(domain: List[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]): RVar[List[A]] =
-    createPositions(domain,n).map(_.map(f))
+  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int): RVar[List[A]] =
+    createPositions(domain, n).map(_ map f)
 
 }
 
-trait SolutionRep[F[_]]
-
-object SolutionRep {
-  implicit object ListRep extends SolutionRep[List]
-  implicit object VectorRep extends SolutionRep[Vector]
+trait NonEmpty[F[_]]
+object NonEmpty {
+  implicit object NonEmptyNEL extends NonEmpty[NonEmptyList]
 }
 
 sealed trait Bound[A] {
@@ -145,8 +153,11 @@ case class Open[A](value: A) extends Bound[A]
 
 final class Interval[A] private[cilib] (val lower: Bound[A], val upper: Bound[A]) {
 
-  def ^(n: Int): List[Interval[A]] =
-    (1 to n).map(_ => this).toList
+  def ^(n: Int): NonEmptyList[Interval[A]] =
+    (1 to n).map(_ => this).toList match {
+      case x :: xs => NonEmptyList(x, xs: _*)
+      case Nil => sys.error("Impossible to create Interval")
+    }
 
 }
 

@@ -7,6 +7,8 @@ import scalaz.std.list._
 import spire.math._
 import spire.implicits._
 
+import scalaz.NonEmptyList
+
 /**
   Examples of how to define "Problem" instances.
 
@@ -21,39 +23,12 @@ import spire.implicits._
 
   */
 object Problems {
+  import scalaz.Foldable1
 
-  /* Some of the more common static benchmark problems */
-  import scalaz.Foldable
+  def spherical[/*F[_]:Foldable1,*/A](implicit N: Numeric[A]) =
+    new Unconstrained[A]((a: NonEmptyList[A]) => Valid(a.foldMap(x => N.toDouble(N.times(x, x)))))
 
-  def spherical[F[_]:Foldable:SolutionRep,A](implicit N: Numeric[A]) =
-    new Unconstrained[F,A]((a: F[A]) => Valid(a.foldMap(x => N.toDouble(N.times(x, x)))))
-
-  // Not sure where to put these yet....
-
-  /* G13 Problems. Runarrson */
-
-  // This needs to be something that is "sized"
-  /*val g1 = Problem.violations(
-    Problem.static((a: List[Double]) => {
-      val x = a.take(4).sum * 5.0
-      val y = a.take(4).map(x => x*x).sum * 5.0
-      val z = a.drop(4).sum
-      Valid(x - y - z)
-    }),
-    List(
-      (a: List[Double]) => Violation.bool( 2*a(0) + 2*a(1) + a(9) + a(10) - 10 <= 0),
-      (a: List[Double]) => Violation.bool( 2*a(0) + 2*a(2) + a(9) + a(11) - 10 <= 0),
-      (a: List[Double]) => Violation.bool( 2*a(0) + 2*a(2) + a(10) + a(11) - 10 <= 0),
-      (a: List[Double]) => Violation.bool(-8*a(0) + a(9) <= 0),
-      (a: List[Double]) => Violation.bool(-8*a(1) + a(10) <= 0),
-      (a: List[Double]) => Violation.bool(-8*a(2) + a(11) <= 0),
-      (a: List[Double]) => Violation.bool(-2*a(3) - a(4) + a(9) <= 0),
-      (a: List[Double]) => Violation.bool(-2*a(5) - a(6) + a(10) <= 0),
-      (a: List[Double]) => Violation.bool(-2*a(7) - a(8) + a(11) <= 0)
-    )
-  )*/
-
-  case class Peak(pos: List[Double], width: Double, height: Double, movementDirection: List[Double], shiftVector: List[Double])
+  /*case class Peak(pos: List[Double], width: Double, height: Double, movementDirection: List[Double], shiftVector: List[Double])
   case class PeakState(peaks: List[Peak], interval: List[Interval[Double]],
     frequency: Int = 10,
     widthSeverity: Double = 0.01, heightSeverity: Double = 7.0,
@@ -119,5 +94,11 @@ object Problems {
         x.height / w
       })
       Valid(r.maximum.getOrElse(-1.0))
-    })
+   })*/
+
+  import spire.algebra._
+  import spire.implicits._
+
+  def peakCone(x: Position[Double], height: Double, width: Double, location: Position[Double])(implicit M: Module[Position[Double],Double]) =
+    (height - width) * math.sqrt((location - x).foldLeft(0.0)(_ + _))
 }

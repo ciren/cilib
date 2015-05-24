@@ -20,7 +20,7 @@ case class GreaterThanEqual[A,B](f: ConstraintFunction[A,B], v: B) extends Const
 object Constraint {
 
   import scalaz.{Foldable, Functor}
-  def constrain[M[_],F[_]:Foldable](ma: M[Eval[F,Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
+  def constrain[M[_]/*,F[_]:Foldable*/](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
     M.map(ma)(_.constrainBy(cs))
 
   def violationMagnitude[A,B:Fractional](beta: Double, eta: Double, constraints: List[Constraint[A,B]], cs: List[A])(implicit e: Eq[B]): Double = {

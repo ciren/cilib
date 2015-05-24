@@ -1,20 +1,20 @@
 package cilib
 
-import scalaz.Foldable
-import scalaz.syntax.foldable._
+import scalaz.NonEmptyList
+//import scalaz.syntax.foldable._
 
-sealed abstract class Eval[F[_], A] { // This represents the function F[A] => Fit
+sealed abstract class Eval[/*F[_],*/A] { // This represents the function NonEmptyList[A] => Fit
 
-  def eval(a: F[A])(implicit ev: Foldable[F]): (Fit, List[Constraint[A, Double]]) =
+  def eval(a: NonEmptyList[A])/*(implicit ev: Foldable[F])*/: (Fit, List[Constraint[A, Double]]) =
     this match {
       case Unconstrained(f) => (f(a), List.empty)
       case Constrained(f, cs) =>
         import spire.algebra.Eq
         import spire.implicits._
-        (f(a), cs.filter(c => Constraint.satisfies(c, a.toList)))
+        (f(a), cs.filter(c => Constraint.satisfies(c, a.list)))
     }
 
-  def constrainBy(cs: List[Constraint[A,Double]])(implicit ev: Foldable[F]) =
+  def constrainBy(cs: List[Constraint[A,Double]]) =//(implicit ev: Foldable[F]) =
     this match {
       case Unconstrained(f) => Constrained(f, cs)
       case Constrained(f, _) => Constrained(f, cs)
@@ -27,5 +27,5 @@ sealed abstract class Eval[F[_], A] { // This represents the function F[A] => Fi
     }
 }
 
-final case class Unconstrained[F[_],A](f: F[A] => Fit) extends Eval[F,A]
-final case class Constrained[F[_]:Foldable,A](f: F[A] => Fit, cs: List[Constraint[A,Double]]) extends Eval[F,A]
+final case class Unconstrained[/*F[_],*/A](f: NonEmptyList[A] => Fit) extends Eval[A]
+final case class Constrained[/*F[_]:Foldable,*/A](f: NonEmptyList[A] => Fit, cs: List[Constraint[A,Double]]) extends Eval[A]

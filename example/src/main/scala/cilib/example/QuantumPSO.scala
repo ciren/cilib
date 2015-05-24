@@ -14,27 +14,27 @@ object QunatumPSO extends SafeApp {
 
   import scalaz.Traverse
 
-  case class QuantumState(b: Position[List,Double], v: Position[List,Double], charge: Double)
+  case class QuantumState(b: Position[Double], v: Position[Double], charge: Double)
 
   object QuantumState {
     implicit object QSMemory
-        extends Memory[QuantumState,List,Double]
-        with Velocity[QuantumState,List,Double]
+        extends Memory[QuantumState,Double]
+        with Velocity[QuantumState,Double]
         with Charge[QuantumState] {
-      def _memory = Lens[QuantumState,Position[List,Double]](_.b)(b => a => a.copy(b = b))
-      def _velocity = Lens[QuantumState, Position[List,Double]](_.v)(b => a => a.copy(v = b))
+      def _memory = Lens[QuantumState,Position[Double]](_.b)(b => a => a.copy(b = b))
+      def _velocity = Lens[QuantumState, Position[Double]](_.v)(b => a => a.copy(v = b))
       def _charge = Lens[QuantumState,Double](_.charge)(b => a => a.copy(charge = b))
     }
   }
 
-  def quantumPSO[S,F[_]:Traverse](
+  def quantumPSO[S/*,F[_]:Traverse*/](
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,F,Double],
-    social: Guide[S,F,Double])(
-    implicit C: Charge[S], V: Velocity[S,F,Double], M: Memory[S,F,Double], mod: Module[F[Double],Double]
-  ): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Particle[S,F,Double]] =
+    cognitive: Guide[S,Double],
+    social: Guide[S,Double])(
+    implicit C: Charge[S], V: Velocity[S,Double], M: Memory[S,Double], mod: Module[Position[Double],Double]
+  ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         cog    <- cognitive(collection, x)
@@ -49,11 +49,11 @@ object QunatumPSO extends SafeApp {
     }
 
 
-  val interval = Interval(closed(0.0),closed(100.0))^2//30
-  val r = Iteration.sync(quantumPSO[QuantumState,List](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
+  val interval = Interval(closed(0.0),closed(100.0))^2
+  val r = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
 
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(QuantumState(x, x.zeroed, 0.0), x)))(interval, 40)
-  val pop = Step.pointR[List,Double,List[Particle[QuantumState,List,Double]]](swarm)
+  val pop = Step.pointR[Double,List[Particle[QuantumState,Double]]](swarm)
 
   // 20% of the swarm are charged particles
   val pop2 = pop.map(coll => coll.take(8).map(x => x.copy(state = x.state.copy(charge = 0.05))) ++ coll.drop(8))
@@ -88,9 +88,10 @@ object QunatumPSO extends SafeApp {
   val combined2 = disjointCircles ++ linear
 
   import scalaz.std.list._
-
+/*
   val initialProb = // : RVar[(Problems.PeakState, Eval[List,Double])] =
-    Problems.initPeaks[List](15, interval, 30.0, 70.0, 10.0, 20.0).map(x => (x._1, x._2.constrainBy(centerEllipse)))
+    Problems.initPeaks[List](15, interval, 30.0, 70.0, 10.0, 20.0).
+      map(x => (x._1, x._2.constrainBy(centerEllipse)))
 
   // This is not a runner of sorts?
   // Need to track both the problem and the current collection
@@ -105,16 +106,15 @@ object QunatumPSO extends SafeApp {
     val (rng3, nextPop) = x.run(rng2)
 
     val next = nextPop.map(penalize(Max))
-    //println(next)
+    println(next)
 
-    //import scalaz.StateT
     val nextProb = prob
     //if (c % 101 == 0) Problems.modifyPeaks[List]/*.map(_.constrainBy(constraints))*/.run(ps)
     //else prob
 
     (rng3, nextProb, Step.point(next), ps.peaks)
   }))
-
+ */
   // Run the experiment 30 times
   /*Range(0, 1).foreach(x => println({
    val (rng, nextP, pop, peaks) = experiment(RNG.init(x.toLong))
@@ -131,15 +131,15 @@ object QunatumPSO extends SafeApp {
 
   import Lenses._
 
-  def penalize[S,F[_]:Foldable](opt: Opt) = (e: Particle[S,F,Double]) => {
-    val magnitude = e.pos.violations.map(x => Constraint.violationMagnitude(1.0, 5.0, x, e.pos.pos.toList))
+  def penalize[S/*,F[_]:Foldable*/](opt: Opt) = (e: Particle[S,Double]) => {
+    val magnitude = e.pos.violations.map(x => Constraint.violationMagnitude(3.0, 5.0, x, e.pos.pos.toList))
 
     (magnitude |@| e.pos.fit) { (mag, fit) => {
       //println("mag: " + mag)
       fit match {
         case Penalty(_, _) => sys.error("??? How?")
         case Valid(v) =>
-          (_position[S,F,Double] composeOptional _fitness).modify((x: Fit) =>
+          (_position[S,Double] composeOptional _fitness).modify((x: Fit) =>
             if (mag > 0.0) Penalty(opt match {
               case Min => v + mag
               case Max => v - mag
@@ -150,5 +150,17 @@ object QunatumPSO extends SafeApp {
   }
 
   override val runc: IO[Unit] =
-    putStrLn("Fix me!")
+    for {
+      rng <- IO(RNG.fromTime)
+  //    e   <- IO {
+    //    val a = experiment(rng)
+
+//        a._3.run((Max, ))
+//        ._3.run((Max,a._2))
+     // }
+//      _   <- putStrLn({
+//        e._3.run(e._1).toString
+//      })
+    } yield ()
+
 }

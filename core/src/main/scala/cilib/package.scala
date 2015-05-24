@@ -2,12 +2,12 @@ import scalaz._
 
 package object cilib {
 
-  type Step[F[_],A,B] = Kleisli[RVar,(Opt,Eval[F,A]),B]
+  type Step[/*F[_],*/A,B] = Kleisli[RVar,(Opt,Eval[A]),B]
 
-  type Particle[S,F[_],A] = Entity[S,F,A]
+  type Particle[S,/*F[_],*/A] = Entity[S,A]
 
   // Should expand into a typeclass? Getter?
-  type Guide[S,F[_],A] = (List[Particle[S,F,A]], Particle[S,F,A]) => Step[F,A,Position[F,A]]
+  type Guide[S,/*F[_],*/A] = (List[Particle[S,A]], Particle[S,A]) => Step[A,Position[A]]
 
   type Selection[A] = (List[A], A) => List[A]
 
@@ -35,5 +35,23 @@ package object cilib {
     def zero = 0.0
     def append(a: Double, b: => Double) = a + b
   }
+
+  import spire.algebra._
+  implicit def NonEmptyListModule(implicit sc: Ring[Double]) =
+    new Module[Position[Double],Double] {
+      implicit def scalar = sc
+      def negate(x: Position[Double]) =
+        x.map(scalar.negate)
+
+      def zero: Position[Double] =
+        Position(NonEmptyList(0.0))
+
+      def timesl(r: Double, v: Position[Double]): Position[Double] =
+        v map (scalar.times(r, _))
+
+      def plus(x: Position[Double], y: Position[Double]) =
+        x.zip(y).map(a => scalar.plus(a._1, a._2))
+
+    }
 
 }

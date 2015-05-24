@@ -145,7 +145,7 @@ lazy val core = project
       "org.scalaz"                  %% "scalaz-core"   % scalazVersion,
       "org.spire-math"              %% "spire"         % spireVersion,
       "com.github.julien-truffaut"  %% "monocle-core"  % monocleVersion
-    ),
+    /*),
     wartremoverErrors ++= Seq(
       //Wart.Any,
       Wart.Any2StringAdd,
@@ -159,7 +159,7 @@ lazy val core = project
       Wart.Product,
       Wart.Return,
       Wart.Serializable,
-      Wart.Var
+      Wart.Var*/
     )
   ))
 
