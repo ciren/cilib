@@ -53,3 +53,25 @@ object StepS {
     a.lift[Step[F,A,?]]
 
 }
+
+object StepS {
+
+  def apply[F[_],A,S,B](f: S => Step[F,A,(S, B)]) =
+    StateT[Step[F,A,?],S,B](f)
+
+  def point[F[_],A,S,B](b: B): StepS[F,A,S,B] =
+    b.stateT[Step[F,A,?], S]
+
+  def pointR[F[_],A,S,B](a: RVar[B]): StepS[F,A,S,B] =
+    apply(s => Step.pointR(a).map((s, _)))
+
+  def pointK[F[_],A,S,B](a: Step[F,A,B]): StepS[F,A,S,B] =
+    StateT.StateMonadTrans[S].liftMU(a)
+
+  def liftK[F[_],A,S,B](a: Reader[Opt,B]): StepS[F,A,S,B] =
+    pointK(Step.liftK(a))
+
+  def liftS[F[_],A,S,B](a: State[S, B]): StepS[F,A,S,B] =
+    a.lift[Step[F,A,?]]
+
+}
