@@ -101,7 +101,7 @@ object QunatumPSO extends SafeApp {
     //println("peaks: " + ps.peaks)
 
     val w = pop flatMap r.run
-    val x = w.run((Max,eval))
+    val x = w.run(Max)(eval)
     val (rng3, nextPop) = x.run(rng2)
 
     val next = nextPop.map(penalize(Max))

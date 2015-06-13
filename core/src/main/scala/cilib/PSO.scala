@@ -33,7 +33,7 @@ object PSO {
   )(implicit V: Velocity[S,F,Double], M: Module[F[Double],Double], F:Field[Double]): Step[F,Double,Position[F,Double]] =
     Step.pointR(for {
       cog <- (cognitive - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
-      soc <- (social - entity.pos)    traverse (x => Dist.stdUniform.map(_ * x))
+      soc <- (social    - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
     } yield (w *: V._velocity.get(entity.state)) + (c1 *: cog) + (c2 *: soc))
 
   // Step to evaluate the particle, without any modifications
@@ -42,7 +42,8 @@ object PSO {
 
   def updatePBest[S,F[_]](p: Particle[S,F,Double])(implicit M: Memory[S,F,Double]): Step[F,Double,Particle[S,F,Double]] = {
     val pbestL = M._memory
-    Step.liftK(Fitness.compare(p.pos, (p.state applyLens pbestL).get).map(x => Entity(p.state applyLens pbestL set x, p.pos)))
+    Step.liftK(Fitness.compare(p.pos, (p.state applyLens pbestL).get).map(x =>
+      Entity(p.state applyLens pbestL set x, p.pos)))
   }
 
   def updateVelocity[S,F[_]](p: Particle[S,F,Double], v: Position[F,Double])(implicit V: Velocity[S,F,Double]): Step[F,Double,Particle[S,F,Double]] =
@@ -54,7 +55,6 @@ object PSO {
     w: Double,
     c: Double
   )(implicit V: Velocity[S,F,Double], M: Memory[S,F,Double], MO: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] = {
-    //val (state,pos) = entity
     Step.pointR(for {
       comp <- (component - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
     } yield (w *: V._velocity.get(entity.state)) + (c *: comp))
@@ -137,9 +137,9 @@ object Guide {
     (_, x) => Step.point(M._memory.get(x.state))
 
   def nbest[S,F[_]](selection: Selection[Particle[S,F,Double]])(implicit M: Memory[S,F,Double]): Guide[S,F,Double] = {
-    (collection, x) => new Step(Kleisli[RVar, (Opt,Eval[F,Double]), Position[F,Double]]((o: (Opt,Eval[F,Double])) => RVar.point {
-      selection(collection, x).map(e => M._memory.get(e.state)).reduceLeft((a, c) => Fitness.compare(a, c) run o._1)
-    }))
+    (collection, x) => Step(o => e => RVar.point {
+      selection(collection, x).map(e => M._memory.get(e.state)).reduceLeft((a, c) => Fitness.compare(a, c) run o)
+    })
   }
 
   def gbest[S,F[_]](implicit M: Memory[S,F,Double]): Guide[S,F,Double] = nbest((c, _) => c)

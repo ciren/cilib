@@ -13,11 +13,10 @@ object Entity {
 
   // Step to evaluate the particle
   def eval[S,F[_]:Foldable,A](f: Position[F,A] => Position[F,A])(entity: Entity[S,F,A]): Step[F,A,Entity[S,F,A]] =
-    Step { (e: (Opt, Eval[F,A])) => {
-      val x = Position.evalF(f(entity.pos)).run(e)
+    Step(o => e => {
+      val x = Position.evalF(f(entity.pos)).run(o)(e)
       x.map(p => Lenses._position.set(p)(entity))
-    }}
-
+    })
 }
 
 sealed abstract class Position[F[_],A] { // Transformer of some sort, over the type F?
@@ -107,11 +106,11 @@ object Position {
   def apply[F[_]:SolutionRep,A](xs: F[A]): Position[F, A] =
     Point(xs)
 
-  def evalF[F[_]:Foldable,A](pos: Position[F,A]) =
-    Step { (e: (Opt, Eval[F,A])) =>
+  def evalF[F[_]:Foldable,A](pos: Position[F,A]): Step[F,A,Position[F,A]] =
+    Step { _ => e =>
       RVar.point(pos match {
         case Point(x) =>
-          val (fit, vio) = e._2.eval(x)
+          val (fit, vio) = e.eval(x)
           Solution(x, fit, vio)
         case x @ Solution(_, _, _) =>
           x

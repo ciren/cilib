@@ -16,34 +16,63 @@ import scalaz.syntax.state._
   `Step` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritm parts.
   */
+case class Step[F[_],A,B](run: Opt => Eval[F,A] => RVar[B]) {
+
+  def map[C](f: B => C): Step[F,A,C] =
+    Step(o => e => run(o)(e).map(f))
+
+  def flatMap[C](f: B => Step[F,A,C]): Step[F,A,C] =
+    Step(o => e => run(o)(e).flatMap(f(_).run(o)(e)))
+}
+
 object Step {
 
-  def apply[F[_],A,B](f: ((Opt,Eval[F,A])) => RVar[B]) =
-    Kleisli[RVar,(Opt,Eval[F,A]),B](f)
-
   def point[F[_],A,B](b: B): Step[F,A,B] =
-    Kleisli[RVar,(Opt,Eval[F,A]),B](_ => RVar.point(b))
+    Step(_ => _ => RVar.point(b))
 
   def pointR[F[_],A,B](a: RVar[B]): Step[F,A,B] =
-    Kleisli[RVar,(Opt,Eval[F,A]),B](_ => a)
+    Step(_ => _ => a)
 
   def liftK[F[_],A,B](a: Reader[Opt, B]): Step[F,A,B] =
-    Kleisli[RVar,(Opt,Eval[F,A]),B]((o: (Opt,Eval[F,A])) => RVar.point(a.run(o._1)))
+    Step(o => _ => RVar.point(a.run(o)))
 
+  implicit def stepMonad[F[_],A] = new Monad[Step[F,A,?]] {
+    def point[B](a: => B) =
+      Step.point(a)
+
+    def bind[B,C](fa: Step[F,A,B])(f: B => Step[F,A,C]): Step[F,A,C] =
+      fa flatMap f
+  }
+}
+
+// Should the internal StateT not be hidden?
+final case class StepS[F[_],A,S,B](run: StateT[Step[F,A,?],S,B]) {
+
+  def map[C](f: B => C): StepS[F,A,S,C] =
+    StepS(run map f)
+
+  def flatMap[C](f: B => StepS[F,A,S,C]): StepS[F,A,S,C] =
+    StepS(run.flatMap(f(_).run))
 }
 
 object StepS {
+  implicit def stepSMonad[F[_],A,S] = new Monad[StepS[F,A,S,?]] {
+    def point[B](a: => B) =
+      StepS.point(a)
 
-  def apply[F[_],A,S,B](f: S => Step[F,A,(S, B)]) =
-    StateT[Step[F,A,?],S,B](f)
+    def bind[B,C](fa: StepS[F,A,S,B])(f: B => StepS[F,A,S,C]): StepS[F,A,S,C] =
+      fa flatMap f
+  }
 
   def point[F[_],A,S,B](b: B): StepS[F,A,S,B] =
-    b.stateT[Step[F,A,?], S]
+    StepS(StateT.stateT[Step[F,A,?],S,B](b))
 
   def pointR[F[_],A,S,B](a: RVar[B]): StepS[F,A,S,B] =
-    apply(s => Step.pointR(a).map((s, _)))
+    StepS(StateT[Step[F,A,?],S,B](
+      (s: S) => Step.pointR[F,A,B](a).map((s, _))
+    ))
 
-  def pointK[F[_],A,S,B](a: Step[F,A,B]): StepS[F,A,S,B] =
+/*  def pointS[F[_],A,S,B](a: Step[F,A,B]): StepS[F,A,S,B] =
     StateT.StateMonadTrans[S].liftMU(a)
 
   def liftK[F[_],A,S,B](a: Reader[Opt,B]): StepS[F,A,S,B] =
@@ -51,5 +80,5 @@ object StepS {
 
   def liftS[F[_],A,S,B](a: State[S, B]): StepS[F,A,S,B] =
     a.lift[Step[F,A,?]]
-
+ */
 }

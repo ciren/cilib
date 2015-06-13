@@ -27,7 +27,7 @@ object LBestPSO extends SafeApp {
 
   val b2 = Iteration.sync(lbestPSO)
   val w = a flatMap (b2.run)
-  val m = w.run((Min, sum))
+  val m = w.run(Min)(sum)
   val z = m.run(RNG.fromTime)
 
   // Run the above algorithm 1000 times, without any parameter changes
