@@ -4,7 +4,7 @@ import scalaz._
 import scalaz.syntax.state._
 
 /**
-  A `Step` is a type that models a single step within a CI Algorithm's operation.
+  A `Step` is a type that models a single step / operation within a CI Algorithm.
 
   The general idea would be that you would compose different `Step`s
   to produce the desired algorithmic behaviour.
@@ -17,7 +17,6 @@ import scalaz.syntax.state._
   monad transformer stack which represents the algoritm parts.
   */
 case class Step[F[_],A,B](run: Opt => Eval[F,A] => RVar[B]) {
-
   def map[C](f: B => C): Step[F,A,C] =
     Step(o => e => run(o)(e).map(f))
 
@@ -26,7 +25,6 @@ case class Step[F[_],A,B](run: Opt => Eval[F,A] => RVar[B]) {
 }
 
 object Step {
-
   def point[F[_],A,B](b: B): Step[F,A,B] =
     Step(_ => _ => RVar.point(b))
 
@@ -47,7 +45,6 @@ object Step {
 
 // Should the internal StateT not be hidden?
 final case class StepS[F[_],A,S,B](run: StateT[Step[F,A,?],S,B]) {
-
   def map[C](f: B => C): StepS[F,A,S,C] =
     StepS(run map f)
 
@@ -69,7 +66,7 @@ object StepS {
 
   def pointR[F[_],A,S,B](a: RVar[B]): StepS[F,A,S,B] =
     StepS(StateT[Step[F,A,?],S,B](
-      (s: S) => Step.pointR[F,A,B](a).map((s, _))
+      (s: S) => Step.pointR(a).map((s, _))
     ))
 
 /*  def pointS[F[_],A,S,B](a: Step[F,A,B]): StepS[F,A,S,B] =
