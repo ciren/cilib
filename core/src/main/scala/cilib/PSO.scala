@@ -90,7 +90,7 @@ object PSO {
   )(implicit M: Module[F[Double],Double]): Step[F,Double,Position[F,Double]] =
     Step.pointR(
       for {
-        u <- Dist.uniform(0,1)
+        u <- Dist.stdUniform
         rand_x <- x.pos.traverse(_ => Dist.stdNormal)
       } yield {
         import scalaz.syntax.foldable._
