@@ -60,7 +60,10 @@ object PSO {
     } yield (w *: V._velocity.get(entity.state)) + (c *: comp))
   }
 
-  case class GCParams(p: Double = 1.0, successes: Int = 0, failures: Int = 0, e_s: Double = 15, e_f: Double = 5)
+  case class GCParams(p: Double, successes: Int, failures: Int, e_s: Double, e_f: Double)
+
+  def defaultGCParams = GCParams(1.0, 0, 0, 15, 5)
+
   def gcVelocity[S,F[_]:Traverse](
     entity: Particle[S,F,Double],
     nbest: Position[F,Double],

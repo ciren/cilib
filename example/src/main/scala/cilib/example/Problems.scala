@@ -1,6 +1,7 @@
 package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _, _ }
+import scalaz.NonEmptyList
 import scalaz.syntax.traverse._
 import scalaz.syntax.apply._
 import scalaz.std.list._
@@ -54,7 +55,7 @@ object Problems {
   )*/
 
   case class Peak(pos: List[Double], width: Double, height: Double, movementDirection: List[Double], shiftVector: List[Double])
-  case class PeakState(peaks: List[Peak], interval: List[Interval[Double]],
+  case class PeakState(peaks: List[Peak], interval: NonEmptyList[Interval[Double]],
     frequency: Int = 10,
     widthSeverity: Double = 0.01, heightSeverity: Double = 7.0,
     shiftSeverity: Double = 1.0, lambda: Double = 0.75,
@@ -62,12 +63,12 @@ object Problems {
 
   import scalaz._
 
-  def initPeaks[F[_]:SolutionRep:Foldable](n: Int, interval: List[Interval[Double]],
+  def initPeaks[F[_]:SolutionRep:Foldable](n: Int, interval: NonEmptyList[Interval[Double]],
     minHeight: Double, maxHeight: Double, minWidth: Double, maxWidth: Double
   ): RVar[(PeakState, Eval[F,Double])] = {
     val t = List.fill(interval.size)(1.0)
     val peaks = (1 to n).toList.traverse(_ => {
-      val position = interval.traverse(x => Dist.uniform(x.lower.value, x.upper.value))
+      val position = interval.list.traverse(x => Dist.uniform(x.lower.value, x.upper.value))
       val height = Dist.uniform(minHeight, maxHeight)
       val width = Dist.uniform(minWidth, maxWidth)
 
@@ -97,8 +98,8 @@ object Problems {
           })
 
           val shift = peak.pos + ((peak.shiftVector, peak.movementDirection).zipped map { _ * _ })
-          val newDirection = (shift, peak.movementDirection, ps.interval).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
-          val newShift = (shift, peak.shiftVector, ps.interval).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
+          val newDirection = (shift, peak.movementDirection, ps.interval.list).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
+          val newShift = (shift, peak.shiftVector, ps.interval.list).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
           val newPos = peak.pos + newShift
 
           (widthOffset |@| heightOffset) { Peak(newPos, _, _, newDirection, newShift) }
