@@ -7,7 +7,7 @@ import Scalaz._
 
 import spire.math._
 
-case class Entity[S,F[_],A](state: S, pos: Position[F,A])
+final case class Entity[S,F[_],A](state: S, pos: Position[F,A])
 
 object Entity {
   // Step to evaluate the particle
