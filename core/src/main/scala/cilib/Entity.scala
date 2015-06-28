@@ -7,17 +7,12 @@ import Scalaz._
 
 import spire.math._
 
-case class Entity[S,/*F[_],*/A](state: S, pos: Position[A])
+case class Entity[S,A](state: S, pos: Position[A])
 
 object Entity {
-
   // Step to evaluate the particle
-  def eval[S,/*F[_]:Foldable,*/A](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
-    Step { case (opt, e) => //(e: (Opt, Eval[A])) => {
-      val x = Position.evalF(f(entity.pos)).run(opt, e)
-      x.map(p => Lenses._position.set(p)(entity))
-    }
-
+  def eval[S,A](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
+    Step.evalF(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 }
 
 sealed abstract class Position[A] {
@@ -67,7 +62,6 @@ sealed abstract class Position[A] {
 
   def feasible: Option[Position[A]] =
     violations.map(_.isEmpty).getOrElse(false).option(this)
-
 }
 
 //final case class NonEmptyVector[A](head: A, rest: Vector[A])
@@ -111,7 +105,6 @@ object Position {
 
     def *: (scalar: A)(implicit M: Module[Position[A],A]): Position[A] =
       M.timesl(scalar, x).toPoint
-
   }
 
   implicit def positionFitness[/*F[_],*/A] = new Fitness[Position[A]] {
@@ -129,30 +122,17 @@ object Position {
       case _ => sys.error("this sucks")
     })
 
-  def evalF[/*F[_]:Foldable,*/A](pos: Position[A]): Step[A,Position[A]] =
-    Step { case (opt, e) =>
-      RVar.point(pos match {
-        case x @ Point(_) =>
-          val (fit, vio) = e.eval(x)
-          Solution(x.pos, fit, vio)
-        case x @ Solution(_, _, _) =>
-          x
-      })
-    }
 
-  def createPosition(domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
-    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))
+  def createPosition[A](domain: NonEmptyList[Interval[Double]]) =
+    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (x => Position(x))//.list))
 
-  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int): RVar[NonEmptyList[Position[Double]]] =
-    for {
-      head <- createPosition(domain)
-      rest <- createPosition(domain).replicateM(n - 1)
-    } yield NonEmptyList.nel(head, rest)
+  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int) =
+    createPosition(domain) replicateM n
 
-  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int): RVar[NonEmptyList[A]] =
-    createPositions(domain, n).map(_ map f)
-
+  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int): RVar[List[A]] =
+    createPositions(domain,n).map(_.map(f))
 }
+
 
 trait NonEmpty[F[_]]
 object NonEmpty {
@@ -168,16 +148,13 @@ case class Open[A](value: A) extends Bound[A]
 
 final class Interval[A] private[cilib] (val lower: Bound[A], val upper: Bound[A]) {
 
+   // Intervals _definitely_ have at least 1 element, so invariant in the type
   def ^(n: Int): NonEmptyList[Interval[A]] =
-    (1 to n).map(_ => this).toList match {
-      case x :: xs => NonEmptyList(x, xs: _*)
-      case Nil => sys.error("Impossible to create Interval")
-    }
+    NonEmptyList.nel(this, (1 to n - 1).map(_ => this).toList)
 
 }
 
 object Interval {
   def apply[A](lower: Bound[A], upper: Bound[A]) =
     new Interval(lower, upper)
-
 }

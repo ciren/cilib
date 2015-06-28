@@ -30,8 +30,6 @@ trait Charge[A] {
 
 
 object Lenses {
-  import scalaz.Maybe
-
   // Base Entity lenses
   def _state[S,/*F[_],*/A]    = Lens[Entity[S,A], S](_.state)(c => e => e.copy(state = c))
   def _position[S,/*F[_],*/A] = Lens[Entity[S,A], Position[A]](_.pos)(c => e => e.copy(pos = c))
@@ -45,4 +43,15 @@ object Lenses {
   def _fitness[/*F[_],*/A]: Optional[Position[A],Fit] =
     _solutionPrism[A] composeLens Lens[Solution[A], Fit](_.f)(c => e => e.copy(f = c))
 
+/*=======
+  def _solutionPrism[F[_], A]: Prism[Position[F,A],Solution[F,A]] =
+    Prism.apply[Position[F,A],Solution[F,A]]{
+      case x @ Solution(_, _, _) => Some(x)
+      case _                     => None
+    }(identity)
+
+  def _fitness[F[_],A]: Optional[Position[F,A],Fit] =
+    _solutionPrism[F,A] composeLens Lens[Solution[F,A], Fit](_.f)(c => e => e.copy(f = c))
+>>>>>>> non-empty-interval
+ */
 }

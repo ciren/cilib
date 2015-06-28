@@ -37,7 +37,7 @@ object QuantumPSO extends SafeApp {
     social: Guide[S,Double],
     cloudR: RVar[Double])(
     implicit C: Charge[S], V: Velocity[S,Double], M: Memory[S,Double], mod: Module[Position[Double],Double]
-  ): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         cog     <- cognitive(collection, x)
@@ -109,7 +109,7 @@ object QuantumPSO extends SafeApp {
 
   // 20% of the swarm are charged particles
   def pop: RVar[List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
-    swarm.map(coll => coll.list.take(8).map(x => x.copy(state = x.state.copy(charge = 0.05))) ++ coll.list.drop(8))
+    swarm.map(coll => coll.take(8).map(x => x.copy(state = x.state.copy(charge = 0.05))) ++ coll.drop(8))
 
   def initialPeaks(s: Double): RVar[List[Problems.PeakCone]] =
     (1 to 15).toList.traverse(_ => Problems.defaultPeak(domain, s))
@@ -120,7 +120,7 @@ object QuantumPSO extends SafeApp {
     import scalaz.syntax.std.list._
     import scalaz.syntax.std.option._
 
-    swarm.toNel.cata(nel => qpso.run(nel).map(_.map(penalize(Max)).list), Step.point(List.empty))
+    swarm.toNel.cata(nel => qpso.run(nel.list).map(_.map(penalize(Max))), Step.point(List.empty))
   }
 
   import scalaz.StateT
@@ -131,7 +131,7 @@ object QuantumPSO extends SafeApp {
     }}
 
   def run2(eval: Eval[Double]): StateT[RVar, (List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
-    StateT { case (peaks, pop) => { println("running"); iteration(pop).run(Max, eval).map(r => ((peaks, r), r))} }
+    StateT { case (peaks, pop) => { println("running"); iteration(pop).run(Max)(eval).map(r => ((peaks, r), r))} }
 
   import scalaz.syntax.applicative._
   def staticE(n: Int) = mpb(0.0, 0.0).flatMap(e => run2(e).replicateM(n))

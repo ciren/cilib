@@ -2,8 +2,8 @@ package cilib
 
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
-import syntax.applicative._
-import syntax.traverse._
+import scalaz.syntax.applicative._
+import scalaz.syntax.traverse._
 import scalaz.Free._
 
 sealed abstract class RVar[A] {
@@ -157,104 +157,14 @@ object Generator {
   }
 
   implicit object IntGen extends Generator[Int] {
-    def gen =
-      nextBits(32)
+    def gen = nextBits(32)
   }
 
   implicit object BooleanGen extends Generator[Boolean] {
-    def gen =
-      nextBits(1) map (_ == 1)
+    def gen = nextBits(1) map (_ == 1)
   }
 }
 
-
-
-
-
-
-/*
-final class RVar[A] private[cilib] (val state: StateT[Trampoline, RNG, A]) {
-  import Trampoline._
-
-  def map[B](f: A => B): RVar[B] =
-    new RVar(state map f)
-
-  def flatMap[B](f: A => RVar[B]): RVar[B] =
-    new RVar(state flatMap (f(_).state))
-
-  def ap[X](f: RVar[A => X]): RVar[X] =
-    (f |@| this) { (ff, aa) => ff(aa) }
-
-  def zip[X](other: RVar[X]): RVar[(A, X)] =
-    zipWith(other, a => (a, _: X))
-
-  def zipWith[B, C](zb: RVar[B], f: A => B => C): RVar[C] =
-    zb.ap(map(f))
-
-  def run(r: RNG) =
-    state.run(r).run
-}
- */
-
-//object RVar {
-//  import Trampoline._
-
-//  def apply[A](s: StateT[Trampoline, RNG, A]) =
-//    new RVar[A](s)
-
-//  def point[A](a: A) =
-//    new RVar[A](StateT.stateT[Trampoline, RNG, A](a))
-
-/*  implicit val monad: Monad[RVar] =
-    new Monad[RVar] {
-      def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-        a flatMap f
-      def point[A](a: => A) =
-        RVar.point(a)
-    }
-
-  def next[A](implicit e: Generator[A]): RVar[A] =
-    implicitly[Generator[A]].gen
-
-  def ints(n: Int) =
-    next[Int](Generator.IntGen) replicateM n
-
-  def doubles(n: Int) =
-    next[Double](Generator.DoubleGen) replicateM n
-
-  def choose[A](xs: NonEmptyList[A]) =
-    Dist.uniformInt(0, xs.size - 1) map { xs.list.apply(_) }
- */
-
-//}
-
-/*
-sealed trait Generator[A] {
-  def gen: RVar[A]
-}
-
-object Generator {
-
-  private def nextBits(bits: Int): RVar[Int] =
-    RVar(StateT((rng: RNG) => Trampoline.delay(rng.next(bits))))
-
-  implicit object DoubleGen extends Generator[Double] {
-    def gen =
-      (nextBits(26) |@| nextBits(27)) { (a,b) =>
-        ((a.toLong << 27) + b) / (1L << 53).toDouble
-      }
-  }
-
-  implicit object IntGen extends Generator[Int] {
-    def gen =
-      nextBits(32)
-  }
-
-  implicit object BooleanGen extends Generator[Boolean] {
-    def gen =
-      nextBits(1) map (_ == 1)
-  }
-}*/
 
 object Dist {
   import RVar._

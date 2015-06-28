@@ -22,6 +22,7 @@ import scalaz.std.list._
  */
 object Iteration {
 
+/*<<<<<<< HEAD
   // iterations have the shape: [a] -> a -> Step [a]
   def sync[/*F[_]:Traverse,*/A,B](f: NonEmptyList[B] => B => Step[A,B]): Iteration[A,NonEmptyList[B]] =
     Kleisli.kleisli[Step[A,?],NonEmptyList[B],NonEmptyList[B]]((l: NonEmptyList[B]) => l traverseU f(l))
@@ -32,4 +33,34 @@ object Iteration {
         (a, c) => f(a <::: c).apply(c.copoint).map(a :+ _)
       }.map(_.toNel.getOrElse(sys.error("Not sure how to handle this... suggestions?")))
     })
+=======*/
+  type Iteration[M[_],A] = Kleisli[M,A,A]
+
+  // iterations have the shape: [a] -> a -> Step [a]
+  def sync_[M[_]: Applicative,A](f: List[A] => A => M[A]): Iteration[M,List[A]] =
+    Kleisli.kleisli[M,List[A],List[A]]((l: List[A]) => l traverseU f(l))
+
+  def sync[A,B](f: List[B] => B => Step[A,B]) =
+    sync_[Step[A,?], B](f)
+
+  def syncS[A,S,B](f: List[B] => B => StepS[A,S,B]) = {
+    implicit val S = StateT.stateTMonadState[S, Step[A,?]]
+    sync_[StepS[A,S,?], B](f)
+  }
+
+  // This needs to be profiled. The drop is expensive - perhaps a zipper is better
+  def async_[M[_],A](f: List[A] => A => M[A])(implicit M: Monad[M]) =
+    Kleisli.kleisli[M,List[A],List[A]]((l: List[A]) =>
+      l.foldLeftM[M, List[A]](List.empty[A]) {
+        (a, c) => M.map(f(a ++ l.drop(a.length)).apply(c))(a :+ _)
+      })
+
+  def async[A,B](f: List[B] => B => Step[A,B]) =
+    async_[Step[A,?], B](f)
+
+  def asyncS[A,S,B](f: List[B] => B => StepS[A,S,B]) = {
+    implicit val S = StateT.stateTMonadState[S, Step[A,?]]
+    async_[StepS[A,S,?], B](f)
+  }
+
 }

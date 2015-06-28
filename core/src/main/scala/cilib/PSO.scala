@@ -33,7 +33,7 @@ object PSO {
   )(implicit V: Velocity[S,Double], M: Module[Position[Double],Double], F:Field[Double]): Step[Double,Position[Double]] =
     Step.pointR(for {
       cog <- (cognitive - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
-      soc <- (social - entity.pos)    traverse (x => Dist.stdUniform.map(_ * x))
+      soc <- (social    - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
     } yield (w *: V._velocity.get(entity.state)) + (c1 *: cog) + (c2 *: soc))
 
   // Step to evaluate the particle, without any modifications
@@ -42,7 +42,8 @@ object PSO {
 
   def updatePBest[S/*,F[_]*/](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
     val pbestL = M._memory
-    Step.liftK(Fitness.compare(p.pos, (p.state applyLens pbestL).get).map(x => Entity(p.state applyLens pbestL set x, p.pos)))
+    Step.liftK(Fitness.compare(p.pos, (p.state applyLens pbestL).get).map(x =>
+      Entity(p.state applyLens pbestL set x, p.pos)))
   }
 
   def updateVelocity[S/*,F[_]*/](p: Particle[S,Double], v: Position[Double])(implicit V: Velocity[S,Double]): Step[Double,Particle[S,Double]] =
@@ -86,14 +87,14 @@ object PSO {
     }
 
   def quantum[S/*,F[_]:Traverse*/](
-    collection: NonEmptyList[Particle[S,Double]],
+    collection: List[Particle[S,Double]],
     x: Particle[S,Double],
     center: Position[Double],
     r: Double
   )(implicit M: Module[Position[Double],Double]): Step[Double,Position[Double]] =
     Step.pointR(
       for {
-        u <- Dist.uniform(0,1)
+        u <- Dist.stdUniform
         rand_x <- x.pos.traverse(_ => Dist.stdNormal)
       } yield {
         import scalaz.syntax.foldable._
@@ -104,7 +105,7 @@ object PSO {
     )
 
   def acceleration[S/*,F[_]:Functor*/](
-    collection: NonEmptyList[Particle[S,Double]],
+    collection: List[Particle[S,Double]],
     x: Particle[S,Double],
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
@@ -115,7 +116,7 @@ object PSO {
 
     Step.point(
       collection
-        .list
+//        .list
         .filter(z => charge(z) > 0.0)
         .foldLeft(x.pos.zeroed) { (p1, p2) => {
           val d = distance(x.pos, p2.pos)
@@ -131,34 +132,6 @@ object PSO {
   def createParticle[S/*,F[_]*/](f: Position[Double] => Particle[S,Double])(pos: Position[Double]): Particle[S,Double] =
     f(pos)
 }
-
-object Guide {
-
-  def identity[S,/*F[_],*/A]: Guide[S,A] =
-    (_, x) => Step.point(x.pos)
-
-  def pbest[S/*,F[_]*/,A](implicit M: Memory[S,A]): Guide[S,A] =
-    (_, x) => Step.point(M._memory.get(x.state))
-
-  def nbest[S/*,F[_]*/](selection: Selection[Particle[S,Double]])(implicit M: Memory[S,Double]): Guide[S,Double] = {
-    (collection, x) => Step { case (opt,e) => RVar.point {
-      val selected = selection(collection, x)
-      val fittest = selected.map(_.map(e => M._memory.get(e.state)).list.reduceLeft((a, c) => Fitness.compare(a, c) run (opt)))
-      fittest.getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
-    }}
-  }
-
-  def gbest[S/*,F[_]*/](implicit M: Memory[S,Double]): Guide[S,Double] =
-    nbest((c, _) => Option(c))
-
-  def lbest[S/*,F[_]*/](n: Int)(implicit M: Memory[S,Double]) =
-    nbest(Selection.indexNeighbours[Particle[S,Double]](n))
-
-//  def vonNeumann[S](implicit M: Memory[S,Double]) =
-//    nbest(Selection.latticeNeighbours[Particle[S,Double]])
-
-}
-
 
 /*
   public class VonNeumannNeighbourhood<E> extends Neighbourhood<E> {

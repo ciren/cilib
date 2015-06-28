@@ -1,7 +1,10 @@
 package cilib
 
+import scalaz._
+import scalaz.syntax.state._
+
 /**
-  A `Step` is a type that models a single step within a CI Algorithm's operation.
+  A `Step` is a type that models a single step / operation within a CI Algorithm.
 
   The general idea would be that you would compose different `Step`s
   to produce the desired algorithmic behaviour.
@@ -13,46 +16,82 @@ package cilib
   `Step` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritm parts.
   */
-
-final case class Step[A,B] private[cilib] (run: (Opt,Eval[A]) => RVar[B]) {
-
+final case class Step[A,B] private (run: Opt => Eval[A] => RVar[B]) {
   def map[C](f: B => C): Step[A,C] =
-    Step { case (opt, eval) =>
-      run(opt,eval) map f
-    }
+    Step(o => e => run(o)(e).map(f))
 
   def flatMap[C](f: B => Step[A,C]): Step[A,C] =
-    Step { case (opt, eval) => {
-      val a = run(opt, eval)
-      val b = a.flatMap(f(_).run(opt,eval))
-      b
-    }}
+    Step(o => e => run(o)(e).flatMap(f(_).run(o)(e)))
 }
 
 object Step {
   import scalaz._
 
-  implicit def stepMonad[A] = new Monad[Step[A,?]] {
-    def point[B](a: => B): Step[A,B] =
-      Step.point(a)
+  def point[A,B](b: B): Step[A,B] =
+    Step(_ => _ => RVar.point(b))
 
-    override def map[B,C](fa: Step[A,B])(f: B => C): Step[A,C] =
-      fa map f
+  def pointR[A,B](a: RVar[B]): Step[A,B] =
+    Step(_ => _ => a)
+
+  def liftK[A,B](a: Reader[Opt, B]): Step[A,B] =
+    Step(o => _ => RVar.point(a.run(o)))
+
+  def withOpt[A,B](f: Opt => RVar[B]): Step[A,B] =
+    Step(o => _ => f(o))
+
+  def evalF[A](pos: Position[A]): Step[A,Position[A]] =
+    Step { _ => e =>
+      RVar.point(pos match {
+        case Point(x) =>
+          val (fit, vio) = e.eval(x)
+          Solution(x, fit, vio)
+        case x @ Solution(_, _, _) =>
+          x
+      })
+    }
+
+  implicit def stepMonad[A] = new Monad[Step[A,?]] {
+    def point[B](a: => B) =
+      Step.point(a)
 
     def bind[B,C](fa: Step[A,B])(f: B => Step[A,C]): Step[A,C] =
       fa flatMap f
   }
+}
 
-  // def apply[/*F[_],*/A,B](f: ((Opt,Eval[A])) => RVar[B]) =
-  //   Kleisli[RVar,(Opt,Eval[A]),B](f)
+// Should the internal StateT not be hidden?
+final case class StepS[A,S,B] private (run: StateT[Step[A,?],S,B]) {
+  def map[C](f: B => C): StepS[A,S,C] =
+    StepS(run map f)
 
-  def point[/*F[_],*/A,B](b: B): Step[A,B] =
-    Step { case (opt,eval) => RVar.point(b) }
+  def flatMap[C](f: B => StepS[A,S,C]): StepS[A,S,C] =
+    StepS(run.flatMap(f(_).run))
+}
 
-  def pointR[/*F[_],*/A,B](a: RVar[B]): Step[A,B] =
-    Step { case (opt,eval) => a }
+object StepS {
+  implicit def stepSMonad[A,S] = new Monad[StepS[A,S,?]] {
+    def point[B](a: => B) =
+      StepS.point(a)
 
-  def liftK[/*F[_],*/A,B](a: Reader[Opt, B]): Step[A,B] =
-    Step { case (opt,eval) => RVar.point(a.run(opt)) }
+    def bind[B,C](fa: StepS[A,S,B])(f: B => StepS[A,S,C]): StepS[A,S,C] =
+      fa flatMap f
+  }
 
+  def point[A,S,B](b: B): StepS[A,S,B] =
+    StepS(StateT.stateT[Step[A,?],S,B](b))
+
+  def pointR[A,S,B](a: RVar[B]): StepS[A,S,B] =
+    StepS(StateT[Step[A,?],S,B](
+      (s: S) => Step.pointR(a).map((s, _))
+    ))
+
+/*  def pointS[F[_],A,S,B](a: Step[F,A,B]): StepS[F,A,S,B] =
+    StateT.StateMonadTrans[S].liftMU(a)
+
+  def liftK[F[_],A,S,B](a: Reader[Opt,B]): StepS[F,A,S,B] =
+    pointK(Step.liftK(a))
+
+  def liftS[F[_],A,S,B](a: State[S, B]): StepS[F,A,S,B] =
+    a.lift[Step[F,A,?]]
+ */
 }

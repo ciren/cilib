@@ -1,18 +1,20 @@
 import scalaz._
 
 package object cilib {
-
   //type Step[/*F[_],*/A,B] = Kleisli[RVar,(Opt,Eval[A]),B]
 
   type Particle[S,/*F[_],*/A] = Entity[S,A]
 
   // Should expand into a typeclass? Getter?
-  type Guide[S,/*F[_],*/A] = (NonEmptyList[Particle[S,A]], Particle[S,A]) => Step[A,Position[A]]
+  type Guide[S,/*F[_],*/A] = (List[Particle[S,A]], Particle[S,A]) => Step[A,Position[A]]
 
-  type Selection[A] = (NonEmptyList[A], A) => Option[NonEmptyList[A]]
+  type Selection[A] = (List[A], A) => List[A]
 
-  type Iteration[/*F[_],*/A,B] = Kleisli[Step[A,?],B,B]
+// <<<<<<< HEAD
+//   type Iteration[/*F[_],*/A,B] = Kleisli[Step[A,?],B,B]
 
+// =======
+// >>>>>>> non-empty-interval
   def positive(d: Double): Maybe[Double @@ Tags.Positive] =
     if (d > 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty
