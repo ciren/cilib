@@ -16,7 +16,7 @@ import scalaz.syntax.state._
   `Step` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritm parts.
   */
-case class Step[F[_],A,B](run: Opt => Eval[F,A] => RVar[B]) {
+final case class Step[F[_],A,B] private (run: Opt => Eval[F,A] => RVar[B]) {
   def map[C](f: B => C): Step[F,A,C] =
     Step(o => e => run(o)(e).map(f))
 
@@ -34,6 +34,20 @@ object Step {
   def liftK[F[_],A,B](a: Reader[Opt, B]): Step[F,A,B] =
     Step(o => _ => RVar.point(a.run(o)))
 
+  def withOpt[F[_],A,B](f: Opt => RVar[B]): Step[F,A,B] =
+    Step(o => _ => f(o))
+
+  def evalF[F[_]:Foldable,A](pos: Position[F,A]): Step[F,A,Position[F,A]] =
+    Step { _ => e =>
+      RVar.point(pos match {
+        case Point(x) =>
+          val (fit, vio) = e.eval(x)
+          Solution(x, fit, vio)
+        case x @ Solution(_, _, _) =>
+          x
+      })
+    }
+
   implicit def stepMonad[F[_],A] = new Monad[Step[F,A,?]] {
     def point[B](a: => B) =
       Step.point(a)
@@ -44,7 +58,7 @@ object Step {
 }
 
 // Should the internal StateT not be hidden?
-final case class StepS[F[_],A,S,B](run: StateT[Step[F,A,?],S,B]) {
+final case class StepS[F[_],A,S,B] private (run: StateT[Step[F,A,?],S,B]) {
   def map[C](f: B => C): StepS[F,A,S,C] =
     StepS(run map f)
 

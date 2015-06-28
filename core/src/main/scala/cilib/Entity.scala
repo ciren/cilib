@@ -10,13 +10,9 @@ import spire.math._
 case class Entity[S,F[_],A](state: S, pos: Position[F,A])
 
 object Entity {
-
   // Step to evaluate the particle
   def eval[S,F[_]:Foldable,A](f: Position[F,A] => Position[F,A])(entity: Entity[S,F,A]): Step[F,A,Entity[S,F,A]] =
-    Step(o => e => {
-      val x = Position.evalF(f(entity.pos)).run(o)(e)
-      x.map(p => Lenses._position.set(p)(entity))
-    })
+    Step.evalF(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 }
 
 sealed abstract class Position[F[_],A] { // Transformer of some sort, over the type F?
@@ -60,14 +56,12 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
 
   def feasible: Option[Position[F,A]] =
     violations.map(_.isEmpty).getOrElse(false).option(this)
-
 }
 
 final case class Point[F[_],A] private[cilib] (x: F[A]) extends Position[F,A]
 final case class Solution[F[_],A] private[cilib] (x: F[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[F,A]
 
 object Position {
-
   implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] =
     new Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] {
       override def map[A, B](fa: Position[F, A])(f: A => B): Position[F, B] =
@@ -95,7 +89,6 @@ object Position {
 
     def *: (scalar: A)(implicit M: Module[F[A],A]): Position[F,A] =
       Point(M.timesl(scalar, x.pos))
-
   }
 
   implicit def positionFitness[F[_],A] = new Fitness[Position[F,A]] {
@@ -106,24 +99,13 @@ object Position {
   def apply[F[_]:SolutionRep,A](xs: F[A]): Position[F, A] =
     Point(xs)
 
-  def evalF[F[_]:Foldable,A](pos: Position[F,A]): Step[F,A,Position[F,A]] =
-    Step { _ => e =>
-      RVar.point(pos match {
-        case Point(x) =>
-          val (fit, vio) = e.eval(x)
-          Solution(x, fit, vio)
-        case x @ Solution(_, _, _) =>
-          x
-      })
-    }
+  def createPosition[A](domain: NonEmptyList[Interval[Double]])(implicit F: SolutionRep[List]) =
+    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (x => Position(x.list))
 
-  def createPosition[A](domain: List[Interval[Double]])(implicit F: SolutionRep[List]) =
-    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))
-
-  def createPositions(domain: List[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]) =
+  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]) =
     createPosition(domain) replicateM n
 
-  def createCollection[A](f: Position[List,Double] => A)(domain: List[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]): RVar[List[A]] =
+  def createCollection[A](f: Position[List,Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]): RVar[List[A]] =
     createPositions(domain,n).map(_.map(f))
 }
 
@@ -143,13 +125,13 @@ case class Open[A](value: A) extends Bound[A]
 
 final class Interval[A] private[cilib] (val lower: Bound[A], val upper: Bound[A]) {
 
-  def ^(n: Int): List[Interval[A]] =
-    (1 to n).map(_ => this).toList
+   // Intervals _definitely_ have at least 1 element, so invariant in the type
+  def ^(n: Int): NonEmptyList[Interval[A]] =
+    NonEmptyList.nel(this, (1 to n - 1).map(_ => this).toList)
 
 }
 
 object Interval {
   def apply[A](lower: Bound[A], upper: Bound[A]) =
     new Interval(lower, upper)
-
 }
