@@ -360,7 +360,7 @@ object Dist {
       unfold((126, ZIGNOR_V/f, ZIGNOR_R)) { (a: (Int,Double, Double)) => {
         val f = math.exp(-0.5 * a._3 * a._3)
         val v = math.sqrt(-2.0 * math.log(ZIGNOR_V / a._2 + f))
-        if (a._1 == 0) none else (v, (a._1-1, a._3, v)).some
+        if (a._1 == 0) none else (v, (a._1 - 1, a._3, v)).some
       }} :+ 0.0
 
     (blocks.toList, blocks.apzip(_.tail).map(a => a._1 / a._2).toList)
@@ -369,7 +369,7 @@ object Dist {
   def gaussian(mean: Double, dev: Double): RVar[Double] =
     for {
       u <- stdUniform.map(2.0 * _ - 1)
-      i <- next[Int].map(a => ((a & 0xffffffffl) % 127).toInt)
+      i <- next[Int].map(a => ((a & 0xffffffffL) % 127).toInt)
       r <- if (math.abs(u) < ratios(i)) RVar.point(u * blocks(i))
            else if (i == 0) DRandNormalTail(ZIGNOR_R, u < 0)
            else {

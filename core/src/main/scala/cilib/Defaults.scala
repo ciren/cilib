@@ -5,34 +5,36 @@ import scalaz._
 import PSO._
 import spire.algebra._
 import spire.implicits._
-import spire.syntax.module._
 
 object Defaults {
 
-  // The function below needs the guides for the particle, for the standard PSO update
-  // and will eventually live in the simulator
   def gbest[S/*,F[_]:Traverse*/](
+    //eval: Particle[S,Double] => Step[Double,Entity[S,Double]])(
     w: Double,
     c1: Double,
     c2: Double,
     cognitive: Guide[S,Double],
     social: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
       v       <- stdVelocity(x, soc, cog, w, c1, c2)
       p       <- stdPosition(x, v)
       p2      <- evalParticle(p)
+      //p2      <- eval(p)
       p3      <- updateVelocity(p2, v)
       updated <- updatePBest(p3)
     } yield updated
+
+  // def stdGBest[S](implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]) =
+  //   gbest[S](evalParticle) _
 
   def cognitive[S/*,F[_]:Traverse*/](
     w: Double,
     c1: Double,
     cognitive: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         cog     <- cognitive(collection, x)
@@ -48,7 +50,7 @@ object Defaults {
     w: Double,
     c1: Double,
     social: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         soc     <- social(collection, x)
@@ -72,7 +74,7 @@ object Defaults {
     c2: Double,
     cognitive: Guide[S,Double])(
     implicit M:Memory[S,Double], V:Velocity[S,Double],mod: Module[Position[Double],Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => StateT[Step[Double,?], GCParams, Particle[S,Double]] =
+  ): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => StateT[Step[Double,?], GCParams, Particle[S,Double]] =
     collection => x => {
       val S = StateT.stateTMonadState[GCParams, Step[Double,?]]
       val hoist = StateT.StateMonadTrans[GCParams]
@@ -108,7 +110,7 @@ object Defaults {
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
     rc: Double
-  )(implicit M:Memory[S,Double], V:Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M:Memory[S,Double], V:Velocity[S,Double], MO: Module[Position[Double],Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -120,5 +122,42 @@ object Defaults {
       updated <- updatePBest(p3)
     } yield updated
 
+
+import scalaz.syntax.applicative._
+
+  def quantumBehavedOriginal2004[S](
+    social: Guide[S,Double],
+    g: Double
+  )(implicit M:Memory[S,Double], V:Velocity[S,Double], MO: Module[Position[Double],Double]
+  ): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+    collection => x => for {
+      updated <- updatePBest(x)
+      nbest   <- social(collection, x)
+      y       <- quantumBehavedOriginal2004thing(x, nbest, g)
+      
+    } yield x.copy(pos = y)
+
+  def quantumBehavedOriginal2004thing[S](
+      entity: Particle[S,Double],
+      nbest: Position[Double],
+      g: Double
+    )(implicit M:Memory[S,Double], MO: Module[Position[Double],Double], F:Field[Double]): Step[Double,Position[Double]] =
+      Step.pointR(for {
+        c1 <- Dist.stdUniform.replicateM(entity.pos.pos.size).map(Position.hack) // RVar[List[Double]]
+        c2 <- Dist.stdUniform.replicateM(entity.pos.pos.size).map(Position.hack)
+        (p_i: Position[Double]) = M._memory.get(entity.state).zip(c1).map(x => x._1 * x._2)
+        p_g = nbest.zip(c2).map(x => x._1 * x._2)
+        p_tot = p_i + p_g
+        cs = c1 + c2
+        (p: Position[Double]) = p_tot.zip(cs).map(x => x._1 / x._2)
+        u <- Dist.stdUniform.replicateM(entity.pos.pos.size).map(Position.hack)
+        (l: Position[Double]) = (entity.pos - p).map(math.abs(_))
+        //L <- (1.0 / g) *: ((entity.pos - p).map(math.abs(_)))
+        choice <- Dist.stdUniform.replicateM(entity.pos.pos.size).map(_.map(_ > 0.5)).map(Position.hack)
+        lnu = u.map(x => math.log(1 / x))
+        (l2: Position[Double]) = l.zip(lnu).map(x => x._1 * x._2)
+        r = choice.zip(p.zip(l2)).map(b => if (b._1) b._2._1 - b._2._2 else b._2._1 + b._2._2) //((b, p, l) => if (b) p - l else p + l)
+      } yield r)
+      //newPart <- entity.copy(pos = r) // Positon lens
 
 }

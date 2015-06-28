@@ -53,12 +53,11 @@ object PSO {
     component: Position[Double],
     w: Double,
     c: Double
-  )(implicit V: Velocity[S,Double], M: Memory[S,Double], MO: Module[Position[Double],Double]): Step[Double,Position[Double]] = {
-    //val (state,pos) = entity
-    Step.pointR(for {
-      comp <- (component - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
-    } yield (w *: V._velocity.get(entity.state)) + (c *: comp))
-  }
+  )(implicit V: Velocity[S,Double], M: Memory[S,Double], MO: Module[Position[Double],Double]): Step[Double,Position[Double]] =
+    Step.pointR(
+      for {
+        comp <- (component - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
+      } yield (w *: V._velocity.get(entity.state)) + (c *: comp))
 
   final case class GCParams(p: Double, successes: Int, failures: Int, e_s: Double, e_f: Double)
 
@@ -87,7 +86,7 @@ object PSO {
     }
 
   def quantum[S/*,F[_]:Traverse*/](
-    collection: List[Particle[S,Double]],
+    collection: NonEmptyList[Particle[S,Double]],
     x: Particle[S,Double],
     center: Position[Double],
     r: Double
@@ -105,7 +104,7 @@ object PSO {
     )
 
   def acceleration[S/*,F[_]:Functor*/](
-    collection: List[Particle[S,Double]],
+    collection: NonEmptyList[Particle[S,Double]],
     x: Particle[S,Double],
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
@@ -116,6 +115,7 @@ object PSO {
 
     Step.point(
       collection
+        .list
         .filter(z => charge(z) > 0.0)
         .foldLeft(x.pos.zeroed) { (p1, p2) => {
           val d = distance(x.pos, p2.pos)
@@ -141,15 +141,57 @@ object Guide {
     (_, x) => Step.point(M._memory.get(x.state))
 
   def nbest[S/*,F[_]*/](selection: Selection[Particle[S,Double]])(implicit M: Memory[S,Double]): Guide[S,Double] = {
-    (collection, x) => new Step(Kleisli[RVar, (Opt,Eval[Double]), Position[Double]]((o: (Opt,Eval[Double])) => RVar.point {
-      selection(collection, x).map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Fitness.compare(a, c) run o._1).getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
-    }))
+    (collection, x) => Step { case (opt,e) => RVar.point {
+      val selected = selection(collection, x)
+      val fittest = selected.map(_.map(e => M._memory.get(e.state)).list.reduceLeft((a, c) => Fitness.compare(a, c) run (opt)))
+      fittest.getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
+    }}
   }
 
-  def gbest[S/*,F[_]*/](implicit M: Memory[S,Double]): Guide[S,Double] = nbest((c, _) => c)
-  def lbest[S/*,F[_]*/](n: Int)(implicit M: Memory[S,Double]) = nbest(Selection.indexNeighbours[Particle[S,Double]](n))
+  def gbest[S/*,F[_]*/](implicit M: Memory[S,Double]): Guide[S,Double] =
+    nbest((c, _) => Option(c))
+
+  def lbest[S/*,F[_]*/](n: Int)(implicit M: Memory[S,Double]) =
+    nbest(Selection.indexNeighbours[Particle[S,Double]](n))
+
+//  def vonNeumann[S](implicit M: Memory[S,Double]) =
+//    nbest(Selection.latticeNeighbours[Particle[S,Double]])
 
 }
+
+
+/*
+  public class VonNeumannNeighbourhood<E> extends Neighbourhood<E> {
+
+    private E find(List<E> list, int n, int r, int c) {
+        return list.index(r * n + c);
+    }
+
+    @Override
+    public List<E> f(final List<E> list, final E target) {
+        final int np = list.length();
+        final int index = Lists.newArrayList(list).indexOf(target);
+        final int sqSide = (int) Math.round(Math.sqrt(np));
+        final int nRows = (int) Math.ceil(np / (double) sqSide);
+        final int row = index / sqSide;
+        final int col = index % sqSide;
+
+        final F<Integer, Integer> colsInRow = new F<Integer, Integer>() {
+            @Override
+            public Integer f(Integer r) {
+                return r == nRows - 1 ? np - r * sqSide : sqSide;
+            }
+        };
+
+        final E north = find(list, sqSide, (row - 1 + nRows) % nRows - ((col >= colsInRow.f((row - 1 + nRows) % nRows)) ? 1 : 0), col);
+        final E south = find(list, sqSide, ((col >= colsInRow.f((row + 1) % nRows)) ? 0 : (row + 1) % nRows), col);
+        final E east = find(list, sqSide, row, (col + 1) % colsInRow.f(row));
+        final E west = find(list, sqSide, row, (col - 1 + colsInRow.f(row)) % colsInRow.f(row));
+
+        return List.list(target, north, east, south, west);
+    }
+}
+ */
 
 
 /*

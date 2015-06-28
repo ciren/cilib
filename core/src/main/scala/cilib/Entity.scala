@@ -13,10 +13,10 @@ object Entity {
 
   // Step to evaluate the particle
   def eval[S,/*F[_]:Foldable,*/A](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
-    Step { (e: (Opt, Eval[A])) => {
-      val x = Position.evalF(f(entity.pos)).run(e)
+    Step { case (opt, e) => //(e: (Opt, Eval[A])) => {
+      val x = Position.evalF(f(entity.pos)).run(opt, e)
       x.map(p => Lenses._position.set(p)(entity))
-    }}
+    }
 
 }
 
@@ -70,13 +70,15 @@ sealed abstract class Position[A] {
 
 }
 
-final case class Point[/*F[_],*/A] private[cilib] (x: NonEmptyList[A]) extends Position[A]
-final case class Solution[/*F[_],*/A] private[cilib] (x: NonEmptyList[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[A]
+//final case class NonEmptyVector[A](head: A, rest: Vector[A])
+
+final case class Point[A] private[cilib] (x: NonEmptyList[A]) extends Position[A]
+final case class Solution[A] private[cilib] (x: NonEmptyList[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[A]
 
 object Position {
 
-  implicit def positionInstances: Bind[Position] with Traverse1[Position] =
-    new Bind[Position] with Traverse1[Position] {
+  implicit def positionInstances: Bind[Position] with Traverse1[Position] with Align[Position] =
+    new Bind[Position] with Traverse1[Position] with Align[Position] {
       override def map[A, B](fa: Position[A])(f: A => B): Position[B] =
         fa map f
 
@@ -88,6 +90,10 @@ object Position {
 
       override def foldMapRight1[A, B](fa: cilib.Position[A])(z: A => B)(f: (A, => B) => B): B =
         fa.pos.foldMapRight1(z)(f)
+
+      def alignWith[A, B, C](f: A \&/ B => C) =
+        (a, b) => Point(a.pos.alignWith(b.pos)(f))
+
     }
 
   implicit class PositionVectorOps[/*F[_],*/A](val x: Position[/*F,*/A]) extends AnyVal {
@@ -117,24 +123,33 @@ object Position {
     Point(xs)
   }
 
-  def evalF[/*F[_]:Foldable,*/A](pos: Position[A]) =
-    Step { (e: (Opt, Eval[A])) =>
+  def hack[A](xs: List[A]): Position[A] =
+    Point(xs match {
+      case x :: xs => NonEmptyList.nel(x, xs)
+      case _ => sys.error("this sucks")
+    })
+
+  def evalF[/*F[_]:Foldable,*/A](pos: Position[A]): Step[A,Position[A]] =
+    Step { case (opt, e) =>
       RVar.point(pos match {
-        case Point(x) =>
-          val (fit, vio) = e._2.eval(x)
-          Solution(x, fit, vio)
+        case x @ Point(_) =>
+          val (fit, vio) = e.eval(x)
+          Solution(x.pos, fit, vio)
         case x @ Solution(_, _, _) =>
           x
       })
     }
 
-  def createPosition(domain: NonEmptyList[Interval[Double]]) =
+  def createPosition(domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
     domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (Position(_))
 
-  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int) =
-    createPosition(domain) replicateM n
+  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int): RVar[NonEmptyList[Position[Double]]] =
+    for {
+      head <- createPosition(domain)
+      rest <- createPosition(domain).replicateM(n - 1)
+    } yield NonEmptyList.nel(head, rest)
 
-  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int): RVar[List[A]] =
+  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int): RVar[NonEmptyList[A]] =
     createPositions(domain, n).map(_ map f)
 
 }

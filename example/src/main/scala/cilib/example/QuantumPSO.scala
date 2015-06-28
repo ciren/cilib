@@ -1,18 +1,20 @@
 package cilib
 package example
 
+import scalaz.NonEmptyList
 import scalaz.effect._
 import scalaz.effect.IO._
+import scalaz.std.list._
+import scalaz.syntax.apply._
+import scalaz.syntax.traverse._
 
-object QunatumPSO extends SafeApp {
-  import scalaz.std.list._
+import monocle._
+import spire.algebra._
+import spire.implicits._
+
+object QuantumPSO extends SafeApp {
   import PSO._
-
-  import monocle._
-  import spire.algebra._
-  import spire.implicits._
-
-  import scalaz.Traverse
+  import Lenses._
 
   case class QuantumState(b: Position[Double], v: Position[Double], charge: Double)
 
@@ -27,40 +29,50 @@ object QunatumPSO extends SafeApp {
     }
   }
 
-  def quantumPSO[S/*,F[_]:Traverse*/](
+  def quantumPSO[S](
     w: Double,
     c1: Double,
     c2: Double,
     cognitive: Guide[S,Double],
-    social: Guide[S,Double])(
+    social: Guide[S,Double],
+    cloudR: RVar[Double])(
     implicit C: Charge[S], V: Velocity[S,Double], M: Memory[S,Double], mod: Module[Position[Double],Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  ): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
-        cog    <- cognitive(collection, x)
-        soc    <- social(collection, x)
-        v      <- stdVelocity(x, soc, cog, w, c1, c2)
-        p      <- if (C._charge.get(x.state) < 0.01) stdPosition(x, v)
-                  else quantum(collection, x, soc, 20.0).flatMap(replace(x, _))
+        cog     <- cognitive(collection, x)
+        soc     <- social(collection, x)
+        v       <- stdVelocity(x, soc, cog, w, c1, c2)
+        r       <- Step.pointR(cloudR)
+        p       <- if (C._charge.get(x.state) < 0.01) stdPosition(x, v)
+                   else quantum(collection, x, soc, r).flatMap(replace(x, _))
         p2      <- evalParticle(p)
         p3      <- updateVelocity(p2, v)
         updated <- updatePBest(p3)
       } yield updated
     }
 
+  def penalize[S](opt: Opt) = (e: Particle[S,Double]) => {
+    val magnitude = e.pos.violations.map(x => Constraint.violationMagnitude(5.0, 5.0, x, e.pos.pos.toList))
 
-  val interval = Interval(closed(0.0),closed(100.0))^2
-  val r = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
-
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(QuantumState(x, x.zeroed, 0.0), x)))(interval, 40)
-  val pop = Step.pointR[Double,List[Particle[QuantumState,Double]]](swarm)
-
-  // 20% of the swarm are charged particles
-  val pop2 = pop.map(coll => coll.take(8).map(x => x.copy(state = x.state.copy(charge = 0.05))) ++ coll.drop(8))
+    (magnitude |@| e.pos.fit) { (mag, fit) => {
+      //println("mag: " + mag)
+      fit match {
+        case Penalty(_, _) => sys.error("??? How?")
+        case Valid(v) =>
+          (_position[S,Double] composeOptional _fitness).modify((x: Fit) =>
+            if (mag > 0.0) Penalty(opt match {
+              case Min => v + mag
+              case Max => v - mag
+            }, mag) else x
+          )(e)
+      }
+    }}.getOrElse(e)
+  }
 
   // constraints
   val centerEllipse = List(
-    GreaterThan(ConstraintFunction((l: List[Double]) => math.pow((l(0) - 50.0) / 45.0, 2) + math.pow((l(1) - 50.0) / 20.0, 2)), 1.0) // ellipse in center of search space
+    GreaterThanEqual(ConstraintFunction((l: List[Double]) => math.pow((l(0) - 50.0) / 45.0, 2) + math.pow((l(1) - 50.0) / 20.0, 2)), 1.0) // ellipse in center of search space
   )
   val disjointCircles = List(
     GreaterThan(ConstraintFunction((l: List[Double]) => {
@@ -87,80 +99,87 @@ object QunatumPSO extends SafeApp {
   val combined1 = centerEllipse ++ linear
   val combined2 = disjointCircles ++ linear
 
-  import scalaz.std.list._
-/*
-  val initialProb = // : RVar[(Problems.PeakState, Eval[List,Double])] =
-    Problems.initPeaks[List](15, interval, 30.0, 70.0, 10.0, 20.0).
-      map(x => (x._1, x._2.constrainBy(centerEllipse)))
 
-  // This is not a runner of sorts?
-  // Need to track both the problem and the current collection
-  def experiment(rng: RNG) = (Range(0, 1000).toStream.foldLeft((rng, initialProb, pop2, List.empty[Problems.Peak]))((a, c) => {
-    val (rng, prob, pop, _) = a
-    val (rng2, (ps, eval)) = prob.run(rng)
+  val domain = Interval(closed(0.0),closed(100.0))^5
+  val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, RVar.point(20.0)))
+  val qpsoDist = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, Dist.cauchy(0.0, 10.0)))
 
-    //println("peaks: " + ps.peaks)
+  def swarm = Position.createCollection(
+    PSO.createParticle(x => Entity(QuantumState(x, x.zeroed, 0.0), x)))(domain, 40)
 
-    val w = pop flatMap r.run
-    val x = w.run((Max,eval))
-    val (rng3, nextPop) = x.run(rng2)
+  // 20% of the swarm are charged particles
+  def pop: RVar[List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
+    swarm.map(coll => coll.list.take(8).map(x => x.copy(state = x.state.copy(charge = 0.05))) ++ coll.list.drop(8))
 
-    val next = nextPop.map(penalize(Max))
-    println(next)
+  def initialPeaks(s: Double): RVar[List[Problems.PeakCone]] =
+    (1 to 15).toList.traverse(_ => Problems.defaultPeak(domain, s))
 
-    val nextProb = prob
-    //if (c % 101 == 0) Problems.modifyPeaks[List]/*.map(_.constrainBy(constraints))*/.run(ps)
-    //else prob
+  def iteration(
+    swarm: List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]
+  ): Step[Double,List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
+    import scalaz.syntax.std.list._
+    import scalaz.syntax.std.option._
 
-    (rng3, nextProb, Step.point(next), ps.peaks)
-  }))
- */
-  // Run the experiment 30 times
-  /*Range(0, 1).foreach(x => println({
-   val (rng, nextP, pop, peaks) = experiment(RNG.init(x.toLong))
-
-   //pop.run((Max,null)).run(null)._2//.map(_.p)
-
-   peaks.map(x => x.pos.mkString(/*"[",*/ "\t"/*, "]"*/ /*+ "\t" + x.width + "," + x.height*/)).mkString("\n") + "\n\n" +
-   pop.run((Max, null)).run(null)._2.map(_.pos).map(x => x.pos.mkString("\t") /*+ "\t" + x.fit*/).mkString("\n")
-   }))*/
-
-  import scalaz.Foldable
-  import scalaz.syntax.apply._
-  import scalaz.syntax.foldable._
-
-  import Lenses._
-
-  def penalize[S/*,F[_]:Foldable*/](opt: Opt) = (e: Particle[S,Double]) => {
-    val magnitude = e.pos.violations.map(x => Constraint.violationMagnitude(3.0, 5.0, x, e.pos.pos.toList))
-
-    (magnitude |@| e.pos.fit) { (mag, fit) => {
-      //println("mag: " + mag)
-      fit match {
-        case Penalty(_, _) => sys.error("??? How?")
-        case Valid(v) =>
-          (_position[S,Double] composeOptional _fitness).modify((x: Fit) =>
-            if (mag > 0.0) Penalty(opt match {
-              case Min => v + mag
-              case Max => v - mag
-            }, mag) else x
-          )(e)
-      }
-    }}.getOrElse(e)
+    swarm.toNel.cata(nel => qpso.run(nel).map(_.map(penalize(Max)).list), Step.point(List.empty))
   }
 
-  override val runc: IO[Unit] =
-    for {
-      rng <- IO(RNG.fromTime)
-  //    e   <- IO {
-    //    val a = experiment(rng)
+  import scalaz.StateT
+  def mpb(heightSeverity: Double, widthSeverity: Double): StateT[RVar, (List[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
+    StateT { case (peaks, pop) => {
+      val newPeaks: RVar[List[Problems.PeakCone]] = peaks.traverse(_.update(heightSeverity, widthSeverity))
+      newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrainBy(centerEllipse)))
+    }}
 
-//        a._3.run((Max, ))
-//        ._3.run((Max,a._2))
-     // }
-//      _   <- putStrLn({
-//        e._3.run(e._1).toString
-//      })
-    } yield ()
+  def run2(eval: Eval[Double]): StateT[RVar, (List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
+    StateT { case (peaks, pop) => { println("running"); iteration(pop).run(Max, eval).map(r => ((peaks, r), r))} }
+
+  import scalaz.syntax.applicative._
+  def staticE(n: Int) = mpb(0.0, 0.0).flatMap(e => run2(e).replicateM(n))
+  def progressiveE(n: Int) = mpb(1.0, 0.05).flatMap(run2).replicateM(n)
+  def abruptE(n: Int) = mpb(10.0, 0.05).flatMap(e => run2(e).replicateM(200)).replicateM(n / 200)
+  def chaosE(n: Int) = mpb(10.0, 0.05).flatMap(run2).replicateM(n)
+
+  def static(n: Int): RVar[(List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]])] =
+    for {
+      peaks <- initialPeaks(0.0)
+      swarm <- pop
+      e <- staticE(n).exec((peaks, swarm))
+    } yield e
+
+  def progressive(n: Int) =
+    for {
+      peaks <- initialPeaks(1.0)
+      swarm <- pop
+      e <- progressiveE(n).exec((peaks, swarm))
+    } yield e
+
+  def abrupt(n: Int) =
+    for {
+      peaks <- initialPeaks(50.0)
+      swarm <- pop
+      e <- abruptE(n).exec((peaks, swarm))
+    } yield e
+
+  def chaos(n: Int) =
+    for {
+      peaks <- initialPeaks(50.0)
+      swarm <- pop
+      e <- chaosE(n).exec((peaks, swarm))
+    } yield e
+
+  override val runc: IO[Unit] = {
+    val x = for {
+      rng <- IO(RNG.fromTime)
+      r <- IO(static(1000).run(rng))
+      peaks <- IO(r._2._1.map(_.location.pos.list.mkString("(", ",", ")")).mkString("", "", "|"))
+      positions <- IO(r._2._2.map(_.pos.pos.list.mkString("(", ",", ")")).mkString("", "", "|"))
+      meanFit <- IO(r._2._2.traverse(_.pos.fit).cata(l => l.map(_.fold(
+        penalty = _.v, valid = _.v
+      )).suml / l.length, 0.0).toString)
+    } yield meanFit//(peaks,positions,meanFit)
+
+    //    x.replicateM(30).flatMap(a => putStrLn(a.map(x => x._1.toString + x._2.toString + x._3.toString).mkString("\n")))
+    x.replicateM(30).flatMap(a => putStrLn(a.map(x => x.toString).mkString("List(",",\n",")")))
+  }
 
 }

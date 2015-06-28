@@ -2,16 +2,16 @@ import scalaz._
 
 package object cilib {
 
-  type Step[/*F[_],*/A,B] = Kleisli[RVar,(Opt,Eval[A]),B]
+  //type Step[/*F[_],*/A,B] = Kleisli[RVar,(Opt,Eval[A]),B]
 
   type Particle[S,/*F[_],*/A] = Entity[S,A]
 
   // Should expand into a typeclass? Getter?
-  type Guide[S,/*F[_],*/A] = (List[Particle[S,A]], Particle[S,A]) => Step[A,Position[A]]
+  type Guide[S,/*F[_],*/A] = (NonEmptyList[Particle[S,A]], Particle[S,A]) => Step[A,Position[A]]
 
-  type Selection[A] = (List[A], A) => List[A]
+  type Selection[A] = (NonEmptyList[A], A) => Option[NonEmptyList[A]]
 
-  type Y[A] = ReaderT[RVar, Opt, A]
+  type Iteration[/*F[_],*/A,B] = Kleisli[Step[A,?],B,B]
 
   def positive(d: Double): Maybe[Double @@ Tags.Positive] =
     if (d > 0.0) Tag.subst(Maybe.just(d))
@@ -37,8 +37,8 @@ package object cilib {
   }
 
   import spire.algebra._
-  implicit def NonEmptyListModule(implicit sc: Ring[Double]) =
-    new Module[Position[Double],Double] {
+  implicit def PositionModule(implicit sc: Field[Double]) =
+    new NormedVectorSpace[Position[Double],Double] {
       implicit def scalar = sc
       def negate(x: Position[Double]) =
         x.map(scalar.negate)
@@ -49,9 +49,18 @@ package object cilib {
       def timesl(r: Double, v: Position[Double]): Position[Double] =
         v map (scalar.times(r, _))
 
-      def plus(x: Position[Double], y: Position[Double]) =
-        x.zip(y).map(a => scalar.plus(a._1, a._2))
+      def plus(x: Position[Double], y: Position[Double]) = {
+        import scalaz.syntax.align._
+        x.align(y).map(_.fold(
+          s = x => x,
+          t = x => x,
+          q = scalar.plus(_, _)
+        ))
+      }
+
+      // This is hardcoded to be the Euclidean norm. Can we make this generic?
+      def norm(x: Position[Double]): Double =
+        math.sqrt(x.foldMap1(y => y*y))
 
     }
-
 }

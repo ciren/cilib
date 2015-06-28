@@ -8,9 +8,9 @@ import sbtrelease.Utilities._
 import sbtunidoc.Plugin.UnidocKeys._
 import com.typesafe.sbt.SbtSite.SiteKeys._
 
-val scalazVersion = "7.1.0"
-val spireVersion = "0.9.0"
-val monocleVersion = "1.1.1"
+val scalazVersion     = "7.1.0"
+val spireVersion      = "0.9.0"
+val monocleVersion    = "1.1.1"
 val scalacheckVersion = "1.11.4"
 
 lazy val buildSettings = Seq(
@@ -26,11 +26,12 @@ lazy val commonSettings = Seq(
     "-feature",
     "-language:existentials",
     "-language:higherKinds",
-    "-language:implicitConversions",
+    //"-language:implicitConversions",
     "-language:experimental.macros",
     "-unchecked",
     "-Xfatal-warnings",
     "-Xlint",
+    //"-Xlog-implicits",
     "-Yno-adapted-args",
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
@@ -195,8 +196,8 @@ lazy val example = project.dependsOn(core)
   .settings(noPublishSettings)
   .settings(Seq(
     libraryDependencies ++= Seq(
-      "org.scalaz"                  %% "scalaz-core"   % scalazVersion,
-      "org.scalaz"                  %% "scalaz-effect" % scalazVersion
+      "org.scalaz" %% "scalaz-core"   % scalazVersion,
+      "org.scalaz" %% "scalaz-effect" % scalazVersion
     )
    ))
 

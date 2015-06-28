@@ -2,9 +2,11 @@ package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _, _ }
 import scalaz.syntax.traverse._
+import scalaz.syntax.foldable1._
 import scalaz.syntax.apply._
 import scalaz.std.list._
 import spire.math._
+import spire.algebra._
 import spire.implicits._
 
 import scalaz.NonEmptyList
@@ -25,8 +27,8 @@ import scalaz.NonEmptyList
 object Problems {
   import scalaz.Foldable1
 
-  def spherical[/*F[_]:Foldable1,*/A](implicit N: Numeric[A]) =
-    new Unconstrained[A]((a: NonEmptyList[A]) => Valid(a.foldMap(x => N.toDouble(N.times(x, x)))))
+  def spherical[A](implicit N: Numeric[A]) =
+    Unconstrained[A]((a: Position[A]) => Valid(a.foldMap1(x => N.toDouble(N.times(x, x)))))
 
   /*case class Peak(pos: List[Double], width: Double, height: Double, movementDirection: List[Double], shiftVector: List[Double])
   case class PeakState(peaks: List[Peak], interval: List[Interval[Double]],
@@ -96,9 +98,55 @@ object Problems {
       Valid(r.maximum.getOrElse(-1.0))
    })*/
 
-  import spire.algebra._
-  import spire.implicits._
+  case class PeakCone(domain: NonEmptyList[Interval[Double]], s: Double, height: Double, width: Double, location: Position[Double], shift: Position[Double]) {
 
-  def peakCone(x: Position[Double], height: Double, width: Double, location: Position[Double])(implicit M: Module[Position[Double],Double]) =
-    (height - width) * math.sqrt((location - x).foldLeft(0.0)(_ + _))
+    def apply(x: Position[Double])(implicit M: Module[Position[Double],Double]) =
+      (height - width) * math.sqrt((location - x).foldMap1(a => a*a))
+
+    def update(heightSeverity: Double, widthSeverity: Double): RVar[PeakCone] = {
+      val newS = newShift(shift, s, 1.0, domain)
+      val newLoc = newS.map(_ + location)
+      val h = severityUpdate(height, heightSeverity)
+      val w = severityUpdate(width, widthSeverity)
+
+      (newLoc |@| h |@| w |@| newS) { (l, h, w, shift) => PeakCone(domain, s, h, w, l, shift) }
+    }
+
+  }
+
+  def initPeak(domain: NonEmptyList[Interval[Double]], s: Double, minHeight: Double, maxHeight: Double, minWidth: Double, maxWidth: Double): RVar[PeakCone] = {
+    val height = Dist.uniform(minHeight, maxHeight)
+    val width  = Dist.uniform(minWidth, maxWidth)
+    val loc    = Position.createPosition(domain)
+
+    (height |@| width |@| loc) { (h, w, l) => PeakCone(domain, s, h, w, l, l.map(_ => 1.0)) }
+  }
+
+  def defaultPeak(domain: NonEmptyList[Interval[Double]], s: Double) =
+    initPeak(domain, s, 7.0, 30.0, 1.0, 12.0)
+
+  def severityUpdate(old: Double, severity: Double): RVar[Double] =
+    Dist.stdNormal.map(s => old + severity*s)
+
+  def newShift(old: Position[Double], s: Double, lambda: Double, domain: NonEmptyList[Interval[Double]])(implicit S: NormedVectorSpace[Position[Double],Double]): RVar[Position[Double]] = {
+    val p_r = Position.createPosition(domain)
+    p_r.map(p => {
+      val d = old + p
+      val t = ((1.0 - lambda) *: p) + (lambda *: old)
+      (s / d.norm) *: t
+    })
+  }
+
+  def peakEval(peaks: List[PeakCone]): Eval[Double] =
+    Unconstrained[Double]((a: Position[Double]) => {
+      import scalaz.syntax.foldable._
+      import scalaz.std.anyVal._
+      val r = peaks.map(x => {
+        //val h = (a - x.location.pos).foldLeft(0.0)((acc,y) => acc + y*y)
+        val h = x(a)
+        val w = 1 + (h * x.width)
+        x.height / w
+      })
+      Valid(r.maximum.getOrElse(-1.0))
+   })
 }

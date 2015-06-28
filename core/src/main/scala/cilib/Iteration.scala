@@ -1,7 +1,9 @@
 package cilib
 
 import scalaz._
+import scalaz.syntax.comonad._
 import scalaz.syntax.traverse._
+import scalaz.syntax.std.list._
 import scalaz.std.list._
 
 /**
@@ -13,24 +15,21 @@ import scalaz.std.list._
  *
  * The `Algorithm` passed to an `Iteration` scheme has the shape:
  * {{{
- *    List[A] => A => Step[List[A]]
+ *    NonEmptyList[B] => B => Step[A,NonEmptyList[B]]
  * }}}
  *
- * NB: Should consider trying to define this based on the Free monad
+ * NB: Should consider trying to define this based on the Free monad?
  */
 object Iteration {
 
-  type Iteration[/*F[_],*/A,B] = Kleisli[Step[A,?],B,B]
-
   // iterations have the shape: [a] -> a -> Step [a]
-  def sync[/*F[_]:Traverse,*/A,B](f: List[B] => B => Step[A,B]): Iteration[A,List[B]] =
-    Kleisli.kleisli[Step[A,?],List[B],List[B]]((l: List[B]) => l traverseU f(l))
+  def sync[/*F[_]:Traverse,*/A,B](f: NonEmptyList[B] => B => Step[A,B]): Iteration[A,NonEmptyList[B]] =
+    Kleisli.kleisli[Step[A,?],NonEmptyList[B],NonEmptyList[B]]((l: NonEmptyList[B]) => l traverseU f(l))
 
-  // This needs to be profiled. The drop is _very_ expensive - perhaps a zipper is better
-  def async[/*F[_],*/A,B](f: List[B] => B => Step[A,B]) =
-    Kleisli.kleisli[Step[A,?],List[B],List[B]]((l: List[B]) =>
-      l.foldLeftM[Step[A,?], List[B]](List.empty[B]) {
-        (a, c) => f(a ++ l.drop(a.length)).apply(c).map(a :+ _)
-      })
-
+  def async[/*F[_],*/A,B](f: NonEmptyList[B] => B => Step[A,B]): Iteration[A,NonEmptyList[B]] =
+    Kleisli.kleisli[Step[A,?],NonEmptyList[B],NonEmptyList[B]]((l: NonEmptyList[B]) => {
+      l.tails.foldLeftM[Step[A,?], List[B]](List.empty[B]) {
+        (a, c) => f(a <::: c).apply(c.copoint).map(a :+ _)
+      }.map(_.toNel.getOrElse(sys.error("Not sure how to handle this... suggestions?")))
+    })
 }

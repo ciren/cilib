@@ -56,11 +56,11 @@ object Constraint {
       case GreaterThan(f, v) =>
         val v2 = f(cs)
         if (v2 > v) 0.0
-        else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
+        else math.pow(math.abs(v2.toDouble + v.toDouble), beta) + eta
       case GreaterThanEqual(f, v) =>
         val v2 = f(cs)
         if (v2 >= v) 0.0
-        else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
+        else math.pow(math.abs(v2.toDouble + v.toDouble), beta) + eta
     }).sum
   }
 
