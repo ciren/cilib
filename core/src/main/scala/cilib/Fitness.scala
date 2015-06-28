@@ -7,7 +7,13 @@ import Ordering._
 import scalaz.std.anyVal._
 import scalaz.syntax.equal._
 
-sealed trait Fit
+sealed trait Fit {
+  def fold[Z](penalty: Penalty => Z, valid: Valid => Z): Z =
+    this match {
+      case p @ Penalty(_,_) => penalty(p)
+      case v @ Valid(_) => valid(v)
+    }
+}
 final case class Penalty(v: Double, p: Double) extends Fit
 final case class Valid(v: Double) extends Fit
 //final object Invalid extends Fit
