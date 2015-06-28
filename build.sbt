@@ -8,15 +8,15 @@ import sbtrelease.Utilities._
 import sbtunidoc.Plugin.UnidocKeys._
 import com.typesafe.sbt.SbtSite.SiteKeys._
 
-val scalazVersion = "7.1.0"
-val spireVersion = "0.9.0"
-val monocleVersion = "1.1.1"
+val scalazVersion     = "7.1.2"
+val spireVersion      = "0.9.0"
+val monocleVersion    = "1.1.1"
 val scalacheckVersion = "1.11.4"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib",
-  scalaVersion := "2.11.6",
-  crossScalaVersions := Seq("2.11.6")
+  scalaVersion := "2.11.7"
+  //crossScalaVersions := Seq("2.11.7")
 )
 
 lazy val commonSettings = Seq(
@@ -42,7 +42,7 @@ lazy val commonSettings = Seq(
     "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
-    compilerPlugin("org.spire-math" %% "kind-projector" % "0.5.4")
+    compilerPlugin("org.spire-math" %% "kind-projector" % "0.6.0")
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "git@github.com:cirg-up/cilib.git"))
