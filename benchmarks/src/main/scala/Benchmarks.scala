@@ -3,7 +3,7 @@ package benchmarks
 
 import _root_.scala.Predef.{any2stringadd => _, _}
 
-import scalaz.{Functor,Foldable,Foldable1,Applicative,Monoid,NonEmptyList,Id,OneAnd}
+import scalaz.{Foldable,Foldable1,Functor,Monoid,NonEmptyList}
 import scalaz.syntax.apply._
 import scalaz.syntax.foldable1._
 import scalaz.std.list._
@@ -11,50 +11,44 @@ import scalaz.std.option._
 import scalaz.syntax.std.option._
 
 import spire.math._
-import spire.algebra.{Monoid => _, _}
+import spire.algebra.{Field,IsReal,Order,NRoot,Ring,Signed,Trig}
 import spire.implicits._
+
+import Sized._
 
 object Benchmarks {
 
-  type Sized1[A] = Id.Id[A]
-  type Sized2[A] = (A, A)
-  type Sized3[A] = (A, A, A)
-  type Sized4[A] = (A, A, A, A)
-  type Sized5[A] = (A, A, A, A, A)
-  type Sized6[A] = (A, A, A, A, A, A)
+  implicit class RangeOps[A: Monoid](x: Range) {
+    def sumr(f: Int => A) = x.toList.foldMap(f)
+  }
+  implicit class ListOps[A,B](x: List[A]) {
+    def suml(f: A => B)(implicit ev: Monoid[B]): B = x.foldMap(f)
+    def productl(f: A => B)(implicit ev: Field[B]): B = x.foldLeft(ev.one)((b: B, a: A) => b * f(a))
+  }
+  implicit class FoldableOps[F[_]: Foldable, A, B](x: F[A]) {
+    def sum(f: A => B)(implicit ev: Monoid[B]): B = x.foldMap(f)
+    def product(f: A => B)(implicit ev: Field[B]): B = x.foldLeft(ev.one)((b: B, a: A) => b * f(a))
+  }
 
-  type Sized1And[F[_], A] = OneAnd[F, A]
-  final case class Sized2And[F[_], A](a: A, b: A, rest: F[A])
-
-  def toSized1[F[_]: Foldable, A](x: F[A]): Option[Sized1[A]] = x.index(0)
-
-  def toSized2[F[_]: Foldable, A](x: F[A]): Option[Sized2[A]] =
-    (x.index(0) |@| x.index(1)) { (_, _) }
-
-  def toSized3[F[_]: Foldable, A](x: F[A]): Option[Sized3[A]] =
-    (x.index(0) |@| x.index(1) |@| x.index(2)) { (_, _, _) }
-
-  def toSized4[F[_]: Foldable, A](x: F[A]): Option[Sized4[A]] =
-    (x.index(0) |@| x.index(1) |@| x.index(2) |@| x.index(3)) { (_, _, _, _) }
-
-  def toSized5[F[_]: Foldable, A](x: F[A]): Option[Sized5[A]] =
-    (x.index(0) |@| x.index(1) |@| x.index(2) |@| x.index(3) |@| x.index(4)) { (_, _, _, _, _) }
-
-  def toSized6[F[_]: Foldable, A](x: F[A]): Option[Sized6[A]] =
-    (x.index(0) |@| x.index(1) |@| x.index(2) |@| x.index(3) |@| x.index(4) |@| x.index(5)) {
-      (_, _, _, _, _, _)
-    }
-
-  // Functions
   def absoluteValue[F[_]: Foldable1, A: Signed: Monoid](x: F[A]) =
-    x.foldMap(abs(_))
+    x.sum(abs(_))
 
   def ackley[F[_]: Foldable1, A: Field : IsReal : NRoot : Trig : Monoid](x: F[A]) = {
     val n = x.length
-    val sumcos = x.foldMap(x => cos(2 * pi * x))
-    val sumsqr = x.foldMap(_ ** 2)
+    val sumcos = x.sum(xi => cos(2 * pi * xi))
+    val sumsqr = x.sum(_ ** 2)
 
     -20 * exp(-0.2 * sqrt(sumsqr / n)) - exp(sumcos / n) + 20 + e
+  }
+
+  def ackley2[A: Field : NRoot : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    -200 * exp(-0.02 * sqrt((x1 ** 2) + (x2 ** 2)))
+  }
+
+  def ackley3[A: Field : NRoot : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    ackley2(x) + 5 * exp(cos(3 * x1) + sin(3 * x2))
   }
 
   def adjiman[A: Field : Trig](x: Sized2[A]) = {
@@ -63,12 +57,15 @@ object Benchmarks {
   }
 
   def alpine1[F[_]: Foldable1, A: Field : Signed : Trig : Monoid](x: F[A]) =
-    x.foldMap(xi => abs((xi * sin(xi)) + (0.1 * xi)))
+    x.sum(xi => abs((xi * sin(xi)) + (0.1 * xi)))
 
-  def arithmeticMean[F[_]: Foldable1, A: NRoot : Monoid](x: F[A])(implicit A: Field[A]) = {
+  def alpine2[F[_]: Foldable1, A: Field : NRoot : Trig](x: F[A]) =
+    x.product(xi => sqrt(xi) * sin(xi))
+
+  def arithmeticMean[F[_]: Foldable1, A: Field : NRoot : Monoid](x: F[A]) = {
     val n = x.length
     val avg = x.fold / n
-    val rootProd = x.foldLeft(A.one)(_ * _) ** (1.0 / n)
+    val rootProd = x.product(xi => xi) ** (1.0 / n)
 
     (avg - rootProd) ** 2
   }
@@ -87,45 +84,45 @@ object Benchmarks {
 
   def biggsEXP2[A: Field : Trig : Monoid](x: Sized2[A]) = {
     val (x1, x2) = x
-    (1 to 10).toList.foldMap { i =>
+    (1 to 10).sumr { i =>
       val ti = 0.1 * i
-      val yi = exp(-ti) - 5.0 * exp(-10 * ti)
-      (exp(-ti * x1) - 5.0 * exp(-ti * x2) - yi) ** 2
+      val yi = exp(-ti) - 5 * exp(-10 * ti)
+      (exp(-ti * x1) - 5 * exp(-ti * x2) - yi) ** 2
     }
   }
 
   def biggsEXP3[A: Field : Trig : Monoid](x: Sized3[A]) = {
     val (x1, x2, x3) = x
-    (1 to 10).toList.foldMap { i =>
+    (1 to 10).sumr { i =>
       val ti = 0.1 * i
-      val yi = exp(-ti) - 5.0 * exp(-10 * ti)
+      val yi = exp(-ti) - 5 * exp(-10 * ti)
       (exp(-ti * x1) - x3 * exp(-ti * x2) - yi) ** 2
     }
   }
 
   def biggsEXP4[A: Field : Trig : Monoid](x: Sized4[A]) = {
     val (x1, x2, x3, x4) = x
-    (1 to 10).toList.foldMap { i =>
+    (1 to 10).sumr { i =>
       val ti = 0.1 * i
-      val yi = exp(-ti) - 5.0 * exp(-10 * ti)
+      val yi = exp(-ti) - 5 * exp(-10 * ti)
       (x3 * exp(-ti * x1) - x4 * exp(-ti * x2) - yi) ** 2
     }
   }
 
   def biggsEXP5[A: Field : Trig : Monoid](x: Sized5[A]) = {
     val (x1, x2, x3, x4, x5) = x
-    (1 to 11).toList.foldMap { i =>
+    (1 to 11).sumr { i =>
       val ti = 0.1 * i
-      val yi = exp(-ti) - 5.0 * exp(-10 * ti) + 3.0 * exp(-4.0 * ti)
-      (x3 * exp(-ti * x1) - x4 * exp(-ti * x2) + 3.0 * exp(-ti * x5) - yi) ** 2
+      val yi = exp(-ti) - 5 * exp(-10 * ti) + 3 * exp(-4 * ti)
+      (x3 * exp(-ti * x1) - x4 * exp(-ti * x2) + 3 * exp(-ti * x5) - yi) ** 2
     }
   }
 
   def biggsEXP6[A: Field : Trig : Monoid](x: Sized6[A]) = {
     val (x1, x2, x3, x4, x5, x6) = x
-    (1 to 13).toList.foldMap { i =>
+    (1 to 13).sumr { i =>
       val ti = 0.1 * i
-      val yi = exp(-ti) - 5.0 * exp(-10 * ti) + 3.0 * exp(-4.0 * ti)
+      val yi = exp(-ti) - 5 * exp(-10 * ti) + 3 * exp(-4 * ti)
       (x3 * exp(-ti * x1) - x4 * exp(-ti * x2) + x6 * exp(-ti * x5) - yi) ** 2
     }
   }
@@ -161,7 +158,7 @@ object Benchmarks {
 
   def boxBettsQuadraticSum[A: Field : Trig : Monoid](k: Int)(x: Sized3[A]) = {
     val (x1, x2, x3) = x
-    (1 to k).toList.foldMap { i =>
+    (1 to k).sumr { i =>
       val co = -0.1 * i
       val t1 = exp(co * x1)
       val t2 = exp(co * x2)
@@ -178,7 +175,7 @@ object Benchmarks {
       0.73, 0.96, 1.34, 2.10, 4.39
     )
 
-    (1 to 15).toList.foldMap { ui =>
+    (1 to 15).sumr { ui =>
       val vi = 16 - ui
       val wi = spire.math.min(ui, vi)
       ((y(ui - 1) - x1 - ui) / (vi * x2 + wi * x3)) ** 2
@@ -187,26 +184,26 @@ object Benchmarks {
 
   def braninRCOS1[A: Field : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = (x2 - (5.1 / (4.0 * (pi ** 2))) * (x1 ** 2) +
-      (5.0 / pi) * x1 - 6.0) ** 2
-    val t2 = 10.0 * (1.0 - 1 / (8.0 * pi)) * cos(x1)
-    t1 + t2 + 10.0
+    val t1 = (x2 - (5.1 / (4 * (pi ** 2))) * (x1 ** 2) +
+      (5 / pi) * x1 - 6) ** 2
+    val t2 = 10 * (1 - 1 / (8 * pi)) * cos(x1)
+    t1 + t2 + 10
   }
 
   def braninRCOS2[A: Field : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = (-1.275 * (x1 ** 2)/(pi ** 2) + (5.0 * x1) / pi + x2 - 6) ** 2
-    val t2 = (10.0 - 5.0 / (4.0 * pi)) * cos(x1) * cos(x2)
-    val t3 = log((x1 ** 2) + (x2 ** 2) + 1.0) + 10.0
+    val t1 = (-1.275 * (x1 ** 2)/(pi ** 2) + (5 * x1) / pi + x2 - 6) ** 2
+    val t2 = (10 - 5 / (4 * pi)) * cos(x1) * cos(x2)
+    val t3 = log((x1 ** 2) + (x2 ** 2) + 1) + 10
     t1 + t2 + t3
   }
 
   def brent[F[_]: Foldable1, A: Ring : Trig : Monoid](x: F[A]) =
-    x.foldMap(xi => (xi + 10) ** 2) + exp(-x.foldMap(_ ** 2))
+    x.sum(xi => (xi + 10) ** 2) + exp(-x.sum(_ ** 2))
 
-  def brown[F[_]: Foldable, A: Ring : Monoid : NRoot](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
-      case List(xi, xi1) => (xi ** 2).fpow((xi1 ** 2) + 1) + (xi1 ** 2).fpow((xi ** 2) + 1)
+  def brown[F[_]: Foldable, A: Ring : NRoot : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
+      case Seq(xi, xi1) => (xi ** 2).fpow((xi1 ** 2) + 1) + (xi1 ** 2).fpow((xi ** 2) + 1)
     }
 
   def bukin2[A: Field](x: Sized2[A]) = {
@@ -224,52 +221,74 @@ object Benchmarks {
 
   def bukin6[A: Field : NRoot : Signed](x: Sized2[A]) = {
     val (x1, x2) = x
-    100.0 * sqrt(abs(x2 - 0.01 * (x1 ** 2))) + 0.01 * abs(x1 + 10.0)
+    100 * sqrt(abs(x2 - 0.01 * (x1 ** 2))) + 0.01 * abs(x1 + 10)
   }
 
-  def centralTwoPeakTrap[A: Field : Order](x1: Sized1[A]) =
-    if      (x1 < 0)   0.0 * x1
-    else if (x1 <= 10) (-160.0 / 10.0) * x1
-    else if (x1 <= 15) (-160.0 / 5.0) * (15.0 - x1)
-    else if (x1 <= 20) (-200.0 / 5.0) * (x1 - 15.0)
-    else               (0.0 * x1) - 200.0
+  def carromTable[A: Field : NRoot : Signed : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val u = cos(x1) * cos(x2)
+    val v = sqrt((x1 ** 2) + (x2 ** 2))
+    -((u * exp(abs(1 - v / pi))) ** 2) / 30.0
+  }
+
+  def centralTwoPeakTrap[A: Order](x1: Sized1[A])(implicit A: Field[A]) =
+    if      (x1 < 0)   A.zero
+    else if (x1 <= 10) (-160.0 / 10) * x1
+    else if (x1 <= 15) (-160.0 / 5) * (15 - x1)
+    else if (x1 <= 20) (-200.0 / 5) * (x1 - 15)
+    else               A.zero - 200
 
   def chichinadze[A: Field : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = (x1 ** 2) - (12.0 * x1) + 11.0
-    val t2 = 10.0 * cos(pi * (x1 / 2.0)) + 8.0 * sin(5.0 * pi * x1)
-    val t3 = ((1.0 / 5.0) ** 0.5) * exp(-0.5 * ((x2 - 0.5) ** 2))
+    val t1 = (x1 ** 2) - (12 * x1) + 11
+    val t2 = 10 * cos(pi * (x1 / 2)) + 8 * sin(5 * pi * x1)
+    val t3 = ((1.0 / 5) ** 0.5) * exp(-0.5 * ((x2 - 0.5) ** 2))
 
     t1 + t2 - t3
   }
 
-  def chungReynolds[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) = x.foldMap(_ ** 2) ** 2
+  def chungReynolds[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) = x.sum(_ ** 2) ** 2
 
-  def cigar[F[_]: Foldable, A: Field : Monoid](condition: Double = 10e6)(x: Sized2And[F, A]) =
-    x.a ** 2 + x.b ** 2 * condition + x.rest.foldMap(_ ** 2) * condition
+  def cigar[F[_]: Foldable, A: Field : Monoid](condition: Double = 10e6)(x: Sized2And[F,A]) =
+    x.a ** 2 + x.b ** 2 * condition + x.rest.sum(_ ** 2) * condition
 
   def colville[A: Field](x: Sized4[A]) = {
     val (x1, x2, x3, x4) = x
-    val t1 = 100.0 * ((x1 - (x2 ** 2)) ** 2) + ((1.0 - x1) ** 2)
-    val t2 = 90.0 * ((x4 - x3) ** 2) + ((1.0 - x3) ** 2)
-    val t3 = 10.1 * (((x2 - 1.0) ** 2) + ((x4 - 1.0) ** 2))
-    val t4 = 19.8 * (x2 - 1.0) * (x4 - 1.0)
+    val t1 = 100 * ((x1 - (x2 ** 2)) ** 2) + ((1 - x1) ** 2)
+    val t2 = 90 * ((x4 - x3) ** 2) + ((1 - x3) ** 2)
+    val t3 = 10.1 * (((x2 - 1) ** 2) + ((x4 - 1) ** 2))
+    val t4 = 19.8 * (x2 - 1) * (x4 - 1)
 
     t1 + t2 + t3 + t4
   }
 
+  def corana[A: Field : IsReal : Order : Signed : Monoid](a: A = 0.05)(x: Sized4[A]) = {
+    val xs = List(x._1, x._2, x._3, x._4)
+    val d = List(1, 1000, 10, 100)
+
+    (xs zip d).suml { case (xi, di) =>
+      val zi = 0.2 * floor(abs(xi / 0.2) + 0.49999) * signum(xi)
+      val vi = abs(xi - zi)
+
+      if (abs(vi) < a)
+        0.15 * ((zi - a * (signum(zi))) ** 2) * di
+      else
+        di * (xi ** 2)
+    }
+  }
+
   def cosineMixture[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
-    -0.1 * x.foldMap(xi => cos(5 * pi * xi)) + x.foldMap(_ ** 2)
+    -0.1 * x.sum(xi => cos(5 * pi * xi)) + x.sum(_ ** 2)
 
-  def crossInTray[F[_]: Foldable1, A: NRoot : Signed : Trig : Monoid](x: F[A])(implicit A: Field[A]) = {
-    val t1 = x.foldLeft(A.one)((a,c) => a * sin(c))
-    val t2 = exp(abs(100.0 - (sqrt(x.foldMap(_ ** 2)) / pi)))
+  def crossInTray[F[_]: Foldable1, A: Field : NRoot : Signed : Trig : Monoid](x: F[A]) = {
+    val t1 = x.product(xi => sin(xi))
+    val t2 = exp(abs(100 - (sqrt(x.sum(_ ** 2)) / pi)))
 
-    -0.0001 * ((abs(t1 * t2) + 1.0) ** 0.1)
+    -0.0001 * ((abs(t1 * t2) + 1) ** 0.1)
   }
 
   def crossLegTable[F[_]: Foldable1, A: Field : NRoot : Signed : Trig : Monoid](x: F[A]) =
-    -1.0 / (crossInTray(x) / -0.0001)
+    -1 / (crossInTray(x) / -0.0001)
 
   def crossCrowned[F[_]: Foldable1, A: Field : NRoot : Signed : Trig : Monoid](x: F[A]) =
     -crossInTray(x)
@@ -277,14 +296,14 @@ object Benchmarks {
   def csendes[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
     x.foldMapM { xi =>
       if (xi != 0.0)
-        ((xi ** 6) * (2 + sin(1.0 / xi))).some
+        ((xi ** 6) * (2 + sin(1 / xi))).some
       else
         none
     }
 
   def cube[A: Field](x: Sized2[A]) = {
     val (x1, x2) = x
-    100 * ((x2 - (x1 ** 3)) ** 2) + ((1.0 - x1) ** 2)
+    100 * ((x2 - (x1 ** 3)) ** 2) + ((1 - x1) ** 2)
   }
 
   def damavandi[A: Field : IsReal : Signed : Trig](x: Sized2[A]) = {
@@ -299,19 +318,18 @@ object Benchmarks {
   }
 
   def deb1[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
-    -(1.0 / x.length) * x.foldMap(xi => sin(5 * pi * xi) ** 6)
+    -(1.0 / x.length) * x.sum(xi => sin(5 * pi * xi) ** 6)
 
-  def deb3[F[_]: Functor : Foldable1, A: Field : NRoot : Trig : Monoid](x: F[A]) =
+  def deb2[F[_]: Foldable1 : Functor, A: Field : NRoot : Trig : Monoid](x: F[A]) =
     deb1(x.map(xi => (xi ** 0.75) - 0.05))
 
   def decanomial[A: Field : Signed : Monoid](x: Sized2[A]) = {
     val (x1, x2) = x
-    val coX1 = List(1, -20, 180, -960, 3360, -8064,
-                    13340, -15360, 11520, -5120, 2624)
+    val coX1 = List(1, -20, 180, -960, 3360, -8064, 13340, -15360, 11520, -5120, 2624)
     val coX2 = List(1, 12, 54, 108, 81)
 
     def one(l: List[Int], xi: A) =
-      abs(l.zipWithIndex.foldMap {
+      abs(l.zipWithIndex.suml {
         case (ci, i) => ci * (xi ** (l.length - 1 - i))
       })
 
@@ -327,9 +345,16 @@ object Benchmarks {
     t1 - t2 + t3
   }
 
+  def deflectedCorrugatedSpring[F[_]: Foldable1, A: Field : NRoot : Trig : Monoid](K: A = 5)(x: F[A]) = {
+      val α = 5
+      val inner = x.sum(xi => (xi - α) ** 2)
+      val outer = x.sum(xi => ((xi - α) ** 2) - cos(K * sqrt(inner)))
+      0.1 * outer
+    }
+
   def deVilliersGlasser1[A: Field : NRoot : Trig : Monoid](x: Sized4[A]) = {
     val (x1, x2, x3, x4) = x
-    (1 to 24).toList.foldMap { i =>
+    (1 to 24).sumr { i =>
       val ti = 0.1 * (i - 1)
       val yi = 60.137 * (1.371 ** ti) * sin(3.112 * ti + 1.761)
       val t1 = x1 * (x2 ** ti)
@@ -341,7 +366,7 @@ object Benchmarks {
 
   def deVilliersGlasser2[A: Field : NRoot : Trig : Monoid](x: Sized5[A]) = {
     val (x1, x2, x3, x4, x5) = x
-    (1 to 16).toList.foldMap { i =>
+    (1 to 16).sumr { i =>
       val ti = 0.1 * (i - 1)
       val yi = 53.81 * (1.27 ** ti) * tanh(3.012 * ti + sin(2.13 * ti)) *
         cos(exp(0.507) * ti)
@@ -354,24 +379,22 @@ object Benchmarks {
     }
   }
 
-  def differentPowers[F[_]: Foldable, A: NRoot : Ring : Signed : Monoid](x: Sized2And[F, A]) = {
+  def differentPowers[F[_]: Foldable, A: NRoot : Ring : Signed : Monoid](x: Sized2And[F,A]) = {
     val n = x.rest.length + 2
-    val inner = (x.a :: x.b :: x.rest.toList).zipWithIndex.foldMap {
+    val inner = (x.a :: x.b :: x.rest.toList).zipWithIndex.suml {
       case (xi, i) => abs(xi) ** (2 + ((4 * i) / (n - 1)))
     }
     sqrt(inner)
   }
 
-  def discus[F[_]: Foldable, A: Ring : Monoid](x : Sized1And[F, A]) =
-    (10 ** 6) * (x.head ** 2) + x.tail.foldMap(_ ** 2)
+  def discus[F[_]: Foldable, A: Ring : Monoid](x : Sized1And[F,A]) =
+    (10 ** 6) * (x.head ** 2) + x.tail.sum(_ ** 2)
 
-  def dixonPrice[F[_]: Foldable, A: Ring : Monoid](x: Sized2And[F, A]) = {
-    def t(l: (Seq[A], Int)) = l match {
+  def dixonPrice[F[_]: Foldable, A: Ring : Monoid](x: Sized2And[F,A]) = {
+    val t1 = ((x.a - 1) ** 2)
+    val t2 = (x.a :: x.b :: x.rest.toList).sliding(2).toList.zipWithIndex.suml {
       case (Seq(xi, xi1), i) => (i + 2) * (((2 * (xi1 ** 2)) - xi) ** 2)
     }
-
-    val t1 = ((x.a - 1) ** 2)
-    val t2 = (x.a :: x.b :: x.rest.toList).sliding(2).toList.zipWithIndex.foldMap(t)
     t1 + t2
   }
 
@@ -379,12 +402,12 @@ object Benchmarks {
     val (x1, x2, x3, x4, x5) = x
     val t1 = (x1 + 1.7 * x2) * sin(x1)
     val t2 = -1.5 * x3 - 0.1 * x4 * cos(x4 + x5 - x1)
-    val t3 = 0.2 * (x5 ** 2) - x2 -1.0
+    val t3 = 0.2 * (x5 ** 2) - x2 - 1
     abs(t1 + t2 + t3)
   }
 
   def dropWave[F[_]: Foldable1, A: Field : NRoot : Trig : Monoid](x: F[A]) = {
-    val sumsqr = x.foldMap(_ ** 2)
+    val sumsqr = x.sum(_ ** 2)
     -(1 + cos(12 * sqrt(sumsqr))) / (2 + 0.5 * sumsqr)
   }
 
@@ -394,22 +417,15 @@ object Benchmarks {
   }
 
   def eggCrate[F[_]: Foldable1, A: Ring : Trig : Monoid](x: F[A]) =
-    x.foldMap(_ ** 2) + 24 * x.foldMap(sin(_) ** 2)
+    x.sum(_ ** 2) + 24 * x.sum(sin(_) ** 2)
 
-  def eggHolder[F[_]: Foldable, A: Field : NRoot : Signed : Trig : Monoid](x: Sized2And[F, A]) = {
+  def eggHolder[F[_]: Foldable, A: Field : NRoot : Signed : Trig : Monoid](x: Sized2And[F,A]) = {
     def g(l: Seq[A]) = l match {
       case Seq(x1, x2) =>
         -(x2 + 47) * sin(sqrt(abs(x2 + (x1 / 2) + 47))) -
         x1 * sin(sqrt(abs(x1 - x2 - 47)))
     }
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap(g)
-  }
-
-  def elliptic[F[_]: Foldable, A: Field : Monoid](x: Sized2And[F, A]) = {
-    val n = x.rest.length + 2
-      (x.a :: x.b :: x.rest.toList).zipWithIndex.foldMap {
-        case (xi, i) => (10e6 ** (i / (n - 1.0))) * (xi ** 2)
-      }
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml(g)
   }
 
   def elAttarVidyasagarDutta[A: Ring](x: Sized2[A]) = {
@@ -420,16 +436,23 @@ object Benchmarks {
     t1 + t2 + t3
   }
 
+  def elliptic[F[_]: Foldable, A: Field : Monoid](x: Sized2And[F,A]) = {
+    val n = x.rest.length + 2
+    (x.a :: x.b :: x.rest.toList).zipWithIndex.suml {
+      case (xi, i) => (10e6 ** (i / (n - 1.0))) * (xi ** 2)
+    }
+  }
+
   def exponential1[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
-    -exp(-0.5 * x.foldMap(_ ** 2))
+    -exp(-0.5 * x.sum(_ ** 2))
 
   def exponential2[A: Field : Trig : Monoid](x: Sized2[A]) = {
     val (x1, x2) = x
-    (0 to 9).toList.foldMap { i =>
-      val t1 = 1.0 * exp(-i * x1 / 10.0)
-      val t2 = 5.0 * exp(-i * x2 / 10.0)
-      val t3 = 1.0 * exp(-i / 10.0)
-      val t4 = 5.0 * exp(-i.toDouble)
+    (0 to 9).sumr { i =>
+      val t1 = 1 * exp(-i * x1 / 10)
+      val t2 = 5 * exp(-i * x2 / 10)
+      val t3 = 1 * exp(-i / 10.0)
+      val t4 = 5 * exp(-i.toDouble)
       (t1 - t2 - t3 + t4) ** 2
     }
   }
@@ -445,14 +468,14 @@ object Benchmarks {
     val (x1, x2, x3, x4) = (
       floor(x._1), floor(x._2), floor(x._3), floor(x._4)
     )
-    val t1 = 1.0 / 6.931
+    val t1 = 1 / 6.931
     val numer = x1 * x2
     val denom = x3 * x4
     (t1 - (numer / denom)) ** 2
   }
 
   def giunta[A: Field : Trig : Monoid](x: Sized2[A]) =
-    0.6 + List(x._1, x._2).foldMap { xi =>
+    0.6 + List(x._1, x._2).suml { xi =>
       val factor = (16.0 / 15.0) * xi - 1
       val t1 = sin(factor)
       val t2 = t1 ** 2
@@ -478,26 +501,31 @@ object Benchmarks {
   }
 
   def griewank[F[_]: Foldable1, A: Field : NRoot : Trig : Monoid](x: F[A]) = {
-    val prod = x.toList.zipWithIndex.map { case (xi, i) =>
+    val prod = x.toList.zipWithIndex.productl { case (xi, i) =>
       cos(xi / sqrt(i + 1.0))
-    }.qproduct
+    }
 
-    1 + x.foldMap(_ ** 2) * (1.0 / 4000.0) - prod
+    1 + x.sum(_ ** 2) * (1.0 / 4000.0) - prod
   }
 
-  def hansen[A: Ring : Trig](x: Sized2[A]) = {
-    val (x1, x2) = x
-    val t1 = (0 to 4).map { i =>
-      (i + 1) * cos(i * x1 + i + 1)
-    }.qsum
-    val t2 = (0 to 4).map { j =>
-      (j + 1) * cos((j + 2) * x2 + j + 1)
-    }.qsum
+  def gulf[A: Field : NRoot : Signed : Trig : Monoid](x: Sized3[A]) = {
+    val (x1, x2, x3) = x
 
+    (1 to 99).sumr { i =>
+      val ui = 25 + (-50 * log(0.01 * i)) ** (2.0 / 3.0)
+      val numer = abs(ui - x2).fpow(x3)
+      (exp(-numer / x1) - (i / 100.0)) ** 2
+    }
+  }
+
+  def hansen[A: Ring : Trig : Monoid](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val t1 = (0 to 4).sumr(i => (i + 1) * cos(i * x1 + i + 1))
+    val t2 = (0 to 4).sumr(j => (j + 1) * cos((j + 2) * x2 + j + 1))
     t1 * t2
   }
 
-  def hartman3[A: Field : Trig](x: Sized3[A]) = {
+  def hartman3[A: Field : Trig : Monoid](x: Sized3[A]) = {
     val y = List(x._1, x._2, x._3)
 
     val a = List(
@@ -516,15 +544,15 @@ object Benchmarks {
       List(0.0381, 0.5743, 0.8828)
     )
 
-    val ts = for {
-      i <- 0 until 4
-      power = for (j <- 0 until 3) yield a(i)(j) * ((y(j) - p(i)(j)) ** 2)
-    } yield c(i) * exp(-power.qsum)
-
-    -ts.qsum
+    -(a zip c zip p).suml { case ((ai, ci), pi) =>
+      val power = (ai zip pi zip y).suml { case ((aij, pij), yj) =>
+        aij * ((yj - pij) ** 2)
+      }
+      ci * exp(-power)
+    }
   }
 
-  def hartman6[A: Field : Trig](x: Sized6[A]) = {
+  def hartman6[A: Field : Trig : Monoid](x: Sized6[A]) = {
     val y = List(x._1, x._2, x._3, x._4, x._5, x._6)
 
     val a = List(
@@ -543,26 +571,19 @@ object Benchmarks {
       List(0.4047, 0.8828, 0.8732, 0.5743, 0.1091, 0.0381)
     )
 
-    val ts = for { i <- 0 until 4
-      power = for (j <- 0 until 6) yield a(i)(j) * ((y(j) - p(i)(j)) ** 2)
-    } yield c(i) * exp(-power.qsum)
-
-    -ts.qsum
+    -(a zip c zip p).suml { case ((ai, ci), pi) =>
+      val power = (ai zip pi zip y).suml { case ((aij, pij), yj) =>
+        aij * ((yj - pij) ** 2)
+      }
+      ci * exp(-power)
+    }
   }
 
   def helicalValley[A: Field : NRoot : Order : Trig](x: Sized3[A]) = {
     val (x1, x2, x3) = x
-
-    val theta = {
-      val t  = if (x1 >= (x1 * 0)) 0.0 else 0.5
-      atan((x2 / x1) + t) / (2 * pi)
-    }
-
-    val t1 = (x2 - 10.0 * theta) ** 2
-    val t2 = sqrt((x1 ** 2) + (x2 ** 2)) - 1.0
-    val t3 = x3 ** 2
-
-    100.0 * (t1 + t2) + t3
+    val r = sqrt((x1 ** 2) + (x2 ** 2))
+    val θ = 1 / (2 * pi) * atan2(x2, x1)
+    (x3 ** 2) + 100 * ((x3 - 10 * θ) ** 2 + (r - 1) ** 2)
   }
 
   def himmelblau[A: Ring](x: Sized2[A]) = {
@@ -579,23 +600,22 @@ object Benchmarks {
     (t1 - t2 + t3) * t4
   }
 
-  def hyperEllipsoid[F[_]: Foldable1, A: Ring](x: F[A]) =
-    x.toList.zipWithIndex.map { case (xi, i) => i * (xi ** 2) }.qsum
+  def hyperEllipsoid[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) =
+    x.toList.zipWithIndex.suml { case (xi, i) => i * (xi ** 2) }
 
   def hyperEllipsoidRotated[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) = {
     val y = x.toList
     val values = (1 to x.length).toList.map(y take _)
-    values.foldMap(_.foldMap(xi => xi ** 2))
+    values.suml(_.suml(xi => xi ** 2))
   }
 
-  def jennrichSampson[A: Ring : Trig](x: Sized2[A]) = {
+  def jennrichSampson[A: Ring : Trig : Monoid](x: Sized2[A]) = {
     val (x1, x2) = x
-    val ts = for { i <- 1 to 10
-      t1 = 2 + 2 * i
-      t2 = exp(i * x1) + exp(i * x2)
-    } yield (t1 - t2) ** 2
-
-    ts.qsum
+    (1 to 10).sumr { i =>
+      val t1 = 2 + 2 * i
+      val t2 = exp(i * x1) + exp(i * x2)
+      (t1 - t2) ** 2
+    }
   }
 
   def judge[A: Field : Monoid](x: Sized2[A]) = {
@@ -624,25 +644,23 @@ object Benchmarks {
     val mappedB = B.map(_ * x2)
     val mappedC = C.map(_ * (x2 ** 2))
 
-    val t1 = mappedB.zip(mappedC).map { case (ai, bi) => ai + bi }
+    val t1 = (mappedB zip mappedC).map { case (ai, bi) => ai + bi }
     val t2 = t1.map(_ + x1)
 
-    t2.zip(A).foldMap {
+    (t2 zip A).suml {
       case (t2, ai) => (t2 - ai) ** 2
     }
   }
 
-  def katsuura[F[_]: Foldable1, A: Field : IsReal : NRoot](x: F[A]) = {
+  def katsuura[F[_]: Foldable1, A: Field : IsReal : NRoot : Monoid](x: F[A]) = {
     val n = x.length
 
-    val ts = x.toList.zipWithIndex.map { case (xi, i) =>
+    x.toList.zipWithIndex.productl { case (xi, i) =>
       val t1 = i + 1
       val d = 32
-      val t2 = for (k <- 1 to d) yield floor((2 ** k) * xi) * (1.0 / (2 ** k))
-      1 + t1 * t2.qsum
+      val t2 = (1 to d).sumr(k => floor((2 ** k) * xi) * (1.0 / (2 ** k)))
+      1 + t1 * t2
     }
-
-    ts.qproduct
   }
 
   def keane[A: Field : NRoot : Trig](x: Sized2[A]) = {
@@ -664,39 +682,54 @@ object Benchmarks {
       0.0456, 0.0342, 0.0323, 0.0235, 0.0246
     )
 
-    val ts = a.zip(b).map { case (ai, bi) =>
+    (a zip b).suml { case (ai, bi) =>
       val numer = x1 * ((bi ** 2) + bi * x2)
       val denom = (bi ** 2) + bi * x3 + x4
-      ai - (numer / denom)
+      (ai - (numer / denom)) ** 2
     }
-    ts.foldMap(_ ** 2)
+  }
+
+  def langermann[A: Field : Trig : Monoid](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val a = List(3, 5, 2, 1, 7)
+    val b = List(5, 2, 1, 4, 9)
+    val c = List(1, 2, 5, 2, 3)
+
+    -(a zip b zip c).suml {
+      case ((ai, bi), ci) =>
+        val t1 = (x1 - ai) ** 2
+        val t2 = (x2 - bi) ** 2
+        val numer = ci * cos(pi * (t1 + t2))
+        val denom = exp((t1 + t2) / pi)
+        numer / denom
+    }
   }
 
   def leon[A: Ring](x: Sized2[A]) = {
     val (x1, x2) = x
     val t1 = 100 * ((x2 - (x1 ** 2)) ** 2)
     val t2 = (1 - x1) ** 2
-
     t1 + t2
   }
 
-  def levy3[F[_]: Foldable, A: Field : Trig](x: Sized2And[F, A]) = {
+  def levy3[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F,A]) = {
     def y(xi: A): A = 1 + (xi - 1) / 4.0
+    val xs = x.a :: x.b :: x.rest.toList
 
     val t1 = sin(pi * y(x.a)) ** 2
-    val t2 = (x.a :: x.b :: x.rest.toList).sliding(2).toList.map {
-      case List(xi, xi1) =>
+    val t2 = xs.sliding(2).toList.suml {
+      case Seq(xi, xi1) =>
         ((y(xi) - 1) ** 2) * (1 + 10 * ((pi * y(xi1) ** 2)))
-    }.qsum
-    val t3 = (y(x.rest.toList.lastOption.getOrElse(x.b)) - 1) ** 2
+    }
+    val t3 = (y(xs.last) - 1) ** 2
 
     t1 + t2 + t3
   }
 
-  def levy5[A: Field : Trig](x: Sized2[A]) = {
+  def levy5[A: Field : Trig : Monoid](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = (for (i <- 1 to 5) yield i * cos((i - 1) * x1 + i)).qsum
-    val t2 = (for (j <- 1 to 5) yield j * cos((j + 1) * x2 + j)).qsum
+    val t1 = (1 to 5).sumr(i => i * cos((i - 1) * x1 + i))
+    val t2 = (1 to 5).sumr(j => j * cos((j + 1) * x2 + j))
     val t3 = (x1 + 1.42513) ** 2
     val t4 = (x2 + 0.80032) ** 2
     t1 * t2 + t3 + t4
@@ -710,17 +743,15 @@ object Benchmarks {
     t1 + t2 + t3
   }
 
-  def levyMontalvo2[F[_]: Foldable, A: Field : Trig](x: Sized2And[F, A]) = {
-    val t1 = sin(3 * pi * x.a) ** 2
+  def levyMontalvo2[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F,A]) = {
+    val xs = x.a :: x.b :: x.rest.toList
 
-    def t(a: Seq[A]) = a match {
+    val t1 = sin(3 * pi * x.a) ** 2
+    val t2 = xs.sliding(2).toList.suml {
       case Seq(xi, xi1) =>
         ((xi - 1) ** 2) * ((sin(3 * pi * xi1) ** 2) + 1 )
     }
-
-    val t2 = (x.a :: x.b :: x.rest.toList).sliding(2).toList.map(t).qsum
-    val last = x.rest.toList.lastOption.getOrElse(x.b)
-    val t3 = ((last - 1) ** 2) * ((sin(2 * pi * last) ** 2) + 1)
+    val t3 = ((xs.last - 1) ** 2) * ((sin(2 * pi * xs.last) ** 2) + 1)
 
     0.1 * (t1 + t2 + t3)
   }
@@ -740,10 +771,10 @@ object Benchmarks {
     t1 + t2
   }
 
-  def michalewicz[F[_]: Foldable1, A: Field : IsReal : NRoot : Trig](m: Double = 10.0)(x: F[A]) =
-    -x.toList.zipWithIndex.map { case (xi, i) =>
+  def michalewicz[F[_]: Foldable1, A: Field : IsReal : NRoot : Trig : Monoid](m: Double = 10.0)(x: F[A]) =
+    -x.toList.zipWithIndex.suml { case (xi, i) =>
       sin(xi) * (sin(((i + 1) * (xi ** 2)) / pi) ** (2 * m))
-    }.qsum
+    }
 
   def mieleCantrell[A: Field : Trig](x: Sized4[A]) = {
     val (x1, x2, x3, x4) = x
@@ -757,21 +788,34 @@ object Benchmarks {
   def minimum[F[_]: Foldable1, A: scalaz.Order](x: F[A]) =
     x.minimum1
 
-  def mishra1[F[_]: Foldable1, A: Ring : NRoot](x: F[A]) = {
-    val sum = x.toList.init.qsum
+  def mishra1[F[_]: Foldable1, A: Ring : NRoot : Monoid](x: F[A]) = {
+    val sum = x.toList.init.suml(xi => xi)
     val n = x.length
     (1 + n - sum).fpow(n - sum)
   }
 
-  def mishra2[F[_]: Foldable, A: Field : NRoot](x: Sized2And[F, A]) = {
-    def t(a: Seq[A]) = a match {
+  def mishra2[F[_]: Foldable, A: Field : NRoot : Monoid](x: Sized2And[F,A]) = {
+    val sum = (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(xi, xi1) => 0.5 * (xi + xi1)
     }
 
-    val sum = (x.a :: x.b :: x.rest.toList).sliding(2).toList.map(t).qsum
     val n = x.rest.length + 2
 
     (1 + n - sum).fpow(n - sum)
+  }
+
+  def mishra3[A: Field : NRoot : Signed : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val t1 = 0.01 * (x1 + x2)
+    val t2 = sqrt(abs(cos(sqrt(abs((x1 ** 2) + (x2 ** 2))))))
+    t1 + t2
+  }
+
+  def mishra4[A: Field : NRoot : Signed : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val t1 = 0.01 * (x1 + x2)
+    val t2 = sqrt(abs(sin(sqrt(abs((x1 ** 2) + (x2 ** 2))))))
+    t1 + t2
   }
 
   def mishra5[A: Field : Trig](x: Sized2[A]) = {
@@ -782,85 +826,145 @@ object Benchmarks {
     ((t1 + t2 + x1) ** 2) + t3
   }
 
-  def mishra8[A: Field : Signed](x: Sized2[A]) = {
+  def mishra6[A: Field : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
-    val coX1 = List(1, -20, 180, -960, 3360, -8064,
-      13340, -15360, 11520, -5120, 2624)
+    val a = 0.1 * ((x1 - 1) ** 2 + (x2 - 1) ** 2)
+    val u = (cos(x1) + cos(x2)) ** 2
+    val v = (sin(x1) + sin(x2)) ** 2
+    a - log((sin(u) ** 2 - cos(v) ** 2 + x1) ** 2)
+  }
+
+  def mishra7[F[_]: Foldable1, A: Field](x: F[A]) = {
+    def factorial(n: Int, accu: Int): Int = n match {
+      case 0 => accu
+      case _ => factorial(n - 1, n * accu)
+    }
+
+    val n = x.length
+    val prod = x.product(xi => xi)
+    (prod - factorial(n, 1)) ** 2
+  }
+
+  def mishra8[A: Field : Signed : Monoid](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val coX1 = List(1, -20, 180, -960, 3360, -8064, 13340, -15360, 11520, -5120, 2624)
     val coX2 = List(1, 12, 54, 108, 81)
 
-    val t1 = abs(coX1.zipWithIndex.map {
+    val t1 = abs(coX1.zipWithIndex.suml {
       case (ci, i) => ci * (x1 ** (coX1.length - 1 - i))
-    }.qsum)
+    })
 
-    val t2 = abs(coX2.zipWithIndex.map {
+    val t2 = abs(coX2.zipWithIndex.suml {
       case (ci, i) => ci * (x2 ** (coX2.length - 1 - i))
-    }.qsum)
+    })
 
     0.001 * ((t1 * t2) ** 2)
   }
 
-  def mishra11[F[_]: Foldable1, A: NRoot : Signed : Monoid](x: F[A])(implicit A: Field[A]) = {
+  def mishra9[A: Field](x: Sized3[A]) = {
+    val (x1, x2, x3) = x
+    val a = (2 * x1 ** 3 + 5 * x1 * x2 + 4 * x3 - 2 * x1 ** 2 * x3 - 18)
+    val b = x1 + x2 ** 3 + x1 * x2 ** 2 + x1 * x3 ** 2 - 22
+    val c = (8 * x1 ** 2 + 2 * x2 * x3 + 2 * x2 ** 2 + 3 * x2 ** 3 - 52)
+
+    ((a * (b ** 2) * c) + (a * b * (c ** 2)) + (b ** 2) + ((x1 + x2 - x3) ** 2)) ** 2
+  }
+
+  def mishra10[A: Field : IsReal](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val f1 = floor(x1) + floor(x2)
+    val f2 = floor(x1) * floor(x2)
+    (f1 - f2) ** 2
+  }
+
+  def mishra11[F[_]: Foldable1, A: Field : NRoot : Signed : Monoid](x: F[A]) = {
     val n = x.length
-    val t1 = (1.0 / n) * x.foldMap(abs(_))
-    val t2 = x.foldLeft(A.one)(_ * abs(_)) ** (1.0 / n)
+    val t1 = (1.0 / n) * x.sum(abs(_))
+    val t2 = x.product(abs(_)) ** (1.0 / n)
     (t1 - t2) ** 2
   }
 
-  def multiModal[F[_]: Foldable1, A: Signed : Monoid](x: F[A])(implicit A: Field[A]) =
-    x.foldLeft(A.one)(_ * abs(_)) * x.foldMap(abs(_))
+  def multiModal[F[_]: Foldable1, A: Field : Signed : Monoid](x: F[A]) =
+    x.product(abs(_)) * x.sum(abs(_))
+
+  def needleEye[F[_]: Foldable1, A: Order : Signed : Monoid](eye: A = 0.0001)(x: F[A])(implicit A: Ring[A]) = {
+    if (x.toList.forall(xi => abs(xi) < eye)) A.one
+    else if (x.toList.forall(xi => abs(xi) > eye)) x.sum(xi => 100 + abs(xi))
+    else A.zero
+  }
+
+  def newFunction1[A: Field : NRoot : Signed : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    abs(cos(sqrt(abs((x1 ** 2) + x2)))) ** 0.5 + 0.01 * (x1 + x2)
+  }
+
+  def newFunction2[A: Field : NRoot : Signed : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    abs(sin(sqrt(abs((x1 ** 2) + x2)))) ** 0.5 + 0.01 * (x1 + x2)
+  }
+
+  def norwegian[F[_]: Foldable1, A: Field : Trig](x: F[A]) =
+    x.product(xi => cos(pi * (xi ** 3)) * ((99 + xi) / (100)))
 
   def parsopoulus[A: Field : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
     (cos(x1) ** 2) + (sin(x2) ** 2)
   }
 
-  def pathological[F[_]: Foldable, A: Field : NRoot : Trig : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def pathological[F[_]: Foldable, A: Field : NRoot : Trig : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(xi, xi1) =>
-        val numer = sin(sqrt(100.0 * (xi ** 2) + (xi1 ** 2))) ** 2 - 0.5
-        val denom = 1.0 + 0.001 * (((xi ** 2) - 2.0 * xi * xi1 + (xi1 ** 2)) ** 2)
+        val numer = sin(sqrt(100 * (xi ** 2) + (xi1 ** 2))) ** 2 - 0.5
+        val denom = 1 + 0.001 * (((xi ** 2) - 2 * xi * xi1 + (xi1 ** 2)) ** 2)
         0.5 + numer / denom
     }
 
-  def penalty1[F[_]: Foldable, A: Field : Order : Trig : Monoid](x: Sized2And[F, A]) = {
+  def paviani[A: Field : NRoot : Trig : Monoid](x: Sized10[A]) = {
+    val xs = List(x._1, x._2, x._3, x._4, x._5, x._6, x._7, x._8, x._9, x._10)
+    val t1 = xs.suml(xi => (log(10 - xi) ** 2) + (log(xi - 2) ** 2))
+    val t2 = xs.productl(xi => xi) ** 0.2
+    t1 - t2
+  }
+
+  def penalty1[F[_]: Foldable, A: Order : Trig : Monoid](x: Sized2And[F,A])(implicit A: Field[A]) = {
     def u(xi: A, a: Int, k: Int, m: Int) =
       if (xi > a) k * ((xi - a) ** m)
       else if (xi < -a) k * ((-xi - a) ** m)
-      else 0.0 * xi
+      else A.zero
 
-    def yi(xi: A) = 1 + ((xi + 1.0) / 4.0)
+    def yi(xi: A) = 1 + ((xi + 1) / 4)
 
     val xs = x.a :: x.b :: x.rest.toList
     val term1 = 10 * (sin(pi * yi(xs.head)) ** 2)
-    val term2 = xs.sliding(2).toList.foldMap {
+    val term2 = xs.sliding(2).toList.suml {
       case Seq(xi, xi1) =>
-        val t1 = (yi(xi) - 1.0) ** 2
-        val t2 = 1.0 + 10.0 * (sin(pi * yi(xi1)) ** 2)
+        val t1 = (yi(xi) - 1) ** 2
+        val t2 = 1 + 10 * (sin(pi * yi(xi1)) ** 2)
         t1 * t2
     }
     val term3 = (yi(xs.last) - 1.0) ** 2
-    val term4 = xs.foldMap(xi => u(xi, 10, 100, 4))
+    val term4 = xs.suml(xi => u(xi, 10, 100, 4))
 
-    (pi / 30.0) * (term1 + term2 + term3) + term4
+    (pi / 30) * (term1 + term2 + term3) + term4
   }
 
-  def penalty2[F[_]: Foldable, A: Field : Order : Trig : Monoid](x: Sized2And[F, A]) = {
+  def penalty2[F[_]: Foldable, A: Order : Trig : Monoid](x: Sized2And[F,A])(implicit A: Field[A]) = {
     def u(xi: A, a: Int, k: Int, m: Int) =
       if (xi > a) k * ((xi - a) ** m)
       else if (xi < -a) k * ((-xi - a) ** m)
-      else 0.0 * xi
+      else A.zero
 
     val xs = (x.a :: x.b :: x.rest.toList)
     val term1 = sin(3.0 * pi * xs.head) ** 2
-    val term2 = xs.sliding(2).toList.foldMap {
+    val term2 = xs.sliding(2).toList.suml {
       case Seq(xi, xi1) =>
-        val t1 = (xi - 1.0) ** 2
-        val t2 = 1.0 + (sin(3.0 * pi * xi1) ** 2)
+        val t1 = (xi - 1) ** 2
+        val t2 = 1 + (sin(3 * pi * xi1) ** 2)
         t1 * t2
     }
 
-    val term3 = ((xs.last - 1.0) ** 2) * (1.0 + sin(2.0 * pi * xs.last) ** 2)
-    val term4 = xs.foldMap(xi => u(xi, 5, 100, 4))
+    val term3 = ((xs.last - 1) ** 2) * (1 + sin(2 * pi * xs.last) ** 2)
+    val term4 = xs.suml(xi => u(xi, 5, 100, 4))
 
     0.1 * (term1 + term2 + term3) + term4
   }
@@ -874,22 +978,43 @@ object Benchmarks {
   }
 
   def periodic[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) = {
-    val t1 = x.foldMap(sin(_) ** 2)
-    val t2 = 0.1 * exp(-x.foldMap(_ ** 2))
+    val t1 = x.sum(sin(_) ** 2)
+    val t2 = 0.1 * exp(-x.sum(_ ** 2))
     1 + t1 - t2
   }
+
+  def pinter[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F,A]) = {
+    val xs = (x.a :: x.b :: x.rest.toList)
+    val padded = xs.last :: (xs :+ xs.head)
+
+    def A(a0: A, a1: A, a2: A) = a0 * sin(a1) + sin(a2)
+    def B(b0: A, b1: A, b2: A) = (b0 ** 2) - (2 * b1) + (3 * b2) - cos(b1) + 1
+
+    val t1 = xs.zipWithIndex.suml { case (xi, i) => (i + 1) * (xi ** 2) }
+    val t2 = padded.sliding(3).toList.zipWithIndex.suml {
+      case (Seq(x0, x1, x2), i) => 20 * (i + 1) * (sin(A(x0, x1, x2)) ** 2)
+    }
+    val t3 = padded.sliding(3).toList.zipWithIndex.suml {
+      case (Seq(x0, x1, x2), i) => (i + 1) * log(1 + (i + 1) * (B(x0, x1, x2) ** 2))
+    }
+
+    t1 + t2 + t3
+  }
+
+  def plateau[F[_]: Foldable1, A: IsReal : Ring : Monoid](x: F[A]) =
+    30 + x.sum(xi => floor(abs(xi)))
 
   def powell[A: Field](x: Sized4[A]) = {
     val (x1, x2, x3, x4) = x
     val t1 = (x3 + 10 * x1) ** 2
-    val t2 = 5.0 * ((x2 - x4) ** 2)
+    val t2 = 5 * ((x2 - x4) ** 2)
     val t3 = (x1 - 2 * x2) ** 4
-    val t4 = 10.0 * ((x3 - x4) ** 4)
+    val t4 = 10 * ((x3 - x4) ** 4)
     t1 + t2 + t3 + t4
   }
 
   def powellSum[F[_]: Foldable1, A: Ring : Signed : Monoid](x: F[A]) =
-    x.toList.zipWithIndex.foldMap {
+    x.toList.zipWithIndex.suml {
       case (xi, i) => abs(xi) ** (i + 1)
     }
 
@@ -898,23 +1023,37 @@ object Benchmarks {
     val (x1, x2, x3, x4) = x
     val xs = List(x1, x2, x3, x4)
 
-    b.zipWithIndex.foldMap {
+    b.zipWithIndex.suml {
       case (bk, i) =>
         val k = i + 1
-        val t = xs.foldMap(xi => xi ** k)
+        val t = xs.suml(xi => xi ** k)
         (t - bk) ** 2
     }
   }
 
   def price1[F[_]: Foldable1, A: Ring : Signed : Monoid](x: F[A]) =
-    x.foldMap(xi => (abs(xi) - 5) ** 2)
+    x.sum(xi => (abs(xi) - 5) ** 2)
 
   def price2[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
-    1.0 + x.foldMap(xi => sin(xi) ** 2) - 0.1 * exp(-x.foldMap(_ ** 2))
+    1 + x.sum(xi => sin(xi) ** 2) - 0.1 * exp(-x.sum(_ ** 2))
+
+  def price3[A: Field](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val t1 = 100 * ((x2 - (x1 ** 2)) ** 2)
+    val t2 = (6.4 * ((x2 - 0.5) ** 2) - x1 - 0.6) ** 2
+    t1 + t2
+  }
+
+  def price4[A: Field](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val t1 = (2 * (x1 ** 3) * x2 - (x2 ** 3)) ** 2
+    val t2 = (6 * x1 - (x2 ** 2) + x2) ** 2
+    t1 + t2
+  }
 
   def qing[F[_]: Foldable1, A: Field : Monoid](x: F[A]) =
-    x.toList.zipWithIndex.foldMap {
-      case (xi, i) => ((xi ** 2) - (i + 1.0)) ** 2
+    x.toList.zipWithIndex.suml {
+      case (xi, i) => ((xi ** 2) - (i + 1)) ** 2
     }
 
   def quadratic[A: Field](x: Sized2[A]) = {
@@ -926,41 +1065,73 @@ object Benchmarks {
   }
 
   def quadric[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) =
-    (1 to x.length).toList.foldMap { i =>
-      (x.toList take i).foldMap(xi => xi) ** 2
+    (1 to x.length).sumr { i =>
+      (x.toList take i).suml(xi => xi) ** 2
     }
 
   def quintic[F[_]: Foldable1, A: Field : Signed : Monoid](x: F[A]) =
-    abs(x.foldMap { xi =>
-      (xi ** 5) - 3 * (xi ** 4) + 4 * (xi ** 3) + 2 * (xi ** 2) - 10.0 * xi - 4
+    abs(x.sum { xi =>
+      (xi ** 5) - 3 * (xi ** 4) + 4 * (xi ** 3) + 2 * (xi ** 2) - 10 * xi - 4
     })
 
-  def rastrigin[F[_]: Foldable1, A: Field : IsReal : Trig : Monoid](x: F[A]) =
-    10 * x.length + x.foldMap(xi => xi ** 2 - 10 * cos(2 * pi * xi))
+  def rana[F[_]: Foldable, A: Field : NRoot : Signed : Trig : Monoid](x: Sized2And[F,A]) = {
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
+      case Seq(xi, xi1) =>
+        val t1 = sqrt(abs(xi1 + xi + 1))
+        val t2 = sqrt(abs(xi1 - xi + 1))
+        (xi1 + 1) * cos(t2) * sin(t1) + xi * cos(t1) * sin(t2)
+    }
+  }
 
-  def rosenbrock[F[_]: Foldable, A: Ring : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def rastrigin[F[_]: Foldable1, A: Field : IsReal : Trig : Monoid](x: F[A]) =
+    10 * x.length + x.sum(xi => xi ** 2 - 10 * cos(2 * pi * xi))
+
+  def rosenbrock[F[_]: Foldable, A: Ring : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(xi, xi1) => 100 * ((xi1 - (xi ** 2)) ** 2) + ((xi - 1) ** 2)
     }
 
-  def rotatedEllipse1[F[_]: Foldable, A: Field : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def ripple1[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
+    x.sum { xi =>
+      val u = -2 * log(2) * (((xi - 0.1) / 0.8) ** 2)
+      val v = (sin(5 * pi * xi) ** 6) + 0.1 * (cos(500 * pi * xi) ** 2)
+      -exp(u) * v
+    }
+
+  def ripple2[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
+    x.sum { xi =>
+      val u = -2 * log(2) * (((xi - 0.1) / 0.8) ** 2)
+      val v = (sin(5 * pi * xi) ** 6)
+      -exp(u) * v
+    }
+
+  def rotatedEllipse1[F[_]: Foldable, A: Field : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(x1, x2) =>
         (7 * (x1 ** 2)) - (6 * sqrt(3.0) * x1 * x2) + (13 * (x2 ** 2))
     }
 
-  def rotatedEllipse2[F[_]: Foldable, A: Ring : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def rotatedEllipse2[F[_]: Foldable, A: Ring : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(x1, x2) => (x1 ** 2) - (x1 * x2) + (x2 ** 2)
     }
 
-  def salomon[F[_]: Foldable1,  A: Field : NRoot : Trig : Monoid](x: F[A]) = {
+  def salomon[F[_]: Foldable1, A: Field : NRoot : Trig : Monoid](x: F[A]) = {
     val ss = sqrt(spherical(x))
     -cos(2 * pi * ss) + (0.1 * ss) + 1
   }
 
-  def schaffer1[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def sargan[F[_]: Foldable1, A: Field : Monoid](x: F[A]) = {
+    val zipped = x.toList.zipWithIndex
+    zipped.suml {
+      case (xi, i) =>
+        val sum = zipped.filter { case (_, j) => i != j }.suml { case (xj, _) => xi * xj }
+        x.length * ((xi ** 2) + 0.4 * sum)
+    }
+  }
+
+  def schaffer1[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(xi, xi1) =>
         val t1 = (xi ** 2) + (xi1 ** 2)
         val t2 = (xi ** 2) + (xi1 ** 2)
@@ -969,8 +1140,8 @@ object Benchmarks {
         0.5 + (t3 / t4)
     }
 
-  def schaffer2[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def schaffer2[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(xi, xi1) =>
         val t1 = (xi ** 2) - (xi1 ** 2)
         val t2 = (xi ** 2) + (xi1 ** 2)
@@ -979,8 +1150,8 @@ object Benchmarks {
         0.5 + (t3 / t4)
     }
 
-  def schaffer3[F[_]: Foldable, A: Field : Signed : Trig : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def schaffer3[F[_]: Foldable, A: Field : Signed : Trig : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(xi, xi1) =>
         val t1 = cos(abs((xi ** 2) - (xi1 ** 2)))
         val t2 = (xi ** 2) + (xi1 ** 2)
@@ -989,8 +1160,8 @@ object Benchmarks {
         0.5 + (t3 / t4)
     }
 
-  def schaffer4[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def schaffer4[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(xi, xi1) =>
         val t1 = sin((xi ** 2) - (xi1 ** 2))
         val t2 = (xi ** 2) + (xi1 ** 2)
@@ -999,35 +1170,43 @@ object Benchmarks {
         0.5 + (t3 / t4)
     }
 
-  def schwefel1[F[_]: Foldable1, A: Field : NRoot : Monoid](x: F[A]) =
-    x.foldMap(_ ** 2) ** sqrt(pi)
+  def schumerSteiglitz[F[_]: Foldable1, A: Field : Monoid](x: F[A]) =
+    x.sum(_ ** 4)
+
+  def schwefel1[F[_]: Foldable1, A: Field : NRoot : Monoid](x: F[A]) = {
+    val α = sqrt(pi)
+    x.sum(_ ** 2) ** α
+  }
 
   def schwefel12[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) =
-    x.toList.zipWithIndex.foldMap {
-      case (xi, i) => x.toList.take(i + 1).foldMap(xi => xi) ** 2
+    x.toList.zipWithIndex.suml {
+      case (xi, i) => x.toList.take(i + 1).suml(xi => xi) ** 2
     }
 
-  def schwefel221[F[_]: Foldable, A: Order : Signed](x: Sized1And[F, A]) =
+  def schwefel220[F[_]: Foldable1, A: Ring : Signed : Monoid](x: F[A]) =
+    x.sum(abs(_))
+
+  def schwefel221[F[_]: Foldable, A: Order : Signed](x: Sized1And[F,A]) =
     x.foldLeft(abs(x.head)) { (xi, xi1) => spire.math.max(abs(xi), abs(xi1)) }
 
-  def schwefel222[F[_]: Foldable1 : Functor, A: Signed : Monoid](x: F[A])(implicit A: Ring[A]) =
-    x.foldMap(abs(_)) + x.map(abs(_)).foldLeft(A.one)(_ * _)
+  def schwefel222[F[_]: Foldable1, A: Field : Signed : Monoid](x: F[A]) =
+    x.sum(abs(_)) + x.product(abs(_))
 
   def schwefel223[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) =
-    x.foldMap(_ ** 10)
+    x.sum(_ ** 10)
 
-  def schwefel225[F[_]: Foldable, A: Field : Monoid](x: Sized1And[F, A]) =
-    x.foldMap(xi => ((xi - 1.0) ** 2) + ((x.head - (xi ** 2)) ** 2))
+  def schwefel225[F[_]: Foldable, A: Field : Monoid](x: Sized1And[F,A]) =
+    x.foldMap(xi => ((xi - 1) ** 2) + ((x.head - (xi ** 2)) ** 2))
 
   def schwefel226[F[_]: Foldable1, A: Field : NRoot : Signed : Trig : Monoid](x: F[A]) =
-    418.9829 * x.length - x.foldMap(xi => xi * sin(sqrt(abs(xi))))
+    418.9829 * x.length - x.sum(xi => xi * sin(sqrt(abs(xi))))
 
   def schwefel236[A: Field](x: Sized2[A]) = {
     val (x1, x2) = x
-    -x1 * x2 * (72.0 - 2.0 * x1 - 2.0 * x2)
+    -x1 * x2 * (72 - 2 * x1 - 2 * x2)
   }
 
-  def schwefel24[F[_]: Foldable, A: Field : Monoid](x: Sized1And[F, A]) =
+  def schwefel24[F[_]: Foldable, A: Field : Monoid](x: Sized1And[F,A]) =
     x.foldMap(xi => ((x.head - 1) ** 2) + ((x.head - xi) ** 2))
 
   def schwefel26[A: Order : Ring : Signed](x: Sized2[A]) = {
@@ -1035,11 +1214,83 @@ object Benchmarks {
     spire.math.max(abs(x1 + 2 * x2 - 7), abs(2 * x1 + x2 - 5))
   }
 
-  def shubert[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2[A]) = {
+  def shekel5[A: Field : Monoid](x: Sized4[A]) = {
+    val xs = List(x._1, x._2, x._3, x._4)
+    val a = List(
+      List(4, 4, 4, 4),
+      List(1, 1, 1, 1),
+      List(8, 8, 8, 8),
+      List(6, 6, 6, 6),
+      List(3, 7, 3, 7)
+    )
+    val c = List(0.1, 0.2, 0.2, 0.4, 0.6)
+
+    -(a zip c).suml { case (ai, ci) =>
+      1 / (ci + (xs zip ai).suml { case (xj, aij) => (xj - aij) ** 2 })
+    }
+  }
+
+  def shekel7[A: Field : Monoid](x: Sized4[A]) = {
+    val xs = List(x._1, x._2, x._3, x._4)
+    val a = List(
+      List(4, 4, 4, 4),
+      List(1, 1, 1, 1),
+      List(8, 8, 8, 8),
+      List(6, 6, 6, 6),
+      List(3, 7, 3, 7),
+      List(2, 9, 2, 9),
+      List(5, 5, 3, 3)
+    )
+    val c = List(0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3)
+
+    -(a zip c).suml { case (ai, ci) =>
+      1.0 / (ci + (xs zip ai).suml { case (xj, aij) => (xj - aij) ** 2 })
+    }
+  }
+
+  def shekel10[A: Field : Monoid](x: Sized4[A]) = {
+    val xs = List(x._1, x._2, x._3, x._4)
+    val a = List(
+      List(4.0, 4.0, 4.0, 4.0),
+      List(1.0, 1.0, 1.0, 1.0),
+      List(8.0, 8.0, 8.0, 8.0),
+      List(6.0, 6.0, 6.0, 6.0),
+      List(3.0, 7.0, 3.0, 7.0),
+      List(2.0, 9.0, 2.0, 9.0),
+      List(5.0, 5.0, 3.0, 3.0),
+      List(8.0, 1.0, 8.0, 1.0),
+      List(6.0, 2.0, 6.0, 2.0),
+      List(7.0, 3.6, 7.0, 3.6)
+    )
+    val c = List(0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5)
+
+    -(a zip c).suml { case (ai, ci) =>
+      1.0 / (ci + (xs zip ai).suml { case (xj, aij) => (xj - aij) ** 2 })
+    }
+  }
+
+  def shubert1[F[_]: Foldable, A: Field : Trig : Monoid](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = (1 to 5).toList.foldMap(j => j * cos((j + 1) * x1 + j))
-    val t2 = (1 to 5).toList.foldMap(j => j * cos((j + 1) * x2 + j))
+    val t1 = (1 to 5).sumr(j => j * cos((j + 1) * x1 + j))
+    val t2 = (1 to 5).sumr(j => j * cos((j + 1) * x2 + j))
     t1 * t2
+  }
+
+  def shubert3[A: Ring : Trig : Monoid](x: Sized2[A]) = {
+    val xs = List(x._1, x._2)
+    xs.suml(xi => (1 to 5).sumr(j => -j * sin((j + 1) * xi + j)))
+  }
+
+  def shubert4[A: Ring : Trig : Monoid](x: Sized2[A]) = {
+    val xs = List(x._1, x._2)
+    xs.suml(xi => (1 to 5).sumr(j => -j * cos((j + 1) * xi + j)))
+  }
+
+  def sineEnvelope[A: Field : NRoot : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val numer = (sin(sqrt((x1 ** 2) + (x2 ** 2))) ** 2) - 0.5
+    val denom = 1 + 0.0001 * (((x1 ** 2) + (x2 ** 2)) ** 2)
+    0.5 + (numer / denom)
   }
 
   def sixHumpCamelback[A: Field](x: Sized2[A]) = {
@@ -1050,33 +1301,33 @@ object Benchmarks {
   }
 
   def spherical[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) =
-    x.foldMap(_ ** 2)
+    x.sum(_ ** 2)
 
   def step1[F[_]: Foldable1, A: IsReal : Ring : Signed : Monoid](x: F[A]) =
-    x.foldMap(xi => floor(abs(xi)))
+    x.sum(xi => floor(abs(xi)))
 
   def step2[F[_]: Foldable1, A: Field : IsReal : Monoid](x: F[A]) =
-    x.foldMap(xi => (floor(xi) + 0.5) ** 2)
+    x.sum(xi => (floor(xi) + 0.5) ** 2)
 
   def step3[F[_]: Foldable1, A: IsReal : Ring : Monoid](x: F[A]) =
-    x.foldMap(xi => floor(xi ** 2))
+    x.sum(xi => floor(xi ** 2))
 
-  def stretchedVSineWave[F[_]: Foldable, A: Field : NRoot : Trig : Monoid](x: Sized2And[F, A]) =
-    (x.a :: x.b :: x.rest.toList).sliding(2).toList.foldMap {
+  def stretchedVSineWave[F[_]: Foldable, A: Field : NRoot : Trig : Monoid](x: Sized2And[F,A]) =
+    (x.a :: x.b :: x.rest.toList).sliding(2).toList.suml {
       case Seq(xi, xi1) =>
         val t1 = ((xi1 ** 2) + (xi ** 2)) ** 0.25
-        val t2 = sin(50.0 * (((xi1 ** 2) + (xi ** 2) ** 0.1))) ** 2 + 0.1
+        val t2 = sin(50 * (((xi1 ** 2) + (xi ** 2) ** 0.1))) ** 2 + 0.1
         t1 * t2
     }
 
   def styblinksiTang[F[_]: Foldable1, A: Field : Monoid](x: F[A]) =
-    0.5 * x.foldMap(xi => (xi ** 4) - 16 * (xi ** 2) + 5 * xi)
+    0.5 * x.sum(xi => (xi ** 4) - 16 * (xi ** 2) + 5 * xi)
 
   def sumSquares[F[_]: Foldable1, A: Ring : Monoid](x: F[A]) =
-    x.toList.zipWithIndex.foldMap { case (xi, i) => (i + 1) * (xi ** 2) }
+    x.toList.zipWithIndex.suml { case (xi, i) => (i + 1) * (xi ** 2) }
 
   def sumDifferentPowers[F[_]: Foldable1, A: Ring : Signed : Monoid](x: F[A]) =
-    x.toList.zipWithIndex.foldMap { case (xi, i) => abs(xi) ** (i + 2) }
+    x.toList.zipWithIndex.suml { case (xi, i) => abs(xi) ** (i + 2) }
 
   def threeHumpCamelback[A: Field : IsReal](x: Sized2[A]) = {
     val (x1, x2) = x
@@ -1088,38 +1339,65 @@ object Benchmarks {
     x1 ** 4 + 4 * (x1 ** 3) + 4 * (x1 ** 2) + (x2 ** 2)
   }
 
+  def trefethen[A: Field : Trig](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val t1 = 0.25 * (x1 ** 2) + 0.25 * (x2 ** 2)
+    val t2 = exp(sin(50 * x1)) - sin(10 * (x1 + x2))
+    val t3 = sin(60 * exp(x2))
+    val t4 = sin(70 * sin(x1))
+    val t5 = sin(sin(80 * x2))
+    t1 + t2 + t3 + t4 + t5
+  }
+
+  def trid[F[_]: Foldable, A: Field : Monoid](x: Sized2And[F,A]) = {
+    val xs = x.a :: x.b :: x.rest.toList
+    val t1 = xs.suml(xi => (xi - 1) ** 2)
+    val t2 = xs.sliding(2).toList.suml { case Seq(xi, xi1) => xi * xi1 }
+    t1 - t2
+  }
+
   def trigonometric1[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
-    x.toList.zipWithIndex.foldMap {
+    x.toList.zipWithIndex.suml {
       case (xi, i) =>
-        (x.length - x.foldMap(cos(_)) + i * (1.0 - cos(xi) - sin(xi))) ** 2
+        (x.length - x.sum(cos(_)) + i * (1.0 - cos(xi) - sin(xi))) ** 2
     }
 
   def trigonometric2[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
-    1.0 + x.foldMap { xi =>
+    1.0 + x.sum { xi =>
       val co = (xi - 0.9) ** 2
-      val t1 = 8.0 * (sin(7.0 * co) ** 2)
-      val t2 = 6.0 * (sin(14.0 * co) ** 2)
+      val t1 = 8 * (sin(7 * co) ** 2)
+      val t2 = 6 * (sin(14 * co) ** 2)
       t1 + t2 + co
     }
 
+  def tripod[A: Order](x: Sized2[A])(implicit A: Field[A]) = {
+    val (x1, x2) = x
+    def p(xi: A) = if (xi >= A.zero) A.one else A.zero
+
+    val t1 = p(x2) * (1 + p(x2))
+    val t2 = abs(x1 + 50 * p(x2) * (1 - 2 * p(x1)))
+    val t3 = abs(x2 + 50 * (1 - 2 * p(x2)))
+    t1 + t2 + t3
+  }
+
   def ursem1[A: Field : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
-    -sin(2.0 * x1 - 0.5 * pi) - 3.0 * cos(x2) - 0.5 * x1
+    -sin(2 * x1 - 0.5 * pi) - 3 * cos(x2) - 0.5 * x1
   }
 
   def ursem3[A: Field : Trig : Signed](x: Sized2[A]) = {
     val (x1, x2) = x
     val co1 = -sin(2.2 * pi * x1 + 0.5 * pi)
     val co2 = -sin(2.2 * pi * x2 + 0.5 * pi)
-    val t1 = co1 *  ((2.0 - abs(x1)) / (2.0)) * ((3.0 - abs(x1)) / (2.0))
-    val t2 = co2 *  ((2.0 - abs(x2)) / (2.0)) * ((3.0 - abs(x2)) / (2.0))
+    val t1 = co1 * ((2 - abs(x1)) / (2)) * ((3 - abs(x1)) / (2))
+    val t2 = co2 * ((2 - abs(x2)) / (2)) * ((3 - abs(x2)) / (2))
     t1 + t2
   }
 
   def ursem4[A: Field : NRoot : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = -3.0 * sin(0.5 * pi * x1 + 0.5 * pi)
-    val t2 = (2.0 - sqrt((x1 ** 2) + (x2 ** 2))) / 4.0
+    val t1 = -3 * sin(0.5 * pi * x1 + 0.5 * pi)
+    val t2 = (2 - sqrt((x1 ** 2) + (x2 ** 2))) / 4
     t1 * t2
   }
 
@@ -1127,40 +1405,65 @@ object Benchmarks {
     val (x1, x2) = x
     val t1 = -0.9 * (x1 ** 2)
     val t2 = ((x2 ** 2) - 4.5 * (x2 ** 2)) * x1 * x2
-    val t3 = 4.7 * cos(3.0 * x1 - (x2 ** 2) * (2.0 + x1))
+    val t3 = 4.7 * cos(3 * x1 - (x2 ** 2) * (2 + x1))
     val t4 = sin(2.5 * pi * x1)
     t1 + t2 + t3 * t4
   }
 
   def venterSobiezcczanskiSobieski[A: Field : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = (x1 ** 2) - 100.0 * (cos(x1) ** 2)
-    val t2 = -100.0 * cos((x1 ** 2) / 30.0) + (x2 ** 2)
-    val t3 = -100.0 * (cos(x2) ** 2) - 100.0 * cos((x2 ** 2) / 30.0)
+    val t1 = (x1 ** 2) - 100 * (cos(x1) ** 2)
+    val t2 = -100 * cos((x1 ** 2) / 30) + (x2 ** 2)
+    val t3 = -100 * (cos(x2) ** 2) - 100 * cos((x2 ** 2) / 30)
     t1 + t2 + t3
   }
 
   def vincent[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
-    -x.foldMap(xi => sin(10.0 * log(xi)))
+    -x.sum(xi => sin(10 * log(xi)))
 
-  def wayburnSeader1[A: Field](x: Sized2[A]) = {
-    val (x1, x2) = x
-    val t1 = ((x1 ** 6) + (x2 ** 4) - 17.0) ** 2
-    val t2 = (2.0 * x1 + x2 - 4) ** 2
+  def watson[A: Field : Monoid](x: Sized6[A]) = {
+    val xs = List(x._1, x._2, x._3, x._4, x._5, x._6)
+    val x1 = x._1
+
+    val t1 = (0 to 29).sumr { i =>
+      val ai = i / 29.0
+      val sum4 = xs.tail.zipWithIndex.suml { case (xj, j) =>
+        (j + 1) * (ai ** j.toDouble) * xj
+      }
+      val sum5 = xs.zipWithIndex.suml { case (xk, k) =>
+        (ai ** k.toDouble) * xk
+      }
+      (sum4 - (sum5 ** 2) - 1) ** 2
+    }
+
+    val t2 = x1 ** 2
+
     t1 + t2
   }
 
+  def wayburnSeader1[A: Field](x: Sized2[A]) = {
+    val (x1, x2) = x
+    val t1 = ((x1 ** 6) + (x2 ** 4) - 17) ** 2
+    val t2 = (2 * x1 + x2 - 4) ** 2
+    t1 + t2
+  }
+
+  def wavy[F[_]: Foldable1, A: Field : Trig : Monoid](k: A = 10.0)(x: F[A]) =
+    1 - (x.sum { xi =>
+      cos(k * xi) * exp(-(xi ** 2) / 2)
+    } / x.length)
+
   def wayburnSeader2[A: Field](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = (1.613 - 4.0 * ((x1 - 0.3125) ** 2) - 4.0 * ((x2 - 1.625) ** 2)) ** 2
-    val t2 = (x2 - 1.0) ** 2
+    val t1 = (1.613 - 4 * ((x1 - 0.3125) ** 2) - 4 * ((x2 - 1.625) ** 2)) ** 2
+    val t2 = (x2 - 1) ** 2
     t1 + t2
   }
 
   def wayburnSeader3[A: Field](x: Sized2[A]) = {
     val (x1, x2) = x
-    val t1 = 2.0 * ((x1 ** 3) / 3.0) - 8.0 * (x1 ** 2) + 33.0 * x1 - x1 * x2 + 5
-    val t2 = (((x1 - 4.0) ** 2) + ((x2 - 5.0) ** 2) - 4.0) ** 2
+    val t1 = 2 * ((x1 ** 3) / 3) - 8 * (x1 ** 2) + 33 * x1 - x1 * x2 + 5
+    val t2 = (((x1 - 4) ** 2) + ((x2 - 5.0) ** 2) - 4) ** 2
     t1 + t2
   }
 
@@ -1170,12 +1473,12 @@ object Benchmarks {
     val kmax = 20
     val constant = (0 to kmax).toList.map { k =>
       val t1 = a ** k.toDouble
-      val t2 = cos(2 * pi * (b ** k.toDouble) * 0.5)
+      val t2 = cos(pi * (b ** k.toDouble))
       t1 * t2
     }.sum
 
-    val factor1 = x.foldMap { xi =>
-      (0 to kmax).toList.foldMap { k =>
+    val factor1 = x.sum { xi =>
+      (0 to kmax).sumr { k =>
         val t1 = a ** k.toDouble
         val t2 = cos(2 * pi * (b ** k.toDouble) * (xi + 0.5))
         t1 * t2
@@ -1184,6 +1487,16 @@ object Benchmarks {
 
     factor1 - x.length * constant
   }
+
+  def whitley[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
+    x.sum { xi =>
+      x.sum { xj =>
+        val factor = 100 * (((xi ** 2) - xj) ** 2) + ((1 - xj) ** 2)
+        val t1 = (factor ** 2) / 4000
+        val t2 = cos(factor)
+        t1 - t2 + 1
+      }
+    }
 
   def wolfe[A: Field : NRoot](x: Sized3[A]) = {
     val (x1, x2, x3) = x
@@ -1200,20 +1513,47 @@ object Benchmarks {
     t1 + t2 + t3 + t4 + t4
   }
 
-  def xinsheYang[F[_]: Foldable1, A: Field : Signed : Trig : Monoid](x: F[A]) = {
-    val t1 = x.foldMap(abs(_))
-    val t2 = exp(-x.foldMap(xi => sin(xi ** 2)))
+  def xinSheYang2[F[_]: Foldable1, A: Field : Signed : Trig : Monoid](x: F[A]) = {
+    val t1 = x.sum(abs(_))
+    val t2 = exp(-x.sum(xi => sin(xi ** 2)))
     t1 * t2
   }
 
+  def xinSheYang3[F[_]: Foldable1, A: Field : NRoot : Trig : Monoid](m: A = 5.0)(x: F[A]) = {
+    val β = 15.0
+    val u = x.sum(xi => (xi / β).fpow(2 * m))
+    val v = x.sum(_ ** 2)
+    val w = x.product(xi => cos(xi) ** 2)
+    exp(-u) - 2 * exp(-v) * w
+  }
+
+  def xinSheYang4[F[_]: Foldable1, A: Field : NRoot : Signed : Trig : Monoid](x: F[A]) = {
+    val u = x.sum(xi => sin(xi) ** 2)
+    val v = x.sum(_ ** 2)
+    val w = x.sum(xi => sin(sqrt(abs(xi))) ** 2)
+    (u - exp(-v)) * exp(-w)
+  }
+
+  def yaoLiu4[F[_]: Foldable1 : Functor, A: Signed : scalaz.Order](x: F[A]) =
+    x.map(abs(_)).maximum1
+
+  def yaoLiu9[F[_]: Foldable1, A: Field : Trig : Monoid](x: F[A]) =
+    x.sum(xi => (xi ** 2) - 10 * cos(2 * pi * xi) + 10)
+
   def zakharov[F[_]: Foldable1, A: Field : IsReal : Monoid](x: F[A]) = {
-    val t = x.toList.zipWithIndex.foldMap { case (xi, i) => 0.5 * i * xi }
+    val t = x.toList.zipWithIndex.suml { case (xi, i) => 0.5 * i * xi }
     spherical(x) + (t ** 2) + (t ** 4)
+  }
+
+  def zeroSum[F[_]: Foldable1, A: Signed : NRoot : Monoid](x: F[A])(implicit A: Field[A]) = {
+    val sum = x.sum(xi => xi)
+    if (sum == 0.0) A.zero
+    else 1 + ((10000 * abs(sum)) ** 0.5)
   }
 
   def zettle[A: Field](x: Sized2[A]) = {
     val (x1, x2) = x
-    (x1 ** 2 + x2 ** 2 - 2 * x1) ** 2 + x1 / 4.0
+    (x1 ** 2 + x2 ** 2 - 2 * x1) ** 2 + x1 / 4
   }
 
   def zirilli1[A: Field](x: Sized2[A]) = {
@@ -1223,7 +1563,7 @@ object Benchmarks {
 
   def zirilli2[A: Field : Trig](x: Sized2[A]) = {
     val (x1, x2) = x
-    0.5 * (x1 ** 2) + 0.5 * (1.0 - cos(2.0 * x1)) + (x2 ** 2)
+    0.5 * (x1 ** 2) + 0.5 * (1.0 - cos(2 * x1)) + (x2 ** 2)
   }
 
 }
