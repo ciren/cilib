@@ -40,10 +40,10 @@ object Step {
   def evalF[F[_]:Foldable,A](pos: Position[F,A]): Step[F,A,Position[F,A]] =
     Step { _ => e =>
       RVar.point(pos match {
-        case Point(x) =>
+        case Point(x, b) =>
           val (fit, vio) = e.eval(x)
-          Solution(x, fit, vio)
-        case x @ Solution(_, _, _) =>
+          Solution(x, b, fit, vio)
+        case x @ Solution(_, _, _, _) =>
           x
       })
     }

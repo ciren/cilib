@@ -19,47 +19,53 @@ sealed abstract class Position[F[_],A] { // Transformer of some sort, over the t
   import Position._
 
   def map[B](f: A => B)(implicit F: Functor[F]): Position[F,B] =
-    Point(pos map f)
+    Point(pos map f, boundary)
 
   def flatMap[B](f: A => Position[F, B])(implicit F: Monad[F]): Position[F, B] =
-    Point(F.bind(pos)(f(_).pos))
+    Point(F.bind(pos)(f(_).pos), boundary)
 
   def zip[B](other: Position[F, B])(implicit F: Zip[F]): Position[F, (A, B)] =
-    Point(F.zip(pos, other.pos))
+    Point(F.zip(pos, other.pos), boundary)
 
   def traverse[G[_]: Applicative, B](f: A => G[B])(implicit F: Traverse[F]): G[Position[F, B]] =
-    F.traverse(pos)(f).map(Point(_))
+    F.traverse(pos)(f).map(Point(_, boundary))
 
   def pos =
     this match {
-      case Point(x)          => x
-      case Solution(x, _, _) => x
+      case Point(x, _)          => x
+      case Solution(x, _, _, _) => x
     }
 
   def fit: Maybe[Fit] =
     this match {
-      case Point(_)          => Maybe.empty
-      case Solution(_, f, _) => Maybe.just(f)
+      case Point(_, _)          => Maybe.empty
+      case Solution(_, _, f, _) => Maybe.just(f)
     }
 
   def violations: Maybe[List[Constraint[A,Double]]] =
     this match {
-      case Point(_)          => Maybe.empty
-      case Solution(_, _, v) => Maybe.just(v)
+      case Point(_, _)          => Maybe.empty
+      case Solution(_, _, _, v) => Maybe.just(v)
     }
 
-  def toPoint: Position[F, A] =
+  def toPoint: Position[F,A] =
     this match {
-      case Point(_) => this
-      case Solution(x, _, _) => Point(x)
+      case Point(_, _) => this
+      case Solution(x, b, _, _) => Point(x, b)
     }
 
   def feasible: Option[Position[F,A]] =
     violations.map(_.isEmpty).getOrElse(false).option(this)
+
+  def boundary =
+    this match {
+      case Point(_, b) => b
+      case Solution(_, b, _, _) => b
+    }
 }
 
-final case class Point[F[_],A] private[cilib] (x: F[A]) extends Position[F,A]
-final case class Solution[F[_],A] private[cilib] (x: F[A], f: Fit, v: List[Constraint[A,Double]]) extends Position[F,A]
+final case class Point[F[_],A] private[cilib] (x: F[A], b: NonEmptyList[Interval[Double]]) extends Position[F,A]
+final case class Solution[F[_],A] private[cilib] (x: F[A], b: NonEmptyList[Interval[Double]], f: Fit, v: List[Constraint[A,Double]]) extends Position[F,A]
 
 object Position {
   implicit def positionInstances[F[_]](implicit F0: Monad[F], F1: Zip[F]): Bind[Position[F,?]] /*with Traverse[Position[F,?]]*/ with Zip[Position[F,?]] =
@@ -80,15 +86,15 @@ object Position {
 
     import spire.algebra._
     def + (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F,A] =
-      Point(M.plus(x.pos, other.pos))
+      Point(M.plus(x.pos, other.pos), x.boundary)
 
     def - (other: Position[F,A])(implicit M: Module[F[A],A]): Position[F,A] =
-      Point(M.minus(x.pos, other.pos))
+      Point(M.minus(x.pos, other.pos), x.boundary)
 
     /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
 
     def *: (scalar: A)(implicit M: Module[F[A],A]): Position[F,A] =
-      Point(M.timesl(scalar, x.pos))
+      Point(M.timesl(scalar, x.pos), x.boundary)
   }
 
   implicit def positionFitness[F[_],A] = new Fitness[Position[F,A]] {
@@ -96,11 +102,11 @@ object Position {
       a.fit
   }
 
-  def apply[F[_]:SolutionRep,A](xs: F[A]): Position[F, A] =
-    Point(xs)
+  def apply[F[_]:SolutionRep,A](xs: F[A], b: NonEmptyList[Interval[Double]]): Position[F, A] =
+    Point(xs, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]])(implicit F: SolutionRep[List]) =
-    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (x => Position(x.list))
+    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (x => Position(x.list, domain))
 
   def createPositions(domain: NonEmptyList[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]) =
     createPosition(domain) replicateM n
