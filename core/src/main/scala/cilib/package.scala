@@ -10,11 +10,6 @@ package object cilib {
 
   type Selection[A] = (List[A], A) => List[A]
 
-// <<<<<<< HEAD
-//   type Iteration[/*F[_],*/A,B] = Kleisli[Step[A,?],B,B]
-
-// =======
-// >>>>>>> non-empty-interval
   def positive(d: Double): Maybe[Double @@ Tags.Positive] =
     if (d > 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty
@@ -23,14 +18,12 @@ package object cilib {
     if (d < 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty
 
-
   // Use Spire for this!
   def closed[A](point: A): Bound[A] =
     Closed(point)
 
   def open[A](point: A): Bound[A] =
     Open(point)
-
 
   // Find a better home for this
   implicit object DoubleMonoid extends Monoid[Double] {
@@ -46,7 +39,7 @@ package object cilib {
         x.map(scalar.negate)
 
       def zero: Position[Double] =
-        Position(NonEmptyList(0.0))
+        Position(NonEmptyList(0.0), NonEmptyList(Interval(Closed(0.0), Closed(0.0))))
 
       def timesl(r: Double, v: Position[Double]): Position[Double] =
         v map (scalar.times(r, _))
@@ -63,6 +56,5 @@ package object cilib {
       // This is hardcoded to be the Euclidean norm. Can we make this generic?
       def norm(x: Position[Double]): Double =
         math.sqrt(x.foldMap1(y => y*y))
-
     }
 }

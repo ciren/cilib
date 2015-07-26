@@ -36,7 +36,7 @@ object Lenses {
 
   def _solutionPrism[/*F[_],*/A]: Prism[Position[A],Solution[A]] =
     Prism.apply[Position[A],Solution[A]]{
-      case x@Solution(_, _, _) => Some(x)
+      case x@Solution(_, _, _, _) => Some(x)
       case _ => None
     }(identity)
 
@@ -46,8 +46,8 @@ object Lenses {
 /*=======
   def _solutionPrism[F[_], A]: Prism[Position[F,A],Solution[F,A]] =
     Prism.apply[Position[F,A],Solution[F,A]]{
-      case x @ Solution(_, _, _) => Some(x)
-      case _                     => None
+      case x @ Solution(_, _, _, _) => Some(x)
+      case _                        => None
     }(identity)
 
   def _fitness[F[_],A]: Optional[Position[F,A],Fit] =

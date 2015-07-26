@@ -125,7 +125,7 @@ object Defaults {
 
 import scalaz.syntax.applicative._
 
-  def quantumBehavedOriginal2004[S](
+/*  def quantumBehavedOriginal2004[S](
     social: Guide[S,Double],
     g: Double
   )(implicit M:Memory[S,Double], V:Velocity[S,Double], MO: Module[Position[Double],Double]
@@ -159,5 +159,5 @@ import scalaz.syntax.applicative._
         r = choice.zip(p.zip(l2)).map(b => if (b._1) b._2._1 - b._2._2 else b._2._1 + b._2._2) //((b, p, l) => if (b) p - l else p + l)
       } yield r)
       //newPart <- entity.copy(pos = r) // Positon lens
-
+ */
 }
