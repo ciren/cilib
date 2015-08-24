@@ -3,6 +3,9 @@ package cilib
 import scalaz._
 import scalaz.syntax.state._
 
+final case class Compare[A](a: A, b: A) {
+}
+
 /**
   A `Step` is a type that models a single step / operation within a CI Algorithm.
 
@@ -14,9 +17,9 @@ import scalaz.syntax.state._
   of different usages (or it is hoped to be so).
 
   `Step` is nothing more than a data structure that hides the details of a
-  monad transformer stack which represents the algoritm parts.
+  monad transformer stack which represents the algoritmic parts.
   */
-final case class Step[A,B] private (run: Opt => Eval[A] => RVar[B]) {
+final case class Step[A,B] private (run: Comparison => Eval[A] => RVar[B]) {
   def map[C](f: B => C): Step[A,C] =
     Step(o => e => run(o)(e).map(f))
 
@@ -33,10 +36,10 @@ object Step {
   def pointR[A,B](a: RVar[B]): Step[A,B] =
     Step(_ => _ => a)
 
-  def liftK[A,B](a: Reader[Opt, B]): Step[A,B] =
+  def liftK[A,B](a: Reader[Comparison,B]): Step[A,B] =
     Step(o => _ => RVar.point(a.run(o)))
 
-  def withOpt[A,B](f: Opt => RVar[B]): Step[A,B] =
+  def withCompare[A,B](f: Comparison => RVar[B]): Step[A,B] =
     Step(o => _ => f(o))
 
   def evalF[A](pos: Position[A]): Step[A,Position[A]] =

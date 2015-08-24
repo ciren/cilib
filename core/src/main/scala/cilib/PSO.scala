@@ -42,8 +42,15 @@ object PSO {
 
   def updatePBest[S/*,F[_]*/](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
     val pbestL = M._memory
-    Step.liftK(Fitness.compare(p.pos, (p.state applyLens pbestL).get).map(x =>
-      Entity(p.state applyLens pbestL set x, p.pos)))
+    Step.liftK(Comparison.compare(p.pos, (p.state applyLens pbestL).get)).map(x =>
+      Entity(p.state applyLens pbestL set x, p.pos))
+//    Step.liftK(Comparison.fitness(p.pos, (p.state applyLens pbestL).get).map(x =>
+//      Entity(p.state applyLens pbestL set x, p.pos)))
+  }
+
+  def updatePBestBounds[S](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
+    val b = (p.pos.pos zip p.pos.boundary).list.foldLeft(true)((a,c) => a && (c._2.inside(c._1)))
+    if (b) updatePBest(p) else Step.point(p)
   }
 
   def updateVelocity[S/*,F[_]*/](p: Particle[S,Double], v: Position[Double])(implicit V: Velocity[S,Double]): Step[Double,Particle[S,Double]] =

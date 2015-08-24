@@ -54,7 +54,7 @@ object GBestPSO extends SafeApp {
 //=======
   val b2 = Iteration.sync(gbestPSO)
   val w = a flatMap (b2.run)
-  val m = w.run(Min)(sum)
+  val m = w.run(Comparison.quality(Min))(sum)
 //>>>>>>> non-empty-interval
 
 //    val y = m run sum

@@ -48,7 +48,7 @@ object QuantumPSO extends SafeApp {
                    else quantum(collection, x, soc, r).flatMap(replace(x, _))
         p2      <- evalParticle(p)
         p3      <- updateVelocity(p2, v)
-        updated <- updatePBest(p3)
+        updated <- updatePBestBounds(p3)
       } yield updated
     }
 
@@ -100,7 +100,7 @@ object QuantumPSO extends SafeApp {
   val combined2 = disjointCircles ++ linear
 
 
-  val domain = Interval(closed(0.0),closed(100.0))^5
+  val domain = Interval(closed(0.0),closed(100.0)) ^ 5
   val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, RVar.point(20.0)))
   val qpsoDist = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, Dist.cauchy(0.0, 10.0)))
 
@@ -130,8 +130,10 @@ object QuantumPSO extends SafeApp {
       newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrainBy(centerEllipse)))
     }}
 
+  val comparison = Comparison.quality(Max)
+
   def run2(eval: Eval[Double]): StateT[RVar, (List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
-    StateT { case (peaks, pop) => { println("running"); iteration(pop).run(Max)(eval).map(r => ((peaks, r), r))} }
+    StateT { case (peaks, pop) => { println("running"); iteration(pop).run(comparison)(eval).map(r => ((peaks, r), r))} }
 
   import scalaz.syntax.applicative._
   def staticE(n: Int) = mpb(0.0, 0.0).flatMap(e => run2(e).replicateM(n))
@@ -179,7 +181,7 @@ object QuantumPSO extends SafeApp {
     } yield meanFit//(peaks,positions,meanFit)
 
     //    x.replicateM(30).flatMap(a => putStrLn(a.map(x => x._1.toString + x._2.toString + x._3.toString).mkString("\n")))
-    x.replicateM(30).flatMap(a => putStrLn(a.map(x => x.toString).mkString("List(",",\n",")")))
+    x.flatMap(a => putStrLn(a))//.replicateM(30).flatMap(a => putStrLn(a.map(x => x.toString).mkString("List(",",\n",")")))
   }
 
 }

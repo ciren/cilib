@@ -5,19 +5,23 @@ import Scalaz._
 
 import org.scalacheck._
 import org.scalacheck.Prop._
+import org.scalacheck.Gen._
+import org.scalacheck.Arbitrary._
 
-object FitnessTest extends Properties("Fitness") {
+object QualityTest extends Properties("Quality") {
 
-  implicit object IntFitness extends Fitness[Int] {
-    def fitness(a: Int) = Maybe.just(Valid(a.toDouble))
+  implicit val intQuality = new Quality[Int] {
+    def quality(a: Int) = Maybe.just((Valid(a.toDouble), 0))
   }
 
-  property("Minimization compare") = forAll { (x: Int, y: Int) =>
-    Fitness.compare(x, y).run(Min) === (x min y)
-  }
+  property("Minimization quality compare") =
+    forAll { (x: Int, y: Int) =>
+      Comparison.quality(Min)(x, y) == (x min y)
+    }
 
-  property("Maximization compare") = forAll { (x: Int, y: Int) =>
-    Fitness.compare(x, y).run(Max) === (x max y)
-  }
+  property("Maximization quality compare") =
+    forAll { (x: Int, y: Int) =>
+      Comparison.quality(Max)(x, y) == (x max y)
+    }
 
 }

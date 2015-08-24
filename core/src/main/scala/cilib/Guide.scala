@@ -9,9 +9,9 @@ object Guide {
     (_, x) => Step.point(M._memory.get(x.state))
 
   def nbest[S](selection: Selection[Particle[S,Double]])(implicit M: Memory[S,Double]): Guide[S,Double] = {
-    (collection, x) => Step.withOpt(o => RVar.point {
+    (collection, x) => Step.withCompare(o => RVar.point {
       val selected = selection(collection, x)
-      val fittest = selected.map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Fitness.compare(a, c) run (o))
+      val fittest = selected.map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Comparison.compare(a, c) run (o))
       fittest.getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
     })
   }

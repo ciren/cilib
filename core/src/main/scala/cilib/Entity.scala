@@ -111,9 +111,9 @@ object Position {
       M.timesl(scalar, x)
   }
 
-  implicit def positionFitness[/*F[_],*/A] = new Fitness[Position[A]] {
-    def fitness(a: Position[A]) =
-      a.fit
+  implicit def positionQuality[A] = new Quality[Position[A]] {
+    def quality(a: Position[A]) =
+      (a.fit |@| a.violations) { (x, y) => (x, y.size) }
   }
 
   def apply[/*F[_]:Foldable1,*/A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
@@ -147,6 +147,11 @@ final class Interval[A] private[cilib] (val lower: Bound[A], val upper: Bound[A]
    // Intervals _definitely_ have at least 1 element, so invariant in the type
   def ^(n: Int): NonEmptyList[Interval[A]] =
     NonEmptyList.nel(this, (1 to n - 1).map(_ => this).toList)
+
+  def inside(x: A)(implicit N: Numeric[A]) = {
+    val xx = N.toDouble(x)
+    lower.toDouble >= xx && xx <= upper.toDouble
+  }
 
 }
 

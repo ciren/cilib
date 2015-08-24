@@ -89,7 +89,7 @@ object Defaults {
         p2      <- hoist.liftMU(evalParticle(p))
         p3      <- hoist.liftMU(updateVelocity(p2, v))
         updated <- hoist.liftMU(updatePBest(p3))
-        failure <- hoist.liftMU(Step.liftK[Double,Boolean](Fitness.compare(x.pos, updated.pos) map (_ eq x.pos)))
+        failure <- hoist.liftMU(Step.liftK[Double,Boolean](Comparison.compare(x.pos, updated.pos) map (_ eq x.pos)))
         _       <- S.modify(params =>
           if (isBest) {
             params.copy(

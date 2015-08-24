@@ -4,9 +4,9 @@ import scalaz.NonEmptyList
 
 sealed abstract class Eval[/*F[_],*/A] { // This represents the function NonEmptyList[A] => Fit
 
-  def eval(a: NonEmptyList[A])/*(implicit ev: Foldable[F])*/: (Fit, List[Constraint[A, Double]]) = {
+  def eval(a: NonEmptyList[A]): (Fit, List[Constraint[A, Double]]) = {
     this match {
-      case Unconstrained(f) => (f(a), List.empty)
+      case Unconstrained(f)   => (f(a), List.empty)
       case Constrained(f, cs) =>
         import spire.algebra.Eq
         import spire.implicits._
@@ -16,16 +16,16 @@ sealed abstract class Eval[/*F[_],*/A] { // This represents the function NonEmpt
     }
   }
 
-  def constrainBy(cs: List[Constraint[A,Double]]) =//(implicit ev: Foldable[F]) =
+  def constrainBy(cs: List[Constraint[A,Double]]) =
     this match {
-      case Unconstrained(f) => Constrained(f, cs)
+      case Unconstrained(f)  => Constrained(f, cs)
       case Constrained(f, _) => Constrained(f, cs)
     }
 
   def unconstrain =
     this match {
       case x @ Unconstrained(_) => x
-      case Constrained(f, _) => Unconstrained(f)
+      case Constrained(f, _)    => Unconstrained(f)
     }
 }
 
