@@ -19,26 +19,37 @@ import scalaz.std.list._
  * }}}
  *
  * NB: Should consider trying to define this based on the Free monad?
- */
+  */
+sealed trait Iteration[M[_],A] {
+  def run(l: List[A])(implicit M: Monad[M]): M[List[A]]
+}
+
 object Iteration {
 
-/*<<<<<<< HEAD
-  // iterations have the shape: [a] -> a -> Step [a]
-  def sync[/*F[_]:Traverse,*/A,B](f: NonEmptyList[B] => B => Step[A,B]): Iteration[A,NonEmptyList[B]] =
-    Kleisli.kleisli[Step[A,?],NonEmptyList[B],NonEmptyList[B]]((l: NonEmptyList[B]) => l traverseU f(l))
+  // TODO: Typeclass or ADT?
+  final case class SyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
+    def par = ParSyncIter(f)
+    def run(l: List[A])(implicit M: Monad[M]): M[List[A]] =
+      l traverseU f(l)
+  }
+  final case class ASyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
+    def run(l: List[A])(implicit M: Monad[M]) =
+      l.foldLeftM[M, List[A]](List.empty[A]) {
+        (a, c) => M.map(f(a ++ l.drop(a.length)).apply(c))(a :+ _)
+      }
+  }
+  final case class ParSyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
+    def unpar = SyncIter(f)
+    def run(l: List[A])(implicit M: Monad[M]) = {
+      import scalaz.concurrent.Task
+      val applied: List[Task[M[A]]] = l.map(x => Task.delay { f(l)(x) })
+      Nondeterminism[Task].gather(applied).run.sequence
+    }
+  }
 
-  def async[/*F[_],*/A,B](f: NonEmptyList[B] => B => Step[A,B]): Iteration[A,NonEmptyList[B]] =
-    Kleisli.kleisli[Step[A,?],NonEmptyList[B],NonEmptyList[B]]((l: NonEmptyList[B]) => {
-      l.tails.foldLeftM[Step[A,?], List[B]](List.empty[B]) {
-        (a, c) => f(a <::: c).apply(c.copoint).map(a :+ _)
-      }.map(_.toNel.getOrElse(sys.error("Not sure how to handle this... suggestions?")))
-    })
-=======*/
-  type Iteration[M[_],A] = Kleisli[M,A,A]
-
   // iterations have the shape: [a] -> a -> Step [a]
-  def sync_[M[_]: Applicative,A](f: List[A] => A => M[A]): Iteration[M,List[A]] =
-    Kleisli.kleisli[M,List[A],List[A]]((l: List[A]) => l traverseU f(l))
+  def sync_[M[_]: Applicative,A](f: List[A] => A => M[A]) =//: Iteration[M,List[A]] =
+    SyncIter(f)
 
   def sync[A,B](f: List[B] => B => Step[A,B]) =
     sync_[Step[A,?], B](f)
@@ -48,12 +59,12 @@ object Iteration {
     sync_[StepS[A,S,?], B](f)
   }
 
+  def parSync_[M[_],A](f: List[A] => A => M[A]) =
+    ParSyncIter(f)
+
   // This needs to be profiled. The drop is expensive - perhaps a zipper is better
-  def async_[M[_],A](f: List[A] => A => M[A])(implicit M: Monad[M]) =
-    Kleisli.kleisli[M,List[A],List[A]]((l: List[A]) =>
-      l.foldLeftM[M, List[A]](List.empty[A]) {
-        (a, c) => M.map(f(a ++ l.drop(a.length)).apply(c))(a :+ _)
-      })
+  def async_[M[_],A](f: List[A] => A => M[A]) =
+    ASyncIter(f)
 
   def async[A,B](f: List[B] => B => Step[A,B]) =
     async_[Step[A,?], B](f)

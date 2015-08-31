@@ -129,8 +129,8 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .aggregate(benchmarks, core, docs, example, tests)
-  .dependsOn(benchmarks, core, docs, example, tests)
+  .aggregate(benchmarks, core, docs, example, exec, tests)
+  .dependsOn(benchmarks, core, docs, example, exec, tests)
 
 //   lazy val cilibSettings = settings ++ Seq(
 //     name := "cilib-aggregate"
@@ -143,9 +143,10 @@ lazy val core = project
   .settings(cilibSettings)
   .settings(Seq(
     libraryDependencies ++= Seq(
-      "org.scalaz"                  %% "scalaz-core"   % scalazVersion,
-      "org.spire-math"              %% "spire"         % spireVersion,
-      "com.github.julien-truffaut"  %% "monocle-core"  % monocleVersion
+      "org.scalaz"                 %% "scalaz-core"       % scalazVersion,
+      "org.scalaz"                 %% "scalaz-concurrent" % scalazVersion,
+      "org.spire-math"             %% "spire"             % spireVersion,
+      "com.github.julien-truffaut" %% "monocle-core"      % monocleVersion
     /*),
     wartremoverErrors ++= Seq(
       //Wart.Any,
@@ -190,16 +191,21 @@ lazy val docs = project
   .settings(tutSettings)
   .dependsOn(core, benchmarks)
 
-lazy val example = project.dependsOn(core)
+lazy val example = project.dependsOn(core, exec)
   .settings(moduleName := "cilib-example")
   .settings(cilibSettings)
   .settings(noPublishSettings)
   .settings(Seq(
     libraryDependencies ++= Seq(
-      "org.scalaz" %% "scalaz-core"   % scalazVersion,
-      "org.scalaz" %% "scalaz-effect" % scalazVersion
+      "org.scalaz" %% "scalaz-core"       % scalazVersion,
+      "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
+      "org.scalaz" %% "scalaz-effect"     % scalazVersion
     )
-   ))
+  ))
+
+lazy val exec = project.dependsOn(core)
+  .settings(moduleName := "cilib-exec")
+  .settings(cilibSettings)
 
 lazy val tests = project.dependsOn(core)
   .settings(moduleName := "cilib-tests")

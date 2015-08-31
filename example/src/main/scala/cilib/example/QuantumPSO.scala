@@ -56,7 +56,6 @@ object QuantumPSO extends SafeApp {
     val magnitude = e.pos.violations.map(x => Constraint.violationMagnitude(5.0, 5.0, x, e.pos.pos.toList))
 
     (magnitude |@| e.pos.fit) { (mag, fit) => {
-      //println("mag: " + mag)
       fit match {
         case Penalty(_, _) => sys.error("??? How?")
         case Valid(v) =>
@@ -70,36 +69,9 @@ object QuantumPSO extends SafeApp {
     }}.getOrElse(e)
   }
 
-  // constraints
-  val centerEllipse = List(
-    GreaterThanEqual(ConstraintFunction((l: List[Double]) => math.pow((l(0) - 50.0) / 45.0, 2) + math.pow((l(1) - 50.0) / 20.0, 2)), 1.0) // ellipse in center of search space
-  )
-  val disjointCircles = List(
-    GreaterThan(ConstraintFunction((l: List[Double]) => {
-      math.pow(l(0) - 25.0, 2) + math.pow(l(1) - 25.0, 2)
-    }), 64.0),
-    GreaterThan(ConstraintFunction((l: List[Double]) => {
-      math.pow(l(0) - 25.0, 2) + math.pow(l(1) - 75.0, 2)
-    }), 64.0),
-    GreaterThan(ConstraintFunction((l: List[Double]) => {
-      math.pow(l(0) - 75.0, 2) + math.pow(l(1) - 25.0, 2)
-    }), 64.0),
-    GreaterThan(ConstraintFunction((l: List[Double]) => {
-      math.pow(l(0) - 75.0, 2) + math.pow(l(1) - 75.0, 2)
-    }), 64.0)
-  )
-  val linear = List(
-    GreaterThan(ConstraintFunction((l: List[Double]) => {
-      l(1) / 2.0 + l(0) * 2.0
-    }), 1.0),
-    LessThan(ConstraintFunction((l: List[Double]) => {
-      ((l(1) + 70.0) / 2.0) + (2.0*l(0) - 70.0)
-    }), 1.0)
-  )
-  val combined1 = centerEllipse ++ linear
-  val combined2 = disjointCircles ++ linear
+ 
 
-
+  // Usage
   val domain = Interval(closed(0.0),closed(100.0)) ^ 5
   val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, RVar.point(20.0)))
   val qpsoDist = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, Dist.cauchy(0.0, 10.0)))
@@ -123,14 +95,19 @@ object QuantumPSO extends SafeApp {
     swarm.toNel.cata(nel => qpso.run(nel.list).map(_.map(penalize(Max))), Step.point(List.empty))
   }
 
+
+
+
+
+
   import scalaz.StateT
   def mpb(heightSeverity: Double, widthSeverity: Double): StateT[RVar, (List[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
     StateT { case (peaks, pop) => {
       val newPeaks: RVar[List[Problems.PeakCone]] = peaks.traverse(_.update(heightSeverity, widthSeverity))
-      newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrainBy(centerEllipse)))
+      newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrainBy(EnvConstraints.centerEllipse)))
     }}
 
-  val comparison = Comparison.quality(Max)
+  val comparison = Comparison.dominance(Max)
 
   def run2(eval: Eval[Double]): StateT[RVar, (List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
     StateT { case (peaks, pop) => { println("running"); iteration(pop).run(comparison)(eval).map(r => ((peaks, r), r))} }
@@ -182,6 +159,38 @@ object QuantumPSO extends SafeApp {
 
     //    x.replicateM(30).flatMap(a => putStrLn(a.map(x => x._1.toString + x._2.toString + x._3.toString).mkString("\n")))
     x.flatMap(a => putStrLn(a))//.replicateM(30).flatMap(a => putStrLn(a.map(x => x.toString).mkString("List(",",\n",")")))
+  }
+
+
+  object EnvConstraints {
+    // constraints
+    val centerEllipse = List(
+      GreaterThanEqual(ConstraintFunction((l: List[Double]) => math.pow((l(0) - 50.0) / 45.0, 2) + math.pow((l(1) - 50.0) / 20.0, 2)), 1.0) // ellipse in center of search space
+    )
+    val disjointCircles = List(
+      GreaterThan(ConstraintFunction((l: List[Double]) => {
+        math.pow(l(0) - 25.0, 2) + math.pow(l(1) - 25.0, 2)
+      }), 64.0),
+      GreaterThan(ConstraintFunction((l: List[Double]) => {
+        math.pow(l(0) - 25.0, 2) + math.pow(l(1) - 75.0, 2)
+      }), 64.0),
+      GreaterThan(ConstraintFunction((l: List[Double]) => {
+        math.pow(l(0) - 75.0, 2) + math.pow(l(1) - 25.0, 2)
+      }), 64.0),
+      GreaterThan(ConstraintFunction((l: List[Double]) => {
+        math.pow(l(0) - 75.0, 2) + math.pow(l(1) - 75.0, 2)
+      }), 64.0)
+    )
+    val linear = List(
+      GreaterThan(ConstraintFunction((l: List[Double]) => {
+        l(1) / 2.0 + l(0) * 2.0
+      }), 1.0),
+      LessThan(ConstraintFunction((l: List[Double]) => {
+        ((l(1) + 70.0) / 2.0) + (2.0*l(0) - 70.0)
+      }), 1.0)
+    )
+    val combined1 = centerEllipse ++ linear
+    val combined2 = disjointCircles ++ linear
   }
 
 }

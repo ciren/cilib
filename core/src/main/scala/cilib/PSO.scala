@@ -15,7 +15,7 @@ object PSO {
   import Lenses._
 
   // Constrain this better - Not numeric. Operation for vector addition
-  def stdPosition[S,/*F[_],*/A](
+  def stdPosition[S,A](
     c: Particle[S,A],
     v: Position[A]
   )(implicit A: Module[Position[A],A]): Step[A,Particle[S,A]] =
@@ -23,7 +23,7 @@ object PSO {
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists
-  def stdVelocity[S/*,F[_]:Traverse*/](
+  def stdVelocity[S](
     entity: Particle[S,Double],
     social: Position[Double],
     cognitive: Position[Double],
@@ -37,15 +37,13 @@ object PSO {
     } yield (w *: V._velocity.get(entity.state)) + (c1 *: cog) + (c2 *: soc))
 
   // Step to evaluate the particle, without any modifications
-  def evalParticle[S/*F[_]:Foldable*/](entity: Particle[S,Double]) =
+  def evalParticle[S](entity: Particle[S,Double]) =
     Entity.eval[S,Double](x => x)(entity)
 
-  def updatePBest[S/*,F[_]*/](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
+  def updatePBest[S](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
     val pbestL = M._memory
     Step.liftK(Comparison.compare(p.pos, (p.state applyLens pbestL).get)).map(x =>
       Entity(p.state applyLens pbestL set x, p.pos))
-//    Step.liftK(Comparison.fitness(p.pos, (p.state applyLens pbestL).get).map(x =>
-//      Entity(p.state applyLens pbestL set x, p.pos)))
   }
 
   def updatePBestBounds[S](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
@@ -53,10 +51,10 @@ object PSO {
     if (b) updatePBest(p) else Step.point(p)
   }
 
-  def updateVelocity[S/*,F[_]*/](p: Particle[S,Double], v: Position[Double])(implicit V: Velocity[S,Double]): Step[Double,Particle[S,Double]] =
+  def updateVelocity[S](p: Particle[S,Double], v: Position[Double])(implicit V: Velocity[S,Double]): Step[Double,Particle[S,Double]] =
     Step.pointR(RVar.point(Entity(p.state applyLens V._velocity set v, p.pos)))
 
-  def singleComponentVelocity[S/*,F[_]:Traverse*/](
+  def singleComponentVelocity[S](
     entity: Particle[S,Double],
     component: Position[Double],
     w: Double,
@@ -72,7 +70,7 @@ object PSO {
   def defaultGCParams =
     GCParams(p = 1.0, successes = 0, failures = 0, e_s = 15, e_f = 5)
 
-  def gcVelocity[S/*,F[_]:Traverse*/](
+  def gcVelocity[S](
     entity: Particle[S,Double],
     nbest: Position[Double],
     w: Double,
@@ -83,7 +81,7 @@ object PSO {
         -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a
       ))
 
-  def barebones[S/*,F[_]:Traverse:Zip*/](p: Particle[S,Double], global: Position[Double])(implicit M: Memory[S,Double]) =
+  def barebones[S](p: Particle[S,Double], global: Position[Double])(implicit M: Memory[S,Double]) =
     Step.pointR {
       val pbest = M._memory.get(p.state)
       val zipped = pbest.zip(global)
@@ -93,7 +91,7 @@ object PSO {
       (means zip sigmas) traverse (x => Dist.gaussian(x._1, x._2))
     }
 
-  def quantum[S/*,F[_]:Traverse*/](
+  def quantum[S](
     collection: List[Particle[S,Double]],
     x: Particle[S,Double],
     center: Position[Double],
@@ -111,7 +109,7 @@ object PSO {
       }
     )
 
-  def acceleration[S/*,F[_]:Functor*/](
+  def acceleration[S](
     collection: List[Particle[S,Double]],
     x: Particle[S,Double],
     distance: (Position[Double], Position[Double]) => Double,
@@ -133,10 +131,10 @@ object PSO {
   }
 
   // Naming?
-  def replace[S/*,F[_]*/](entity: Particle[S,Double], p: Position[Double]): Step[Double,Particle[S,Double]] =
+  def replace[S](entity: Particle[S,Double], p: Position[Double]): Step[Double,Particle[S,Double]] =
     Step.point(entity applyLens _position set p)
 
-  def createParticle[S/*,F[_]*/](f: Position[Double] => Particle[S,Double])(pos: Position[Double]): Particle[S,Double] =
+  def createParticle[S](f: Position[Double] => Particle[S,Double])(pos: Position[Double]): Particle[S,Double] =
     f(pos)
 }
 

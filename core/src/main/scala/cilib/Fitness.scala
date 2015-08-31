@@ -18,7 +18,7 @@ final case class Valid(v: Double) extends Fit
 
 @annotation.implicitNotFound("No instance of Quality[${A}] is available in current scope.")
 trait Quality[A] {
-  def quality(a: A): Maybe[(Fit, Int)]
+  def quality(a: A): Maybe[(Fit, ViolationCount)]
 }
 
 abstract class Comparison(val o: Opt) {
@@ -28,33 +28,35 @@ abstract class Comparison(val o: Opt) {
 object Comparison {
 
   def compare[A: Quality](x: A, y: A): Reader[Comparison, A] =
-    Reader { _.apply(x,y) }
+    Reader { _.apply(x, y) }
 
   def quality(o: Opt) = new Comparison(o) {
     def apply[A](a: A, b: A)(implicit Q: Quality[A]) =
       if (o.order(Q.quality(a), Q.quality(b)) === GT) a else b
   }
 
-  // def dominance(o: Opt) = new Comparison(o) {
-  //   def apply[A](a: A, b: A)(implicit Q: Quality[A]) = {
-  //     val qA = Q.quality(a)
-  //     val qB = Q.quality(b)
-  //
-  //     (qA, qB) match {
-  //       case (Maybe.Just((fA, vA)), Maybe.Just((fB, vB))) =>
-  //         if (vA == 0 && vB == 0) quality(o)(a, b)
-  //         else if (vA == 0) a
-  //         else if (vB == 0) b
-  //         else if (vA < vB) a else b
-  //       case _ => sys.error("A")
-  //     }
-  //   } 
-  // }
+  def dominance(o: Opt) = new Comparison(o) {
+    def apply[A](a: A, b: A)(implicit Q: Quality[A]) = {
+      val qA = Q.quality(a)
+      val qB = Q.quality(b)
 
+      (qA, qB) match {
+        case (Maybe.Just((fA, vA)), Maybe.Just((fB, vB))) =>
+          val va = vA.count
+          val vb = vB.count
+
+          if (va == 0 && va == 0) quality(o)(a, b)
+          else if (va == 0) a
+          else if (vb == 0) b
+          else if (va < vb) a else b
+        case _ => sys.error("Unable to perform comparison. One of the arguments is Maybe.Nothing")
+      }
+    }
+  }
 }
 
 sealed trait Opt {
-  def order(x: Maybe[(Fit,Int)], y: Maybe[(Fit,Int)]): Ordering
+  def order(x: Maybe[(Fit,ViolationCount)], y: Maybe[(Fit,ViolationCount)]): Ordering
 }
 
 final case object Min extends Opt {
@@ -70,22 +72,25 @@ final case object Min extends Opt {
   }
 
   private def qualityOrder(fitnessOrder: Order[Fit]) =
-    new Order[(Fit,Int)] {
-      def order(x: (Fit,Int), y: (Fit,Int)) =
-        (x,y) match {
+    new Order[(Fit,ViolationCount)] {
+      def order(x: (Fit,ViolationCount), y: (Fit,ViolationCount)) = {
+        val a = (x._1, x._2.count)
+        val b = (y._1, y._2.count)
+
+        (a,b) match {
           case ((f1, 0), (f2, 0)) =>
-            // Both feasible (i.e: no constraint violations) compare Fit
-            fitnessOrder.order(f1, f2)
+            fitnessOrder.order(f1, f2) // feasible (i.e: no constraint violations) compare Fit
           case ((_, 0), (_, _)) => LT
           case ((_, _), (_, 0)) => GT
           case ((_, c1), (_, c2)) =>
             Order[Int].reverseOrder.order(c1, c2) // Check this!
         }
+      }
     }
 
-  private val ord = scalaz.Maybe.maybeOrder[(Fit,Int)](qualityOrder(fitOrder))
+  private val ord = scalaz.Maybe.maybeOrder[(Fit,ViolationCount)](qualityOrder(fitOrder))
 
-  def order(x: Maybe[(Fit,Int)], y: Maybe[(Fit,Int)]) =
+  def order(x: Maybe[(Fit,ViolationCount)], y: Maybe[(Fit,ViolationCount)]) =
     ord.order(x, y)
 }
 
@@ -102,9 +107,12 @@ final case object Max extends Opt {
   }
 
   private def qualityOrder(fitnessOrder: Order[Fit]) =
-    new Order[(Fit,Int)] {
-      def order(x: (Fit,Int), y: (Fit,Int)) =
-        (x,y) match {
+    new Order[(Fit,ViolationCount)] {
+      def order(x: (Fit,ViolationCount), y: (Fit,ViolationCount)) = {
+        val a = (x._1, x._2.count)
+        val b = (y._1, y._2.count)
+
+        (a,b) match {
           case ((f1, 0), (f2, 0)) =>
             // Both feasible (i.e: no constraint violations) compare Fit
             fitnessOrder.order(f1, f2)
@@ -113,9 +121,10 @@ final case object Max extends Opt {
           case ((_, c1), (_, c2)) =>
             Order[Int].order(c1, c2) // Check this!
         }
+      }
     }
 
-  private val ord = scalaz.Maybe.maybeOrder[(Fit,Int)](qualityOrder(fitnessOrder))
-  def order(x: Maybe[(Fit,Int)], y: Maybe[(Fit,Int)]) =
+  private val ord = scalaz.Maybe.maybeOrder[(Fit,ViolationCount)](qualityOrder(fitnessOrder))
+  def order(x: Maybe[(Fit,ViolationCount)], y: Maybe[(Fit,ViolationCount)]) =
     ord.order(x, y)
 }

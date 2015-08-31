@@ -4,6 +4,15 @@ import spire.algebra.Eq
 import spire.math._
 import spire.implicits._
 
+final class ViolationCount private (val count: Int) extends AnyVal
+object ViolationCount {
+  def apply(i: Int): Option[ViolationCount] =
+    if (i >= 0) Option(new ViolationCount(i))
+    else None
+
+  val zero = new ViolationCount(0)
+}
+
 case class ConstraintFunction[A,B](f: List[A] => B) {
   def apply(a: List[A]): B =
     f(a)
@@ -64,8 +73,8 @@ object Constraint {
     }).sum
   }
 
-  def violationCount[A,B:Fractional](constraints: List[Constraint[A,B]], cs: List[A]) =
-    constraints.map(satisfies(_, cs)).filterNot(x => x).length
+  def violationCount[A,B:Fractional](constraints: List[Constraint[A,B]], cs: List[A]): ViolationCount =
+    ViolationCount(constraints.map(satisfies(_, cs)).filterNot(x => x).length).getOrElse(ViolationCount.zero)
 
   def satisfies[A,B:Fractional](constraint: Constraint[A,B], cs: List[A])(implicit ev: Eq[B]) =
     constraint match {

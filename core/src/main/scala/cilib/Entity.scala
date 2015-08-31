@@ -54,6 +54,12 @@ sealed abstract class Position[A] {
       case Solution(_, _, _, v) => Maybe.just(v)
     }
 
+  def violationCount: ViolationCount =
+    this match {
+      case Point(_, _)       => ViolationCount.zero
+      case Solution(x,_,_,v) => Constraint.violationCount(v, x.list)
+    }
+
   def toPoint: Position[A] =
     this match {
       case Point(_, _) => this
@@ -112,8 +118,8 @@ object Position {
   }
 
   implicit def positionQuality[A] = new Quality[Position[A]] {
-    def quality(a: Position[A]) =
-      (a.fit |@| a.violations) { (x, y) => (x, y.size) }
+    def quality(a: Position[A]): Maybe[(Fit, ViolationCount)] =
+      a.fit.map(x => (x, a.violationCount))
   }
 
   def apply[/*F[_]:Foldable1,*/A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =

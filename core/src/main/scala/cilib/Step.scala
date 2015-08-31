@@ -3,9 +3,6 @@ package cilib
 import scalaz._
 import scalaz.syntax.state._
 
-final case class Compare[A](a: A, b: A) {
-}
-
 /**
   A `Step` is a type that models a single step / operation within a CI Algorithm.
 
