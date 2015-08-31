@@ -156,7 +156,7 @@ final class Interval[A] private[cilib] (val lower: Bound[A], val upper: Bound[A]
 
   def inside(x: A)(implicit N: Numeric[A]) = {
     val xx = N.toDouble(x)
-    lower.toDouble >= xx && xx <= upper.toDouble
+    lower.toDouble <= xx && xx <= upper.toDouble
   }
 
 }
