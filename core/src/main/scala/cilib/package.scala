@@ -1,13 +1,11 @@
 import scalaz._
 
 package object cilib {
-  //type Step[/*F[_],*/A,B] = Kleisli[RVar,(Opt,Eval[A]),B]
 
-  type Particle[S,/*F[_],*/A] = Entity[S,A]
+  type Particle[S,A] = Entity[S,A]
 
   // Should expand into a typeclass? Getter?
-  type Guide[S,/*F[_],*/A] = (List[Particle[S,A]], Particle[S,A]) => Step[A,Position[A]]
-
+  type Guide[S,A] = (List[Particle[S,A]], Particle[S,A]) => Step[A,Position[A]]
   type Selection[A] = (List[A], A) => List[A]
 
   def positive(d: Double): Maybe[Double @@ Tags.Positive] =

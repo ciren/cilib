@@ -31,74 +31,8 @@ object Problems {
   def spherical[A](implicit N: Numeric[A]) =
     Unconstrained[A]((a: NonEmptyList[A]) => Valid(a.foldMap1(x => N.toDouble(N.times(x, x)))))
 
-  /*case class Peak(pos: List[Double], width: Double, height: Double, movementDirection: List[Double], shiftVector: List[Double])
-  case class PeakState(peaks: List[Peak], interval: List[Interval[Double]],
-    frequency: Int = 10,
-    widthSeverity: Double = 0.01, heightSeverity: Double = 7.0,
-    shiftSeverity: Double = 1.0, lambda: Double = 0.75,
-    minHeight: Double = 30.0, maxHeight: Double = 70.0, minWidth: Double = 1.0, maxWidth: Double = 12.0)
 
-  import scalaz._
-
-  def initPeaks[F[_]:SolutionRep:Foldable](n: Int, interval: NonEmptyList[Interval[Double]],
-    minHeight: Double, maxHeight: Double, minWidth: Double, maxWidth: Double
-  ): RVar[(PeakState, Eval[F,Double])] = {
-    val t = List.fill(interval.size)(1.0)
-    val peaks = (1 to n).toList.traverse(_ => {
-      val position = interval.list.traverse(x => Dist.uniform(x.lower.value, x.upper.value))
-      val height = Dist.uniform(minHeight, maxHeight)
-      val width = Dist.uniform(minWidth, maxWidth)
-
-      (position |@| width |@| height) { Peak(_, _, _, t, t) }
-    })
-
-    peaks.map(p => (PeakState(p, interval, 10, 0.01, 7.0, 1.0, 0.75, minHeight, maxHeight, minWidth, maxWidth), movingPeaksEval(p)))
-  }
-
-  def modifyPeaks[F[_]:SolutionRep:Foldable]: StateT[RVar, PeakState, Eval[F,Double]] =
-    StateT {
-      ps => {
-        val newPeaks = ps.peaks.traverse(peak => {
-          val heightOffset: RVar[Double] = Dist.stdNormal.map(x => {
-            val offset = x * ps.heightSeverity
-            if (peak.height + offset > ps.maxHeight || peak.height - offset < ps.minHeight)
-              peak.height - offset
-            else
-              peak.height + offset
-          })
-          val widthOffset  = Dist.stdNormal.map(x => {
-            val offset = x * ps.widthSeverity
-            if (peak.width + offset > ps.maxWidth || peak.width - offset < ps.minWidth)
-              peak.width - offset
-            else
-              peak.width + offset
-          })
-
-          val shift = peak.pos + ((peak.shiftVector, peak.movementDirection).zipped map { _ * _ })
-          val newDirection = (shift, peak.movementDirection, ps.interval.list).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
-          val newShift = (shift, peak.shiftVector, ps.interval.list).zipped.map { case (a,b,c) => if (a > c.upper.value || a < c.lower.value) b * -1.0 else b }
-          val newPos = peak.pos + newShift
-
-          (widthOffset |@| heightOffset) { Peak(newPos, _, _, newDirection, newShift) }
-        })
-
-        newPeaks.map(np => (ps.copy(peaks = np), movingPeaksEval(np)))
-      }
-    }
-
-  def movingPeaksEval[F[_]:SolutionRep](peaks: List[Peak])(implicit F: Foldable[F]) =
-    new Unconstrained[F,Double]((a: F[Double]) => {
-      import scalaz.syntax.foldable._
-      import scalaz.std.anyVal._
-
-      val r = peaks.map(x => {
-        val h = (a.toList - x.pos).foldLeft(0.0)((acc,y) => acc + y*y)
-        val w = 1 + (h * x.width)
-        x.height / w
-      })
-      Valid(r.maximum.getOrElse(-1.0))
-   })*/
-
+/* ////
   case class PeakCone(domain: NonEmptyList[Interval[Double]], s: Double, height: Double, width: Double, location: Position[Double], shift: Position[Double]) {
 
     def apply(x: List[Double])(implicit M: Module[List[Double],Double]): Double = {
@@ -151,5 +85,41 @@ object Problems {
         x.height / w
       })
       Valid(r.maximum.getOrElse(-1.0))
-   })
+ })*/
+
+
+
+  // Attempt to implment the moving peaks in such a way that it does not suck
+
+  def initPeaks(n: Int, domain: NonEmptyList[Interval[Double]], minWidth: Double = 1.0, maxWidth: Double = 12.0, minHeight: Double = 30.0, maxHeight: Double = 70.0): RVar[List[PeakCone]] = {
+    import scalaz._//syntax.applicative._
+    import Scalaz._
+    // TODO: Change the parameters for the min and max height and width
+    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)).flatMap(x => {
+      val height = Dist.stdUniform.map(x => (maxHeight - minHeight) * x + minHeight)
+      val width  = Dist.stdUniform.map(x => (maxWidth - minWidth) * x + minWidth)
+      (height |@| width) { (h,w) => PeakCone(h, w, x) }
+    }).replicateM(n)
+    //.map(_.toNel.getOrElse(sys.error("")))
+  }
+
+  case class PeakCone(height: Double, width: Double, location: NonEmptyList[Double]) {
+    def eval(x: NonEmptyList[Double]) = {
+      val c = math.sqrt((x.zip(location)).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft1(_ + _))
+      println("c: " + c)
+      height - width * c
+    }
+  }
+
+  def peakEval(peaks: /*NonEmpty*/List[PeakCone]): Eval[Double] =
+    Unconstrained((a: NonEmptyList[Double]) => {
+      //      import scalaz.std.anyVal._
+      println("Peaks:" + peaks)
+      val x = peaks.map(_.eval(a))
+      println("x: " + x)
+      val r = Valid(if (x.max == Double.NaN) 0.0 else x.max)
+      println("r: " + r)
+      r
+    })
+
 }

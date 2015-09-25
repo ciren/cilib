@@ -1,5 +1,9 @@
 package cilib
 
+// trait Selection[A] {
+//   def select(xs: List[A], a: A): RVar[List[A]]
+// }
+
 object Selection {
 
   import scalaz._
@@ -8,6 +12,13 @@ object Selection {
   import scalaz.syntax.std.list._
   import scalaz.std.option._
   import scalaz.std.list._
+
+
+  // def randomSelection[A] = new Selection[A] {
+  //   def select(xs: List[A], a: A) =
+  //     RVar.choices(1, xs)
+  // }
+
 
   implicit class RicherEphemeralStream[A](val s: EphemeralStream[A]) extends AnyVal {
     def drop(n: Int): EphemeralStream[A] = {

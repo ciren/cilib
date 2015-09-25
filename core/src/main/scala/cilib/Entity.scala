@@ -100,7 +100,7 @@ object Position {
 
     }
 
-  implicit class PositionVectorOps[/*F[_],*/A](val x: Position[/*F,*/A]) extends AnyVal {
+  implicit class PositionVectorOps[A](val x: Position[A]) extends AnyVal {
     def zeroed(implicit A: Monoid[A]): Position[A] =
       x.map(_ => A.zero)
 
@@ -118,15 +118,15 @@ object Position {
   }
 
   implicit def positionQuality[A] = new Quality[Position[A]] {
-    def quality(a: Position[A]): Maybe[(Fit, ViolationCount)] =
-      a.fit.map(x => (x, a.violationCount))
+    def quality(a: Position[A]): (Maybe[Fit], ViolationCount) =
+      (a.fit, a.violationCount)
   }
 
-  def apply[/*F[_]:Foldable1,*/A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
+  def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]]) =
-    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (x => Position(x, domain))//.list))
+    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (x => Position(x, domain))
 
   def createPositions(domain: NonEmptyList[Interval[Double]], n: Int) =
     createPosition(domain) replicateM n

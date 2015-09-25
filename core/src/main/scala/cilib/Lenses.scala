@@ -9,6 +9,9 @@ trait Memory[S,/*F[_],*/A] {
 }
 
 object Memory {
+  @inline def apply[S,A](implicit A: Memory[S,A]) =
+    A
+
   implicit def memMemory/*[F[_]]*/ = new Memory[Mem[Double],Double] {
     def _memory = Lens[Mem[Double],Position[Double]](_.b)(b => a => a.copy(b = b))
   }

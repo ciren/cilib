@@ -24,7 +24,7 @@ object GBestPSO extends SafeApp {
 
   // RVar
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
-  val iter = Iteration.sync(gbestPSO).par
+  val iter = Iteration.sync(gbestPSO)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] =

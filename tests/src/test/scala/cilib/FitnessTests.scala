@@ -11,7 +11,7 @@ import org.scalacheck.Arbitrary._
 object QualityTest extends Properties("Quality") {
 
   implicit val intQuality = new Quality[Int] {
-    def quality(a: Int) = Maybe.just((Valid(a.toDouble), ViolationCount.zero))
+    def quality(a: Int) = (Maybe.just(Valid(a.toDouble)), ViolationCount.zero)
   }
 
   property("Minimization quality compare") =

@@ -11,6 +11,6 @@ import Scalaz._
 
 object Runner {
   def repeat[A,B](n: Int, alg: Iteration[Step[A,?],B], collection: RVar[List[B]]): Step[A,List[B]] =
-    Step.pointR(collection).flatMap(coll => (1 to n).toStream.foldLeftM[Step[A,?], List[B]](coll) { (a,c) => alg.run(a) })
+    Step.pointR(collection).flatMap(coll => (1 to n).toStream.foldLeftM[Step[A,?], List[B]](coll) { (a,c) => alg.run(a).run })
   
 }

@@ -19,20 +19,20 @@ import scalaz.std.list._
  * }}}
  *
  * NB: Should consider trying to define this based on the Free monad?
-  */
+ */
 sealed trait Iteration[M[_],A] {
-  def run(l: List[A])(implicit M: Monad[M]): M[List[A]]
+  def run(l: List[A])(implicit M: Monad[M]): ListT[M, A]// M[List[A]]
 }
 
 object Iteration {
 
   // TODO: Typeclass or ADT?
-  final case class SyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
-    def par = ParSyncIter(f)
-    def run(l: List[A])(implicit M: Monad[M]): M[List[A]] =
-      l traverseU f(l)
+  final case class SyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[List[A]]) extends Iteration[M,A] {
+//    def par = ParSyncIter(f)
+    def run(l: List[A])(implicit M: Monad[M]): ListT[M,A] =//M[List[A]] =
+      ListT(M.map(l traverseU f(l))(Merge.id.merge))
   }
-  final case class ASyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
+ /* final case class ASyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
     def run(l: List[A])(implicit M: Monad[M]) =
       l.foldLeftM[M, List[A]](List.empty[A]) {
         (a, c) => M.map(f(a ++ l.drop(a.length)).apply(c))(a :+ _)
@@ -45,26 +45,26 @@ object Iteration {
       val applied: List[Task[M[A]]] = l.map(x => Task.delay { f(l)(x) })
       Nondeterminism[Task].gather(applied).run.sequence
     }
-  }
+  }*/
 
   // iterations have the shape: [a] -> a -> Step [a]
-  def sync_[M[_]: Applicative,A](f: List[A] => A => M[A]) =//: Iteration[M,List[A]] =
+  def sync_[M[_]: Applicative,A](f: List[A] => A => M[List[A]]) =
     SyncIter(f)
 
-  def sync[A,B](f: List[B] => B => Step[A,B]) =
+  def sync[A,B](f: List[B] => B => Step[A,List[B]]) =
     sync_[Step[A,?], B](f)
 
-  def syncS[A,S,B](f: List[B] => B => StepS[A,S,B]) = {
+  def syncS[A,S,B](f: List[B] => B => StepS[A,S,List[B]]) = {
     implicit val S = StateT.stateTMonadState[S, Step[A,?]]
     sync_[StepS[A,S,?], B](f)
   }
-
+/*
   def parSync_[M[_],A](f: List[A] => A => M[A]) =
-    ParSyncIter(f)
+    ???//ParSyncIter(f)
 
   // This needs to be profiled. The drop is expensive - perhaps a zipper is better
   def async_[M[_],A](f: List[A] => A => M[A]) =
-    ASyncIter(f)
+    ???//ASyncIter(f)
 
   def async[A,B](f: List[B] => B => Step[A,B]) =
     async_[Step[A,?], B](f)
@@ -72,6 +72,6 @@ object Iteration {
   def asyncS[A,S,B](f: List[B] => B => StepS[A,S,B]) = {
     implicit val S = StateT.stateTMonadState[S, Step[A,?]]
     async_[StepS[A,S,?], B](f)
-  }
+  }*/
 
 }

@@ -8,14 +8,13 @@ import spire.implicits._
 
 object Defaults {
 
-  def gbest[S/*,F[_]:Traverse*/](
-    //eval: Particle[S,Double] => Step[Double,Entity[S,Double]])(
+  def gbest[S](
     w: Double,
     c1: Double,
     c2: Double,
     cognitive: Guide[S,Double],
     social: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,List[Particle[S,Double]]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -25,12 +24,12 @@ object Defaults {
       //p2      <- eval(p)
       p3      <- updateVelocity(p2, v)
       updated <- updatePBest(p3)
-    } yield updated
+    } yield List(updated)
 
   // def stdGBest[S](implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]) =
   //   gbest[S](evalParticle) _
 
-  def cognitive[S/*,F[_]:Traverse*/](
+  def cognitive[S](
     w: Double,
     c1: Double,
     cognitive: Guide[S,Double]
@@ -46,7 +45,7 @@ object Defaults {
       } yield updated
     }
 
-  def social[S/*,F[_]:Traverse*/](
+  def social[S](
     w: Double,
     c1: Double,
     social: Guide[S,Double]
@@ -68,7 +67,7 @@ object Defaults {
   // apply gcpso to other topology structures. Stating that you simply "copy" something
   // into something else is not elegant and does not have a solid reasoning
   // attached to it.
-  def gcpso[S/*,F[_]:Traverse*/](
+  def gcpso[S](
     w: Double,
     c1: Double,
     c2: Double,
@@ -101,7 +100,7 @@ object Defaults {
       } yield updated
     }
 
-  def charged[S:Charge/*,F[_]:Traverse*/](
+  def charged[S:Charge](
     w: Double,
     c1: Double,
     c2: Double,
@@ -123,9 +122,9 @@ object Defaults {
     } yield updated
 
 
-import scalaz.syntax.applicative._
+/*import scalaz.syntax.applicative._
 
-/*  def quantumBehavedOriginal2004[S](
+  def quantumBehavedOriginal2004[S](
     social: Guide[S,Double],
     g: Double
   )(implicit M:Memory[S,Double], V:Velocity[S,Double], MO: Module[Position[Double],Double]

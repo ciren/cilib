@@ -11,6 +11,13 @@ object ViolationCount {
     else None
 
   val zero = new ViolationCount(0)
+
+  import scalaz.Order
+  import scalaz.std.anyVal._
+  implicit val violationOrder: Order[ViolationCount] = new Order[ViolationCount] {
+    def order(x: ViolationCount, y: ViolationCount) =
+      Order[Int].order(x.count, y.count)
+  }
 }
 
 case class ConstraintFunction[A,B](f: List[A] => B) {
@@ -29,7 +36,7 @@ case class GreaterThanEqual[A,B](f: ConstraintFunction[A,B], v: B) extends Const
 object Constraint {
 
   import scalaz.{Foldable, Functor}
-  def constrain[M[_]/*,F[_]:Foldable*/](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
+  def constrain[M[_]](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
     M.map(ma)(_.constrainBy(cs))
 
   def violationMagnitude[A,B:Fractional](beta: Double, eta: Double, constraints: List[Constraint[A,B]], cs: List[A])(implicit e: Eq[B]): Double = {

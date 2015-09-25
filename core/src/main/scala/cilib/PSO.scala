@@ -197,3 +197,8 @@ functions:
  # of position updates (only defined if change is some epislon based on the position vector)
  # of dimensional updates > epsilon
  */
+
+
+trait PopAlg[A] {
+  def run: List[A] => A => Step[Double,A]
+}
