@@ -51,8 +51,9 @@ package object cilib {
         ))
       }
 
+      import scalaz.syntax.foldable._
       // This is hardcoded to be the Euclidean norm. Can we make this generic?
       def norm(x: Position[Double]): Double =
-        math.sqrt(x.foldMap1(y => y*y))
+        math.sqrt(x.foldMap(y => y*y))
     }
 }

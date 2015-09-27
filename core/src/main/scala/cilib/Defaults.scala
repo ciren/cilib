@@ -14,7 +14,7 @@ object Defaults {
     c2: Double,
     cognitive: Guide[S,Double],
     social: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,List[Particle[S,Double]]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Result[Particle[S,Double]]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -24,10 +24,7 @@ object Defaults {
       //p2      <- eval(p)
       p3      <- updateVelocity(p2, v)
       updated <- updatePBest(p3)
-    } yield List(updated)
-
-  // def stdGBest[S](implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]) =
-  //   gbest[S](evalParticle) _
+    } yield One(updated)
 
   def cognitive[S](
     w: Double,

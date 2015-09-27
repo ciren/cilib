@@ -28,4 +28,5 @@ object LBestPSO extends SafeApp {
 
   override val runc: IO[Unit] =
     putStrLn(Runner.repeat(1000, iter, swarm).run(Comparison.quality(Min))(sum).run(RNG.fromTime).toString)
+
 }

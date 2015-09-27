@@ -2,10 +2,11 @@ package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _, _ }
 import scalaz.NonEmptyList
+import scalaz.std.list._
 import scalaz.syntax.traverse._
+import scalaz.syntax.foldable._
 import scalaz.syntax.foldable1._
 import scalaz.syntax.apply._
-import scalaz.std.list._
 import spire.math._
 import spire.algebra._
 import spire.implicits._
@@ -26,10 +27,10 @@ import scalaz.NonEmptyList
 
   */
 object Problems {
-  import scalaz.Foldable1
+//  import scalaz.Foldable1
 
   def spherical[A](implicit N: Numeric[A]) =
-    Unconstrained[A]((a: NonEmptyList[A]) => Valid(a.foldMap1(x => N.toDouble(N.times(x, x)))))
+    Unconstrained[A]((a: List[A]) => Valid(a.foldLeft(0.0)((a,c) => a * N.toDouble(c))))
 
 
 /* ////
@@ -104,15 +105,15 @@ object Problems {
   }
 
   case class PeakCone(height: Double, width: Double, location: NonEmptyList[Double]) {
-    def eval(x: NonEmptyList[Double]) = {
-      val c = math.sqrt((x.zip(location)).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft1(_ + _))
+    def eval(x: List[Double]) = {
+      val c = math.sqrt((x.zip(location.list)).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _))
       println("c: " + c)
       height - width * c
     }
   }
 
   def peakEval(peaks: /*NonEmpty*/List[PeakCone]): Eval[Double] =
-    Unconstrained((a: NonEmptyList[Double]) => {
+    Unconstrained((a: List[Double]) => {
       //      import scalaz.std.anyVal._
       println("Peaks:" + peaks)
       val x = peaks.map(_.eval(a))

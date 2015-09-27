@@ -47,7 +47,7 @@ object PSO {
   }
 
   def updatePBestBounds[S](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
-    val b = (p.pos.pos zip p.pos.boundary).list.foldLeft(true)((a,c) => a && (c._2.inside(c._1)))
+    val b = (p.pos.pos zip p.pos.boundary.list).foldLeft(true)((a,c) => a && (c._2.inside(c._1)))
     if (b) updatePBest(p) else Step.point(p)
   }
 

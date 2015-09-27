@@ -20,7 +20,7 @@ trait Quality[A] {
   def quality(a: A): (Maybe[Fit], ViolationCount)
 }
 
-abstract class Comparison(val o: Opt) {
+abstract class Comparison(val opt: Opt) {
   def apply[A: Quality](a: A, b: A): A
 }
 
@@ -37,6 +37,9 @@ object Comparison {
   // Dominance is the generalised form of normal quality comparisons, taking constraint violations into account
   def quality(o: Opt) =
     dominance(o)
+
+  def fittest[A](x: A, y: A)(implicit F: Quality[A]): Reader[Comparison, Boolean] =
+    Reader(_.opt.order(F.quality(x), F.quality(y)) === GT)
 
 }
 

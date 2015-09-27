@@ -30,11 +30,11 @@ sealed abstract class Position[A] {
   def traverse[G[_]: Applicative, B](f: A => G[B]): G[Position[B]] =
     pos.traverse(f).map(Point(_, boundary))
 
-  def foldMap1[B](f: A => B)(implicit M: Semigroup[B]) =
-    pos.foldMap1(f)
+//  def foldMap1[B](f: A => B)(implicit M: Semigroup[B]) =
+//    pos.foldMap1(f)
 
-  def traverse1[G[_], B](f: A => G[B])(implicit G: Apply[G]): G[Position[B]] =
-    pos.traverse1(f).map(Point(_, boundary))
+//  def traverse1[G[_], B](f: A => G[B])(implicit G: Apply[G]): G[Position[B]] =
+//    pos.traverse1(f).map(Point(_, boundary))
 
   def pos =
     this match {
@@ -57,7 +57,7 @@ sealed abstract class Position[A] {
   def violationCount: ViolationCount =
     this match {
       case Point(_, _)       => ViolationCount.zero
-      case Solution(x,_,_,v) => Constraint.violationCount(v, x.list)
+      case Solution(x,_,_,v) => Constraint.violationCount(v, x)//.list)
     }
 
   def toPoint: Position[A] =
@@ -76,24 +76,24 @@ sealed abstract class Position[A] {
     }
 }
 
-final case class Point[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
-final case class Solution[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]], f: Fit, v: List[Constraint[A,Double]]) extends Position[A]
+final case class Point[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
+final case class Solution[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]], f: Fit, v: List[Constraint[A,Double]]) extends Position[A]
 
 object Position {
 
-  implicit def positionInstances: Bind[Position] with Traverse1[Position] with Align[Position] =
-    new Bind[Position] with Traverse1[Position] with Align[Position] {
+  implicit def positionInstances: Bind[Position] with Traverse[Position] with Align[Position] =
+    new Bind[Position] with Traverse[Position] with Align[Position] {
       override def map[A, B](fa: Position[A])(f: A => B): Position[B] =
         fa map f
 
       override def bind[A, B](fa: Position[A])(f: A => Position[B]): Position[B] =
         fa flatMap f
 
-      override def traverse1Impl[G[_] : Apply, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
-        fa traverse1 f
+      override def traverseImpl[G[_]: Applicative, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
+        fa traverse f
 
-      override def foldMapRight1[A, B](fa: cilib.Position[A])(z: A => B)(f: (A, => B) => B): B =
-        fa.pos.foldMapRight1(z)(f)
+//      override def foldMapRight1[A, B](fa: cilib.Position[A])(z: A => B)(f: (A, => B) => B): B =
+//        fa.pos.foldMapRight1(z)(f)
 
       def alignWith[A, B, C](f: A \&/ B => C) =
         (a, b) => Point(a.pos.alignWith(b.pos)(f), a.boundary)
@@ -123,7 +123,7 @@ object Position {
   }
 
   def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
-    Point(xs, b)
+    Point(xs.list, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]]) =
     domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (x => Position(x, domain))

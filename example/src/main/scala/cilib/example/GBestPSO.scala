@@ -29,4 +29,5 @@ object GBestPSO extends SafeApp {
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] =
     putStrLn(Runner.repeat(1000, iter, swarm).run(Comparison.quality(Min))(sum).run(RNG.fromTime).toString)
+
 }

@@ -37,7 +37,7 @@ object QuantumPSO extends SafeApp {
     social: Guide[S,Double],
     cloudR: RVar[Double])(
     implicit C: Charge[S], V: Velocity[S,Double], M: Memory[S,Double], mod: Module[Position[Double],Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,List[Particle[S,Double]]] =
+  ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Result[Particle[S,Double]]] =
     collection => x => {
       for {
         cog     <- cognitive(collection, x)
@@ -49,7 +49,7 @@ object QuantumPSO extends SafeApp {
         p2      <- evalParticle(p)
         p3      <- updateVelocity(p2, v)
         updated <- updatePBestBounds(p3)
-      } yield List(updated)
+      } yield One(updated)
     }
 
   def penalize[S](opt: Opt) = (e: Particle[S,Double]) => {
@@ -96,7 +96,7 @@ object QuantumPSO extends SafeApp {
       //r <- IO(Runner.repeat(1000, qpso, pop).run(comparison)(Problems.spherical[Double]).run(rng))
       r <- IO(Environments.static(10000, comparison).run(rng))
       peaks <- IO(r._2._1.map(_.location.list.mkString("", "\t", "\n")).mkString("Peaks[", "", "]"))
-      positions <- IO(r._2._2.map(_.pos.pos.list.mkString("", "\t", "\n")).mkString("", "", ""))
+      positions <- IO(r._2._2.map(_.pos.pos.mkString("", "\t", "\n")).mkString("", "", ""))
       violations <- IO(r._2._2.map(_.pos.violationCount.count.toString).mkString("Viilation(", ",", ")"))
 //      meanFit <- IO(r._2._2.traverse(_.pos.fit).cata(l => l.map(_.fold(
 //        penalty = _.v, valid = _.v
@@ -114,11 +114,12 @@ object QuantumPSO extends SafeApp {
 
     def iteration(
       swarm: List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]
-    ): Step[Double,List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
+    ): Step[Double,Result[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
       import scalaz.syntax.std.list._
       import scalaz.syntax.std.option._
 
-      swarm.toNel.cata(nel => qpso.run(nel.list).run.map(_.map(penalize(Max))), Step.point(List.empty))
+      //swarm.toNel.cata(nel => qpso.run(nel.list).run.map(_.map(penalize(Max))), Step.point(List.empty))
+      qpso.run(swarm)
     }
 
     import scalaz.StateT
@@ -135,7 +136,7 @@ object QuantumPSO extends SafeApp {
     def run2(comparison: Comparison)(eval: Eval[Double]): StateT[RVar, (List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
       StateT { case (peaks, pop) => {
         println("running")
-        MPB.iteration(pop).run(comparison)(eval).map(r => ((peaks, r), r))
+        MPB.iteration(pop).run(comparison)(eval).map(r => ((peaks, r.toList), r.toList))
       }}
 
     import scalaz.syntax.applicative._

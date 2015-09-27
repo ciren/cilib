@@ -3,6 +3,8 @@ package cilib
 import scalaz._
 import scalaz.syntax.comonad._
 import scalaz.syntax.traverse._
+import scalaz.syntax.functor._
+import scalaz.syntax.monoid._
 import scalaz.syntax.std.list._
 import scalaz.std.list._
 
@@ -27,11 +29,11 @@ sealed trait Iteration[M[_],A] {
 object Iteration {
 
   // TODO: Typeclass or ADT?
-  final case class SyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[List[A]]) extends Iteration[M,A] {
+//  final case class SyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[List[A]]) extends Iteration[M,A] {
 //    def par = ParSyncIter(f)
-    def run(l: List[A])(implicit M: Monad[M]): ListT[M,A] =//M[List[A]] =
-      ListT(M.map(l traverseU f(l))(Merge.id.merge))
-  }
+//    def run(l: List[A])(implicit M: Monad[M]): ListT[M,A] =//M[List[A]] =
+//      ListT(M.map(l traverseU f(l))(Merge.id.merge))
+//  }
  /* final case class ASyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
     def run(l: List[A])(implicit M: Monad[M]) =
       l.foldLeftM[M, List[A]](List.empty[A]) {
@@ -48,13 +50,19 @@ object Iteration {
   }*/
 
   // iterations have the shape: [a] -> a -> Step [a]
-  def sync_[M[_]: Applicative,A](f: List[A] => A => M[List[A]]) =
-    SyncIter(f)
+//  def sync_[M[_]: Applicative,A](f: List[A] => A => M[List[A]]) =
+//    SyncIter(f)
 
-  def sync[A,B](f: List[B] => B => Step[A,List[B]]) =
+  //type Iteration[M[_],A] = Kleisli[M,List[A],A]
+
+  // iterations have the shape: [a] -> a -> Step [a]
+  def sync_[M[_]: Applicative,A](f: List[A] => A => M[Result[A]]): Kleisli[M,List[A],Result[A]] =
+    Kleisli.kleisli((l: List[A]) => Functor[M].map(l traverseU f(l))(_.suml))
+
+  def sync[A,B](f: List[B] => B => Step[A,Result[B]]) =
     sync_[Step[A,?], B](f)
 
-  def syncS[A,S,B](f: List[B] => B => StepS[A,S,List[B]]) = {
+  def syncS[A,S,B](f: List[B] => B => StepS[A,S,Result[B]]) = {
     implicit val S = StateT.stateTMonadState[S, Step[A,?]]
     sync_[StepS[A,S,?], B](f)
   }
@@ -73,5 +81,20 @@ object Iteration {
     implicit val S = StateT.stateTMonadState[S, Step[A,?]]
     async_[StepS[A,S,?], B](f)
   }*/
+  def async_[M[_]: Monad,A](f: List[A] => A => M[Result[A]]): Kleisli[M,List[A],Result[A]] =
+    Kleisli.kleisli((l: List[A]) =>
+      l.foldLeftM[M, Result[A]](Zero()) { (a, c) =>
+        val p1: List[A] = a.toList
+        val p2: List[A] = l.drop(p1.length)
+        Functor[M].map(f(p1 ++ p2).apply(c))(a |+| _)
+      })
+
+   def async[A,B](f: List[B] => B => Step[A,Result[B]]) =
+     async_[Step[A,?], B](f)
+
+   def asyncS[A,S,B](f: List[B] => B => StepS[A,S,Result[B]]) = {
+     implicit val S = StateT.stateTMonadState[S, Step[A,?]]
+     async_[StepS[A,S,?], B](f)
+   }
 
 }
