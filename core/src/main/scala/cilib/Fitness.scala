@@ -25,6 +25,9 @@ trait Fitness[A] {
 object Fitness {
   def compare[A](x: A, y: A)(implicit F: Fitness[A]): Reader[Opt, A] =
     Reader(o => if (o.order(F.fitness(x), F.fitness(y)) === GT) x else y)
+
+  def fittest[A](x: A, y: A)(implicit F: Fitness[A]): Reader[Opt, Boolean] =
+    Reader(o => o.order(F.fitness(x), F.fitness(y)) === GT)
 }
 
 sealed trait Opt extends Order[Maybe[Fit]] {

@@ -20,33 +20,37 @@ import scalaz.std.list._
  */
 object Iteration {
 
-  type Iteration[M[_],A] = Kleisli[M,A,A]
+  //type Iteration[M[_],A] = Kleisli[M,List[A],A]
 
   // iterations have the shape: [a] -> a -> Step [a]
-  def sync_[M[_]: Applicative,A](f: List[A] => A => M[A]): Iteration[M,List[A]] =
-    Kleisli.kleisli[M,List[A],List[A]]((l: List[A]) => l traverseU f(l))
+  def sync_[M[_]: Applicative,A](f: List[A] => A => M[Result[A]]): Kleisli[M,List[A],Result[A]] =
+    Kleisli.kleisli((l: List[A]) => Functor[M].map(l traverseU f(l))(_.suml))
 
-  def sync[F[_],A,B](f: List[B] => B => Step[F,A,B]) =
+  def sync[F[_],A,B](f: List[B] => B => Step[F,A,Result[B]]) =
     sync_[Step[F,A,?], B](f)
 
-  def syncS[F[_],A,S,B](f: List[B] => B => StepS[F,A,S,B]) = {
+  def syncS[F[_],A,S,B](f: List[B] => B => StepS[F,A,S,Result[B]]) = {
     implicit val S = StateT.stateTMonadState[S, Step[F,A,?]]
     sync_[StepS[F,A,S,?], B](f)
   }
 
+  import scalaz.syntax.monoid._
+
   // This needs to be profiled. The drop is expensive - perhaps a zipper is better
-  def async_[M[_]: Monad,A](f: List[A] => A => M[A]) =
-    Kleisli.kleisli[M,List[A],List[A]]((l: List[A]) =>
-      l.foldLeftM[M, List[A]](List.empty[A]) {
-        (a, c) => f(a ++ l.drop(a.length)).apply(c).map(a :+ _)
+  def async_[M[_]: Monad,A](f: List[A] => A => M[Result[A]]): Kleisli[M,List[A],Result[A]] =
+    Kleisli.kleisli((l: List[A]) =>
+      l.foldLeftM[M, Result[A]](Zero()) { (a, c) =>
+        val p1: List[A] = a.toList
+        val p2: List[A] = l.drop(p1.length)
+        f(p1 ++ p2).apply(c).map(a |+| _)
       })
 
-  def async[F[_],A,B](f: List[B] => B => Step[F,A,B]) =
-    async_[Step[F,A,?], B](f)
+   def async[F[_],A,B](f: List[B] => B => Step[F,A,Result[B]]) =
+     async_[Step[F,A,?], B](f)
 
-  def asyncS[F[_],A,S,B](f: List[B] => B => StepS[F,A,S,B]) = {
-    implicit val S = StateT.stateTMonadState[S, Step[F,A,?]]
-    async_[StepS[F,A,S,?], B](f)
-  }
+   def asyncS[F[_],A,S,B](f: List[B] => B => StepS[F,A,S,Result[B]]) = {
+     implicit val S = StateT.stateTMonadState[S, Step[F,A,?]]
+     async_[StepS[F,A,S,?], B](f)
+   }
 
 }

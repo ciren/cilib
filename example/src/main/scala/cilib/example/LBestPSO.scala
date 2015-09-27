@@ -23,22 +23,8 @@ object LBestPSO extends SafeApp {
   val lbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
-  val a = Step.pointR[List,Double,List[Particle[Mem[List,Double],List,Double]]](swarm)
-
-  val b2 = Iteration.sync(lbestPSO)
-  val w = a flatMap (b2.run)
-  val m = w.run(Min)(sum)
-  val z = m.run(RNG.fromTime)
-
-  // Run the above algorithm 1000 times, without any parameter changes
-  //val r = b2.repeat(1000)
-  //val w2 = a flatMap (r)
-  //val m2 = w2 run Env(Min, sum)
-  //val y2 = m2 run sum
-  //val z2 = m2.run(RNG.fromTime)
-
-  //println(z2)
+  val syncLBest = Iteration.sync(gbest)
 
   override val runc: IO[Unit] =
-    putStrLn(z.toString)
+    putStrLn(Runner.repeat(1000, syncLBest, swarm).run(Min)(sum).run(RNG.fromTime).toString)
 }

@@ -34,7 +34,7 @@ object QunatumPSO extends SafeApp {
     cognitive: Guide[S,F,Double],
     social: Guide[S,F,Double])(
     implicit C: Charge[S], V: Velocity[S,F,Double], M: Memory[S,F,Double], mod: Module[F[Double],Double]
-  ): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Particle[S,F,Double]] =
+  ): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Result[Particle[S,F,Double]]] =
     collection => x => {
       for {
         cog    <- cognitive(collection, x)
@@ -45,7 +45,7 @@ object QunatumPSO extends SafeApp {
         p2      <- evalParticle(p)
         p3      <- updateVelocity(p2, v)
         updated <- updatePBest(p3)
-      } yield updated
+      } yield One(updated)
     }
 
 
@@ -88,32 +88,34 @@ object QunatumPSO extends SafeApp {
   val combined2 = disjointCircles ++ linear
 
   import scalaz.std.list._
+  import scalaz.syntax.functor._
 
   val initialProb = // : RVar[(Problems.PeakState, Eval[List,Double])] =
     Problems.initPeaks[List](15, interval, 30.0, 70.0, 10.0, 20.0).map(x => (x._1, x._2.constrainBy(centerEllipse)))
 
   // This is not a runner of sorts?
   // Need to track both the problem and the current collection
-  def experiment(rng: RNG) = (Range(0, 1000).toStream.foldLeft((rng, initialProb, pop2, List.empty[Problems.Peak]))((a, c) => {
-    val (rng, prob, pop, _) = a
-    val (rng2, (ps, eval)) = prob.run(rng)
+  def experiment(rng: RNG) =
+    (Range(0, 1000).toStream.foldLeft((rng, initialProb, pop2, List.empty[Problems.Peak]))((a, c) => {
+      val (rng, prob, pop, _) = a
+      val (rng2, (ps, eval)) = prob.run(rng)
 
-    //println("peaks: " + ps.peaks)
+      //println("peaks: " + ps.peaks)
 
-    val w = pop flatMap r.run
-    val x = w.run(Max)(eval)
-    val (rng3, nextPop) = x.run(rng2)
+      val w = pop flatMap r.run
+      val x = w.run(Max)(eval)
+      val (rng3, nextPop) = x.run(rng2)
 
-    val next = nextPop.map(penalize(Max))
-    //println(next)
+      val next = nextPop.map(penalize(Max)).toList
+      //println(next)
 
-    //import scalaz.StateT
-    val nextProb = prob
-    //if (c % 101 == 0) Problems.modifyPeaks[List]/*.map(_.constrainBy(constraints))*/.run(ps)
-    //else prob
+      //import scalaz.StateT
+      val nextProb = prob
+      //if (c % 101 == 0) Problems.modifyPeaks[List]/*.map(_.constrainBy(constraints))*/.run(ps)
+      //else prob
 
-    (rng3, nextProb, Step.point(next), ps.peaks)
-  }))
+      (rng3, nextProb, Step.point(next), ps.peaks)
+    }))
 
   // Run the experiment 30 times
   /*Range(0, 1).foreach(x => println({
