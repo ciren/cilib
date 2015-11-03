@@ -26,28 +26,33 @@ object DistanceTests extends Properties("Distance") {
 
   val euclidean = Distance.euclidean[List,Double]
   val manhattan = Distance.manhattan[List,Double]
-
+  val chebyshev = Distance.chebyshev[List,Double]
 
   property("non-negativity") = forAll(listTuple2) { case (x, y) =>
     euclidean(x, y) >= 0.0 &&
-    manhattan(x, y) >= 0.0
+    manhattan(x, y) >= 0.0 &&
+    chebyshev(x, y) >= 0.0
   }
 
   property("identity") = forAll(listTuple2) { case (x, y) =>
     euclidean(x, x) === 0.0 &&
     manhattan(x, x) === 0.0 &&
+    chebyshev(x, x) === 0.0 &&
     (x =!= y) ==> (euclidean(x, y) =!= 0.0) &&
-    (x =!= y) ==> (manhattan(x, y) =!= 0.0)
+    (x =!= y) ==> (manhattan(x, y) =!= 0.0) &&
+    (x =!= y) ==> (chebyshev(x, y) =!= 0.0)
   }
 
   property("symmetry") = forAll(listTuple2) { case (x, y) =>
     euclidean(x, y) === euclidean(y, x) &&
-    manhattan(x, y) === manhattan(y, x)
+    manhattan(x, y) === manhattan(y, x) &&
+    chebyshev(x, y) === chebyshev(y, x)
   }
 
   property("triangle-inequality") = forAll(listTuple3) { case (x, y, z) =>
     euclidean(x, z) <= euclidean(x, y) + euclidean(y, z) &&
-    manhattan(x, z) <= manhattan(x, y) + manhattan(y, z)
+    manhattan(x, z) <= manhattan(x, y) + manhattan(y, z) &&
+    chebyshev(x, z) <= chebyshev(x, y) + chebyshev(y, z)
   }
 
 }
