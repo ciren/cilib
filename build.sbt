@@ -169,7 +169,12 @@ lazy val docSettings = Seq(
   autoAPIMappings := true,
   unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(core),
   site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "api"),
-  site.addMappingsToSiteDir(tut, "_tut"),
+  tutTargetDirectory := baseDirectory.value / "src" / "jekyll" / "tut",
+  //site.addMappingsToSiteDir(tut, "_tut"),
+  com.typesafe.sbt.site.JekyllSupport.requiredGems := Map(
+    "jekyll" -> "2.5.3",
+    "liquid" -> "2.6.2"
+  ),
 //  ghpagesNoJekyll := false,
   siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
   scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
@@ -177,18 +182,20 @@ lazy val docSettings = Seq(
     "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
   ),
   git.remoteRepo := "git@github.com:cirg-up/cilib.git",
-  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md"
+  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md",
+  makeSite <<= makeSite.dependsOn(tut, (unidoc in Compile))
 )
 
-lazy val docs = project
+lazy val docs = project.in(file("docs"))
   .settings(moduleName := "cilib-docs")
   .settings(cilibSettings)
   .settings(noPublishSettings)
   .settings(unidocSettings)
   .settings(site.settings)
-  //.settings(ghpages.settings)
-  .settings(docSettings)
+  .settings(site.jekyllSupport())
+//.settings(ghpages.settings)
   .settings(tutSettings)
+  .settings(docSettings)
   .dependsOn(core, benchmarks)
 
 lazy val example = project.dependsOn(core, exec, moo)
