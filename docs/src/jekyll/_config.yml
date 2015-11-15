@@ -1,4 +1,5 @@
-name: CIlib Documentation
+title: CIlib
+tagline: Documentation
 url: http://cilib.net
 paginate: 1
 markdown: kramdown
@@ -6,9 +7,23 @@ highlighter: pygments
 baseurl: ""
 apidocs: /api/
 
+gems: [jekyll-paginate]
+
 collections:
   tut:
     output: true
 
-#permalink:           pretty
-#relative_permalinks: true
+permalink:           pretty
+relative_permalinks: true
+
+# Assets
+#
+# We specify the directory for Jekyll so we can use @imports.
+sass:
+  sass_dir:          _sass
+  style:             :compressed
+
+# Custom vars
+version:             1.0
+github:
+  repo:              https://github.com/cirg-up/cilib

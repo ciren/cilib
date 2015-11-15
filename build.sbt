@@ -172,8 +172,9 @@ lazy val docSettings = Seq(
   tutTargetDirectory := baseDirectory.value / "src" / "jekyll" / "tut",
   //site.addMappingsToSiteDir(tut, "_tut"),
   com.typesafe.sbt.site.JekyllSupport.requiredGems := Map(
-    "jekyll" -> "2.5.3",
-    "liquid" -> "2.6.2"
+    "jekyll" -> "3.0.0",
+    "jekyll-paginate" -> "1.1.0",
+    "liquid" -> "3.0.6"
   ),
 //  ghpagesNoJekyll := false,
   siteMappings += file("CONTRIBUTING.md") -> "contributing.md",

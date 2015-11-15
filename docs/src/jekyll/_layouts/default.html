@@ -1,35 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 
   {% include head.html %}
 
-  <body>
+  <body class="theme-base-0d layout-reverse sidebar-overlay">
 
-    <div id="layout" class="pure-g">
-      <div class="sidebar pure-u-1 pure-u-md-1-4">
-        <h1 class="brand-title">A Sample Blog</h1>
-        <h2 class="brand-tagline">Creating a blog layout using Pure</h2>
+    {% include sidebar.html %}
 
-        <nav class="nav">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a class="pure-button" href="http://purecss.io">Pure</a>
-            </li>
-            <li class="nav-item">
-              <a class="pure-button" href="http://yuilibrary.com">YUI Library</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <div class="content pure-u-1 pure-u-md-3-4">
-        <div>
-          the main content
-          {{ content }}
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="{{ site.baseurl }}/" title="Home">{{ site.title }}</a>
+            <small>{{ site.tagline }}</small>
+          </h3>
         </div>
       </div>
 
+      <div class="container content">
+        {{ content }}
+      </div>
     </div>
 
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
   </body>
 </html>
