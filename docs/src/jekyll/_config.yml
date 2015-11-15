@@ -2,19 +2,22 @@ title: CIlib
 tagline: Documentation
 url: http://cilib.net
 paginate: 1
-markdown: kramdown
+#markdown: kramdown
 highlighter: pygments
+kramdown:
+  input: GFM
+#  syntax_highlighter: rouge
+
 baseurl: ""
 apidocs: /api/
 
-gems: [jekyll-paginate]
+gems: [jekyll-paginate, jekyll-gist]
 
 collections:
   tut:
     output: true
 
 permalink:           pretty
-relative_permalinks: true
 
 # Assets
 #
