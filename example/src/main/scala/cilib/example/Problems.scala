@@ -29,8 +29,9 @@ import scalaz.NonEmptyList
 object Problems {
 //  import scalaz.Foldable1
 
-  def spherical[A](implicit N: Numeric[A]) =
-    Unconstrained[A]((a: List[A]) => Valid(a.foldLeft(0.0)((a,c) => a * N.toDouble(c))))
+  def spherical[A](implicit N: Numeric[A]) = {
+    Unconstrained[A]((a: List[A]) => a.foldLeft(0.0)((a,c) => a + N.toDouble(c)*N.toDouble(c)))
+  }
 
 
 /* ////
@@ -106,20 +107,22 @@ object Problems {
 
   case class PeakCone(height: Double, width: Double, location: NonEmptyList[Double]) {
     def eval(x: List[Double]) = {
-      val c = math.sqrt((x.zip(location.list)).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _))
-      println("c: " + c)
+      // println("position: " + x)
+      // println("location: " + location)
+
+      val c = math.sqrt((x zip location.list).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _))
+//      println("c: " + c)
       height - width * c
     }
   }
 
   def peakEval(peaks: /*NonEmpty*/List[PeakCone]): Eval[Double] =
     Unconstrained((a: List[Double]) => {
-      //      import scalaz.std.anyVal._
-      println("Peaks:" + peaks)
-      val x = peaks.map(_.eval(a))
-      println("x: " + x)
-      val r = Valid(if (x.max == Double.NaN) 0.0 else x.max)
-      println("r: " + r)
+  //    println("Peaks:" + peaks)
+      val x = peaks.map(_.eval(a)).max
+      //println("x: " + x)
+      val r = if (x == Double.NaN) 0.0 else x
+      //println("r: " + r)
       r
     })
 

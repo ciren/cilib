@@ -34,27 +34,31 @@ trait Charge[A] {
 
 object Lenses {
   // Base Entity lenses
-  def _state[S,/*F[_],*/A]    = Lens[Entity[S,A], S](_.state)(c => e => e.copy(state = c))
-  def _position[S,/*F[_],*/A] = Lens[Entity[S,A], Position[A]](_.pos)(c => e => e.copy(pos = c))
+  def _state[S,A]    = Lens[Entity[S,A], S](_.state)(c => e => e.copy(state = c))
+  def _position[S,A] = Lens[Entity[S,A], Position[A]](_.pos)(c => e => e.copy(pos = c))
 
-  def _solutionPrism[/*F[_],*/A]: Prism[Position[A],Solution[A]] =
-    Prism.apply[Position[A],Solution[A]]{
-      case x@Solution(_, _, _, _) => Some(x)
+  def _solutionPrism[A]: Prism[Position[A],Solution[A]] =
+    Prism[Position[A],Solution[A]] {
+      case x@Solution(_, _, _) => Some(x)
       case _ => None
     }(identity)
 
-  def _fitness[/*F[_],*/A]: Optional[Position[A],Fit] =
-    _solutionPrism[A] composeLens Lens[Solution[A], Fit](_.f)(c => e => e.copy(f = c))
+  def _objectiveLens[A]: Lens[Solution[A],Objective[A]] =
+    Lens[Solution[A],Objective[A]](_.o)(o => s => s.copy(o = o))
 
-/*=======
-  def _solutionPrism[F[_], A]: Prism[Position[F,A],Solution[F,A]] =
-    Prism.apply[Position[F,A],Solution[F,A]]{
-      case x @ Solution(_, _, _, _) => Some(x)
-      case _                        => None
-    }(identity)
+  def _singleObjective[A]: Prism[Objective[A],Single[A]] =
+    Prism[Objective[A],Single[A]](_ match {
+      case x@Single(_,_) => Some(x)
+      case _ => None
+    })(x => x)
 
-  def _fitness[F[_],A]: Optional[Position[F,A],Fit] =
-    _solutionPrism[F,A] composeLens Lens[Solution[F,A], Fit](_.f)(c => e => e.copy(f = c))
->>>>>>> non-empty-interval
- */
+  def _multiObjective[A]: Prism[Objective[A],Multi[A]] =
+    Prism[Objective[A],Multi[A]](_ match {
+      case x@Multi(_) => Some(x)
+      case _ => None
+    })(x => x)
+
+  def _singleFitness[A]: Lens[Single[A],Fit] =
+    Lens[Single[A],Fit](_.f)(f => s => s.copy(f = f))
+
 }

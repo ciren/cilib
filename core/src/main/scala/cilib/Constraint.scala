@@ -1,14 +1,15 @@
 package cilib
 
+import scalaz.Maybe
 import spire.algebra.Eq
 import spire.math._
 import spire.implicits._
 
-final class ViolationCount private (val count: Int) extends AnyVal
+final class ViolationCount(val count: Int) extends AnyVal
 object ViolationCount {
-  def apply(i: Int): Option[ViolationCount] =
-    if (i >= 0) Option(new ViolationCount(i))
-    else None
+  def apply(i: Int): Maybe[ViolationCount] =
+    if (i >= 0) Maybe.Just(new ViolationCount(i))
+    else Maybe.Empty()
 
   val zero = new ViolationCount(0)
 
@@ -17,6 +18,14 @@ object ViolationCount {
   implicit val violationOrder: Order[ViolationCount] = new Order[ViolationCount] {
     def order(x: ViolationCount, y: ViolationCount) =
       Order[Int].order(x.count, y.count)
+  }
+
+  import scalaz._
+  implicit def violationMonoid[A] = new Monoid[ViolationCount] {
+    def zero = ViolationCount.zero
+    def append(f1: ViolationCount, f2: => ViolationCount) =
+      ViolationCount(f1.count + f2.count).getOrElse(zero)
+
   }
 }
 
@@ -39,7 +48,7 @@ object Constraint {
   def constrain[M[_]](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
     M.map(ma)(_.constrainBy(cs))
 
-  def violationMagnitude[A,B:Fractional](beta: Double, eta: Double, constraints: List[Constraint[A,B]], cs: List[A])(implicit e: Eq[B]): Double = {
+  def violationMagnitude[A,B:Fractional](beta: Double, eta: Double, constraints: List[Constraint[A,B]], cs: List[A])(implicit e: Eq[B]): Double =
     constraints.map(_ match {
       case LessThan(f, v) =>
         val v2 = f(cs)
@@ -78,7 +87,6 @@ object Constraint {
         if (v2 >= v) 0.0
         else math.pow(math.abs(v2.toDouble + v.toDouble), beta) + eta
     }).sum
-  }
 
   def violationCount[A,B:Fractional](constraints: List[Constraint[A,B]], cs: List[A]): ViolationCount =
     ViolationCount(constraints.map(satisfies(_, cs)).filterNot(x => x).length).getOrElse(ViolationCount.zero)
@@ -100,6 +108,6 @@ object Constraint {
         }
         c1 && c2
       case GreaterThan(f, v) => f(cs) > v
-      case GreaterThanEqual(f, v) => f(cs) >= v
+      case GreaterThanEqual(f, v) => { /*println("f(cs): " + f(cs)) ;*/ f(cs) >= v }
     }
 }

@@ -129,8 +129,8 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .aggregate(benchmarks, core, docs, example, exec, tests)
-  .dependsOn(benchmarks, core, docs, example, exec, tests)
+  .aggregate(benchmarks, core, docs, example, exec, moo, tests)
+  .dependsOn(benchmarks, core, docs, example, exec, moo, tests)
 
 //   lazy val cilibSettings = settings ++ Seq(
 //     name := "cilib-aggregate"
@@ -191,7 +191,7 @@ lazy val docs = project
   .settings(tutSettings)
   .dependsOn(core, benchmarks)
 
-lazy val example = project.dependsOn(core, exec)
+lazy val example = project.dependsOn(core, exec, moo)
   .settings(moduleName := "cilib-example")
   .settings(cilibSettings)
   .settings(noPublishSettings)
@@ -199,7 +199,8 @@ lazy val example = project.dependsOn(core, exec)
     libraryDependencies ++= Seq(
       "org.scalaz" %% "scalaz-core"       % scalazVersion,
       "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
-      "org.scalaz" %% "scalaz-effect"     % scalazVersion
+      "org.scalaz" %% "scalaz-effect"     % scalazVersion,
+      "org.jfree"   % "jfreechart"        % "1.0.19"
     )
   ))
 
@@ -207,17 +208,22 @@ lazy val exec = project.dependsOn(core)
   .settings(moduleName := "cilib-exec")
   .settings(cilibSettings)
 
-lazy val tests = project.dependsOn(core)
+lazy val moo = project.dependsOn(core)
+  .settings(moduleName := "cilib-moo")
+  .settings(cilibSettings)
+
+lazy val tests = project
+  .dependsOn(core, benchmarks)
   .settings(moduleName := "cilib-tests")
   .settings(cilibSettings)
   .settings(
     libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
-      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion % "test"
+      "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
+      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test",
+      "org.typelevel"  %% "scalaz-specs2"             % "0.3.0"           % "test"
     )
   )
   .settings(noPublishSettings)
-  .dependsOn(benchmarks)
 
 lazy val benchmarks = project
   .settings(moduleName := "cilib-benchmarks")

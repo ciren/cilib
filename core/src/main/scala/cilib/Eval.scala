@@ -1,20 +1,29 @@
 package cilib
 
 import scalaz.NonEmptyList
+import spire.math._
 
 sealed abstract class Eval[/*F[_],*/A] { // This represents the function NonEmptyList[A] => Fit
 
-  def eval(a: /*NonEmpty*/List[A]): (Fit, List[Constraint[A, Double]]) = {
+  def eval(a: List[A]): Objective[A] = //(Fit, List[Constraint[A, Double]]) =
     this match {
-      case Unconstrained(f)   => (f(a), List.empty)
+      case Unconstrained(f)   => Single(Feasible(f(a)), List.empty)
       case Constrained(f, cs) =>
         import spire.algebra.Eq
         import spire.implicits._
 //        println("violations: " +  cs.filterNot(c => Constraint.satisfies(c, a.pos.list)))
-//        println("a: " + a)
-        (f(a), cs.filterNot(c => Constraint.satisfies(c, a)))
+        println("a: " + a)
+        val violations = cs.filter(c => !Constraint.satisfies(c, a))
+        println("violations: " + violations)
+//        val x = violations match {
+//          case Nil => Feasible(fit.v)
+//          case _   => Infeasible(fit.v, cs.filterNot(c => Constraint.satisfies(c, a)))
+//        }
+        violations match {
+          case Nil => Single(Feasible(f(a)), List.empty)
+          case xs  => Single(Infeasible(f(a), xs.length), xs)
+        }
     }
-  }
 
   def constrainBy(cs: List[Constraint[A,Double]]) =
     this match {
@@ -29,5 +38,5 @@ sealed abstract class Eval[/*F[_],*/A] { // This represents the function NonEmpt
     }
 }
 
-final case class Unconstrained[/*F[_],*/A](f: /*NonEmpty*/List[A] => Fit) extends Eval[A]
-final case class Constrained[/*F[_]:Foldable,*/A](f: /*NonEmpty*/List[A] => Fit, cs: List[Constraint[A,Double]]) extends Eval[A]
+final case class Unconstrained[A](f: List[A] => Double) extends Eval[A]
+final case class Constrained[A](f: List[A] => Double, cs: List[Constraint[A,Double]]) extends Eval[A]

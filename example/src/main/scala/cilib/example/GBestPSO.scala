@@ -26,8 +26,10 @@ object GBestPSO extends SafeApp {
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
   val iter = Iteration.sync(gbestPSO)
 
+  val opt = Comparison.dominance(Min)
+
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, iter, swarm).run(Comparison.quality(Min))(sum).run(RNG.fromTime).toString)
+    putStrLn(Runner.repeat(1000, iter, swarm).run(opt)(sum).run(RNG.fromTime).toString)
 
 }

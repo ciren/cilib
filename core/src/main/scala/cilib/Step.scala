@@ -26,6 +26,7 @@ final case class Step[A,B] private (run: Comparison => Eval[A] => RVar[B]) {
 
 object Step {
   import scalaz._
+  import spire.math.Numeric
 
   def point[A,B](b: B): Step[A,B] =
     Step(_ => _ => RVar.point(b))
@@ -39,13 +40,14 @@ object Step {
   def withCompare[A,B](f: Comparison => RVar[B]): Step[A,B] =
     Step(o => _ => f(o))
 
-  def evalF[A](pos: Position[A]): Step[A,Position[A]] =
+  def evalF[A:Numeric](pos: Position[A]): Step[A,Position[A]] =
     Step { _ => e =>
       RVar.point(pos match {
         case Point(x, b) =>
-          val (fit, vio) = e.eval(x)
-          Solution(x, b, fit, vio)
-        case x @ Solution(_, _, _, _) =>
+          //val (fit, vio) = e.eval(x)
+          val objective = e.eval(x)
+          Solution(x, b, objective)//fit, vio)
+        case x @ Solution(_, _, _) =>
           x
       })
     }

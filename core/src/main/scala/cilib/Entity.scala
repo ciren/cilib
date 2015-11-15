@@ -10,9 +10,16 @@ import spire.math._
 final case class Entity[S,A](state: S, pos: Position[A])
 
 object Entity {
+  //  implicit def entityQuality[S,A](implicit Q: Quality[Position[A]]) = new Quality[Entity[S,A]] {
+  //   def quality(a: Entity[S,A]) =
+  //     Q.quality(a.pos)
+  // }
+
   // Step to evaluate the particle
-  def eval[S,A](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
+  def eval[S,A:Numeric](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] = {
+
     Step.evalF(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
+  }
 }
 
 sealed abstract class Position[A] {
@@ -30,54 +37,33 @@ sealed abstract class Position[A] {
   def traverse[G[_]: Applicative, B](f: A => G[B]): G[Position[B]] =
     pos.traverse(f).map(Point(_, boundary))
 
-//  def foldMap1[B](f: A => B)(implicit M: Semigroup[B]) =
-//    pos.foldMap1(f)
-
-//  def traverse1[G[_], B](f: A => G[B])(implicit G: Apply[G]): G[Position[B]] =
-//    pos.traverse1(f).map(Point(_, boundary))
-
   def pos =
     this match {
-      case Point(x, _)          => x
-      case Solution(x, _, _, _) => x
-    }
-
-  def fit: Maybe[Fit] =
-    this match {
-      case Point(_, _)          => Maybe.empty
-      case Solution(_, _, f, _) => Maybe.just(f)
-    }
-
-  def violations: Maybe[List[Constraint[A,Double]]] =
-    this match {
-      case Point(_, _)          => Maybe.empty
-      case Solution(_, _, _, v) => Maybe.just(v)
-    }
-
-  def violationCount: ViolationCount =
-    this match {
-      case Point(_, _)       => ViolationCount.zero
-      case Solution(x,_,_,v) => Constraint.violationCount(v, x)//.list)
+      case Point(x, _)       => x
+      case Solution(x, _, _) => x
     }
 
   def toPoint: Position[A] =
     this match {
-      case Point(_, _) => this
-      case Solution(x, b, _, _) => Point(x, b)
+      case Point(_, _)       => this
+      case Solution(x, b, _) => Point(x, b)
     }
 
-  def feasible: Option[Position[A]] =
-    violations.map(_.isEmpty).getOrElse(false).option(this)
+  def objective: Maybe[Objective[A]] =
+    this match {
+      case Point(_,_)        => Maybe.empty
+      case Solution(_, _, o) => Maybe.just(o)
+    }
 
   def boundary =
     this match {
-      case Point(_, b) => b
-      case Solution(_, b, _, _) => b
+      case Point(_, b)       => b
+      case Solution(_, b, _) => b
     }
 }
 
 final case class Point[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
-final case class Solution[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]], f: Fit, v: List[Constraint[A,Double]]) extends Position[A]
+final case class Solution[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]], o: Objective[A]/*f: Fit, v: List[Constraint[A,Double]]*/) extends Position[A]
 
 object Position {
 
@@ -91,9 +77,6 @@ object Position {
 
       override def traverseImpl[G[_]: Applicative, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
         fa traverse f
-
-//      override def foldMapRight1[A, B](fa: cilib.Position[A])(z: A => B)(f: (A, => B) => B): B =
-//        fa.pos.foldMapRight1(z)(f)
 
       def alignWith[A, B, C](f: A \&/ B => C) =
         (a, b) => Point(a.pos.alignWith(b.pos)(f), a.boundary)
@@ -117,9 +100,9 @@ object Position {
       M.timesl(scalar, x)
   }
 
-  implicit def positionQuality[A] = new Quality[Position[A]] {
-    def quality(a: Position[A]): (Maybe[Fit], ViolationCount) =
-      (a.fit, a.violationCount)
+  implicit def positionFitness[A] = new Fitness[Position,A] {
+    def fitness(a: Position[A]) =
+      a.objective
   }
 
   def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =

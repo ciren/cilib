@@ -16,6 +16,15 @@ object Guide {
     })
   }
 
+  def dominance[S](selection: Selection[Particle[S,Double]]): Guide[S,Double] = {
+    (collection, x) => Step.withCompare(o => RVar.point {
+      val neighbourhood = selection(collection, x)
+      val comparison = Comparison.dominance(o.opt)
+      val fittest = neighbourhood.map(_.pos).reduceLeftOption((a,c) => comparison.apply(a, c))
+      fittest.getOrElse(sys.error("????"))
+    })
+  }
+
   def gbest[S](implicit M: Memory[S,Double]): Guide[S,Double] =
     nbest((c, _) => c)
 
