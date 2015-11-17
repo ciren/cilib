@@ -1,9 +1,14 @@
 package cilib
 
-object Selection {
+import scala.math.Ordering
 
-  import scalaz._
-  import scalaz.syntax.std.option._
+import spire.algebra.{Field,NRoot,Signed}
+import spire.implicits._
+
+import scalaz.{Ordering => _, _}
+import scalaz.syntax.std.option._
+
+object Selection {
 
   implicit class RicherEphemeralStream[A](s: EphemeralStream[A]) {
     def drop(n: Int): EphemeralStream[A] = {
@@ -25,4 +30,16 @@ object Selection {
 
       c.drop(point).take(n).toList
     }
+
+  def distanceNeighbours[F[_]: Foldable, A: Field : Ordering : NRoot : Signed](distance: Distance[F,A])(n: Int) =
+    (l: List[F[A]], x: F[A]) => l.sortBy(li => distance(li, x)).take(n)
+
+  def wheel[A]: Selection[A] =
+    (l: List[A], a: A) => l match {
+      case x :: _ if (x == a) => l
+      case x :: _ => List(x, a)
+    }
+
+  def star[A]: Selection[A] =
+    (l: List[A], _) => l
 }
