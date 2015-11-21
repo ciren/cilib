@@ -6,7 +6,7 @@ import Scalaz._
 import org.scalacheck._
 import org.scalacheck.Prop._
 
-object ShufflingTest extends Properties("Shuffling") {
+object ShufflingTest extends Spec("Shuffling") {
 
   val rng = RNG.fromTime
 

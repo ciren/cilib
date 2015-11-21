@@ -5,6 +5,7 @@
 <!-- Toggleable sidebar -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-item">
+    <img src="/public/images/cilib_logo_transparent.png" />
     <p>{{ site.description }}</p>
   </div>
 
@@ -25,14 +26,21 @@
       {% endif %}
     {% endfor %}
 
-    <a class="sidebar-nav-item" href="{{ site.github.repo }}/archive/v{{ site.version }}.zip">Download</a>
-    <a class="sidebar-nav-item" href="{{ site.github.repo }}">GitHub project</a>
-    <span class="sidebar-nav-item">Currently v{{ site.version }}</span>
+    <!-- <a class="sidebar-nav-item" href="{{ site.github.repo }}/archive/v{{ site.version }}.zip">Download</a> -->
+    <!-- <a class="sidebar-nav-item" href="{{ site.github.repo }}">GitHub project</a> -->
+    <a class="sidebar-nav-item" href="/api/index.html">API Documentation</a>
+    <!-- <span class="sidebar-nav-item">Currently v{{ site.version }}</span> -->
   </nav>
 
-  <div class="sidebar-item">
-    <p>
-      &copy; {{ site.time | date: '%Y' }}. All rights reserved.
+  <div class="sidebar-item" style="padding-bottom: 0px; padding-top: 0.8rem;">
+    <ul class="fa-ul" style="text-align: center;">
+      <li class="fa-li" style="display: inline; padding: 0.5rem;"><a href="{{ site.github.repo }}"><i class="fa fa-github fa-2x"></i></a></li>
+      <li class="fa-li" style="display: inline; padding: 0.5rem;"><a href="https://gitter.im/cirg-up/cilib">Gitter</a></li>
+    </ul>
+  </div>
+  <div class="sidebar-item" style="text-align: center; padding: 0px;">
+    <p style="text-align: center;">
+      <i class="fa fa-copyright"></i> {{ site.time | date: '%Y' }}. All rights reserved.
     </p>
   </div>
 </div>

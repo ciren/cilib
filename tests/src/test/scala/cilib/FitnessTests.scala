@@ -30,12 +30,12 @@ object FitnessTest extends Properties("Fitness") {
     //    def quality(a: Int) = (Maybe.just(Feasible(a.toDouble)), ViolationCount.zero)
   }
 
-  property("Minimization quality compare") =
+  property("min") =
     forAll { (x: Id[Int], y: Id[Int]) =>
       Comparison.quality(Min)(x, y) === (x min y)
     }
 
-  property("Maximization quality compare") =
+  property("max") =
     forAll { (x: Id[Int], y: Id[Int]) =>
       Comparison.quality(Max)(x, y) === (x max y)
     }

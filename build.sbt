@@ -227,8 +227,7 @@ lazy val tests = project
   .settings(
     libraryDependencies ++= Seq(
       "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
-      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test",
-      "org.typelevel"  %% "scalaz-specs2"             % "0.3.0"           % "test"
+      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
     )
   )
   .settings(noPublishSettings)

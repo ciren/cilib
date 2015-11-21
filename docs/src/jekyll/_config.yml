@@ -1,7 +1,8 @@
 title: CIlib
-tagline: Documentation
+tagline: Type-safe Computational Intelligence
 url: http://cilib.net
 paginate: 1
+permalink: pretty
 #markdown: kramdown
 highlighter: pygments
 kramdown:
@@ -16,8 +17,6 @@ gems: [jekyll-paginate, jekyll-gist]
 collections:
   tut:
     output: true
-
-permalink:           pretty
 
 # Assets
 #
