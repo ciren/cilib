@@ -1,15 +1,11 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _}
-
 import scalaz._
 
 import monocle.syntax._
 import Position._
 
 import spire.algebra._
-import spire.implicits._
-import spire.syntax.module._
 
 object PSO {
   import Lenses._
@@ -130,7 +126,6 @@ object PSO {
   def createParticle[S,F[_]](f: Position[F,Double] => Particle[S,F,Double])(pos: Position[F,Double]): Particle[S,F,Double] =
     f(pos)
 }
-
 
 /*
 next pso work:

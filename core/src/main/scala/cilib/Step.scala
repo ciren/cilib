@@ -57,39 +57,45 @@ object Step {
   }
 }
 
-// Should the internal StateT not be hidden?
-final case class StepS[F[_],A,S,B] private (run: StateT[Step[F,A,?],S,B]) {
-  def map[C](f: B => C): StepS[F,A,S,C] =
-    StepS(run map f)
-
-  def flatMap[C](f: B => StepS[F,A,S,C]): StepS[F,A,S,C] =
-    StepS(run.flatMap(f(_).run))
-}
-
 object StepS {
-  implicit def stepSMonad[F[_],A,S] = new Monad[StepS[F,A,S,?]] {
+
+  implicit def stepSMonadState[F[_],A,S] = new MonadState[StepS[F,A,?,?], S] {
     def point[B](a: => B) =
-      StepS.point(a)
+      StateT.stateTMonadState[S, Step[F,A,?]].point(a)
 
     def bind[B,C](fa: StepS[F,A,S,B])(f: B => StepS[F,A,S,C]): StepS[F,A,S,C] =
       fa flatMap f
+
+    def get =
+      StateT.stateTMonadState[S, Step[F,A,?]].get
+
+    def init = get
+
+    def put(s: S) =
+      StateT.stateTMonadState[S, Step[F,A,?]].put(s)
   }
 
+  def get[F[_],A,S] =
+    stepSMonadState[F,A,S].get
+
+  def put[F[_],A,S](s: S) =
+    stepSMonadState[F,A,S].put(s)
+
+  def apply[F[_],A,S,B](f: S => Step[F,A,(S, B)]): StepS[F,A,S,B] =
+    StateT[Step[F,A,?],S,B](f)
+
   def point[F[_],A,S,B](b: B): StepS[F,A,S,B] =
-    StepS(StateT.stateT[Step[F,A,?],S,B](b))
+    stepSMonadState[F,A,S].point(b)
 
   def pointR[F[_],A,S,B](a: RVar[B]): StepS[F,A,S,B] =
-    StepS(StateT[Step[F,A,?],S,B](
-      (s: S) => Step.pointR(a).map((s, _))
-    ))
+    StateT[Step[F,A,?],S,B]((s: S) => Step.pointR(a).map((s, _)))
 
-/*  def pointS[F[_],A,S,B](a: Step[F,A,B]): StepS[F,A,S,B] =
-    StateT.StateMonadTrans[S].liftMU(a)
+  def pointS[F[_],A,S,B](a: Step[F,A,B]): StepS[F,A,S,B] =
+    StateT[Step[F,A,?],S,B]((s: S) => a.map((s,_)))
 
   def liftK[F[_],A,S,B](a: Reader[Opt,B]): StepS[F,A,S,B] =
-    pointK(Step.liftK(a))
+    pointS(Step.liftK(a))
 
   def liftS[F[_],A,S,B](a: State[S, B]): StepS[F,A,S,B] =
     a.lift[Step[F,A,?]]
- */
 }

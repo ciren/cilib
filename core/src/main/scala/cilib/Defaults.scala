@@ -17,7 +17,7 @@ object Defaults {
     c2: Double,
     cognitive: Guide[S,F,Double],
     social: Guide[S,F,Double]
-  )(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Result[Particle[S,F,Double]]] =
+  )(implicit M: Memory[S,F,Double], V: Velocity[S,F,Double], MO: Module[F[Double],Double]): List[Particle[S,F,Double]] => Particle[S,F,Double] => Step[F,Double,Particle[S,F,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -26,7 +26,7 @@ object Defaults {
       p2      <- evalParticle(p)
       p3      <- updateVelocity(p2, v)
       updated <- updatePBest(p3)
-    } yield One(updated)
+    } yield updated
 
   def cognitive[S,F[_]:Traverse](
     w: Double,

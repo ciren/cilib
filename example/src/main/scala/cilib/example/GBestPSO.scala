@@ -8,6 +8,8 @@ import scalaz.effect.IO.putStrLn
 import scalaz.std.list._
 import spire.implicits._
 
+import cilib.syntax.algorithm._
+
 object GBestPSO extends SafeApp {
 
   val sum = Problems.spherical[List,Double]
@@ -16,7 +18,8 @@ object GBestPSO extends SafeApp {
   val cognitive = Guide.pbest[Mem[List,Double],List,Double]
   val social = Guide.gbest[Mem[List,Double],List]
 
-  val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
+  val gbestPSO: List[Particle[Mem[List,Double],List,Double]] => Particle[Mem[List,Double],List,Double] => Step[List,Double,Result[Particle[Mem[List,Double],List,Double]]] =
+    gbest(0.729844, 1.496180, 1.496180, cognitive, social).map(One(_))
 
   // RVar
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
