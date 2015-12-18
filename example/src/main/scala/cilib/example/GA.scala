@@ -8,6 +8,7 @@ import scalaz.std.list._
 import scalaz.syntax.std.list._
 import scalaz.syntax.traverse._
 import spire.implicits._
+import spire.math.Interval
 
 import Lenses._
 
@@ -17,7 +18,7 @@ object GAExample extends SafeApp {
   def onePoint(xs: List[GA.Individual]): RVar[List[GA.Individual]] =
     xs match {
       case a :: b :: _ =>
-        val point: Option[RVar[Int]] = a.pos.pos.toNel.map(x => Dist.uniformInt(0, x.size - 1))
+        val point: Option[RVar[Int]] = a.pos.pos.toNel.map(x => Dist.uniformInt(Interval(0, x.size - 1)))
         point.map(_.map(p => List(
           a.pos.pos.take(p) ++ b.pos.pos.drop(p),
           b.pos.pos.take(p) ++ a.pos.pos.drop(p)
@@ -37,7 +38,7 @@ object GAExample extends SafeApp {
   val randomSelection = (l: List[GA.Individual]) => RVar.sample(2, l).getOrElse(List.empty[GA.Individual])
   val ga = GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
 
-  val swarm = Position.createCollection[GA.Individual](x => Entity((), x))(Interval(closed(-5.12),closed(5.12))^30, 20)
+  val swarm = Position.createCollection[GA.Individual](x => Entity((), x))(Interval(-5.12,5.12)^30, 20)
 
   val cullingGA = Iteration.sync(ga) flatMapK (r => Step.withOpt(o => RVar.point(r.sortWith((x,y) => Fitness.fittest(x.pos,y.pos).run(o))))) map (_.take(20))
 

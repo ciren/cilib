@@ -7,6 +7,7 @@ import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import scalaz.std.list._
 import spire.implicits._
+import spire.math.Interval
 
 import cilib.syntax.algorithm._
 
@@ -22,7 +23,7 @@ object GBestPSO extends SafeApp {
     gbest(0.729844, 1.496180, 1.496180, cognitive, social).map(One(_))
 
   // RVar
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
+  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(-5.12,5.12)^30, 20)
   val syncGBest = Iteration.sync(gbestPSO)
 
   // Our IO[Unit] that runs at the end of the world

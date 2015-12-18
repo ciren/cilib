@@ -4,6 +4,8 @@ package example
 import scalaz.effect._
 import scalaz.effect.IO._
 
+import spire.math.Interval
+
 object QunatumPSO extends SafeApp {
   import scalaz.std.list._
   import PSO._
@@ -48,8 +50,7 @@ object QunatumPSO extends SafeApp {
       } yield One(updated)
     }
 
-
-  val interval = Interval(closed(0.0),closed(100.0))^2//30
+  val interval = Interval(0.0, 100.0)^2
   val r = Iteration.sync(quantumPSO[QuantumState,List](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
 
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(QuantumState(x, x.zeroed, 0.0), x)))(interval, 40)
