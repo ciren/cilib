@@ -128,8 +128,8 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .aggregate(benchmarks, core, docs, example, tests)
-  .dependsOn(benchmarks, core, docs, example, tests)
+  .aggregate(core, docs, example, tests)
+  .dependsOn(core, docs, example, tests)
 
 //   lazy val cilibSettings = settings ++ Seq(
 //     name := "cilib-aggregate"
@@ -172,7 +172,7 @@ lazy val docs = project
   //.settings(ghpages.settings)
   .settings(docSettings)
   .settings(tutSettings)
-  .dependsOn(core, benchmarks)
+  .dependsOn(core)
 
 lazy val example = project.dependsOn(core)
   .settings(moduleName := "cilib-example")
@@ -195,14 +195,3 @@ lazy val tests = project.dependsOn(core)
     )
   )
   .settings(noPublishSettings)
-  .dependsOn(benchmarks)
-
-lazy val benchmarks = project
-  .settings(moduleName := "cilib-benchmarks")
-  .settings(cilibSettings)
-  .settings(
-    libraryDependencies ++= Seq(
-      "org.scalaz"     %% "scalaz-core" % scalazVersion,
-      "org.spire-math" %% "spire"       % spireVersion
-    )
-  )
