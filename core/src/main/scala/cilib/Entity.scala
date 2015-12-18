@@ -6,6 +6,7 @@ import scalaz._
 import Scalaz._
 
 import spire.math._
+import spire.implicits._
 
 final case class Entity[S,F[_],A](state: S, pos: Position[F,A])
 
@@ -100,7 +101,7 @@ object Position {
     Point(xs)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]])(implicit F: SolutionRep[List]) =
-    domain.traverseU(x => Dist.uniform(x.lower.value, x.upper.value)) map (x => Position(x.list))
+    domain.traverseU(Dist.uniform) map (x => Position(x.list))
 
   def createPositions(domain: NonEmptyList[Interval[Double]], n: Int)(implicit ev: SolutionRep[List]) =
     createPosition(domain) replicateM n
@@ -114,24 +115,4 @@ trait SolutionRep[F[_]]
 object SolutionRep {
   implicit object ListRep extends SolutionRep[List]
   implicit object VectorRep extends SolutionRep[Vector]
-}
-
-sealed trait Bound[A] {
-  def value: A
-  def toDouble(implicit N: Numeric[A]) = N.toDouble(value)
-}
-case class Closed[A](value: A) extends Bound[A]
-case class Open[A](value: A) extends Bound[A]
-
-final class Interval[A] private[cilib] (val lower: Bound[A], val upper: Bound[A]) {
-
-   // Intervals _definitely_ have at least 1 element, so invariant in the type
-  def ^(n: Int): NonEmptyList[Interval[A]] =
-    NonEmptyList.nel(this, (1 to n - 1).map(_ => this).toList)
-
-}
-
-object Interval {
-  def apply[A](lower: Bound[A], upper: Bound[A]) =
-    new Interval(lower, upper)
 }

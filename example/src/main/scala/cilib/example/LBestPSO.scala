@@ -7,6 +7,7 @@ import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import scalaz.std.list._
 import spire.implicits._
+import spire.math.Interval
 
 import cilib.syntax.algorithm._
 
@@ -25,7 +26,7 @@ object LBestPSO extends SafeApp {
   val lbestPSO: List[Particle[Mem[List,Double],List,Double]] => Particle[Mem[List,Double],List,Double] => Step[List,Double,Result[Particle[Mem[List,Double],List,Double]]] =
     gbest(0.729844, 1.496180, 1.496180, cognitive, social).map(One(_))
 
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(closed(-5.12),closed(5.12))^30, 20)
+  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(-5.12,5.12)^30, 20)
   val syncLBest = Iteration.sync(lbestPSO)
 
   override val runc: IO[Unit] =

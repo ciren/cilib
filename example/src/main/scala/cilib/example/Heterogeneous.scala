@@ -15,6 +15,7 @@ import scalaz.effect.IO.putStrLn
 
 import scalaz.syntax.foldable._
 
+import spire.math.Interval
 import spire.implicits._
 
 import monocle.std.tuple2._
@@ -83,7 +84,7 @@ object HPSO extends SafeApp {
     (x: Position[List,Double]) => Entity(PState(Mem(x,x.map(_ / 10.0)), 0), x)
   } _
 
-  val bounds = Interval(closed(-5.12),closed(5.12))^2
+  val bounds = Interval(-5.12,5.12)^2
 
   val population = Position.createCollection(particleBuilder)(bounds, 10)
     .liftStepS[List,Double,BehaviourPool]
