@@ -1,8 +1,21 @@
 ---
 layout: default
-title: Home
+title: CIlib documentation - Home
 ---
 
+CIlib is a library providing neccessary tools to build `computational intelligence` algorithms that are principled and type-safe.
+
+### Getting Started
+
+CIlib is modularized, you may include only what is required, and includes:
+
+* [`core`](/reference/core) - Base typeclasses and data structures
+* `pso` - Particle Swarm Optimization
+* `ga` - Genetic Algorithms
+* `moo` - Multi-Objective Optimization
+
+
+<!--
 <div class="posts">
   {% for post in paginator.posts %}
   <div class="post">
@@ -35,4 +48,4 @@ title: Home
     <span class="pagination-item newer">Newer</span>
   {% endif %}
 </div>
-
+ -->
