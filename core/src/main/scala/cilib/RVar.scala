@@ -52,8 +52,14 @@ object RVar {
   def doubles(n: Int) =
     next[Double](Generator.DoubleGen) replicateM n
 
-  def choose[A](xs: NonEmptyList[A]) =
-    Dist.uniformInt(Interval(0, xs.size - 1)) map { xs.list.apply(_) }
+  def choose[A](xs: NonEmptyList[A]): RVar[Option[A]] = {
+    Dist.uniformInt(Interval(0, xs.size - 1)).map(i => {
+      import monocle._
+      import Monocle._
+
+      (xs.list applyOptional index(i)).getOption
+    })
+  }
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
