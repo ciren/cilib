@@ -1,4 +1,5 @@
 package cilib
+package pso
 
 import scalaz._
 import scalaz.std.list._
@@ -9,7 +10,7 @@ import monocle.syntax._
 
 import spire.implicits._
 
-import syntax.step._
+//import syntax.step._
 
 object Heterogeneous {
 

@@ -8,8 +8,8 @@ import sbtrelease.Utilities._
 import sbtunidoc.Plugin.UnidocKeys._
 import com.typesafe.sbt.SbtSite.SiteKeys._
 
-val scalazVersion     = "7.1.2"
-val spireVersion      = "0.9.0"
+val scalazVersion     = "7.1.5"
+val spireVersion      = "0.11.0"
 val monocleVersion    = "1.1.1"
 val scalacheckVersion = "1.11.4"
 
@@ -36,6 +36,8 @@ lazy val commonSettings = Seq(
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
+//    "-Yno-predef",
+//    "-Yno-imports",
     "-Xfuture"
   ),
   resolvers ++= Seq(
@@ -129,8 +131,8 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .aggregate(core, docs, example, exec, moo, tests)
-  .dependsOn(core, docs, example, exec, moo, tests)
+  .aggregate(core, docs, example, exec, moo, pso, tests)
+  .dependsOn(core, docs, example, exec, moo, pso, tests)
 
 //   lazy val cilibSettings = settings ++ Seq(
 //     name := "cilib-aggregate"
@@ -199,7 +201,7 @@ lazy val docs = project.in(file("docs"))
   .settings(docSettings)
   .dependsOn(core)
 
-lazy val example = project.dependsOn(core, exec, moo)
+lazy val example = project.dependsOn(core, exec, moo, pso)
   .settings(moduleName := "cilib-example")
   .settings(cilibSettings)
   .settings(noPublishSettings)
@@ -218,6 +220,10 @@ lazy val exec = project.dependsOn(core)
 
 lazy val moo = project.dependsOn(core)
   .settings(moduleName := "cilib-moo")
+  .settings(cilibSettings)
+
+lazy val pso = project.dependsOn(core)
+  .settings(moduleName := "cilib-pso")
   .settings(cilibSettings)
 
 lazy val tests = project

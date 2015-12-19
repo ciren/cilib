@@ -1,4 +1,5 @@
 package cilib
+package pso
 
 import _root_.scala.Predef.{any2stringadd => _}
 import scalaz._
