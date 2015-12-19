@@ -7,7 +7,7 @@ package cilib
   replacement) or multiple (as in the GA where two or more individuals may be generated
   from the reproduction process)
   */
-sealed trait Result[A] {
+/*sealed trait Result[A] {
   def toList =
     this match {
       case Zero()  => List.empty
@@ -59,3 +59,4 @@ object Result {
       }
   }
 }
+ */

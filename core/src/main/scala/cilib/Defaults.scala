@@ -14,17 +14,16 @@ object Defaults {
     c2: Double,
     cognitive: Guide[S,Double],
     social: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Result[Particle[S,Double]]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
       v       <- stdVelocity(x, soc, cog, w, c1, c2)
       p       <- stdPosition(x, v)
       p2      <- evalParticle(p)
-      //p2      <- eval(p)
       p3      <- updateVelocity(p2, v)
       updated <- updatePBest(p3)
-    } yield One(updated)
+    } yield updated
 
   def cognitive[S](
     w: Double,
@@ -130,7 +129,7 @@ object Defaults {
       updated <- updatePBest(x)
       nbest   <- social(collection, x)
       y       <- quantumBehavedOriginal2004thing(x, nbest, g)
-      
+
     } yield x.copy(pos = y)
 
   def quantumBehavedOriginal2004thing[S](

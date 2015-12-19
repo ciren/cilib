@@ -18,7 +18,7 @@ object GA {
     parentSelection: List[Individual] => RVar[List[Individual]], // the number of parents should already be applied
     crossover: List[Individual] => RVar[List[Individual]],
     mutation: List[Individual] => RVar[List[Individual]]
-  ): List[Individual] => Individual => Step[Double,Result[Individual]] =
+  ): List[Individual] => Individual => Step[Double,List[Individual]] =
     collection => x => for {
       parents   <- Step.pointR(parentSelection(collection))
       r         <- Step.pointR(Dist.stdUniform.map(_ < p_c))
@@ -26,5 +26,5 @@ object GA {
                    else Step.point[Double,List[Individual]](parents)
       mutated   <- Step.pointR[Double,List[Individual]](mutation(crossed))
       evaluated <- mutated.traverseU(x => Entity.eval((v: Position[Double]) => v)(x))
-    } yield Many(evaluated)
+    } yield evaluated
 }

@@ -3,6 +3,7 @@ package cilib
 import scalaz.Maybe
 import spire.algebra.Eq
 import spire.math._
+import spire.math.interval._
 import spire.implicits._
 
 final class ViolationCount(val count: Int) extends AnyVal
@@ -64,19 +65,31 @@ object Constraint {
         else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
       case InInterval(f, i) =>
         val v2 = f(cs)
-        val left = i.lower match {
+        val left = i.lowerBound match {
           case Closed(value) => value <= v2
           case Open(value) => value < v2
+          case Unbound() => true
+          case EmptyBound() => false
         }
-        val right = i.upper match {
+        val right = i.upperBound match {
           case Closed(value) => v2 <= value
           case Open(value) => v2 < value
+          case Unbound() => true
+          case EmptyBound() => false
         }
 
         (left, right) match {
           case (true, true) => 0.0
-          case (false, _) => math.pow(math.abs(i.lower.value.toDouble - v2.toDouble), beta) + (i.lower match { case Closed(_) => 0; case Open(_) => 1})*eta
-          case (_, false) => math.pow(math.abs(v2.toDouble - i.upper.value.toDouble), beta) + (i.upper match { case Closed(_) => 0; case Open(_) => 1})*eta
+          case (false, _) => i.lowerBound match {
+            case Closed(v) => math.pow(math.abs(v.toDouble - v2.toDouble), beta)
+            case Open(v)   => math.pow(math.abs(v.toDouble - v2.toDouble), beta) + eta
+            case _ => 0.0
+          }
+          case (_, false) =>  i.upperBound match {
+            case Closed(v) => math.pow(math.abs(v2.toDouble - v.toDouble), beta)
+            case Open(v)   => math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
+            case _ => 0.0
+          }
         }
       case GreaterThan(f, v) =>
         val v2 = f(cs)
@@ -98,13 +111,17 @@ object Constraint {
       case Equal(f, v) => ev.eqv(f(cs), v)
       case InInterval(f, i) =>
         val v2 = f(cs)
-        val c1 = i.lower match {
+        val c1 = i.lowerBound match {
           case Open(value) => value < v2
           case Closed(value) => value <= v2
+          case Unbound() => true
+          case EmptyBound() => false
         }
-        val c2 = i.upper match {
+        val c2 = i.upperBound match {
           case Open(value) => v2 < value
           case Closed(value) => v2 <= value
+          case Unbound() => true
+          case EmptyBound() => false
         }
         c1 && c2
       case GreaterThan(f, v) => f(cs) > v

@@ -6,6 +6,9 @@ import scalaz.syntax.applicative._
 import scalaz.syntax.traverse._
 import scalaz.Free._
 
+import spire.math._
+import spire.implicits._
+
 sealed abstract class RVar[A] {
   def trampolined(s: RNG): Trampoline[(RNG, A)]
 
@@ -50,7 +53,7 @@ object RVar {
     next[Double](Generator.DoubleGen) replicateM n
 
   def choose[A](xs: NonEmptyList[A]) =
-    Dist.uniformInt(0, xs.size - 1) map { xs.list.apply(_) }
+    Dist.uniformInt(Interval(0, xs.size - 1)) map { xs.list.apply(_) }
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
@@ -107,7 +110,7 @@ object RVar {
     import scalaz.std.list._
 
     val length = xs.length - 1
-    val randoms = (0 until length).foldLeft(List.empty[RVar[Int]])((a, c) => Dist.uniformInt(0, length - c) :: a).reverse.sequence // TODO / FIX: Remove the need to reverse!
+    val randoms = (0 until length).foldLeft(List.empty[RVar[Int]])((a, c) => Dist.uniformInt(Interval(0, length - c)) :: a).reverse.sequence // TODO / FIX: Remove the need to reverse!
 
     xs match {
       case Nil => RVar.point(xs)
@@ -128,7 +131,7 @@ object RVar {
 
         ((0 until xs.size).toList.reverse.take(n).foldLeftM[M, List[A]](List.empty) {
           case (s, a) => StateT[RVar, List[A], List[A]] {
-            currentList => Dist.uniformInt(0, a).map(r => {
+            currentList => Dist.uniformInt(Interval(0, a)).map(r => {
               val selected = currentList(r)
               (currentList diff List(selected), selected :: s)
             })
@@ -138,7 +141,6 @@ object RVar {
     }
 
 }
-
 
 sealed trait Generator[A] {
   def gen: RVar[A]
@@ -179,16 +181,17 @@ object Dist {
   val stdLognormal = lognormal(0.0, 1.0)
 
   /** Generate a discrete uniform value in [from, to]. Note that the upper bound is *inclusive* */
-  def uniformInt(from: Int, to: Int) =
+  def uniformInt(i: Interval[Int]) =
     next[Int].map(x => {
+      val (from, to) = (i.lowerValue, i.upperValue)
       val (ll, hh) = if (to < from) (to, from) else (from, to)
       val diff = hh.toLong - ll.toLong
       if (diff == 0) ll
       else (ll.toLong + (math.abs(x.toLong) % (diff + 1))).toInt
     })
 
-  def uniform(a: Double, b: Double) =
-    stdUniform map { x => a + x * (b - a) }
+  def uniform(i: Interval[Double]) =
+    stdUniform map { x => i.lowerValue + x * (i.upperValue - i.lowerValue) }
 
   def cauchy(l: Double, s: Double) =
     stdUniform map { x => l + s * math.tan(math.Pi * (x - 0.5)) }

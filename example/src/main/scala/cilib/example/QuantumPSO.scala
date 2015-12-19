@@ -8,13 +8,16 @@ import scalaz.std.list._
 import scalaz.syntax.apply._
 import scalaz.syntax.traverse._
 
-import monocle._
-import spire.algebra._
-import spire.implicits._
+//import spire.math.Interval
 
 object QuantumPSO extends SafeApp {
+  import scalaz.std.list._
   import PSO._
   import Lenses._
+
+  import monocle._
+  import spire.algebra._
+  import spire.implicits._
 
   case class QuantumState(b: Position[Double], v: Position[Double], charge: Double)
 
@@ -37,7 +40,7 @@ object QuantumPSO extends SafeApp {
     social: Guide[S,Double],
     cloudR: RVar[Double])(
     implicit C: Charge[S], V: Velocity[S,Double], M: Memory[S,Double], mod: Module[Position[Double],Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Result[Particle[S,Double]]] =
+  ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         cog     <- cognitive(collection, x)
@@ -49,7 +52,7 @@ object QuantumPSO extends SafeApp {
         p2      <- evalParticleWithPenalty(p)
         p3      <- updateVelocity(p2, v)
         updated <- updatePBestBounds(p3)
-      } yield One(updated)
+      } yield updated
     }
 
   def evalParticleWithPenalty[S](entity: Particle[S,Double]) =
@@ -100,7 +103,8 @@ object QuantumPSO extends SafeApp {
   }
 
   // Usage
-  val domain = Interval(closed(0.0),closed(100.0)) ^ 2
+  val domain = spire.math.Interval(0.0, 100.0)^2
+  //val r = Iteration.sync(quantumPSO[QuantumState,List](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
   val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.dominance((c,_) => c), RVar.point(50.0)))
   val qpsoDist = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, Dist.cauchy(0.0, 10.0)))
 
@@ -178,12 +182,12 @@ object QuantumPSO extends SafeApp {
 
   object MPB {
 
-    def initialPeaks(s: Double, domain: NonEmptyList[Interval[Double]]): RVar[List[Problems.PeakCone]] =
+    def initialPeaks(s: Double, domain: NonEmptyList[spire.math.Interval[Double]]): RVar[List[Problems.PeakCone]] =
       Problems.initPeaks(5, domain)//(1 to 2).toList.traverse(_ => Problems.defaultPeak(domain, s))
 
     def iteration(
       swarm: List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]
-    ): Step[Double,Result[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
+    ): Step[Double,List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
       import scalaz.syntax.std.list._
       import scalaz.syntax.std.option._
       import scalaz.syntax.functor._

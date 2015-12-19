@@ -1,7 +1,6 @@
 import scalaz._
 
 package object cilib {
-
   type Particle[S,A] = Entity[S,A]
 
   // Should expand into a typeclass? Getter?
@@ -16,12 +15,7 @@ package object cilib {
     if (d < 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty
 
-  // Use Spire for this!
-  def closed[A](point: A): Bound[A] =
-    Closed(point)
-
-  def open[A](point: A): Bound[A] =
-    Open(point)
+  type StepS[A,S,B] = StateT[Step[A,?],S,B]
 
   // Find a better home for this
   implicit object DoubleMonoid extends Monoid[Double] {
@@ -36,8 +30,9 @@ package object cilib {
       def negate(x: Position[Double]) =
         x.map(scalar.negate)
 
+      import spire.implicits._
       def zero: Position[Double] =
-        Position(NonEmptyList(0.0), NonEmptyList(Interval(Closed(0.0), Closed(0.0))))
+        Position(NonEmptyList(0.0), NonEmptyList(spire.math.Interval(0.0, 0.0)))
 
       def timesl(r: Double, v: Position[Double]): Position[Double] =
         v map (scalar.times(r, _))
@@ -56,4 +51,19 @@ package object cilib {
       def norm(x: Position[Double]): Double =
         math.sqrt(x.foldMap(y => y*y))
     }
+
+
+    implicit class IntervalOps[A](val interval: spire.math.Interval[A]) extends AnyVal {
+    import spire.math.interval.{Bound,ValueBound}
+
+    def ^(n: Int): NonEmptyList[spire.math.Interval[A]] =
+      NonEmptyList.nel(interval, (1 until n).map(_ => interval).toList)
+
+    private def getValue(b: Bound[A]) =
+      ValueBound.unapply(b).getOrElse(sys.error("Empty and Unbounded bounds are not supported"))
+
+    def lowerValue = getValue(interval.lowerBound)
+    def upperValue = getValue(interval.upperBound)
+  }
+
 }

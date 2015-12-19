@@ -6,6 +6,7 @@ import scalaz.syntax.traverse._
 import scalaz.syntax.functor._
 import scalaz.syntax.monoid._
 import scalaz.syntax.std.list._
+import scalaz.syntax.monadPlus._
 import scalaz.std.list._
 
 /**
@@ -23,76 +24,39 @@ import scalaz.std.list._
  * NB: Should consider trying to define this based on the Free monad?
  */
 sealed trait Iteration[M[_],A] {
-  def run(l: List[A])(implicit M: Monad[M]): ListT[M, A]// M[List[A]]
+  def run(l: List[A])(implicit M: Monad[M]): ListT[M, A]
 }
 
 object Iteration {
 
-  // TODO: Typeclass or ADT?
-//  final case class SyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[List[A]]) extends Iteration[M,A] {
-//    def par = ParSyncIter(f)
-//    def run(l: List[A])(implicit M: Monad[M]): ListT[M,A] =//M[List[A]] =
-//      ListT(M.map(l traverseU f(l))(Merge.id.merge))
-//  }
- /* final case class ASyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
-    def run(l: List[A])(implicit M: Monad[M]) =
-      l.foldLeftM[M, List[A]](List.empty[A]) {
-        (a, c) => M.map(f(a ++ l.drop(a.length)).apply(c))(a :+ _)
-      }
-  }
-  final case class ParSyncIter[M[_],A] private[Iteration] (f: List[A] => A => M[A]) extends Iteration[M,A] {
-    def unpar = SyncIter(f)
-    def run(l: List[A])(implicit M: Monad[M]) = {
-      import scalaz.concurrent.Task
-      val applied: List[Task[M[A]]] = l.map(x => Task.delay { f(l)(x) })
-      Nondeterminism[Task].gather(applied).run.sequence
-    }
-  }*/
-
   // iterations have the shape: [a] -> a -> Step [a]
-//  def sync_[M[_]: Applicative,A](f: List[A] => A => M[List[A]]) =
-//    SyncIter(f)
+  //def sync_[M[_]:Applicative,A,B:Monoid](f: List[A] => A => M[B]): Kleisli[M,List[A],List[B]] =
+  //Kleisli.kleisli((l: List[A]) => l traverseU f(l))//Functor[M].map(l traverseU f(l))(x => x))
 
-  //type Iteration[M[_],A] = Kleisli[M,List[A],A]
+  def sync_[M[_]:Applicative,A,B](f: List[A] => A => M[B]): Kleisli[M,List[A],List[B]] = //List[A] => M[List[B]] =
+//    (l: List[A]) => Functor[M].map(l traverseU f(l))(_.suml)
+    Kleisli.kleisli((l: List[A]) => l traverseU f(l))
 
-  // iterations have the shape: [a] -> a -> Step [a]
-  def sync_[M[_]: Applicative,A](f: List[A] => A => M[Result[A]]): Kleisli[M,List[A],Result[A]] =
-    Kleisli.kleisli((l: List[A]) => Functor[M].map(l traverseU f(l))(_.suml))
+  def sync[A,B,C](f: List[B] => B => Step[A,C]) =
+    sync_[Step[A,?],B,C](f)
 
-  def sync[A,B](f: List[B] => B => Step[A,Result[B]]) =
-    sync_[Step[A,?], B](f)
-
-  def syncS[A,S,B](f: List[B] => B => StepS[A,S,Result[B]]) = {
+  def syncS[A,S,B,C](f: List[B] => B => StepS[A,S,C]) = {
     implicit val S = StateT.stateTMonadState[S, Step[A,?]]
-    sync_[StepS[A,S,?], B](f)
+    sync_[StepS[A,S,?], B,C](f)
   }
-/*
-  def parSync_[M[_],A](f: List[A] => A => M[A]) =
-    ???//ParSyncIter(f)
 
-  // This needs to be profiled. The drop is expensive - perhaps a zipper is better
-  def async_[M[_],A](f: List[A] => A => M[A]) =
-    ???//ASyncIter(f)
-
-  def async[A,B](f: List[B] => B => Step[A,B]) =
-    async_[Step[A,?], B](f)
-
-  def asyncS[A,S,B](f: List[B] => B => StepS[A,S,B]) = {
-    implicit val S = StateT.stateTMonadState[S, Step[A,?]]
-    async_[StepS[A,S,?], B](f)
-  }*/
-  def async_[M[_]: Monad,A](f: List[A] => A => M[Result[A]]): Kleisli[M,List[A],Result[A]] =
+  def async_[M[_]: Monad,A](f: List[A] => A => M[A]): Kleisli[M,List[A],List[A]] =
     Kleisli.kleisli((l: List[A]) =>
-      l.foldLeftM[M, Result[A]](Zero()) { (a, c) =>
+      l.foldLeftM[M, List[A]](List.empty) { (a, c) =>
         val p1: List[A] = a.toList
         val p2: List[A] = l.drop(p1.length)
-        Functor[M].map(f(p1 ++ p2).apply(c))(a |+| _)
+        Functor[M].map(f(p1 ++ p2).apply(c))(x => a <+> List(x))
       })
 
-   def async[A,B](f: List[B] => B => Step[A,Result[B]]) =
+   def async[A,B](f: List[B] => B => Step[A,B]) =
      async_[Step[A,?], B](f)
 
-   def asyncS[A,S,B](f: List[B] => B => StepS[A,S,Result[B]]) = {
+   def asyncS[A,S,B](f: List[B] => B => StepS[A,S,B]) = {
      implicit val S = StateT.stateTMonadState[S, Step[A,?]]
      async_[StepS[A,S,?], B](f)
    }

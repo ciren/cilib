@@ -54,7 +54,7 @@ object Comparison {
         val c2l = f2.violations.length
 
         // Both feasible (i.e: no constraint violations) compare Fit
-        if (c1l == 0 && c2l == 0) { println("no constraints violated") ; fromOrdering(f1, f2) }
+        if (c1l == 0 && c2l == 0) { /*println("no constraints violated") ;*/ fromOrdering(f1, f2) }
         else if (c1l == 0) a
         else if (c2l == 0) b
         else if (c1l < c2l) a else if (c2l < c1l) b
@@ -91,7 +91,7 @@ final case object Min extends Opt {
        case (Adjusted(Infeasible(_,_), _), Infeasible(_,_)) => GT
        case (Feasible(a), Adjusted(Infeasible(_, _), b)) => D.order(a, b)
        case (Feasible(_), Infeasible(_,_)) => GT
-       case (Feasible(a), Feasible(b))   => { println("in feasible") ; D.order(a, b) }
+       case (Feasible(a), Feasible(b))   => { /*println("in feasible") ;*/ D.order(a, b) }
        case (Infeasible(_,_), Adjusted(_,_)) => LT
        case (Infeasible(_,_), Feasible(_))   => LT
        case (Infeasible(a,as), Infeasible(b,bs)) =>
