@@ -1,10 +1,11 @@
 import scalaz._
 
 package object cilib {
-  type Particle[S,A] = Entity[S,A]
+
+//  val ::  = ICons
+//  val Nil = INil
 
   // Should expand into a typeclass? Getter?
-  type Guide[S,A] = (List[Particle[S,A]], Particle[S,A]) => Step[A,Position[A]]
   type Selection[A] = (List[A], A) => List[A]
 
   def positive(d: Double): Maybe[Double @@ Tags.Positive] =
@@ -57,7 +58,7 @@ package object cilib {
     import spire.math.interval.{Bound,ValueBound}
 
     def ^(n: Int): NonEmptyList[spire.math.Interval[A]] =
-      NonEmptyList.nel(interval, (1 until n).map(_ => interval).toList)
+      NonEmptyList.nel(interval, List.fill(n-1)(interval))
 
     private def getValue(b: Bound[A]) =
       ValueBound.unapply(b).getOrElse(sys.error("Empty and Unbounded bounds are not supported"))

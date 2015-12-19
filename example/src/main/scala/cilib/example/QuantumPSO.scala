@@ -8,7 +8,7 @@ import scalaz.std.list._
 import scalaz.syntax.apply._
 import scalaz.syntax.traverse._
 
-//import spire.math.Interval
+import cilib.pso._
 
 object QuantumPSO extends SafeApp {
   import scalaz.std.list._

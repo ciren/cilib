@@ -1,8 +1,9 @@
 package cilib
 package example
 
-import Heterogeneous._
-import PSO.{defaultGCParams,GCParams}
+import pso._
+import pso.Heterogeneous._
+import pso.PSO.{defaultGCParams,GCParams}
 
 import syntax.algorithm._
 import syntax.step._
