@@ -1,4 +1,5 @@
 package cilib
+package ga
 
 import scalaz.NonEmptyList
 import scalaz.syntax.bind._
@@ -8,8 +9,6 @@ import scalaz.syntax.traverse._
 import Lenses._
 
 object GA {
-
-  type Individual = Entity[Unit, Double]
 
   // There is a type error here! The number of parents would need to flow through
   // to the crossover and mutation operators etc.

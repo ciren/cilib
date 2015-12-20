@@ -131,8 +131,8 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .aggregate(core, docs, example, exec, moo, pso, tests)
-  .dependsOn(core, docs, example, exec, moo, pso, tests)
+  .aggregate(core, docs, example, exec, ga, moo, pso, tests)
+  .dependsOn(core, docs, example, exec, ga, moo, pso, tests)
 
 //   lazy val cilibSettings = settings ++ Seq(
 //     name := "cilib-aggregate"
@@ -201,7 +201,7 @@ lazy val docs = project.in(file("docs"))
   .settings(docSettings)
   .dependsOn(core)
 
-lazy val example = project.dependsOn(core, exec, moo, pso)
+lazy val example = project.dependsOn(core, exec, ga, moo, pso)
   .settings(moduleName := "cilib-example")
   .settings(cilibSettings)
   .settings(noPublishSettings)
@@ -224,6 +224,10 @@ lazy val moo = project.dependsOn(core)
 
 lazy val pso = project.dependsOn(core)
   .settings(moduleName := "cilib-pso")
+  .settings(cilibSettings)
+
+lazy val ga = project.dependsOn(core)
+  .settings(moduleName := "cilib-ga")
   .settings(cilibSettings)
 
 lazy val tests = project
