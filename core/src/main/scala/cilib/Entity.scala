@@ -107,7 +107,7 @@ object Position {
   }
 
   def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
-    Point(xs.list, b)
+    Point(xs.list.toList, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]]) =
     domain.traverseU(x => Dist.uniform(Interval(x.lowerValue, x.upperValue))) map (x => Position(x, domain))

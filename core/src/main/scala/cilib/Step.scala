@@ -63,6 +63,7 @@ object Step {
 
 object StepS {
 
+//  implicit def stepSMonadState[A,S] = new MonadState[StepS[A,S,?], S] {
   implicit def stepSMonadState[A,S] = new MonadState[StepS[A,?,?], S] {
     def point[B](a: => B) =
       StateT.stateTMonadState[S, Step[A,?]].point(a)
