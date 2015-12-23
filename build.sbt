@@ -7,6 +7,7 @@ import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.Utilities._
 import sbtunidoc.Plugin.UnidocKeys._
 import com.typesafe.sbt.SbtSite.SiteKeys._
+import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
 
 val scalazVersion     = "7.1.5"
 val spireVersion      = "0.11.0"
@@ -170,23 +171,25 @@ lazy val core = project
 lazy val docSettings = Seq(
   autoAPIMappings := true,
   unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(core),
-  site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "api"),
   tutTargetDirectory := baseDirectory.value / "src" / "jekyll" / "tut",
-  //site.addMappingsToSiteDir(tut, "_tut"),
+  site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "api"),
+  ghpagesNoJekyll := false,
+  mappings in makeSite ++= Path.selectSubpaths(tutTargetDirectory.value, (includeFilter in makeSite).value).toSeq,
+  site.addMappingsToSiteDir(tut, "_tut"),
   com.typesafe.sbt.site.JekyllSupport.requiredGems := Map(
     "jekyll" -> "3.0.0",
     "jekyll-paginate" -> "1.1.0",
     "liquid" -> "3.0.6"
   ),
-//  ghpagesNoJekyll := false,
-//  siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
+  //siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
   scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
     "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
     "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
   ),
   git.remoteRepo := "git@github.com:cirg-up/cilib.git",
-  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md",
-  makeSite <<= makeSite.dependsOn(tut, (unidoc in Compile))
+  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml", //| "*.md"
+  makeSite <<= makeSite.dependsOn(tut, (unidoc in Compile)),
+  synchLocal <<= synchLocal.dependsOn(tut, (unidoc in Compile))
 )
 
 lazy val docs = project.in(file("docs"))
@@ -195,11 +198,11 @@ lazy val docs = project.in(file("docs"))
   .settings(noPublishSettings)
   .settings(unidocSettings)
   .settings(site.settings)
-  .settings(site.jekyllSupport())
-//.settings(ghpages.settings)
   .settings(tutSettings)
+  .settings(ghpages.settings)
   .settings(docSettings)
-  .dependsOn(core)
+  .settings(site.jekyllSupport())
+  .dependsOn(core, example, exec, pso, moo, ga)
 
 lazy val example = project.dependsOn(core, exec, ga, moo, pso)
   .settings(moduleName := "cilib-example")

@@ -1,6 +1,6 @@
 title: CIlib
 tagline: Type-safe Computational Intelligence
-url: http://cilib.net
+url: http://cirg-up.github.io/cilib
 paginate: 1
 permalink: pretty
 #markdown: kramdown
@@ -9,8 +9,10 @@ kramdown:
   input: GFM
 #  syntax_highlighter: rouge
 
-baseurl: ""
+baseurl: "/cilib"
 apidocs: /api/
+
+#include: [tut]
 
 gems: [jekyll-paginate, jekyll-gist]
 

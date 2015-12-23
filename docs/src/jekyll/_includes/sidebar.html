@@ -5,7 +5,7 @@
 <!-- Toggleable sidebar -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-item">
-    <img src="/public/images/cilib_logo_transparent.png" />
+    <img src="{{ site.baseurl }}/public/images/cilib_logo_transparent.png" />
     <p>{{ site.description }}</p>
   </div>
 
@@ -21,14 +21,14 @@
     {% for node in pages_list %}
       {% if node.title != null %}
         {% if node.layout == "page" %}
-          <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>
+          <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ site.baseurl }}{{ node.url }}">{{ node.title }}</a>
         {% endif %}
       {% endif %}
     {% endfor %}
 
     <!-- <a class="sidebar-nav-item" href="{{ site.github.repo }}/archive/v{{ site.version }}.zip">Download</a> -->
     <!-- <a class="sidebar-nav-item" href="{{ site.github.repo }}">GitHub project</a> -->
-    <a class="sidebar-nav-item" href="/api/index.html">API Documentation</a>
+    <a class="sidebar-nav-item" href="{{ site.baseurl }}/api/index.html">API Documentation</a>
     <!-- <span class="sidebar-nav-item">Currently v{{ site.version }}</span> -->
   </nav>
 
