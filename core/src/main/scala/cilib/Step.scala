@@ -1,7 +1,9 @@
 package cilib
 
-import scalaz._
+import scalaz.{ Lens => _, _ }
+import Scalaz._
 import scalaz.syntax.state._
+import scalaz.syntax.applicative._
 
 /**
   A `Step` is a type that models a single step / operation within a CI Algorithm.
@@ -61,46 +63,60 @@ object Step {
   }
 }
 
+final case class StepS[A,S,B](run: StateT[Step[A,?],S,B]) {
+  def map[C](f: B => C): StepS[A,S,C] =
+    StepS(run.map(f))
+
+  def flatMap[C](f: B => StepS[A,S,C]): StepS[A,S,C] =
+    StepS(run.flatMap(f(_).run))
+
+  def zoom[S2](l: monocle.Lens[S2,S]): StepS[A,S2,B] =
+    StepS(run.zoom(StepS.lensIso.reverseGet(l)))
+}
+
 object StepS {
 
-//  implicit def stepSMonadState[A,S] = new MonadState[StepS[A,S,?], S] {
-  implicit def stepSMonadState[A,S] = new MonadState[StepS[A,?,?], S] {
-    def point[B](a: => B) =
-      StateT.stateTMonadState[S, Step[A,?]].point(a)
+  def lensIso[A,B] = monocle.Iso[scalaz.Lens[A,B], monocle.Lens[A,B]](
+    (s: scalaz.Lens[A,B]) => monocle.Lens[A,B](s.get)(b => a => s.set(a, b)))(
+    (m: monocle.Lens[A,B]) => scalaz.Lens.lensu[A,B]((a,b) => m.set(b)(a), m.get(_)))
+
+  implicit def stepSMonad[A,S] = new Monad[StepS[A,S,?]] {
+    def point[B](a: => B): StepS[A,S,B] =
+      StepS(StateT[Step[A,?],S,B]((s: S) => Step.point((s,a))))
+
+    def bind[B,C](fa: StepS[A,S,B])(f: B => StepS[A,S,C]): StepS[A,S,C] =
+      fa flatMap f
+  }
+
+  implicit def stepSMonadState[A,S]: MonadState[StepS[A,S,?], S] = new MonadState[StepS[A,S,?], S] {
+    private val M = StateT.stateTMonadState[S, Step[A,?]]
+
+    def point[B](a: => B) = StepS(M.point(a))
 
     def bind[B,C](fa: StepS[A,S,B])(f: B => StepS[A,S,C]): StepS[A,S,C] =
       fa flatMap f
 
-    def get =
-      StateT.stateTMonadState[S, Step[A,?]].get
+    def get: StepS[A,S,S] =
+      StepS(M.get)
 
-    def init = get
+    def init = StepS(M.get)
 
     def put(s: S) =
-      StateT.stateTMonadState[S, Step[A,?]].put(s)
+      StepS(M.put(s))
   }
 
-  def get[A,S] =
-    stepSMonadState[A,S].get
-
-  def put[A,S](s: S) =
-    stepSMonadState[A,S].put(s)
-
   def apply[A,S,B](f: S => Step[A,(S, B)]): StepS[A,S,B] =
-    StateT[Step[A,?],S,B](f)
-
-  def point[A,S,B](b: B): StepS[A,S,B] =
-    stepSMonadState[A,S].point(b)
+    StepS(StateT[Step[A,?],S,B](f))
 
   def pointR[A,S,B](a: RVar[B]): StepS[A,S,B] =
-    StateT[Step[A,?],S,B]((s: S) => Step.pointR(a).map((s, _)))
+    StepS(StateT[Step[A,?],S,B]((s: S) => Step.pointR(a).map((s, _))))
 
   def pointS[A,S,B](a: Step[A,B]): StepS[A,S,B] =
-    StateT[Step[A,?],S,B]((s: S) => a.map((s,_)))
+    StepS(StateT[Step[A,?],S,B]((s: S) => a.map((s,_))))
 
   def liftK[A,S,B](a: Reader[Comparison,B]): StepS[A,S,B] =
     pointS(Step.liftK(a))
 
   def liftS[A,S,B](a: State[S, B]): StepS[A,S,B] =
-    a.lift[Step[A,?]]
+    StepS(a.lift[Step[A,?]])
 }

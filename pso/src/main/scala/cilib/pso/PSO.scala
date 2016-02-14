@@ -2,7 +2,7 @@ package cilib
 package pso
 
 import scalaz._
-
+import monocle._, Monocle._
 import monocle.syntax._
 import Position._
 
@@ -44,7 +44,7 @@ object PSO {
   }
 
   def updatePBestBounds[S](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
-    val b = (p.pos.pos zip p.pos.boundary.list).foldLeft(true)((a,c) => a && (c._2.contains(c._1)))
+    val b = (p.pos.pos zip p.pos.boundary.list.toList).foldLeft(true)((a,c) => a && (c._2.contains(c._1)))
     if (b) updatePBest(p) else Step.point(p)
   }
 

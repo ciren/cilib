@@ -11,3 +11,5 @@ addSbtPlugin("com.typesafe.sbt"  % "sbt-ghpages" % "0.5.3")
 addSbtPlugin("org.tpolecat"      % "tut-plugin"  % "0.4.0")
 
 addSbtPlugin("org.brianmckenna" % "sbt-wartremover" % "0.14")
+
+addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")

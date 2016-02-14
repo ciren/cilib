@@ -16,8 +16,6 @@ package object cilib {
     if (d < 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty
 
-  type StepS[A,S,B] = StateT[Step[A,?],S,B]
-
   // Find a better home for this
   implicit object DoubleMonoid extends Monoid[Double] {
     def zero = 0.0
@@ -58,7 +56,7 @@ package object cilib {
     import spire.math.interval.{Bound,ValueBound}
 
     def ^(n: Int): NonEmptyList[spire.math.Interval[A]] =
-      NonEmptyList.nel(interval, List.fill(n-1)(interval))
+      NonEmptyList.nel(interval, IList.fill(n-1)(interval))
 
     private def getValue(b: Bound[A]) =
       ValueBound.unapply(b).getOrElse(sys.error("Empty and Unbounded bounds are not supported"))

@@ -9,9 +9,9 @@ import sbtunidoc.Plugin.UnidocKeys._
 import com.typesafe.sbt.SbtSite.SiteKeys._
 import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
 
-val scalazVersion     = "7.1.5"
+val scalazVersion     = "7.2.0"
 val spireVersion      = "0.11.0"
-val monocleVersion    = "1.1.1"
+val monocleVersion    = "1.2.0"
 val scalacheckVersion = "1.11.4"
 
 lazy val buildSettings = Seq(

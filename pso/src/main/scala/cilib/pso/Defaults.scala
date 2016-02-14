@@ -70,8 +70,8 @@ object Defaults {
     c2: Double,
     cognitive: Guide[S,Double])(
     implicit M:Memory[S,Double], V:Velocity[S,Double],mod: Module[Position[Double],Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => StateT[Step[Double,?], GCParams, Particle[S,Double]] =
-    collection => x => {
+  ): List[Particle[S,Double]] => Particle[S,Double] => StepS[Double, GCParams, Particle[S,Double]] =
+    collection => x => StepS {
       val S = StateT.stateTMonadState[GCParams, Step[Double,?]]
       val hoist = StateT.StateMonadTrans[GCParams]
       val g = Guide.gbest[S]

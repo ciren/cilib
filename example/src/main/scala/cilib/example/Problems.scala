@@ -193,7 +193,7 @@ object Problems {
       // println("position: " + x)
       // println("location: " + location)
 
-      val c = math.sqrt((x zip location.list).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _))
+      val c = math.sqrt((x zip location.list.toList).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _))
 //      println("c: " + c)
       height - width * c
     }

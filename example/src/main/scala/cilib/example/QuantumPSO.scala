@@ -1,6 +1,7 @@
 package cilib
 package example
 
+import scalaz.{ICons, INil}
 import scalaz.NonEmptyList
 import scalaz.effect._
 import scalaz.effect.IO._
@@ -151,7 +152,7 @@ object QuantumPSO extends SafeApp {
       import org.jfree.data.xy._
 
       val (ax,ay) = peaks.map(a => a._2).map(_ match {
-        case a :: b :: Nil => (a,b)
+        case ICons(a, ICons(b, INil())) => (a,b)
         case _ => sys.error("asdsd")
       }).unzip
 
