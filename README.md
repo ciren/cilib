@@ -1,4 +1,6 @@
-# CIlib - Computational Intelligence Library (http://www.cilib.net)
+# DEPRECATED - Please note that this branch of the project is no longer maintained. All efforts are now being put into developing v2.0 which is safer than v1.0 and is being verified correct from inception. All core issues present in v1.0 are/have been addressed in v2.0
+
+# CIlib - Computational Intelligence Library
 
 Copyright (C) 2003,  2010 - CIRG@UP
 Computational Intelligence Research Group (CIRG@UP)
@@ -12,28 +14,3 @@ and referenced by individuals.
 
 [![Build Status](https://secure.travis-ci.org/cilib/cilib.png)](http://travis-ci.org/cilib/cilib)
 [![Gitter chat](https://badges.gitter.im/cilib/cilib.png)](https://gitter.im/cilib/cilib)
-
-## Documentation
-Documentation is currently being compiled through an internal documentation
-process. The process might take a while, but feel free to aid us in our
-efforts by forking [cilib.github.com](https://github.com/cilib/cilib.github.com)
-and sending us a pull request.
-
-## Download
-TODO
-
-## Bugs and feature requests
-Please feel free to sumbit any bugs and / or feature requests using the
-[issue tracker](https://github.com/cilib/cilib/issues). Additionally,
-any pull requests are welcome - feel free to fork and send us some.
-
-## Contact information
-
-CIlib has a busy community, and we encourage you to join us. The developers and
-users may be contacted using either the project site / user forums or the
-developer mailing list.
-
-    http://cilib.net                            (Web site)
-    http://groups.google.com/group/cilib-dev    (Developer mailing list)
-    http://groups.google.com/group/cilib-user   (User mailing list)
-
