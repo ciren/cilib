@@ -40,7 +40,7 @@ object QuantumPSO extends SafeApp {
     cognitive: Guide[S,Double],
     social: Guide[S,Double],
     cloudR: RVar[Double])(
-    implicit C: Charge[S], V: Velocity[S,Double], M: Memory[S,Double], mod: Module[Position[Double],Double]
+    implicit C: Charge[S], V: Velocity[S,Double], M: Memory[S,Double]
   ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
