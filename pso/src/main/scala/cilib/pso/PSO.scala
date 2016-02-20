@@ -1,12 +1,13 @@
 package cilib
 package pso
 
-import scalaz._
 import monocle._, Monocle._
 import monocle.syntax._
 import Position._
+import scalaz._
 
 import spire.algebra._
+import spire.implicits._
 
 object PSO {
   import Lenses._
@@ -27,7 +28,7 @@ object PSO {
     w: Double,
     c1: Double,
     c2: Double
-  )(implicit V: Velocity[S,Double], M: Module[Position[Double],Double], F:Field[Double]): Step[Double,Position[Double]] =
+  )(implicit V: Velocity[S,Double], F:Field[Double]): Step[Double,Position[Double]] =
     Step.pointR(for {
       cog <- (cognitive - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
       soc <- (social    - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
@@ -56,7 +57,7 @@ object PSO {
     component: Position[Double],
     w: Double,
     c: Double
-  )(implicit V: Velocity[S,Double], M: Memory[S,Double], MO: Module[Position[Double],Double]): Step[Double,Position[Double]] =
+  )(implicit V: Velocity[S,Double], M: Memory[S,Double]): Step[Double,Position[Double]] =
     Step.pointR(
       for {
         comp <- (component - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
@@ -72,7 +73,7 @@ object PSO {
     nbest: Position[Double],
     w: Double,
     s: GCParams
-  )(implicit V: Velocity[S,Double], M: Module[Position[Double],Double]): Step[Double,Position[Double]] =
+  )(implicit V: Velocity[S,Double]): Step[Double,Position[Double]] =
     Step.pointR(
       nbest traverse (_ => Dist.stdUniform.map(x => s.p * (1 - 2*x))) map (a =>
         -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a
@@ -93,7 +94,7 @@ object PSO {
     x: Particle[S,Double],
     center: Position[Double],
     r: Double
-  )(implicit M: Module[Position[Double],Double]): Step[Double,Position[Double]] =
+  ): Step[Double,Position[Double]] =
     Step.pointR(
       for {
         u <- Dist.stdUniform
@@ -112,7 +113,7 @@ object PSO {
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
     rc: Double)(
-    implicit C: Charge[S], MO: Module[Position[Double],Double]): Step[Double,Position[Double]] = {
+    implicit C: Charge[S]): Step[Double,Position[Double]] = {
     def charge(x: Particle[S,Double]) =
       C._charge.get(x.state)
 
