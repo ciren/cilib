@@ -1,4 +1,8 @@
 import scalaz._
+import spire.algebra.{Monoid => _, _}
+import spire.implicits._
+import spire.math.Interval
+import spire.math.interval.{Bound,ValueBound}
 
 package object cilib {
 
@@ -22,21 +26,14 @@ package object cilib {
     def append(a: Double, b: => Double) = a + b
   }
 
-  import spire.algebra._
-  implicit def PositionModule(implicit sc: Field[Double]) =
-    new NormedVectorSpace[Position[Double],Double] {
+  implicit def PositionModule[A](implicit sc: Rng[A]) =
+    new Module[Position[A],A] {
       implicit def scalar = sc
-      def negate(x: Position[Double]) =
-        x.map(scalar.negate)
 
-      import spire.implicits._
-      def zero: Position[Double] =
-        Position(NonEmptyList(0.0), NonEmptyList(spire.math.Interval(0.0, 0.0)))
+      def negate(x: Position[A]) = x.map(scalar.negate)
+      def zero = Position(NonEmptyList(scalar.zero), NonEmptyList(spire.math.Interval(0.0, 0.0)))
 
-      def timesl(r: Double, v: Position[Double]): Position[Double] =
-        v map (scalar.times(r, _))
-
-      def plus(x: Position[Double], y: Position[Double]) = {
+      def plus(x: Position[A], y: Position[A]) = {
         import scalaz.syntax.align._
         x.align(y).map(_.fold(
           s = x => x,
@@ -45,17 +42,12 @@ package object cilib {
         ))
       }
 
-      import scalaz.syntax.foldable._
-      // This is hardcoded to be the Euclidean norm. Can we make this generic?
-      def norm(x: Position[Double]): Double =
-        math.sqrt(x.foldMap(y => y*y))
+      def timesl(r: A, v: Position[A]): Position[A] =
+        v map (scalar.times(r, _))
     }
 
-
-    implicit class IntervalOps[A](val interval: spire.math.Interval[A]) extends AnyVal {
-    import spire.math.interval.{Bound,ValueBound}
-
-    def ^(n: Int): NonEmptyList[spire.math.Interval[A]] =
+  implicit class IntervalOps[A](val interval: Interval[A]) extends AnyVal {
+    def ^(n: Int): NonEmptyList[Interval[A]] =
       NonEmptyList.nel(interval, IList.fill(n-1)(interval))
 
     private def getValue(b: Bound[A]) =
@@ -65,4 +57,5 @@ package object cilib {
     def upperValue = getValue(interval.upperBound)
   }
 
+  implicit def intervalEqual[A]  = scalaz.Equal.equalA[Interval[A]]
 }

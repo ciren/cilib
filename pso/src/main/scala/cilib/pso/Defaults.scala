@@ -15,7 +15,7 @@ object Defaults {
     c2: Double,
     cognitive: Guide[S,Double],
     social: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -30,7 +30,7 @@ object Defaults {
     w: Double,
     c1: Double,
     cognitive: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         cog     <- cognitive(collection, x)
@@ -46,7 +46,7 @@ object Defaults {
     w: Double,
     c1: Double,
     social: Guide[S,Double]
-  )(implicit M: Memory[S,Double], V: Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         soc     <- social(collection, x)
@@ -68,8 +68,7 @@ object Defaults {
     w: Double,
     c1: Double,
     c2: Double,
-    cognitive: Guide[S,Double])(
-    implicit M:Memory[S,Double], V:Velocity[S,Double],mod: Module[Position[Double],Double]
+    cognitive: Guide[S,Double])(implicit M:Memory[S,Double], V:Velocity[S,Double]
   ): List[Particle[S,Double]] => Particle[S,Double] => StepS[Double, GCParams, Particle[S,Double]] =
     collection => x => StepS {
       val S = StateT.stateTMonadState[GCParams, Step[Double,?]]
@@ -106,7 +105,7 @@ object Defaults {
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
     rc: Double
-  )(implicit M:Memory[S,Double], V:Velocity[S,Double], MO: Module[Position[Double],Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M:Memory[S,Double], V:Velocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
