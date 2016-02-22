@@ -2,10 +2,11 @@ package cilib
 package pso
 
 import _root_.scala.Predef.{any2stringadd => _}
-import scalaz._
 import PSO._
+import scalaz._
 import spire.algebra._
 import spire.implicits._
+import spire.math.Interval
 
 object Defaults {
 
@@ -117,6 +118,27 @@ object Defaults {
       updated <- updatePBest(p3)
     } yield updated
 
+  def nmpc[S](
+    guide: Guide[S,Double]
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+    collection => x => for {
+      p        <- evalParticle(x)
+      p1       <- updatePBestBounds(p)
+      co       <- guide(collection, p1)
+      p2       <- replace(p1, co)
+      p3       <- evalParticle(p2)
+      isBetter <- better(p1, p3)
+    } yield if (isBetter) p1 else p3
+
+  def crossoverPSO[S](
+    guide: Guide[S,Double]
+  )(implicit M: Memory[S,Double], V: Velocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+    collection => x => for {
+      p       <- evalParticle(x)
+      p1      <- updatePBestBounds(p)
+      g       <- guide(collection, p1)
+      updated <- replace(p1, g)
+    } yield updated
 
 /*import scalaz.syntax.applicative._
 
