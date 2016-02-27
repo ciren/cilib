@@ -33,7 +33,11 @@ object GBestPSO extends SafeApp {
   val opt = Comparison.dominance(Min)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, iter, swarm).run(opt)(sum).run(RNG.fromTime).toString)
+  override val runc: IO[Unit] = {
+    val result = Runner.repeat(1000, iter, swarm).run(opt)(sum).run(RNG.fromTime)
+    val positions = result._2.map(x => Lenses._position.get(x))
+
+    putStrLn(result.toString)
+  }
 
 }

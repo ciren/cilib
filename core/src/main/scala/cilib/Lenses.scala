@@ -9,8 +9,7 @@ trait Memory[S,/*F[_],*/A] {
 }
 
 object Memory {
-  @inline def apply[S,A](implicit A: Memory[S,A]) =
-    A
+  @inline def apply[S,A](implicit A: Memory[S,A]) = A
 
   implicit def memMemory/*[F[_]]*/ = new Memory[Mem[Double],Double] {
     def _memory = Lens[Mem[Double],Position[Double]](_.b)(b => a => a.copy(b = b))
@@ -61,7 +60,13 @@ object Lenses {
       case _ => None
     })(x => x)
 
-  def _singleFitness[A]: Lens[Single[A],Fit] =
+  def _singleFit[A]: Lens[Single[A],Fit] =
     Lens[Single[A],Fit](_.f)(f => s => s.copy(f = f))
+
+  def _singleFitness[A]: Optional[Position[A], Fit] =
+    _solutionPrism[A] composeLens
+      _objectiveLens[A] composePrism
+      _singleObjective[A] composeLens
+      _singleFit[A]
 
 }

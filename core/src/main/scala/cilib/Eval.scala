@@ -3,7 +3,7 @@ package cilib
 import scalaz.NonEmptyList
 import spire.math._
 
-sealed abstract class Eval[/*F[_],*/A] { // This represents the function NonEmptyList[A] => Fit
+sealed abstract class Eval[A] { // This represents the function (NonEmpty)List[A] => Fit
 
   def eval(a: List[A]): Objective[A] = //(Fit, List[Constraint[A, Double]]) =
     this match {

@@ -74,7 +74,7 @@ object QuantumPSO extends SafeApp {
             case Adjusted(_,_) => sys.error("???? HOW??")
             case a @ Feasible(_) => e//sys.error("Asdasd")
             case i @ Infeasible(_,_) =>
-              (_position[S,Double] composePrism _solutionPrism[Double] composeLens _objectiveLens composePrism _singleObjective[Double] composeLens _singleFitness).modify((x: Fit) =>
+              (_position[S,Double] composeOptional _singleFitness[Double]).modify((x: Fit) =>
                 i.adjust(v => opt match {
                   case Min => v + magnitude
                   case Max => v - magnitude

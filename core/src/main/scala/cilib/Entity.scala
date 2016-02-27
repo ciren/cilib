@@ -1,5 +1,7 @@
 package cilib
 
+import cilib.algebra._
+
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scala.language.higherKinds
 import scalaz._
@@ -12,7 +14,7 @@ import spire.math._
 final case class Entity[S,A](state: S, pos: Position[A])
 
 object Entity {
-  // Step to evaluate the particle
+  // Step to evaluate the Entity
   def eval[S,A:Numeric](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
     Step.evalF(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 
@@ -59,7 +61,7 @@ sealed abstract class Position[A] {
 }
 
 final case class Point[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
-final case class Solution[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]], o: Objective[A]/*f: Fit, v: List[Constraint[A,Double]]*/) extends Position[A]
+final case class Solution[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]], o: Objective[A]) extends Position[A]
 
 object Position {
 
@@ -79,6 +81,18 @@ object Position {
 
     }
 
+  implicit def positionDotProd[A](implicit A: Numeric[A]): algebra.DotProd[Position, A] =
+    new algebra.DotProd[Position, A] {
+      def dot(a: Position[A], b: Position[A]): Double =
+        a.zip(b).pos.foldLeft(A.zero) { case (a, b) => a + (b._1 * b._2) }.toDouble
+    }
+
+  implicit def positionPointwise[A](implicit A: Numeric[A]): algebra.Pointwise[Position, A] =
+    new algebra.Pointwise[Position, A] {
+      def pointwise(a: Position[A], b: Position[A]) =
+        (a zip b).map(x => x._1 * x._2)
+    }
+
   implicit class PositionVectorOps[A](val x: Position[A]) extends AnyVal {
     def zeroed(implicit A: Ring[A]): Position[A] =
       x.map(_ => A.zero)
@@ -89,37 +103,14 @@ object Position {
     def - (other: Position[A])(implicit M: Module[Position[A],A]): Position[A] =
       M.minus(x, other)
 
-    /*def * (other: Position[F, A])(implicit F: Zip[F]) = Solution(x.pos.zipWith(other.pos)((a, ob) => ob.map(_ * a).getOrElse(a))._2) */
-
     def *: (scalar: A)(implicit M: Module[Position[A],A]): Position[A] =
       M.timesl(scalar, x)
 
     def unary_-(implicit M: Module[Position[A],A]): Position[A] =
       M.negate(x)
 
-    def dot(other: Position[A])(implicit R: Ring[A]): A =
-      x.zip(other).pos.foldLeft(R.zero) { case (a, b) => a + (b._1 * b._2) }
-
-    def ∙ (other: Position[A])(implicit R: Ring[A]): A =
-      x.dot(other)
-
     def isZero(implicit R: Ring[A]) = x.pos.forall(_ == R.zero)
 
-    def magnitude(implicit R: Ring[A], N: NRoot[A]): A =
-      sqrt(x.pos.foldLeft(R.zero)((a, b) => a + (b * b)))
-
-    def normalize(implicit F: Field[A], N: NRoot[A]): Position[A] = {
-      val mag = x.magnitude
-      if (mag == F.zero) x
-      else (F.one / mag) *: x
-    }
-
-    def orthogonalize(vs: List[Position[A]])(implicit F: Field[A]): Position[A] =
-      vs.foldLeft(x)((a, b) => a - a.project(b))
-
-    def project(other: Position[A])(implicit F: Field[A]): Position[A] =
-      if   ((other ∙ other) == F.zero) zeroed
-      else ((x ∙ other) / (other ∙ other)) *: other
   }
 
   implicit def positionFitness[A] = new Fitness[Position,A] {
@@ -142,22 +133,4 @@ object Position {
   def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int): RVar[List[A]] =
     createPositions(domain,n).map(_.map(f))
 
-  def mean[A](ps: NonEmptyList[Position[A]])(implicit F: Field[A]) =
-    (F.one / ps.size) *: ps.tail.foldLeft(ps.head)(_ + _)
-
-  def orthonormalize[A:Field:NRoot](vs: NonEmptyList[Position[A]]) = {
-    val bases = vs.foldLeft(NonEmptyList(vs.head)) { (ob, v) =>
-      val ui = ob.foldLeft(v) { (u, o) => u - (v.project(o)) }
-      if (ui.isZero) ob
-      else ob append NonEmptyList(ui)
-    }
-
-    bases.map(_.normalize)
-  }
-}
-
-
-trait NonEmpty[F[_]]
-object NonEmpty {
-  implicit object NonEmptyNEL extends NonEmpty[NonEmptyList]
 }

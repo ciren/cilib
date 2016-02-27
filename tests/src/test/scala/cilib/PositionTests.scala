@@ -12,7 +12,9 @@ import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
 import org.scalacheck.Prop._
 
-import cilib.Position._
+import cilib._
+import cilib.algebra._
+import cilib.syntax.dotprod._
 
 object PositionTests extends Properties("Position") {
 
@@ -81,15 +83,16 @@ object PositionTests extends Properties("Position") {
   }
 
   property("negation") = forAll { (a: Pos) =>
-    (!a.isZero) ==> (-a =/= a)    &&
-    -a          === a.map(_ * -1) &&
-    a + (-a)    === a.zeroed
+    (a.foldLeft(0)(_+_) != 0) ==>
+      (-a =/= a)                    &&
+      -a          === a.map(_ * -1) &&
+      a + (-a)    === a.zeroed
   }
 
   property("is zero") = forAll { (a: Pos) =>
-    a.zeroed.isZero &&
-    zero.isZero     &&
-    !one.isZero
+    a.zeroed.foldLeft(0)(_+_) === 0     &&
+    zero.foldLeft(0.0)(_+_).toInt === 0 &&
+    one.foldLeft(0.0)(_+_).toInt =/= 0
   }
 
   property("dot product") = forAll { (ps: (Pos,Pos,Pos)) =>
@@ -107,14 +110,15 @@ object PositionTests extends Properties("Position") {
   }
 
   property("normalize") = forAll { (a: Position[Double]) =>
-    (!a.isZero) ==> (a.normalize.magnitude === 1.0) &&
-    a.normalize.pos.forall(_ <= 1.0)                &&
-    zero.normalize.magnitude === 0.0
+    a.foldLeft(0.0)(_+_) =/= 0.0 ==>
+      (a.normalize.magnitude === 1.0)  &&
+      a.normalize.pos.forall(_ <= 1.0) &&
+      zero.normalize.magnitude === 0.0
   }
 
   property("mean") = {
     val ps   = NonEmptyList(zero, one, two)
-    val mean = Position.mean(ps)
+    val mean = Algebra.meanVector(ps)
     mean     === one                         &&
     ps.all(_.boundary   === mean.boundary)   &&
     ps.all(_.pos.length === mean.pos.length)
@@ -122,7 +126,7 @@ object PositionTests extends Properties("Position") {
 
   property("orthonormalize") = {
     val ps = NonEmptyList(zero, one, two)
-    val orth = Position.orthonormalize(ps)
+    val orth = Algebra.orthonormalize(ps)
     orth.all(_.boundary   === one.boundary) &&
     orth.all(_.pos.length === one.pos.length)
   }
