@@ -32,4 +32,25 @@ object Guide {
   def lbest[S](n: Int)(implicit M: Memory[S,Double]) =
     nbest(Selection.indexNeighbours[Particle[S,Double]](n))
 
+  def vonNeumann[S](implicit M: Memory[S,Double]) =
+    nbest((c: List[Particle[S,Double]], a: Particle[S,Double]) => {
+      val np = c.length
+      val index = c.indexOf(a)
+      val sqSide = math.round(math.sqrt(np.toDouble)).toInt
+      val nRows = math.ceil(np / sqSide.toDouble).toInt
+      val row = index / sqSide
+      val col = index % sqSide
+
+      val colsInRow = (r: Int) => if (r == nRows - 1) np - r * sqSide else sqSide
+      def pos(n: Int, row: Int, col: Int) = c(row * n + col)
+
+      List(
+        a,
+        pos(sqSide, (row - 1 + nRows) % nRows - (if (col >= colsInRow((row - 1 + nRows) % nRows)) 1 else 0), col), // north
+        pos(sqSide, (if (col >= colsInRow((row + 1) % nRows)) 0 else (row + 1) % nRows), col), // south
+        pos(sqSide, row, (col + 1) % colsInRow(row)), // east
+        pos(sqSide, row, (col - 1 + colsInRow(row)) % colsInRow(row)) // west
+      )
+    })
+
 }
