@@ -1,5 +1,7 @@
 package cilib
 
+import cilib.algebra._
+import cilib.syntax.dotprod._
 import cilib.Position._
 
 import scalaz.Scalaz._
@@ -12,24 +14,21 @@ object Crossover {
 
   val nmpc: Crossover[Double] =
     parents => Step.pointR {
-
       def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
 
       val coef = List.fill(4)(Dist.stdUniform).sequence
       val sum = coef.map(_.sum)
-
       val scaled = (coef |@| sum) { (cos, s) => cos.map(norm(_, s)) }
 
       for {
         s        <- scaled
         offspring = (parents.list.toList zip s) map { case (p, si) => si *: p } reduce {_+_}
       } yield NonEmptyList(offspring)
-
     }
 
   def pcx(sigma1: Double, sigma2: Double): Crossover[Double] =
     parents => {
-      val mean = Position.mean(parents)
+      val mean = Algebra.meanVector(parents)
       val k = parents.size
 
       val initEta = List(parents.last - mean)
@@ -38,7 +37,7 @@ object Crossover {
 
         if (d.isZero) a
         else {
-          val e = d.orthogonalize(a._2)
+          val e = Algebra.orthogonalize(d, a._2)
 
           if (e.isZero) a
           else (a._1 + e.magnitude, a._2 :+ e.normalize)
@@ -60,7 +59,7 @@ object Crossover {
       val bounds = parents.head.boundary
 
       // calculate mean of parents except main parents
-      val g = Position.mean(parents.init.toNel.getOrElse(sys.error("UNDX requires at least 3 parents")))
+      val g = Algebra.meanVector(parents.init.toNel.getOrElse(sys.error("UNDX requires at least 3 parents")))
 
       // basis vectors defined by parents
       val initZeta = List[Position[Double]]()
@@ -70,7 +69,7 @@ object Crossover {
         if (d.isZero) z
         else {
           val dbar = d.magnitude
-          val e = d.orthogonalize(z)
+          val e = Algebra.orthogonalize(d, z)
 
           if (e.isZero) z
           else z :+ (dbar *: e.normalize)
@@ -82,7 +81,7 @@ object Crossover {
       // create the remaining basis vectors
       val initEta = NonEmptyList(parents.last - g)
       val reta = Position.createPositions(bounds, n - zeta.length)
-      val eta = reta.map(r => Position.orthonormalize(initEta :::> r.toIList))
+      val eta = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
 
       // construct the offspring
       for {

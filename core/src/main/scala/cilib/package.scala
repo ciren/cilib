@@ -13,6 +13,8 @@ package object cilib {
   type Selection[A] = (List[A], A) => List[A]
   type Crossover[A] = NonEmptyList[Position[A]] => Step[A,NonEmptyList[Position[A]]]
 
+  type Distance[F[_],A] = (F[A], F[A]) => A
+
   def positive(d: Double): Maybe[Double @@ Tags.Positive] =
     if (d > 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty

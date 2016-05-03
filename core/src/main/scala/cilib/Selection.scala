@@ -1,24 +1,14 @@
 package cilib
 
-// trait Selection[A] {
-//   def select(xs: List[A], a: A): RVar[List[A]]
-// }
+import scala.math.Ordering
+
+import spire.algebra.{Field,NRoot,Signed}
+import spire.implicits._
+
+import scalaz.{Ordering => _, _}
+import scalaz.syntax.std.option._
 
 object Selection {
-
-  import scalaz._
-  import scalaz.syntax.applicative._
-  import scalaz.syntax.std.option._
-  import scalaz.syntax.std.list._
-  import scalaz.std.option._
-  import scalaz.std.list._
-
-
-  // def randomSelection[A] = new Selection[A] {
-  //   def select(xs: List[A], a: A) =
-  //     RVar.choices(1, xs)
-  // }
-
 
   implicit class RicherEphemeralStream[A](val s: EphemeralStream[A]) extends AnyVal {
     def drop(n: Int): EphemeralStream[A] = {
@@ -70,4 +60,17 @@ object Selection {
 
       result.getOrElse(sys.error("error in latticeNeighbours"))
     }
+
+  def distanceNeighbours[F[_]: Foldable, A: Field : Ordering : NRoot : Signed](distance: Distance[F,A])(n: Int) =
+    (l: List[F[A]], x: F[A]) => l.sortBy(li => distance(li, x)).take(n)
+
+  def wheel[A]: Selection[A] =
+    (l: List[A], a: A) => l match {
+      case x :: _ if (x == a) => l
+      case x :: _ => List(x, a)
+    }
+
+  def star[A]: Selection[A] =
+    (l: List[A], _) => l
+
 }
