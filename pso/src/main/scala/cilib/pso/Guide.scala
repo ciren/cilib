@@ -1,6 +1,11 @@
 package cilib
 package pso
 
+import scalaz.NonEmptyList
+import scalaz.Scalaz._
+
+import spire.math.Interval
+
 object Guide {
 
   def identity[S,F[_],A]: Guide[S,A] =
@@ -52,5 +57,51 @@ object Guide {
         pos(sqSide, row, (col - 1 + colsInRow(row)) % colsInRow(row)) // west
       )
     })
+
+  def nmpc[S](prob: Double): Guide[S,Double] =
+    (collection, x) => {
+      val col = collection.filter(_ != x)
+      val chosen = RVar.sample(3, col).run
+      val crossover = Crossover.nmpc
+
+      for {
+        chos     <- Step.pointR(chosen)
+        pos      <- Step.point(x.pos)
+        parents   = chos.map(c => NonEmptyList.nel(pos, c.map(_.pos).toIList))
+        children <- parents.map(crossover).getOrElse(Step.point(NonEmptyList(pos)))
+        probs    <- Step.pointR(pos.traverse(_ => Dist.stdUniform))
+        zipped    = pos zip children.head zip probs
+      } yield zipped.map { case ((xi, ci), pi) => if (pi < prob) ci else xi }
+    }
+
+  def pcx[S](s1: Double, s2: Double)(implicit M: Memory[S,Double]): Guide[S,Double] =
+    (collection, x) => {
+      val gb = gbest
+      val pb = pbest
+      val pcx = Crossover.pcx(s1, s2)
+
+      for {
+        p         <- pb(collection, x)
+        i         <- identity(collection, x)
+        n         <- gb(collection, x)
+        parents    = NonEmptyList(p, i, n)
+        offspring <- pcx(parents)
+      } yield offspring.head
+    }
+
+  def undx[S](s1: Double, s2: Double)(implicit M: Memory[S,Double]): Guide[S,Double] =
+    (collection, x) => {
+      val gb = gbest
+      val pb = pbest
+      val undx = Crossover.undx(s1, s2)
+
+      for {
+        p         <- pb(collection, x)
+        i         <- identity(collection, x)
+        n         <- gb(collection, x)
+        parents    = NonEmptyList(p, i, n)
+        offspring <- undx(parents)
+      } yield offspring.head
+    }
 
 }
