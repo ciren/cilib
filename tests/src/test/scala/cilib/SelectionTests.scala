@@ -13,7 +13,7 @@ object SelectionTests extends Properties("Selection") {
   val star = Selection.star[Int]
   val ring = Selection.indexNeighbours[Int](3)
   val wheel = Selection.wheel[Int]
-  val ringDistance = Selection.distanceNeighbours[List,Double](Distance.euclidean)(3)
+  val ringDistance = Selection.distanceNeighbours[List,Double](MetricSpace.euclidean)(3)
 
   property("star") = forAll { (a: List[Int]) =>
     (a.length >= 1) ==> {

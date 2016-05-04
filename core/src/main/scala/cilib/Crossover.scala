@@ -18,11 +18,10 @@ object Crossover {
 
       val coef = List.fill(4)(Dist.stdUniform).sequence
       val sum = coef.map(_.sum)
-      val scaled = (coef |@| sum) { (cos, s) => cos.map(norm(_, s)) }
 
       for {
-        s        <- scaled
-        offspring = (parents.list.toList zip s) map { case (p, si) => si *: p } reduce {_+_}
+        scaled    <- (coef |@| sum) { (cos, s) => cos.map(norm(_, s)) }
+        offspring = (parents.list.toList zip scaled) map { case (p, si) => si *: p } reduce {_+_}
       } yield NonEmptyList(offspring)
     }
 

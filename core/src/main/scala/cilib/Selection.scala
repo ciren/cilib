@@ -61,8 +61,8 @@ object Selection {
       result.getOrElse(sys.error("error in latticeNeighbours"))
     }
 
-  def distanceNeighbours[F[_]: Foldable, A: Field : Ordering : NRoot : Signed](distance: Distance[F,A])(n: Int) =
-    (l: List[F[A]], x: F[A]) => l.sortBy(li => distance(li, x)).take(n)
+  def distanceNeighbours[F[_]: Foldable, A: Field : Ordering : NRoot : Signed](distance: MetricSpace[F[A],A])(n: Int) =
+    (l: List[F[A]], x: F[A]) => l.sortBy(li => distance.dist(li, x)).take(n)
 
   def wheel[A]: Selection[A] =
     (l: List[A], a: A) => l match {
