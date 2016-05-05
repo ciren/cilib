@@ -5,7 +5,7 @@ import scalaz.syntax.foldable._
 
 import spire.math.{abs,max}
 import spire.implicits._
-import spire.algebra._
+import spire.algebra.{Semigroup => _, _}
 import spire.math._
 
 /**
@@ -19,8 +19,19 @@ import spire.math._
 
   See the Wikipedia article on metric spaces for more details.
   */
-trait MetricSpace[A,B] {
+trait MetricSpace[A,B] { self =>
   def dist(x: A, y: A): B
+
+  def map[C](f: B => C): MetricSpace[A,C] =
+    new MetricSpace[A,C] {
+      def dist(x: A, y: A) = f(self.dist(x, y))
+    }
+
+  def flatMap[C](f: B => MetricSpace[A,C]): MetricSpace[A,C] =
+    new MetricSpace[A,C] {
+      def dist(x: A, y: A) =
+        f(self.dist(x,y)).dist(x, y)
+    }
 }
 
 object MetricSpace {
@@ -55,5 +66,39 @@ object MetricSpace {
     new MetricSpace[F[A],Int] {
       def dist(x: F[A], y: F[A]) =
         (x.toList zip y.toList).filter { case (ai, bi) => ai != bi }.size
+    }
+
+  def point[A,B](a: B): MetricSpace[A,B] =
+    new MetricSpace[A,B] {
+      def dist(x: A, y: A) = a
+    }
+
+  implicit def metricSpaceProfunctor: Profunctor[MetricSpace] =
+    new Profunctor[MetricSpace] {
+      def mapfst[A, B, C](fab: MetricSpace[A,B])(f: C => A): MetricSpace[C,B] =
+        new MetricSpace[C,B] {
+          def dist(x: C, y: C): B =
+            fab.dist(f(x), f(y))
+        }
+
+      def mapsnd[A, B, C](fab: MetricSpace[A,B])(f: B => C): MetricSpace[A,C] =
+        fab.map(f)
+    }
+
+  implicit def metricSpaceSemiGroup[A,B](implicit B: Semigroup[B]): Semigroup[MetricSpace[A,B]] =
+    new Semigroup[MetricSpace[A,B]] {
+      def append(f1: MetricSpace[A,B], f2: => MetricSpace[A,B]) =
+        new MetricSpace[A,B] {
+          def dist(x: A, y: A) = B.append(f1.dist(x, y), f2.dist(x, y))
+        }
+    }
+
+  implicit def metricSpaceMonad[A]: Monad[MetricSpace[A,?]] =
+    new Monad[MetricSpace[A,?]] {
+      def point[B](a: => B): MetricSpace[A,B] =
+        MetricSpace.point[A,B](a)
+
+      def bind[B, C](fa: MetricSpace[A,B])(f: B => MetricSpace[A,C]): MetricSpace[A,C] =
+        fa.flatMap(f)
     }
 }

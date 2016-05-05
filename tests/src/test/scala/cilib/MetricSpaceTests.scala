@@ -11,7 +11,21 @@ import spire.algebra._
 import spire.math._
 import spire.implicits._
 
-object MetricSpaceTests extends Properties("MetricSpace") {
+import scalaz.scalacheck.ScalazProperties._
+
+object MetricSpaceTest extends Spec("Step") {
+  //object MetricSpaceTests extends Properties("MetricSpace") {
+
+//  implicit def arbMetricSpaceEqual = scalaz.Equal[Int].contramap((_: MetricSpace[Int,Int]))
+
+  implicit def arbMetricSpace: Arbitrary[MetricSpace[Int,Int]] = Arbitrary {
+    Arbitrary.arbitrary[Int].map(x => MetricSpace.point[Int,Int](x))
+  }
+
+  implicit def arbMetricSpaceFunc: Arbitrary[MetricSpace[Int, Int => Int]] = Arbitrary {
+    Arbitrary.arbitrary[Int => Int].map(MetricSpace.point[Int, Int => Int])
+  }
+
 
   val listTuple2 = Gen.sized { size =>
     for {
@@ -87,5 +101,7 @@ object MetricSpaceTests extends Properties("MetricSpace") {
     triangle(manhattan, x, y, z) &&
     triangle(chebyshev, x, y, z)
   }
+
+  //checkAll("MetricSpace", monad.laws[MetricSpace[Int,?]])
 
 }
