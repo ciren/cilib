@@ -6,7 +6,7 @@ resolvers += Resolver.url(
 addSbtPlugin("com.eed3si9n"      % "sbt-unidoc"  % "0.3.2")
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "0.8.5")
 addSbtPlugin("com.typesafe.sbt"  % "sbt-pgp"     % "0.8.3")
-addSbtPlugin("com.typesafe.sbt"  % "sbt-site"    % "0.8.1")
+addSbtPlugin("com.typesafe.sbt"  % "sbt-site"    % "1.0.0")
 addSbtPlugin("com.typesafe.sbt"  % "sbt-ghpages" % "0.5.3")
 addSbtPlugin("org.tpolecat"      % "tut-plugin"  % "0.4.0")
 

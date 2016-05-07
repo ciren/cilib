@@ -168,40 +168,44 @@ lazy val core = project
     )
   ))
 
-lazy val docSettings = Seq(
-  autoAPIMappings := true,
-  unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(core),
-  tutTargetDirectory := baseDirectory.value / "src" / "jekyll" / "tut",
-  site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "api"),
-  ghpagesNoJekyll := false,
-  mappings in makeSite ++= Path.selectSubpaths(tutTargetDirectory.value, (includeFilter in makeSite).value).toSeq,
-  site.addMappingsToSiteDir(tut, "_tut"),
-  com.typesafe.sbt.site.JekyllSupport.requiredGems := Map(
-    "jekyll" -> "3.0.0",
-    "jekyll-paginate" -> "1.1.0",
-    "liquid" -> "3.0.6"
-  ),
-  //siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
-  scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
-    "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
-    "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
-  ),
-  git.remoteRepo := "git@github.com:cirg-up/cilib.git",
-  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml", //| "*.md"
-  makeSite <<= makeSite.dependsOn(tut, (unidoc in Compile)),
-  synchLocal <<= synchLocal.dependsOn(tut, (unidoc in Compile))
-)
+//lazy val docSettings = Seq(
+
+  // autoAPIMappings := true,
+  // unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(core),
+  // tutTargetDirectory := baseDirectory.value / "src" / "jekyll" / "tut",
+  // site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "api"),
+  // ghpagesNoJekyll := false,
+  // mappings in makeSite ++= Path.selectSubpaths(tutTargetDirectory.value, (includeFilter in makeSite).value).toSeq,
+  // site.addMappingsToSiteDir(tut, "_tut"),
+  // com.typesafe.sbt.site.JekyllSupport.requiredGems := Map(
+  //   "jekyll" -> "3.0.0",
+  //   "jekyll-paginate" -> "1.1.0",
+  //   "liquid" -> "3.0.6"
+  // ),
+  // //siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
+  // scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
+  //   "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
+  //   "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
+  // ),
+  // git.remoteRepo := "git@github.com:cirg-up/cilib.git",
+  // includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml", //| "*.md"
+  // makeSite <<= makeSite.dependsOn(tut, (unidoc in Compile)),
+  // synchLocal <<= synchLocal.dependsOn(tut, (unidoc in Compile))
+//)
 
 lazy val docs = project.in(file("docs"))
+  .enablePlugins(SphinxPlugin,SiteScaladocPlugin)
   .settings(moduleName := "cilib-docs")
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .settings(unidocSettings)
-  .settings(site.settings)
+//  .settings(unidocSettings)
   .settings(tutSettings)
-  .settings(ghpages.settings)
-  .settings(docSettings)
-  .settings(site.jekyllSupport())
+//  .settings(ghpages.settings)
+  .settings(Seq(
+    siteSubdirName in Sphinx := "sphinx-output",
+    siteSubdirName in SiteScaladoc := "sphinx-output/api"
+  ))
+//  .settings(site.jekyllSupport())
   .dependsOn(core, example, exec, pso, moo, ga)
 
 lazy val example = project.dependsOn(core, exec, ga, moo, pso)
