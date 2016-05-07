@@ -90,7 +90,14 @@ Trying to maintain a modular set of functionalities, CIlib consists of several s
    :maxdepth: 2
    :hidden:
 
-   about
+.. toctree::
+   :maxdepth: 2
+   :caption: Design
+   :hidden:
+
+   design/overview
+   design/entity
+   design/rvar
 
 ..
   Indices and tables
