@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'CIlib'
-copyright = u'2016, Gary Pampara'
+copyright = u'2016, CIRG and contributors'
 author = u'Gary Pampara'
 
 # The version info for the project you're documenting, acts as replacement for
