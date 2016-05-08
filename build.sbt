@@ -1,5 +1,5 @@
 import sbt._
-import Keys._
+import sbt.Keys._
 import sbtrelease._
 import sbtrelease.ReleasePlugin._
 import sbtrelease.ReleasePlugin.ReleaseKeys._
@@ -133,11 +133,6 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-//   .settings(unidocSettings)
-//   .settings(
-//   unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
-//     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc)
-// )
   .aggregate(core, docs, example, exec, ga, moo, pso, tests)
   .dependsOn(core, docs, example, exec, ga, moo, pso, tests)
 
@@ -175,7 +170,6 @@ lazy val core = project
   ))
 
 //lazy val docSettings = Seq(
-  // tutTargetDirectory := baseDirectory.value / "src" / "jekyll" / "tut",
   // ghpagesNoJekyll := false,
   // mappings in makeSite ++= Path.selectSubpaths(tutTargetDirectory.value, (includeFilter in makeSite).value).toSeq,
   // site.addMappingsToSiteDir(tut, "_tut"),
@@ -185,8 +179,6 @@ lazy val core = project
   //   "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
   // ),
   // includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml", //| "*.md"
-  // makeSite <<= makeSite.dependsOn(tut, (unidoc in Compile)),
-  // synchLocal <<= synchLocal.dependsOn(tut, (unidoc in Compile))
 //)
 
 lazy val docs = project.in(file("docs"))
@@ -199,11 +191,27 @@ lazy val docs = project.in(file("docs"))
   .settings(unidocSettings)
   .settings(Seq(
     makeSite <<= makeSite.dependsOn(unidoc in Compile),
-//    siteSubdirName in Sphinx := "sphinx-output",
     siteSubdirName in SiteScaladoc := "api",
+    tutSourceDirectory := sourceDirectory.value / "tut",
     git.remoteRepo := "git@github.com:cirg-up/cilib.git",
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
-    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc)
+    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
+    addMappingsToSiteDir(tut, (siteSubdirName in Sphinx)),
+    // We now need to merge the tut output and the base sphinx input before sphinx does any generation
+    sphinxInputs in Sphinx <<= (target in Compile, sphinxInputs in Sphinx, tut, streams) map {
+      (target, sphinxInputs, tutOut, s) => {
+        s.log.info("Combining main sphinx sources and generated tut sources")
+        val combined = target / "combined_rst"
+        val examples = combined / "examples"
+        IO.createDirectories(Seq(combined, examples))
+
+        // Now transfer the main sources and the generated tut files into combined
+        IO.copyDirectory(sphinxInputs.src, combined)
+        IO.copy(tutOut.map(x => (x._1, examples / x._2)))
+
+        sphinxInputs.copy(src = combined)
+      }
+    }
   ))
   .dependsOn(core, example, exec, pso, moo, ga)
 

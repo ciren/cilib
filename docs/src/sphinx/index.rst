@@ -104,6 +104,13 @@ Trying to maintain a modular set of functionalities, CIlib consists of several s
    design/step
    StepS <design/step_with_state>
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Examples
+   :hidden:
+
+   examples/gbestpso
+
 ..
   Indices and tables
   ==================
