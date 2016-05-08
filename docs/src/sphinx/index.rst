@@ -27,8 +27,8 @@ on community projects include the following:
 .. hlist::
    :columns: 3
 
-   * `ScalaZ <https://github.com/scalaz/scalaz>`_
-   * `Sprie <https://github.com/non/spire>`_
+   * `Scalaz <https://github.com/scalaz/scalaz>`_
+   * `Spire <https://github.com/non/spire>`_
    * `Monocle <http://julien-truffaut.github.io/Monocle/>`_
 
 ***********
@@ -90,14 +90,19 @@ Trying to maintain a modular set of functionalities, CIlib consists of several s
    :maxdepth: 2
    :hidden:
 
+   Scaladoc <https://cirg-up.github.io/cilib/api>
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Design
    :hidden:
 
    design/overview
+   design/position
    design/entity
    design/rvar
+   design/step
+   StepS <design/step_with_state>
 
 ..
   Indices and tables
