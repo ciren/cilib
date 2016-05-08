@@ -33,10 +33,10 @@ Please see the documentation for more information on these modules.
 
 ## Documentation and Support
 
-* Have a look a the documentation website
-* Scaladoc
+* Have a look a the [documentation](https://cirg-up.github.io/cilib)
+* [Scaladoc](https://cirg-up.github.io/cilib/api)
 * The source code of the project also contains several examples, have a look in the `example` directory
 * If you run into trouble, please open an issue
-* Come join in the discussion in #cilib on FreeNode, or join the [Gitter channel](https://gitter.im/cirg-up/cilib)
+* Come join in the discussion in `#cilib` on `FreeNode`, or join the [Gitter channel](https://gitter.im/cirg-up/cilib)
 
 CIlib is maintained by several individuals and supported by CIRG @ UP (Computational Intelligence Research Group @ University of Pretoria).
