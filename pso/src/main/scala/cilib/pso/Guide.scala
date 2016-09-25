@@ -11,10 +11,10 @@ object Guide {
   def identity[S,F[_],A]: Guide[S,A] =
     (_, x) => Step.point(x.pos)
 
-  def pbest[S,A](implicit M: Memory[S,A]): Guide[S,A] =
+  def pbest[S,A](implicit M: HasMemory[S,A]): Guide[S,A] =
     (_, x) => Step.point(M._memory.get(x.state))
 
-  def nbest[S](selection: Selection[Particle[S,Double]])(implicit M: Memory[S,Double]): Guide[S,Double] = {
+  def nbest[S](selection: Selection[Particle[S,Double]])(implicit M: HasMemory[S,Double]): Guide[S,Double] = {
     (collection, x) => Step.withCompare(o => RVar.point {
       val selected = selection(collection, x)
       val fittest = selected.map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Comparison.compare(a, c) run (o))
@@ -31,13 +31,13 @@ object Guide {
     })
   }
 
-  def gbest[S](implicit M: Memory[S,Double]): Guide[S,Double] =
+  def gbest[S](implicit M: HasMemory[S,Double]): Guide[S,Double] =
     nbest((c, _) => c)
 
-  def lbest[S](n: Int)(implicit M: Memory[S,Double]) =
+  def lbest[S](n: Int)(implicit M: HasMemory[S,Double]) =
     nbest(Selection.indexNeighbours[Particle[S,Double]](n))
 
-  def vonNeumann[S](implicit M: Memory[S,Double]) =
+  def vonNeumann[S](implicit M: HasMemory[S,Double]) =
     nbest((c: List[Particle[S,Double]], a: Particle[S,Double]) => {
       val np = c.length
       val index = c.indexOf(a)
@@ -74,7 +74,7 @@ object Guide {
       } yield zipped.map { case ((xi, ci), pi) => if (pi < prob) ci else xi }
     }
 
-  def pcx[S](s1: Double, s2: Double)(implicit M: Memory[S,Double]): Guide[S,Double] =
+  def pcx[S](s1: Double, s2: Double)(implicit M: HasMemory[S,Double]): Guide[S,Double] =
     (collection, x) => {
       val gb = gbest
       val pb = pbest
@@ -89,7 +89,7 @@ object Guide {
       } yield offspring.head
     }
 
-  def undx[S](s1: Double, s2: Double)(implicit M: Memory[S,Double]): Guide[S,Double] =
+  def undx[S](s1: Double, s2: Double)(implicit M: HasMemory[S,Double]): Guide[S,Double] =
     (collection, x) => {
       val gb = gbest
       val pb = pbest

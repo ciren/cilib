@@ -5,6 +5,7 @@ import scalaz.Kleisli
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import scalaz.std.list._
+import scalaz.std.option._
 import scalaz.syntax.std.list._
 import scalaz.syntax.traverse._
 import spire.implicits._
@@ -14,16 +15,16 @@ import cilib.ga._
 import Lenses._
 
 object GAExample extends SafeApp {
-  val sum = Problems.spherical[Double]
+  val sum = Problems.spherical
 
   def onePoint(xs: List[Individual]): RVar[List[Individual]] =
     xs match {
       case a :: b :: _ =>
         val point: RVar[Int] = Dist.uniformInt(Interval(0, a.pos.pos.size - 1))
         point.map(p => List(
-          a.pos.pos.take(p) ++ b.pos.pos.drop(p),
-          b.pos.pos.take(p) ++ a.pos.pos.drop(p)
-        ).map(x => Entity((), Point(x, a.pos.boundary))))
+          a.pos.take(p) ++ b.pos.drop(p),
+          b.pos.take(p) ++ a.pos.drop(p)
+        ).traverse(_.toNel.map(x => Entity((), Point(x, a.pos.boundary)))).getOrElse(List.empty[Individual]))
       case _ => sys.error("Incorrect number of parents")
     }
 

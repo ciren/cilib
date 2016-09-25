@@ -12,7 +12,7 @@ import spire.math.Interval
 
 object PCXPSO extends SafeApp {
 
-  val sum = Problems.spherical[Double]
+  val sum = Problems.spherical
 
   val guide = Guide.pcx[Mem[Double]](2.0, 2.0)
   val pcxPSO = crossoverPSO(guide)

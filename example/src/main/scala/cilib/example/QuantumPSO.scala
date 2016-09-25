@@ -1,13 +1,15 @@
 package cilib
 package example
 
-import scalaz.{ICons, INil}
-import scalaz.NonEmptyList
+import scalaz._
+import Scalaz._
 import scalaz.effect._
 import scalaz.effect.IO._
-import scalaz.std.list._
-import scalaz.syntax.apply._
-import scalaz.syntax.traverse._
+//import scalaz.std.list._
+//import scalaz.syntax.apply._
+//import scalaz.syntax.traverse._
+
+import monocle._, Monocle._
 
 import cilib.pso._
 
@@ -24,9 +26,9 @@ object QuantumPSO extends SafeApp {
 
   object QuantumState {
     implicit object QSMemory
-        extends Memory[QuantumState,Double]
-        with Velocity[QuantumState,Double]
-        with Charge[QuantumState] {
+        extends HasMemory[QuantumState,Double]
+        with HasVelocity[QuantumState,Double]
+        with HasCharge[QuantumState] {
       def _memory = Lens[QuantumState,Position[Double]](_.b)(b => a => a.copy(b = b))
       def _velocity = Lens[QuantumState, Position[Double]](_.v)(b => a => a.copy(v = b))
       def _charge = Lens[QuantumState,Double](_.charge)(b => a => a.copy(charge = b))
@@ -40,7 +42,7 @@ object QuantumPSO extends SafeApp {
     cognitive: Guide[S,Double],
     social: Guide[S,Double],
     cloudR: RVar[Double])(
-    implicit C: Charge[S], V: Velocity[S,Double], M: Memory[S,Double]
+    implicit C: HasCharge[S], V: HasVelocity[S,Double], M: HasMemory[S,Double]
   ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
@@ -68,7 +70,7 @@ object QuantumPSO extends SafeApp {
       case scalaz.Maybe.Just(obj) => obj match {
         case Multi(_) => sys.error("adads")
         case Single(f, v) =>
-          val magnitude = Constraint.violationMagnitude(5.0, 15.0, v, e.pos.pos.toList)//.filter(_ > 0.0)
+          val magnitude = Constraint.violationMagnitude(5.0, 15.0, v, e.pos.pos)//.filter(_ > 0.0)
 
           f match {
             case Adjusted(_,_) => sys.error("???? HOW??")
@@ -125,65 +127,62 @@ object QuantumPSO extends SafeApp {
     putStrLn(alg.run(Comparison.quality(Min))(sum)/*.map(_.map(_.pos))*/.run(RNG.fromTime).toString)
    }*/
 
-  override val runc: IO[Unit] = {
-    val x = for {
-      rng <- IO(RNG.fromTime)//init(11223344))
-      //r <- IO(Runner.repeat(1000, qpso, pop).run(comparison)(Problems.spherical[Double]).run(rng))
-      r <- IO(Environments.static(1000, comparison).run(rng))
-      peaks <- IO(r._2._1.map(x => (x.height, x.location.list)))//.mkString("", "\t", "\n")).mkString("Peaks[", "", "]"))
-      //positions <- IO(r._2._2.map(_.pos.pos))//.mkString("", "\t", "\n")).mkString("", "", ""))
-      particles <- IO(r._2._2.filter(x => QuantumState.QSMemory._charge.get(x.state) < 0.01).map(_.pos.pos))
-      violations <- IO(r._2._2.map(_.pos.objective.map(_.violations).getOrElse(List.empty).toString).mkString("Violation(", ",", ")"))
-//      meanFit <- IO(r._2._2.traverse(_.pos.fit).cata(l => l.map(_.fold(
-//        penalty = _.v, valid = _.v
-//      )).suml / l.length, 0.0).toString)
-    } yield {
-      println("positionseverything: " + r._2._2.map(_.pos).mkString("\n"))
-      println("violations: " + violations)
-      println("peaks: " + peaks)
-      (r,peaks,particles,violations)//,meanFit)
-    }
+  override val runc: IO[Unit] = IO {}
+//     val x = for {
+//       rng <- IO(RNG.fromTime)//init(11223344))
+//       //r <- IO(Runner.repeat(1000, qpso, pop).run(comparison)(Problems.spherical[Double]).run(rng))
+//       r <- IO(Environments.static(1000, comparison).run(rng))
+//       peaks <- IO(r._2._1.map(x => (x.height, x.location.list)))//.mkString("", "\t", "\n")).mkString("Peaks[", "", "]"))
+//       //positions <- IO(r._2._2.map(_.pos.pos))//.mkString("", "\t", "\n")).mkString("", "", ""))
+//       particles <- IO(r._2._2.filter(x => QuantumState.QSMemory._charge.get(x.state) < 0.01).map(_.pos.pos))
+//       violations <- IO(r._2._2.map(_.pos.objective.map(_.violations).getOrElse(List.empty).toString).mkString("Violation(", ",", ")"))
+// //      meanFit <- IO(r._2._2.traverse(_.pos.fit).cata(l => l.map(_.fold(
+// //        penalty = _.v, valid = _.v
+// //      )).suml / l.length, 0.0).toString)
+//     } yield {
+//       println("positionseverything: " + r._2._2.map(_.pos).mkString("\n"))
+//       println("violations: " + violations)
+//       println("peaks: " + peaks)
+//       (r,peaks,particles,violations)//,meanFit)
+//     }
 
-    //    x.replicateM(30).flatMap(a => putStrLn(a.map(x => x._1.toString + x._2.toString + x._3.toString).mkString("\n")))
-    //x.flatMap(a => putStrLn(a.toString))//.replicateM(30).flatMap(a => putStrLn(a.map(x => x.toString).mkString("List(",",\n",")")))
+//     //    x.replicateM(30).flatMap(a => putStrLn(a.map(x => x._1.toString + x._2.toString + x._3.toString).mkString("\n")))
+//     //x.flatMap(a => putStrLn(a.toString))//.replicateM(30).flatMap(a => putStrLn(a.map(x => x.toString).mkString("List(",",\n",")")))
 
-    x.flatMap { case (r, peaks, positions, violations) => IO {
-      import org.jfree.chart._
-      import org.jfree.data.xy._
+//     x.flatMap { case (r, peaks, positions, violations) => IO {
+//       import org.jfree.chart._
+//       import org.jfree.data.xy._
 
-      val (ax,ay) = peaks.map(a => a._2).map(_ match {
-        case ICons(a, ICons(b, INil())) => (a,b)
-        case _ => sys.error("asdsd")
-      }).unzip
+//       val (ax,ay) = peaks.map(a => a._2).map(_ match {
+//         case ICons(a, ICons(b, INil())) => (a,b)
+//         case _ => sys.error("asdsd")
+//       }).unzip
 
-      val (px, py) = positions.map(_ match {
-        case a :: b :: Nil => (a,b)
-        case _ => sys.error("asdsad")
-      }).unzip
+//       val (px, py) = positions.map(l => (l.index(0) |@| l.index(1)) { (a, b) => (a,b) }.getOrElse(sys.error("asdsad"))).unzip
 
-      val dataset = new DefaultXYDataset
-      dataset.addSeries("MPBPeaks", Array(ax.toArray, ay.toArray))
-      dataset.addSeries("positions", Array(px.toArray, py.toArray))
+//       val dataset = new DefaultXYDataset
+//       dataset.addSeries("MPBPeaks", Array(ax.toArray, ay.toArray))
+//       dataset.addSeries("positions", Array(px.toArray, py.toArray))
 
-      val frame = new ChartFrame(
-        "Peaks and positions",
-        ChartFactory.createScatterPlot(
-          "Plot",
-          "X",
-          "Y",
-          dataset,
-          org.jfree.chart.plot.PlotOrientation.VERTICAL,
-          true,true,false
-        )
-      )
-      frame.pack()
-      frame.setVisible(true)
-    }}
-  }
+//       val frame = new ChartFrame(
+//         "Peaks and positions",
+//         ChartFactory.createScatterPlot(
+//           "Plot",
+//           "X",
+//           "Y",
+//           dataset,
+//           org.jfree.chart.plot.PlotOrientation.VERTICAL,
+//           true,true,false
+//         )
+//       )
+//       frame.pack()
+//       frame.setVisible(true)
+//     }}
+//   }
 
   object MPB {
 
-    def initialPeaks(s: Double, domain: NonEmptyList[spire.math.Interval[Double]]): RVar[List[Problems.PeakCone]] =
+    def initialPeaks(s: Double, domain: NonEmptyList[spire.math.Interval[Double]]): RVar[NonEmptyList[Problems.PeakCone]] =
       Problems.initPeaks(5, domain)//(1 to 2).toList.traverse(_ => Problems.defaultPeak(domain, s))
 
     def iteration(
@@ -198,14 +197,14 @@ object QuantumPSO extends SafeApp {
     }
 
     import scalaz.StateT
-    def mpb(heightSeverity: Double, widthSeverity: Double): StateT[RVar, (List[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
+    def mpb(heightSeverity: Double, widthSeverity: Double): StateT[RVar, (NonEmptyList[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
       StateT { case (peaks, pop) => {
-        val newPeaks: RVar[List[Problems.PeakCone]] = RVar.point(peaks)//.traverse(_.update(heightSeverity, widthSeverity))
+        val newPeaks: RVar[NonEmptyList[Problems.PeakCone]] = RVar.point(peaks)//.traverse(_.update(heightSeverity, widthSeverity))
         newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrainBy(EnvConstraints.centerEllipse)))
       }}
   }
 
-  object Environments {
+/*  object Environments {
     import scalaz.StateT
 
     def run2(comparison: Comparison)(eval: Eval[Double]): StateT[RVar, (List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
@@ -216,7 +215,7 @@ object QuantumPSO extends SafeApp {
 
     import scalaz.syntax.applicative._
     def staticE(n: Int, c: Comparison) =
-      MPB.mpb(0.0, 0.0).flatMap(e => run2(c)(e).replicateM(n))
+      MPB.mpb(0.0, 0.0).flatMap(e => run2(c)(e).replicateM(n).map(_.toNel.getOrElse(sys.error("?????"))))
     def progressiveE(n: Int, c: Comparison) =
       MPB.mpb(1.0, 0.05).flatMap(run2(c)).replicateM(n)
     def abruptE(n: Int, c: Comparison) =
@@ -252,41 +251,50 @@ object QuantumPSO extends SafeApp {
         e <- chaosE(n, c).exec((peaks, swarm))
       } yield e
 
-  }
+  }*/
 
   object EnvConstraints {
     // constraints
     val centerCircle = List(
-      GreaterThanEqual(ConstraintFunction((l: List[Double]) =>
-        math.pow(l(0) - 50, 2) + math.pow(l(1) - 50, 2)
-      ), 100.0))
+      GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) =>
+        (l.index(0) |@| l.index(1)) { (a,b) =>
+          math.pow(a - 50, 2) + math.pow(b - 50, 2)
+        }.getOrElse(0.0)), 100.0)
+    )
     val centerEllipse = List(
       // ellipse in center of search space
-      GreaterThanEqual(ConstraintFunction((l: List[Double]) =>
-        math.pow((l(0) - 50.0) / 1.5, 2) + math.pow((l(1) - 50.0), 2)
-      ), 100.0)
+      GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) =>
+        (l.index(0) |@| l.index(1)) { (a,b) =>
+          math.pow((a - 50.0) / 1.5, 2) + math.pow((b - 50.0), 2)
+          }.getOrElse(0.0)), 100.0)
     )
     val disjointCircles = List(
-      GreaterThan(ConstraintFunction((l: List[Double]) => {
-        math.pow(l(0) - 25.0, 2) + math.pow(l(1) - 25.0, 2)
-      }), 64.0),
-      GreaterThan(ConstraintFunction((l: List[Double]) => {
-        math.pow(l(0) - 25.0, 2) + math.pow(l(1) - 75.0, 2)
-      }), 64.0),
-      GreaterThan(ConstraintFunction((l: List[Double]) => {
-        math.pow(l(0) - 75.0, 2) + math.pow(l(1) - 25.0, 2)
-      }), 64.0),
-      GreaterThan(ConstraintFunction((l: List[Double]) => {
-        math.pow(l(0) - 75.0, 2) + math.pow(l(1) - 75.0, 2)
-      }), 64.0)
+      GreaterThan(ConstraintFunction((l: NonEmptyList[Double]) =>
+        (l.index(0) |@| l.index(1)) { (a, b) =>
+          math.pow(a - 25.0, 2) + math.pow(b - 25.0, 2)
+        }.getOrElse(0.0)), 64.0),
+      GreaterThan(ConstraintFunction((l: NonEmptyList[Double]) =>
+        (l.index(0) |@| l.index(1)) { (a, b) =>
+          math.pow(a - 25.0, 2) + math.pow(b - 75.0, 2)
+        }.getOrElse(0.0)), 64.0),
+      GreaterThan(ConstraintFunction((l: NonEmptyList[Double]) =>
+        (l.index(0) |@| l.index(1)) { (a, b) =>
+          math.pow(a - 75.0, 2) + math.pow(b - 25.0, 2)
+        }.getOrElse(0.0)), 64.0),
+      GreaterThan(ConstraintFunction((l: NonEmptyList[Double]) =>
+        (l.index(0) |@| l.index(1)) { (a, b) =>
+          math.pow(a - 75.0, 2) + math.pow(b - 75.0, 2)
+        }.getOrElse(0.0)), 64.0)
     )
     val linear = List(
-      GreaterThan(ConstraintFunction((l: List[Double]) => {
-        l(1) / 2.0 + l(0) * 2.0
-      }), 1.0),
-      LessThan(ConstraintFunction((l: List[Double]) => {
-        ((l(1) + 70.0) / 2.0) + (2.0*l(0) - 70.0)
-      }), 1.0)
+      GreaterThan(ConstraintFunction((l: NonEmptyList[Double]) =>
+        (l.index(0) |@| l.index(1)) { (a, b) =>
+          a * 2.0 + b / 2.0
+        }.getOrElse(0.0)), 1.0),
+      LessThan(ConstraintFunction((l: NonEmptyList[Double]) =>
+        (l.index(0) |@| l.index(1)) { (a, b) =>
+          ((b + 70.0) / 2.0) + (2.0*a - 70.0)
+        }.getOrElse(0.0)), 1.0)
     )
     val combined1 = centerEllipse ++ linear
     val combined2 = disjointCircles ++ linear

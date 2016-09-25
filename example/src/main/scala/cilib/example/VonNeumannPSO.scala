@@ -19,7 +19,7 @@ import Scalaz._
 object VonNeumannPSO extends SafeApp {
 
   // Create a problem by specifiying the function and it's constrainment
-  val sum = Problems.spherical[Double]
+  val sum = Problems.spherical
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double],Double]

@@ -14,7 +14,7 @@ import cilib.syntax.algorithm._
 
 object LBestPSO extends SafeApp {
 
-  val sum = Problems.spherical[Double]
+  val sum = Problems.spherical
 
   // LBest is a network topology where every Paricle 'x' has (n/2) neighbours
   // on each side. For example, a neighbourhood size of 3 means that there is

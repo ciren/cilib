@@ -1,6 +1,6 @@
 package cilib
 
-import scalaz.Maybe
+import scalaz.{Maybe,NonEmptyList}
 import spire.algebra.Eq
 import spire.math._
 import spire.math.interval._
@@ -30,8 +30,8 @@ object ViolationCount {
   }
 }
 
-case class ConstraintFunction[A,B](f: List[A] => B) {
-  def apply(a: List[A]): B =
+case class ConstraintFunction[A,B](f: NonEmptyList[A] => B) {
+  def apply(a: NonEmptyList[A]): B =
     f(a)
 }
 
@@ -46,10 +46,10 @@ case class GreaterThanEqual[A,B](f: ConstraintFunction[A,B], v: B) extends Const
 object Constraint {
 
   import scalaz.{Foldable, Functor}
-  def constrain[M[_]](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
-    M.map(ma)(_.constrainBy(cs))
+//  def constrain[M[_]](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
+//    M.map(ma)(_.constrainBy(cs))
 
-  def violationMagnitude[A,B:Fractional](beta: Double, eta: Double, constraints: List[Constraint[A,B]], cs: List[A])(implicit e: Eq[B]): Double =
+  def violationMagnitude[A,B:Fractional](beta: Double, eta: Double, constraints: List[Constraint[A,B]], cs: NonEmptyList[A])(implicit e: Eq[B]): Double =
     constraints.map(_ match {
       case LessThan(f, v) =>
         val v2 = f(cs)
@@ -101,10 +101,10 @@ object Constraint {
         else math.pow(math.abs(v2.toDouble + v.toDouble), beta) + eta
     }).sum
 
-  def violationCount[A,B:Fractional](constraints: List[Constraint[A,B]], cs: List[A]): ViolationCount =
+  def violationCount[A,B:Fractional](constraints: List[Constraint[A,B]], cs: NonEmptyList[A]): ViolationCount =
     ViolationCount(constraints.map(satisfies(_, cs)).filterNot(x => x).length).getOrElse(ViolationCount.zero)
 
-  def satisfies[A,B:Fractional](constraint: Constraint[A,B], cs: List[A])(implicit ev: Eq[B]) =
+  def satisfies[A,B:Fractional](constraint: Constraint[A,B], cs: NonEmptyList[A])(implicit ev: Eq[B]) =
     constraint match {
       case LessThan(f, v) => f(cs) < v
       case LessThanEqual(f, v) => f(cs) <= v

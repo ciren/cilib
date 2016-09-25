@@ -1,7 +1,9 @@
 package cilib
 
+import scalaz.NonEmptyList
+
 final class MultiEval[A] private (objectives: List[Eval[A]]) {
-  def eval(xs: List[A]): List[Objective[A]] =
+  def eval(xs: NonEmptyList[A]): List[Objective[A]] =
     objectives.map(_.eval(xs))
 }
 

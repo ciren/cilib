@@ -89,7 +89,7 @@ object Heterogeneous {
   type HEntityB[S, A, B] = HEntity[S, A, Behaviour[S, A, B]]
 
   // Helper functions
-  def updateStagnation[S, A](p: Entity[S,A])(implicit M: Memory[S,A], S: PBestStagnation[S]): Step[A, Entity[S,A]] = {
+  def updateStagnation[S, A](p: Entity[S,A])(implicit M: HasMemory[S,A], S: HasPBestStagnation[S]): Step[A, Entity[S,A]] = {
     val pbest = M._memory.get(p.state)
     val stagnationL = p.state applyLens S._pbestStagnation
     val stagnation = stagnationL.get
@@ -112,10 +112,10 @@ object Heterogeneous {
     } yield collection
 
   // Behaviour changing schedules will prolly change to RVar[Boolean] or maybe even Instruction
-  def pbestStagnated[S, A, B](threshold: Int)(implicit S: PBestStagnation[S]): HEntity[S,A,B] => Boolean =
+  def pbestStagnated[S, A, B](threshold: Int)(implicit S: HasPBestStagnation[S]): HEntity[S,A,B] => Boolean =
     x => (x.user.state applyLens S._pbestStagnation).get % threshold === 0
 
-  def resetStagnation[S, A, B](implicit S: PBestStagnation[S]): HEntity[S,A,B] => HEntity[S,A,B] =
+  def resetStagnation[S, A, B](implicit S: HasPBestStagnation[S]): HEntity[S,A,B] => HEntity[S,A,B] =
     x => User(Entity((x.user.state applyLens S._pbestStagnation) set 0, x.user.pos), x.item)
 
    // Select from behaviour pool
@@ -190,7 +190,7 @@ object Heterogeneous {
       } yield p2
     }
 
-  def dHPSO[S: PBestStagnation, A, B](stagThreshold: Int):
+  def dHPSO[S: HasPBestStagnation, A, B](stagThreshold: Int):
       List[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, (Pool[Behaviour[S, A, B]], B), HEntityB[S, A, B]]
   = genericHPSO(
     pbestStagnated(stagThreshold),
@@ -198,7 +198,7 @@ object Heterogeneous {
     nullPoolUpdate
   )
 
-  def fkPSO[S: PBestStagnation, A, B](stagThreshold: Int, tournSize: Int):
+  def fkPSO[S: HasPBestStagnation, A, B](stagThreshold: Int, tournSize: Int):
       List[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, (Pool[Behaviour[S, A, B]], B), HEntityB[S, A, B]]
   = genericHPSO(
     pbestStagnated(stagThreshold),

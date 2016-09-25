@@ -1,42 +1,58 @@
 package cilib
 
-import scalaz.NonEmptyList
+import scalaz.{Foldable1,ICons, INil, NonEmptyList}
 import spire.math._
 
-sealed abstract class Eval[A] { // This represents the function (NonEmpty)List[A] => Fit
-
-  def eval(a: List[A]): Objective[A] = //(Fit, List[Constraint[A, Double]]) =
-    this match {
-      case Unconstrained(f)   => Single(Feasible(f(a)), List.empty)
-      case Constrained(f, cs) =>
-        import spire.algebra.Eq
-        import spire.implicits._
-//        println("violations: " +  cs.filterNot(c => Constraint.satisfies(c, a.pos.list)))
-        println("a: " + a)
-        val violations = cs.filter(c => !Constraint.satisfies(c, a))
-        println("violations: " + violations)
-//        val x = violations match {
-//          case Nil => Feasible(fit.v)
-//          case _   => Infeasible(fit.v, cs.filterNot(c => Constraint.satisfies(c, a)))
-//        }
-        violations match {
-          case Nil => Single(Feasible(f(a)), List.empty)
-          case xs  => Single(Infeasible(f(a), xs.length), xs)
-        }
-    }
-
-  def constrainBy(cs: List[Constraint[A,Double]]) =
-    this match {
-      case Unconstrained(f)  => Constrained(f, cs)
-      case Constrained(f, _) => Constrained(f, cs)
-    }
-
-  def unconstrain =
-    this match {
-      case x @ Unconstrained(_) => x
-      case Constrained(f, _)    => Unconstrained(f)
-    }
+trait Input[F[_]] {
+  def toInput[A](a: NonEmptyList[A]): F[A]
 }
 
-final case class Unconstrained[A](f: List[A] => Double) extends Eval[A]
-final case class Constrained[A](f: List[A] => Double, cs: List[Constraint[A,Double]]) extends Eval[A]
+sealed abstract class Eval[A] { // This represents the function (NonEmpty)List[A] => Fit
+  def eval(a: NonEmptyList[A]): Objective[A]
+
+  def constrainBy(cs: List[Constraint[A,Double]]): Eval[A]
+
+  def unconstrain: Eval[A]
+}
+
+object Eval {
+  def unconstrained[F[_],A](f: F[A] => Double)(implicit F: Input[F]): Eval[A] = new Eval[A] {
+    def eval(a: NonEmptyList[A]): Objective[A] =
+      Single(Feasible(f(F.toInput(a))), List.empty)
+
+    def constrainBy(cs: List[Constraint[A,Double]]): Eval[A] =
+      constrained(f, cs)
+
+    def unconstrain = this
+  }
+
+  def constrained[F[_],A](f: F[A] => Double, cs: List[Constraint[A,Double]])(implicit F: Input[F]): Eval[A] = new Eval[A] {
+    import spire.algebra.Eq
+    import spire.implicits._
+
+    def eval(a: NonEmptyList[A]): Objective[A] =
+      cs.filter(c => !Constraint.satisfies(c, a)) match {
+        case Nil => Single(Feasible(f(F.toInput(a))), List.empty)
+        case xs  => Single(Infeasible(f(F.toInput(a)), xs.length), xs)
+      }
+
+    def constrainBy(css: List[Constraint[A,Double]]): Eval[A] =
+      constrained(f, css)
+
+    def unconstrain =
+      unconstrained(f)
+  }
+
+  implicit val nelInput = new Input[NonEmptyList] {
+    def toInput[A](a: NonEmptyList[A]): NonEmptyList[A] = a
+  }
+
+  implicit def pairInput = new Input[Lambda[x => (x, x)]] {
+    def toInput[A](a: NonEmptyList[A]): (A,A) =
+      a.list match {
+        case ICons(a, ICons(b, _)) => (a, b)
+        case _ => sys.error("error producing a pair")
+      }
+  }
+
+}
