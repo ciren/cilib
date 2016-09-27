@@ -2,26 +2,26 @@ package cilib
 
 import monocle._
 
-case class Mem[/*F[_],*/A](b: Position[A], v: Position[A])
+case class Mem[A](b: Position[A], v: Position[A])
 
-trait HasMemory[S,/*F[_],*/A] {
+trait HasMemory[S,A] {
   def _memory: Lens[S, Position[A]]
 }
 
 object HasMemory {
   @inline def apply[S,A](implicit A: HasMemory[S,A]) = A
 
-  implicit def memMemory/*[F[_]]*/ = new HasMemory[Mem[Double],Double] {
+  implicit val memMemory = new HasMemory[Mem[Double],Double] {
     def _memory = Lens[Mem[Double],Position[Double]](_.b)(b => a => a.copy(b = b))
   }
 }
 
-trait HasVelocity[S,/*F[_],*/A] {
+trait HasVelocity[S,A] {
   def _velocity: Lens[S, Position[A]]
 }
 
-object HasVelocity {
-  implicit def memVelocity/*[F[_]]*/ = new HasVelocity[Mem[Double],Double] {
+object Velocity {
+  implicit val memVelocity = new HasVelocity[Mem[Double],Double] {
     def _velocity = Lens[Mem[Double], Position[Double]](_.v)(b => a => a.copy(v = b))
   }
 }
