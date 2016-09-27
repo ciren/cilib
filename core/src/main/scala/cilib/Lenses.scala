@@ -20,7 +20,7 @@ trait HasVelocity[S,A] {
   def _velocity: Lens[S, Position[A]]
 }
 
-object Velocity {
+object HasVelocity {
   implicit val memVelocity = new HasVelocity[Mem[Double],Double] {
     def _velocity = Lens[Mem[Double], Position[Double]](_.v)(b => a => a.copy(v = b))
   }
