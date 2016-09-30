@@ -70,6 +70,9 @@ sealed abstract class Position[A] {
       case Point(_, b)       => b
       case Solution(_, b, _) => b
     }
+
+  def forall(f: A => Boolean) =
+    pos.list.toList.forall(f)
 }
 
 final case class Point[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
