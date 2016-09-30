@@ -31,15 +31,15 @@ object HPSO extends SafeApp {
   object PState {
     implicit val myParticleMemLens = monocle.Lens[PState, Mem[Double]](_.mem)(b => a => a.copy(mem = b))
 
-    implicit object PStateMemory extends Memory[PState,Double] {
-      def _memory = PState.myParticleMemLens ^|-> Memory.memMemory._memory
+    implicit object PStateMemory extends HasMemory[PState,Double] {
+      def _memory = PState.myParticleMemLens ^|-> HasMemory.memMemory._memory
     }
 
-    implicit object PStateVelocity extends Velocity[PState,Double] {
-      def _velocity = PState.myParticleMemLens ^|-> Velocity.memVelocity._velocity
+    implicit object PStateVelocity extends HasVelocity[PState,Double] {
+      def _velocity = PState.myParticleMemLens ^|-> HasVelocity.memVelocity._velocity
     }
 
-    implicit object PStatePBestStagnation extends PBestStagnation[PState] {
+    implicit object PStatePBestStagnation extends HasPBestStagnation[PState] {
       def _pbestStagnation = monocle.Lens[PState, Int](_.stag)(b => a => a.copy(stag = b))
     }
   }

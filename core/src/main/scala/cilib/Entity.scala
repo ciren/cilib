@@ -35,6 +35,18 @@ sealed abstract class Position[A] {
   def traverse[G[_]: Applicative, B](f: A => G[B]): G[Position[B]] =
     pos.traverse(f).map(Point(_, boundary))
 
+  def take(n: Int): IList[A] =
+    this match {
+      case Point(x, _) => x.list.take(n)
+      case Solution(x,_,_) => x.list.take(n)
+    }
+
+  def drop(n: Int): IList[A] =
+    this match {
+      case Point(x, _) => x.list.drop(n)
+      case Solution(x, _, _) => x.list.drop(n)
+    }
+
   def pos =
     this match {
       case Point(x, _)       => x
@@ -58,10 +70,13 @@ sealed abstract class Position[A] {
       case Point(_, b)       => b
       case Solution(_, b, _) => b
     }
+
+  def forall(f: A => Boolean) =
+    pos.list.toList.forall(f)
 }
 
-final case class Point[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
-final case class Solution[A] private[cilib] (x: List[A], b: NonEmptyList[Interval[Double]], o: Objective[A]) extends Position[A]
+final case class Point[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
+final case class Solution[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]], o: Objective[A]) extends Position[A]
 
 object Position {
 
@@ -109,7 +124,15 @@ object Position {
     def unary_-(implicit M: Module[Position[A],A]): Position[A] =
       M.negate(x)
 
-    def isZero(implicit R: Ring[A]) = x.pos.forall(_ == R.zero)
+    def isZero(implicit R: Ring[A]) = {
+      def test(xs: IList[A]): Boolean =
+        xs match {
+          case INil() => true
+          case ICons(x, xss) => if (x != R.zero) false else test(xss)
+        }
+
+      test(x.pos.list)
+    }
 
   }
 
@@ -121,8 +144,26 @@ object Position {
   implicit def positionEqual[A:scalaz.Equal] =
     scalaz.Equal.equal[Position[A]]((a, b) => (a.pos === b.pos) && (a.boundary === b.boundary))
 
-  def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
-    Point(xs.list.toList, b)
+  implicit val positionFoldable1 = new Foldable1[Position] {
+    def foldMap1[A, B](fa: Position[A])(f: A => B)(implicit F: Semigroup[B]): B =
+      fa match {
+        case Point(xs, _) =>
+          xs.foldMap1(f)
+        case Solution(xs, _, _) =>
+          xs.foldMap1(f)
+      }
+
+    def foldMapRight1[A, B](fa: Position[A])(z: A => B)(f: (A, => B) => B): B =
+      fa match {
+        case Point(xs, _) =>
+          xs.foldMapRight1(z)(f)
+        case Solution(xs, _, _) =>
+          xs.foldMapRight1(z)(f)
+      }
+  }
+
+  private[cilib] def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
+    Point(xs, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]]) =
     domain.traverseU(x => Dist.uniform(Interval(x.lowerValue, x.upperValue))) map (x => Position(x, domain))

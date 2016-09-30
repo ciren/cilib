@@ -61,7 +61,7 @@ object Algebra {
     if   (D.dot(other, other) == F2.zero) F.map(other)(_ => F2.zero)
     else (D.dot(x, other) / D.dot(other, other)) *: other
 
-  def orthonormalize[F[_]:Functor:Foldable,A:NRoot](vs: NonEmptyList[F[A]])(
+  def orthonormalize[F[_]:Functor:Foldable1,A:NRoot](vs: NonEmptyList[F[A]])(
     implicit D: DotProd[F,A], M: Module[F[A],Double], A: Field[A]) = {
     val bases = vs.foldLeft(NonEmptyList(vs.head)) { (ob, v) =>
       val ui = ob.foldLeft(v) { (u, o) => u - project(v, o) }

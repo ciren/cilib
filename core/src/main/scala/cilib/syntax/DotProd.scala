@@ -1,7 +1,7 @@
 package cilib
 package syntax
 
-import scalaz.{Foldable,Functor,NonEmptyList}
+import scalaz.{Foldable1,Functor,NonEmptyList}
 import spire.implicits._
 import spire.algebra._
 
@@ -19,7 +19,7 @@ object dotprod {
 
     def orthonormalize(
       implicit F: Functor[F],
-               F2: Foldable[F],
+               F2: Foldable1[F],
                F3: Field[A],
                A: NRoot[A],
                D: DotProd[F,A],

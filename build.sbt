@@ -11,7 +11,7 @@ import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
 
 val scalazVersion     = "7.2.0"
 val spireVersion      = "0.11.0"
-val monocleVersion    = "1.2.0"
+val monocleVersion    = "1.2.2"
 val scalacheckVersion = "1.11.4"
 
 lazy val buildSettings = Seq(
@@ -221,6 +221,7 @@ lazy val example = project.dependsOn(core, exec, ga, moo, pso)
   .settings(noPublishSettings)
   .settings(Seq(
     libraryDependencies ++= Seq(
+      "net.cilib"  %% "benchmarks"        % "0.1",
       "org.scalaz" %% "scalaz-core"       % scalazVersion,
       "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
       "org.scalaz" %% "scalaz-effect"     % scalazVersion,

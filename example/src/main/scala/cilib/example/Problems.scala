@@ -1,37 +1,20 @@
 package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _, _ }
-import scalaz.NonEmptyList
-import scalaz.std.list._
-import scalaz.syntax.traverse._
-import scalaz.syntax.foldable._
-import scalaz.syntax.foldable1._
-import scalaz.syntax.apply._
+import scalaz._, Scalaz._
 import spire.math._
+import spire.algebra._
+import spire.implicits._
 
-import scalaz.NonEmptyList
-
-/**
-  Examples of how to define "Problem" instances.
-
-  There are two types of problems: dynamic and static. With a static
-  problem, the problem space never changes, but in the dynamic environment,
-  the problem may change at any time.
-
-  There is a very strong link between the quantification of a problem solution
-  and the type of fitness that is the result:
-    - Valid(x) -> A valid fitness in the environment with `x` and the value
-    - Penalty(x, y) -> A valid fitness, but the solution has had a penalty of `y` applied
-
-  */
 object Problems {
-//  import scalaz.Foldable1
 
-  def spherical[A](implicit N: Numeric[A]) =
-    Unconstrained[A]((a: List[A]) => a.foldLeft(0.0)((a,c) => a + N.toDouble(c)*N.toDouble(c)))
+  import Eval._
 
+  def spherical =
+    unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double])
 
-/* ////
+/*
+////
   case class PeakCone(domain: NonEmptyList[Interval[Double]], s: Double, height: Double, width: Double, location: Position[Double], shift: Position[Double]) {
 
     def apply(x: List[Double])(implicit M: Module[List[Double],Double]): Double = {
@@ -39,7 +22,7 @@ object Problems {
       (height - width) * math.sqrt(sum)
 //      (height - width) * math.sqrt((location.pos.list - x).foldMap1(a => a*a))
 
-  /* Some of the more common static benchmark problems */
+  * Some of the more common static benchmark problems
   import scalaz.Foldable
 
   def spherical[F[_]:Foldable:SolutionRep,A](implicit N: Numeric[A]) =
@@ -47,10 +30,10 @@ object Problems {
 
   // Not sure where to put these yet....
 
-  /* G13 Problems. Runarrson */
+  * G13 Problems. Runarrson
 
   // This needs to be something that is "sized"
-  /*val g1 = Problem.violations(
+  *val g1 = Problem.violations(
     Problem.static((a: List[Double]) => {
       val x = a.take(4).sum * 5.0
       val y = a.take(4).map(x => x*x).sum * 5.0
@@ -68,7 +51,7 @@ object Problems {
       (a: List[Double]) => Violation.bool(-2*a(5) - a(6) + a(10) <= 0),
       (a: List[Double]) => Violation.bool(-2*a(7) - a(8) + a(11) <= 0)
     )
-  )*/
+  )
 
   case class Peak(pos: List[Double], width: Double, height: Double, movementDirection: List[Double], shiftVector: List[Double])
   case class PeakState(peaks: List[Peak], interval: NonEmptyList[Interval[Double]],
@@ -176,7 +159,7 @@ object Problems {
 
   // Attempt to implment the moving peaks in such a way that it does not suck
 
-  def initPeaks(n: Int, domain: NonEmptyList[spire.math.Interval[Double]], minWidth: Double = 1.0, maxWidth: Double = 12.0, minHeight: Double = 30.0, maxHeight: Double = 70.0): RVar[List[PeakCone]] = {
+  def initPeaks(n: Int, domain: NonEmptyList[spire.math.Interval[Double]], minWidth: Double = 1.0, maxWidth: Double = 12.0, minHeight: Double = 30.0, maxHeight: Double = 70.0): RVar[NonEmptyList[PeakCone]] = {
     import scalaz._//syntax.applicative._
     import Scalaz._
     // TODO: Change the parameters for the min and max height and width
@@ -184,25 +167,25 @@ object Problems {
       val height = Dist.stdUniform.map(x => (maxHeight - minHeight) * x + minHeight)
       val width  = Dist.stdUniform.map(x => (maxWidth - minWidth) * x + minWidth)
       (height |@| width) { (h,w) => PeakCone(h, w, x) }
-    }).replicateM(n)
+    }).replicateM(n).map(_.toNel.getOrElse(sys.error("List cannot be empty")))
     //.map(_.toNel.getOrElse(sys.error("")))
   }
 
   case class PeakCone(height: Double, width: Double, location: NonEmptyList[Double]) {
-    def eval(x: List[Double]) = {
+    def eval(x: NonEmptyList[Double]) = {
       // println("position: " + x)
       // println("location: " + location)
 
-      val c = math.sqrt((x zip location.list.toList).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _))
+      val c = math.sqrt((x zip location).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _))
 //      println("c: " + c)
       height - width * c
     }
   }
 
-  def peakEval(peaks: /*NonEmpty*/List[PeakCone]): Eval[Double] =
-    Unconstrained((a: List[Double]) => {
+  def peakEval(peaks: NonEmptyList[PeakCone]): Eval[Double] =
+    Eval.unconstrained((a: NonEmptyList[Double]) => {
   //    println("Peaks:" + peaks)
-      val x = peaks.map(_.eval(a)).max
+      val x = peaks.map(_.eval(a)).list.toList.max // FIXME
       //println("x: " + x)
       val r = if (x == Double.NaN) 0.0 else x
       //println("r: " + r)

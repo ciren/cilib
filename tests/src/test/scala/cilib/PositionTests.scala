@@ -83,16 +83,16 @@ object PositionTests extends Properties("Position") {
   }
 
   property("negation") = forAll { (a: Pos) =>
-    (a.foldLeft(0)(_+_) != 0) ==>
+    (a.foldLeft1(_+_) != 0) ==>
       (-a =/= a)                    &&
       -a          === a.map(_ * -1) &&
       a + (-a)    === a.zeroed
   }
 
   property("is zero") = forAll { (a: Pos) =>
-    a.zeroed.foldLeft(0)(_+_) === 0     &&
-    zero.foldLeft(0.0)(_+_).toInt === 0 &&
-    one.foldLeft(0.0)(_+_).toInt =/= 0
+    a.zeroed.foldLeft1(_+_) === 0     &&
+    zero.foldLeft1(_+_).toInt === 0 &&
+    one.foldLeft1(_+_).toInt =/= 0
   }
 
   property("dot product") = forAll { (ps: (Pos,Pos,Pos)) =>
@@ -110,9 +110,9 @@ object PositionTests extends Properties("Position") {
   }
 
   property("normalize") = forAll { (a: Position[Double]) =>
-    a.foldLeft(0.0)(_+_) =/= 0.0 ==>
-      (a.normalize.magnitude === 1.0)  &&
-      a.normalize.pos.forall(_ <= 1.0) &&
+    a.foldLeft1(_+_) =/= 0.0 ==>
+      (a.normalize.magnitude === 1.0) &&
+      a.normalize.forall(_ <= 1.0) &&
       zero.normalize.magnitude === 0.0
   }
 

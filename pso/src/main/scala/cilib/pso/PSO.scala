@@ -28,7 +28,7 @@ object PSO {
     w: Double,
     c1: Double,
     c2: Double
-  )(implicit V: Velocity[S,Double], F:Field[Double]): Step[Double,Position[Double]] =
+  )(implicit V: HasVelocity[S,Double], F:Field[Double]): Step[Double,Position[Double]] =
     Step.pointR(for {
       cog <- (cognitive - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
       soc <- (social    - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
@@ -38,18 +38,18 @@ object PSO {
   def evalParticle[S](entity: Particle[S,Double]) =
     Entity.eval[S,Double](x => x)(entity)
 
-  def updatePBest[S](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
+  def updatePBest[S](p: Particle[S,Double])(implicit M: HasMemory[S,Double]): Step[Double,Particle[S,Double]] = {
     val pbestL = M._memory
     Step.liftK(Comparison.compare(p.pos, (p.state applyLens pbestL).get)).map(x =>
       Entity(p.state applyLens pbestL set x, p.pos))
   }
 
-  def updatePBestBounds[S](p: Particle[S,Double])(implicit M: Memory[S,Double]): Step[Double,Particle[S,Double]] = {
-    val b = (p.pos.pos zip p.pos.boundary.list.toList).foldLeft(true)((a,c) => a && (c._2.contains(c._1)))
+  def updatePBestBounds[S](p: Particle[S,Double])(implicit M: HasMemory[S,Double]): Step[Double,Particle[S,Double]] = {
+    val b = Foldable1[NonEmptyList].foldLeft(p.pos.pos zip p.pos.boundary, true)((a,c) => a && (c._2.contains(c._1)))
     if (b) updatePBest(p) else Step.point(p)
   }
 
-  def updateVelocity[S](p: Particle[S,Double], v: Position[Double])(implicit V: Velocity[S,Double]): Step[Double,Particle[S,Double]] =
+  def updateVelocity[S](p: Particle[S,Double], v: Position[Double])(implicit V: HasVelocity[S,Double]): Step[Double,Particle[S,Double]] =
     Step.pointR(RVar.point(Entity(p.state applyLens V._velocity set v, p.pos)))
 
   def singleComponentVelocity[S](
@@ -57,7 +57,7 @@ object PSO {
     component: Position[Double],
     w: Double,
     c: Double
-  )(implicit V: Velocity[S,Double], M: Memory[S,Double]): Step[Double,Position[Double]] =
+  )(implicit V: HasVelocity[S,Double], M: HasMemory[S,Double]): Step[Double,Position[Double]] =
     Step.pointR(
       for {
         comp <- (component - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
@@ -73,13 +73,13 @@ object PSO {
     nbest: Position[Double],
     w: Double,
     s: GCParams
-  )(implicit V: Velocity[S,Double]): Step[Double,Position[Double]] =
+  )(implicit V: HasVelocity[S,Double]): Step[Double,Position[Double]] =
     Step.pointR(
       nbest traverse (_ => Dist.stdUniform.map(x => s.p * (1 - 2*x))) map (a =>
         -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a
       ))
 
-  def barebones[S](p: Particle[S,Double], global: Position[Double])(implicit M: Memory[S,Double]) =
+  def barebones[S](p: Particle[S,Double], global: Position[Double])(implicit M: HasMemory[S,Double]) =
     Step.pointR {
       val pbest = M._memory.get(p.state)
       val zipped = pbest.zip(global)
@@ -113,7 +113,7 @@ object PSO {
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
     rc: Double)(
-    implicit C: Charge[S]): Step[Double,Position[Double]] = {
+    implicit C: HasCharge[S]): Step[Double,Position[Double]] = {
     def charge(x: Particle[S,Double]) =
       C._charge.get(x.state)
 
