@@ -132,7 +132,7 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
-  .settings(noPublishSettings)
+//  .settings(noPublishSettings)
   .aggregate(core, docs, example, exec, ga, moo, pso, tests)
   .dependsOn(core, docs, example, exec, ga, moo, pso, tests)
 
