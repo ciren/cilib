@@ -143,9 +143,8 @@ lazy val cilib = project.in(file("."))
 //   )
 
 lazy val core = project
-  .settings(moduleName := "cilib-core")
-  .settings(cilibSettings)
-  .settings(Seq(
+  .settings(cilibSettings ++ Seq(
+    moduleName := "cilib-core",
     libraryDependencies ++= Seq(
       "org.scalaz"                 %% "scalaz-core"       % scalazVersion,
       "org.scalaz"                 %% "scalaz-concurrent" % scalazVersion,
@@ -183,13 +182,14 @@ lazy val core = project
 
 lazy val docs = project.in(file("docs"))
   .enablePlugins(SphinxPlugin,SiteScaladocPlugin)
-  .settings(moduleName := "cilib-docs")
-  .settings(cilibSettings)
-  .settings(noPublishSettings)
-  .settings(tutSettings)
-  .settings(ghpages.settings)
-  .settings(unidocSettings)
-  .settings(Seq(
+  .settings(
+   cilibSettings ++
+   noPublishSettings ++
+   tutSettings ++
+   ghpages.settings ++
+   unidocSettings ++
+   Seq(
+    moduleName := "cilib-docs",
     makeSite <<= makeSite.dependsOn(unidoc in Compile),
     siteSubdirName in SiteScaladoc := "api",
     tutSourceDirectory := sourceDirectory.value / "tut",
@@ -216,10 +216,8 @@ lazy val docs = project.in(file("docs"))
   .dependsOn(core, example, exec, pso, moo, ga)
 
 lazy val example = project.dependsOn(core, exec, ga, moo, pso)
-  .settings(moduleName := "cilib-example")
-  .settings(cilibSettings)
-  .settings(noPublishSettings)
-  .settings(Seq(
+  .settings(cilibSettings ++ noPublishSettings ++ Seq(
+    moduleName := "cilib-example",
     libraryDependencies ++= Seq(
       "net.cilib"  %% "benchmarks"        % "0.1",
       "org.scalaz" %% "scalaz-core"       % scalazVersion,
@@ -230,29 +228,23 @@ lazy val example = project.dependsOn(core, exec, ga, moo, pso)
   ))
 
 lazy val exec = project.dependsOn(core)
-  .settings(moduleName := "cilib-exec")
-  .settings(cilibSettings)
+  .settings(Seq(moduleName := "cilib-exec") ++ cilibSettings)
 
 lazy val moo = project.dependsOn(core)
-  .settings(moduleName := "cilib-moo")
-  .settings(cilibSettings)
+  .settings(Seq(moduleName := "cilib-moo") ++ cilibSettings)
 
 lazy val pso = project.dependsOn(core)
-  .settings(moduleName := "cilib-pso")
-  .settings(cilibSettings)
+  .settings(Seq(moduleName := "cilib-pso") ++ cilibSettings)
 
 lazy val ga = project.dependsOn(core)
-  .settings(moduleName := "cilib-ga")
-  .settings(cilibSettings)
+  .settings(Seq(moduleName := "cilib-ga") ++ cilibSettings)
 
 lazy val tests = project
   .dependsOn(core)
-  .settings(moduleName := "cilib-tests")
-  .settings(cilibSettings)
-  .settings(
+  .settings(cilibSettings ++ noPublishSettings ++ Seq(
+    moduleName := "cilib-tests",
     libraryDependencies ++= Seq(
       "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
       "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
     )
-  )
-  .settings(noPublishSettings)
+  ))
