@@ -13,7 +13,7 @@ import spire.implicits._
 
 import scalaz.scalacheck.ScalazProperties._
 
-object MetricSpaceTest extends Spec("Step") {
+object MetricSpaceTest extends Spec("MetricSpace") {
   //object MetricSpaceTests extends Properties("MetricSpace") {
 
 //  implicit def arbMetricSpaceEqual = scalaz.Equal[Int].contramap((_: MetricSpace[Int,Int]))
