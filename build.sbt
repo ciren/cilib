@@ -16,8 +16,7 @@ val scalacheckVersion = "1.11.4"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib",
-  scalaVersion := "2.11.7"
-  //crossScalaVersions := Seq("2.11.7")
+  scalaVersion := "2.11.8"
 )
 
 lazy val commonSettings = Seq(
@@ -50,7 +49,7 @@ lazy val commonSettings = Seq(
     compilerPlugin("org.spire-math" %% "kind-projector" % "0.6.0")
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
-    "git@github.com:cirg-up/cilib.git"))
+    "scm:git:git@github.com:cirg-up/cilib.git"))
 )
 
 lazy val publishSignedArtifacts = ReleaseStep(
@@ -82,7 +81,7 @@ lazy val publishSettings = Seq(
   autoAPIMappings := true,
   apiURL := Some(url("https://www.cilib.net/api/")),
   publishMavenStyle := true,
-  publishArtifact in packageDoc := false,
+  //publishArtifact in packageDoc := false,
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
   publishTo <<= version { (v: String) =>
@@ -93,10 +92,6 @@ lazy val publishSettings = Seq(
       Some("releases" at nexus + "service/local/staging/deploy/maven2")
   },
   pomExtra := (
-    <scm>
-      <url>git@github.com:cirg-up/cilib.git</url>
-      <connection>scm:git:git@github.com:cirg-up/cilib.git</connection>
-    </scm>
     <developers>
       {
         Seq(
@@ -132,15 +127,9 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ r
 
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
-//  .settings(noPublishSettings)
+  .settings(noPublishSettings)
   .aggregate(core, docs, example, exec, ga, moo, pso, tests)
   .dependsOn(core, docs, example, exec, ga, moo, pso, tests)
-
-//   lazy val cilibSettings = settings ++ Seq(
-//     name := "cilib-aggregate"
-//   ) ++ noPublish ++ headerCheckSetting ++ releaseSettings ++ Seq(
-//     publishArtifactsAction := PgpKeys.publishSigned.value
-//   )
 
 lazy val core = project
   .settings(cilibSettings ++ Seq(
