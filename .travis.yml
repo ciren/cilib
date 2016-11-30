@@ -1,9 +1,9 @@
 language: scala
 scala:
-  - 2.11.7
+  - 2.11.8
+  - 2.12.0
 jdk:
   - oraclejdk8
-  - oraclejdk7
 notifications:
   email:
     on_success: never
