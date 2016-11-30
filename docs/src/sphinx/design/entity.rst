@@ -35,9 +35,5 @@ manage no additional data.
 
 Because the value of ``S`` can be anything, it is not possible to have pre-defined functions
 that allow extraction of data from whatever type ``S`` may be. In order to enable this,
-a structure ``Lens`` was used. A ``Lens`` can be seen as a getter and setter function
-pair. Within CIlib, several common lenses are availble to extract information from the state
-of the ``Entity``. `Monocle <http://julien-truffaut.github.io/Monocle/>`_ is used to provide
-the lens functionality. Lenses are strucutures that can also be composed together and are
-collectively called "optics". Please refer to the documentation of Monocle to learn more about
-lenses and optics.
+several ``Lens`` instances are used. Please refer to the section on ``Lenses`` for more information
+on their usage in CIlib.

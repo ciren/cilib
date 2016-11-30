@@ -2,21 +2,22 @@ import sbt._
 import sbt.Keys._
 import sbtrelease._
 import sbtrelease.ReleasePlugin._
-import sbtrelease.ReleasePlugin.ReleaseKeys._
+//import sbtrelease.ReleasePlugin.ReleaseKeys._
 import sbtrelease.ReleaseStateTransformations._
-import sbtrelease.Utilities._
+//import sbtrelease.Utilities._
 import sbtunidoc.Plugin.UnidocKeys._
-import com.typesafe.sbt.SbtSite.SiteKeys._
-import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
+//import com.typesafe.sbt.SbtSite.SiteKeys._
+//import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
 
-val scalazVersion     = "7.2.0"
-val spireVersion      = "0.11.0"
-val monocleVersion    = "1.2.2"
-val scalacheckVersion = "1.11.4"
+val scalazVersion     = "7.2.7"
+val spireVersion      = "0.13.0"
+val monocleVersion    = "1.3.2"
+val scalacheckVersion = "1.12.6"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib",
-  scalaVersion := "2.11.8"
+  scalaVersion := "2.11.8",
+  crossScalaVersions := Seq("2.11.8", "2.12.0")
 )
 
 lazy val commonSettings = Seq(
@@ -46,13 +47,13 @@ lazy val commonSettings = Seq(
     "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
-    compilerPlugin("org.spire-math" %% "kind-projector" % "0.6.0")
+    compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3" cross CrossVersion.binary)
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "scm:git:git@github.com:cirg-up/cilib.git"))
 )
 
-lazy val publishSignedArtifacts = ReleaseStep(
+/*lazy val publishSignedArtifacts = ReleaseStep(
   action = st => {
     val extracted = st.extract
     val ref = extracted.get(thisProjectRef)
@@ -66,7 +67,7 @@ lazy val publishSignedArtifacts = ReleaseStep(
     st
   },
   enableCrossBuild = true
-)
+)*/
 
 lazy val noPublishSettings = Seq(
   publish := (),
@@ -116,14 +117,14 @@ lazy val publishSettings = Seq(
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
-    publishSignedArtifacts,
+    //publishSignedArtifacts,
     setNextVersion,
     commitNextVersion
     //pushChanges
   )
 )
 
-lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings ++ releaseSettings
+lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings// ++ releaseSettings
 
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
@@ -156,18 +157,6 @@ lazy val core = project
       Wart.Var*/
     )
   ))
-
-//lazy val docSettings = Seq(
-  // ghpagesNoJekyll := false,
-  // mappings in makeSite ++= Path.selectSubpaths(tutTargetDirectory.value, (includeFilter in makeSite).value).toSeq,
-  // site.addMappingsToSiteDir(tut, "_tut"),
-  // //siteMappings += file("CONTRIBUTING.md") -> "contributing.md",
-  // scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
-  //   "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
-  //   "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath
-  // ),
-  // includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml", //| "*.md"
-//)
 
 lazy val docs = project.in(file("docs"))
   .enablePlugins(SphinxPlugin,SiteScaladocPlugin)
@@ -208,7 +197,7 @@ lazy val example = project.dependsOn(core, exec, ga, moo, pso)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
     moduleName := "cilib-example",
     libraryDependencies ++= Seq(
-      "net.cilib"  %% "benchmarks"        % "0.1",
+      "net.cilib"  %% "benchmarks"        % "0.1.1",
       "org.scalaz" %% "scalaz-core"       % scalazVersion,
       "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
       "org.scalaz" %% "scalaz-effect"     % scalazVersion,

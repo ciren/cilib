@@ -3,8 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+=================================
 Welcome to CIlib's documentation!
-===============================================
+=================================
 
 .. warning::
 
@@ -18,7 +19,7 @@ CIlib is currently available for Scala 2.11 (builds for 2.12 are being planned).
 
 To get started, you need will need to include the required CIlib module into your project's build.sbt
 
-   libraryDependencies += "" %% "" %
+   libraryDependencies += "net.cilib" %% "cilib-*" % "<version>"
 
 CIlib consists of several modules, each containing specialized parts of the larger library. Please refer to
 the project structure for a listing of each of the modules and what they provide. Additional dependencies
@@ -100,6 +101,7 @@ Trying to maintain a modular set of functionalities, CIlib consists of several s
    design/overview
    design/position
    design/entity
+   design/lenses
    design/rvar
    design/step
    StepS <design/step_with_state>

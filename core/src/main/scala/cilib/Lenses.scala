@@ -69,4 +69,18 @@ object Lenses {
       _singleObjective[A] composeLens
       _singleFit[A]
 
+  def _feasible: Prism[Fit,Double] =
+    Prism[Fit,Double](_ match {
+      case Feasible(x) => Some(x)
+      case _ => None
+    })(x => Feasible(x))
+
+  // def _infeasible: Prism[Fit,Double] =
+  //   Prism[Fit,Double](_ match {
+  //     case Infeasible(x,_) => Some(x)
+  //     case _ => None
+  //   })(x => Infeasible(x))
+
+//  def _penalty: Prism[] =
+
 }

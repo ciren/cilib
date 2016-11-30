@@ -26,14 +26,14 @@ object DotProdTest extends Spec("DotProd") {
   //   property("commutativity") = dotprod.commutativity[F, Int]
   // }
 
+  implicit val arbPosition = Arbitrary { dimGen.flatMap(dim => positionGen(dim)) }
+
   def laws = new Properties("dot_product") {
     property("commutativity") = dotprod.commutativity[Position, Int]
     property("distributive") = dotprod.distributive[Position, Int]
     property("bilinear") = dotprod.bilinear[Position, Int]
     property("scalarMultiplication") = dotprod.scalarMultiplication[Position,Int]
   }
-
-  implicit val arbPosition       = Arbitrary { dimGen.flatMap(dim => positionGen(dim)) }
 
   checkAll(laws)
 }
