@@ -91,7 +91,7 @@ Trying to maintain a modular set of functionalities, CIlib consists of several s
    :maxdepth: 2
    :hidden:
 
-   Scaladoc <https://cirg-up.github.io/cilib/api>
+   Scaladoc <https://cirg-up.github.io/cilib/api/cilib>
 
 .. toctree::
    :maxdepth: 1

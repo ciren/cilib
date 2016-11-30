@@ -16,7 +16,7 @@ val scalacheckVersion = "1.12.6"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib",
-  scalaVersion := "2.11.8",
+  scalaVersion := "2.12.0",
   crossScalaVersions := Seq("2.11.8", "2.12.0")
 )
 
@@ -85,9 +85,9 @@ lazy val publishSettings = Seq(
   //publishArtifact in packageDoc := false,
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
-  publishTo <<= version { (v: String) =>
+  publishTo := {
     val nexus = "https://oss.sonatype.org/"
-    if (v.trim.endsWith("SNAPSHOT"))
+    if (isSnapshot.value)
       Some("snapshots" at nexus + "content/repositories/snapshots")
     else
       Some("releases" at nexus + "service/local/staging/deploy/maven2")
@@ -168,7 +168,6 @@ lazy val docs = project.in(file("docs"))
    unidocSettings ++
    Seq(
     moduleName := "cilib-docs",
-    makeSite <<= makeSite.dependsOn(unidoc in Compile),
     siteSubdirName in SiteScaladoc := "api",
     tutSourceDirectory := sourceDirectory.value / "tut",
     git.remoteRepo := "git@github.com:cirg-up/cilib.git",
@@ -176,19 +175,20 @@ lazy val docs = project.in(file("docs"))
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
     addMappingsToSiteDir(tut, (siteSubdirName in Sphinx)),
     // We now need to merge the tut output and the base sphinx input before sphinx does any generation
-    sphinxInputs in Sphinx <<= (target in Compile, sphinxInputs in Sphinx, tut, streams) map {
-      (target, sphinxInputs, tutOut, s) => {
-        s.log.info("Combining main sphinx sources and generated tut sources")
-        val combined = target / "combined_rst"
-        val examples = combined / "examples"
-        IO.createDirectories(Seq(combined, examples))
+    sphinxInputs in Sphinx := {
+      val s = streams.value
+      val sphinxIn = (sphinxInputs in Sphinx).value
 
-        // Now transfer the main sources and the generated tut files into combined
-        IO.copyDirectory(sphinxInputs.src, combined)
-        IO.copy(tutOut.map(x => (x._1, examples / x._2)))
+      s.log.info("Combining main sphinx sources and generated tut sources")
+      val combined = (target in Compile).value / "combined_rst"
+      val examples = combined / "examples"
+      IO.createDirectories(Seq(combined, examples))
 
-        sphinxInputs.copy(src = combined)
-      }
+      // Now transfer the main sources and the generated tut files into combined
+      IO.copyDirectory(sphinxIn.src, combined)
+      IO.copy(tut.value.map(x => (x._1, examples / x._2)))
+
+      sphinxIn.copy(src = combined)
     }
   ))
   .dependsOn(core, example, exec, pso, moo, ga)
@@ -226,3 +226,5 @@ lazy val tests = project
       "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
     )
   ))
+
+addCommandAlias("publishSite", "ghpagesPushSite")
