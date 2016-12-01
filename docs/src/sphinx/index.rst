@@ -15,22 +15,19 @@ Welcome to CIlib's documentation!
 Getting Started
 ***************
 
-CIlib is currently available for Scala 2.11 (builds for 2.12 are being planned).
+CIlib is currently cross-built for Scala 2.11 & 2.12.
 
 To get started, you need will need to include the required CIlib module into your project's build.sbt
 
-   libraryDependencies += "net.cilib" %% "cilib-*" % "<version>"
+   libraryDependencies += "net.cilib" %% "cilib-<module>" % "<version>"
 
 CIlib consists of several modules, each containing specialized parts of the larger library. Please refer to
 the project structure for a listing of each of the modules and what they provide. Additional dependencies
 on community projects include the following:
 
-.. hlist::
-   :columns: 3
-
-   * `Scalaz <https://github.com/scalaz/scalaz>`_
-   * `Spire <https://github.com/non/spire>`_
-   * `Monocle <http://julien-truffaut.github.io/Monocle/>`_
+* `Scalaz <https://github.com/scalaz/scalaz>`_
+* `Spire <https://github.com/non/spire>`_
+* `Monocle <http://julien-truffaut.github.io/Monocle/>`_
 
 ***********
 Motivations
@@ -51,12 +48,12 @@ around the library should continue to be a helpful and supportive group of indiv
 and contributions are always welcome, and the feedback will allow better decisions to be made which
 will hopefully allow faster understanding of the library itself. If you have any feedback for us, we would
 love to hear from you. Please contact is in ``#cilib`` on ``FreeNode`` or come chat to us
-in the project's `Gitter channel <https://gitter.im/cirg-up/cilib>`_; alternatively feel free to
-open an issue on the `project page <https://github.com/cirg-up/cilib>`_.
+in the project's `Gitter channel <https://gitter.im/cirg-up/cilib>`_; alternatively, feel free to
+open an `issue <https://github.com/cirg-up/cilib/issues>`_.
 
-=======================
-Well principled design:
-=======================
+==================
+Principled design:
+==================
 
 It is very important to ensure that the library code is pure. This has many advantages
 but, most importantly, it allows for the controlling of side-effects which is a primary concern,
@@ -83,6 +80,7 @@ Trying to maintain a modular set of functionalities, CIlib consists of several s
 * *core* - contains typeclass definitions together with instances and various data structures
 * *exec* - simplistic execution code allowing for experimental execution
 * *de* - data structures and logic related to Differential Evolution
+* *docs* - sources for the website
 * *ga* - data structures and logic related to Genetic Algorithms
 * *moo* - typeclasses, instances and data structures for Multi-Objective Optimization
 * *pso* - data structures and logic related to Particle Swarm Optimization

@@ -2,19 +2,19 @@ Lenses
 ======
 
 A ``Lens`` can, in the most trivial of ways, be seen as a getter and setter function pair.
-Within CIlib, several common lenses are availble to the user in order to extract information from the state
+Within CIlib, several common lenses are available to the user in order to extract information from the state
 of the ``Entity``, or anything else for which a ``Lens`` has been defined. Because lenses allow the user
-to zoom onto data, potentially nested under many levels in another data structure, they are convienient
+to zoom onto data, potentially nested under many levels in another data structure, they are convenient
 as they allow for correctly updating the "zoomed" location. When we use "correctly", it is because with
 immutable data structures, updates to values deep within a data structure need to correctly "bubble out", such
-that the entire stucture is correctly updated to ensure that the data structure remains immutable and consistent.
+that the entire structure is correctly updated to ensure that the data structure remains immutable and consistent.
 
 In order to not re-invent the wheel, the `Monocle <http://julien-truffaut.github.io/Monocle/>`_ library
-provides the lens functionality. Lenses are strucutures that can also be composed together and are
+provides the lens functionality. Lenses are structures that can also be composed together and are
 collectively called "optics". Please refer to Monocle's documentation to learn more about
 lenses and optics. CIlib specific lens questions can be directed to the different CIlib support channels.
 
-Lenses privide an API that is first and foremost, composition and lawful. This means that the various
+Lenses provide an API that is first and foremost, composition and lawful. This means that the various
 optics are well behaved and rules exist that govern their usage. Furthermore, different optics may be
 composed together to create new optics that are the combination of the original optics. This is obviously
 only possible if the provided types correctly line up.
@@ -24,7 +24,7 @@ mechanism prevents invalid usage, by letting the compiler fail based on the type
 In the case of ``Entity``, the compiler would look up instances, using it's implicit resolution rules, to obtain
 evidence for a typeclass with a given set of types, at compile time.
 
-This provides an additional level of surity that the data being passed to a function that expects a parameter
+This provides an additional level of surety that the data being passed to a function that expects a parameter
 that has the evidence to extract some other piece of information for a given type.
 This may seem quite like a mouth full, but let's have a look a few examples that will hopefully make the usage clear.
 
@@ -46,7 +46,7 @@ Within the definitions of CIlib, an Individual is nothing more than a ``Entity[U
 type ``A``. As the type states, there is no state value for the ``Entity``, and it is defined to
 be ``Unit`` - a type that exists with a single value (expressed as ``()``), which is uninteresting.
 
-Using this definition, the following function would accept Pariticle entities, but would fail
+Using this definition, the following function would accept Particle entities, but would fail
 to compile (due to missing evidence) if an Individual entity is passed to it: ::
 
   def foo[S](xs: List[Entity[S,Double]])(implicit mem: HasMemory[S,Double]) = ...
