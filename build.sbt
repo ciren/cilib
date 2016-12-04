@@ -159,39 +159,33 @@ lazy val core = project
   ))
 
 lazy val docs = project.in(file("docs"))
-  .enablePlugins(SphinxPlugin,SiteScaladocPlugin)
-  .settings(
-   cilibSettings ++
-   noPublishSettings ++
-   tutSettings ++
-   ghpages.settings ++
-   unidocSettings ++
-   Seq(
-    moduleName := "cilib-docs",
-    siteSubdirName in SiteScaladoc := "api",
-    tutSourceDirectory := sourceDirectory.value / "tut",
-    git.remoteRepo := "git@github.com:cirg-up/cilib.git",
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
-    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
-    addMappingsToSiteDir(tut, (siteSubdirName in Sphinx)),
-    // We now need to merge the tut output and the base sphinx input before sphinx does any generation
-    sphinxInputs in Sphinx := {
-      val s = streams.value
-      val sphinxIn = (sphinxInputs in Sphinx).value
-
-      s.log.info("Combining main sphinx sources and generated tut sources")
-      val combined = (target in Compile).value / "combined_rst"
-      val examples = combined / "examples"
-      IO.createDirectories(Seq(combined, examples))
-
-      // Now transfer the main sources and the generated tut files into combined
-      IO.copyDirectory(sphinxIn.src, combined)
-      IO.copy(tut.value.map(x => (x._1, examples / x._2)))
-
-      sphinxIn.copy(src = combined)
-    }
-  ))
+  .enablePlugins(MicrositesPlugin)
+  .settings(moduleName := "cilib-docs")
+  .settings(cilibSettings)
+  .settings(noPublishSettings)
+  .settings(unidocSettings)
+  .settings(ghpages.settings)
+  .settings(docSettings)
+  .settings(tutScalacOptions ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code"))))
   .dependsOn(core, example, exec, pso, moo, ga)
+
+lazy val docSettings = Seq(
+    micrositeName := "CIlib",
+    micrositeDescription := "Verifiable Computational Intelligence",
+    micrositeBaseUrl := "/cilib",
+    micrositeDocumentationUrl := "/cilib/docs",
+    //micrositeAuthor := "",
+    micrositeHomepage := "http://cirg-up.github.io",
+    micrositeGithubOwner := "cirg-up",
+    micrositeGithubRepo := "cilib",
+    //micrositeHighlightTheme := "monokai",
+    micrositeExtraMdFiles := Map(file("README.md") -> "readme.content"),
+    fork in tut := true,
+    
+    siteSubdirName in SiteScaladoc := "api",
+    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
+    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc)
+  )
 
 lazy val example = project.dependsOn(core, exec, ga, moo, pso)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
@@ -226,5 +220,3 @@ lazy val tests = project
       "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
     )
   ))
-
-addCommandAlias("publishSite", "ghpagesPushSite")

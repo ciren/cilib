@@ -35,14 +35,6 @@ object RVar {
   def point[A](a: => A): RVar[A] =
     apply(r => (r,a))
 
-  implicit val monad: Monad[RVar] =
-    new Monad[RVar] {
-      def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-        a flatMap f
-      def point[A](a: => A) =
-        RVar.point(a)
-    }
-
   def next[A](implicit e: Generator[A]): RVar[A] =
     e.gen
 
@@ -145,7 +137,6 @@ object RVar {
         } eval xs).map(Maybe.just(_))
       }
     }
-
 }
 
 sealed trait Generator[A] {

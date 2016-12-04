@@ -23,6 +23,14 @@ package object cilib {
     if (d < 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty
 
+  implicit val monad: Monad[RVar] =
+    new Monad[RVar] {
+      def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
+        a flatMap f
+      def point[A](a: => A) =
+        RVar.point(a)
+    }
+
   // Find a better home for this
   implicit object DoubleMonoid extends Monoid[Double] {
     def zero = 0.0

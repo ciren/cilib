@@ -8,4 +8,4 @@ private.sbt
 .classpath
 .cache
 .project
-docs/src/jekyll/tut
+readme.content

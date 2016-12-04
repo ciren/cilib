@@ -1,5 +1,9 @@
-Lenses
-======
+---
+layout: docs
+title: "Lenses"
+---
+
+# Lenses
 
 A ``Lens`` can, in the most trivial of ways, be seen as a getter and setter function pair.
 Within CIlib, several common lenses are available to the user in order to extract information from the state

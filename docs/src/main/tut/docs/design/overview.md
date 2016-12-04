@@ -1,6 +1,4 @@
-========
-Overview
-========
+# Overview
 
 This section details the design of CIlib. The intention is that this part of the documentation
 should be enough to allow you to fully understand the reasoning behind some design decisions

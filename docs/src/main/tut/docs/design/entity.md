@@ -1,5 +1,9 @@
-Entity
-======
+---
+layout: docs
+title: "Entity"
+---
+
+# Entity
 
 Within swarm intelligence, evolutionary computation and other similar algorithms, there
 is always a metaphor that the algorithm is based on. Using this metaphor, the participants
@@ -22,9 +26,8 @@ An ``Entity`` is a simple stucture that contains and manages two very specific t
 
 As a result, ``Entity`` is represented by the following parameterized data type
 
-.. code-block:: scala
 
-   final case class Entity[S,A](s: S, x: Position[A])
+    final case class Entity[S,A](s: S, x: Position[A])
 
 where ``S`` is the type of the state that the ``Entity`` maintains, and ``A`` is the type
 of a dimension within a ``Position``.
