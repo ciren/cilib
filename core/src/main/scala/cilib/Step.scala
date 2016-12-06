@@ -43,16 +43,7 @@ object Step {
     Step(o => _ => f(o))
 
   def evalF[A:Numeric](pos: Position[A]): Step[A,Position[A]] =
-    Step { _ => e =>
-      RVar.point(pos match {
-        case Point(x, b) =>
-          //val (fit, vio) = e.eval(x)
-          val objective = e.eval(x)
-          Solution(x, b, objective)//fit, vio)
-        case x @ Solution(_, _, _) =>
-          x
-      })
-    }
+    Step { _ => e => Position.eval(e, pos) }
 
   implicit def stepMonad[A] = new Monad[Step[A,?]] {
     def point[B](a: => B) =
