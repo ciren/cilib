@@ -14,7 +14,7 @@ The manner in which such effects are controlled, is managed by structures provid
 of mathematics and these general structures, may, seem to have odd names. We assure you that these
 names only sound odd due to the fact that they are unfamiliar to you. As they become familiar
 you will not only see the benefits that they provide, but also that they provide a common
-nomemclature, which is very handy! It allows us to talk about various aspects of an algorithm
+nomenclature, which is very handy! It allows us to talk about various aspects of an algorithm
 without having to worry about the manner in which such an action may be performed. It is,
 however, true that we do need to worry about the execution semantics at some point so that
 the algorithm is executed correctly.

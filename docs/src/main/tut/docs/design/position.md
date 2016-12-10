@@ -6,7 +6,7 @@ title: "Position"
 ```tut:invisible
 import cilib._
 import cilib.algebra._
-import cilib.Eval._ // :/ need to fix this -> import is horribe
+import cilib.Eval._ // :/ need to fix this -> import is horrible
 import spire.implicits._
 import spire.math._
 import scalaz._
@@ -52,7 +52,7 @@ for each dimension and differing `Interval`s may be placed together in a
 `NonEmptyList` to define the problem search space. As it is rather common
 to define a search space where an interval repeats `n` times, some syntax
 has been added to the `Interval` data constructor to allow for repetition in
-a more convienent way. This syntax models the
+a more convenient way. This syntax models the
 text parser used in CIlib 1.0 for the "domain string", but is now available
 at the type level and verifiable during compilation.
 As an example, let's create a 30-dimensional vector in the interval
@@ -62,7 +62,7 @@ $[-5.12, 5.12]$:
 Interval(-5.12,5.12)^30
 ```
 
-A `Posiiton` may now be constructed, as we know what the bounds of the search
+A `Position` may now be constructed, as we know what the bounds of the search
 space are
 
 ```tut
@@ -72,7 +72,7 @@ Position.createPosition(Interval(-5.12,5.12)^30)
 The result of creating a `Position` is a `RVar[Position[A]]` computation,
 as the `Position` is created with a vector placed randomly within the search
 space bounds. Furthermore, the type of the dimension elements within the
-`Position` is infered, based on the provided `Interval` information (in this
+`Position` is inferred, based on the provided `Interval` information (in this
 example a `Double`).
 
 The normal vector operations are provided, as syntax, to make the usage

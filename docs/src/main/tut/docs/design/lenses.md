@@ -16,7 +16,7 @@ persistent data structures and how they operate. Due to how persistent
 data structures update, by only changing the smallest number of references,
 the needed speed and efficiency is achieved.
 
-Scala tries to help with respect to immutable data, by providing a convience
+Scala tries to help with respect to immutable data, by providing a convenience
 method on all `case class`es called `copy`. In situations where there is a
 nesting of case classes, potentially several levels, the updating of a value
 on the lower levels results in a bubbling-up process whereby each previous
@@ -58,7 +58,7 @@ to obtain evidence for a typeclass with a given set of types, at compile time.
 This provides an additional level of surety, that the data being passed to
 a function that requires evidence in order to extract some other piece of
 information for a given type. The scala compiler provides the evidence
-through the use of its implicit looklup mechanics.
+through the use of its implicit lookup mechanics.
 This may seem quite like a mouth full, but let's have a look a few examples
 that will hopefully make the usage clearer.
 
@@ -76,10 +76,10 @@ what ``S`` is, or should be, but the typeclass allows for a set of instances
 that can actually provide this result. Within the context of the GA, Individuals
 are entities that _do not_ maintain a memory; whereas within the PSO, Particles
 do maintain a memory of their previous best position (where ``Position[A]`` is
-a candidate solution of the problem space). The base module within the libary
+a candidate solution of the problem space). The base module within the library
 already provides several optics for the user that operate on `Position[A]`
-instances, allowing for the extraciton of the candidate solution, the fitness
-and the constraint violations. Other optics for other stuctures are also available.
+instances, allowing for the extraction of the candidate solution, the fitness
+and the constraint violations. Other optics for other structures are also available.
 
 The usage of these classy lenses will become even clearer when we look into what
-the generalization of Individual and Paricle, the *Entity*.
+the generalization of Individual and Particle, the *Entity*.

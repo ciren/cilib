@@ -17,7 +17,7 @@ results in a value with randomness applied. `RVar` is one of the most
 important structures in CIlib and is therefore discussed first in order to
 understand how the data structure works.
 
-`RVar` has a [Monad]() instance and therefore allows a for a large amount
+`RVar` has a [monad]() instance and therefore allows a for a large amount
 of composition, but more importantly allows for the tracking of randomness
 within the `RVar` computation. This tracking is of the utmost importance
 within computational intelligence algorithms, as randomness needs to be
@@ -48,7 +48,7 @@ number generator (PRNG), will result in a list of values.
 
 The user if free to define a PRNG for themselves, but CIlib provides a default
 PRNG that is suitable for scientific work. The CMWC generator may be
-initialised by either providing a seed value for the pseudo-random number
+initialized by either providing a seed value for the pseudo-random number
 stream, or it may be taken from the current time of the computer. It is always
 recommended to record the seed value, so that others may reproduce results,
 especially if the results are to be published.
@@ -115,8 +115,8 @@ RVar.shuffle(sampleList).run(rng)
 RVar.sample(3, sampleList).run.run(rng)
 ```
 
-Building on `RVar`, we can easily define probabilty distributions from
-which, randomness may be sampled. The provided distributionsi, where
+Building on `RVar`, we can easily define probability distributions from
+which, randomness may be sampled. The provided distributions, where
 standard distributions are also defined, include:
 
 * Uniform

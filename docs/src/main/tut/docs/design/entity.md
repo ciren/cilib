@@ -25,7 +25,7 @@ a common structure was identified that could be used to represent the
 participants for these metaphor-based population based algorithms. We
 refer, collectively, to these algorithm participants as ``Entity`` instances.
 
-An ``Entity`` is a simple stucture that contains and manages two very
+An ``Entity`` is a simple structure that contains and manages two very
 specific things:
 
 * A ``Position[A]`` within the current search space of the problem
@@ -45,7 +45,7 @@ a velocity vector and a previous best position vector, whilst an Individual,
 requires no additional data other that a ``Position``.
 
 Because the value of ``S`` within the ``Entity`` can be anything, it is
-not possible to have pre-defined functions that allow extraction of data
+not possible to have predefined functions that allow extraction of data
 the ``S`` parameter type. In order to enable this, optics are applied to
 the instances.
 
@@ -68,7 +68,7 @@ There already exists an instance of `HasMemory` defined for the `Mem`
 data structure. Let's have a look at some usage:
 
 ```tut
-// Lets create a funtion that expects the provided Entity to have
+// Lets create a function that expects the provided Entity to have
 // a memory within it's state parameter
 def foo[S](x: Entity[S,Double])(implicit mem: HasMemory[S,Double]) =
   mem._memory.get(x.state)
@@ -79,7 +79,7 @@ val individual = Position.createPosition(interval).map(p => Entity((), p))
 val particle = Position.createPosition(interval).map(p => Entity(Mem(p, p.zeroed), p))
 ```
 
-Take note of the value held by the state paremeter
+Take note of the value held by the state parameter
 in the resulting entity instances above.
 We would need to run the `RVar` computation to get the individual and particle
 values, or we can simply `map` the function `foo` into the `RVar`, changing
