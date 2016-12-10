@@ -23,7 +23,7 @@ package object cilib {
     if (d < 0.0) Tag.subst(Maybe.just(d))
     else Maybe.empty
 
-  implicit val monad: Monad[RVar] =
+  implicit val rvarMonad: Monad[RVar] =
     new Monad[RVar] {
       def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
         a flatMap f
