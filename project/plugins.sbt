@@ -14,4 +14,4 @@ addSbtPlugin("org.wartremover" % "sbt-wartremover" % "1.2.1")
 
 //addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
 
-addSbtPlugin("com.fortysevendeg"  % "sbt-microsites"  % "0.3.3")
+addSbtPlugin("com.fortysevendeg"  % "sbt-microsites"  % "0.4.0")

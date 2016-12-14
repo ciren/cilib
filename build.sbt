@@ -2,12 +2,9 @@ import sbt._
 import sbt.Keys._
 import sbtrelease._
 import sbtrelease.ReleasePlugin._
-//import sbtrelease.ReleasePlugin.ReleaseKeys._
 import sbtrelease.ReleaseStateTransformations._
-//import sbtrelease.Utilities._
 import sbtunidoc.Plugin.UnidocKeys._
-//import com.typesafe.sbt.SbtSite.SiteKeys._
-//import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
+import microsites._
 
 val scalazVersion     = "7.2.7"
 val spireVersion      = "0.13.0"
@@ -179,7 +176,7 @@ lazy val docSettings = Seq(
     micrositeGithubOwner := "cirg-up",
     micrositeGithubRepo := "cilib",
     //micrositeHighlightTheme := "monokai",
-    micrositeExtraMdFiles := Map(file("README.md") -> "readme.content"),
+    micrositeExtraMdFiles := Map(file("README.md") -> ExtraMdFileConfig("index.html", "home", Map("title" -> "Home", "section" -> "home"))),
     fork in tut := true,
     
     siteSubdirName in SiteScaladoc := "api",
