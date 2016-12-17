@@ -163,14 +163,15 @@ object Position {
   }
 
   def eval[A](e: Eval[A], pos: Position[A]): RVar[Position[A]] =
-    RVar.point(pos match {
+    pos match {
       case Point(x, b) =>
         //val (fit, vio) = e.eval(x)
-        val objective = e.eval(x)
-        Solution(x, b, objective)//fit, vio)
+        //val objective = e.eval(x)
+        //Solution(x, b, objective)//fit, vio)
+        e.eval(x).map(Solution(x, b, _))
       case x @ Solution(_, _, _) =>
-        x
-    })
+        RVar.point(x)
+    }
 
   private[cilib] def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)

@@ -7,8 +7,8 @@ trait Input[F[_]] {
   def toInput[A](a: NonEmptyList[A]): F[A]
 }
 
-sealed abstract class Eval[A] { // This represents the function (NonEmpty)List[A] => Fit
-  def eval(a: NonEmptyList[A]): Objective[A]
+sealed abstract class Eval[A] { // This represents the function (NonEmpty)List[A] => RVar[Fit]
+  def eval(a: NonEmptyList[A]): RVar[Objective[A]]
 
   def constrainBy(cs: List[Constraint[A,Double]]): Eval[A]
 
@@ -17,8 +17,9 @@ sealed abstract class Eval[A] { // This represents the function (NonEmpty)List[A
 
 object Eval {
   def unconstrained[F[_],A](f: F[A] => Double)(implicit F: Input[F]): Eval[A] = new Eval[A] {
-    def eval(a: NonEmptyList[A]): Objective[A] =
+    def eval(a: NonEmptyList[A]): RVar[Objective[A]] = RVar.point {
       Single(Feasible(f(F.toInput(a))), List.empty)
+    }
 
     def constrainBy(cs: List[Constraint[A,Double]]): Eval[A] =
       constrained(f, cs)
@@ -30,11 +31,12 @@ object Eval {
     import spire.algebra.Eq
     import spire.implicits._
 
-    def eval(a: NonEmptyList[A]): Objective[A] =
+    def eval(a: NonEmptyList[A]): RVar[Objective[A]] = RVar.point {
       cs.filter(c => !Constraint.satisfies(c, a)) match {
         case Nil => Single(Feasible(f(F.toInput(a))), List.empty)
         case xs  => Single(Infeasible(f(F.toInput(a)), xs.length), xs)
       }
+    }
 
     def constrainBy(css: List[Constraint[A,Double]]): Eval[A] =
       constrained(f, css)

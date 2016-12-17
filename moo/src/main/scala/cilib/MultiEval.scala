@@ -1,10 +1,12 @@
 package cilib
 
 import scalaz.NonEmptyList
+import scalaz.std.list._
+import scalaz.syntax.traverse._
 
 final class MultiEval[A] private (objectives: List[Eval[A]]) {
-  def eval(xs: NonEmptyList[A]): List[Objective[A]] =
-    objectives.map(_.eval(xs))
+  def eval(xs: NonEmptyList[A]): RVar[List[Objective[A]]] =
+    objectives.traverse(_.eval(xs))
 }
 
 object MultiEval {
