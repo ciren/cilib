@@ -108,7 +108,7 @@ object QuantumPSO extends SafeApp {
   // Usage
   val domain = spire.math.Interval(0.0, 100.0)^2
   //val r = Iteration.sync(quantumPSO[QuantumState,List](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
-  val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.dominance((c,_) => c), RVar.point(50.0)))
+  val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.dominance(Selection.star), RVar.point(50.0)))
   val qpsoDist = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, Dist.cauchy(0.0, 10.0)))
 
   def swarm = Position.createCollection(

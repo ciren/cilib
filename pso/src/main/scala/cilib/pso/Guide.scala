@@ -6,6 +6,7 @@ import scalaz.Scalaz._
 
 import spire.math.Interval
 
+// A Guide is a selection followed by a comparison, wrapped up in a Step
 object Guide {
 
   def identity[S,F[_],A]: Guide[S,A] =
@@ -15,48 +16,32 @@ object Guide {
     (_, x) => Step.point(M._memory.get(x.state))
 
   def nbest[S](selection: Selection[Particle[S,Double]])(implicit M: HasMemory[S,Double]): Guide[S,Double] = {
-    (collection, x) => Step.withCompare(o => RVar.point {
-      val selected = selection(collection, x)
-      val fittest = selected.map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Comparison.compare(a, c) run (o))
+    (collection, x) => Step.liftK(o => {
+      val selected: List[Particle[S,Double]] = selection(collection, x)
+      val fittest = selected.map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Comparison.compare(a, c) apply (o))
       fittest.getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
     })
   }
 
   def dominance[S](selection: Selection[Particle[S,Double]]): Guide[S,Double] = {
-    (collection, x) => Step.withCompare(o => RVar.point {
+    (collection, x) => Step.liftK(o => {
       val neighbourhood = selection(collection, x)
       val comparison = Comparison.dominance(o.opt)
-      val fittest = neighbourhood.map(_.pos).reduceLeftOption((a,c) => comparison.apply(a, c))
-      fittest.getOrElse(sys.error("????"))
+      neighbourhood
+        .map(_.pos)
+        .reduceLeftOption((a,c) => comparison.apply(a, c))
+        .getOrElse(sys.error("????"))
     })
   }
 
   def gbest[S](implicit M: HasMemory[S,Double]): Guide[S,Double] =
-    nbest((c, _) => c)
+    nbest(Selection.star)
 
   def lbest[S](n: Int)(implicit M: HasMemory[S,Double]) =
     nbest(Selection.indexNeighbours[Particle[S,Double]](n))
 
   def vonNeumann[S](implicit M: HasMemory[S,Double]) =
-    nbest((c: List[Particle[S,Double]], a: Particle[S,Double]) => {
-      val np = c.length
-      val index = c.indexOf(a)
-      val sqSide = math.round(math.sqrt(np.toDouble)).toInt
-      val nRows = math.ceil(np / sqSide.toDouble).toInt
-      val row = index / sqSide
-      val col = index % sqSide
-
-      val colsInRow = (r: Int) => if (r == nRows - 1) np - r * sqSide else sqSide
-      def pos(n: Int, row: Int, col: Int) = c(row * n + col)
-
-      List(
-        a,
-        pos(sqSide, (row - 1 + nRows) % nRows - (if (col >= colsInRow((row - 1 + nRows) % nRows)) 1 else 0), col), // north
-        pos(sqSide, (if (col >= colsInRow((row + 1) % nRows)) 0 else (row + 1) % nRows), col), // south
-        pos(sqSide, row, (col + 1) % colsInRow(row)), // east
-        pos(sqSide, row, (col - 1 + colsInRow(row)) % colsInRow(row)) // west
-      )
-    })
+    nbest(Selection.latticeNeighbours[Particle[S,Double]])
 
   def nmpc[S](prob: Double): Guide[S,Double] =
     (collection, x) => {

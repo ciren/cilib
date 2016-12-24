@@ -36,8 +36,8 @@ object Step {
   def pointR[A,B](a: RVar[B]): Step[A,B] =
     Step(_ => _ => a)
 
-  def liftK[A,B](a: Reader[Comparison,B]): Step[A,B] =
-    Step(o => _ => RVar.point(a.run(o)))
+  def liftK[A,B](a: Comparison => B): Step[A,B] =
+    Step(o => _ => RVar.point(a.apply(o)))
 
   def withCompare[A,B](f: Comparison => RVar[B]): Step[A,B] =
     Step(o => _ => f(o))
@@ -105,7 +105,7 @@ object StepS {
   def pointS[A,S,B](a: Step[A,B]): StepS[A,S,B] =
     StepS(StateT[Step[A,?],S,B]((s: S) => a.map((s,_))))
 
-  def liftK[A,S,B](a: Reader[Comparison,B]): StepS[A,S,B] =
+  def liftK[A,S,B](a: Comparison => B): StepS[A,S,B] =
     pointS(Step.liftK(a))
 
   def liftS[A,S,B](a: State[S, B]): StepS[A,S,B] =

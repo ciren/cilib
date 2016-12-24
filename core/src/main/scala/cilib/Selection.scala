@@ -22,7 +22,7 @@ object Selection {
     }
   }
 
-  def indexNeighbours[A](n: Int): Selection[A] =
+  def indexNeighbours[A](n: Int): (List[A], A) => List[A] =
     (l: List[A], x: A) => {
       val list = l
       val size = l.size
@@ -32,7 +32,7 @@ object Selection {
       c.drop(point).take(n).toList
     }
 
-  def latticeNeighbours[A: Order]: Selection[A] =
+  def latticeNeighbours[A: scalaz.Equal]: (List[A], A) => List[A] =
     (l: List[A], x: A) => {
       import scalaz.syntax.foldable._
       val list = IList.fromList(l)
@@ -64,13 +64,21 @@ object Selection {
   def distanceNeighbours[F[_]: Foldable, A: Field : Ordering : NRoot : Signed](distance: MetricSpace[F[A],A])(n: Int) =
     (l: List[F[A]], x: F[A]) => l.sortBy(li => distance.dist(li, x)).take(n)
 
-  def wheel[A]: Selection[A] =
-    (l: List[A], a: A) => l match {
-      case x :: _ if (x == a) => l
-      case x :: _ => List(x, a)
+  def wheel[A] =
+    (l: List[A], a: A) => {
+      l match {
+        case x :: _ if (x == a) => l
+        case x :: _ => List(x, a)
+      }
     }
 
-  def star[A]: Selection[A] =
-    (l: List[A], _) => l
+  def star[A] =
+    (l: List[A], x: A) => l
+
+  def tournament[F[_],A](n: Int, l: List[F[A]])(implicit F: Fitness[F,A]): Comparison => RVar[Option[F[A]]] =
+    o => RVar.sample(n, l)
+      .map(_.reduceLeftOption((a,c) => o.apply(a, c)))
+      .run
+      .map(_.flatten)
 
 }

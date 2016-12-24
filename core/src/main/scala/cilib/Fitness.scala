@@ -32,8 +32,8 @@ abstract class Comparison(val opt: Opt) {
 
 object Comparison {
 
-  def compare[F[_],A](x: F[A], y: F[A])(implicit F: Fitness[F,A]): Reader[Comparison, F[A]] =
-    Reader { _.apply(x, y) }
+  def compare[F[_],A](x: F[A], y: F[A])(implicit F: Fitness[F,A]): Comparison => F[A] =
+    o => o.apply(x, y)
 
   def dominance(o: Opt) = new Comparison(o) {
     def apply[F[_],A](a: F[A], b: F[A])(implicit F: Fitness[F,A]) = {
@@ -69,8 +69,8 @@ object Comparison {
   def quality(o: Opt) =
     dominance(o)
 
-  def fittest[F[_],A](x: F[A], y: F[A])(implicit F: Fitness[F,A]): Reader[Comparison, Boolean] =
-    Reader(a => scalaz.Maybe.maybeOrder(a.opt.objectiveOrder[A]).order(F.fitness(x), F.fitness(y)) === GT)
+  def fittest[F[_],A](x: F[A], y: F[A])(implicit F: Fitness[F,A]): Comparison => Boolean =
+    a => scalaz.Maybe.maybeOrder(a.opt.objectiveOrder[A]).order(F.fitness(x), F.fitness(y)) === GT
 
 }
 

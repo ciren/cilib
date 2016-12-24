@@ -119,9 +119,9 @@ object RVar {
   def sample[A](n: Int, xs: List[A]) =
     choices(n, xs)
 
-  def choices[A](n: Int, xs: List[A]): MaybeT[RVar, List[A]] =
-    MaybeT {
-      if (xs.length < n) RVar.point(Maybe.empty)
+  def choices[A](n: Int, xs: List[A]): OptionT[RVar, List[A]] =
+    OptionT {
+      if (xs.length < n) RVar.point(None)
       else {
         import scalaz.syntax.foldable._
         import scalaz.std.list._
@@ -134,7 +134,7 @@ object RVar {
               (currentList diff List(selected), selected :: s)
             })
           }
-        } eval xs).map(Maybe.just(_))
+        } eval xs).map(Option(_))
       }
     }
 }
@@ -172,7 +172,7 @@ object Dist {
   val stdUniform = next[Double]
   val stdNormal = gaussian(0.0, 1.0)
   val stdCauchy = cauchy(0.0, 1.0)
-  val stdExponential = exponential(positive(1.0))
+  val stdExponential = exponential(Positive(1.0))
   val stdGamma = gamma(2, 2.0)
   val stdLaplace = laplace(0.0, 1.0)
   val stdLognormal = lognormal(0.0, 1.0)
@@ -230,8 +230,9 @@ object Dist {
     (gammaInt |@| gammaFrac) { (a,b) => (a + b) * theta }
   }
 
-  def exponential(l: Maybe[Double @@ Tags.Positive]) =
-    l.map(Tag.unwrap(_)).cata(x => stdUniform map { math.log(_) / x }, RVar.point(0.0))
+  def exponential(l: Option[Positive[Double]]) =
+    l.map(x => stdUniform map { math.log(_) / x.value })
+      .getOrElse(RVar.point(0.0))
 
   def laplace(b0: Double, b1: Double) =
     stdUniform map { x =>

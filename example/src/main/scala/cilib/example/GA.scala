@@ -43,7 +43,9 @@ object GAExample extends SafeApp {
   val swarm = Position.createCollection[Individual](x => Entity((), x))(Interval(-5.12,5.12)^30, 20)
 //  val iter: Kleisli[Step[Double,?],List[GA.Individual],List[GA.Individual]] = Iteration.sync(ga).map(_.flatten)
 
-  val cullingGA = Iteration.sync(ga) map (_.suml) flatMapK (r => Step.withCompare(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).run(o))))) map (_.take(20))
+  val cullingGA =
+    Iteration.sync(ga).map(_.suml)
+      .flatMapK(r => Step.withCompare(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o))) map (_.take(20))))
 
   // Our IO[Unit] that runs at the end of the world
   override val runc: IO[Unit] =

@@ -13,8 +13,8 @@ val scalacheckVersion = "1.12.6"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib",
-  scalaVersion := "2.12.0",
-  crossScalaVersions := Seq("2.11.8", "2.12.0")
+  scalaVersion := "2.12.1",
+  crossScalaVersions := Seq("2.11.8", "2.12.1")
 )
 
 lazy val commonSettings = Seq(
@@ -35,6 +35,7 @@ lazy val commonSettings = Seq(
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
+    "-Ypartial-unification",
 //    "-Yno-predef",
 //    "-Yno-imports",
     "-Xfuture"
