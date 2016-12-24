@@ -90,7 +90,6 @@ object PSO {
     }
 
   def quantum[S](
-    collection: List[Particle[S,Double]],
     x: Particle[S,Double],
     center: Position[Double],
     r: Double
@@ -166,6 +165,6 @@ functions:
  */
 
 
-trait PopAlg[A] {
-  def run: List[A] => A => Step[Double,A]
-}
+// trait PopAlg[A] {
+//   def run: List[A] => A => Step[Double,A]
+// }

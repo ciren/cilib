@@ -159,6 +159,14 @@ object Generator {
     def gen = nextBits(32)
   }
 
+  implicit object LongGen extends Generator[Long] {
+    def gen =
+      for {
+        upper <- nextBits(32)
+        lower <- nextBits(32)
+      } yield (upper.toLong << 32) + lower
+  }
+
   implicit object BooleanGen extends Generator[Boolean] {
     def gen = nextBits(1) map (_ == 1)
   }
@@ -293,4 +301,20 @@ object Dist {
              )
            }
     } yield mean + dev * r
+
+  private def invErf(x: Double) = {
+    val a = 0.147
+    val halfPi = 2.0 / (math.Pi * a)
+    val xcomp = 1.0 - (x*x)
+
+    val t1 = halfPi + (math.log(xcomp) / 2.0)
+    val t2 = math.log(xcomp) / a
+
+    math.signum(x) * math.sqrt(math.sqrt(t1*t1 - t2) - t1)
+  }
+
+  private def invErfc(x: Double) = invErf(1.0 - x) // check this. invErfc(1 - x) == invErf(x)
+
+  def levy(l: Double, s: Double) =
+    stdUniform map { x => l + s / (0.5 * invErfc(x) * invErfc(x)) }
 }

@@ -51,7 +51,7 @@ object QuantumPSO extends SafeApp {
         v       <- stdVelocity(x, soc, cog, w, c1, c2)
         r       <- Step.pointR(cloudR)
         p       <- if (C._charge.get(x.state) < 0.01) stdPosition(x, v)
-                   else quantum(collection, x, soc, r).flatMap(replace(x, _))
+                   else quantum(x, soc, r).flatMap(replace(x, _))
         p2      <- evalParticleWithPenalty(p)
         p3      <- updateVelocity(p2, v)
         updated <- updatePBestBounds(p3)
