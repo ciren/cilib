@@ -45,7 +45,7 @@ lazy val commonSettings = Seq(
   ),
   libraryDependencies ++= Seq(
     compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3" cross CrossVersion.binary)
-  ) ++ (if (scalaVersion.value.startsWith("2.11")) Seq(compilerPlugin("com.milessabin" %% "si2712fix-plugin" % "1.2.0")) else Seq()),
+  ) ++ (if (scalaVersion.value.startsWith("2.11")) Seq(compilerPlugin("com.milessabin" % "si2712fix-plugin_2.11.8" % "1.2.0")) else Seq()),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "scm:git:git@github.com:cirg-up/cilib.git"))
 )
