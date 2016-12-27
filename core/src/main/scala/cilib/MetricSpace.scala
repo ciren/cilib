@@ -13,9 +13,9 @@ import spire.math._
   Distance is computed by a function dist which has the following four laws:
 
   1.  non-negative: forall x y. dist x y >= 0
-  2.  identity of indiscernibles: forall x y. dist x y == 0 <=> x == y
-  3.  symmetry: forall x y. dist x y == dist y x
-  4.  triangle inequality: forall x y z. dist x z <= dist x y + dist y z
+  1.  identity of indiscernibles: forall x y. dist x y == 0 <=> x == y
+  1.  symmetry: forall x y. dist x y == dist y x
+  1.  triangle inequality: forall x y z. dist x z <= dist x y + dist y z
 
   See the Wikipedia article on metric spaces for more details.
   */
@@ -35,7 +35,20 @@ trait MetricSpace[A,B] { self =>
 }
 
 object MetricSpace {
-  //def levenshtein[B](implicit I: Integral[B]): MetricSpace[String,B] =
+  def levenshtein[B](implicit B: Integral[B]): MetricSpace[String,B] =
+    new MetricSpace[String,B] {
+      def dist(x: String, y: String) = {
+        lazy val lev: ((Int, Int)) => Int = Memo.mutableHashMapMemo[(Int, Int), Int] {
+          case (i, 0) => i
+          case (0, j) => j
+          case (i, j) => Seq(
+            lev((i - 1, j)) + 1,
+            lev((i, j - 1)) + 1,
+            lev((i - 1, j - 1)) + (if (x(i - 1) == y(j - 1)) 0 else 1)).min
+        }
+        B.fromInt(lev((x.length, y.length)))
+      }
+    }
 
   def discrete[A,B](implicit A: scalaz.Equal[A], B: Integral[B]) =
     new MetricSpace[A,B] {
