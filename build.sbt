@@ -35,18 +35,17 @@ lazy val commonSettings = Seq(
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
-    "-Ypartial-unification",
 //    "-Yno-predef",
 //    "-Yno-imports",
     "-Xfuture"
-  ),
+  ) ++ (if (scalaVersion.value.startsWith("2.12")) Seq("-Ypartial-unification") else Seq()),
   resolvers ++= Seq(
     Resolver.sonatypeRepo("releases"),
     "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
     compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3" cross CrossVersion.binary)
-  ),
+  ) ++ (if (scalaVersion.value.startsWith("2.11")) Seq(compilerPlugin("com.milessabin" %% "si2712fix-plugin" % "1.2.0")) else Seq()),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "scm:git:git@github.com:cirg-up/cilib.git"))
 )
