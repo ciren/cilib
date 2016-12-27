@@ -13,7 +13,7 @@ import spire.math.{Interval,sqrt}
 object Crossover {
 
   val nmpc: Crossover[Double] =
-    parents => Step.pointR {
+    parents => {
       def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
 
       val coef = List.fill(4)(Dist.stdUniform).sequence
@@ -46,10 +46,12 @@ object Crossover {
       val distance = if (k > 2) dd / (k - 1) else 0.0
 
       for {
-        s1        <- Step.pointR(Dist.gaussian(0.0, sigma1))
-        s2        <- Step.pointR(Dist.gaussian(0.0, sigma2))
-        offspring <- Step.point(parents.last + (s1 *: e_eta.head))
-      } yield NonEmptyList(e_eta.tail.foldLeft(offspring) { (c, e) => c + (s2 *: (distance *: e)) })
+        s1        <- Dist.gaussian(0.0, sigma1)
+        s2        <- Dist.gaussian(0.0, sigma2)
+      } yield {
+        val offspring = parents.last + (s1 *: e_eta.head)
+        NonEmptyList(e_eta.tail.foldLeft(offspring) { (c, e) => c + (s2 *: (distance *: e)) })
+      }
     }
 
   def undx(sigma1: Double, sigma2: Double): Crossover[Double] =
@@ -84,12 +86,14 @@ object Crossover {
 
       // construct the offspring
       for {
-        s1        <- Step.pointR(Dist.gaussian(0.0, sigma1))
-        s2        <- Step.pointR(Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble)))
-        e_eta     <- Step.pointR(eta)
-        vars      <- Step.point(zeta.foldLeft(g)((vr, z) => vr + (s1 *: z)))
-        offspring <- Step.point(e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e)))
-      } yield NonEmptyList(offspring)
+        s1    <- Dist.gaussian(0.0, sigma1)
+        s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
+        e_eta <- eta
+      } yield {
+        val vars  = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
+        val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
 
+        NonEmptyList(offspring)
+      }
     }
 }

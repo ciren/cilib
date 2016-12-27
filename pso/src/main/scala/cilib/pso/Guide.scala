@@ -15,15 +15,15 @@ object Guide {
   def pbest[S,A](implicit M: HasMemory[S,A]): Guide[S,A] =
     (_, x) => Step.point(M._memory.get(x.state))
 
-  def nbest[S](selection: Selection[Particle[S,Double]])(implicit M: HasMemory[S,Double]): Guide[S,Double] = {
+  def nbest[S](neighbourhood: IndexSelection[Particle[S,Double]])(implicit M: HasMemory[S,Double]): Guide[S,Double] = {
     (collection, x) => Step.liftK(o => {
-      val selected: List[Particle[S,Double]] = selection(collection, x)
+      val selected: List[Particle[S,Double]] = neighbourhood(collection, x)
       val fittest = selected.map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Comparison.compare(a, c) apply (o))
       fittest.getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
     })
   }
 
-  def dominance[S](selection: Selection[Particle[S,Double]]): Guide[S,Double] = {
+  def dominance[S](selection: IndexSelection[Particle[S,Double]]): Guide[S,Double] = {
     (collection, x) => Step.liftK(o => {
       val neighbourhood = selection(collection, x)
       val comparison = Comparison.dominance(o.opt)
@@ -44,19 +44,20 @@ object Guide {
     nbest(Selection.latticeNeighbours[Particle[S,Double]])
 
   def nmpc[S](prob: Double): Guide[S,Double] =
-    (collection, x) => {
+    (collection, x) => Step.pointR {
       val col = collection.filter(_ != x)
       val chosen = RVar.sample(3, col).run
       val crossover = Crossover.nmpc
 
       for {
-        chos     <- Step.pointR(chosen)
-        pos      <- Step.point(x.pos)
-        parents   = chos.map(c => NonEmptyList.nel(pos, c.map(_.pos).toIList))
-        children <- parents.map(crossover).getOrElse(Step.point(NonEmptyList(pos)))
-        probs    <- Step.pointR(pos.traverse(_ => Dist.stdUniform))
-        zipped    = pos zip children.head zip probs
-      } yield zipped.map { case ((xi, ci), pi) => if (pi < prob) ci else xi }
+        chos     <- chosen
+        parents  = chos.map(c => NonEmptyList.nel(x.pos, c.map(_.pos).toIList))
+        children <- parents.map(crossover).getOrElse(RVar.point(NonEmptyList(x.pos)))
+        probs    <- x.pos.traverse(_ => Dist.stdUniform)
+      } yield {
+        val zipped = x.pos zip children.head zip probs
+        zipped.map { case ((xi, ci), pi) => if (pi < prob) ci else xi }
+      }
     }
 
   def pcx[S](s1: Double, s2: Double)(implicit M: HasMemory[S,Double]): Guide[S,Double] =
@@ -70,7 +71,7 @@ object Guide {
         i         <- identity(collection, x)
         n         <- gb(collection, x)
         parents    = NonEmptyList(p, i, n)
-        offspring <- pcx(parents)
+        offspring <- Step.pointR(pcx(parents))
       } yield offspring.head
     }
 
@@ -85,7 +86,7 @@ object Guide {
         i         <- identity(collection, x)
         n         <- gb(collection, x)
         parents    = NonEmptyList(p, i, n)
-        offspring <- undx(parents)
+        offspring <- Step.pointR(undx(parents))
       } yield offspring.head
     }
 

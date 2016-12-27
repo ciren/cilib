@@ -6,16 +6,13 @@ import spire.math.interval.{Bound,ValueBound}
 
 package object cilib {
 
-//  val ::  = ICons
-//  val Nil = INil
-
   // Should expand into a typeclass? Getter?
-  //type Selection[A] = (List[A], A) => RVar[List[A]]
-  type Selection[A] = (List[A], A) => List[A]
-  //type RandSelection[A] = (List[A], A) => RVar[List[A]]
-  type Crossover[A] = NonEmptyList[Position[A]] => Step[A,NonEmptyList[Position[A]]]
+  type Selection[A] = List[A] => List[A]
+  type IndexSelection[A] = (List[A], A) => List[A]
+  type RandSelection[A] = List[A] => RVar[List[A]]
+  type RandIndexSelection[A] = (List[A], A) => RVar[List[A]]
 
-  type Distance[F[_],A] = (F[A], F[A]) => A
+  type Crossover[A] = NonEmptyList[Position[A]] => RVar[NonEmptyList[Position[A]]]
 
   implicit val rvarMonad: Monad[RVar] =
     new Monad[RVar] {
