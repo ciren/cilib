@@ -10,12 +10,11 @@ import scalaz.syntax.std.option._
 
 object Selection {
 
-  implicit class RicherEphemeralStream[A](val s: EphemeralStream[A]) extends AnyVal {
+  private implicit class RicherEphemeralStream[A](val s: EphemeralStream[A]) extends AnyVal {
     def drop(n: Int): EphemeralStream[A] = {
       def go(count: Int, c: Option[EphemeralStream[A]]): EphemeralStream[A] = {
-        if (count > 0) {
-          go(count - 1, c.flatMap(_.tailOption))
-        } else c.cata(x => x, EphemeralStream())
+        if (count > 0) go(count - 1, c.flatMap(_.tailOption))
+        else c.cata(x => x, EphemeralStream())
       }
 
       go(n, Option(s))
@@ -61,7 +60,7 @@ object Selection {
       result.getOrElse(sys.error("error in latticeNeighbours"))
     }
 
-  def distanceNeighbours[F[_]: Foldable, A: Field : Ordering : NRoot : Signed](distance: MetricSpace[F[A],A])(n: Int) =
+  def distanceNeighbours[F[_]: Foldable, A: Ordering](distance: MetricSpace[F[A],A])(n: Int) =
     (l: List[F[A]], x: F[A]) => l.sortBy(li => distance.dist(li, x)).take(n)
 
   def wheel[A] =
