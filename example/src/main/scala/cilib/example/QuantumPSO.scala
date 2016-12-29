@@ -66,8 +66,8 @@ object QuantumPSO extends SafeApp {
   def penalize[S](opt: Opt) = (e: Particle[S,Double]) => {
 
     e.pos.objective match {
-      case scalaz.Maybe.Empty() => sys.error("???")
-      case scalaz.Maybe.Just(obj) => obj match {
+      case None => sys.error("???")
+      case Some(obj) => obj match {
         case Multi(_) => sys.error("adads")
         case Single(f, v) =>
           val magnitude = Constraint.violationMagnitude(5.0, 15.0, v, e.pos.pos)//.filter(_ > 0.0)

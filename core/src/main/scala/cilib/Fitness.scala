@@ -23,7 +23,7 @@ final case class Adjusted private[cilib] (original: Infeasible, adjust: Double) 
 
 @annotation.implicitNotFound("No instance of Fitness[${F},${A}] is available in current scope.")
 trait Fitness[F[_],A] {
-  def fitness(a: F[A]): Maybe[Objective[A]]
+  def fitness(a: F[A]): Option[Objective[A]]
 }
 
 abstract class Comparison(val opt: Opt) {
@@ -70,7 +70,7 @@ object Comparison {
     dominance(o)
 
   def fittest[F[_],A](x: F[A], y: F[A])(implicit F: Fitness[F,A]): Comparison => Boolean =
-    a => scalaz.Maybe.maybeOrder(a.opt.objectiveOrder[A]).order(F.fitness(x), F.fitness(y)) === GT
+    a => scalaz.std.option.optionOrder(a.opt.objectiveOrder[A]).order(F.fitness(x), F.fitness(y)) === GT
 
 }
 

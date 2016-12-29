@@ -50,10 +50,10 @@ sealed abstract class Position[A] {
       case Solution(x, b, _) => Point(x, b)
     }
 
-  def objective: Maybe[Objective[A]] =
+  def objective: Option[Objective[A]] =
     this match {
-      case Point(_,_)        => Maybe.empty
-      case Solution(_, _, o) => Maybe.just(o)
+      case Point(_,_)        => None
+      case Solution(_, _, o) => Some(o)
     }
 
   def boundary =
