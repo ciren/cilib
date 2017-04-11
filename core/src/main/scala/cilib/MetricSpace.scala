@@ -64,8 +64,8 @@ object MetricSpace {
             .foldLeft(0.0) { (ai, bi) => (ai + A.toDouble(bi)) ** (1.0 / alpha) })
     }
 
-  def euclidean[F[_]:Foldable,A:Signed:Field:Fractional,B:Fractional:Field] = minkowski[F,A,B](1)
-  def manhattan[F[_]:Foldable,A:Signed:Field:Fractional,B:Fractional:Field] = minkowski[F,A,B](2)
+  def manhattan[F[_]:Foldable,A:Signed:Field:Fractional,B:Fractional:Field] = minkowski[F,A,B](1)
+  def euclidean[F[_]:Foldable,A:Signed:Field:Fractional,B:Fractional:Field] = minkowski[F,A,B](2)
 
   def chebyshev[F[_]:Foldable,A:Order:Signed](implicit ev: Ring[A]) =
     new MetricSpace[F[A],A] {
