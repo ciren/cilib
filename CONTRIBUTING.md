@@ -60,7 +60,7 @@ directly to update the content within the GitHub interface.
 CIlib maintains two branches:
 
 * [series-2.0.x]: The current actively developed version
-* [series-1.0.x]: The original Java implementation, no longer developed
+* [series-1.0.x]: The original Java implementation, no longer developed and deprecated
 
 The guide below helps find the most appropriate branch for your change.
 
