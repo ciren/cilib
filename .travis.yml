@@ -22,4 +22,4 @@ env:
   - secure: PoAdWHYX5wkBtcczX69mF2N8lNevm5G2ThBYJOtgvVovXTPl6QK9FhXxOTl8qRwpW9DdT0tWZkbgfYz6ZKY8wW3s/HCYr876VKA+qkh0LraOUv4gtL3td2Rhz/iKchaRiQfht8kN04F7T9h29xuwrXeRDQ/C3j2oIMo+VhnBfdw=
 
 after_success:
-  - "[[ $TRAVIS_BRANCH == \"master\" ]] && { sbt publish; };"
+  - "[[ $TRAVIS_BRANCH == \"series/2.0.x\" ]] && { sbt publish; };"
