@@ -12,9 +12,7 @@ val monocleVersion    = "1.3.2"
 val scalacheckVersion = "1.12.6"
 
 lazy val buildSettings = Seq(
-  organization := "net.cilib",
-  scalaVersion := "2.12.1",
-  crossScalaVersions := Seq("2.11.8", "2.12.1")
+  organization := "net.cilib"
 )
 
 lazy val commonSettings = Seq(
@@ -28,7 +26,7 @@ lazy val commonSettings = Seq(
     //"-language:implicitConversions",
     "-language:experimental.macros",
     "-unchecked",
-    "-Xfatal-warnings",
+    //"-Xfatal-warnings",
     "-Xlint",
     //"-Xlog-implicits",
     "-Yno-adapted-args",
@@ -37,15 +35,16 @@ lazy val commonSettings = Seq(
     "-Ywarn-value-discard",
 //    "-Yno-predef",
 //    "-Yno-imports",
-    "-Xfuture"
-  ) ++ (if (scalaVersion.value.startsWith("2.12")) Seq("-Ypartial-unification") else Seq()),
+    "-Xfuture",
+    "-Ypartial-unification"
+  ),
   resolvers ++= Seq(
     Resolver.sonatypeRepo("releases"),
     "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
     compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3" cross CrossVersion.binary)
-  ) ++ (if (scalaVersion.value.startsWith("2.11")) Seq(compilerPlugin("com.milessabin" % "si2712fix-plugin_2.11.8" % "1.2.0")) else Seq()),
+  ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "scm:git:git@github.com:cirg-up/cilib.git"))
 )
@@ -119,7 +118,7 @@ lazy val publishSettings = Seq(
     commitNextVersion
     //pushChanges
   )
-)
+) ++ credentialSettings
 
 lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings// ++ releaseSettings
 
@@ -178,11 +177,18 @@ lazy val docSettings = Seq(
     //micrositeHighlightTheme := "monokai",
     micrositeExtraMdFiles := Map(file("README.md") -> ExtraMdFileConfig("index.html", "home", Map("title" -> "Home", "section" -> "home"))),
     fork in tut := true,
-    
+
     siteSubdirName in SiteScaladoc := "api",
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc)
   )
+
+lazy val credentialSettings = Seq(
+  credentials ++= (for {
+    username <- Option(System.getenv("SONATYPE_USERNAME"))
+    password <- Option(System.getenv("SONATYPE_PASSWORD"))
+  } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
+)
 
 lazy val example = project.dependsOn(core, exec, ga, moo, pso)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
