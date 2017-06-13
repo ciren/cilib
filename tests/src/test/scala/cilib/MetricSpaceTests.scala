@@ -26,19 +26,20 @@ object MetricSpaceTest extends Spec("MetricSpace") {
     Arbitrary.arbitrary[Int => Int].map(MetricSpace.point[Int, Int => Int])
   }
 
+  val doubleGen = Gen.choose(-100000000.0, 100000000.0)
 
   val listTuple2 = Gen.sized { size =>
     for {
-      x <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
-      y <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
+      x <- Gen.listOfN(size, doubleGen)
+      y <- Gen.listOfN(size, doubleGen)
     } yield (x, y)
   }
 
   val listTuple3 = Gen.sized { size =>
     for {
-      x <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
-      y <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
-      z <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
+      x <- Gen.listOfN(size, doubleGen)
+      y <- Gen.listOfN(size, doubleGen)
+      z <- Gen.listOfN(size, doubleGen)
     } yield (x, y, z)
   }
 
