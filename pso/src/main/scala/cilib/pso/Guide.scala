@@ -4,8 +4,6 @@ package pso
 import scalaz.NonEmptyList
 import scalaz.Scalaz._
 
-import spire.math.Interval
-
 // A Guide is a selection followed by a comparison, wrapped up in a Step
 object Guide {
 

@@ -9,7 +9,6 @@ import syntax.algorithm._
 import syntax.step._
 
 import scalaz.{ Lens => _, _ }
-import scalaz.std.list._
 import scalaz.std.stream._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
@@ -18,9 +17,6 @@ import scalaz.syntax.foldable._
 
 import spire.math.Interval
 import spire.implicits._
-
-import monocle._, Monocle._
-import monocle.std.tuple2._
 
 object HPSO extends SafeApp {
 

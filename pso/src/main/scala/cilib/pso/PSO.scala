@@ -2,7 +2,6 @@ package cilib
 package pso
 
 import monocle._, Monocle._
-import monocle.syntax._
 import Position._
 import scalaz._
 
@@ -28,7 +27,7 @@ object PSO {
     w: Double,
     c1: Double,
     c2: Double
-  )(implicit V: HasVelocity[S,Double], F:Field[Double]): Step[Double,Position[Double]] =
+  )(implicit V: HasVelocity[S,Double]): Step[Double,Position[Double]] =
     Step.pointR(for {
       cog <- (cognitive - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
       soc <- (social    - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))
@@ -57,7 +56,7 @@ object PSO {
     component: Position[Double],
     w: Double,
     c: Double
-  )(implicit V: HasVelocity[S,Double], M: HasMemory[S,Double]): Step[Double,Position[Double]] =
+  )(implicit V: HasVelocity[S,Double]): Step[Double,Position[Double]] =
     Step.pointR(
       for {
         comp <- (component - entity.pos) traverse (x => Dist.stdUniform.map(_ * x))

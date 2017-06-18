@@ -21,3 +21,10 @@ the algorithm is executed correctly.
 
 The sections that follow will explain different aspects of CIlib, each required to build the
 structure that follows.
+
+For all usage samples, the following imports are required within the REPL
+session:
+
+```tut:
+import cilib._
+```

@@ -1,9 +1,6 @@
 package cilib
 
 import scalaz.{ Lens => _, _ }
-import Scalaz._
-import scalaz.syntax.state._
-import scalaz.syntax.applicative._
 
 /**
   A `Step` is a type that models a single step / operation within a CI Algorithm.

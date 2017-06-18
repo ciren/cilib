@@ -2,9 +2,6 @@ package cilib
 
 import scala.math.Ordering
 
-import spire.algebra.{Field,NRoot,Signed}
-import spire.implicits._
-
 import scalaz.{Ordering => _, _}
 import scalaz.syntax.std.option._
 

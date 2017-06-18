@@ -1,12 +1,10 @@
 package cilib
 package example
 
-import scalaz.Kleisli
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import scalaz.std.list._
 import scalaz.std.option._
-import scalaz.syntax.std.list._
 import scalaz.syntax.traverse._
 import spire.implicits._
 import spire.math.Interval

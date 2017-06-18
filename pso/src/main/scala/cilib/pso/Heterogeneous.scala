@@ -4,8 +4,6 @@ package pso
 import scalaz.{ Lens => _, _ }
 import Scalaz._
 import monocle._, Monocle._
-import monocle.syntax._
-import monocle.function._
 import spire.implicits._
 
 sealed abstract class PoolItem[A] {

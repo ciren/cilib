@@ -8,7 +8,7 @@ import scalaz.Scalaz._
 import scalaz.NonEmptyList
 
 import spire.implicits._
-import spire.math.{Interval,sqrt}
+import spire.math.sqrt
 
 object Crossover {
 

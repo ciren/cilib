@@ -1,7 +1,7 @@
 package cilib
 package syntax
 
-import scalaz.{StateT,LensFamily}
+import scalaz.StateT
 
 object step {
   final implicit class StepId[A](val self: A) extends AnyVal {

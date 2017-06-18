@@ -1,12 +1,8 @@
 package cilib
 package ga
 
-import scalaz.NonEmptyList
-import scalaz.syntax.bind._
 import scalaz.std.list._
 import scalaz.syntax.traverse._
-
-import Lenses._
 
 object GA {
 

@@ -1,7 +1,6 @@
 package cilib
 
 import spire.math._
-import spire.implicits._
 
 sealed abstract case class Positive[A](value: A)
 object Positive {

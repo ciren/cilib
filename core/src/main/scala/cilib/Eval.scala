@@ -1,7 +1,6 @@
 package cilib
 
-import scalaz.{Foldable1,ICons, INil, NonEmptyList}
-import spire.math._
+import scalaz.NonEmptyList
 
 trait Input[F[_]] {
   def toInput[A](a: NonEmptyList[A]): F[A]
@@ -39,7 +38,6 @@ object Eval {
 
   def constrainedNamed[F[_],A](f: F[A] => Double, cs: List[Constraint[A,Double]], name: String)(implicit F: Input[F]): Eval[A] =
     new Eval[A] {
-      import spire.algebra.Eq
       import spire.implicits._
 
       def eval(a: NonEmptyList[A]): RVar[Objective[A]] = RVar.point {
@@ -58,6 +56,11 @@ object Eval {
       override def toString = "Constrained(" + name + ")"
     }
 
+}
+
+trait EvalInstances {
+  import scalaz.{ICons, NonEmptyList}
+
   implicit val nelInput = new Input[NonEmptyList] {
     def toInput[A](a: NonEmptyList[A]): NonEmptyList[A] = a
   }
@@ -69,5 +72,4 @@ object Eval {
         case _ => sys.error("error producing a pair")
       }
   }
-
 }

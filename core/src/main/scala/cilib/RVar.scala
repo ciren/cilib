@@ -202,11 +202,6 @@ object Dist {
     stdUniform map { x => l + s * math.tan(math.Pi * (x - 0.5)) }
 
   def gamma(k: Double, theta: Double) = {
-    implicit def doubleInstance: Monoid[Double] = new Monoid[Double] {
-      def zero = 0.0
-      def append(f1: Double, f2: => Double) = f1 + f2
-    }
-
     val n = k.toInt
     val gammaInt = (stdUniform replicateM n).map(_.foldMap(x => -math.log(x)))
     val gammaFrac = {
@@ -266,7 +261,7 @@ object Dist {
     sample.iterateUntil(v => -2.0 * v._2 >= v._1 * v._1).map(x => if (ineg) x._1 - min else min - x._1)
   }
 
-  private val ZIGNOR_C = 128                 // Number of blocks
+  //private val ZIGNOR_C = 128                 // Number of blocks
   private val ZIGNOR_R = 3.442619855899      // Start of the right tail
   private val ZIGNOR_V = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
   private val (blocks, ratios) = {

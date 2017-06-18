@@ -1,18 +1,13 @@
 package cilib
 
-import cilib.algebra._
-
-import _root_.scala.Predef.{any2stringadd => _, _}
-import scala.language.higherKinds
 import scalaz._
 import Scalaz._
 
-import spire.algebra.{Field,Module,NRoot,Ring}
+import spire.algebra.{Module,Ring}
 import spire.implicits._
 import spire.math._
 
 sealed abstract class Position[A] {
-  import Position._
 
   def map[B](f: A => B): Position[B] =
     Point(pos map f, boundary)

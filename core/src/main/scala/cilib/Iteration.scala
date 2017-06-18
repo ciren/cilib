@@ -1,11 +1,7 @@
 package cilib
 
 import scalaz._
-import scalaz.syntax.comonad._
 import scalaz.syntax.traverse._
-import scalaz.syntax.functor._
-import scalaz.syntax.monoid._
-import scalaz.syntax.std.list._
 import scalaz.syntax.monadPlus._
 import scalaz.std.list._
 
@@ -41,7 +37,6 @@ object Iteration {
     sync_[Step[A,?],B,C](f)
 
   def syncS[A,S,B,C](f: List[B] => B => StepS[A,S,C]) = {
-    implicit val S = StateT.stateTMonadState[S, Step[A,?]]
     sync_[StepS[A,S,?], B,C](f)
   }
 
@@ -57,7 +52,6 @@ object Iteration {
      async_[Step[A,?], B](f)
 
    def asyncS[A,S,B](f: List[B] => B => StepS[A,S,B]) = {
-     implicit val S = StateT.stateTMonadState[S, Step[A,?]]
      async_[StepS[A,S,?], B](f)
    }
 

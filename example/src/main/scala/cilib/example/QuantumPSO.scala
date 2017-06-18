@@ -4,22 +4,14 @@ package example
 import scalaz._
 import Scalaz._
 import scalaz.effect._
-import scalaz.effect.IO._
-//import scalaz.std.list._
-//import scalaz.syntax.apply._
-//import scalaz.syntax.traverse._
-
-import monocle._, Monocle._
 
 import cilib.pso._
 
 object QuantumPSO extends SafeApp {
-  import scalaz.std.list._
   import PSO._
   import Lenses._
 
   import monocle._
-  import spire.algebra._
   import spire.implicits._
 
   case class QuantumState(b: Position[Double], v: Position[Double], charge: Double)
@@ -188,9 +180,6 @@ object QuantumPSO extends SafeApp {
     def iteration(
       swarm: List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]
     ): Step[Double,List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
-      import scalaz.syntax.std.list._
-      import scalaz.syntax.std.option._
-      import scalaz.syntax.functor._
 
       //swarm.toNel.cata(nel => qpso.run(nel.list).run.map(_.map(penalize(Max))), Step.point(List.empty))
       qpso.run(swarm)

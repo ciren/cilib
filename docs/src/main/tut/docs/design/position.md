@@ -6,7 +6,6 @@ title: "Position"
 ```tut:invisible
 import cilib._
 import cilib.algebra._
-import cilib.Eval._ // :/ need to fix this -> import is horrible
 import spire.implicits._
 import spire.math._
 import scalaz._

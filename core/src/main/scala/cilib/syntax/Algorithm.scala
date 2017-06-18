@@ -1,8 +1,6 @@
 package cilib
 package syntax
 
-import scalaz.{IndexedStateT,StateT}
-
 object algorithm {
   final implicit class ToAlgorithmOps[A,B,C](val self: List[B] => B => Step[A,C]) extends AnyVal {
     def map[D](g: C => D): List[B] => B => Step[A,D] =

@@ -2,15 +2,11 @@ package cilib
 
 import scalaz._
 import scalaz.std.anyVal._
-import scalaz.syntax.foldable._
-import scalaz.std.list._
 import org.scalacheck._
-import org.scalacheck.Prop._
 
 import scalaz.scalacheck.ScalazProperties._
 
 object StepTest extends Spec("Step") {
-import Eval._
   val cmp = Comparison.quality(Min)
   val eval = Eval.unconstrained((l: NonEmptyList[Int]) => l.list.foldLeft(0.0)(_ + _))
   val rng = RNG.fromTime

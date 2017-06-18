@@ -1,9 +1,7 @@
 package cilib
 
-import scalaz._
 import scalaz.std.anyVal._
 import org.scalacheck._
-import org.scalacheck.Prop._
 
 import scalaz.scalacheck.ScalazProperties._
 
