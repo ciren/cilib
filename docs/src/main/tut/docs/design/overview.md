@@ -19,12 +19,15 @@ without having to worry about the manner in which such an action may be performe
 however, true that we do need to worry about the execution semantics at some point so that
 the algorithm is executed correctly.
 
-The sections that follow will explain different aspects of CIlib, each required to build the
-structure that follows.
+The sections that follow will explain different aspects of CIlib, which is a
+progression of different types to build up the needed structures.
 
 For all usage samples, the following imports are required within the REPL
-session:
+session, but will be ignored to favor discussion:
 
-```tut:
+```scala
+import scalaz._
+import Scalaz._
+
 import cilib._
 ```

@@ -66,7 +66,7 @@ object QuantumPSO extends SafeApp {
 
           f match {
             case Adjusted(_,_) => sys.error("???? HOW??")
-            case a @ Feasible(_) => e//sys.error("Asdasd")
+            case Feasible(_) => e//sys.error("Asdasd")
             case i @ Infeasible(_,_) =>
               (_position[S,Double] composeOptional _singleFitness[Double]).modify((x: Fit) =>
                 i.adjust(v => opt match {
@@ -174,7 +174,7 @@ object QuantumPSO extends SafeApp {
 
   object MPB {
 
-    def initialPeaks(s: Double, domain: NonEmptyList[spire.math.Interval[Double]]): RVar[NonEmptyList[Problems.PeakCone]] =
+    def initialPeaks(/*s: Double,*/ domain: NonEmptyList[spire.math.Interval[Double]]): RVar[NonEmptyList[Problems.PeakCone]] =
       Problems.initPeaks(5, domain)//(1 to 2).toList.traverse(_ => Problems.defaultPeak(domain, s))
 
     def iteration(
@@ -186,7 +186,7 @@ object QuantumPSO extends SafeApp {
     }
 
     import scalaz.StateT
-    def mpb(heightSeverity: Double, widthSeverity: Double): StateT[RVar, (NonEmptyList[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
+    def mpb(/*heightSeverity: Double, widthSeverity: Double*/): StateT[RVar, (NonEmptyList[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
       StateT { case (peaks, pop) => {
         val newPeaks: RVar[NonEmptyList[Problems.PeakCone]] = RVar.point(peaks)//.traverse(_.update(heightSeverity, widthSeverity))
         newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrainBy(EnvConstraints.centerEllipse)))

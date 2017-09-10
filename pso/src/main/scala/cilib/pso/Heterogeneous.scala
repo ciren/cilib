@@ -34,7 +34,7 @@ sealed abstract class PoolItem[A] {
   }
 
   def change(a: A) = this match {
-    case PoolItemR(i, s) => PoolItemR(a, s)
+    case PoolItemR(_, s) => PoolItemR(a, s)
     case _ => this
   }
 }
