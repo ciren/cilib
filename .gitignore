@@ -9,3 +9,5 @@ private.sbt
 .cache
 .project
 readme.content
+
+.idea
