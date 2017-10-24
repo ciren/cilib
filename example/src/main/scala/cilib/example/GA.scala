@@ -27,9 +27,21 @@ object GAExample extends SafeApp {
     }
 
   def mutation(p_m: Double)(xs: List[Individual]): RVar[List[Individual]] = {
+
+    //println(xs(0).pos.pos.index(0))
+    val stdO = 2.0
+    val step = 3.1
+    val myList = xs(0).pos.pos.toList
+      println(myList)
+      println(myList.map(x => x + (stdO * step)))
+
+
+      _
+
+
     xs.traverse(x => {
       _position.get(x).traverse(z => for {
-        za <- Dist.stdUniform.map(_ < p_m)
+        za <- Dist.stdUniform.map(_ < p_m),
         zb <- if (za) Dist.stdNormal.flatMap(Dist.gaussian(0,_)).map(_ * z) else RVar.point(z)
       } yield zb).map(a => _position.set(a)(x))
     })
@@ -38,14 +50,14 @@ object GAExample extends SafeApp {
   val randomSelection = (l: List[Individual]) => RVar.sample(2, l).getOrElse(List.empty[Individual])
   val ga = GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
 
-  val swarm = Position.createCollection[Individual](x => Entity((), x))(Interval(-5.12,5.12)^30, 20)
+  val swarm = Position.createCollection[Individual](x => Entity((), x))(Interval(-5.12,5.12)^3, 5)
 //  val iter: Kleisli[Step[Double,?],List[GA.Individual],List[GA.Individual]] = Iteration.sync(ga).map(_.flatten)
 
   val cullingGA =
     Iteration.sync(ga).map(_.suml)
-      .flatMapK(r => Step.withCompare(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o))) map (_.take(20))))
+      .flatMapK(r => Step.withCompare(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o))) map (_.take(5))))
 
   // Our IO[Unit] that runs at the end of the world
   override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, cullingGA, swarm).run(Comparison.dominance(Min))(sum).run(RNG.fromTime).toString)
+    putStrLn(Runner.repeat(1, cullingGA, swarm).run(Comparison.dominance(Min))(sum).run(RNG.fromTime).toString)
 }
