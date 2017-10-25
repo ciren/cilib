@@ -28,7 +28,7 @@ object GAExample extends SafeApp {
 
   def mutation(p_m: Double)(xs: List[Individual]): RVar[List[Individual]] = {
 
-    //println(xs(0).pos.pos.index(0))
+    if (p_m == 0.2) println(xs(0).pos.pos.index(0))
     val stdO = 2.0
     val step = 3.1
     val myList = xs(0).pos.pos.toList
@@ -36,13 +36,10 @@ object GAExample extends SafeApp {
       println(myList.map(x => x + (stdO * step)))
 
 
-      _
-
 
     xs.traverse(x => {
       _position.get(x).traverse(z => for {
-        za <- Dist.stdUniform.map(_ < p_m),
-        zb <- if (za) Dist.stdNormal.flatMap(Dist.gaussian(0,_)).map(_ * z) else RVar.point(z)
+        zb <- Dist.stdNormal.flatMap(Dist.gaussian(0,_)).map(_ * z)
       } yield zb).map(a => _position.set(a)(x))
     })
   }
