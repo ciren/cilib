@@ -7,7 +7,6 @@ import scalaz.std.list._
 import scalaz.syntax.traverse._
 import spire.implicits._
 import spire.math.Interval
-
 import cilib.ga._
 
 // Author: Kyle Erwin
@@ -20,8 +19,9 @@ object RandomSearchExample extends SafeApp {
     // Creating the GA
     ///////////////////////////////////////////
     val randomSelection = (l: List[Individual]) => RVar.sample(2, l).getOrElse(List.empty[Individual])
-    val ga = RandomSearch.ga(randomSelection, 1.25)
+    val distribution = (position: Double) => Dist.stdNormal.flatMap(x => Dist.gaussian(0, 1.25)).map(_ + position)
 
+    val ga = RandomSearch.ga(randomSelection, distribution)
     // Executing the RandomSearch
     ///////////////////////////////////////////
     val swarm = Position.createCollection[Individual](x => Entity((), x))(Interval(-5.12, 5.12) ^ 30, 20)
