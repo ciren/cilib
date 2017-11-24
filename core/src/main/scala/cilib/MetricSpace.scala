@@ -55,7 +55,7 @@ object MetricSpace {
       def dist(x: A, y: A) = B.fromInt(if (A.equal(x,y)) 0 else 1)
     }
 
-  def minkowski[F[_]:Foldable,A:Signed:Field,B](alpha: Int)(implicit A: Fractional[A], B: Fractional[B], ev: Field[B]) =
+  def minkowski[F[_]:Foldable,A:Signed:Field,B](alpha: Int)(implicit A: Fractional[A], ev: Field[B]) =
     new MetricSpace[F[A],B] {
       def dist(x: F[A], y: F[A]) =
         ev.fromDouble(

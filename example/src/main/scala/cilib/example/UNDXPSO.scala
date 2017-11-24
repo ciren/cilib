@@ -6,7 +6,6 @@ import cilib.pso.Defaults._
 
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
-import scalaz.NonEmptyList
 import spire.implicits._
 import spire.math.Interval
 

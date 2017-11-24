@@ -1,9 +1,5 @@
 package cilib
 
-import cilib.algebra._
-
-import _root_.scala.Predef.{any2stringadd => _, _}
-import scala.language.higherKinds
 import scalaz._
 import Scalaz._
 

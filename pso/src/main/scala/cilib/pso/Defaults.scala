@@ -4,9 +4,7 @@ package pso
 import _root_.scala.Predef.{any2stringadd => _}
 import PSO._
 import scalaz._
-import spire.algebra._
 import spire.implicits._
-import spire.math.Interval
 
 object Defaults {
 
@@ -120,7 +118,7 @@ object Defaults {
 
   def nmpc[S](
     guide: Guide[S,Double]
-  )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: HasMemory[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       p        <- evalParticle(x)
       p1       <- updatePBestBounds(p)
@@ -132,7 +130,7 @@ object Defaults {
 
   def crossoverPSO[S](
     guide: Guide[S,Double]
-  )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: HasMemory[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       p       <- evalParticle(x)
       p1      <- updatePBestBounds(p)

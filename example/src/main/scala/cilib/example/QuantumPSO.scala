@@ -4,22 +4,14 @@ package example
 import scalaz._
 import Scalaz._
 import scalaz.effect._
-import scalaz.effect.IO._
-//import scalaz.std.list._
-//import scalaz.syntax.apply._
-//import scalaz.syntax.traverse._
-
-import monocle._, Monocle._
 
 import cilib.pso._
 
 object QuantumPSO extends SafeApp {
-  import scalaz.std.list._
   import PSO._
   import Lenses._
 
   import monocle._
-  import spire.algebra._
   import spire.implicits._
 
   case class QuantumState(b: Position[Double], v: Position[Double], charge: Double)
@@ -74,7 +66,7 @@ object QuantumPSO extends SafeApp {
 
           f match {
             case Adjusted(_,_) => sys.error("???? HOW??")
-            case a @ Feasible(_) => e//sys.error("Asdasd")
+            case Feasible(_) => e//sys.error("Asdasd")
             case i @ Infeasible(_,_) =>
               (_position[S,Double] composeOptional _singleFitness[Double]).modify((x: Fit) =>
                 i.adjust(v => opt match {
@@ -182,22 +174,19 @@ object QuantumPSO extends SafeApp {
 
   object MPB {
 
-    def initialPeaks(s: Double, domain: NonEmptyList[spire.math.Interval[Double]]): RVar[NonEmptyList[Problems.PeakCone]] =
+    def initialPeaks(/*s: Double,*/ domain: NonEmptyList[spire.math.Interval[Double]]): RVar[NonEmptyList[Problems.PeakCone]] =
       Problems.initPeaks(5, domain)//(1 to 2).toList.traverse(_ => Problems.defaultPeak(domain, s))
 
     def iteration(
       swarm: List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]
     ): Step[Double,List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
-      import scalaz.syntax.std.list._
-      import scalaz.syntax.std.option._
-      import scalaz.syntax.functor._
 
       //swarm.toNel.cata(nel => qpso.run(nel.list).run.map(_.map(penalize(Max))), Step.point(List.empty))
       qpso.run(swarm)
     }
 
     import scalaz.StateT
-    def mpb(heightSeverity: Double, widthSeverity: Double): StateT[RVar, (NonEmptyList[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
+    def mpb(/*heightSeverity: Double, widthSeverity: Double*/): StateT[RVar, (NonEmptyList[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
       StateT { case (peaks, pop) => {
         val newPeaks: RVar[NonEmptyList[Problems.PeakCone]] = RVar.point(peaks)//.traverse(_.update(heightSeverity, widthSeverity))
         newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrainBy(EnvConstraints.centerEllipse)))

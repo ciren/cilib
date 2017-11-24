@@ -4,8 +4,6 @@ package pso
 import scalaz.{ Lens => _, _ }
 import Scalaz._
 import monocle._, Monocle._
-import monocle.syntax._
-import monocle.function._
 import spire.implicits._
 
 sealed abstract class PoolItem[A] {
@@ -36,7 +34,7 @@ sealed abstract class PoolItem[A] {
   }
 
   def change(a: A) = this match {
-    case PoolItemR(i, s) => PoolItemR(a, s)
+    case PoolItemR(_, s) => PoolItemR(a, s)
     case _ => this
   }
 }

@@ -1,7 +1,6 @@
 package cilib
 
 import org.scalacheck._
-import org.scalacheck.Prop._
 
 abstract class Spec(name: String) extends Properties(name) {
 

@@ -2,7 +2,6 @@ package cilib
 
 import org.scalacheck._
 import org.scalacheck.Prop._
-import org.scalacheck.Gen
 
 import spire.implicits._
 

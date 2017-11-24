@@ -1,17 +1,25 @@
 language: scala
 scala:
-  - 2.11.8
-  - 2.12.1
+- 2.11.11
+- 2.12.2
 jdk:
-  - oraclejdk8
+- oraclejdk8
+script: sbt clean test
 notifications:
   email:
     on_success: never
     on_failure: always
-  irc: "irc.freenode.org#cilib"
+  irc: irc.freenode.org#cilib
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/9df9c83ef091cee2f675
+    - https://webhooks.gitter.im/e/9df9c83ef091cee2f675
     on_success: always
     on_failure: always
     on_start: false
+env:
+  global:
+  - secure: F5930bzECZ3rm062ng6hn8U0B3PL0d+Vqnow+J9aOwu7bK/ecqZUSpud+04GryCsuPDnAL8F5RqF74sa7ib3NAU4IqiozcyITfr7R+NXVKVU/OhLANRnNnGXQaSL6/4gd2NvtONeLiSvmfTJtQtYezBukmhAFkU2a27Pp8CwCas=
+  - secure: PoAdWHYX5wkBtcczX69mF2N8lNevm5G2ThBYJOtgvVovXTPl6QK9FhXxOTl8qRwpW9DdT0tWZkbgfYz6ZKY8wW3s/HCYr876VKA+qkh0LraOUv4gtL3td2Rhz/iKchaRiQfht8kN04F7T9h29xuwrXeRDQ/C3j2oIMo+VhnBfdw=
+
+after_success:
+  - "[[ $TRAVIS_BRANCH == \"series/2.0.x\" ]] && { sbt publish; };"

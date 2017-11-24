@@ -1,18 +1,13 @@
 package cilib
 
-import cilib.algebra._
-
-import _root_.scala.Predef.{any2stringadd => _, _}
-import scala.language.higherKinds
 import scalaz._
 import Scalaz._
 
-import spire.algebra.{Field,Module,NRoot,Ring}
+import spire.algebra.{Module,Rng}
 import spire.implicits._
 import spire.math._
 
 sealed abstract class Position[A] {
-  import Position._
 
   def map[B](f: A => B): Position[B] =
     Point(pos map f, boundary)
@@ -100,7 +95,7 @@ object Position {
     }
 
   implicit class PositionVectorOps[A](val x: Position[A]) extends AnyVal {
-    def zeroed(implicit A: Ring[A]): Position[A] =
+    def zeroed(implicit A: Rng[A]): Position[A] =
       x.map(_ => A.zero)
 
     def + (other: Position[A])(implicit M: Module[Position[A],A]): Position[A] =
@@ -115,7 +110,7 @@ object Position {
     def unary_-(implicit M: Module[Position[A],A]): Position[A] =
       M.negate(x)
 
-    def isZero(implicit R: Ring[A]) = {
+    def isZero(implicit R: Rng[A]) = {
       def test(xs: IList[A]): Boolean =
         xs match {
           case INil() => true
@@ -163,7 +158,7 @@ object Position {
         RVar.point(x)
     }
 
-  private[cilib] def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
+  /*private[cilib]*/ def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]]) =

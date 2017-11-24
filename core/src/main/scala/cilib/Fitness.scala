@@ -94,7 +94,7 @@ final case object Min extends Opt {
        case (Feasible(a), Feasible(b))   => { /*println("in feasible") ;*/ D.order(a, b) }
        case (Infeasible(_,_), Adjusted(_,_)) => LT
        case (Infeasible(_,_), Feasible(_))   => LT
-       case (Infeasible(a,as), Infeasible(b,bs)) =>
+       case (Infeasible(_,as), Infeasible(_,bs)) =>
          if (as < bs) LT else if (as > bs) GT else EQ
      }
 
@@ -129,14 +129,14 @@ final case object Max extends Opt {
       case (Feasible(_), Infeasible(_,_)) => GT
       case (Infeasible(_,_), Adjusted(_,_)) => LT
       case (Infeasible(_,_), Feasible(_))   => LT
-      case (Infeasible(a, as), Infeasible(b, bs)) =>
+      case (Infeasible(_, as), Infeasible(_, bs)) =>
         if (as < bs) GT else if (as > bs) LT else EQ
     }
 
   def objectiveOrder[A] = new Order[Objective[A]] {
     def order(x: Objective[A], y: Objective[A]) =
       (x, y) match {
-        case (Single(f1, v1), Single(f2, v2)) => fitCompare(f1, f2)
+        case (Single(f1, _), Single(f2, _)) => fitCompare(f1, f2)
         case (Multi(xs), Multi(ys)) =>
           val z = xs.zip(ys)
           val x = z.forall { case (a,b) =>

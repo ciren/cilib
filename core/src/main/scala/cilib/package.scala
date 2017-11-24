@@ -1,10 +1,11 @@
+
 import scalaz._
 import spire.algebra.{Monoid => _, _}
 import spire.implicits._
 import spire.math.Interval
 import spire.math.interval.{Bound,ValueBound}
 
-package object cilib {
+package object cilib extends EvalInstances {
 
   // Should expand into a typeclass? Getter?
   type Selection[A] = List[A] => List[A]
@@ -22,7 +23,7 @@ package object cilib {
         RVar.point(a)
     }
 
-  // Find a better home for this
+  // Find a better home for this - should this even exist? it is unlawful
   implicit object DoubleMonoid extends Monoid[Double] {
     def zero = 0.0
     def append(a: Double, b: => Double) = a + b
@@ -60,4 +61,5 @@ package object cilib {
   }
 
   implicit def intervalEqual[A]  = scalaz.Equal.equalA[Interval[A]]
+
 }

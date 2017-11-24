@@ -2,17 +2,15 @@ package cilib
 
 import scalaz._
 import Scalaz._
-import scalaz.scalacheck.ScalaCheckBinding._
 
 import spire.implicits._
-import spire.math.{abs,sqrt,Interval}
+import spire.math.{sqrt,Interval}
 
 import org.scalacheck._
 import org.scalacheck.Arbitrary._
 import org.scalacheck.Gen._
 import org.scalacheck.Prop._
 
-import cilib._
 import cilib.algebra._
 import cilib.syntax.dotprod._
 

@@ -4,17 +4,10 @@ package example
 import cilib.pso._
 import cilib.pso.Defaults._
 
-import scalaz.NonEmptyList
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
-import scalaz.std.list._
 import spire.implicits._
 import spire.math.Interval
-
-import cilib.syntax.algorithm._
-
-import scalaz._
-import Scalaz._
 
 object GBestPSO extends SafeApp {
 
@@ -37,7 +30,7 @@ object GBestPSO extends SafeApp {
     val result = Runner.repeat(1000, iter, swarm).run(opt)(sum).run(RNG.fromTime)
     val positions = result._2.map(x => Lenses._position.get(x))
 
-    putStrLn(result.toString)
+    putStrLn(positions.toString)
   }
 
 }

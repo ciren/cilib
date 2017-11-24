@@ -4,19 +4,12 @@ import org.scalacheck._
 import org.scalacheck.Prop._
 import org.scalacheck.Gen
 
-import scalaz.{Equal => ZEqual, Order => ZOrder}
 import scalaz.std.list._
 
 import spire.algebra._
-import spire.math._
 import spire.implicits._
 
-import scalaz.scalacheck.ScalazProperties._
-
 object MetricSpaceTest extends Spec("MetricSpace") {
-  //object MetricSpaceTests extends Properties("MetricSpace") {
-
-//  implicit def arbMetricSpaceEqual = scalaz.Equal[Int].contramap((_: MetricSpace[Int,Int]))
 
   implicit def arbMetricSpace: Arbitrary[MetricSpace[Int,Int]] = Arbitrary {
     Arbitrary.arbitrary[Int].map(x => MetricSpace.point[Int,Int](x))
@@ -26,19 +19,20 @@ object MetricSpaceTest extends Spec("MetricSpace") {
     Arbitrary.arbitrary[Int => Int].map(MetricSpace.point[Int, Int => Int])
   }
 
+  val doubleGen = Gen.choose(-100000000.0, 100000000.0)
 
   val listTuple2 = Gen.sized { size =>
     for {
-      x <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
-      y <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
+      x <- Gen.listOfN(size, doubleGen)
+      y <- Gen.listOfN(size, doubleGen)
     } yield (x, y)
   }
 
   val listTuple3 = Gen.sized { size =>
     for {
-      x <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
-      y <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
-      z <- Gen.listOfN(size, Arbitrary.arbitrary[Double])
+      x <- Gen.listOfN(size, doubleGen)
+      y <- Gen.listOfN(size, doubleGen)
+      z <- Gen.listOfN(size, doubleGen)
     } yield (x, y, z)
   }
 

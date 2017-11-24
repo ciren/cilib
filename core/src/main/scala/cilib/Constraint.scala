@@ -45,7 +45,6 @@ case class GreaterThanEqual[A,B](f: ConstraintFunction[A,B], v: B) extends Const
 
 object Constraint {
 
-  import scalaz.{Foldable, Functor}
 //  def constrain[M[_]](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
 //    M.map(ma)(_.constrainBy(cs))
 
