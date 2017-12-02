@@ -3,7 +3,6 @@ package example
 
 import cilib.pso._
 import cilib.pso.Defaults._
-import Eval._
 
 import scalaz.NonEmptyList
 import scalaz.effect._
@@ -24,7 +23,7 @@ object GCPSO extends SafeApp {
   val gbestPSO: List[Particle[Mem[Double],Double]] => Particle[Mem[Double],Double] => StepS[Double, PSO.GCParams, Particle[Mem[Double],Double]] =
     gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
-  val iter:  Kleisli[StepS[Double, PSO.GCParams, ?], List[Particle[Mem[Double],Double]], List[Particle[Mem[Double],Double]]] =
+  val iter: Kleisli[StepS[Double, PSO.GCParams, ?], List[Particle[Mem[Double],Double]], List[Particle[Mem[Double],Double]]] =
     Iteration.syncS(gbestPSO)
 
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(-5.12,5.12)^30, 20)

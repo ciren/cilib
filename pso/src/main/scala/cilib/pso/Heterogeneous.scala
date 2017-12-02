@@ -92,7 +92,7 @@ object Heterogeneous {
     val stagnationL = p.state applyLens S._pbestStagnation
     val stagnation = stagnationL.get
 
-    Step.liftK(Comparison.compare(p.pos, pbest).map(x =>
+    Step.withCompare(Comparison.compare(p.pos, pbest).map(x =>
       Entity(stagnationL set (if (pbest eq p.pos) 0 else stagnation + 1), p.pos)
     ))
   }

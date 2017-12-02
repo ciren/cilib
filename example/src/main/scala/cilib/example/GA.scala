@@ -9,11 +9,12 @@ import scalaz.syntax.traverse._
 import spire.implicits._
 import spire.math.Interval
 
+import scalaz.NonEmptyList
 import cilib.ga._
 import Lenses._
 
 object GAExample extends SafeApp {
-  val sum = Problems.spherical
+  val sum = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
 
   def onePoint(xs: List[Individual]): RVar[List[Individual]] =
     xs match {
@@ -43,7 +44,7 @@ object GAExample extends SafeApp {
 
   val cullingGA =
     Iteration.sync(ga).map(_.suml)
-      .flatMapK(r => Step.withCompare(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o))) map (_.take(20))))
+      .flatMapK(r => Step.withCompareR(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o))) map (_.take(20))))
 
   // Our IO[Unit] that runs at the end of the world
   override val runc: IO[Unit] =

@@ -4,6 +4,7 @@ package pso
 import monocle._, Monocle._
 import Position._
 import scalaz._
+import Scalaz._
 
 import spire.algebra._
 import spire.implicits._
@@ -39,12 +40,13 @@ object PSO {
 
   def updatePBest[S](p: Particle[S,Double])(implicit M: HasMemory[S,Double]): Step[Double,Particle[S,Double]] = {
     val pbestL = M._memory
-    Step.liftK(Comparison.compare(p.pos, (p.state applyLens pbestL).get)).map(x =>
+    Step.withCompare(Comparison.compare(p.pos, (p.state applyLens pbestL).get)).map(x =>
       Entity(p.state applyLens pbestL set x, p.pos))
   }
 
   def updatePBestBounds[S](p: Particle[S,Double])(implicit M: HasMemory[S,Double]): Step[Double,Particle[S,Double]] = {
     val b = Foldable1[NonEmptyList].foldLeft(p.pos.pos zip p.pos.boundary, true)((a,c) => a && (c._2.contains(c._1)))
+
     if (b) updatePBest(p) else Step.point(p)
   }
 
@@ -88,22 +90,66 @@ object PSO {
       (means zip sigmas) traverse (x => Dist.gaussian(x._1, x._2))
     }
 
-  def quantum[S](
-    x: Particle[S,Double],
-    center: Position[Double],
-    r: Double
+        //  } else { // the particle is charged
+        //     //based on the Pythagorean theorem,
+        //     //the following code breaks the square of the radius distance into smaller
+        //     //parts that are then "distributed" among the dimensions of the problem.
+        //     //the position of the particle is determined in each dimension by a random number
+        //     //between 0 and the part of the radius assigned to that dimension
+        //     //This ensures that the quantum particles are placed randomly within the
+        //     //multidimensional sphere determined by the quantum radius.
+
+        //     this.nucleus = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
+
+        //     double distance = Math.pow(this.radius.getParameter(), 2); //square of the radius
+        //     int dimensions = particle.getDimension();
+        //     double[] pieces = new double[dimensions]; // break up of the distance
+        //     pieces[dimensions - 1] = distance;
+        //     for (int i = 0; i < dimensions - 1; i++) {
+        //         pieces[i] = this.randomiser.getRandomNumber(0, distance);
+        //     }//for
+        //     Arrays.sort(pieces);
+        //     int sign = 1;
+        //     if (this.randomiser.getRandomNumber() <= 0.5) {
+        //         sign = -1;
+        //     }//if
+        //     //deals with first dimension
+        //     Vector.Builder builder = Vector.newBuilder();
+        //     builder.add(this.nucleus.doubleValueOf(0) + sign * this.randomiser.getRandomNumber(0, Math.sqrt(pieces[0])));
+        //     //deals with the other dimensions
+        //     for (int i = 1; i < dimensions; i++) {
+        //         sign = 1;
+        //         if (this.randomiser.getRandomNumber() <= 0.5) {
+        //             sign = -1;
+        //         }//if
+        //         double rad = Math.sqrt(pieces[i] - pieces[i - 1]);
+        //         double dis = this.randomiser.getRandomNumber(0, rad);
+        //         double newpos = this.nucleus.doubleValueOf(i) + sign * dis;
+        //         builder.add(newpos);
+        //     }//for
+        //     return builder.build();
+        // }//else
+
+  def quantum[S]( // This is relative to the origin
+    x: Particle[S,Double], // passed in only to get the length of the vector
+    r: RVar[Double],       // magnitude of the radius for the hypersphere
+    dist: (Double, Double) => RVar[Double] // Distribution used
   ): Step[Double,Position[Double]] =
-    Step.pointR(
+    Step.pointR {
       for {
-        u <- Dist.stdUniform
-        rand_x <- x.pos.traverse(_ => Dist.stdNormal)
+        r_i <- x.pos.traverse(_ => Dist.stdUniform)//(0.0, 1.0))
+        //_ = println("r_i: " + r_i)
+        originSum = math.sqrt(r_i.pos.foldLeft(0.0)((a,c) => a + c*c))
+        //_ = println("originSum: " + originSum)
+        scale <- r.flatMap(a => { /*println("r: " + a); */ val g = dist(0.0, a); /*println("g: " + g);*/ g }) // Use the provided distribution to scale the cloud radius
       } yield {
-        import scalaz.syntax.foldable._
-        val sum_sq = rand_x.pos.foldLeft(0.0)((a,c) => a + c*c)
-        val scale: Double = r * math.pow(u, 1.0 / x.pos.pos.length) / math.sqrt(sum_sq)
-        (scale *: rand_x) + center
+        //println("scale: " + scale)
+        val z = (scale / originSum) *: r_i
+        //println("ratio: " + (scale / originSum))
+        //println(z.pos)
+        z
       }
-    )
+    }
 
   def acceleration[S](
     collection: List[Particle[S,Double]],
@@ -131,7 +177,7 @@ object PSO {
     Step.point(entity applyLens _position set p)
 
   def better[S,A](a: Particle[S,A], b: Particle[S,A]): Step[A,Boolean] =
-    Step.withCompare(comp => RVar.point(Comparison.fittest(a.pos, b.pos).apply(comp)))
+    Step.withCompareR(comp => RVar.point(Comparison.fittest(a.pos, b.pos).apply(comp)))
 
   def createParticle[S](f: Position[Double] => Particle[S,Double])(pos: Position[Double]): Particle[S,Double] =
     f(pos)

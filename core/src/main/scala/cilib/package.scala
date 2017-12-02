@@ -7,6 +7,8 @@ import spire.math.interval.{Bound,ValueBound}
 
 package object cilib extends EvalInstances {
 
+  //type Eval[A] = RVar[NonEmptyList[A] => Objective[A]]
+
   // Should expand into a typeclass? Getter?
   type Selection[A] = List[A] => List[A]
   type IndexSelection[A] = (List[A], A) => List[A]
@@ -15,13 +17,13 @@ package object cilib extends EvalInstances {
 
   type Crossover[A] = NonEmptyList[Position[A]] => RVar[NonEmptyList[Position[A]]]
 
-  implicit val rvarMonad: Monad[RVar] =
-    new Monad[RVar] {
-      def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-        a flatMap f
-      def point[A](a: => A) =
-        RVar.point(a)
-    }
+  // implicit val rvarMonad: Monad[RVar] =
+  //   new Monad[RVar] {
+  //     def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
+  //       a flatMap f
+  //     def point[A](a: => A) =
+  //       RVar.point(a)
+  //   }
 
   // Find a better home for this - should this even exist? it is unlawful
   implicit object DoubleMonoid extends Monoid[Double] {
@@ -60,6 +62,5 @@ package object cilib extends EvalInstances {
     def upperValue = getValue(interval.upperBound)
   }
 
-  implicit def intervalEqual[A]  = scalaz.Equal.equalA[Interval[A]]
-
+  implicit def intervalEqual[A] = scalaz.Equal.equalA[Interval[A]]
 }

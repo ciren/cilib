@@ -4,6 +4,7 @@ package example
 import cilib.pso._
 import cilib.pso.Defaults._
 
+import scalaz.NonEmptyList
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import spire.implicits._
@@ -12,7 +13,7 @@ import spire.math.Interval
 object GBestPSO extends SafeApp {
 
   // Create a problem by specifiying the function and it's constrainment
-  val sum = Problems.spherical
+  val sum = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double],Double]

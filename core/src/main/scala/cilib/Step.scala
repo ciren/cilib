@@ -15,7 +15,7 @@ import scalaz.{ Lens => _, _ }
   `Step` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritmic parts.
   */
-final case class Step[A,B] private (run: Comparison => Eval[A] => RVar[B]) {
+final case class Step[A,B] private (run: Comparison => RVar[NonEmptyList[A] => Objective[A]]/*Eval[A]*/ => RVar[B]) {
   def map[C](f: B => C): Step[A,C] =
     Step(o => e => run(o)(e).map(f))
 
@@ -33,10 +33,14 @@ object Step {
   def pointR[A,B](a: RVar[B]): Step[A,B] =
     Step(_ => _ => a)
 
-  def liftK[A,B](a: Comparison => B): Step[A,B] =
+  def withCompare[A,B](a: Comparison => B): Step[A,B] =
     Step(o => _ => RVar.point(a.apply(o)))
 
-  def withCompare[A,B](f: Comparison => RVar[B]): Step[A,B] =
+  @deprecated("Use Step#withCompare instead", "2.0.0-M3")
+  def liftK[A,B](a: Comparison => B): Step[A,B] =
+    withCompare[A,B](a)
+
+  def withCompareR[A,B](f: Comparison => RVar[B]): Step[A,B] =
     Step(o => _ => f(o))
 
   def evalF[A:Numeric](pos: Position[A]): Step[A,Position[A]] =
@@ -103,7 +107,7 @@ object StepS {
     StepS(StateT[Step[A,?],S,B]((s: S) => a.map((s,_))))
 
   def liftK[A,S,B](a: Comparison => B): StepS[A,S,B] =
-    pointS(Step.liftK(a))
+    pointS(Step.withCompare(a))
 
   def liftS[A,S,B](a: State[S, B]): StepS[A,S,B] =
     StepS(a.lift[Step[A,?]])

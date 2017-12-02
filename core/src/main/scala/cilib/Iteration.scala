@@ -36,9 +36,8 @@ object Iteration {
   def sync[A,B,C](f: List[B] => B => Step[A,C]) =
     sync_[Step[A,?],B,C](f)
 
-  def syncS[A,S,B,C](f: List[B] => B => StepS[A,S,C]) = {
+  def syncS[A,S,B,C](f: List[B] => B => StepS[A,S,C]) =
     sync_[StepS[A,S,?], B,C](f)
-  }
 
   def async_[M[_]: Monad,A](f: List[A] => A => M[A]): Kleisli[M,List[A],List[A]] =
     Kleisli.kleisli((l: List[A]) =>
@@ -51,8 +50,7 @@ object Iteration {
    def async[A,B](f: List[B] => B => Step[A,B]) =
      async_[Step[A,?], B](f)
 
-   def asyncS[A,S,B](f: List[B] => B => StepS[A,S,B]) = {
+   def asyncS[A,S,B](f: List[B] => B => StepS[A,S,B]) =
      async_[StepS[A,S,?], B](f)
-   }
 
 }

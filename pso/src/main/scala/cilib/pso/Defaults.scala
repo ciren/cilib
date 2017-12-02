@@ -8,6 +8,18 @@ import spire.implicits._
 
 object Defaults {
 
+  // def pso[S,A:spire.math.Numeric](
+  //   velocity: (Entity[S,A]) => Step[A,Position[A]],
+  //   position: (Entity[S,A], Position[A]) => Step[A,Entity[S,A]]
+  // ): List[Entity[S,A]] => Entity[S,A] => Step[A,Entity[S,A]] =
+  //   collection => x => for {
+  //     v <- velocity(x)
+  //     p <- position(x, v)
+  //     p2      <- evalParticle(p)
+  //     p3      <- updateVelocity(p2, v)
+  //     updated <- updatePBest(p3)
+  //   } yield updated
+
   def gbest[S](
     w: Double,
     c1: Double,
@@ -83,7 +95,7 @@ object Defaults {
         p2      <- hoist.liftMU(evalParticle(p))
         p3      <- hoist.liftMU(updateVelocity(p2, v))
         updated <- hoist.liftMU(updatePBest(p3))
-        failure <- hoist.liftMU(Step.liftK[Double,Boolean](Comparison.compare(x.pos, updated.pos) andThen (_ eq x.pos)))
+        failure <- hoist.liftMU(Step.withCompare[Double,Boolean](Comparison.compare(x.pos, updated.pos) andThen (_ eq x.pos)))
         _       <- S.modify(params =>
           if (isBest) {
             params.copy(

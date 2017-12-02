@@ -112,10 +112,12 @@ object HPSO extends SafeApp {
     }
   }
 
+  val spherical = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
+
   val finalResult = population
     .flatMap(algorithm)
     .run((Pool.mkPoolListScore(Pool.mkZeroPool(createBehaviours(1000, 0): _*)), Params(defaultGCParams, defaultGCParams)))
-    .run(Comparison.quality(Min))(Problems.spherical)
+    .run(Comparison.quality(Min))(spherical)
     .run(RNG.fromTime)
 
 

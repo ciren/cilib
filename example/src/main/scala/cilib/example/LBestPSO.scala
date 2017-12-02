@@ -1,6 +1,7 @@
 package cilib
 package example
 
+import scalaz._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import spire.implicits._
@@ -10,8 +11,7 @@ import cilib.pso._
 import cilib.pso.Defaults._
 
 object LBestPSO extends SafeApp {
-
-  val sum = Problems.spherical
+  val sum = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
 
   // LBest is a network topology where every Paricle 'x' has (n/2) neighbours
   // on each side. For example, a neighbourhood size of 3 means that there is

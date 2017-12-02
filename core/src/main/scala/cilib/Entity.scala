@@ -14,6 +14,7 @@ object Entity {
 
   implicit def entityEqual[S,A:scalaz.Equal]: scalaz.Equal[Entity[S,A]] =
     new scalaz.Equal[Entity[S,A]] {
+      import Position._
       def equal(x: Entity[S,A], y: Entity[S,A]): Boolean =
         scalaz.Equal[Position[A]].equal(x.pos, y.pos)
     }

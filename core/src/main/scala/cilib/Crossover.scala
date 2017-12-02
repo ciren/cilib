@@ -20,7 +20,7 @@ object Crossover {
       val sum = coef.map(_.sum)
 
       for {
-        scaled    <- (coef |@| sum) { (cos, s) => cos.map(norm(_, s)) }
+        scaled   <- (coef |@| sum) { (cos, s) => cos.map(norm(_, s)) }
         offspring = (parents.list.toList zip scaled) map { case (p, si) => si *: p } reduce {_+_}
       } yield NonEmptyList(offspring)
     }

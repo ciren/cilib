@@ -20,10 +20,20 @@ sealed abstract class RVar[A] {
     RVar.trampolined(rng => trampolined(rng).map(a => (a._1, f(a._2))))
 
   def flatMap[B](f: A => RVar[B]): RVar[B] =
-    RVar.trampolined(rng => trampolined(rng).flatMap((a: (RNG,A)) => f(a._2).trampolined(a._1)))
+    RVar.trampolined(rng =>
+      trampolined(rng)
+        .flatMap((a: (RNG,A)) => f(a._2).trampolined(a._1)))
 }
 
 object RVar {
+  implicit val rvarMonad: Monad[RVar] =
+    new Monad[RVar] {
+      def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
+        a flatMap f
+      def point[A](a: => A) =
+        RVar.point(a)
+    }
+
   def apply[A](f: RNG => (RNG,A)) = new RVar[A] {
     def trampolined(s: RNG) = Trampoline.delay(f(s))
   }
@@ -180,7 +190,7 @@ object Dist {
   val stdUniform = next[Double]
   val stdNormal = gaussian(0.0, 1.0)
   val stdCauchy = cauchy(0.0, 1.0)
-  val stdExponential = exponential(Positive(1.0))
+  val stdExponential = exponential(1.0)
   val stdGamma = gamma(2, 2.0)
   val stdLaplace = laplace(0.0, 1.0)
   val stdLognormal = lognormal(0.0, 1.0)
@@ -233,9 +243,8 @@ object Dist {
     (gammaInt |@| gammaFrac) { (a,b) => (a + b) * theta }
   }
 
-  def exponential(l: Option[Positive[Double]]) =
-    l.map(x => stdUniform map { math.log(_) / x.value })
-      .getOrElse(RVar.point(0.0))
+  def exponential(l: Double) =
+    stdUniform map { math.log(_) / l }
 
   def laplace(b0: Double, b1: Double) =
     stdUniform map { x =>
@@ -247,10 +256,17 @@ object Dist {
     stdNormal map (x => math.exp(mean + dev * x))
 
   def dirichlet(alphas: List[Double]) =
-    alphas.traverse(gamma(_, 1)).map(ys => {
-      val sum = ys.sum
-      ys.map(_ / sum)
-    })
+    alphas.traverse(gamma(_, 1))
+      .map(ys => {
+             val sum = ys.sum
+             ys.map(_ / sum)
+           })
+
+  def weibull(shape: Double,
+              scale: Double): RVar[Double] =
+    stdUniform map { x =>
+      scale * math.pow(-math.log(1 - x), 1 / shape)
+    }
 
   import scalaz.syntax.monad._
 

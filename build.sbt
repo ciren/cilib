@@ -28,7 +28,7 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",     // Allow definition of implicit functions called views
     "-unchecked",                        // Enable additional warnings where generated code depends on assumptions.
     "-Xcheckinit",                       // Wrap field accessors to throw an exception on uninitialized access.
-    "-Xfatal-warnings",                  // Fail the compilation if there are any warnings.
+    //"-Xfatal-warnings",                  // Fail the compilation if there are any warnings.
     "-Xfuture",                          // Turn on future language features.
     "-Xlint:adapted-args",               // Warn if an argument list is modified to match the receiver.
     "-Xlint:by-name-right-associative",  // By-name parameter of right associative operator.
@@ -76,7 +76,12 @@ lazy val commonSettings = Seq(
     compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3" cross CrossVersion.binary)
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
-    "scm:git:git@github.com:cirg-up/cilib.git"))
+    "scm:git:git@github.com:cirg-up/cilib.git")),
+  initialCommands in console := """
+    |import scalaz._
+    |import Scalaz._
+    |import cilib._
+    |""".stripMargin
 )
 
 /*lazy val publishSignedArtifacts = ReleaseStep(
@@ -150,7 +155,7 @@ lazy val publishSettings = Seq(
   )
 ) ++ credentialSettings
 
-lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings// ++ releaseSettings
+lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings
 
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
@@ -182,7 +187,11 @@ lazy val core = project
       Wart.Return,
       Wart.Serializable,
       Wart.Var*/
-    )
+    ),
+    initialCommands in console := """
+    |import scalaz._
+    |import Scalaz._
+    |import cilib._    |""".stripMargin
   ))
 
 lazy val docs = project.in(file("docs"))
@@ -208,7 +217,6 @@ lazy val docSettings = Seq(
     //micrositeHighlightTheme := "monokai",
     micrositeExtraMdFiles := Map(file("README.md") -> ExtraMdFileConfig("index.html", "home", Map("title" -> "Home", "section" -> "home"))),
     fork in tut := true,
-
     siteSubdirName in SiteScaladoc := "api",
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc)
@@ -223,13 +231,16 @@ lazy val credentialSettings = Seq(
 
 lazy val example = project.dependsOn(core, exec, ga, moo, pso)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
+    fork in run := true,
     moduleName := "cilib-example",
     libraryDependencies ++= Seq(
       "net.cilib"  %% "benchmarks"        % "0.1.1",
       "org.scalaz" %% "scalaz-core"       % scalazVersion,
       "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
       "org.scalaz" %% "scalaz-effect"     % scalazVersion,
-      "org.jfree"   % "jfreechart"        % "1.0.19"
+      "org.scalaz.stream" %% "scalaz-stream"     % "0.8.6a"
+//      "org.jfree"   % "jfreechart"        % "1.0.19"
+//      "com.lihaoyi" % "ammonite" % "0.8.2" cross CrossVersion.full
     )
   ))
 
@@ -249,7 +260,7 @@ lazy val de = project.dependsOn(core)
   .settings(Seq(moduleName := "cilib-de") ++ cilibSettings)
 
 lazy val tests = project
-  .dependsOn(core)
+  .dependsOn(core, pso, ga, moo)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
     moduleName := "cilib-tests",
     libraryDependencies ++= Seq(

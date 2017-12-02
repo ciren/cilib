@@ -26,29 +26,28 @@ object ViolationCount {
     def zero = ViolationCount.zero
     def append(f1: ViolationCount, f2: => ViolationCount) =
       ViolationCount(f1.count + f2.count).getOrElse(zero)
-
   }
 }
 
-case class ConstraintFunction[A,B](f: NonEmptyList[A] => B) {
-  def apply(a: NonEmptyList[A]): B =
+case class ConstraintFunction[A](f: NonEmptyList[A] => Double) {
+  def apply(a: NonEmptyList[A]): Double =
     f(a)
 }
 
-sealed trait Constraint[A,B]
-case class LessThan[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
-case class LessThanEqual[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
-case class Equal[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
-case class InInterval[A,B](f: ConstraintFunction[A,B], interval: Interval[B]) extends Constraint[A,B]
-case class GreaterThan[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
-case class GreaterThanEqual[A,B](f: ConstraintFunction[A,B], v: B) extends Constraint[A,B]
+sealed trait Constraint[A]
+case class LessThan[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
+case class LessThanEqual[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
+case class Equal[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
+case class InInterval[A](f: ConstraintFunction[A], interval: Interval[Double]) extends Constraint[A]
+case class GreaterThan[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
+case class GreaterThanEqual[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
 
 object Constraint {
 
 //  def constrain[M[_]](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
 //    M.map(ma)(_.constrainBy(cs))
 
-  def violationMagnitude[A,B:Fractional](beta: Double, eta: Double, constraints: List[Constraint[A,B]], cs: NonEmptyList[A])(implicit e: Eq[B]): Double =
+  def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint[A]], cs: NonEmptyList[A])(implicit ev: Eq[Double]): Double =
     constraints.map(_ match {
       case LessThan(f, v) =>
         val v2 = f(cs)
@@ -60,7 +59,7 @@ object Constraint {
         else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
       case Equal(f, v) =>
         val v2 = f(cs)
-        if (e.eqv(v2, v)) 0.0 // Doubles are "equal" if they are equivalent using IEEE floats.
+        if (ev.eqv(v2, v)) 0.0 // Doubles are "equal" if they are equivalent using IEEE floats.
         else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
       case InInterval(f, i) =>
         val v2 = f(cs)
@@ -100,10 +99,10 @@ object Constraint {
         else math.pow(math.abs(v2.toDouble + v.toDouble), beta) + eta
     }).sum
 
-  def violationCount[A,B:Fractional](constraints: List[Constraint[A,B]], cs: NonEmptyList[A]): ViolationCount =
+  def violationCount[A](constraints: List[Constraint[A]], cs: NonEmptyList[A]): ViolationCount =
     ViolationCount(constraints.map(satisfies(_, cs)).filterNot(x => x).length).getOrElse(ViolationCount.zero)
 
-  def satisfies[A,B:Fractional](constraint: Constraint[A,B], cs: NonEmptyList[A])(implicit ev: Eq[B]) =
+  def satisfies[A](constraint: Constraint[A], cs: NonEmptyList[A])(implicit ev: Eq[Double]) =
     constraint match {
       case LessThan(f, v) => f(cs) < v
       case LessThanEqual(f, v) => f(cs) <= v

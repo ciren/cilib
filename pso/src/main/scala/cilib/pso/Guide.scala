@@ -14,7 +14,7 @@ object Guide {
     (_, x) => Step.point(M._memory.get(x.state))
 
   def nbest[S](neighbourhood: IndexSelection[Particle[S,Double]])(implicit M: HasMemory[S,Double]): Guide[S,Double] = {
-    (collection, x) => Step.liftK(o => {
+    (collection, x) => Step.withCompare(o => {
       val selected: List[Particle[S,Double]] = neighbourhood(collection, x)
       val fittest = selected.map(e => M._memory.get(e.state)).reduceLeftOption((a, c) => Comparison.compare(a, c) apply (o))
       fittest.getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
@@ -22,7 +22,7 @@ object Guide {
   }
 
   def dominance[S](selection: IndexSelection[Particle[S,Double]]): Guide[S,Double] = {
-    (collection, x) => Step.liftK(o => {
+    (collection, x) => Step.withCompare(o => {
       val neighbourhood = selection(collection, x)
       val comparison = Comparison.dominance(o.opt)
       neighbourhood
@@ -40,6 +40,9 @@ object Guide {
 
   def vonNeumann[S](implicit M: HasMemory[S,Double]) =
     nbest(Selection.latticeNeighbours[Particle[S,Double]])
+
+  def crossover[S](parentAttractors: NonEmptyList[Position[Double]], op: Crossover[Double]): Guide[S,Double] =
+    (collection, x) => Step.pointR(op(parentAttractors).map(_.head))
 
   def nmpc[S](prob: Double): Guide[S,Double] =
     (collection, x) => Step.pointR {

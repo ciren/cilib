@@ -8,7 +8,7 @@ import scalaz.scalacheck.ScalazProperties._
 
 object StepTest extends Spec("Step") {
   val cmp = Comparison.quality(Min)
-  val eval = Eval.unconstrained((l: NonEmptyList[Int]) => l.list.foldLeft(0.0)(_ + _))
+  val eval = Eval.unconstrained((l: NonEmptyList[Int]) => l.list.foldLeft(0.0)(_ + _)).eval
   val rng = RNG.fromTime
 
   implicit def stepEqual = scalaz.Equal[Int].contramap((_: Step[Int,Int]).run.apply(cmp).apply(eval).run(rng)._2)

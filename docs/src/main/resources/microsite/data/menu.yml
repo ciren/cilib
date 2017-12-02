@@ -21,3 +21,10 @@ options:
 
      - title: Step & Iteration
        url: docs/design/step.html
+
+  - title: Usage examples
+    url: docs/usage/index.html
+
+    nested_options:
+      - title: GBest PSO
+        url: docs/usage/gbestpso.html

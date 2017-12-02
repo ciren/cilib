@@ -22,10 +22,11 @@ sealed abstract class Position[A] {
     pos.traverse(f).map(Point(_, boundary))
 
   def take(n: Int): IList[A] =
-    this match {
-      case Point(x, _) => x.list.take(n)
-      case Solution(x,_,_) => x.list.take(n)
-    }
+    pos.list.take(n)
+    // this match {
+    //   case Point(x, _) => x.list.take(n)
+    //   case Solution(x,_,_) => x.list.take(n)
+    // }
 
   def drop(n: Int): IList[A] =
     this match {
@@ -147,13 +148,17 @@ object Position {
       }
   }
 
-  def eval[A](e: Eval[A], pos: Position[A]): RVar[Position[A]] =
+  def eval[F[_],A](e: RVar[NonEmptyList[A] => Objective[A]], pos: Position[A]): RVar[Position[A]] =
     pos match {
       case Point(x, b) =>
         //val (fit, vio) = e.eval(x)
         //val objective = e.eval(x)
         //Solution(x, b, objective)//fit, vio)
-        e.eval(x).map(Solution(x, b, _))
+        e.map(f => {
+                val s: Objective[A] = f.apply(x)
+                Solution(x, b, s)
+              })
+        //e.eval(x).map(Solution(x, b, _))
       case x @ Solution(_, _, _) =>
         RVar.point(x)
     }
@@ -162,7 +167,7 @@ object Position {
     Point(xs, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]]) =
-    domain.traverseU(x => Dist.uniform(Interval(x.lowerValue, x.upperValue))) map (x => Position(x, domain))
+    domain.traverse(Dist.uniform).map(x => Position(x, domain))
 
   def createPositions(domain: NonEmptyList[Interval[Double]], n: Int) =
     createPosition(domain) replicateM n

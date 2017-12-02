@@ -31,7 +31,7 @@ object DE {
 
   // Duplicated from PSO.....
    def better[A](a: Individual[A], b: Individual[A]): Step[A,Individual[A]] =
-    Step.withCompare(comp => RVar.point(Comparison.compare(a, b).apply(comp)))
+    Step.withCompare(comp => Comparison.compare(a, b).apply(comp))
 
 
   def basicMutation[A:Rng](

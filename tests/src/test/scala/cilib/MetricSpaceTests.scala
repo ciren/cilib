@@ -19,7 +19,7 @@ object MetricSpaceTest extends Spec("MetricSpace") {
     Arbitrary.arbitrary[Int => Int].map(MetricSpace.point[Int, Int => Int])
   }
 
-  val doubleGen = Gen.choose(-100000000.0, 100000000.0)
+  implicit val doubleGen = Gen.choose(-100000000.0, 100000000.0)
 
   val listTuple2 = Gen.sized { size =>
     for {
@@ -50,6 +50,8 @@ object MetricSpaceTest extends Spec("MetricSpace") {
   def symmetry[A,B](m: MetricSpace[A,B], x: A, y: A)(implicit E: Eq[B]): Boolean =
     E.eqv(m.dist(x, y), m.dist(y, x))
 
+  // Some discussion: https://en.wikipedia.org/wiki/Triangle_inequality
+  // Look at section on Metric Spaces
   def triangle[A,B](m: MetricSpace[A,B], a: A, b: A, c: A)(implicit F: Field[B], O: Order[B]) =
     O.lteqv(m.dist(a, c), m.dist(a, b) + m.dist(b, c))
 
@@ -62,15 +64,13 @@ object MetricSpaceTest extends Spec("MetricSpace") {
   property("hamming metric space") = forAll { (x: List[Double], y: List[Double], z: List[Double]) =>
     nonnegative(hamming, x, y) &&
     symmetry(hamming, x, y) &&
-    hamming.dist(x, x) == 0// &&
-    //hamming.dist(x,z) <= hamming.dist(x,y) + hamming.dist(y,z)
+    hamming.dist(x, x) == 0
   }
 
   property("identity of indiscernibles") = forAll { (l: List[Double]) =>
     indisc(euclidean, l) &&
     indisc(manhattan, l) &&
-    indisc(chebyshev, l)// &&
-    //indisc(hamming, l)
+    indisc(chebyshev, l)
   }
 
   property("identity") = forAll(listTuple2) { case (x, y) =>
@@ -90,8 +90,10 @@ object MetricSpaceTest extends Spec("MetricSpace") {
     symmetry(chebyshev, x, y)
   }
 
-  property("triangle-inequality") = forAll(listTuple3) { case (x, y, z) =>
-//    triangle(euclidean, x, y, z) &&
+  property("triangle-inequality") = forAll(listTuple3) { t =>
+    val (x, y, z) = t
+
+    triangle(euclidean, x, y, z) &&
     triangle(manhattan, x, y, z) &&
     triangle(chebyshev, x, y, z)
   }
