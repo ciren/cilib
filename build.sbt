@@ -240,7 +240,6 @@ lazy val example = project.dependsOn(core, exec, ga, moo, pso)
       "org.scalaz" %% "scalaz-effect"     % scalazVersion,
       "org.scalaz.stream" %% "scalaz-stream"     % "0.8.6a"
 //      "org.jfree"   % "jfreechart"        % "1.0.19"
-//      "com.lihaoyi" % "ammonite" % "0.8.2" cross CrossVersion.full
     )
   ))
 

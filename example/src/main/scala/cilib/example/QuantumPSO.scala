@@ -174,7 +174,7 @@ object QuantumPSO extends SafeApp {
   object MPB {
 
     def initialPeaks(/*s: Double,*/ domain: NonEmptyList[spire.math.Interval[Double]]): RVar[NonEmptyList[Problems.PeakCone]] =
-      Problems.initPeaks(5, domain)//(1 to 2).toList.traverse(_ => Problems.defaultPeak(domain, s))
+      Problems.defaultPeaks(5, domain)
 
     def iteration(
       swarm: List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]
