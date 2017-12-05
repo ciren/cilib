@@ -1,5 +1,4 @@
 ---
-layout: docs
 title: "Design"
 ---
 
@@ -53,4 +52,3 @@ several sub-projects:
 * *moo* - typeclasses, instances and data structures for Multi-Objective
   Optimization
 * *pso* - data structures and logic related to Particle Swarm Optimization
-

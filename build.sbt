@@ -4,7 +4,6 @@ import sbtrelease._
 import sbtrelease.ReleasePlugin._
 import sbtrelease.ReleaseStateTransformations._
 import sbtunidoc.Plugin.UnidocKeys._
-import microsites._
 
 val scalazVersion     = "7.2.7"
 val spireVersion      = "0.13.0"
@@ -194,33 +193,54 @@ lazy val core = project
     |import cilib._    |""".stripMargin
   ))
 
+val siteStageDirectory    = SettingKey[File]("site-stage-directory")
+val copySiteToStage       = TaskKey[Unit]("copy-site-to-stage")
+
 lazy val docs = project.in(file("docs"))
-  .enablePlugins(MicrositesPlugin)
+  .enablePlugins(GhpagesPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin)
+  .settings((scalacOptions in Tut) ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code"))))
+  .settings(ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox))
   .settings(moduleName := "cilib-docs")
   .settings(cilibSettings)
   .settings(noPublishSettings)
   .settings(unidocSettings)
-  .settings(ghpages.settings)
   .settings(docSettings)
-  .settings(tutScalacOptions ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code"))))
   .dependsOn(core, example, exec, pso, moo, ga)
 
 lazy val docSettings = Seq(
-    micrositeName := "CIlib",
-    micrositeDescription := "Verifiable Computational Intelligence",
-    micrositeBaseUrl := "/cilib",
-    micrositeDocumentationUrl := "/cilib/docs",
-    //micrositeAuthor := "",
-    micrositeHomepage := "http://cirg-up.github.io",
-    micrositeGithubOwner := "cirg-up",
-    micrositeGithubRepo := "cilib",
-    //micrositeHighlightTheme := "monokai",
-    micrositeExtraMdFiles := Map(file("README.md") -> ExtraMdFileConfig("index.html", "home", Map("title" -> "Home", "section" -> "home"))),
-    fork in tut := true,
-    siteSubdirName in SiteScaladoc := "api",
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
-    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc)
-  )
+  fork in tut := true,
+  tutSourceDirectory := sourceDirectory.value / "main" / "tut",
+  siteSubdirName in SiteScaladoc := "api",
+  unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
+  addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
+  git.remoteRepo := "git@github.com:{your username}/{your project}.git",
+  siteStageDirectory := target.value / "site-stage",
+  sourceDirectory in paradox in Paradox := siteStageDirectory.value,
+  sourceDirectory in paradox  := siteStageDirectory.value,
+  paradoxMaterialTheme in Paradox ~= {
+    _.withFavicon("img/favicon.png")
+      .withLogo("img/sbt-logo.svg")
+      .withRepository(uri("https://github.com/cirg-up/cilib"))
+  },
+  version in Paradox := {
+    if (isSnapshot.value) "git tag -l".!!.split("\r?\n").last.substring(1)
+    else version.value
+  },
+  copySiteToStage := {
+    IO.copyDirectory(
+      source = sourceDirectory.value / "main" / "paradox",
+      target = siteStageDirectory.value,
+      overwrite = false,
+      preserveLastModified = true)
+    IO.copyDirectory(
+      source = tutTargetDirectory.value,
+      target = siteStageDirectory.value,
+      overwrite = false,
+      preserveLastModified = true)
+  },
+  copySiteToStage := copySiteToStage.dependsOn(tut).value,
+  makeSite := makeSite.dependsOn(copySiteToStage).value
+)
 
 lazy val credentialSettings = Seq(
   credentials ++= (for {

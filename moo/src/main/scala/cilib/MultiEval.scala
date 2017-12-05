@@ -19,7 +19,7 @@ object MultiEval {
 
 }
 
-
+/*
 sealed trait Collection[A]
 final case class Single[A](x: List[A]) extends Collection[A]
 final case class Multiple[A](main: List[A], subs: List[Single[A]]) extends Collection[A]
@@ -45,3 +45,4 @@ object Collection {
         Multiple(m, subs :+ Single(s))
     }
 }
+*/
