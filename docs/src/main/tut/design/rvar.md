@@ -1,7 +1,3 @@
----
-title: "RVar"
----
-
 ```tut:invisible
 import cilib._
 import scalaz._

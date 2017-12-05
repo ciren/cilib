@@ -1,7 +1,3 @@
----
-title: "Position"
----
-
 ```tut:invisible
 import cilib._
 import cilib.algebra._

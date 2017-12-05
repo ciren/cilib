@@ -1,7 +1,3 @@
----
-title: "Entity"
----
-
 ```tut:invisible
 import cilib._
 import spire.math._
