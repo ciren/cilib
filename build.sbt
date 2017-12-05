@@ -210,10 +210,15 @@ lazy val docs = project.in(file("docs"))
 lazy val docSettings = Seq(
   fork in tut := true,
   tutSourceDirectory := sourceDirectory.value / "main" / "tut",
+  ghpagesNoJekyll := true,
+  excludeFilter in ghpagesCleanSite :=
+    new FileFilter {
+      def accept(f: File) = (ghpagesRepository.value / "CNAME").getCanonicalPath == f.getCanonicalPath
+    },
   siteSubdirName in SiteScaladoc := "api",
   unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
   addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
-  git.remoteRepo := "git@github.com:{your username}/{your project}.git",
+  git.remoteRepo := "git@github.com:cirg-up/cilib.git",
   siteStageDirectory := target.value / "site-stage",
   sourceDirectory in paradox in Paradox := siteStageDirectory.value,
   sourceDirectory in paradox  := siteStageDirectory.value,
@@ -223,7 +228,7 @@ lazy val docSettings = Seq(
       .withRepository(uri("https://github.com/cirg-up/cilib"))
   },
   version in Paradox := {
-    if (isSnapshot.value) "git tag -l".!!.split("\r?\n").last.substring(1)
+    if (isSnapshot.value) "git tag -l".!!.split("\r?\n").last.substring(1) // TODO: replace this with jgit / sbt git
     else version.value
   },
   copySiteToStage := {
@@ -238,7 +243,7 @@ lazy val docSettings = Seq(
       overwrite = false,
       preserveLastModified = true)
   },
-  copySiteToStage := copySiteToStage.dependsOn(tut).value,
+  copySiteToStage := copySiteToStage.dependsOn(tutQuick).value,
   makeSite := makeSite.dependsOn(copySiteToStage).value
 )
 
@@ -259,7 +264,6 @@ lazy val example = project.dependsOn(core, exec, ga, moo, pso)
       "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
       "org.scalaz" %% "scalaz-effect"     % scalazVersion,
       "org.scalaz.stream" %% "scalaz-stream"     % "0.8.6a"
-//      "org.jfree"   % "jfreechart"        % "1.0.19"
     )
   ))
 

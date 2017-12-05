@@ -1,6 +1,10 @@
----
-title: "Usage"
----
+@@@ index
+
+- [GBest PSO](gbestpso.md)
+
+@@@
+
+# Usage
 
 The following are some usage examples of how to use CIlib to define
 a computational intelligence algorithm, and how to execute the declared

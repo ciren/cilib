@@ -1,14 +1,23 @@
----
-title: "Design"
----
+@@@ index
 
-# Motivations
+- [Overview](overview.md)
+- [Lenses](lenses.md)
+- [Position](position.md)
+- [Entity](entity.md)
+- [RVar](rvar.md)
+- [Step](step.md)
+- [Step with State](step_with_state.md)
 
-CIlib is software library which aids in the experimentation and research of
-Computational Intelligence algorithms. Previously, in version 1.0 and lower,
-CIlib started demonstrating several shortcomings, and as a result, the current
-development process began. In order to address these shortcomings, the
-following goals where highlighted:
+@@@
+
+# Design
+
+CIlib is software library which aids in the experimentation and
+research of Computational Intelligence algorithms. Previously, in
+version 1.0 and lower, CIlib started demonstrating several
+shortcomings, and as a result, the current development process
+began. In order to address these shortcomings, the following goals
+where highlighted:
 
 ## Support
 

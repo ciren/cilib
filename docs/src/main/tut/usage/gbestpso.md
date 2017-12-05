@@ -1,7 +1,3 @@
----
-title: "GBest PSO usage sample"
----
-
 # Global Best PSO (GBestPSO)
 
 The `GBestPSO` is the canonical version of the PSO. It is popular, not
