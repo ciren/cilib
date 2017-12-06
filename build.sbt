@@ -225,10 +225,15 @@ lazy val docSettings = Seq(
       .withLogo("img/sbt-logo.svg")
       .withRepository(uri("https://github.com/cirg-up/cilib"))
   },
-  version in Paradox := {
-    if (isSnapshot.value) "git tag -l".!!.split("\r?\n").last.substring(1) // TODO: replace this with jgit / sbt git
-    else version.value
-  },
+ // version in Paradox := {
+ //   val git = GitKeys.gitRunner.value
+ //   val s = streams.value
+
+//    if (isSnapshot.value) git("tag" :: "-l" :: Nil)(, s.log) //"git tag -l".!!.split("\r?\n").last.substring(1) // TODO: replace this with jgit / sbt git
+//    else version.value
+
+//version.value
+//  },
   copySiteToStage := {
     IO.copyDirectory(
       source = sourceDirectory.value / "main" / "paradox",
