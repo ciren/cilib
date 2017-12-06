@@ -17,14 +17,7 @@ research of Computational Intelligence algorithms. Previously, in
 version 1.0 and lower, CIlib started demonstrating several
 shortcomings, and as a result, the current development process
 began. In order to address these shortcomings, the following goals
-where highlighted:
-
-## Support
-
-If you have any feedback or questions, please contact is in ``#cilib`` on
-``FreeNode`` IRC or come chat to us in the project's
-[Gitter channel](https://gitter.im/cirg-up/cilib); alternatively, feel free
-to open an [issue](https://github.com/cirg-up/cilib/issues).
+were highlighted:
 
 ## Principled design
 
@@ -44,7 +37,7 @@ other aspects, CIlib makes an active effort to address the following:
   always double-checking the code.
 - *Reproducability:* Within scientific research, being able to reproduce
   the work of another researcher is important. It's also a fundamental
-  part of the scientific method. When complexities such as randomness,
+  part of the scientific method. With complexities such as randomness,
   this becomes much more difficult and is generally extremely cumbersome.
   CIlib must allow for the perfect replication of experimental work.
 
@@ -61,3 +54,10 @@ several sub-projects:
 * *moo* - typeclasses, instances and data structures for Multi-Objective
   Optimization
 * *pso* - data structures and logic related to Particle Swarm Optimization
+
+## Support
+
+If you have any feedback or questions, please contact is in ``#cilib`` on
+``FreeNode`` IRC or come chat to us in the project's
+[Gitter channel](https://gitter.im/cirg-up/cilib); alternatively, feel free
+to open an [issue](https://github.com/cirg-up/cilib/issues).

@@ -6,7 +6,7 @@ cases, however, we would like to "change" some data value. Using immutable
 data means that we cannot change the value within a structure, instead we
 need to create an updated view of the data with the changes applied. This
 updated view creates new data, where the old data is still present and
-unchanged. Its recommended that the reader become familiar with
+unchanged. It's recommended that the reader become familiar with
 persistent data structures and how they operate. Due to how persistent
 data structures update, by only changing the smallest number of references,
 the needed speed and efficiency is achieved.
@@ -54,7 +54,7 @@ This provides an additional level of surety, that the data being passed to
 a function that requires evidence in order to extract some other piece of
 information for a given type. The scala compiler provides the evidence
 through the use of its implicit lookup mechanics.
-This may seem quite like a mouth full, but let's have a look a few examples
+This may seem quite like a mouthful, but let's have a look a few examples
 that will hopefully make the usage clearer.
 
 Based on the normally accepted usage of "classy lenses", the typeclasses

@@ -50,7 +50,7 @@ state value for the ``Entity``, and it is defined to be ``Unit`` - a type that
 exists with a single value (expressed as ``()``), which is uninteresting.
 
 Some functions use `Entity` instances, but
-constrain the usage base don the shape of the `S` type parameter within the
+constrain the usage based on the shape of the `S` type parameter within the
 `Entity[S,A]`. As mentioned within the discussion of
 [lenses and optics](), a typeclass `HasMemory` is defined to allow a state
 to contain information about some kind of memory for an `Entity`. A data
@@ -94,6 +94,6 @@ individual.map(i => foo(i))
 ```
 
 There are several optics predefined that allow for the zooming in of values in
-the `Position` as well and the state of an `Entity`. Of course a user could define
+the `Position` as well as the state of an `Entity`. Of course a user could define
 their own optics, and it is recommended when custom state types are used,
 in order to work with the `Entity` data.
