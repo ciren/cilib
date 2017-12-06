@@ -15,7 +15,7 @@ matrix:
       jdk: oraclejdk9
 
 script:
-  - sbt clean test docs/makeSite
+  - sbt -sbt-version $SBT_VERSION clean test docs/makeSite
 
 before_deploy:
   # Record minimal build information via the Git user ident
