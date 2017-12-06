@@ -216,7 +216,7 @@ lazy val docSettings = Seq(
   siteSubdirName in SiteScaladoc := "api",
   unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
   addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
-  git.remoteRepo := scmInfo.value.map(_.connection).getOrElse(sys.error("Unable to lookup the scm url")),
+  git.remoteRepo := scmInfo.value.map(_.browseUrl.toString).getOrElse(sys.error("Unable to lookup the scm url")),
   siteStageDirectory := target.value / "site-stage",
   sourceDirectory in paradox in Paradox := siteStageDirectory.value,
   sourceDirectory in paradox  := siteStageDirectory.value,
