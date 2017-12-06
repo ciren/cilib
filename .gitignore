@@ -1,7 +1,5 @@
 data
 target
-simulator.sh
-simulator.bat
 .ensime*
 private.sbt
 .settings
@@ -10,3 +8,4 @@ private.sbt
 .project
 readme.content
 *~
+project/travis-deploy-key

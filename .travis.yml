@@ -3,7 +3,34 @@ scala:
   - 2.12.4
 jdk:
   - oraclejdk8
-script: sbt clean test
+  - oraclejdk9
+
+env:
+  global:
+  - secure: F5930bzECZ3rm062ng6hn8U0B3PL0d+Vqnow+J9aOwu7bK/ecqZUSpud+04GryCsuPDnAL8F5RqF74sa7ib3NAU4IqiozcyITfr7R+NXVKVU/OhLANRnNnGXQaSL6/4gd2NvtONeLiSvmfTJtQtYezBukmhAFkU2a27Pp8CwCas=
+  - secure: PoAdWHYX5wkBtcczX69mF2N8lNevm5G2ThBYJOtgvVovXTPl6QK9FhXxOTl8qRwpW9DdT0tWZkbgfYz6ZKY8wW3s/HCYr876VKA+qkh0LraOUv4gtL3td2Rhz/iKchaRiQfht8kN04F7T9h29xuwrXeRDQ/C3j2oIMo+VhnBfdw=
+
+script:
+  - sbt clean test docs/makeSite
+
+before_deploy:
+  # Record minimal build information via the Git user ident
+  - git config --global user.name "$USER"
+  - git config --global user.email "$TRAVIS_BUILD_NUMBER@$TRAVIS_COMMIT"
+  # Decrypt the secret deploy key using instructions from `travis encrypt-file
+  - openssl aes-256-cbc -K $encrypted_8b0aa0b7878c_key -iv $encrypted_8b0aa0b7878c_iv -in project/travis-deploy-key.enc -out project/travis-deploy-key -d
+  # Start ssh-agent in the background and load the deploy key
+  - eval "$(ssh-agent -s)"
+  - ssh-add project/travis-deploy-key
+
+deploy:
+  provider: script
+  script: sbt publish docs/ghpagesPushSite
+  skip_cleanup: true
+  on:
+    branch: series/2.0.x
+    condition: $TRAVIS_PULL_REQUEST = false
+
 notifications:
   email:
     on_success: never
@@ -14,11 +41,3 @@ notifications:
     - https://webhooks.gitter.im/e/9df9c83ef091cee2f675
     on_success: always
     on_failure: always
-    on_start: false
-env:
-  global:
-  - secure: F5930bzECZ3rm062ng6hn8U0B3PL0d+Vqnow+J9aOwu7bK/ecqZUSpud+04GryCsuPDnAL8F5RqF74sa7ib3NAU4IqiozcyITfr7R+NXVKVU/OhLANRnNnGXQaSL6/4gd2NvtONeLiSvmfTJtQtYezBukmhAFkU2a27Pp8CwCas=
-  - secure: PoAdWHYX5wkBtcczX69mF2N8lNevm5G2ThBYJOtgvVovXTPl6QK9FhXxOTl8qRwpW9DdT0tWZkbgfYz6ZKY8wW3s/HCYr876VKA+qkh0LraOUv4gtL3td2Rhz/iKchaRiQfht8kN04F7T9h29xuwrXeRDQ/C3j2oIMo+VhnBfdw=
-
-after_success:
-  - "[[ $TRAVIS_BRANCH == \"series/2.0.x\" ]] && { sbt publish; };"
