@@ -37,11 +37,11 @@ object PSOTests extends Properties("QPSO") {
       val opt = Comparison.dominance(Min)
       val eval = Eval.unconstrained((x: NonEmptyList[Double]) => 0.0).eval
       val (_, result) =
-        cilib.pso.PSO.quantum(p, RVar.point(10.0), (_,_) => Dist.weibull(1.0, 1.5)) //(a,b) => Dist.uniform(spire.math.Interval(a,b)))
+        cilib.pso.PSO.quantum(p, RVar.point(10.0), (a,b) => Dist.uniform(spire.math.Interval(a,b)))
           .run(opt)(eval).run(RNG.init(seed))
 
       val vectorLength = math.sqrt(result.pos.foldLeft(0.0)((a,c) => a + c*c))
-      println(vectorLength)
+
       vectorLength <= 10.0
     }
   }
