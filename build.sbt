@@ -3,7 +3,6 @@ import sbt.Keys._
 import sbtrelease._
 import sbtrelease.ReleasePlugin._
 import sbtrelease.ReleaseStateTransformations._
-import sbtunidoc.Plugin.UnidocKeys._
 
 val scalazVersion     = "7.2.7"
 val spireVersion      = "0.13.0"
@@ -197,13 +196,12 @@ val siteStageDirectory    = SettingKey[File]("site-stage-directory")
 val copySiteToStage       = TaskKey[Unit]("copy-site-to-stage")
 
 lazy val docs = project.in(file("docs"))
-  .enablePlugins(GhpagesPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin)
+  .enablePlugins(GhpagesPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin, ScalaUnidocPlugin)
   .settings((scalacOptions in Tut) ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code"))))
   .settings(ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox))
   .settings(moduleName := "cilib-docs")
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .settings(unidocSettings)
   .settings(docSettings)
   .dependsOn(core, example, exec, pso, moo, ga)
 

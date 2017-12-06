@@ -3,8 +3,8 @@ resolvers += Resolver.url(
     url("http://dl.bintray.com/content/tpolecat/sbt-plugin-releases"))(
       Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.eed3si9n"      % "sbt-unidoc"  % "0.3.3")
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.3")
+addSbtPlugin("com.eed3si9n"      % "sbt-unidoc"  % "0.4.1")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.6")
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "1.2.1")
 
 //addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
