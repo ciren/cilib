@@ -1,4 +1,7 @@
 language: scala
+
+sudo: false
+
 scala:
   - 2.12.4
 
@@ -47,3 +50,13 @@ notifications:
     - https://webhooks.gitter.im/e/9df9c83ef091cee2f675
     on_success: always
     on_failure: always
+
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt
+
+before_cache:
+  # Cleanup the cached directories to avoid unnecessary cache updates
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt        -name "*.lock"               -print -delete

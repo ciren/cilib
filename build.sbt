@@ -208,6 +208,7 @@ lazy val docs = project.in(file("docs"))
 lazy val docSettings = Seq(
   fork in tut := true,
   tutSourceDirectory := sourceDirectory.value / "main" / "tut",
+  git.remoteRepo := "git@github.com:cirg-up/cilib.git",
   ghpagesNoJekyll := true,
   excludeFilter in ghpagesCleanSite :=
     new FileFilter {
@@ -216,7 +217,6 @@ lazy val docSettings = Seq(
   siteSubdirName in SiteScaladoc := "api",
   unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
   addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
-  git.remoteRepo := scmInfo.value.map(_.browseUrl.toString).getOrElse(sys.error("Unable to lookup the scm url")),
   siteStageDirectory := target.value / "site-stage",
   sourceDirectory in paradox in Paradox := siteStageDirectory.value,
   sourceDirectory in paradox  := siteStageDirectory.value,
