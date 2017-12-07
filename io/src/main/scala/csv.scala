@@ -1,11 +1,18 @@
 package cilib
 package io
 
+@annotation.implicitNotFound(
+  """Not all members of type ${A} have instances of EncodeCsv defined or in scope.
+It is recommended to examine the fields of ${A} and then to define
+an instance of EncodeCsv for the custom parameter type. The predefined
+known instances are for the following types: Boolean, Byte, Short,
+Int, Long, FLoat, Double, String, and Foldable[_] types such as List""")
 trait EncodeCsv[A] {
   def encode(a: A): List[String]
 }
 
 object EncodeCsv {
+  import scalaz.Foldable
   import shapeless._
   import shapeless.labelled._
 
@@ -22,8 +29,9 @@ object EncodeCsv {
   implicit val doubleEncodeCsv = EncodeCsv[Double](x => List(x.toString))
   implicit val stringEncodeCsv = EncodeCsv[String](List(_))
 
-  implicit def listEncodeCsv[A](implicit A:EncodeCsv[A]) =
-    EncodeCsv[List[A]](l => List(l.flatMap(A.encode).mkString("[", ",", "]")))
+  implicit def foldableEncodeCsv[F[_], A](implicit F: Foldable[F], A: EncodeCsv[A]) =
+    EncodeCsv[F[A]](l =>
+      List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
 
   implicit def genericEncodeCsv[A,R](
     implicit gen: Generic.Aux[A,R],
@@ -43,10 +51,8 @@ object EncodeCsv {
       case h :: t => hEncode.encode(h) ++ tEncode.encode(t)
     }
 
-  def write[A](a: A)(implicit enc: EncodeCsv[A]): String = {
-    println("Generated instance: " + enc)
+  def write[A](a: A)(implicit enc: EncodeCsv[A]): String =
     enc.encode(a).mkString(",")
-  }
 
 
   /* Header column name derivations */
