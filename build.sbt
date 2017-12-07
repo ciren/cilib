@@ -225,15 +225,9 @@ lazy val docSettings = Seq(
       .withLogo("img/sbt-logo.svg")
       .withRepository(uri("https://github.com/cirg-up/cilib"))
   },
- // version in Paradox := {
- //   val git = GitKeys.gitRunner.value
- //   val s = streams.value
-
-//    if (isSnapshot.value) git("tag" :: "-l" :: Nil)(, s.log) //"git tag -l".!!.split("\r?\n").last.substring(1) // TODO: replace this with jgit / sbt git
-//    else version.value
-
-//version.value
-//  },
+  paradoxProperties in Compile ++= Map(
+    "github.base_url" -> s"https://github.com/cirg-up/cilib/tree/series/2.0.x/${version.value}"
+  ),
   copySiteToStage := {
     IO.copyDirectory(
       source = sourceDirectory.value / "main" / "paradox",
@@ -289,6 +283,8 @@ lazy val tests = project
   .dependsOn(core, pso, ga, moo)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
     moduleName := "cilib-tests",
+    fork in test := true,
+    javaOptions in test += "-Xmx1G",
     libraryDependencies ++= Seq(
       "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
       "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"

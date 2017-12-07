@@ -21,10 +21,13 @@ intelligence algorithms and uses several typeclasses such as `Functor` and
 
 ## Documentation and Support
 
-* Have a look a the [website](https://cirg-up.github.io/cilib)
-* [scaladoc](https://cirg-up.github.io/cilib/api/cilib)
-* The source code of the project also contains several examples, have a look in the `example` directory
+* Have a look a the [website](http://cilib.net)
+* [scaladoc](http://cilib.net/api/cilib)
+* The source code of the project also contains several examples, have
+  a look in the `example` directory
 * If you run into trouble, please open an issue
-* Come join in the discussion in `#cilib` on `FreeNode`, or join the [Gitter channel](https://gitter.im/cirg-up/cilib)
+* Come join in the discussion in `#cilib` on `FreeNode`, or join
+  the [Gitter channel](https://gitter.im/cirg-up/cilib)
 
-CIlib is maintained by several individuals and supported by CIRG @ UP (Computational Intelligence Research Group @ University of Pretoria).
+CIlib is maintained by several individuals and supported by CIRG @ UP
+(Computational Intelligence Research Group @ University of Pretoria).
