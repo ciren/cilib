@@ -251,7 +251,7 @@ lazy val credentialSettings = Seq(
   } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
 )
 
-lazy val example = project.dependsOn(core, exec, ga, moo, pso)
+lazy val example = project.dependsOn(core, exec, ga, io, moo, pso)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
     fork in run := true,
     moduleName := "cilib-example",
@@ -288,5 +288,15 @@ lazy val tests = project
     libraryDependencies ++= Seq(
       "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
       "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
+    )
+  ))
+
+lazy val io = project
+  .dependsOn(core)
+  .settings(cilibSettings ++ noPublishSettings ++ Seq(
+    moduleName := "cilib-io",
+    libraryDependencies ++= Seq(
+      "com.chuusai"    %% "shapeless" % "2.3.2",
+      "org.apache.orc"  % "orc-core"  % "1.3.3"
     )
   ))
