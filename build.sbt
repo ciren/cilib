@@ -193,7 +193,6 @@ val copySiteToStage       = TaskKey[Unit]("copy-site-to-stage")
 
 lazy val docs = project.in(file("docs"))
   .enablePlugins(GhpagesPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin, ScalaUnidocPlugin)
-  .settings((scalacOptions in Tut) ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code"))))
   .settings(ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox))
   .settings(moduleName := "cilib-docs")
   .settings(cilibSettings)
@@ -204,6 +203,7 @@ lazy val docs = project.in(file("docs"))
 lazy val docSettings = Seq(
   fork in tut := true,
   tutSourceDirectory := sourceDirectory.value / "main" / "tut",
+  scalacOptions in Tut ~= (_.filterNot(Set("-Ywarn-unused:imports", "-Ywarn-dead-code"))),
   git.remoteRepo := "git@github.com:cirg-up/cilib.git",
   ghpagesNoJekyll := true,
   excludeFilter in ghpagesCleanSite :=

@@ -54,7 +54,7 @@ object EncodeCsv {
     enc.encode(a).mkString(",")
 }
 
-@annotation.implicitNotFound("Implicit instance is missing")
+@annotation.implicitNotFound("Implicit instance is missing for the provided type ${A}")
 trait ColumnNames[A] {
   def names(a: A): List[String]
 }
