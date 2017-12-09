@@ -17,7 +17,15 @@ We're going to exclude the import statements simply for brevity, but the reader
 is encouraged to examine the example algorithm definition in the `examples`
 sub-module of the project source.
 
-```t:invisible
+## Getting things ready
+
+In order to define an experiment, there are a couple of things we need to
+get ready first. The most obvious should be that there needs to be some kind
+of problem, upon which we will be executing the `GBestPSO`.
+
+As the very first step, we need to get the needed imports in scope:
+
+```tut:silent
 import cilib._
 import cilib.pso._
 import cilib.pso.Defaults._
@@ -35,20 +43,14 @@ import scalaz._
 import Scalaz._
 ```
 
-## Getting things ready
-
-In order to define an experiment, there are a couple of things we need to
-get ready first. The most obvious should be that there needs to be some kind
-of problem, upon which we will be executing the `GBestPSO`.
-
-Let's deine a simple problem, burrowing the problem definition from the
+Let's define a simple problem, borrowing the problem definition from the
 [benchmarks sister project](http://github.com/cirg-up/benchmarks).
 
-```
-val spherical = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double])
+```tut
+val spherical = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
 ```
 
-Here we define a value called `spherical` that is an unconstrained `Eval`
+Here we define a value called `spherical`, which is an unconstrained `Eval`
 instance, which uses the `spherical` function definiton from the benchmarks
 project. We explicitly provide the needed type parameters to keep the compiler
 happy, that being that the `Position` is a `NonEmtpyList[Double]`.
@@ -62,9 +64,9 @@ Let's define the two "particle attractors" which we need in the velocity update
 equation. Because these two values will attract or guide the particle in the search
 space, we refer to them as `Guide` instances:
 
-```t
+```tut
 val cognitive = Guide.pbest[Mem[Double],Double]
-val social    = Guide.gbest[Mem[Double],Double]
+val social    = Guide.gbest[Mem[Double]]
 ```
 
 Again, we need to provide some type parameters to keep the compiler happy, but
@@ -76,7 +78,7 @@ cater for a `HasMemory` instance which exists for the `Mem[Double]` type.
 Now we can define the algorithm itself, providing some constants that are
 known to provide convergent behaviour within the PSO:
 
-```t
+```tut
 val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 val iter = Iteration.sync(gbestPSO)
 ```
@@ -86,7 +88,7 @@ we need to given the algorithm instance. The collection defines the bounds for
 out problem and also defines how the entity instances will be initialized, once
 random positions are generated for the given problem space
 
-```t
+```tut
 val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(-5.12,5.12)^30, 20)
 ```
 
@@ -96,12 +98,12 @@ the algorithm. We define these values and then repeatedly run the algorithm
 on the entity collection, stopping after 1000 iterations of the algorithm
 have been performed
 
-```t
+```tut
 val opt = Comparison.dominance(Min)
 val rng = RNG.fromTime // Seed the RNG with the current time of the computer
 
-val result = Runner.repeat(1000, iter, swarm).run(opt)(sum)
-val positions = result.map(x => Lenses._position.get(x))
+val result = Runner.repeat(1000, iter, swarm).run(opt)(spherical)
+val positions = result.map(_.map(x => Lenses._position.get(x)))
 
 println(positions.run(rng)._2)
 ```
