@@ -185,11 +185,7 @@ lazy val core = project
       Wart.Return,
       Wart.Serializable,
       Wart.Var*/
-    ),
-    initialCommands in console := """
-    |import scalaz._
-    |import Scalaz._
-    |import cilib._    |""".stripMargin
+    )
   ))
 
 val siteStageDirectory    = SettingKey[File]("site-stage-directory")

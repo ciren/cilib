@@ -14,7 +14,6 @@ trait EncodeCsv[A] {
 object EncodeCsv {
   import scalaz.Foldable
   import shapeless._
-  import shapeless.labelled._
 
   final def apply[A](f: A => List[String]) = new EncodeCsv[A] {
     def encode(a: A) = f(a)
@@ -53,39 +52,62 @@ object EncodeCsv {
 
   def write[A](a: A)(implicit enc: EncodeCsv[A]): String =
     enc.encode(a).mkString(",")
+}
 
+@annotation.implicitNotFound("Implicit instance is missing")
+trait ColumnNames[A] {
+  def names(a: A): List[String]
+}
 
-  /* Header column name derivations */
-  trait ColumnName[L <: HList] { def apply(l: L): List[String] }
+object ColumnNames {
+  import scalaz.Foldable
+  import shapeless._
+  import shapeless.labelled._
 
-  trait LowPriorityColumnName {
-    implicit def hconsColumnName1[K <: Symbol, V, T <: HList](
-      implicit wit: Witness.Aux[K],
-      columnName: ColumnName[T]
-    ): ColumnName[FieldType[K, V] :: T] = new ColumnName[FieldType[K, V] :: T] {
-      def apply(l: FieldType[K, V] :: T): List[String] =
-        List(wit.value.name) ++ columnName(l.tail)
+  @inline def apply[A](implicit c: ColumnNames[A]): ColumnNames[A] = c
+
+  def columnName[A](f: A => List[String]): ColumnNames[A] =
+    new ColumnNames[A] {
+      def names(a: A) = f(a)
+    }
+
+  implicit val booleanColumnNames = columnName[Boolean](_ => List())
+  implicit val byteColumnNames = columnName[Byte](_ => List())
+  implicit val shortColumnNames = columnName[Short](_ => List())
+  implicit val intColumnNames = columnName[Int](_ => List())
+  implicit val longColumnNames = columnName[Long](_ => List())
+  implicit val floatColumnNames = columnName[Float](_ => List())
+  implicit val doubleColumnNames = columnName[Double](_ => List())
+  implicit val stringColumnNames = columnName[String](_ => List())
+
+  implicit def foldableCoilumnNames[F[_], A](implicit F: Foldable[F], A: ColumnNames[A]) =
+    columnName[F[A]](l =>
+      List(F.toList(l).flatMap(A.names).mkString("[", ",", "]")))
+
+  implicit val hnilColumnsNames: ColumnNames[HNil] =
+    new ColumnNames[HNil] {
+      def names(a: HNil) = List()
+    }
+
+  implicit def hconsColumnNames[K <: Symbol, H, T <: HList](
+    implicit
+    witness: Witness.Aux[K],
+    //hNamer: Lazy[ColumnNames[H]],
+    tNamer: ColumnNames[T]
+  ): ColumnNames[FieldType[K, H] :: T] = {
+    val fieldName: String = witness.value.name
+    new ColumnNames[FieldType[K, H] :: T] {
+      def names(a: FieldType[K, H] :: T) =
+        List(fieldName) ++ tNamer.names(a.tail)
     }
   }
 
-  object ColumnName extends LowPriorityColumnName {
-    implicit val hnilColumnName: ColumnName[HNil] = new ColumnName[HNil] {
-      def apply(l: HNil): List[String] =
-        List.empty[String]
+  implicit def genericColumnNames[A, H <: HList](
+    implicit generic: LabelledGeneric.Aux[A, H],
+    hNamer: Lazy[ColumnNames[H]]
+  ): ColumnNames[A] =
+    new ColumnNames[A] {
+      def names(a: A) =
+        hNamer.value.names(generic.to(a))
     }
-
-    implicit def hconsColumnName[K <: Symbol, V, R <: HList, T <: HList](
-      implicit lgen: LabelledGeneric.Aux[V,R],
-      headColumnName: ColumnName[R],
-      tailColumnName: ColumnName[T]
-    ): ColumnName[FieldType[K,V] :: T] = new ColumnName[FieldType[K,V] :: T] {
-      def apply(l: FieldType[K,V] :: T): List[String] =
-        headColumnName(lgen.to(l.head)) ++ tailColumnName(l.tail)
-    }
-  }
-
-  def writeHeaders[A, L <: HList](a: A)(
-    implicit lgen: LabelledGeneric.Aux[A, L],
-    colName: Lazy[ColumnName[L]]
-  ) = colName.value.apply(lgen.to(a)).mkString(",")
 }
