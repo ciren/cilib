@@ -293,6 +293,8 @@ lazy val io = project
     moduleName := "cilib-io",
     libraryDependencies ++= Seq(
       "com.chuusai"    %% "shapeless" % "2.3.2",
-      "org.apache.orc"  % "orc-core"  % "1.3.3"
+      "org.apache.orc"  % "orc-core"  % "1.3.3",
+      "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.0",
+      "org.apache.parquet" % "parquet-avro" % "1.8.2"
     )
   ))
