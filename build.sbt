@@ -295,6 +295,7 @@ lazy val io = project
       "com.chuusai"    %% "shapeless" % "2.3.2",
       "org.apache.orc"  % "orc-core"  % "1.3.3",
       "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.0",
-      "org.apache.parquet" % "parquet-avro" % "1.8.2"
+      "org.apache.parquet" % "parquet-avro" % "1.8.2",
+      "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
     )
   ))

@@ -1,6 +1,8 @@
 package cilib
 
 import scalaz.Foldable
+import scalaz.stream._
+import scalaz.concurrent.Task
 import com.sksamuel.avro4s._
 import org.apache.parquet.avro._
 import org.apache.avro.generic.GenericRecord
@@ -51,6 +53,15 @@ package object io {
     }
   }
 
+  def csvSink[A:EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[A]): Sink[Task, A] = {
+    val fileWriter = new java.io.PrintWriter(file)
+
+    sink.lift { (input: A) =>
+      val encoded = A.encode(input)
+      Task.delay(fileWriter.println(encoded.mkString(",")))
+    }.onComplete(Process.eval_(Task.delay(fileWriter.close())))
+  }
+
   def writeParquet[F[_]:Foldable,A:SchemaFor:ToRecord](file: java.io.File, data: F[A])(implicit T: ToRecord[A]) = {
     val testConf = new Configuration
     val schema = AvroSchema[A]
@@ -66,6 +77,26 @@ package object io {
     Foldable[F].toList(data).foreach(item => writer.write(T.apply(item)))
 
     writer.close()
+  }
+
+  def parquetSink[A:SchemaFor:ToRecord](file: java.io.File)(implicit toRecord: ToRecord[A]): Sink[Task, A] = {
+    val testConf = new Configuration
+    val schema = AvroSchema[A]
+
+    println("schema: " + schema)
+
+    val path = new Path(file.getAbsolutePath)
+
+    val writer = AvroParquetWriter
+      .builder[GenericRecord](path)
+      .withSchema(schema)
+      .withConf(testConf)
+      .build()
+
+    val complete = Process.eval_(Task.delay(writer.close))
+
+    sink.lift { (input: A) => Task.delay(writer.write(toRecord.apply(input))) }
+      .onComplete(complete)
   }
 
 }
