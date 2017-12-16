@@ -34,9 +34,9 @@ object EncodeCsv {
 
   implicit def genericEncodeCsv[A,R](
     implicit gen: Generic.Aux[A,R],
-    enc: EncodeCsv[R]
+    enc: Lazy[EncodeCsv[R]]
   ): EncodeCsv[A] =
-    EncodeCsv(a => enc.encode(gen.to(a)))
+    EncodeCsv(a => enc.value.encode(gen.to(a)))
 
   // HList induction
   implicit val hnilToEncodeCsv: EncodeCsv[HNil] =
