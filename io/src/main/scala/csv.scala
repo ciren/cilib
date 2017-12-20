@@ -91,8 +91,9 @@ object ColumnNames {
 
   implicit def hconsColumnNames[K <: Symbol, H, T <: HList](
     implicit
-    witness: Witness.Aux[K],
-    tNamer: ColumnNames[T]
+      witness: Witness.Aux[K],
+//      hNamer: ColumnNames[H],
+      tNamer: ColumnNames[T]
   ): ColumnNames[FieldType[K, H] :: T] = {
     val fieldName: String = witness.value.name
     new ColumnNames[FieldType[K, H] :: T] {

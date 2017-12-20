@@ -28,7 +28,6 @@ As the very first step, we need to get the needed imports in scope:
 ```tut:silent
 import cilib._
 import cilib.pso._
-import cilib.pso.Defaults._
 
 import scalaz.NonEmptyList
 import scalaz.effect._
@@ -79,7 +78,7 @@ Now we can define the algorithm itself, providing some constants that are
 known to provide convergent behaviour within the PSO:
 
 ```tut
-val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
+val gbestPSO = pso.Defaults.gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 val iter = Iteration.sync(gbestPSO)
 ```
 

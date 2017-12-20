@@ -22,11 +22,11 @@ package object io {
       case Some(o) =>
         val pw = new java.io.PrintWriter(file, "UTF-8")
 
-        pw.write(N.names(o).mkString("", ",", "\n"))
+        pw.println(N.names(o).mkString(","))
 
         list.foreach(item => {
           val encoded = EncodeCsv.write(item)
-          pw.write(s"$encoded\n")
+          pw.println(encoded)
         })
 
         pw.close
@@ -46,7 +46,7 @@ package object io {
 
         list.foreach(item => {
           val encoded = EncodeCsv.write(item)
-          pw.write(s"$encoded\n")
+          pw.println(encoded)
         })
 
         pw.close
@@ -57,6 +57,21 @@ package object io {
     val fileWriter = new java.io.PrintWriter(file)
 
     sink.lift { (input: A) =>
+      val encoded = A.encode(input)
+      Task.delay(fileWriter.println(encoded.mkString(",")))
+    }.onComplete(Process.eval_(Task.delay(fileWriter.close())))
+  }
+
+  def csvHeaderSink[A:EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[A], N: ColumnNames[A]): Sink[Task, A] = {
+    val fileWriter = new java.io.PrintWriter(file)
+    var headerWritten = false
+
+    sink.lift { (input: A) =>
+      if (!headerWritten) {
+        fileWriter.println(N.names(input).mkString(","))
+        headerWritten = true
+      }
+
       val encoded = A.encode(input)
       Task.delay(fileWriter.println(encoded.mkString(",")))
     }.onComplete(Process.eval_(Task.delay(fileWriter.close())))
