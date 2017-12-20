@@ -30,21 +30,11 @@ before_deploy:
   # Start ssh-agent in the background and load the deploy key
   - eval "$(ssh-agent -s)"
   - ssh-add project/travis-deploy-key
+  - chmod a+x project/deploy-site.sh
 
 deploy:
   provider: script
-  script:
-    - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" publish docs/makeSite
-    - mkdir _site
-    - cd _site
-    - git clone git@github.com:cirg-up/cilib.git --branch gh-pages --depth 1 .
-    - git checkout --orphan newBranch
-    - cp -R ../docs/target/site .
-    - git add --all
-    - git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER update site"
-    - git branch -D gh-pages
-    - git branch -m gh-pages
-    - git push --force origin gh-pages
+  script: ./project/deploy-site.sh
   skip_cleanup: true
   on:
     branch: series/2.0.x
