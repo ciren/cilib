@@ -26,7 +26,7 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",     // Allow definition of implicit functions called views
     "-unchecked",                        // Enable additional warnings where generated code depends on assumptions.
     "-Xcheckinit",                       // Wrap field accessors to throw an exception on uninitialized access.
-    //"-Xfatal-warnings",                  // Fail the compilation if there are any warnings.
+    //"-Xfatal-warnings",                // Fail the compilation if there are any warnings.
     "-Xfuture",                          // Turn on future language features.
     "-Xlint:adapted-args",               // Warn if an argument list is modified to match the receiver.
     "-Xlint:by-name-right-associative",  // By-name parameter of right associative operator.
@@ -174,21 +174,30 @@ lazy val core = project
       "org.spire-math"             %% "spire"             % spireVersion,
       "com.github.julien-truffaut" %% "monocle-core"      % monocleVersion,
       "com.chuusai"                %% "shapeless"         % "2.3.2"
-    /*),
+    ),
     wartremoverErrors ++= Seq(
-      //Wart.Any,
-      Wart.Any2StringAdd,
-      //Wart.AsInstanceOf,
-      //Wart.IsInstanceOf,
+      Wart.ArrayEquals,
+      Wart.JavaSerializable,
+      //      Wart.Any,
+      Wart.ExplicitImplicitTypes,
+      Wart.LeakingSealed,
+      Wart.StringPlusAny,
+      Wart.AsInstanceOf,
+      Wart.IsInstanceOf,
+      Wart.ImplicitConversion,
+      Wart.ImplicitParameter,
       Wart.DefaultArguments,
-      Wart.ListOps,
+      //Wart.ListOps,
       Wart.NonUnitStatements,
       Wart.Null,
+      Wart.Option2Iterable,
       Wart.OptionPartial,
+      //Wart.Overloading,
       Wart.Product,
       Wart.Return,
       Wart.Serializable,
-      Wart.Var*/
+      Wart.TraversableOps,
+      Wart.Var
     )
   ))
 

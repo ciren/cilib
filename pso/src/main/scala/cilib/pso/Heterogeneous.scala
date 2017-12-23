@@ -50,27 +50,32 @@ object PoolItem {
 object Pool {
 
   // Assign given score to each behaviour
-  def mkPool[A](w: Double, xs: A*) = xs.map{ PoolItem(_, w) }.toList
+  def mkPool[A](w: Double, xs: NonEmptyList[A]) =
+    xs.map(PoolItem(_, w))
 
   // Assign 1/|xs| as score
-  def mkEvenPool[A](xs: A*) = mkPool(1.0 / xs.length, xs: _*)
+  def mkEvenPool[A](xs: NonEmptyList[A]) =
+    mkPool(1.0 / xs.length, xs)
 
   // Assign 0 as score
-  def mkZeroPool[A](xs: A*) = mkPool(0.0, xs: _*)
+  def mkZeroPool[A](xs: NonEmptyList[A]) =
+    mkPool(0.0, xs)
 
   // Convert given pool scores from double to list
-  def mkPoolListScore[A](pool: Pool[A]) = pool map { _.split }
+  def mkPoolListScore[A](pool: Pool[A]) =
+    pool.map(_.split)
 
   // Create new behaviours with same scores as old behaviours
-  def mkFromOldPool[A](oldP: Pool[A], xs: A*) = (oldP zip xs.toList).map { case (x, y) =>
-    x.change(y)
-  }
+  def mkFromOldPool[A](oldP: Pool[A], xs: NonEmptyList[A]) =
+    (oldP zip xs).map { case (x, y) =>
+      x.change(y)
+    }
 
   // Give entities updated behaviours
   def updateUserBehaviours[A, B](oldP: Pool[B], newP: Pool[B])(xs: List[User[A,B]]) = {
     val pool = oldP zip newP
     xs map { x =>
-      pool.dropWhile(a => a._1.item != x.item.item)
+      pool.toList.dropWhile(a => a._1.item != x.item.item)
         .headOption.map(y => User(x.user, y._2))
         .getOrElse(sys.error("Behaviour not in behaviour pool."))
     }
@@ -103,8 +108,7 @@ object Heterogeneous {
       pool       <- M.get
       collection <- StepS.pointR(xs.traverse {
         x => RVar.shuffle(pool).map {
-          _.headOption.map(User(x,_))
-            .getOrElse(sys.error("Empty behaviour pool."))
+          l => User(x, l.head)
         }
       })
     } yield collection
@@ -123,7 +127,7 @@ object Heterogeneous {
       for {
         pool <- M.get
         user <- StepS.pointR(RVar.shuffle(pool).map {
-          _.headOption.map(User(x.user, _)).getOrElse(sys.error("Empty behaviour pool."))
+          l => User(x.user, l.head)
         })
       } yield user
     }
@@ -133,9 +137,9 @@ object Heterogeneous {
        val M = MonadState[StepS[C,Pool[B],?],Pool[B]]
        for {
          pool <- M.get
-         user <- StepS.pointR(RVar.shuffle(pool).map(_.take(k)).map {
+         user <- StepS.pointR(RVar.shuffle(pool).map(_.toList.take(k)).map {
            bs => {
-             val tournament = bs.take(k)
+             val tournament = bs.take(k) // ???? This is an error. Might as well just use head directly???
              val head = tournament.headOption.getOrElse(sys.error("Empty behaviour pool."))
 
              bs.foldLeft(User(x.user, head)) {

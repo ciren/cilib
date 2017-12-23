@@ -49,9 +49,15 @@ object DE {
       val target: RVar[Individual[A]] = selection(collection)
       val filtered = target.map(t => collection.filterNot(a => List(t,x).contains(a)))
       val pairs: RVar[List[Position[A]]] =
-        filtered.flatMap(RVar.shuffle)
-          .map(a => createPairs(List.empty[(Individual[A],Individual[A])], a.take(2))
-            .map(z => z._1.pos - z._2.pos))
+        filtered.flatMap(_.toNel match {
+          case Some(l) =>
+            RVar.shuffle(l)
+              .map(a => createPairs(List.empty[(Individual[A],Individual[A])], a.toList.take(2))
+                .map(z => z._1.pos - z._2.pos))
+          case None =>
+            RVar.point(List.empty)
+        })
+
 
       for {
         t <- target

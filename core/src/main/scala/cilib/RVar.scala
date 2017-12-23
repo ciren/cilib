@@ -2,8 +2,7 @@ package cilib
 
 import _root_.scala.Predef.{any2stringadd => _, _}
 import scalaz._
-import scalaz.syntax.applicative._
-import scalaz.syntax.traverse._
+import Scalaz._
 import scalaz.Free._
 
 import spire.math._
@@ -65,65 +64,72 @@ object RVar {
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
-  def shuffle[A](xs: List[A]): RVar[List[A]] = {
+  def shuffle[A](xs: NonEmptyList[A]): RVar[NonEmptyList[A]] = {
     sealed trait BinTree
-    case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
-    case class Leaf(element: A) extends BinTree
+    final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
+    final case class Leaf(element: A) extends BinTree
 
     def fix[AA, B](f: (AA => B) => (AA => B)): AA => B = f(fix(f))(_)
 
-    def buildTree(zs: List[A]) = {
-      def join(left: BinTree, right: BinTree) = (left, right) match {
-        case (Leaf(_), Leaf(_)) => Node(2, left, right)
-        case (Node(ct, _, _), Leaf(_)) => Node(ct + 1, left, right)
-        case (Leaf(_), Node(ct, _, _)) => Node(ct + 1, left, right)
-        case (Node(ctl, _, _), Node(ctr, _, _)) => Node(ctl + ctr, left, right)
-      }
-
-      def inner(l: List[BinTree]): List[BinTree] = l match {
-        case Nil => Nil
-        case e :: Nil => e :: Nil
-        case e1 :: e2 :: es => join(e1, e2) :: inner(es)
-      }
-
-      fix[List[BinTree], List[BinTree]](f => a => if (a.length == 1) a else f(inner(a)))(zs.map(Leaf(_)))
-    }
-
-    def extractTree(n: Int, t: BinTree): (A, BinTree) = (n, t) match {
-      case (0, Node(_, Leaf(e), r)) => (e, r)
-      case (1, Node(2, Leaf(l), Leaf(r))) => (r, Leaf(l))
-      case (n, Node(c, Leaf(l), r)) =>
-        val (e, r2) = extractTree(n - 1, r)
-        (e, Node(c - 1, Leaf(l), r2))
-      case (n, Node(c, l, Leaf(e))) if n + 1 == c => (e, l)
-      case (n, Node(c, l @ Node(c1, _, _), r)) =>
-        if (n < c1) {
-          val (e, l2) = extractTree(n, l)
-          (e, Node(c - 1, l2, r))
-        } else {
-          val (e, r2) = extractTree(n - c1, r)
-          (e, Node(c - 1, l, r2))
+    def buildTree(zs: NonEmptyList[A]): NonEmptyList[BinTree] = {
+      def join(left: BinTree, right: BinTree): BinTree =
+        (left, right) match {
+          case (Leaf(_), Leaf(_)) => Node(2, left, right)
+          case (Node(ct, _, _), Leaf(_)) => Node(ct + 1, left, right)
+          case (Leaf(_), Node(ct, _, _)) => Node(ct + 1, left, right)
+          case (Node(ctl, _, _), Node(ctr, _, _)) => Node(ctl + ctr, left, right)
         }
-      case (_, _) => sys.error("[extractTree] impossible")
+
+      def inner(l: NonEmptyList[BinTree]): NonEmptyList[BinTree] = {
+        def go(xs: List[BinTree]): List[BinTree] =
+          xs match {
+            case e :: Nil => List(e)
+            case e1 :: e2 :: es => join(e1, e2) :: go(es)
+            case Nil => List.empty[BinTree]
+          }
+
+        go(l.toList).toNel.getOrElse(sys.error("This is impossible as the input is non-empty"))
+      }
+
+      fix[NonEmptyList[BinTree], NonEmptyList[BinTree]](f => a => if (a.length == 1) a else f(inner(a)))(zs.map(Leaf(_)))
     }
 
-    def shuffleTree(l: BinTree, rs: List[Int]): List[A] = (l, rs) match {
-      case (Leaf(e), Nil) => e :: Nil
-      case (tree, r :: rs) =>
-        val (b, rest) = extractTree(r, tree)
-        b :: shuffleTree(rest, rs)
-      case (_, _) => sys.error("[shuffle] called with lists of different lengths")
-    }
+    def extractTree(n: Int, t: BinTree): (A, BinTree) =
+      (n, t) match {
+        case (0, Node(_, Leaf(e), r)) => (e, r)
+        case (1, Node(2, Leaf(l), Leaf(r))) => (r, Leaf(l))
+        case (n, Node(c, Leaf(l), r)) =>
+          val (e, r2) = extractTree(n - 1, r)
+          (e, Node(c - 1, Leaf(l), r2))
+        case (n, Node(c, l, Leaf(e))) if n + 1 == c => (e, l)
+        case (n, Node(c, l @ Node(c1, _, _), r)) =>
+          if (n < c1) {
+            val (e, l2) = extractTree(n, l)
+            (e, Node(c - 1, l2, r))
+          } else {
+            val (e, r2) = extractTree(n - c1, r)
+            (e, Node(c - 1, l, r2))
+          }
+        case (_, _) => sys.error("[extractTree] impossible")
+      }
 
-    import scalaz.std.list._
+    def shuffleTree(l: BinTree, rs: List[Int]): NonEmptyList[A] =
+      (l, rs) match {
+        case (Leaf(e), Nil) => NonEmptyList(e)
+        case (tree, r :: rs) =>
+          val (b, rest) = extractTree(r, tree)
+          b <:: shuffleTree(rest, rs)
+        case (_, _) => sys.error("[shuffle] called with lists of different lengths")
+      }
 
     val length = xs.length - 1
-    val randoms = (0 until length).foldLeft(List.empty[RVar[Int]])((a, c) => Dist.uniformInt(Interval(0, length - c)) :: a).reverse.sequence // TODO / FIX: Remove the need to reverse!
+    val randoms: RVar[List[Int]] =
+      (0 until length)
+        .foldLeft(List.empty[RVar[Int]])((a, c) => Dist.uniformInt(Interval(0, length - c)) :: a)
+        .reverse // TODO / FIX: Remove the need to reverse!
+        .sequence
 
-    xs match {
-      case Nil => RVar.point(xs)
-      case x => randoms map { r => shuffleTree(buildTree(x).head, r) } // head is safe because build tree will always result in [node]
-    }
+    randoms map { r => shuffleTree(buildTree(xs).head, r) }
   }
 
   def sample[A](n: Int, xs: List[A]) =
@@ -293,7 +299,7 @@ object Dist {
         if (a._1 == 0) none else (v, (a._1 - 1, a._3, v)).some
       }} :+ 0.0
 
-    (blocks.toList, blocks.apzip(_.tail).map(a => a._1 / a._2).toList)
+    (blocks.toList, blocks.apzip(_.drop(1)).map(a => a._1 / a._2).toList)
   }
 
   def gaussian(mean: Double, dev: Double): RVar[Double] =

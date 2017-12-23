@@ -122,12 +122,13 @@ object Position {
     }
   }
 
-  implicit def positionFitness[A] = new Fitness[Position,A] {
-    def fitness(a: Position[A]) =
-      a.objective
-  }
+  implicit def positionFitness[A]: Fitness[Position,A] =
+    new Fitness[Position,A] {
+      def fitness(a: Position[A]) =
+        a.objective
+    }
 
-  implicit def positionEqual[A:scalaz.Equal] =
+  implicit def positionEqual[A:scalaz.Equal]: scalaz.Equal[Position[A]] =
     scalaz.Equal.equal[Position[A]]((a, b) => (a.pos === b.pos) && (a.boundary === b.boundary))
 
   implicit val positionFoldable1 = new Foldable1[Position] {

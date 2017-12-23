@@ -46,13 +46,14 @@ object Step {
   def evalF[A:Numeric](pos: Position[A]): Step[A,Position[A]] =
     Step { _ => e => Position.eval(e, pos) }
 
-  implicit def stepMonad[A] = new Monad[Step[A,?]] {
-    def point[B](a: => B) =
-      Step.point(a)
+  implicit def stepMonad[A]: Monad[Step[A,?]] =
+    new Monad[Step[A,?]] {
+      def point[B](a: => B) =
+        Step.point(a)
 
-    def bind[B,C](fa: Step[A,B])(f: B => Step[A,C]): Step[A,C] =
-      fa flatMap f
-  }
+      def bind[B,C](fa: Step[A,B])(f: B => Step[A,C]): Step[A,C] =
+        fa flatMap f
+    }
 }
 
 final case class StepS[A,S,B](run: StateT[Step[A,?],S,B]) {
@@ -72,13 +73,14 @@ object StepS {
     (s: scalaz.Lens[A,B]) => monocle.Lens[A,B](s.get)(b => a => s.set(a, b)))(
     (m: monocle.Lens[A,B]) => scalaz.Lens.lensu[A,B]((a,b) => m.set(b)(a), m.get(_)))
 
-  implicit def stepSMonad[A,S] = new Monad[StepS[A,S,?]] {
-    def point[B](a: => B): StepS[A,S,B] =
-      StepS(StateT[Step[A,?],S,B]((s: S) => Step.point((s,a))))
+  implicit def stepSMonad[A,S]: Monad[StepS[A,S,?]] =
+    new Monad[StepS[A,S,?]] {
+      def point[B](a: => B): StepS[A,S,B] =
+        StepS(StateT[Step[A,?],S,B]((s: S) => Step.point((s,a))))
 
-    def bind[B,C](fa: StepS[A,S,B])(f: B => StepS[A,S,C]): StepS[A,S,C] =
-      fa flatMap f
-  }
+      def bind[B,C](fa: StepS[A,S,B])(f: B => StepS[A,S,C]): StepS[A,S,C] =
+        fa flatMap f
+    }
 
   implicit def stepSMonadState[A,S]: MonadState[StepS[A,S,?], S] = new MonadState[StepS[A,S,?], S] {
     private val M = StateT.stateTMonadState[S, Step[A,?]]
@@ -97,7 +99,7 @@ object StepS {
       StepS(M.put(s))
   }
 
-  def apply[A,S,B](f: S => Step[A,(S, B)]): StepS[A,S,B] =
+   def apply[A,S,B](f: S => Step[A,(S, B)]): StepS[A,S,B] =
     StepS(StateT[Step[A,?],S,B](f))
 
   def pointR[A,S,B](a: RVar[B]): StepS[A,S,B] =

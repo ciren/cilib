@@ -1,15 +1,12 @@
 package cilib
 
 import scalaz.NonEmptyList
-import spire.implicits._
 
 trait Input[F[_]] {
   def toInput[A](a: NonEmptyList[A]): F[A]
 }
 
 sealed abstract class Eval[F[_],A] {
-//  private implicit val A = implicitly[spire.algebra.Eq[Double]]
-
   import Eval._
 
   val F: Input[F]
@@ -53,11 +50,12 @@ trait EvalInstances {
     def toInput[A](a: NonEmptyList[A]): NonEmptyList[A] = a
   }
 
-  implicit def pairInput = new Input[Lambda[x => (x, x)]] {
-    def toInput[A](a: NonEmptyList[A]): (A,A) =
-      a.list match {
-        case ICons(a, ICons(b, _)) => (a, b)
-        case _ => sys.error("error producing a pair")
-      }
-  }
+  implicit val pairInput: Input[Lambda[x => (x,x)]] =
+    new Input[Lambda[x => (x, x)]] {
+      def toInput[A](a: NonEmptyList[A]): (A,A) =
+        a.list match {
+          case ICons(a, ICons(b, _)) => (a, b)
+          case _ => sys.error("error producing a pair")
+        }
+    }
 }

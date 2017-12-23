@@ -31,9 +31,9 @@ package object cilib extends EvalInstances {
     def append(a: Double, b: => Double) = a + b
   }
 
-  implicit def PositionModule[A](implicit sc: Rng[A]) =
+  implicit def PositionModule[A](implicit sc: Rng[A]): Module[Position[A],A] =
     new Module[Position[A],A] {
-      implicit def scalar = sc
+      implicit def scalar: Rng[A] = sc
 
       def negate(x: Position[A]) = x.map(scalar.negate)
       def zero = Position(NonEmptyList(scalar.zero), NonEmptyList(spire.math.Interval(0.0, 0.0)))
@@ -62,5 +62,6 @@ package object cilib extends EvalInstances {
     def upperValue = getValue(interval.upperBound)
   }
 
-  implicit def intervalEqual[A] = scalaz.Equal.equalA[Interval[A]]
+  implicit def intervalEqual[A]: scalaz.Equal[Interval[A]] =
+    scalaz.Equal.equalA[Interval[A]]
 }
