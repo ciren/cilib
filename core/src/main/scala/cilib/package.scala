@@ -1,7 +1,10 @@
 
+import eu.timepit.refined._
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.numeric._
 import scalaz._
+import shapeless.nat._
 import spire.algebra.{Monoid => _, _}
-import spire.implicits._
 import spire.math.Interval
 import spire.math.interval.{Bound,ValueBound}
 
@@ -10,20 +13,12 @@ package object cilib extends EvalInstances {
   //type Eval[A] = RVar[NonEmptyList[A] => Objective[A]]
 
   // Should expand into a typeclass? Getter?
-  type Selection[A] = List[A] => List[A]
-  type IndexSelection[A] = (List[A], A) => List[A]
-  type RandSelection[A] = List[A] => RVar[List[A]]
-  type RandIndexSelection[A] = (List[A], A) => RVar[List[A]]
+  type Selection[A] = NonEmptyList[A] => List[A]
+  type IndexSelection[A] = (NonEmptyList[A], A) => List[A]
+  type RandSelection[A] = NonEmptyList[A] => RVar[List[A]]
+  type RandIndexSelection[A] = (NonEmptyList[A], A) => RVar[List[A]]
 
   type Crossover[A] = NonEmptyList[Position[A]] => RVar[NonEmptyList[Position[A]]]
-
-  // implicit val rvarMonad: Monad[RVar] =
-  //   new Monad[RVar] {
-  //     def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-  //       a flatMap f
-  //     def point[A](a: => A) =
-  //       RVar.point(a)
-  //   }
 
   // Find a better home for this - should this even exist? it is unlawful
   implicit object DoubleMonoid extends Monoid[Double] {
@@ -33,6 +28,8 @@ package object cilib extends EvalInstances {
 
   implicit def PositionModule[A](implicit sc: Rng[A]): Module[Position[A],A] =
     new Module[Position[A],A] {
+      import spire.implicits._
+
       implicit def scalar: Rng[A] = sc
 
       def negate(x: Position[A]) = x.map(scalar.negate)
@@ -64,4 +61,17 @@ package object cilib extends EvalInstances {
 
   implicit def intervalEqual[A]: scalaz.Equal[Interval[A]] =
     scalaz.Equal.equalA[Interval[A]]
+
+
+  /* Refinement definitions */
+  def refine[A, B, C](a: A)(f: A Refined B => C)(implicit ev: eu.timepit.refined.api.Validate[A,B]) =
+    refineV[B](a) match {
+      case Left(error) => sys.error(error)
+      case Right(value) => f(value)
+    }
+
+  /** Positive integers are the set of inegers that are greater than 0 */
+  def positiveInt[A](n: Int)(f: Int Refined GreaterEqual[_1] => A) =
+    refine(n)((x: Int Refined GreaterEqual[_1]) => f(x))
+
 }

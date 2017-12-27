@@ -8,6 +8,8 @@ import pso.PSO.{defaultGCParams,GCParams}
 import syntax.algorithm._
 import syntax.step._
 
+import eu.timepit.refined.auto._
+
 import scalaz.{ Lens => _, _ }
 import scalaz.std.stream._
 import scalaz.effect._
@@ -60,19 +62,20 @@ object HPSO extends SafeApp {
 
   def linear(i: Double, f: Double, t: Double) = (x: Int) => (f - i) * (x / t) + i
 
-  def behaviourProfile(p: BehaviourPool, xs: List[Entity]): NonEmptyList[Int] = {
+  def behaviourProfile(p: BehaviourPool, xs: NonEmptyList[Entity]): NonEmptyList[Int] = {
     def one(acc: NonEmptyList[Int], p: BehaviourPool, xs: List[Entity]): NonEmptyList[Int] = {
-      if (xs.isEmpty) acc
-      else {
-        val b = xs.head.item
-        val ind: Option[Int] = p.list.indexWhere(_ eq b)
-        one(acc.zipWithIndex.map { case (x, index) =>
-          ind.filter(_ == index).map(_ + 1).getOrElse(x)
-        }, p, xs.tail)
+      xs match {
+        case Nil => acc
+        case h :: t =>
+          val b = h.item
+          val ind: Option[Int] = p.list.indexWhere(_ eq b)
+          one(acc.zipWithIndex.map { case (x, index) =>
+            ind.filter(_ == index).map(_ + 1).getOrElse(x)
+          }, p, t)
       }
     }
 
-    one(p.map(_ => 0), p, xs)
+    one(p.map(_ => 0), p, xs.toList)
   }
 
   val particleBuilder = PSO.createParticle {
@@ -82,7 +85,7 @@ object HPSO extends SafeApp {
   val bounds = Interval(-5.12,5.12)^2
 
   val population =
-    StepS.pointR[Double,BehaviourPool,List[Particle[PState,Double]]](Position.createCollection(particleBuilder)(bounds, 10))
+    StepS.pointR[Double,BehaviourPool,NonEmptyList[Particle[PState,Double]]](Position.createCollection(particleBuilder)(bounds, 10))
       //.liftStepS[Double,BehaviourPool]
       .flatMap(assignRandom).zoom(StepS.lensIso.get(scalaz.Lens.firstLens[BehaviourPool,Params]))
 
@@ -91,13 +94,13 @@ object HPSO extends SafeApp {
 
   type SI[A] = StepS[Double, (BehaviourPool, Params), A]
 
-  val algorithm = (l: List[Entity]) => {
+  val algorithm = (l: NonEmptyList[Entity]) => {
     import StepS._
     implicit val SP = StateT.stateTMonadState[BehaviourPool, Step[Double, ?]]
     val poolLens = scalaz.Lens.firstLens[BehaviourPool, Params]
 
     Range.inclusive(1, 1000).toStream.map((_, iteration.run))
-      .foldLeftM[SI, List[Entity]](l) {
+      .foldLeftM[SI, NonEmptyList[Entity]](l) {
       (a, c) => for {
         newPopulation <- c._2(a)
         oldPool       <- StepS(SP.get.zoom(poolLens))
@@ -106,7 +109,7 @@ object HPSO extends SafeApp {
           createBehaviours(1000, c._1)
         )
         _             <- StepS(SP.put(newPool).zoom(poolLens))
-      } yield Pool.updateUserBehaviours(oldPool, newPool)(newPopulation.toList)
+      } yield Pool.updateUserBehaviours(oldPool, newPool)(newPopulation)
     }
   }
 

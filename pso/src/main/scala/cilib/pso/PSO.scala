@@ -152,7 +152,7 @@ object PSO {
     }
 
   def acceleration[S](
-    collection: List[Particle[S,Double]],
+    collection: NonEmptyList[Particle[S,Double]],
     x: Particle[S,Double],
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
@@ -163,7 +163,7 @@ object PSO {
 
     Step.point(
       collection
-//        .list
+        .list
         .filter(z => charge(z) > 0.0)
         .foldLeft(x.pos.zeroed) { (p1, p2) => {
           val d = distance(x.pos, p2.pos)

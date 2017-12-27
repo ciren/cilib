@@ -46,7 +46,7 @@ object Guide {
 
   def nmpc[S](prob: Double): Guide[S,Double] =
     (collection, x) => Step.pointR {
-      val col = collection.filter(_ != x)
+      val col = collection.list.filter(_ != x).toNel.getOrElse(sys.error("nmpc...."))
       val chosen = RVar.sample(3, col).run
       val crossover = Crossover.nmpc
 

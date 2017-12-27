@@ -132,10 +132,10 @@ object RVar {
     randoms map { r => shuffleTree(buildTree(xs).head, r) }
   }
 
-  def sample[A](n: Int, xs: List[A]) =
+  def sample[A](n: Int, xs: NonEmptyList[A]) =
     choices(n, xs)
 
-  def choices[A](n: Int, xs: List[A]): OptionT[RVar, List[A]] =
+  def choices[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]] =
     OptionT {
       if (xs.length < n) RVar.point(None)
       else {
@@ -150,7 +150,7 @@ object RVar {
               (currentList diff List(selected), selected :: s)
             })
           }
-        } eval xs).map(Option(_))
+        } eval xs.toList).map(Option(_))
       }
     }
 }

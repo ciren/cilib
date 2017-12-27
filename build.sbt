@@ -173,7 +173,8 @@ lazy val core = project
       "org.scalaz"                 %% "scalaz-concurrent" % scalazVersion,
       "org.spire-math"             %% "spire"             % spireVersion,
       "com.github.julien-truffaut" %% "monocle-core"      % monocleVersion,
-      "com.chuusai"                %% "shapeless"         % "2.3.2"
+      "com.chuusai"                %% "shapeless"         % "2.3.2",
+      "eu.timepit"                 %% "refined"           % "0.8.5"
     ),
     wartremoverErrors in (Compile, compile)++= Seq(
       Wart.ArrayEquals,

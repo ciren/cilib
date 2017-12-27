@@ -80,19 +80,21 @@ object Crossover {
 
       // create the remaining basis vectors
       val initEta = NonEmptyList(parents.last - g)
-      val reta = Position.createPositions(bounds, n - zeta.length)
-      val eta = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
+      positiveInt(n - zeta.length) { value =>
+        val reta = Position.createPositions(bounds, value)//n - zeta.length)
+        val eta = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
 
-      // construct the offspring
-      for {
-        s1    <- Dist.gaussian(0.0, sigma1)
-        s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
-        e_eta <- eta
-      } yield {
-        val vars  = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
-        val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
+        // construct the offspring
+        for {
+          s1    <- Dist.gaussian(0.0, sigma1)
+          s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
+          e_eta <- eta
+        } yield {
+          val vars  = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
+          val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
 
-        NonEmptyList(offspring)
+          NonEmptyList(offspring)
+        }
       }
     }
 }

@@ -3,9 +3,12 @@ package cilib
 import scalaz._
 import Scalaz._
 
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.numeric._
+
 import spire.algebra.{Module,Rng}
-import spire.implicits._
 import spire.math._
+import shapeless.nat._
 
 sealed abstract class Position[A] {
 
@@ -23,10 +26,6 @@ sealed abstract class Position[A] {
 
   def take(n: Int): IList[A] =
     pos.list.take(n)
-    // this match {
-    //   case Point(x, _) => x.list.take(n)
-    //   case Solution(x,_,_) => x.list.take(n)
-    // }
 
   def drop(n: Int): IList[A] =
     this match {
@@ -85,12 +84,16 @@ object Position {
 
   implicit def positionDotProd[A](implicit A: Numeric[A]): algebra.DotProd[Position, A] =
     new algebra.DotProd[Position, A] {
+      import spire.implicits._
+
       def dot(a: Position[A], b: Position[A]): Double =
         a.zip(b).pos.foldLeft(A.zero) { case (a, b) => a + (b._1 * b._2) }.toDouble
     }
 
   implicit def positionPointwise[A](implicit A: Numeric[A]): algebra.Pointwise[Position, A] =
     new algebra.Pointwise[Position, A] {
+      import spire.implicits._
+
       def pointwise(a: Position[A], b: Position[A]) =
         (a zip b).map(x => x._1 * x._2)
     }
@@ -156,9 +159,9 @@ object Position {
         //val objective = e.eval(x)
         //Solution(x, b, objective)//fit, vio)
         e.map(f => {
-                val s: Objective[A] = f.apply(x)
-                Solution(x, b, s)
-              })
+          val s: Objective[A] = f.apply(x)
+          Solution(x, b, s)
+        })
         //e.eval(x).map(Solution(x, b, _))
       case x @ Solution(_, _, _) =>
         RVar.point(x)
@@ -167,13 +170,13 @@ object Position {
   /*private[cilib]*/ def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)
 
-  def createPosition[A](domain: NonEmptyList[Interval[Double]]) =
+  def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
     domain.traverse(Dist.uniform).map(x => Position(x, domain))
 
-  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int) =
-    createPosition(domain) replicateM n
+  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int Refined GreaterEqual[_1]): RVar[NonEmptyList[Position[Double]]] =
+    createPosition(domain).replicateM(n.value).map(_.toNel.getOrElse(sys.error("Impossible -> refinement is n >= 1")))
 
-  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int): RVar[List[A]] =
+  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int Refined GreaterEqual[_1]): RVar[NonEmptyList[A]] =
     createPositions(domain,n).map(_.map(f))
 
 }

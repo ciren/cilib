@@ -72,7 +72,7 @@ object Pool {
     }
 
   // Give entities updated behaviours
-  def updateUserBehaviours[A, B](oldP: Pool[B], newP: Pool[B])(xs: List[User[A,B]]) = {
+  def updateUserBehaviours[A, B](oldP: Pool[B], newP: Pool[B])(xs: NonEmptyList[User[A,B]]) = {
     val pool = oldP zip newP
     xs map { x =>
       pool.toList.dropWhile(a => a._1.item != x.item.item)
@@ -86,7 +86,7 @@ case class User[A, B](user: A, item: PoolItem[B])
 
 object Heterogeneous {
 
-  type Behaviour[S, A, B] = List[Entity[S, A]] => Entity[S, A] => StepS[A, B, Entity[S, A]]
+  type Behaviour[S, A, B] = NonEmptyList[Entity[S, A]] => Entity[S, A] => StepS[A, B, Entity[S, A]]
   type SI[S, A, B] = StepS[A, S, B]
   type HEntity[S, A, B] = User[Entity[S, A], B]
   type HEntityB[S, A, B] = HEntity[S, A, Behaviour[S, A, B]]
@@ -103,7 +103,7 @@ object Heterogeneous {
   }
 
   // Create population with behaviours
-  def assignRandom[A, B, C](implicit M: MonadState[StepS[C,Pool[B],?], Pool[B]]): List[A] => StepS[C,Pool[B],List[User[A, B]]] =
+  def assignRandom[A, B, C](implicit M: MonadState[StepS[C,Pool[B],?], Pool[B]]): NonEmptyList[A] => StepS[C,Pool[B],NonEmptyList[User[A, B]]] =
     xs => for {
       pool       <- M.get
       collection <- StepS.pointR(xs.traverse {
@@ -121,7 +121,7 @@ object Heterogeneous {
     x => User(Entity((x.user.state applyLens S._pbestStagnation) set 0, x.user.pos), x.item)
 
    // Select from behaviour pool
-  def poolSelectRandom[A, B, C]: List[User[A, B]] => User[A, B] => StepS[C,Pool[B],User[A, B]] =
+  def poolSelectRandom[A, B, C]: NonEmptyList[User[A, B]] => User[A, B] => StepS[C,Pool[B],User[A, B]] =
     xs => x => {
       val M = MonadState[StepS[C,Pool[B],?],Pool[B]]
       for {
@@ -132,7 +132,7 @@ object Heterogeneous {
       } yield user
     }
 
-   def poolSelectTournament[A, B, C](k: Int): List[User[A, B]] => User[A, B] => StepS[C,Pool[B],User[A, B]] =
+   def poolSelectTournament[A, B, C](k: Int): NonEmptyList[User[A, B]] => User[A, B] => StepS[C,Pool[B],User[A, B]] =
      xs => x => {
        val M = MonadState[StepS[C,Pool[B],?],Pool[B]]
        for {
@@ -151,7 +151,7 @@ object Heterogeneous {
      }
 
   // Use selected behaviour
-  def useBehaviour[S, A, B]: List[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, B, HEntityB[S, A, B]] =
+  def useBehaviour[S, A, B]: NonEmptyList[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, B, HEntityB[S, A, B]] =
     collection => x => x.item.item(collection.map(_.user))(x.user).map(User(_, x.item))
 
   // Update pool
@@ -174,9 +174,9 @@ object Heterogeneous {
   // Algorithms
   def genericHPSO[S, A, B](
     schedule: HEntityB[S, A, B] => Boolean,
-    selector: List[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, Pool[Behaviour[S, A, B]], HEntityB[S, A, B]],
+    selector: NonEmptyList[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, Pool[Behaviour[S, A, B]], HEntityB[S, A, B]],
     updater: HEntityB[S, A, B] => HEntityB[S, A, B] => StepS[A, Pool[Behaviour[S, A, B]], Pool[Behaviour[S, A, B]]]
-  ): List[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, (Pool[Behaviour[S, A, B]], B), HEntityB[S, A, B]] =
+  ): NonEmptyList[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, (Pool[Behaviour[S, A, B]], B), HEntityB[S, A, B]] =
     collection => x => {
       val S = MonadState[StepS[A, (Pool[Behaviour[S,A,B]], B), ?], (Pool[Behaviour[S,A,B]],B)]
       val pool = first[(Pool[Behaviour[S,A,B]], B), Pool[Behaviour[S,A,B]]]
@@ -193,7 +193,7 @@ object Heterogeneous {
     }
 
   def dHPSO[S: HasPBestStagnation, A, B](stagThreshold: Int):
-      List[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, (Pool[Behaviour[S, A, B]], B), HEntityB[S, A, B]]
+      NonEmptyList[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, (Pool[Behaviour[S, A, B]], B), HEntityB[S, A, B]]
   = genericHPSO(
     pbestStagnated(stagThreshold),
     xs => x => poolSelectRandom(xs)(x).map(resetStagnation),
@@ -201,7 +201,7 @@ object Heterogeneous {
   )
 
   def fkPSO[S: HasPBestStagnation, A, B](stagThreshold: Int, tournSize: Int):
-      List[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, (Pool[Behaviour[S, A, B]], B), HEntityB[S, A, B]]
+      NonEmptyList[HEntityB[S, A, B]] => HEntityB[S, A, B] => StepS[A, (Pool[Behaviour[S, A, B]], B), HEntityB[S, A, B]]
   = genericHPSO(
     pbestStagnated(stagThreshold),
     xs => x => poolSelectTournament(tournSize)(xs)(x).map(resetStagnation),

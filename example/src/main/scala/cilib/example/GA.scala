@@ -1,15 +1,16 @@
 package cilib
 package example
 
+import scalaz._
+import Scalaz._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
-import scalaz.std.list._
-import scalaz.std.option._
-import scalaz.syntax.traverse._
+
+import eu.timepit.refined.auto._
+
 import spire.implicits._
 import spire.math.Interval
 
-import scalaz.NonEmptyList
 import cilib.ga._
 import Lenses._
 
@@ -36,15 +37,18 @@ object GAExample extends SafeApp {
     })
   }
 
-  val randomSelection = (l: List[Individual]) => RVar.sample(2, l).getOrElse(List.empty[Individual])
-  val ga = GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
+  val randomSelection: NonEmptyList[Individual] => RVar[List[Individual]] =
+    (l: NonEmptyList[Individual]) => RVar.sample(2, l).getOrElse(List.empty[Individual])
+
+  val ga: scalaz.NonEmptyList[cilib.ga.Individual] => (cilib.ga.Individual => cilib.Step[Double,List[cilib.ga.Individual]]) =
+    GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
 
   val swarm = Position.createCollection[Individual](x => Entity((), x))(Interval(-5.12,5.12)^30, 20)
 //  val iter: Kleisli[Step[Double,?],List[GA.Individual],List[GA.Individual]] = Iteration.sync(ga).map(_.flatten)
 
-  val cullingGA =
+  val cullingGA: scalaz.Kleisli[Step[Double,?],scalaz.NonEmptyList[cilib.ga.Individual],NonEmptyList[cilib.ga.Individual]] =
     Iteration.sync(ga).map(_.suml)
-      .flatMapK(r => Step.withCompareR(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o))) map (_.take(20))))
+      .flatMapK(r => Step.withCompareR(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o))) map (_.take(20).toNel.getOrElse(sys.error("asdas")))))
 
   // Our IO[Unit] that runs at the end of the world
   override val runc: IO[Unit] =

@@ -4,6 +4,8 @@ package example
 import cilib.pso._
 import cilib.pso.Defaults._
 
+import eu.timepit.refined.auto._
+
 import scalaz._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
