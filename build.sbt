@@ -249,6 +249,9 @@ lazy val docSettings = Seq(
       target = siteStageDirectory.value,
       overwrite = false,
       preserveLastModified = true)
+    IO.write(
+      file = siteStageDirectory.value / "CNAME",
+      content = "cilib.net")
   },
   copySiteToStage := copySiteToStage.dependsOn(tutQuick).value,
   makeSite := makeSite.dependsOn(copySiteToStage).value
