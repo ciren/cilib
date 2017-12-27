@@ -175,7 +175,7 @@ lazy val core = project
       "com.github.julien-truffaut" %% "monocle-core"      % monocleVersion,
       "com.chuusai"                %% "shapeless"         % "2.3.2"
     ),
-    wartremoverErrors ++= Seq(
+    wartremoverErrors in (Compile, compile)++= Seq(
       Wart.ArrayEquals,
       Wart.JavaSerializable,
       //      Wart.Any,
