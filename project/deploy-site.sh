@@ -6,7 +6,7 @@ mkdir _site
 cd _site
 git clone git@github.com:cirg-up/cilib.git --branch gh-pages --depth 1 .
 git checkout --orphan newBranch
-cp -R ../docs/target/site .
+cp -R ../docs/target/site/* .
 git add --all
 git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER update site"
 git branch -D gh-pages
