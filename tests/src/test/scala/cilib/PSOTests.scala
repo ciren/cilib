@@ -34,7 +34,7 @@ object PSOTests extends Properties("QPSO") {
   property("Uniform sampled cloud <= R") = forAll {
     (center: Position[Double], x: Position[Double], seed: Long) => {
       val p = Entity(Mem(x, x.zeroed), x)
-      val env = Env(
+      val env = Environment(
         cmp = Comparison.dominance(Min),
         eval = Eval.unconstrained((x: NonEmptyList[Double]) => 0.0).eval,
         bounds = x.boundary)

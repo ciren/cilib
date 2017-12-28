@@ -11,7 +11,7 @@ import spire.implicits._
 
 object StepTest extends Spec("Step") {
   val rng = RNG.fromTime
-  val env = Env(
+  val env = Environment(
     cmp = Comparison.quality(Min),
     eval = Eval.unconstrained((l: NonEmptyList[Int]) => l.list.foldLeft(0.0)(_ + _)).eval,
     bounds = NonEmptyList(Interval(-5.12,5.12)))
