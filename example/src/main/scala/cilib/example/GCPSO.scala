@@ -16,8 +16,11 @@ import scalaz._
 
 object GCPSO extends SafeApp {
 
-  // Create a problem by specifiying the function and it's constrainment
-  val sum = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
+  val env =
+    Environment(
+      cmp = Comparison.dominance(Min),
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
+      bounds = Interval(-5.12,5.12)^30)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double],Double]
@@ -28,8 +31,7 @@ object GCPSO extends SafeApp {
   val iter: Kleisli[StepS[Double, PSO.GCParams, ?], NonEmptyList[Particle[Mem[Double],Double]], NonEmptyList[Particle[Mem[Double],Double]]] =
     Iteration.syncS(gcPSO)
 
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(-5.12,5.12)^30, 20)
-  val opt = Comparison.dominance(Min)
+  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] = {
@@ -38,7 +40,7 @@ object GCPSO extends SafeApp {
     val result =
       Runner.repeatS(1000, iter, swarm)
         .run(algParams)
-        .run(opt)(sum)
+        .run(env)
         .run(RNG.fromTime)
 
     putStrLn(result.toString)

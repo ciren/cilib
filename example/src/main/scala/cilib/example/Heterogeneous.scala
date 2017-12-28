@@ -82,10 +82,14 @@ object HPSO extends SafeApp {
     (x: Position[Double]) => Entity(PState(Mem(x,x.map(_ / 10.0)), 0), x)
   } _
 
-  val bounds = Interval(-5.12,5.12)^2
+  val env =
+    Environment(
+      cmp = Comparison.quality(Min),
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
+      bounds = Interval(-5.12,5.12)^2)
 
   val population =
-    StepS.pointR[Double,BehaviourPool,NonEmptyList[Particle[PState,Double]]](Position.createCollection(particleBuilder)(bounds, 10))
+    StepS.pointR[Double,BehaviourPool,NonEmptyList[Particle[PState,Double]]](Position.createCollection(particleBuilder)(env.bounds, 10))
       //.liftStepS[Double,BehaviourPool]
       .flatMap(assignRandom).zoom(StepS.lensIso.get(scalaz.Lens.firstLens[BehaviourPool,Params]))
 
@@ -113,12 +117,10 @@ object HPSO extends SafeApp {
     }
   }
 
-  val spherical = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
-
   val finalResult = population
     .flatMap(algorithm)
     .run((Pool.mkPoolListScore(Pool.mkZeroPool(createBehaviours(1000, 0))), Params(defaultGCParams, defaultGCParams)))
-    .run(Comparison.quality(Min))(spherical)
+    .run(env)
     .run(RNG.fromTime)
 
 

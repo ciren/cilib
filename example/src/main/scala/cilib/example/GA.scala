@@ -15,20 +15,26 @@ import cilib.ga._
 import Lenses._
 
 object GAExample extends SafeApp {
-  val sum = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
+  type Ind = Individual[Unit]
 
-  def onePoint(xs: List[Individual]): RVar[List[Individual]] =
+  val env =
+    Environment(
+      cmp = Comparison.dominance(Min),
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
+      bounds = Interval(-5.12,5.12)^30)
+
+  def onePoint(xs: List[Ind]): RVar[List[Ind]] =
     xs match {
       case a :: b :: _ =>
         val point: RVar[Int] = Dist.uniformInt(Interval(0, a.pos.pos.size - 1))
         point.map(p => List(
           a.pos.take(p) ++ b.pos.drop(p),
           b.pos.take(p) ++ a.pos.drop(p)
-        ).traverse(_.toNel.map(x => Entity((), Point(x, a.pos.boundary)))).getOrElse(List.empty[Individual]))
+        ).traverse(_.toNel.map(x => Entity((), Point(x, a.pos.boundary)))).getOrElse(List.empty[Ind]))
       case _ => sys.error("Incorrect number of parents")
     }
 
-  def mutation(p_m: Double)(xs: List[Individual]): RVar[List[Individual]] = {
+  def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] = {
     xs.traverse(x => {
       _position.get(x).traverse(z => for {
         za <- Dist.stdUniform.map(_ < p_m)
@@ -37,20 +43,21 @@ object GAExample extends SafeApp {
     })
   }
 
-  val randomSelection: NonEmptyList[Individual] => RVar[List[Individual]] =
-    (l: NonEmptyList[Individual]) => RVar.sample(2, l).getOrElse(List.empty[Individual])
+  val randomSelection: NonEmptyList[Ind] => RVar[List[Ind]] =
+    (l: NonEmptyList[Ind]) => RVar.sample(2, l).getOrElse(List.empty[Ind])
 
-  val ga: scalaz.NonEmptyList[cilib.ga.Individual] => (cilib.ga.Individual => cilib.Step[Double,List[cilib.ga.Individual]]) =
+  val ga: scalaz.NonEmptyList[Ind] => (Ind => cilib.Step[Double,List[Ind]]) =
     GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
 
-  val swarm = Position.createCollection[Individual](x => Entity((), x))(Interval(-5.12,5.12)^30, 20)
-//  val iter: Kleisli[Step[Double,?],List[GA.Individual],List[GA.Individual]] = Iteration.sync(ga).map(_.flatten)
+  val swarm = Position.createCollection[Ind](x => Entity((), x))(env.bounds, 20)
 
-  val cullingGA: scalaz.Kleisli[Step[Double,?],scalaz.NonEmptyList[cilib.ga.Individual],NonEmptyList[cilib.ga.Individual]] =
+  val cullingGA: scalaz.Kleisli[Step[Double,?],scalaz.NonEmptyList[Ind],NonEmptyList[Ind]] =
     Iteration.sync(ga).map(_.suml)
-      .flatMapK(r => Step.withCompareR(o => RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o))) map (_.take(20).toNel.getOrElse(sys.error("asdas")))))
+      .flatMapK(r => Step.withCompareR(o =>
+        RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o)))
+          .map(_.take(20).toNel.getOrElse(sys.error("asdas")))))
 
   // Our IO[Unit] that runs at the end of the world
   override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, cullingGA, swarm).run(Comparison.dominance(Min))(sum).run(RNG.fromTime).toString)
+    putStrLn(Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime).toString)
 }

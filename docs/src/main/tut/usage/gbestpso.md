@@ -44,18 +44,6 @@ import scalaz._
 import Scalaz._
 ```
 
-Let's define a simple problem, borrowing the problem definition from the
-[benchmarks sister project](http://github.com/cirg-up/benchmarks).
-
-```tut
-val spherical = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
-```
-
-Here we define a value called `spherical`, which is an unconstrained `Eval`
-instance, which uses the `spherical` function definiton from the benchmarks
-project. We explicitly provide the needed type parameters to keep the compiler
-happy, that being that the `Position` is a `NonEmtpyList[Double]`.
-
 Next, we define the `GBestPSO` itself. The `GBestPSO` is defined to use a velocity
 update equation that uses the personal best of the current particle and then the
 collection's current best particle to determine the new velocity vector for the
@@ -84,26 +72,50 @@ val gbestPSO = pso.Defaults.gbest(0.729844, 1.496180, 1.496180, cognitive, socia
 val iter = Iteration.sync(gbestPSO)
 ```
 
-Now that the algorithm is defined, lets now define the entity collection that
-we need to given the algorithm instance. The collection defines the bounds for
-out problem and also defines how the entity instances will be initialized, once
-random positions are generated for the given problem space
+Now that the algorithm is defined, we need to define an "environment"
+within which this algorithm will execute. The environment is simply a
+collection of vaues that defines the comparison and evaluator for the
+algorithm, such as minimizing a benchmark problem.
+
+Let's define such an environment using a simple problem, borrowing the
+problem definition from the [benchmarks sister
+project](http://github.com/cirg-up/benchmarks). We will also be
+minimizing this problem and defining the bounds of the problem space.
 
 ```tut
-val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(-5.12,5.12)^30, 20)
+val env =
+  Environment(
+    cmp = Comparison.dominance(Min),
+    eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
+    bounds = Interval(-5.12,5.12)^30)
 ```
 
-The last two requirements we have is to define _how_ we want to perform the
-optimization and then to provide the RNG instance that will use used within
-the algorithm. We define these values and then repeatedly run the algorithm
+Here we define a the evaluator, which is an unconstrained `Eval`
+instance, which uses the `spherical` function definiton from the
+benchmarks project. We explicitly provide the needed type parameters
+to keep the compiler happy, that being that the `Position` is a
+`NonEmtpyList[Double]`. Additionally, the `cmp` value defines _how_
+the optimization will be driven, which is to minimize the evaluator in
+this example.
+
+Let's now define the entity collection that we need to given the
+algorithm instance. The collection requires the problem bounds and
+also defines how the entity instances will be initialized, once random
+positions are generated for the given problem space
+
+```tut
+val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+```
+
+The last requirement is to provide the RNG instance that will use used within
+the algorithm. We define this value and then repeatedly run the algorithm
 on the entity collection, stopping after 1000 iterations of the algorithm
 have been performed
 
 ```tut
-val opt = Comparison.dominance(Min)
 val rng = RNG.fromTime // Seed the RNG with the current time of the computer
 
-val result = Runner.repeat(1000, iter, swarm).run(opt)(spherical)
+val result = Runner.repeat(1000, iter, swarm).run(env)
 val positions = result.map(_.map(x => Lenses._position.get(x)))
 
 positions.run(rng)._2

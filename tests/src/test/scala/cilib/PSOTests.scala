@@ -34,11 +34,14 @@ object PSOTests extends Properties("QPSO") {
   property("Uniform sampled cloud <= R") = forAll {
     (center: Position[Double], x: Position[Double], seed: Long) => {
       val p = Entity(Mem(x, x.zeroed), x)
-      val opt = Comparison.dominance(Min)
-      val eval = Eval.unconstrained((x: NonEmptyList[Double]) => 0.0).eval
+      val env = Env(
+        cmp = Comparison.dominance(Min),
+        eval = Eval.unconstrained((x: NonEmptyList[Double]) => 0.0).eval,
+        bounds = x.boundary)
+
       val (_, result) =
         cilib.pso.PSO.quantum(p, RVar.point(10.0), (a,b) => Dist.uniform(spire.math.Interval(a,b)))
-          .run(opt)(eval).run(RNG.init(seed))
+          .run(env).run(RNG.init(seed))
 
       val vectorLength = math.sqrt(result.pos.foldLeft(0.0)((a,c) => a + c*c))
 
