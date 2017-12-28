@@ -176,7 +176,7 @@ lazy val core = project
       "com.chuusai"                %% "shapeless"         % "2.3.2",
       "eu.timepit"                 %% "refined"           % "0.8.5"
     ),
-    wartremoverErrors in (Compile, compile)++= Seq(
+    wartremoverErrors in (Compile, compile) ++= Seq(
       Wart.ArrayEquals,
       Wart.JavaSerializable,
       //      Wart.Any,
@@ -264,7 +264,7 @@ lazy val credentialSettings = Seq(
   } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
 )
 
-lazy val example = project.dependsOn(core, exec, ga, io, moo, pso)
+lazy val example = project.dependsOn(core, de, exec, ga, io, moo, pso)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
     fork in run := true,
     moduleName := "cilib-example",

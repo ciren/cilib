@@ -1,5 +1,5 @@
 package cilib
 
 package object ga {
-  type Individual = Entity[Unit, Double]
+  type Individual[S] = Entity[S, Double]
 }
