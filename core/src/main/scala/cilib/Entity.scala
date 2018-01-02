@@ -6,9 +6,6 @@ import Scalaz._
 final case class Entity[S,A](state: S, pos: Position[A])
 
 object Entity {
-  // Step to evaluate the Entity
-  def eval[S,A](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
-    Step.evalF(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 
   implicit def entityEqual[S,A:scalaz.Equal]: scalaz.Equal[Entity[S,A]] =
     new scalaz.Equal[Entity[S,A]] {

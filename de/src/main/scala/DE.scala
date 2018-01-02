@@ -20,11 +20,11 @@ object DE {
     //z: Int
   ): NonEmptyList[Individual[S,A]] => Individual[S,A] => Step[A,Individual[S,A]] =
     collection => x => for {
-      evaluated <- Entity.eval((a: Position[A]) => a)(x)
+      evaluated <- Step.eval((a: Position[A]) => a)(x)
       trial <- Step.pointR(basicMutation(Numeric[A].fromDouble(p_m), targetSelection, collection, x))
       pivots <- Step.pointR(bin(p_r, evaluated))
       offspring = crossover(x, trial, pivots)
-      evaluatedOffspring <- Entity.eval((a: Position[A]) => a)(offspring)
+      evaluatedOffspring <- Step.eval((a: Position[A]) => a)(offspring)
       fittest <- better(evaluated, evaluatedOffspring)
     } yield fittest
 

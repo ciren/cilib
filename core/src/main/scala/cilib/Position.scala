@@ -155,14 +155,11 @@ object Position {
   def eval[F[_],A](e: RVar[NonEmptyList[A] => Objective[A]], pos: Position[A]): RVar[Position[A]] =
     pos match {
       case Point(x, b) =>
-        //val (fit, vio) = e.eval(x)
-        //val objective = e.eval(x)
-        //Solution(x, b, objective)//fit, vio)
         e.map(f => {
           val s: Objective[A] = f.apply(x)
           Solution(x, b, s)
         })
-        //e.eval(x).map(Solution(x, b, _))
+
       case x @ Solution(_, _, _) =>
         RVar.point(x)
     }

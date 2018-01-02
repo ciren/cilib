@@ -36,7 +36,7 @@ object PSO {
 
   // Step to evaluate the particle, without any modifications
   def evalParticle[S](entity: Particle[S,Double]) =
-    Entity.eval[S,Double](x => x)(entity)
+    Step.eval[S,Double](x => x)(entity)
 
   def updatePBest[S](p: Particle[S,Double])(implicit M: HasMemory[S,Double]): Step[Double,Particle[S,Double]] = {
     val pbestL = M._memory
