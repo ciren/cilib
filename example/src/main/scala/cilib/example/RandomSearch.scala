@@ -19,7 +19,7 @@ object RandomSearchExample extends SafeApp {
     // Creating the GA
     ///////////////////////////////////////////
     val randomSelection = (l: List[Individual]) => RVar.sample(2, l).getOrElse(List.empty[Individual])
-    val distribution = (position: Double) => Dist.stdNormal.flatMap(x => Dist.gaussian(0, 1.25)).map(_ + position)
+    val distribution = (position: Double) => Dist.gaussian(0, 1.25).map(_ + position)
 
     val ga = RandomSearch.ga(randomSelection, distribution)
     // Executing the RandomSearch
