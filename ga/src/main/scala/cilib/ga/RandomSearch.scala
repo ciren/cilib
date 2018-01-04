@@ -18,12 +18,9 @@ object RandomSearch {
     // The mutation method is applied to all the parents.
     // The parents are mutated by adding a random value gaussian distribution to
     // point in their position.
-    def mutation(distribution: Double => RVar[Double])(parents: List[Individual]): RVar[List[Individual]] = {
-        parents.traverse(parent => {
-            _position.get(parent).traverse(position => for {
-                newPosition <- distribution(position)
-            } yield newPosition).map(a => _position.set(a)(parent))
-        })
-    }
+    def mutation(distribution: Double => RVar[Double])(parents: List[Individual[S]]): RVar[List[Individual[S]]] = 
+        parents.traverse(parent =>
+            Lenses._position.modifyF((p: Position[Double]) => p.traverse(distribution))(parent))
+            
     def crossover(selection: List[Individual]): RVar[List[Individual]] = RVar.point(selection)
 }
