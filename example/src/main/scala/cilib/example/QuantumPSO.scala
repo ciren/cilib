@@ -1,18 +1,18 @@
 package cilib
 package example
 
-import scalaz._
-import Scalaz._
+//import scalaz._
+//import Scalaz._
 import scalaz.effect._
 
-import cilib.pso._
+//import cilib.pso._
 
 object QuantumPSO extends SafeApp {
-  import PSO._
+ /* import PSO._
   import Lenses._
+  import spire.implicits._
 
   import monocle._
-  import spire.implicits._
 
   case class QuantumState(b: Position[Double], v: Position[Double], charge: Double)
 
@@ -33,7 +33,7 @@ object QuantumPSO extends SafeApp {
     c2: Double,
     cognitive: Guide[S,Double],
     social: Guide[S,Double],
-    cloudR: RVar[Double])(
+    cloudR: (Position[Double],Position[Double]) => RVar[Double])(
     implicit C: HasCharge[S], V: HasVelocity[S,Double], M: HasMemory[S,Double]
   ): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
@@ -41,9 +41,8 @@ object QuantumPSO extends SafeApp {
         cog     <- cognitive(collection, x)
         soc     <- social(collection, x)
         v       <- stdVelocity(x, soc, cog, w, c1, c2)
-        r       <- Step.pointR(cloudR)
         p       <- if (C._charge.get(x.state) < 0.01) stdPosition(x, v)
-                   else quantum(x, soc, r).flatMap(replace(x, _))
+                   else quantum(x, cloudR(soc, cog), (_,_) => Dist.stdUniform).flatMap(replace(x, _))
         p2      <- evalParticleWithPenalty(p)
         p3      <- updateVelocity(p2, v)
         updated <- updatePBestBounds(p3)
@@ -100,8 +99,8 @@ object QuantumPSO extends SafeApp {
   // Usage
   val domain = spire.math.Interval(0.0, 100.0)^2
   //val r = Iteration.sync(quantumPSO[QuantumState,List](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
-  val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.dominance(Selection.star), RVar.point(50.0)))
-  val qpsoDist = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, Dist.cauchy(0.0, 10.0)))
+  val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.dominance(Selection.star), (_,_) => RVar.point(50.0)))
+  val qpsoDist = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, (_,_) => Dist.cauchy(0.0, 10.0)))
 
   def swarm = Position.createCollection(
     PSO.createParticle(x => Entity(QuantumState(x, x.zeroed, 0.0), x)))(domain, 40)
@@ -175,72 +174,22 @@ object QuantumPSO extends SafeApp {
   object MPB {
 
     def initialPeaks(/*s: Double,*/ domain: NonEmptyList[spire.math.Interval[Double]]): RVar[NonEmptyList[Problems.PeakCone]] =
-      Problems.initPeaks(5, domain)//(1 to 2).toList.traverse(_ => Problems.defaultPeak(domain, s))
+      Problems.defaultPeaks(5, domain)
 
     def iteration(
       swarm: List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]
     ): Step[Double,List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
-
       //swarm.toNel.cata(nel => qpso.run(nel.list).run.map(_.map(penalize(Max))), Step.point(List.empty))
       qpso.run(swarm)
     }
 
     import scalaz.StateT
-    def mpb(/*heightSeverity: Double, widthSeverity: Double*/): StateT[RVar, (NonEmptyList[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[Double]] =
+    def mpb(heightSeverity: Double, widthSeverity: Double): StateT[RVar, (NonEmptyList[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[NonEmptyList,Double]] =
       StateT { case (peaks, pop) => {
         val newPeaks: RVar[NonEmptyList[Problems.PeakCone]] = RVar.point(peaks)//.traverse(_.update(heightSeverity, widthSeverity))
-        newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrainBy(EnvConstraints.centerEllipse)))
+        newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrain(EnvConstraints.centerEllipse)))
       }}
   }
-
-/*  object Environments {
-    import scalaz.StateT
-
-    def run2(comparison: Comparison)(eval: Eval[Double]): StateT[RVar, (List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] =
-      StateT { case (peaks, pop) => {
-        println("running with eval: " + eval.hashCode)
-        MPB.iteration(pop).run(comparison)(eval).map(r => ((peaks, r.toList), r.toList))
-      }}
-
-    import scalaz.syntax.applicative._
-    def staticE(n: Int, c: Comparison) =
-      MPB.mpb(0.0, 0.0).flatMap(e => run2(c)(e).replicateM(n).map(_.toNel.getOrElse(sys.error("?????"))))
-    def progressiveE(n: Int, c: Comparison) =
-      MPB.mpb(1.0, 0.05).flatMap(run2(c)).replicateM(n)
-    def abruptE(n: Int, c: Comparison) =
-      MPB.mpb(10.0, 0.05).flatMap(e => run2(c)(e).replicateM(200)).replicateM(n / 200)
-    def chaosE(n: Int, c: Comparison) =
-      MPB.mpb(10.0, 0.05).flatMap(run2(c)).replicateM(n)
-
-    def static(n: Int, c: Comparison): RVar[(List[Problems.PeakCone], List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]])] =
-      for {
-        peaks <- MPB.initialPeaks(0.0, domain)
-        swarm <- pop
-        e <- staticE(n, c).exec((peaks, swarm))
-      } yield e
-
-    def progressive(n: Int, c: Comparison) =
-      for {
-        peaks <- MPB.initialPeaks(1.0, domain)
-        swarm <- pop
-        e <- progressiveE(n, c).exec((peaks, swarm))
-      } yield e
-
-    def abrupt(n: Int, c: Comparison) =
-      for {
-        peaks <- MPB.initialPeaks(50.0, domain)
-        swarm <- pop
-        e <- abruptE(n, c).exec((peaks, swarm))
-      } yield e
-
-    def chaos(n: Int, c: Comparison) =
-      for {
-        peaks <- MPB.initialPeaks(50.0, domain)
-        swarm <- pop
-        e <- chaosE(n, c).exec((peaks, swarm))
-      } yield e
-
-  }*/
 
   object EnvConstraints {
     // constraints
@@ -288,5 +237,5 @@ object QuantumPSO extends SafeApp {
     val combined1 = centerEllipse ++ linear
     val combined2 = disjointCircles ++ linear
   }
-
+  */
 }

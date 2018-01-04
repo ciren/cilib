@@ -1,8 +1,3 @@
----
-layout: docs
-title: "Position"
----
-
 ```tut:invisible
 import cilib._
 import cilib.algebra._
@@ -57,14 +52,14 @@ at the type level and verifiable during compilation.
 As an example, let's create a 30-dimensional vector in the interval
 $[-5.12, 5.12]$:
 
-```tut
+```t
 Interval(-5.12,5.12)^30
 ```
 
 A `Position` may now be constructed, as we know what the bounds of the search
 space are
 
-```tut
+```t
 Position.createPosition(Interval(-5.12,5.12)^30)
 ```
 
@@ -80,7 +75,7 @@ Below are some examples of combining `Position` instances. Take careful
 note of the return value for the different cases of `Position`. In order
 to evaluate the quality of a `Position` an `Eval` instance is required.
 
-```tut
+```t
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x*x).suml)
 
 val (_, (a, b)) = // a is a Point and b is a Solution

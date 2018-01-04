@@ -1,9 +1,7 @@
 package cilib
 
-import scala.math.Ordering
-
 import scalaz.{Ordering => _, _}
-import scalaz.syntax.std.option._
+import Scalaz._
 
 object Selection {
 
@@ -18,20 +16,23 @@ object Selection {
     }
   }
 
-  def indexNeighbours[A](n: Int): (List[A], A) => List[A] =
-    (l: List[A], x: A) => {
+  def indexNeighbours[A](n: Int): (NonEmptyList[A], A) => List[A] =
+    (l: NonEmptyList[A], x: A) => {
       val list = l
       val size = l.size
-      val point = (list.indexOf(x) - (n / 2) + size) % size
-      lazy val c: EphemeralStream[A] = EphemeralStream(list: _*) ++ c
+      val point =
+        l.list.indexWhere(_ == x) match {
+          case None => 0
+          case Some(i) => (i - (n / 2) + size) % size
+        }
+      lazy val c: EphemeralStream[A] = EphemeralStream(list.toList: _*) ++ c
 
       c.drop(point).take(n).toList
     }
 
-  def latticeNeighbours[A: scalaz.Equal]: (List[A], A) => List[A] =
-    (l: List[A], x: A) => {
-      import scalaz.syntax.foldable._
-      val list = IList.fromList(l)
+  def latticeNeighbours[A: scalaz.Equal]: (NonEmptyList[A], A) => List[A] =
+    (l: NonEmptyList[A], x: A) => {
+      val list = l.list
       val np = list.length
       val index: Option[Int] = list.indexOf(x) // This returns Option[Int] instead of Int, which is awesome :)
       val sqSide = math.round(math.sqrt(np.toDouble)).toInt
@@ -57,21 +58,19 @@ object Selection {
       result.getOrElse(sys.error("error in latticeNeighbours"))
     }
 
-  def distanceNeighbours[F[_]: Foldable, A: Ordering](distance: MetricSpace[F[A],A])(n: Int) =
-    (l: List[F[A]], x: F[A]) => l.sortBy(li => distance.dist(li, x)).take(n)
+  def distanceNeighbours[F[_]: Foldable, A: Order](distance: MetricSpace[F[A],A])(n: Int) =
+    (l: NonEmptyList[F[A]], x: F[A]) => l.sortBy(li => distance.dist(li, x)).toList.take(n)
 
   def wheel[A] =
-    (l: List[A], a: A) => {
-      l match {
-        case x :: _ if (x == a) => l
-        case x :: _ => List(x, a)
-      }
+    (l: NonEmptyList[A], a: A) => {
+      if (l.head == a) l.toList
+      else List(l.head, a)
     }
 
   def star[A] =
-    (l: List[A], x: A) => l
+    (l: NonEmptyList[A], x: A) => l.toList
 
-  def tournament[F[_],A](n: Int, l: List[F[A]])(implicit F: Fitness[F,A]): Comparison => RVar[Option[F[A]]] =
+  def tournament[F[_],A](n: Int, l: NonEmptyList[F[A]])(implicit F: Fitness[F,A]): Comparison => RVar[Option[F[A]]] =
     o => RVar.sample(n, l)
       .map(_.reduceLeftOption((a,c) => o.apply(a, c)))
       .run

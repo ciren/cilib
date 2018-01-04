@@ -21,6 +21,7 @@ final case class Infeasible(v: Double, violations: Int) extends Fit {
 }
 final case class Adjusted private[cilib] (original: Infeasible, adjust: Double) extends Fit
 
+
 @annotation.implicitNotFound("No instance of Fitness[${F},${A}] is available in current scope.")
 trait Fitness[F[_],A] {
   def fitness(a: F[A]): Option[Objective[A]]

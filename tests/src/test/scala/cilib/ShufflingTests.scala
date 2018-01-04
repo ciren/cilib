@@ -12,7 +12,7 @@ object ShufflingTest extends Spec("Shuffling") {
 
   property("maintains members") =
     forAll(Gen.chooseNum(1, 1000)) { (n: Int) =>
-      val ints = RVar.ints(n)
+      val ints = RVar.ints(n).map(_.toNel.getOrElse(sys.error("Impossible! Gen is specified to have minimum length of 1")))
 
       val shuffled = ints.flatMap(x => RVar.shuffle(x)).run(rng)._2.sorted
       val sorted = ints.run(rng)._2.sorted
