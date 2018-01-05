@@ -22,7 +22,7 @@ object RandomSearchExample extends SafeApp {
     ///////////////////////////////////////////
     val env = Environment(
         cmp = Comparison.dominance(Min),
-        eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval
+        eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
         bounds = Interval(-5.12,5.12)^3
     )
 
