@@ -46,7 +46,7 @@ object Eval {
 trait EvalInstances {
   import scalaz.{ICons, NonEmptyList}
 
-  implicit val nelInput = new Input[NonEmptyList] {
+  implicit val nelInput: Input[NonEmptyList] = new Input[NonEmptyList] {
     def toInput[A](a: NonEmptyList[A]): NonEmptyList[A] = a
   }
 
