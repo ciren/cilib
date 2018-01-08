@@ -134,35 +134,33 @@ object Position {
   implicit def positionEqual[A:scalaz.Equal]: scalaz.Equal[Position[A]] =
     scalaz.Equal.equal[Position[A]]((a, b) => (a.pos === b.pos) && (a.boundary === b.boundary))
 
-  implicit val positionFoldable1 = new Foldable1[Position] {
-    def foldMap1[A, B](fa: Position[A])(f: A => B)(implicit F: Semigroup[B]): B =
-      fa match {
-        case Point(xs, _) =>
-          xs.foldMap1(f)
-        case Solution(xs, _, _) =>
-          xs.foldMap1(f)
-      }
+  implicit val positionFoldable1: Foldable1[Position] =
+    new Foldable1[Position] {
+      def foldMap1[A, B](fa: Position[A])(f: A => B)(implicit F: Semigroup[B]): B =
+        fa match {
+          case Point(xs, _) =>
+            xs.foldMap1(f)
+          case Solution(xs, _, _) =>
+            xs.foldMap1(f)
+        }
 
-    def foldMapRight1[A, B](fa: Position[A])(z: A => B)(f: (A, => B) => B): B =
-      fa match {
-        case Point(xs, _) =>
-          xs.foldMapRight1(z)(f)
-        case Solution(xs, _, _) =>
-          xs.foldMapRight1(z)(f)
-      }
-  }
+      def foldMapRight1[A, B](fa: Position[A])(z: A => B)(f: (A, => B) => B): B =
+        fa match {
+          case Point(xs, _) =>
+            xs.foldMapRight1(z)(f)
+          case Solution(xs, _, _) =>
+            xs.foldMapRight1(z)(f)
+        }
+    }
 
   def eval[F[_],A](e: RVar[NonEmptyList[A] => Objective[A]], pos: Position[A]): RVar[Position[A]] =
     pos match {
       case Point(x, b) =>
-        //val (fit, vio) = e.eval(x)
-        //val objective = e.eval(x)
-        //Solution(x, b, objective)//fit, vio)
         e.map(f => {
           val s: Objective[A] = f.apply(x)
           Solution(x, b, s)
         })
-        //e.eval(x).map(Solution(x, b, _))
+
       case x @ Solution(_, _, _) =>
         RVar.point(x)
     }

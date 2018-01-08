@@ -30,7 +30,6 @@ final case class Step[A,B] private (run: Environment[A] => RVar[B]) {
 
 object Step {
   import scalaz._
-  import spire.math.Numeric
 
   def point[A,B](b: B): Step[A,B] =
     Step(_ => RVar.point(b))
@@ -48,7 +47,10 @@ object Step {
   def withCompareR[A,B](f: Comparison => RVar[B]): Step[A,B] =
     Step(env => f(env.cmp))
 
-  def evalF[A:Numeric](pos: Position[A]): Step[A,Position[A]] =
+  def eval[S,A](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
+    evalP(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
+
+  def evalP[A](pos: Position[A]): Step[A,Position[A]] =
     Step { env => Position.eval(env.eval, pos) }
 
   implicit def stepMonad[A]: Monad[Step[A,?]] =

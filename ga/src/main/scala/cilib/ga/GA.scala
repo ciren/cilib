@@ -21,6 +21,6 @@ object GA {
       crossed   <- if (r) Step.pointR[Double,List[Individual[S]]](crossover(parents))
                    else Step.point[Double,List[Individual[S]]](parents)
       mutated   <- Step.pointR[Double,List[Individual[S]]](mutation(crossed))
-      evaluated <- mutated.traverseU(x => Entity.eval((v: Position[Double]) => v)(x))
+      evaluated <- mutated.traverse(x => Step.eval((v: Position[Double]) => v)(x))
     } yield evaluated
 }

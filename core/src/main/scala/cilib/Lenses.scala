@@ -12,9 +12,10 @@ trait HasMemory[S,A] {
 object HasMemory {
   @inline def apply[S,A](implicit A: HasMemory[S,A]) = A
 
-  implicit val memMemory = new HasMemory[Mem[Double],Double] {
-    def _memory = Lens[Mem[Double],Position[Double]](_.b)(b => a => a.copy(b = b))
-  }
+  implicit val memMemory: HasMemory[Mem[Double],Double] =
+    new HasMemory[Mem[Double],Double] {
+      def _memory = Lens[Mem[Double],Position[Double]](_.b)(b => a => a.copy(b = b))
+    }
 }
 
 trait HasVelocity[S,A] {
@@ -22,9 +23,10 @@ trait HasVelocity[S,A] {
 }
 
 object HasVelocity {
-  implicit val memVelocity = new HasVelocity[Mem[Double],Double] {
-    def _velocity = Lens[Mem[Double], Position[Double]](_.v)(b => a => a.copy(v = b))
-  }
+  implicit val memVelocity: HasVelocity[Mem[Double],Double] =
+    new HasVelocity[Mem[Double],Double] {
+      def _velocity = Lens[Mem[Double], Position[Double]](_.v)(b => a => a.copy(v = b))
+    }
 }
 
 trait HasCharge[A] {

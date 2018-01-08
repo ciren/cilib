@@ -34,28 +34,28 @@ object GAExample extends SafeApp {
       case _ => sys.error("Incorrect number of parents")
     }
 
-  def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] = {
+  def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] =
     xs.traverse(x => {
-      _position.get(x).traverse(z => for {
+      _position.modifyF((p: Position[Double]) => p.traverse(z => for {
         za <- Dist.stdUniform.map(_ < p_m)
         zb <- if (za) Dist.stdNormal.flatMap(Dist.gaussian(0,_)).map(_ * z) else RVar.point(z)
-      } yield zb).map(a => _position.set(a)(x))
+      } yield zb
+      ))(x)
     })
-  }
 
   val randomSelection: NonEmptyList[Ind] => RVar[List[Ind]] =
     (l: NonEmptyList[Ind]) => RVar.sample(2, l).getOrElse(List.empty[Ind])
 
-  val ga: scalaz.NonEmptyList[Ind] => (Ind => cilib.Step[Double,List[Ind]]) =
+  val ga: NonEmptyList[Ind] => (Ind => Step[Double,List[Ind]]) =
     GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
 
   val swarm = Position.createCollection[Ind](x => Entity((), x))(env.bounds, 20)
 
-  val cullingGA: scalaz.Kleisli[Step[Double,?],scalaz.NonEmptyList[Ind],NonEmptyList[Ind]] =
+  val cullingGA: Kleisli[Step[Double,?],NonEmptyList[Ind],NonEmptyList[Ind]] =
     Iteration.sync(ga).map(_.suml)
-      .flatMapK(r => Step.withCompareR(o =>
-        RVar.point(r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o)))
-          .map(_.take(20).toNel.getOrElse(sys.error("asdas")))))
+      .flatMapK(r => Step.withCompare(o =>
+        r.sortWith((x,y) => Comparison.fittest(x.pos,y.pos).apply(o)))
+          .map(_.take(20).toNel.getOrElse(sys.error("asdas"))))
 
   // Our IO[Unit] that runs at the end of the world
   override val runc: IO[Unit] =
