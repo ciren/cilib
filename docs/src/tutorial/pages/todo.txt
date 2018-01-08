@@ -1,0 +1,28 @@
+Entity
+Step
+
+
+Crossover
+Iteration
+MetricSpace
+Selection
+
+Problems
+Runner
+
+  def ga[S](
+    p_c: Double,
+    parentSelection: NonEmptyList[Entity[Mem[Double], Double]] => RVar[List[Entity[Mem[Double], Double]]], // the number of parents should already be applied
+    crossover: List[Entity[Mem[Double], Double]] => RVar[List[Entity[Mem[Double], Double]]],
+    mutation: List[Entity[Mem[Double], Double]] => RVar[List[Entity[Mem[Double], Double]]]
+  ): NonEmptyList[Entity[Mem[Double], Double]] => Entity[Mem[Double], Double] => Step[Double,List[Entity[Mem[Double], Double]]] =
+    collection => x => for {
+      parents   <- Step.pointR(parentSelection(collection))
+      r         <- Step.pointR(Dist.stdUniform.map(_ < p_c))
+      crossed   <- if (r) Step.pointR[Double,List[Entity[Mem[Double], Double]]](crossover(parents))
+                   else Step.point[Double,List[Entity[Mem[Double], Double]]](parents)
+      mutated   <- Step.pointR[Double,List[Entity[Mem[Double], Double]]](mutation(crossed))
+      evaluated <- mutated.traverseU(x => Step.eval((v: Position[Double]) => v)(x))
+    } yield evaluated
+
+    evalP
