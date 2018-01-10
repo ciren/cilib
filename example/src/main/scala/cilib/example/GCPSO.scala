@@ -12,7 +12,9 @@ import scalaz.effect.IO.putStrLn
 import spire.implicits._
 import spire.math.Interval
 
-object VonNeumannPSO extends SafeApp {
+import scalaz._
+
+object GCPSO extends SafeApp {
 
   val env =
     Environment(
@@ -22,19 +24,26 @@ object VonNeumannPSO extends SafeApp {
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double],Double]
-  val social = Guide.vonNeumann[Mem[Double]]
-  val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
+  val social = Guide.gbest[Mem[Double]]
+  val gcPSO: NonEmptyList[Particle[Mem[Double],Double]] => Particle[Mem[Double],Double] => StepS[Double, PSO.GCParams, Particle[Mem[Double],Double]] =
+    gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
-  // RVar
+  val iter: Kleisli[StepS[Double, PSO.GCParams, ?], NonEmptyList[Particle[Mem[Double],Double]], NonEmptyList[Particle[Mem[Double],Double]]] =
+    Iteration.syncS(gcPSO)
+
   val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
-  val iter = Iteration.sync(gbestPSO)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] = {
-    val result = Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime)
-    val positions = result._2.map(x => Lenses._position.get(x))
+    val algParams = PSO.defaultGCParams
 
-    putStrLn(positions.toString)
+    val result =
+      Runner.repeatS(1000, iter, swarm)
+        .run(algParams)
+        .run(env)
+        .run(RNG.fromTime)
+
+    putStrLn(result.toString)
   }
 
 }

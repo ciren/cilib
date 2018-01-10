@@ -2,5 +2,5 @@ package cilib
 
 package object de {
 
-  type Individual[A] = Entity[Unit, A]
+  type Individual[S,A] = Entity[S,A]
 }

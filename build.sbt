@@ -3,8 +3,6 @@ import sbt.Keys._
 import sbtrelease._
 import sbtrelease.ReleasePlugin._
 import sbtrelease.ReleaseStateTransformations._
-import sbtunidoc.Plugin.UnidocKeys._
-import microsites._
 
 val scalazVersion     = "7.2.7"
 val spireVersion      = "0.13.0"
@@ -28,11 +26,10 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",     // Allow definition of implicit functions called views
     "-unchecked",                        // Enable additional warnings where generated code depends on assumptions.
     "-Xcheckinit",                       // Wrap field accessors to throw an exception on uninitialized access.
-    "-Xfatal-warnings",                  // Fail the compilation if there are any warnings.
+    //"-Xfatal-warnings",                // Fail the compilation if there are any warnings.
     "-Xfuture",                          // Turn on future language features.
     "-Xlint:adapted-args",               // Warn if an argument list is modified to match the receiver.
     "-Xlint:by-name-right-associative",  // By-name parameter of right associative operator.
-    "-Xlint:constant",                   // Evaluation of a constant arithmetic expression results in an error.
     "-Xlint:delayedinit-select",         // Selecting member of DelayedInit.
     "-Xlint:doc-detached",               // A Scaladoc comment appears to be detached from its element.
     "-Xlint:inaccessible",               // Warn about inaccessible types in method signatures.
@@ -50,19 +47,24 @@ lazy val commonSettings = Seq(
     "-Yno-adapted-args",                 // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
     "-Ypartial-unification",             // Enable partial unification in type constructor inference
     "-Ywarn-dead-code",                  // Warn when dead code is identified.
-    "-Ywarn-extra-implicit",             // Warn when more than one implicit parameter section is defined.
     "-Ywarn-inaccessible",               // Warn about inaccessible types in method signatures.
     "-Ywarn-infer-any",                  // Warn when a type argument is inferred to be `Any`.
     "-Ywarn-nullary-override",           // Warn when non-nullary `def f()' overrides nullary `def f'.
     "-Ywarn-nullary-unit",               // Warn when nullary methods return Unit.
     "-Ywarn-numeric-widen",              // Warn when numerics are widened.
-    "-Ywarn-unused:implicits",           // Warn if an implicit parameter is unused.
-    "-Ywarn-unused:imports",             // Warn if an import selector is not referenced.
-    "-Ywarn-unused:locals",              // Warn if a local definition is unused.
-    "-Ywarn-unused:params",              // Warn if a value parameter is unused.
-    "-Ywarn-unused:patvars",             // Warn if a variable bound in a pattern is unused.
-    "-Ywarn-unused:privates",            // Warn if a private member is unused.
     "-Ywarn-value-discard"               // Warn when non-Unit expression results are unused.
+  ) ++ (
+    if (scalaVersion.value.startsWith("2.11")) Seq()
+    else Seq(
+      "-Xlint:constant",                   // Evaluation of a constant arithmetic expression results in an error.
+      "-Ywarn-extra-implicit",             // Warn when more than one implicit parameter section is defined.
+      "-Ywarn-unused:implicits",           // Warn if an implicit parameter is unused.
+      "-Ywarn-unused:imports",             // Warn if an import selector is not referenced.
+      "-Ywarn-unused:locals",              // Warn if a local definition is unused.
+      "-Ywarn-unused:params",              // Warn if a value parameter is unused.
+      "-Ywarn-unused:patvars",             // Warn if a variable bound in a pattern is unused.
+      "-Ywarn-unused:privates",            // Warn if a private member is unused.
+    )
   ),
   scalacOptions in (Compile, console) ~= (_.filterNot(Set(
     "-Ywarn-unused:imports",
@@ -76,7 +78,12 @@ lazy val commonSettings = Seq(
     compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3" cross CrossVersion.binary)
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
-    "scm:git:git@github.com:cirg-up/cilib.git"))
+    "scm:git:git@github.com:cirg-up/cilib.git")),
+  initialCommands in console := """
+    |import scalaz._
+    |import Scalaz._
+    |import cilib._
+    |""".stripMargin
 )
 
 /*lazy val publishSignedArtifacts = ReleaseStep(
@@ -150,7 +157,7 @@ lazy val publishSettings = Seq(
   )
 ) ++ credentialSettings
 
-lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings// ++ releaseSettings
+lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings
 
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
@@ -166,53 +173,89 @@ lazy val core = project
       "org.scalaz"                 %% "scalaz-concurrent" % scalazVersion,
       "org.spire-math"             %% "spire"             % spireVersion,
       "com.github.julien-truffaut" %% "monocle-core"      % monocleVersion,
-      "com.chuusai"                %% "shapeless"         % "2.3.2"
-    /*),
-    wartremoverErrors ++= Seq(
-      //Wart.Any,
-      Wart.Any2StringAdd,
-      //Wart.AsInstanceOf,
-      //Wart.IsInstanceOf,
+      "com.chuusai"                %% "shapeless"         % "2.3.2",
+      "eu.timepit"                 %% "refined"           % "0.8.5"
+    ),
+    wartremoverErrors in (Compile, compile) ++= Seq(
+      Wart.ArrayEquals,
+      Wart.JavaSerializable,
+      //      Wart.Any,
+      Wart.ExplicitImplicitTypes,
+      Wart.LeakingSealed,
+      Wart.StringPlusAny,
+      Wart.AsInstanceOf,
+      Wart.IsInstanceOf,
+      Wart.ImplicitConversion,
+      Wart.ImplicitParameter,
       Wart.DefaultArguments,
-      Wart.ListOps,
+      //Wart.ListOps,
       Wart.NonUnitStatements,
       Wart.Null,
+      Wart.Option2Iterable,
       Wart.OptionPartial,
+      //Wart.Overloading,
       Wart.Product,
       Wart.Return,
       Wart.Serializable,
-      Wart.Var*/
+      Wart.TraversableOps,
+      Wart.Var
     )
   ))
 
+val siteStageDirectory    = SettingKey[File]("site-stage-directory")
+val copySiteToStage       = TaskKey[Unit]("copy-site-to-stage")
+
 lazy val docs = project.in(file("docs"))
-  .enablePlugins(MicrositesPlugin)
+  .enablePlugins(GhpagesPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin, ScalaUnidocPlugin)
+  .settings(ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox))
   .settings(moduleName := "cilib-docs")
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .settings(unidocSettings)
-  .settings(ghpages.settings)
   .settings(docSettings)
-  .settings(tutScalacOptions ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code"))))
   .dependsOn(core, example, exec, pso, moo, ga)
 
 lazy val docSettings = Seq(
-    micrositeName := "CIlib",
-    micrositeDescription := "Verifiable Computational Intelligence",
-    micrositeBaseUrl := "/cilib",
-    micrositeDocumentationUrl := "/cilib/docs",
-    //micrositeAuthor := "",
-    micrositeHomepage := "http://cirg-up.github.io",
-    micrositeGithubOwner := "cirg-up",
-    micrositeGithubRepo := "cilib",
-    //micrositeHighlightTheme := "monokai",
-    micrositeExtraMdFiles := Map(file("README.md") -> ExtraMdFileConfig("index.html", "home", Map("title" -> "Home", "section" -> "home"))),
-    fork in tut := true,
-
-    siteSubdirName in SiteScaladoc := "api",
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
-    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc)
-  )
+  fork in tut := true,
+  tutSourceDirectory := sourceDirectory.value / "main" / "tut",
+  scalacOptions in Tut ~= (_.filterNot(Set("-Ywarn-unused:imports", "-Ywarn-dead-code"))),
+  git.remoteRepo := "git@github.com:cirg-up/cilib.git",
+  ghpagesNoJekyll := true,
+  excludeFilter in ghpagesCleanSite :=
+    new FileFilter {
+      def accept(f: File) = (ghpagesRepository.value / "CNAME").getCanonicalPath == f.getCanonicalPath
+    },
+  siteSubdirName in SiteScaladoc := "api",
+  unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
+  addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
+  siteStageDirectory := target.value / "site-stage",
+  sourceDirectory in paradox in Paradox := siteStageDirectory.value,
+  sourceDirectory in paradox  := siteStageDirectory.value,
+  paradoxMaterialTheme in Paradox ~= {
+    _.withFavicon("img/favicon.png")
+      .withLogo("img/sbt-logo.svg")
+      .withRepository(uri("https://github.com/cirg-up/cilib"))
+  },
+  paradoxProperties in Compile ++= Map(
+    "github.base_url" -> s"https://github.com/cirg-up/cilib/tree/series/2.0.x/${version.value}"
+  ),
+  copySiteToStage := {
+    IO.copyDirectory(
+      source = sourceDirectory.value / "main" / "paradox",
+      target = siteStageDirectory.value,
+      overwrite = false,
+      preserveLastModified = true)
+    IO.copyDirectory(
+      source = tutTargetDirectory.value,
+      target = siteStageDirectory.value,
+      overwrite = false,
+      preserveLastModified = true)
+    IO.write(
+      file = siteStageDirectory.value / "CNAME",
+      content = "cilib.net")
+  },
+  copySiteToStage := copySiteToStage.dependsOn(tutQuick).value,
+  makeSite := makeSite.dependsOn(copySiteToStage).value
+)
 
 lazy val credentialSettings = Seq(
   credentials ++= (for {
@@ -221,15 +264,16 @@ lazy val credentialSettings = Seq(
   } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
 )
 
-lazy val example = project.dependsOn(core, exec, ga, moo, pso)
+lazy val example = project.dependsOn(core, de, exec, ga, io, moo, pso)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
+    fork in run := true,
     moduleName := "cilib-example",
     libraryDependencies ++= Seq(
       "net.cilib"  %% "benchmarks"        % "0.1.1",
       "org.scalaz" %% "scalaz-core"       % scalazVersion,
       "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
       "org.scalaz" %% "scalaz-effect"     % scalazVersion,
-      "org.jfree"   % "jfreechart"        % "1.0.19"
+      "org.scalaz.stream" %% "scalaz-stream"     % "0.8.6a"
     )
   ))
 
@@ -249,11 +293,26 @@ lazy val de = project.dependsOn(core)
   .settings(Seq(moduleName := "cilib-de") ++ cilibSettings)
 
 lazy val tests = project
-  .dependsOn(core)
+  .dependsOn(core, pso, ga, moo)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
     moduleName := "cilib-tests",
+    fork in test := true,
+    javaOptions in test += "-Xmx1G",
     libraryDependencies ++= Seq(
       "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
       "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
+    )
+  ))
+
+lazy val io = project
+  .dependsOn(core)
+  .settings(cilibSettings ++ noPublishSettings ++ Seq(
+    moduleName := "cilib-io",
+    libraryDependencies ++= Seq(
+      "com.chuusai"    %% "shapeless" % "2.3.2",
+      "org.apache.orc"  % "orc-core"  % "1.3.3",
+      "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.0",
+      "org.apache.parquet" % "parquet-avro" % "1.8.2",
+      "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
     )
   ))

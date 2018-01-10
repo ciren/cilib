@@ -2,6 +2,11 @@ package cilib
 
 import scalaz.{ Lens => _, _ }
 
+final case class Environment[A](
+  cmp: Comparison,
+  eval: RVar[NonEmptyList[A] => Objective[A]],
+  bounds: NonEmptyList[spire.math.Interval[Double]]) // This is still questionable?
+
 /**
   A `Step` is a type that models a single step / operation within a CI Algorithm.
 
@@ -15,40 +20,47 @@ import scalaz.{ Lens => _, _ }
   `Step` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritmic parts.
   */
-final case class Step[A,B] private (run: Comparison => Eval[A] => RVar[B]) {
+final case class Step[A,B] private (run: Environment[A] => RVar[B]) {
   def map[C](f: B => C): Step[A,C] =
-    Step(o => e => run(o)(e).map(f))
+    Step(e => run(e).map(f))
 
   def flatMap[C](f: B => Step[A,C]): Step[A,C] =
-    Step(o => e => run(o)(e).flatMap(f(_).run(o)(e)))
+    Step(e => run(e).flatMap(f(_).run(e)))
 }
 
 object Step {
   import scalaz._
-  import spire.math.Numeric
 
   def point[A,B](b: B): Step[A,B] =
-    Step(_ => _ => RVar.point(b))
+    Step(_ => RVar.point(b))
 
   def pointR[A,B](a: RVar[B]): Step[A,B] =
-    Step(_ => _ => a)
+    Step(_ => a)
 
+  def withCompare[A,B](a: Comparison => B): Step[A,B] =
+    Step(env => RVar.point(a.apply(env.cmp)))
+
+  @deprecated("Use Step#withCompare instead", "2.0.0-M3")
   def liftK[A,B](a: Comparison => B): Step[A,B] =
-    Step(o => _ => RVar.point(a.apply(o)))
+    withCompare[A,B](a)
 
-  def withCompare[A,B](f: Comparison => RVar[B]): Step[A,B] =
-    Step(o => _ => f(o))
+  def withCompareR[A,B](f: Comparison => RVar[B]): Step[A,B] =
+    Step(env => f(env.cmp))
 
-  def evalF[A:Numeric](pos: Position[A]): Step[A,Position[A]] =
-    Step { _ => e => Position.eval(e, pos) }
+  def eval[S,A](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity[S,A]] =
+    evalP(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 
-  implicit def stepMonad[A] = new Monad[Step[A,?]] {
-    def point[B](a: => B) =
-      Step.point(a)
+  def evalP[A](pos: Position[A]): Step[A,Position[A]] =
+    Step { env => Position.eval(env.eval, pos) }
 
-    def bind[B,C](fa: Step[A,B])(f: B => Step[A,C]): Step[A,C] =
-      fa flatMap f
-  }
+  implicit def stepMonad[A]: Monad[Step[A,?]] =
+    new Monad[Step[A,?]] {
+      def point[B](a: => B) =
+        Step.point(a)
+
+      def bind[B,C](fa: Step[A,B])(f: B => Step[A,C]): Step[A,C] =
+        fa flatMap f
+    }
 }
 
 final case class StepS[A,S,B](run: StateT[Step[A,?],S,B]) {
@@ -68,13 +80,14 @@ object StepS {
     (s: scalaz.Lens[A,B]) => monocle.Lens[A,B](s.get)(b => a => s.set(a, b)))(
     (m: monocle.Lens[A,B]) => scalaz.Lens.lensu[A,B]((a,b) => m.set(b)(a), m.get(_)))
 
-  implicit def stepSMonad[A,S] = new Monad[StepS[A,S,?]] {
-    def point[B](a: => B): StepS[A,S,B] =
-      StepS(StateT[Step[A,?],S,B]((s: S) => Step.point((s,a))))
+  implicit def stepSMonad[A,S]: Monad[StepS[A,S,?]] =
+    new Monad[StepS[A,S,?]] {
+      def point[B](a: => B): StepS[A,S,B] =
+        StepS(StateT[Step[A,?],S,B]((s: S) => Step.point((s,a))))
 
-    def bind[B,C](fa: StepS[A,S,B])(f: B => StepS[A,S,C]): StepS[A,S,C] =
-      fa flatMap f
-  }
+      def bind[B,C](fa: StepS[A,S,B])(f: B => StepS[A,S,C]): StepS[A,S,C] =
+        fa flatMap f
+    }
 
   implicit def stepSMonadState[A,S]: MonadState[StepS[A,S,?], S] = new MonadState[StepS[A,S,?], S] {
     private val M = StateT.stateTMonadState[S, Step[A,?]]
@@ -93,7 +106,7 @@ object StepS {
       StepS(M.put(s))
   }
 
-  def apply[A,S,B](f: S => Step[A,(S, B)]): StepS[A,S,B] =
+   def apply[A,S,B](f: S => Step[A,(S, B)]): StepS[A,S,B] =
     StepS(StateT[Step[A,?],S,B](f))
 
   def pointR[A,S,B](a: RVar[B]): StepS[A,S,B] =
@@ -103,7 +116,7 @@ object StepS {
     StepS(StateT[Step[A,?],S,B]((s: S) => a.map((s,_))))
 
   def liftK[A,S,B](a: Comparison => B): StepS[A,S,B] =
-    pointS(Step.liftK(a))
+    pointS(Step.withCompare(a))
 
   def liftS[A,S,B](a: State[S, B]): StepS[A,S,B] =
     StepS(a.lift[Step[A,?]])

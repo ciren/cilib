@@ -4,6 +4,9 @@ package example
 import cilib.pso._
 import cilib.pso.Defaults._
 
+import eu.timepit.refined.auto._
+
+import scalaz._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import spire.implicits._
@@ -11,17 +14,19 @@ import spire.math.Interval
 
 object NMPCPSO extends SafeApp {
 
-  val sum = Problems.spherical
+  val env =
+    Environment(
+      cmp = Comparison.quality(Min),
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
+      bounds = Interval(-5.12,5.12)^30)
 
   val guide = Guide.nmpc[Mem[Double]](0.5)
   val nmpcPSO = nmpc(guide)
 
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(Interval(-5.12,5.12)^30, 20)
+  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
   val iter = Iteration.sync(nmpcPSO)
 
-  val opt = Comparison.dominance(Min)
-
   override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, iter, swarm).run(opt)(sum).run(RNG.fromTime).toString)
+    putStrLn(Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime).toString)
 
 }

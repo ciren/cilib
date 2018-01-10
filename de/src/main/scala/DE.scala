@@ -12,33 +12,33 @@ import Monocle._
 
 object DE {
 
-  def de[A:Numeric:Rng](
+  def de[S,A:Numeric:Rng](
     p_r: Double,
     p_m: Double,
-    targetSelection: List[Individual[A]] => RVar[Individual[A]]
+    targetSelection: NonEmptyList[Individual[S,A]] => RVar[Individual[S,A]]
     //y: N,
     //z: Int
-  ): List[Individual[A]] => Individual[A] => Step[A,Individual[A]] =
+  ): NonEmptyList[Individual[S,A]] => Individual[S,A] => Step[A,Individual[S,A]] =
     collection => x => for {
-      evaluated <- Entity.eval((a: Position[A]) => a)(x)
+      evaluated <- Step.eval((a: Position[A]) => a)(x)
       trial <- Step.pointR(basicMutation(Numeric[A].fromDouble(p_m), targetSelection, collection, x))
       pivots <- Step.pointR(bin(p_r, evaluated))
       offspring = crossover(x, trial, pivots)
-      evaluatedOffspring <- Entity.eval((a: Position[A]) => a)(offspring)
+      evaluatedOffspring <- Step.eval((a: Position[A]) => a)(offspring)
       fittest <- better(evaluated, evaluatedOffspring)
     } yield fittest
 
 
   // Duplicated from PSO.....
-   def better[A](a: Individual[A], b: Individual[A]): Step[A,Individual[A]] =
-    Step.withCompare(comp => RVar.point(Comparison.compare(a, b).apply(comp)))
+   def better[S,A](a: Individual[S,A], b: Individual[S,A]): Step[A,Individual[S,A]] =
+    Step.withCompare(comp => Comparison.compare(a, b).apply(comp))
 
 
-  def basicMutation[A:Rng](
+  def basicMutation[S,A:Rng](
     p_m: A,
-    selection: List[Individual[A]] => RVar[Individual[A]],
-    collection: List[Individual[A]],
-    x: Individual[A]): RVar[Position[A]] = {
+    selection: NonEmptyList[Individual[S,A]] => RVar[Individual[S,A]],
+    collection: NonEmptyList[Individual[S,A]],
+    x: Individual[S,A]): RVar[Position[A]] = {
       def createPairs[Z](acc: List[(Z, Z)], xs: List[Z]): List[(Z, Z)] =
         xs match {
           case Nil => acc
@@ -46,12 +46,18 @@ object DE {
           case _ => sys.error("ugg")
         }
 
-      val target: RVar[Individual[A]] = selection(collection)
-      val filtered = target.map(t => collection.filterNot(a => List(t,x).contains(a)))
+      val target: RVar[Individual[S,A]] = selection(collection)
+      val filtered = target.map(t => collection.list.filterNot(a => List(t,x).contains(a)))
       val pairs: RVar[List[Position[A]]] =
-        filtered.flatMap(RVar.shuffle)
-          .map(a => createPairs(List.empty[(Individual[A],Individual[A])], a.take(2))
-            .map(z => z._1.pos - z._2.pos))
+        filtered.flatMap(_.toNel match {
+          case Some(l) =>
+            RVar.shuffle(l)
+              .map(a => createPairs(List.empty[(Individual[S,A],Individual[S,A])], a.toList.take(2))
+                .map(z => z._1.pos - z._2.pos))
+          case None =>
+            RVar.point(List.empty)
+        })
+
 
       for {
         t <- target
@@ -60,7 +66,7 @@ object DE {
     }
 
 
-  def crossover[A](target: Individual[A], trial: Position[A], pivots: NonEmptyList[Boolean]) =
+  def crossover[S,A](target: Individual[S,A], trial: Position[A], pivots: NonEmptyList[Boolean]) =
     target.copy(
       pos = {
         target.pos.zip(trial).zip(Position(pivots, trial.boundary)).map { case ((a,b), p) => // Position apply function :(
@@ -70,9 +76,9 @@ object DE {
 
 
   // This is not a nice implementation ??? -> it feels far too low level and inelegant
-  def bin[A:Rng](
+  def bin[S,A:Rng](
     p_r: Double,
-    parent: Individual[A]
+    parent: Individual[S,A]
   ): RVar[NonEmptyList[Boolean]] =
     for {
       j <- Dist.uniformInt(spire.math.Interval(0, parent.pos.pos.size - 1))

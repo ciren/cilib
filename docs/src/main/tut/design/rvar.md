@@ -1,13 +1,7 @@
----
-layout: docs
-title: "RVar"
----
-
 ```tut:invisible
 import cilib._
 import scalaz._
 import Scalaz._
-//import scalaz.syntax.monad._
 ```
 
 # RVar
@@ -109,7 +103,7 @@ to the [scaladoc](http://cirg-up.github.io/cilib/api/cilib/RVar$.html) for
 more combinators, but some of the more commonly used are illustrated below:
 
 ```tut
-val sampleList = List(6,4,5,2,1,3)
+val sampleList = NonEmptyList(6,4,5,2,1,3)
 
 RVar.shuffle(sampleList).run(rng)
 RVar.sample(3, sampleList).run.run(rng)

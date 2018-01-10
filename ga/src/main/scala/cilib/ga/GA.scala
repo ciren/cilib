@@ -1,6 +1,7 @@
 package cilib
 package ga
 
+import scalaz._
 import scalaz.std.list._
 import scalaz.syntax.traverse._
 
@@ -10,16 +11,16 @@ object GA {
   // to the crossover and mutation operators etc.
   def ga[S](
     p_c: Double,
-    parentSelection: List[Individual] => RVar[List[Individual]], // the number of parents should already be applied
-    crossover: List[Individual] => RVar[List[Individual]],
-    mutation: List[Individual] => RVar[List[Individual]]
-  ): List[Individual] => Individual => Step[Double,List[Individual]] =
+    parentSelection: NonEmptyList[Individual[S]] => RVar[List[Individual[S]]], // the number of parents should already be applied
+    crossover: List[Individual[S]] => RVar[List[Individual[S]]],
+    mutation: List[Individual[S]] => RVar[List[Individual[S]]]
+  ): NonEmptyList[Individual[S]] => Individual[S] => Step[Double,List[Individual[S]]] =
     collection => x => for {
       parents   <- Step.pointR(parentSelection(collection))
       r         <- Step.pointR(Dist.stdUniform.map(_ < p_c))
-      crossed   <- if (r) Step.pointR[Double,List[Individual]](crossover(parents))
-                   else Step.point[Double,List[Individual]](parents)
-      mutated   <- Step.pointR[Double,List[Individual]](mutation(crossed))
-      evaluated <- mutated.traverseU(x => Entity.eval((v: Position[Double]) => v)(x))
+      crossed   <- if (r) Step.pointR[Double,List[Individual[S]]](crossover(parents))
+                   else Step.point[Double,List[Individual[S]]](parents)
+      mutated   <- Step.pointR[Double,List[Individual[S]]](mutation(crossed))
+      evaluated <- mutated.traverse(x => Step.eval((v: Position[Double]) => v)(x))
     } yield evaluated
 }

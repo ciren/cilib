@@ -4,8 +4,8 @@ import cilib.algebra._
 import cilib.syntax.dotprod._
 import cilib.Position._
 
-import scalaz.Scalaz._
-import scalaz.NonEmptyList
+import scalaz._
+import Scalaz._
 
 import spire.implicits._
 import spire.math.sqrt
@@ -16,12 +16,11 @@ object Crossover {
     parents => {
       def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
 
-      val coef = List.fill(4)(Dist.stdUniform).sequence
-      val sum = coef.map(_.sum)
-
       for {
-        scaled    <- (coef |@| sum) { (cos, s) => cos.map(norm(_, s)) }
-        offspring = (parents.list.toList zip scaled) map { case (p, si) => si *: p } reduce {_+_}
+        coef <- Dist.stdUniform.replicateM(4)
+        s = coef.sum
+        scaled = coef.map(norm(_, s)).toNel.getOrElse(sys.error("Impossible - this is a safe usage as coef is always length 4"))
+        offspring = (parents zip scaled).map(t => t._2 *: t._1).foldLeft1(_ + _)
       } yield NonEmptyList(offspring)
     }
 
@@ -30,24 +29,24 @@ object Crossover {
       val mean = Algebra.meanVector(parents)
       val k = parents.size
 
-      val initEta = List(parents.last - mean)
+      val initEta = NonEmptyList(parents.last - mean)
       val (dd, e_eta) = parents.init.foldLeft((0.0, initEta)) { (a, b) =>
         val d = b - mean
 
         if (d.isZero) a
         else {
-          val e = Algebra.orthogonalize(d, a._2)
+          val e = Algebra.orthogonalize(d, a._2.toList)
 
           if (e.isZero) a
-          else (a._1 + e.magnitude, a._2 :+ e.normalize)
+          else (a._1 + e.magnitude, e.normalize <:: a._2)
         }
       }
 
       val distance = if (k > 2) dd / (k - 1) else 0.0
 
       for {
-        s1        <- Dist.gaussian(0.0, sigma1)
-        s2        <- Dist.gaussian(0.0, sigma2)
+        s1 <- Dist.gaussian(0.0, sigma1)
+        s2 <- Dist.gaussian(0.0, sigma2)
       } yield {
         val offspring = parents.last + (s1 *: e_eta.head)
         NonEmptyList(e_eta.tail.foldLeft(offspring) { (c, e) => c + (s2 *: (distance *: e)) })
@@ -81,19 +80,21 @@ object Crossover {
 
       // create the remaining basis vectors
       val initEta = NonEmptyList(parents.last - g)
-      val reta = Position.createPositions(bounds, n - zeta.length)
-      val eta = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
+      positiveInt(n - zeta.length) { value =>
+        val reta = Position.createPositions(bounds, value)//n - zeta.length)
+        val eta = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
 
-      // construct the offspring
-      for {
-        s1    <- Dist.gaussian(0.0, sigma1)
-        s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
-        e_eta <- eta
-      } yield {
-        val vars  = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
-        val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
+        // construct the offspring
+        for {
+          s1    <- Dist.gaussian(0.0, sigma1)
+          s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
+          e_eta <- eta
+        } yield {
+          val vars  = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
+          val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
 
-        NonEmptyList(offspring)
+          NonEmptyList(offspring)
+        }
       }
     }
 }

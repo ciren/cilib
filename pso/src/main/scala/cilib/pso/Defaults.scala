@@ -8,13 +8,25 @@ import spire.implicits._
 
 object Defaults {
 
+  // def pso[S,A:spire.math.Numeric](
+  //   velocity: (Entity[S,A]) => Step[A,Position[A]],
+  //   position: (Entity[S,A], Position[A]) => Step[A,Entity[S,A]]
+  // ): List[Entity[S,A]] => Entity[S,A] => Step[A,Entity[S,A]] =
+  //   collection => x => for {
+  //     v <- velocity(x)
+  //     p <- position(x, v)
+  //     p2      <- evalParticle(p)
+  //     p3      <- updateVelocity(p2, v)
+  //     updated <- updatePBest(p3)
+  //   } yield updated
+
   def gbest[S](
     w: Double,
     c1: Double,
     c2: Double,
     cognitive: Guide[S,Double],
     social: Guide[S,Double]
-  )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -29,7 +41,7 @@ object Defaults {
     w: Double,
     c1: Double,
     cognitive: Guide[S,Double]
-  )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         cog     <- cognitive(collection, x)
@@ -45,7 +57,7 @@ object Defaults {
     w: Double,
     c1: Double,
     social: Guide[S,Double]
-  )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => {
       for {
         soc     <- social(collection, x)
@@ -68,7 +80,7 @@ object Defaults {
     c1: Double,
     c2: Double,
     cognitive: Guide[S,Double])(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]
-  ): List[Particle[S,Double]] => Particle[S,Double] => StepS[Double, GCParams, Particle[S,Double]] =
+  ): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => StepS[Double, GCParams, Particle[S,Double]] =
     collection => x => StepS {
       val S = StateT.stateTMonadState[GCParams, Step[Double,?]]
       val hoist = StateT.StateMonadTrans[GCParams]
@@ -83,7 +95,7 @@ object Defaults {
         p2      <- hoist.liftMU(evalParticle(p))
         p3      <- hoist.liftMU(updateVelocity(p2, v))
         updated <- hoist.liftMU(updatePBest(p3))
-        failure <- hoist.liftMU(Step.liftK[Double,Boolean](Comparison.compare(x.pos, updated.pos) andThen (_ eq x.pos)))
+        failure <- hoist.liftMU(Step.withCompare[Double,Boolean](Comparison.compare(x.pos, updated.pos) andThen (_ eq x.pos)))
         _       <- S.modify(params =>
           if (isBest) {
             params.copy(
@@ -104,7 +116,7 @@ object Defaults {
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
     rc: Double
-  )(implicit M:HasMemory[S,Double], V:HasVelocity[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M:HasMemory[S,Double], V:HasVelocity[S,Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       cog     <- cognitive(collection, x)
       soc     <- social(collection, x)
@@ -118,7 +130,7 @@ object Defaults {
 
   def nmpc[S](
     guide: Guide[S,Double]
-  )(implicit M: HasMemory[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: HasMemory[S,Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       p        <- evalParticle(x)
       p1       <- updatePBestBounds(p)
@@ -130,7 +142,7 @@ object Defaults {
 
   def crossoverPSO[S](
     guide: Guide[S,Double]
-  )(implicit M: HasMemory[S,Double]): List[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
+  )(implicit M: HasMemory[S,Double]): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]] =
     collection => x => for {
       p       <- evalParticle(x)
       p1      <- updatePBestBounds(p)

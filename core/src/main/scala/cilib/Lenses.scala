@@ -4,6 +4,7 @@ import monocle._
 
 case class Mem[A](b: Position[A], v: Position[A])
 
+@annotation.implicitNotFound("A HasMemory instance cannot be found for the provided state type ${S}")
 trait HasMemory[S,A] {
   def _memory: Lens[S, Position[A]]
 }
@@ -11,9 +12,10 @@ trait HasMemory[S,A] {
 object HasMemory {
   @inline def apply[S,A](implicit A: HasMemory[S,A]) = A
 
-  implicit val memMemory = new HasMemory[Mem[Double],Double] {
-    def _memory = Lens[Mem[Double],Position[Double]](_.b)(b => a => a.copy(b = b))
-  }
+  implicit val memMemory: HasMemory[Mem[Double],Double] =
+    new HasMemory[Mem[Double],Double] {
+      def _memory = Lens[Mem[Double],Position[Double]](_.b)(b => a => a.copy(b = b))
+    }
 }
 
 trait HasVelocity[S,A] {
@@ -21,9 +23,10 @@ trait HasVelocity[S,A] {
 }
 
 object HasVelocity {
-  implicit val memVelocity = new HasVelocity[Mem[Double],Double] {
-    def _velocity = Lens[Mem[Double], Position[Double]](_.v)(b => a => a.copy(v = b))
-  }
+  implicit val memVelocity: HasVelocity[Mem[Double],Double] =
+    new HasVelocity[Mem[Double],Double] {
+      def _velocity = Lens[Mem[Double], Position[Double]](_.v)(b => a => a.copy(v = b))
+    }
 }
 
 trait HasCharge[A] {
@@ -35,9 +38,18 @@ trait HasPBestStagnation[A] {
 }
 
 object Lenses {
+  import scalaz.{ Lens => _, Optional => _, _ }
+
   // Base Entity lenses
   def _state[S,A]    = Lens[Entity[S,A], S](_.state)(c => e => e.copy(state = c))
   def _position[S,A] = Lens[Entity[S,A], Position[A]](_.pos)(c => e => e.copy(pos = c))
+
+  def _vector[A:scalaz.Equal] = Lens[Position[A],NonEmptyList[A]](_.pos)(c => e => e match {
+    case Point(_, b) => Point(c, b)
+    case Solution(x, b, _) =>
+      if (scalaz.Equal[NonEmptyList[A]].equal(x, c)) e
+      else Point(c, b)
+  })
 
   def _solutionPrism[A]: Prism[Position[A],Solution[A]] =
     Prism[Position[A],Solution[A]] {
@@ -66,8 +78,8 @@ object Lenses {
   def _singleFitness[A]: Optional[Position[A], Fit] =
     _solutionPrism[A] composeLens
       _objectiveLens[A] composePrism
-      _singleObjective[A] composeLens
-      _singleFit[A]
+      _singleObjective composeLens
+      _singleFit
 
   def _feasible: Prism[Fit,Double] =
     Prism[Fit,Double](_ match {
