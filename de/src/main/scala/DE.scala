@@ -28,19 +28,20 @@ object DE {
             fittest <- better(evaluated, evaluatedOffspring)
         } yield fittest
 
+    // DEs
+    ///////////////////////////////////////////
     // DE/best/1/bin:
     def deBest[S, A: Numeric : Rng](p_r: Double, p_m: Double) = de(p_r, p_m, selectBestTarget[Individual, S, A])
 
-    def selectBestTarget[F[_,_], S, A](individuals: NonEmptyList[F[S, A]])(implicit fit: Fitness[F, A]): RVar[F[S, A]] = {
+    // Selection Methods
+    ///////////////////////////////////////////
+    def selectBestTarget[F[_, _], S, A](individuals: NonEmptyList[F[S, A]])(implicit fit: Fitness[F, A]): RVar[F[S, A]] = {
         val maxComparison = Comparison.dominance(Max)
         RVar.point(individuals.foldLeft1((a, b) => maxComparison.apply(a, b)))
     }
 
-    // Duplicated from PSO.....
-    def better[S, A](a: Individual[S, A], b: Individual[S, A]): Step[A, Individual[S, A]] =
-        Step.withCompare(comp => Comparison.compare(a, b).apply(comp))
-
-
+    // Mutation Methods
+    ///////////////////////////////////////////
     def basicMutation[S, A: Rng](
                                     p_m: A,
                                     selection: NonEmptyList[Individual[S, A]] => RVar[Individual[S, A]],
@@ -73,6 +74,8 @@ object DE {
     }
 
 
+    // Crossover Methods
+    ///////////////////////////////////////////
     def crossover[S, A](target: Individual[S, A], trial: Position[A], pivots: NonEmptyList[Boolean]) =
         target.copy(
             pos = {
@@ -81,7 +84,8 @@ object DE {
                 }
             })
 
-
+    // Pivot Calculation Methods
+    ///////////////////////////////////////////
     // This is not a nice implementation ??? -> it feels far too low level and inelegant
     def bin[S, A: Rng](
                           p_r: Double,
@@ -105,5 +109,11 @@ object DE {
     //     circular = Stream.continually((0 to length).toList).drop(start).take(length)
     //     list <-
 
+
+    // Helper Methods
+    ///////////////////////////////////////////
+    // Duplicated from PSO.....
+    def better[S, A](a: Individual[S, A], b: Individual[S, A]): Step[A, Individual[S, A]] =
+        Step.withCompare(comp => Comparison.compare(a, b).apply(comp))
 
 }
