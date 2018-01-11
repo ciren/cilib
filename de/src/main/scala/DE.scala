@@ -31,15 +31,14 @@ object DE {
     // DEs
     ///////////////////////////////////////////
     // DE/best/1/bin:
-    def deBest[S, A: Numeric : Rng](p_r: Double, p_m: Double) = de(p_r, p_m, selectBestTarget[Individual, S, A])
+    def deBest[S, A: Numeric : Rng](p_r: Double, p_m: Double) = de(p_r, p_m, selectBestTarget[S, A])
 
     // Selection Methods
     ///////////////////////////////////////////
-    def selectBestTarget[F[_, _], S, A](individuals: NonEmptyList[F[S, A]])(implicit fit: Fitness[F, A]): RVar[F[S, A]] = {
+    def selectBestTarget[S, A](individuals: NonEmptyList[Individual[S, A]]):RVar[Individual[S, A]] = {
         val maxComparison = Comparison.dominance(Max)
-        RVar.point(individuals.foldLeft1((a, b) => maxComparison.apply(a, b)))
+        RVar.point(individuals.foldLeft1((a, b) => maxComparison.apply(a, b)(Entity.entityFitness)))
     }
-
     // Mutation Methods
     ///////////////////////////////////////////
     def basicMutation[S, A: Rng](
@@ -47,15 +46,8 @@ object DE {
                                     selection: NonEmptyList[Individual[S, A]] => RVar[Individual[S, A]],
                                     collection: NonEmptyList[Individual[S, A]],
                                     x: Individual[S, A]): RVar[Position[A]] = {
-        def createPairs[Z](acc: List[(Z, Z)], xs: List[Z]): List[(Z, Z)] =
-            xs match {
-                case Nil => acc
-                case a :: b :: xss => createPairs((a, b) :: acc, xss)
-                case _ => sys.error("ugg")
-            }
-
         val target: RVar[Individual[S, A]] = selection(collection)
-        val filtered = target.map(t => collection.list.filterNot(a => List(t, x).contains(a)))
+        val filtered = filter(target, collection)
         val pairs: RVar[List[Position[A]]] =
             filtered.flatMap(_.toNel match {
                 case Some(l) =>
@@ -110,10 +102,20 @@ object DE {
     //     list <-
 
 
-    // Helper Methods
+    // Helper Methods .... Private?
     ///////////////////////////////////////////
     // Duplicated from PSO.....
     def better[S, A](a: Individual[S, A], b: Individual[S, A]): Step[A, Individual[S, A]] =
         Step.withCompare(comp => Comparison.compare(a, b).apply(comp))
+
+    def filter[S, A](x: RVar[Individual[S, A]], collection: NonEmptyList[Individual[S, A]]): RVar[IList[Individual[S, A]]] =
+        x.map(t => collection.list.filterNot(a => List(t, x).contains(a)))
+
+    def createPairs[Z](acc: List[(Z, Z)], xs: List[Z]): List[(Z, Z)] =
+        xs match {
+            case Nil => acc
+            case a :: b :: xss => createPairs((a, b) :: acc, xss)
+            case _ => sys.error("ugg")
+        }
 
 }
