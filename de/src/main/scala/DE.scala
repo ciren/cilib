@@ -35,10 +35,11 @@ object DE {
 
     // Selection Methods
     ///////////////////////////////////////////
-    def selectBestTarget[S, A](individuals: NonEmptyList[Individual[S, A]]):RVar[Individual[S, A]] = {
+    def selectBestTarget[S, A](individuals: NonEmptyList[Individual[S, A]]): RVar[Individual[S, A]] = {
         val maxComparison = Comparison.dominance(Max)
         RVar.point(individuals.foldLeft1((a, b) => maxComparison.apply(a, b)(Entity.entityFitness)))
     }
+
     // Mutation Methods
     ///////////////////////////////////////////
     def basicMutation[S, A: Rng](
@@ -47,24 +48,13 @@ object DE {
                                     collection: NonEmptyList[Individual[S, A]],
                                     x: Individual[S, A]): RVar[Position[A]] = {
         val target: RVar[Individual[S, A]] = selection(collection)
-        val filtered = filter(target, collection)
-        val pairs: RVar[List[Position[A]]] =
-            filtered.flatMap(_.toNel match {
-                case Some(l) =>
-                    RVar.shuffle(l)
-                        .map(a => createPairs(List.empty[(Individual[S, A], Individual[S, A])], a.toList.take(2))
-                            .map(z => z._1.pos - z._2.pos))
-                case None =>
-                    RVar.point(List.empty)
-            })
-
-
+        val filtered = filter(target, collection, x)
+        val differenceVector = getDifferenceVector(filtered)
         for {
             t <- target
-            p <- pairs
+            p <- differenceVector
         } yield p.foldLeft(t.pos)((a, c) => a + (p_m *: c))
     }
-
 
     // Crossover Methods
     ///////////////////////////////////////////
@@ -108,8 +98,8 @@ object DE {
     def better[S, A](a: Individual[S, A], b: Individual[S, A]): Step[A, Individual[S, A]] =
         Step.withCompare(comp => Comparison.compare(a, b).apply(comp))
 
-    def filter[S, A](x: RVar[Individual[S, A]], collection: NonEmptyList[Individual[S, A]]): RVar[IList[Individual[S, A]]] =
-        x.map(t => collection.list.filterNot(a => List(t, x).contains(a)))
+    def filter[S, A](target: RVar[Individual[S, A]], collection: NonEmptyList[Individual[S, A]], x: Individual[S, A]): RVar[IList[Individual[S, A]]] =
+        target.map(t => collection.list.filterNot(a => List(t, x).contains(a)))
 
     def createPairs[Z](acc: List[(Z, Z)], xs: List[Z]): List[(Z, Z)] =
         xs match {
@@ -117,5 +107,16 @@ object DE {
             case a :: b :: xss => createPairs((a, b) :: acc, xss)
             case _ => sys.error("ugg")
         }
+
+    def getDifferenceVector[S, A](filteredCollection: RVar[IList[Individual[S, A]]]): RVar[List[Position[A]]] = {
+        filteredCollection.flatMap(_.toNel match {
+            case Some(l) =>
+                RVar.shuffle(l)
+                    .map(a => createPairs(List.empty[(Individual[S, A], Individual[S, A])], a.toList.take(2))
+                        .map(z => z._1.pos - z._2.pos))
+            case None =>
+                RVar.point(List.empty)
+        })
+    }
 
 }
