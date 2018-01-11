@@ -9,3 +9,6 @@ private.sbt
 readme.content
 *~
 project/travis-deploy-key
+
+.idea
+.xnl
