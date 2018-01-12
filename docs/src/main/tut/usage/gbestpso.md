@@ -31,10 +31,8 @@ import cilib.pso._
 
 import eu.timepit.refined.auto._
 
-import scalaz.NonEmptyList
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
-import scalaz.std.list._
 import spire.implicits._
 import spire.math.Interval
 
