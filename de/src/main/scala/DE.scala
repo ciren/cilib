@@ -67,11 +67,11 @@ object DE {
 
   def randToBestMutation[S, A: Rng](
                                        p_m: A,
+                                       greediness: A,
                                        selection: NonEmptyList[Individual[S, A]] => RVar[Individual[S, A]],
                                        collection: NonEmptyList[Individual[S, A]],
                                        x: Individual[S, A],
-                                       numberOfDifferenceVectors: Int Refined Positive,
-                                       greediness: Double
+                                       numberOfDifferenceVectors: Int Refined Positive
                                    ): RVar[Position[A]] = {
     val target = selection(collection)
     val filtered = filter(target, collection, x)
@@ -79,7 +79,7 @@ object DE {
     for {
       t <- target
       p <- differenceVector
-    } yield p.foldLeft((1 - greediness) *: t.pos)((a, c) => a + (p_m *: c))
+    } yield p.foldLeft(greediness *: t.pos)((a, c) => a + (p_m *: c))
   }
 
   def currentToBestMutation[S, A: Rng](
