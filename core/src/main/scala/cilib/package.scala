@@ -3,7 +3,6 @@ import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
 import scalaz._
-import shapeless.nat._
 import spire.algebra.{Monoid => _, _}
 import spire.math.Interval
 import spire.math.interval.{Bound,ValueBound}
@@ -71,7 +70,7 @@ package object cilib extends EvalInstances {
     }
 
   /** Positive integers are the set of inegers that are greater than 0 */
-  def positiveInt[A](n: Int)(f: Int Refined GreaterEqual[_1] => A) =
-    refine(n)((x: Int Refined GreaterEqual[_1]) => f(x))
+  def positiveInt[A](n: Int)(f: Int Refined Positive => A) =
+    refine(n)((x: Int Refined Positive) => f(x))
 
 }

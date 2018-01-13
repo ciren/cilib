@@ -8,7 +8,6 @@ import eu.timepit.refined.numeric._
 
 import spire.algebra.{Module,Rng}
 import spire.math._
-import shapeless.nat._
 
 sealed abstract class Position[A] {
 
@@ -171,10 +170,10 @@ object Position {
   def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
     domain.traverse(Dist.uniform).map(x => Position(x, domain))
 
-  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int Refined GreaterEqual[_1]): RVar[NonEmptyList[Position[Double]]] =
+  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyList[Position[Double]]] =
     createPosition(domain).replicateM(n.value).map(_.toNel.getOrElse(sys.error("Impossible -> refinement is n >= 1")))
 
-  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int Refined GreaterEqual[_1]): RVar[NonEmptyList[A]] =
+  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyList[A]] =
     createPositions(domain,n).map(_.map(f))
 
 }
