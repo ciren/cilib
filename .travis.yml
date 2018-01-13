@@ -9,18 +9,18 @@ env:
 
 matrix:
   include:
-    - env: SBT_VERSION="1.0.4"
+    - env: SBT_VERSION="1.0.4" COMMAND="clean test"
       jdk: oraclejdk8
       scala: 2.11.11
-    - env: SBT_VERSION="1.0.4"
+    - env: SBT_VERSION="1.0.4" COMMAND="clean test"
       jdk: oraclejdk8
       scala: 2.12.4
-    - env: SBT_VERSION="1.0.4"
+    - env: SBT_VERSION="1.0.4" COMMAND="clean test docs/makeSite"
       jdk: oraclejdk9
       scala: 2.12.4
 
 script:
-  - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" clean test docs/makeSite
+  - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" $COMMAND
 
 before_deploy:
   # Record minimal build information via the Git user ident
@@ -41,6 +41,7 @@ deploy:
   on:
     branch: series/2.0.x
     jdk: oraclejdk9
+    scala: 2.12.4
     condition: $TRAVIS_PULL_REQUEST = false
 
 notifications:
