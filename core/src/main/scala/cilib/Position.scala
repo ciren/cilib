@@ -69,8 +69,8 @@ final case class Solution[A] private[cilib] (x: NonEmptyList[A],
 
 object Position {
 
-  implicit def positionInstances: Bind[Position] with Traverse[Position] with Align[Position] =
-    new Bind[Position] with Traverse[Position] with Align[Position] {
+  implicit def positionInstances: Bind[Position] with Traverse1[Position] with Align[Position] =
+    new Bind[Position] with Traverse1[Position] with Align[Position] {
       override def map[A, B](fa: Position[A])(f: A => B): Position[B] =
         fa.map(f)
 
@@ -81,8 +81,15 @@ object Position {
           f: A => G[B]): G[Position[B]] =
         fa.traverse(f)
 
+      override def traverse1Impl[G[_], A, B](fa: Position[A])(f: A => G[B])(
+          implicit A: Apply[G]): G[Position[B]] =
+        fa.traverse1(f)
+
       def alignWith[A, B, C](f: A \&/ B => C) =
         (a, b) => Point(a.pos.alignWith(b.pos)(f), a.boundary)
+
+      def foldMapRight1[A, B](fa: Position[A])(z: A => B)(f: (A, => B) => B): B =
+        fa.pos.foldMapRight1(z)(f)
 
     }
 
