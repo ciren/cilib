@@ -11,3 +11,6 @@ addSbtPlugin("org.tpolecat" % "tut-plugin" % "0.6.2")
 addSbtPlugin("com.dwijnand" % "sbt-travisci" % "1.1.1")
 
 addSbtPlugin("io.get-coursier" % "sbt-coursier" % "1.0.0")
+
+//addSbtPlugin("com.lucidchart" % "sbt-scalafmt-coursier" % "1.15")
+addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "1.4.0")

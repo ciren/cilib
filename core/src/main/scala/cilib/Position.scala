@@ -6,16 +6,16 @@ import Scalaz._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
 
-import spire.algebra.{Module,Rng}
+import spire.algebra.{Module, Rng}
 import spire.math._
 
 sealed abstract class Position[A] {
 
   def map[B](f: A => B): Position[B] =
-    Point(pos map f, boundary)
+    Point(pos.map(f), boundary)
 
   def flatMap[B](f: A => Position[B]): Position[B] =
-    Point(pos flatMap (f(_).pos), boundary)
+    Point(pos.flatMap(f(_).pos), boundary)
 
   def zip[B](other: Position[B]): Position[(A, B)] =
     Point(pos.zip(other.pos), boundary)
@@ -28,7 +28,7 @@ sealed abstract class Position[A] {
 
   def drop(n: Int): IList[A] =
     this match {
-      case Point(x, _) => x.list.drop(n)
+      case Point(x, _)       => x.list.drop(n)
       case Solution(x, _, _) => x.list.drop(n)
     }
 
@@ -46,7 +46,7 @@ sealed abstract class Position[A] {
 
   def objective: Option[Objective[A]] =
     this match {
-      case Point(_,_)        => None
+      case Point(_, _)       => None
       case Solution(_, _, o) => Some(o)
     }
 
@@ -60,21 +60,26 @@ sealed abstract class Position[A] {
     pos.list.toList.forall(f)
 }
 
-final case class Point[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
-final case class Solution[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]], o: Objective[A]) extends Position[A]
+final case class Point[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]])
+    extends Position[A]
+final case class Solution[A] private[cilib] (x: NonEmptyList[A],
+                                             b: NonEmptyList[Interval[Double]],
+                                             o: Objective[A])
+    extends Position[A]
 
 object Position {
 
   implicit def positionInstances: Bind[Position] with Traverse[Position] with Align[Position] =
     new Bind[Position] with Traverse[Position] with Align[Position] {
       override def map[A, B](fa: Position[A])(f: A => B): Position[B] =
-        fa map f
+        fa.map(f)
 
       override def bind[A, B](fa: Position[A])(f: A => Position[B]): Position[B] =
-        fa flatMap f
+        fa.flatMap(f)
 
-      override def traverseImpl[G[_]: Applicative, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
-        fa traverse f
+      override def traverseImpl[G[_]: Applicative, A, B](fa: Position[A])(
+          f: A => G[B]): G[Position[B]] =
+        fa.traverse(f)
 
       def alignWith[A, B, C](f: A \&/ B => C) =
         (a, b) => Point(a.pos.alignWith(b.pos)(f), a.boundary)
@@ -94,29 +99,29 @@ object Position {
       import spire.implicits._
 
       def pointwise(a: Position[A], b: Position[A]) =
-        (a zip b).map(x => x._1 * x._2)
+        a.zip(b).map(x => x._1 * x._2)
     }
 
   implicit class PositionVectorOps[A](val x: Position[A]) extends AnyVal {
     def zeroed(implicit A: Rng[A]): Position[A] =
       x.map(_ => A.zero)
 
-    def + (other: Position[A])(implicit M: Module[Position[A],A]): Position[A] =
+    def +(other: Position[A])(implicit M: Module[Position[A], A]): Position[A] =
       M.plus(x, other)
 
-    def - (other: Position[A])(implicit M: Module[Position[A],A]): Position[A] =
+    def -(other: Position[A])(implicit M: Module[Position[A], A]): Position[A] =
       M.minus(x, other)
 
-    def *: (scalar: A)(implicit M: Module[Position[A],A]): Position[A] =
+    def *:(scalar: A)(implicit M: Module[Position[A], A]): Position[A] =
       M.timesl(scalar, x)
 
-    def unary_-(implicit M: Module[Position[A],A]): Position[A] =
+    def unary_-(implicit M: Module[Position[A], A]): Position[A] =
       M.negate(x)
 
     def isZero(implicit R: Rng[A]) = {
       def test(xs: IList[A]): Boolean =
         xs match {
-          case INil() => true
+          case INil()        => true
           case ICons(x, xss) => if (x != R.zero) false else test(xss)
         }
 
@@ -124,13 +129,13 @@ object Position {
     }
   }
 
-  implicit def positionFitness[A]: Fitness[Position,A] =
-    new Fitness[Position,A] {
+  implicit def positionFitness[A]: Fitness[Position, A] =
+    new Fitness[Position, A] {
       def fitness(a: Position[A]) =
         a.objective
     }
 
-  implicit def positionEqual[A:scalaz.Equal]: scalaz.Equal[Position[A]] =
+  implicit def positionEqual[A: scalaz.Equal]: scalaz.Equal[Position[A]] =
     scalaz.Equal.equal[Position[A]]((a, b) => (a.pos === b.pos) && (a.boundary === b.boundary))
 
   implicit val positionFoldable1: Foldable1[Position] =
@@ -152,7 +157,7 @@ object Position {
         }
     }
 
-  def eval[F[_],A](e: RVar[NonEmptyList[A] => Objective[A]], pos: Position[A]): RVar[Position[A]] =
+  def eval[F[_], A](e: RVar[NonEmptyList[A] => Objective[A]], pos: Position[A]): RVar[Position[A]] =
     pos match {
       case Point(x, b) =>
         e.map(f => {
@@ -164,16 +169,22 @@ object Position {
         RVar.point(x)
     }
 
-  /*private[cilib]*/ def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
+  /*private[cilib]*/
+  def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
     domain.traverse(Dist.uniform).map(x => Position(x, domain))
 
-  def createPositions(domain: NonEmptyList[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyList[Position[Double]]] =
-    createPosition(domain).replicateM(n.value).map(_.toNel.getOrElse(sys.error("Impossible -> refinement is n >= 1")))
+  def createPositions(domain: NonEmptyList[Interval[Double]],
+                      n: Int Refined Positive): RVar[NonEmptyList[Position[Double]]] =
+    createPosition(domain)
+      .replicateM(n.value)
+      .map(_.toNel.getOrElse(
+        sys.error("Impossible -> refinement requires n to be positive, i.e. n > 0")))
 
-  def createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyList[A]] =
-    createPositions(domain,n).map(_.map(f))
-
+  def createCollection[A](f: Position[Double] => A)(
+      domain: NonEmptyList[Interval[Double]],
+      n: Int Refined Positive): RVar[NonEmptyList[A]] =
+    createPositions(domain, n).map(_.map(f))
 }

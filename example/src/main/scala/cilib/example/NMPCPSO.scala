@@ -18,12 +18,13 @@ object NMPCPSO extends SafeApp {
     Environment(
       cmp = Comparison.quality(Min),
       eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12,5.12)^30)
+      bounds = Interval(-5.12, 5.12) ^ 30)
 
   val guide = Guide.nmpc[Mem[Double]](0.5)
   val nmpcPSO = nmpc(guide)
 
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+  val swarm =
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
   val iter = Iteration.sync(nmpcPSO)
 
   override val runc: IO[Unit] =

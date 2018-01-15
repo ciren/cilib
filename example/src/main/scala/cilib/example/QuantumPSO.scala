@@ -8,7 +8,7 @@ import scalaz.effect._
 //import cilib.pso._
 
 object QuantumPSO extends SafeApp {
- /* import PSO._
+  /* import PSO._
   import Lenses._
   import spire.implicits._
 
@@ -237,5 +237,5 @@ object QuantumPSO extends SafeApp {
     val combined1 = centerEllipse ++ linear
     val combined2 = disjointCircles ++ linear
   }
-  */
+ */
 }

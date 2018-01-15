@@ -7,10 +7,9 @@ object Selection {
 
   private implicit class RicherEphemeralStream[A](val s: EphemeralStream[A]) extends AnyVal {
     def drop(n: Int): EphemeralStream[A] = {
-      def go(count: Int, c: Option[EphemeralStream[A]]): EphemeralStream[A] = {
+      def go(count: Int, c: Option[EphemeralStream[A]]): EphemeralStream[A] =
         if (count > 0) go(count - 1, c.flatMap(_.tailOption))
         else c.cata(x => x, EphemeralStream())
-      }
 
       go(n, Option(s))
     }
@@ -22,7 +21,7 @@ object Selection {
       val size = l.size
       val point =
         l.list.indexWhere(_ == x) match {
-          case None => 0
+          case None    => 0
           case Some(i) => (i - (n / 2) + size) % size
         }
       lazy val c: EphemeralStream[A] = EphemeralStream(list.toList: _*) ++ c
@@ -47,18 +46,20 @@ object Selection {
         (r: Int) => if (r == nRows - 1) np - r * sqSide else sqSide
 
       val result = for {
-        r     <- row
-        c     <- col
-        north <- list.index(indexInto((r - 1 + nRows) % nRows - (if (c >= colsInRow(r - 1 + nRows) % nRows) 1 else 0), c))
+        r <- row
+        c <- col
+        north <- list.index(
+          indexInto((r - 1 + nRows) % nRows - (if (c >= colsInRow(r - 1 + nRows) % nRows) 1 else 0),
+                    c))
         south <- list.index(indexInto(if (c >= colsInRow(r + 1) % nRows) 0 else (r + 1) % nRows, c))
-        east  <- list.index(indexInto(r, (c + 1) % colsInRow(r)))
-        west  <- list.index(indexInto(r, (c - 1 + colsInRow(r)) % colsInRow(r)))
+        east <- list.index(indexInto(r, (c + 1) % colsInRow(r)))
+        west <- list.index(indexInto(r, (c - 1 + colsInRow(r)) % colsInRow(r)))
       } yield List(x, north, south, east, west)
 
       result.getOrElse(sys.error("error in latticeNeighbours"))
     }
 
-  def distanceNeighbours[F[_]: Foldable, A: Order](distance: MetricSpace[F[A],A])(n: Int) =
+  def distanceNeighbours[F[_]: Foldable, A: Order](distance: MetricSpace[F[A], A])(n: Int) =
     (l: NonEmptyList[F[A]], x: F[A]) => l.sortBy(li => distance.dist(li, x)).toList.take(n)
 
   def wheel[A] =
@@ -70,10 +71,13 @@ object Selection {
   def star[A] =
     (l: NonEmptyList[A], x: A) => l.toList
 
-  def tournament[F[_],A](n: Int, l: NonEmptyList[F[A]])(implicit F: Fitness[F,A]): Comparison => RVar[Option[F[A]]] =
-    o => RVar.sample(n, l)
-      .map(_.reduceLeftOption((a,c) => o.apply(a, c)))
-      .run
-      .map(_.flatten)
+  def tournament[F[_], A](n: Int, l: NonEmptyList[F[A]])(
+      implicit F: Fitness[F, A]): Comparison => RVar[Option[F[A]]] =
+    o =>
+      RVar
+        .sample(n, l)
+        .map(_.reduceLeftOption((a, c) => o.apply(a, c)))
+        .run
+        .map(_.flatten)
 
 }

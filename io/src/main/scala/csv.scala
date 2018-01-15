@@ -29,12 +29,11 @@ object EncodeCsv {
   implicit val stringEncodeCsv = EncodeCsv[String](List(_))
 
   implicit def foldableEncodeCsv[F[_], A](implicit F: Foldable[F], A: EncodeCsv[A]) =
-    EncodeCsv[F[A]](l =>
-      List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
+    EncodeCsv[F[A]](l => List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
 
-  implicit def genericEncodeCsv[A,R](
-    implicit gen: Generic.Aux[A,R],
-    enc: Lazy[EncodeCsv[R]]
+  implicit def genericEncodeCsv[A, R](
+      implicit gen: Generic.Aux[A, R],
+      enc: Lazy[EncodeCsv[R]]
   ): EncodeCsv[A] =
     EncodeCsv(a => enc.value.encode(gen.to(a)))
 
@@ -43,9 +42,8 @@ object EncodeCsv {
     EncodeCsv(_ => Nil)
 
   implicit def hconsToEncodeCsv[H, T <: HList](implicit
-    hEncode: EncodeCsv[H],
-    tEncode: EncodeCsv[T]
-  ): EncodeCsv[H :: T] =
+                                               hEncode: EncodeCsv[H],
+                                               tEncode: EncodeCsv[T]): EncodeCsv[H :: T] =
     EncodeCsv {
       case h :: t => hEncode.encode(h) ++ tEncode.encode(t)
     }
@@ -81,8 +79,7 @@ object ColumnNames {
   implicit val stringColumnNames = columnName[String](_ => List())
 
   implicit def foldableCoilumnNames[F[_], A](implicit F: Foldable[F], A: ColumnNames[A]) =
-    columnName[F[A]](l =>
-      List(F.toList(l).flatMap(A.names).mkString("[", ",", "]")))
+    columnName[F[A]](l => List(F.toList(l).flatMap(A.names).mkString("[", ",", "]")))
 
   implicit val hnilColumnsNames: ColumnNames[HNil] =
     new ColumnNames[HNil] {
@@ -90,7 +87,7 @@ object ColumnNames {
     }
 
   implicit def hconsColumnNames[K <: Symbol, H, T <: HList](
-    implicit
+      implicit
       witness: Witness.Aux[K],
 //      hNamer: ColumnNames[H],
       tNamer: ColumnNames[T]
@@ -103,8 +100,8 @@ object ColumnNames {
   }
 
   implicit def genericColumnNames[A, H <: HList](
-    implicit generic: LabelledGeneric.Aux[A, H],
-    hNamer: Lazy[ColumnNames[H]]
+      implicit generic: LabelledGeneric.Aux[A, H],
+      hNamer: Lazy[ColumnNames[H]]
   ): ColumnNames[A] =
     new ColumnNames[A] {
       def names(a: A) =

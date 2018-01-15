@@ -20,25 +20,32 @@ object GCPSO extends SafeApp {
     Environment(
       cmp = Comparison.dominance(Min),
       eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12,5.12)^30)
+      bounds = Interval(-5.12, 5.12) ^ 30)
 
   // Define a normal GBest PSO and run it for a single iteration
-  val cognitive = Guide.pbest[Mem[Double],Double]
+  val cognitive = Guide.pbest[Mem[Double], Double]
   val social = Guide.gbest[Mem[Double]]
-  val gcPSO: NonEmptyList[Particle[Mem[Double],Double]] => Particle[Mem[Double],Double] => StepS[Double, PSO.GCParams, Particle[Mem[Double],Double]] =
+  val gcPSO: NonEmptyList[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[
+    Double,
+    PSO.GCParams,
+    Particle[Mem[Double], Double]] =
     gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
-  val iter: Kleisli[StepS[Double, PSO.GCParams, ?], NonEmptyList[Particle[Mem[Double],Double]], NonEmptyList[Particle[Mem[Double],Double]]] =
+  val iter: Kleisli[StepS[Double, PSO.GCParams, ?],
+                    NonEmptyList[Particle[Mem[Double], Double]],
+                    NonEmptyList[Particle[Mem[Double], Double]]] =
     Iteration.syncS(gcPSO)
 
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+  val swarm =
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] = {
     val algParams = PSO.defaultGCParams
 
     val result =
-      Runner.repeatS(1000, iter, swarm)
+      Runner
+        .repeatS(1000, iter, swarm)
         .run(algParams)
         .run(env)
         .run(RNG.fromTime)

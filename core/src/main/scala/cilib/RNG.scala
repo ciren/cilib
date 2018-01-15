@@ -8,7 +8,7 @@ sealed trait RNG {
 }
 
 private final class CMWC(val seed: Long, carry: Long, index: Int, state: Vector[Long]) extends RNG {
-  val multiplier = 18782L//1030770L
+  val multiplier = 18782L //1030770L
   val r = 4096L
 
   def next(bits: Int) = {

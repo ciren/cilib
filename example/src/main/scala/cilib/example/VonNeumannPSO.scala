@@ -18,15 +18,16 @@ object VonNeumannPSO extends SafeApp {
     Environment(
       cmp = Comparison.dominance(Min),
       eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12,5.12)^30)
+      bounds = Interval(-5.12, 5.12) ^ 30)
 
   // Define a normal GBest PSO and run it for a single iteration
-  val cognitive = Guide.pbest[Mem[Double],Double]
+  val cognitive = Guide.pbest[Mem[Double], Double]
   val social = Guide.vonNeumann[Mem[Double]]
   val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
   // RVar
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+  val swarm =
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
   val iter = Iteration.sync(gbestPSO)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
