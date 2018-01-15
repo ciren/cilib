@@ -4,7 +4,7 @@ package cilib
 //import scalaz.std.list._
 //import scalaz.syntax.traverse._
 
-final case class MultiEval[F[_],A](objectives: List[Eval[F,A]]) {
+final case class MultiEval[F[_], A](objectives: List[Eval[F, A]]) {
   // def eval(xs: NonEmptyList[A]): RVar[List[Objective[A]]] = {
   //   implicit val a = implicitly[spire.algebra.Eq[Double]]
   //   objectives.traverse(_.eval)
@@ -14,7 +14,7 @@ final case class MultiEval[F[_],A](objectives: List[Eval[F,A]]) {
 object MultiEval {
 
   // Varags suck
-  def apply[F[_],A](a: Eval[F,A], b: Eval[F,A], rest: Eval[F,A]*) =
+  def apply[F[_], A](a: Eval[F, A], b: Eval[F, A], rest: Eval[F, A]*) =
     new MultiEval(List(a, b) ++ rest.toList)
 
 }
@@ -45,4 +45,4 @@ object Collection {
         Multiple(m, subs :+ Single(s))
     }
 }
-*/
+ */

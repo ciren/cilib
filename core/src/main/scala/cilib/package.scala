@@ -1,11 +1,10 @@
-
 import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
 import scalaz._
 import spire.algebra.{Monoid => _, _}
 import spire.math.Interval
-import spire.math.interval.{Bound,ValueBound}
+import spire.math.interval.{Bound, ValueBound}
 
 package object cilib extends EvalInstances {
 
@@ -25,8 +24,8 @@ package object cilib extends EvalInstances {
     def append(a: Double, b: => Double) = a + b
   }
 
-  implicit def PositionModule[A](implicit sc: Rng[A]): Module[Position[A],A] =
-    new Module[Position[A],A] {
+  implicit def PositionModule[A](implicit sc: Rng[A]): Module[Position[A], A] =
+    new Module[Position[A], A] {
       import spire.implicits._
 
       implicit def scalar: Rng[A] = sc
@@ -36,20 +35,22 @@ package object cilib extends EvalInstances {
 
       def plus(x: Position[A], y: Position[A]) = {
         import scalaz.syntax.align._
-        x.align(y).map(_.fold(
-          s = x => x,
-          t = x => x,
-          q = scalar.plus(_, _)
-        ))
+        x.align(y)
+          .map(
+            _.fold(
+              s = x => x,
+              t = x => x,
+              q = scalar.plus(_, _)
+            ))
       }
 
       def timesl(r: A, v: Position[A]): Position[A] =
-        v map (scalar.times(r, _))
+        v.map(scalar.times(r, _))
     }
 
   implicit class IntervalOps[A](val interval: Interval[A]) extends AnyVal {
     def ^(n: Int): NonEmptyList[Interval[A]] =
-      NonEmptyList.nel(interval, IList.fill(n-1)(interval))
+      NonEmptyList.nel(interval, IList.fill(n - 1)(interval))
 
     private def getValue(b: Bound[A]) =
       ValueBound.unapply(b).getOrElse(sys.error("Empty and Unbounded bounds are not supported"))
@@ -61,11 +62,11 @@ package object cilib extends EvalInstances {
   implicit def intervalEqual[A]: scalaz.Equal[Interval[A]] =
     scalaz.Equal.equalA[Interval[A]]
 
-
   /* Refinement definitions */
-  def refine[A, B, C](a: A)(f: A Refined B => C)(implicit ev: eu.timepit.refined.api.Validate[A,B]) =
+  def refine[A, B, C](a: A)(f: A Refined B => C)(
+      implicit ev: eu.timepit.refined.api.Validate[A, B]) =
     refineV[B](a) match {
-      case Left(error) => sys.error(error)
+      case Left(error)  => sys.error(error)
       case Right(value) => f(value)
     }
 

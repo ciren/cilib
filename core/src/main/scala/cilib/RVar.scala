@@ -11,7 +11,7 @@ import spire.implicits._
 sealed abstract class RVar[A] {
   def trampolined(s: RNG): Trampoline[(RNG, A)]
 
-  def run(initial: RNG): (RNG,A) = trampolined(initial).run
+  def run(initial: RNG): (RNG, A) = trampolined(initial).run
   def exec(s: RNG) = run(s)._1
   def eval(s: RNG) = run(s)._2
 
@@ -19,47 +19,50 @@ sealed abstract class RVar[A] {
     RVar.trampolined(rng => trampolined(rng).map(a => (a._1, f(a._2))))
 
   def flatMap[B](f: A => RVar[B]): RVar[B] =
-    RVar.trampolined(rng =>
-      trampolined(rng)
-        .flatMap((a: (RNG,A)) => f(a._2).trampolined(a._1)))
+    RVar.trampolined(
+      rng =>
+        trampolined(rng)
+          .flatMap((a: (RNG, A)) => f(a._2).trampolined(a._1)))
 }
 
 object RVar {
   implicit val rvarMonad: Monad[RVar] =
     new Monad[RVar] {
       def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-        a flatMap f
+        a.flatMap(f)
       def point[A](a: => A) =
         RVar.point(a)
     }
 
-  def apply[A](f: RNG => (RNG,A)) = new RVar[A] {
+  def apply[A](f: RNG => (RNG, A)) = new RVar[A] {
     def trampolined(s: RNG) = Trampoline.delay(f(s))
   }
 
-  def trampolined[A](f: RNG => Trampoline[(RNG,A)]) = new RVar[A] {
+  def trampolined[A](f: RNG => Trampoline[(RNG, A)]) = new RVar[A] {
     def trampolined(s: RNG) = Trampoline.suspend(f(s))
   }
 
   def point[A](a: => A): RVar[A] =
-    apply(r => (r,a))
+    apply(r => (r, a))
 
   def next[A](implicit e: Generator[A]): RVar[A] =
     e.gen
 
   def ints(n: Int) =
-    next[Int](Generator.IntGen) replicateM n
+    next[Int](Generator.IntGen).replicateM(n)
 
   def doubles(n: Int) =
-    next[Double](Generator.DoubleGen) replicateM n
+    next[Double](Generator.DoubleGen).replicateM(n)
 
   def choose[A](xs: NonEmptyList[A]): RVar[A] =
-    Dist.uniformInt(Interval(0, xs.size - 1)).map(i => {
-      import monocle._
-      import Monocle._
+    Dist
+      .uniformInt(Interval(0, xs.size - 1))
+      .map(i => {
+        import monocle._
+        import Monocle._
 
-      (xs.list applyOptional index(i)).getOption.getOrElse(xs.head)
-    })
+        xs.list.applyOptional(index(i)).getOption.getOrElse(xs.head)
+      })
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
@@ -73,29 +76,30 @@ object RVar {
     def buildTree(zs: NonEmptyList[A]): NonEmptyList[BinTree] = {
       def join(left: BinTree, right: BinTree): BinTree =
         (left, right) match {
-          case (Leaf(_), Leaf(_)) => Node(2, left, right)
-          case (Node(ct, _, _), Leaf(_)) => Node(ct + 1, left, right)
-          case (Leaf(_), Node(ct, _, _)) => Node(ct + 1, left, right)
+          case (Leaf(_), Leaf(_))                 => Node(2, left, right)
+          case (Node(ct, _, _), Leaf(_))          => Node(ct + 1, left, right)
+          case (Leaf(_), Node(ct, _, _))          => Node(ct + 1, left, right)
           case (Node(ctl, _, _), Node(ctr, _, _)) => Node(ctl + ctr, left, right)
         }
 
       def inner(l: NonEmptyList[BinTree]): NonEmptyList[BinTree] = {
         def go(xs: List[BinTree]): List[BinTree] =
           xs match {
-            case e :: Nil => List(e)
+            case e :: Nil       => List(e)
             case e1 :: e2 :: es => join(e1, e2) :: go(es)
-            case Nil => List.empty[BinTree]
+            case Nil            => List.empty[BinTree]
           }
 
         go(l.toList).toNel.getOrElse(sys.error("This is impossible as the input is non-empty"))
       }
 
-      fix[NonEmptyList[BinTree], NonEmptyList[BinTree]](f => a => if (a.length == 1) a else f(inner(a)))(zs.map(Leaf(_)))
+      fix[NonEmptyList[BinTree], NonEmptyList[BinTree]](f =>
+        a => if (a.length == 1) a else f(inner(a)))(zs.map(Leaf(_)))
     }
 
     def extractTree(n: Int, t: BinTree): (A, BinTree) =
       (n, t) match {
-        case (0, Node(_, Leaf(e), r)) => (e, r)
+        case (0, Node(_, Leaf(e), r))       => (e, r)
         case (1, Node(2, Leaf(l), Leaf(r))) => (r, Leaf(l))
         case (n, Node(c, Leaf(l), r)) =>
           val (e, r2) = extractTree(n - 1, r)
@@ -128,7 +132,9 @@ object RVar {
         .reverse // TODO / FIX: Remove the need to reverse!
         .sequence
 
-    randoms map { r => shuffleTree(buildTree(xs).head, r) }
+    randoms.map { r =>
+      shuffleTree(buildTree(xs).head, r)
+    }
   }
 
   def sample[A](n: Int, xs: NonEmptyList[A]) =
@@ -142,14 +148,21 @@ object RVar {
         import scalaz.std.list._
         type M[B] = StateT[RVar, List[A], B]
 
-        ((0 until xs.size).toList.reverse.take(n).foldLeftM[M, List[A]](List.empty) {
-          case (s, a) => StateT[RVar, List[A], List[A]] {
-            currentList => Dist.uniformInt(Interval(0, a)).map(r => {
-              val selected = currentList(r)
-              (currentList diff List(selected), selected :: s)
-            })
+        (0 until xs.size).toList.reverse
+          .take(n)
+          .foldLeftM[M, List[A]](List.empty) {
+            case (s, a) =>
+              StateT[RVar, List[A], List[A]] { currentList =>
+                Dist
+                  .uniformInt(Interval(0, a))
+                  .map(r => {
+                    val selected = currentList(r)
+                    (currentList.diff(List(selected)), selected :: s)
+                  })
+              }
           }
-        } eval xs.toList).map(Option(_))
+          .eval(xs.toList)
+          .map(Option(_))
       }
     }
 }
@@ -165,7 +178,7 @@ object Generator {
 
   implicit object DoubleGen extends Generator[Double] {
     def gen =
-      (nextBits(26) |@| nextBits(27)) { (a,b) =>
+      (nextBits(26) |@| nextBits(27)) { (a, b) =>
         ((a.toLong << 27) + b) / (1L << 53).toDouble
       }
   }
@@ -183,10 +196,9 @@ object Generator {
   }
 
   implicit object BooleanGen extends Generator[Boolean] {
-    def gen = nextBits(1) map (_ == 1)
+    def gen = nextBits(1).map(_ == 1)
   }
 }
-
 
 object Dist {
   import RVar._
@@ -211,14 +223,18 @@ object Dist {
     })
 
   def uniform(i: Interval[Double]) =
-    stdUniform map { x => i.lowerValue + x * (i.upperValue - i.lowerValue) }
+    stdUniform.map { x =>
+      i.lowerValue + x * (i.upperValue - i.lowerValue)
+    }
 
   def cauchy(l: Double, s: Double) =
-    stdUniform map { x => l + s * math.tan(math.Pi * (x - 0.5)) }
+    stdUniform.map { x =>
+      l + s * math.tan(math.Pi * (x - 0.5))
+    }
 
   def gamma(k: Double, theta: Double) = {
     val n = k.toInt
-    val gammaInt = (stdUniform replicateM n).map(_.foldMap(x => -math.log(x)))
+    val gammaInt = stdUniform.replicateM(n).map(_.foldMap(x => -math.log(x)))
     val gammaFrac = {
       val delta = k - n
 
@@ -245,31 +261,33 @@ object Dist {
       inner
     }
 
-    (gammaInt |@| gammaFrac) { (a,b) => (a + b) * theta }
+    (gammaInt |@| gammaFrac) { (a, b) =>
+      (a + b) * theta
+    }
   }
 
   def exponential(l: Double) =
-    stdUniform map { math.log(_) / l }
+    stdUniform.map { math.log(_) / l }
 
   def laplace(b0: Double, b1: Double) =
-    stdUniform map { x =>
+    stdUniform.map { x =>
       val rr = x - 0.5
       b0 - b1 * (math.log(1 - 2 * rr.abs)) * rr.signum
     }
 
   def lognormal(mean: Double, dev: Double) =
-    stdNormal map (x => math.exp(mean + dev * x))
+    stdNormal.map(x => math.exp(mean + dev * x))
 
   def dirichlet(alphas: List[Double]) =
-    alphas.traverse(gamma(_, 1))
+    alphas
+      .traverse(gamma(_, 1))
       .map(ys => {
-             val sum = ys.sum
-             ys.map(_ / sum)
-           })
+        val sum = ys.sum
+        ys.map(_ / sum)
+      })
 
-  def weibull(shape: Double,
-              scale: Double): RVar[Double] =
-    stdUniform map { x =>
+  def weibull(shape: Double, scale: Double): RVar[Double] =
+    stdUniform.map { x =>
       scale * math.pow(-math.log(1 - x), 1 / shape)
     }
 
@@ -279,11 +297,13 @@ object Dist {
     def sample =
       (stdUniform.map(x => math.log(x) / min) |@| stdUniform.map(math.log(_))) { Tuple2.apply }
 
-    sample.iterateUntil(v => -2.0 * v._2 >= v._1 * v._1).map(x => if (ineg) x._1 - min else min - x._1)
+    sample
+      .iterateUntil(v => -2.0 * v._2 >= v._1 * v._1)
+      .map(x => if (ineg) x._1 - min else min - x._1)
   }
 
   //private val ZIGNOR_C = 128                 // Number of blocks
-  private val ZIGNOR_R = 3.442619855899      // Start of the right tail
+  private val ZIGNOR_R = 3.442619855899 // Start of the right tail
   private val ZIGNOR_V = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
   private val (blocks, ratios) = {
     import Scalaz._
@@ -291,12 +311,14 @@ object Dist {
     val f = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
     val blocks =
       (ZIGNOR_V / f) #::
-      ZIGNOR_R #::
-      unfold((126, ZIGNOR_V/f, ZIGNOR_R)) { (a: (Int,Double, Double)) => {
-        val f = math.exp(-0.5 * a._3 * a._3)
-        val v = math.sqrt(-2.0 * math.log(ZIGNOR_V / a._2 + f))
-        if (a._1 == 0) none else (v, (a._1 - 1, a._3, v)).some
-      }} :+ 0.0
+        ZIGNOR_R #::
+        unfold((126, ZIGNOR_V / f, ZIGNOR_R)) { (a: (Int, Double, Double)) =>
+        {
+          val f = math.exp(-0.5 * a._3 * a._3)
+          val v = math.sqrt(-2.0 * math.log(ZIGNOR_V / a._2 + f))
+          if (a._1 == 0) none else (v, (a._1 - 1, a._3, v)).some
+        }
+      } :+ 0.0
 
     (blocks.toList, blocks.apzip(_.drop(1)).map(a => a._1 / a._2).toList)
   }
@@ -306,31 +328,35 @@ object Dist {
       u <- stdUniform.map(2.0 * _ - 1)
       i <- next[Int].map(a => ((a & 0xffffffffL) % 127).toInt)
       r <- if (math.abs(u) < ratios(i)) RVar.point(u * blocks(i))
-           else if (i == 0) DRandNormalTail(ZIGNOR_R, u < 0)
-           else {
-             val x = u * blocks(i)
-             val f0 = math.exp(-0.5 * (blocks(i) * blocks(i) - x * x))
-             val f1 = math.exp(-0.5 * (blocks(i+1) * blocks(i+1) -x * x))
-             stdUniform.map(a => f1 + a * (f0 - f1) < 1.0).ifM(
-               ifTrue = RVar.point(x),
-               ifFalse = gaussian(mean, dev)
-             )
-           }
+      else if (i == 0) DRandNormalTail(ZIGNOR_R, u < 0)
+      else {
+        val x = u * blocks(i)
+        val f0 = math.exp(-0.5 * (blocks(i) * blocks(i) - x * x))
+        val f1 = math.exp(-0.5 * (blocks(i + 1) * blocks(i + 1) - x * x))
+        stdUniform
+          .map(a => f1 + a * (f0 - f1) < 1.0)
+          .ifM(
+            ifTrue = RVar.point(x),
+            ifFalse = gaussian(mean, dev)
+          )
+      }
     } yield mean + dev * r
 
   private def invErf(x: Double) = {
     val a = 0.147
     val halfPi = 2.0 / (math.Pi * a)
-    val xcomp = 1.0 - (x*x)
+    val xcomp = 1.0 - (x * x)
 
     val t1 = halfPi + (math.log(xcomp) / 2.0)
     val t2 = math.log(xcomp) / a
 
-    math.signum(x) * math.sqrt(math.sqrt(t1*t1 - t2) - t1)
+    math.signum(x) * math.sqrt(math.sqrt(t1 * t1 - t2) - t1)
   }
 
   private def invErfc(x: Double) = invErf(1.0 - x) // check this. invErfc(1 - x) == invErf(x)
 
   def levy(l: Double, s: Double) =
-    stdUniform map { x => l + s / (0.5 * invErfc(x) * invErfc(x)) }
+    stdUniform.map { x =>
+      l + s / (0.5 * invErfc(x) * invErfc(x))
+    }
 }

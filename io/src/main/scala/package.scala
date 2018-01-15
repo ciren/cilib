@@ -12,7 +12,9 @@ import org.apache.hadoop.fs.Path
 package object io {
   import EncodeCsv._
 
-  def writeCsvWithHeader[F[_], A](file: java.io.File, data: F[A])(implicit F: Foldable[F], N: ColumnNames[A], A: EncodeCsv[A]): Unit = {
+  def writeCsvWithHeader[F[_], A](file: java.io.File, data: F[A])(implicit F: Foldable[F],
+                                                                  N: ColumnNames[A],
+                                                                  A: EncodeCsv[A]): Unit = {
     val list = F.toList(data)
 
     list.headOption match {
@@ -33,7 +35,6 @@ package object io {
     }
   }
 
-
   def writeCsv[F[_]: Foldable, A: EncodeCsv](file: java.io.File, data: F[A]): Unit = {
     val list = Foldable[F].toList(data)
 
@@ -53,31 +54,37 @@ package object io {
     }
   }
 
-  def csvSink[A:EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[A]): Sink[Task, A] = {
+  def csvSink[A: EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[A]): Sink[Task, A] = {
     val fileWriter = new java.io.PrintWriter(file)
 
-    sink.lift { (input: A) =>
-      val encoded = A.encode(input)
-      Task.delay(fileWriter.println(encoded.mkString(",")))
-    }.onComplete(Process.eval_(Task.delay(fileWriter.close())))
+    sink
+      .lift { (input: A) =>
+        val encoded = A.encode(input)
+        Task.delay(fileWriter.println(encoded.mkString(",")))
+      }
+      .onComplete(Process.eval_(Task.delay(fileWriter.close())))
   }
 
-  def csvHeaderSink[A:EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[A], N: ColumnNames[A]): Sink[Task, A] = {
+  def csvHeaderSink[A: EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[A],
+                                                      N: ColumnNames[A]): Sink[Task, A] = {
     val fileWriter = new java.io.PrintWriter(file)
     var headerWritten = false
 
-    sink.lift { (input: A) =>
-      if (!headerWritten) {
-        fileWriter.println(N.names(input).mkString(","))
-        headerWritten = true
-      }
+    sink
+      .lift { (input: A) =>
+        if (!headerWritten) {
+          fileWriter.println(N.names(input).mkString(","))
+          headerWritten = true
+        }
 
-      val encoded = A.encode(input)
-      Task.delay(fileWriter.println(encoded.mkString(",")))
-    }.onComplete(Process.eval_(Task.delay(fileWriter.close())))
+        val encoded = A.encode(input)
+        Task.delay(fileWriter.println(encoded.mkString(",")))
+      }
+      .onComplete(Process.eval_(Task.delay(fileWriter.close())))
   }
 
-  def writeParquet[F[_]:Foldable,A:SchemaFor:ToRecord](file: java.io.File, data: F[A])(implicit T: ToRecord[A]) = {
+  def writeParquet[F[_]: Foldable, A: SchemaFor: ToRecord](file: java.io.File, data: F[A])(
+      implicit T: ToRecord[A]) = {
     val testConf = new Configuration
     val schema = AvroSchema[A]
 
@@ -94,7 +101,8 @@ package object io {
     writer.close()
   }
 
-  def parquetSink[A:SchemaFor:ToRecord](file: java.io.File)(implicit toRecord: ToRecord[A]): Sink[Task, A] = {
+  def parquetSink[A: SchemaFor: ToRecord](file: java.io.File)(
+      implicit toRecord: ToRecord[A]): Sink[Task, A] = {
     val testConf = new Configuration
     val schema = AvroSchema[A]
 
@@ -110,7 +118,10 @@ package object io {
 
     val complete = Process.eval_(Task.delay(writer.close))
 
-    sink.lift { (input: A) => Task.delay(writer.write(toRecord.apply(input))) }
+    sink
+      .lift { (input: A) =>
+        Task.delay(writer.write(toRecord.apply(input)))
+      }
       .onComplete(complete)
   }
 

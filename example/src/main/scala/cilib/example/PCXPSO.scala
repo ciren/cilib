@@ -17,12 +17,13 @@ object PCXPSO extends SafeApp {
     Environment(
       cmp = Comparison.dominance(Min),
       eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12,5.12)^30)
+      bounds = Interval(-5.12, 5.12) ^ 30)
 
   val guide = Guide.pcx[Mem[Double]](2.0, 2.0)
   val pcxPSO = crossoverPSO(guide)
 
-  val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+  val swarm =
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
   val iter = Iteration.sync(pcxPSO)
 
   override val runc: IO[Unit] =
