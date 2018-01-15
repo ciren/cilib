@@ -162,8 +162,8 @@ lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings
 lazy val cilib = project.in(file("."))
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .aggregate(core, de, docs, example, exec, ga, moo, pso, tests)
-  .dependsOn(core, de, docs, example, exec, ga, moo, pso, tests)
+  .aggregate(core, de, docs, eda, example, exec, ga, moo, pso, tests)
+  .dependsOn(core, de, docs, eda, example, exec, ga, moo, pso, tests)
 
 lazy val core = project
   .settings(cilibSettings ++ Seq(
@@ -263,6 +263,9 @@ lazy val credentialSettings = Seq(
     password <- Option(System.getenv("SONATYPE_PASSWORD"))
   } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
 )
+
+lazy val eda = project.dependsOn(core)
+  .settings(Seq(moduleName := "cilib-eda") ++ cilibSettings)
 
 lazy val example = project.dependsOn(core, de, exec, ga, io, moo, pso)
   .settings(cilibSettings ++ noPublishSettings ++ Seq(
