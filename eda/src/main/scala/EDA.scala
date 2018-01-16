@@ -4,6 +4,8 @@ package eda
 import scalaz._
 import Scalaz._
 
+import spire.implicits._
+
 object EDA {
 
   def eda[M, S, A](
@@ -37,7 +39,8 @@ object EDA {
       sample = (model: RVar[Double], entity: Entity[Unit, Double]) =>
         model
           .replicateM(entity.pos.length)
-          .map(l => Entity((), Position(l.toNel.getOrElse(sys.error("asdsad"))))),
+          .map(l =>
+            Entity((), Position(l.toNel.getOrElse(sys.error("asdsad")), entity.pos.boundary))),
       selection = (l: NonEmptyList[Entity[Unit, Double]]) => RVar.point(l),
       generateModel = (_: NonEmptyList[Entity[Unit, Double]]) => RVar.point(Dist.stdUniform)
     )
