@@ -3,7 +3,11 @@ package de
 
 import spire.math._
 import spire.algebra._
-import spire.implicits._
+import spire.implicits.{eu => _, _}
+
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.auto._
+import eu.timepit.refined.numeric._
 
 import scalaz._
 import Scalaz._
@@ -13,30 +17,27 @@ object DE {
   def de[S, A: Numeric](
       p_r: Double,
       p_m: Double,
-      targetSelection: NonEmptyList[Individual[S, A]] => RVar[Individual[S, A]]
-      //y: N,
-      //z: Int
+      targetSelection: NonEmptyList[Individual[S, A]] => Step[A, (Individual[S, A], Position[A])],
+      y: Int Refined Positive,
+      z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]] // Double check this shape
   ): NonEmptyList[Individual[S, A]] => Individual[S, A] => Step[A, Individual[S, A]] =
     collection =>
       x =>
         for {
           evaluated <- Step.eval((a: Position[A]) => a)(x)
-          trial <- Step.pointR(
-            basicMutation(Numeric[A].fromDouble(p_m), targetSelection, collection, x))
-          pivots <- Step.pointR(bin(p_r, evaluated.pos))
+          trial <- basicMutation(Numeric[A].fromDouble(p_m), targetSelection, y, collection, x)
+          pivots <- Step.pointR(z(p_r, evaluated.pos))
           offspring = crossover(x, trial, pivots)
           evaluatedOffspring <- Step.eval((a: Position[A]) => a)(offspring)
-          fittest <- better(evaluated, evaluatedOffspring)
+          fittest <- Comparison.fittest(evaluated, evaluatedOffspring)
         } yield fittest
 
-  // Duplicated from PSO.....
-  def better[S, A](a: Individual[S, A], b: Individual[S, A]): Step[A, Individual[S, A]] =
-    Step.withCompare(comp => Comparison.compare(a, b).apply(comp))
-
-  def basicMutation[S, A: Rng](p_m: A,
-                               selection: NonEmptyList[Individual[S, A]] => RVar[Individual[S, A]],
-                               collection: NonEmptyList[Individual[S, A]],
-                               x: Individual[S, A]): RVar[Position[A]] = {
+  def basicMutation[S, A: Rng](
+      p_m: A,
+      selection: NonEmptyList[Individual[S, A]] => Step[A, (Individual[S, A], Position[A])],
+      y: Int Refined Positive,
+      collection: NonEmptyList[Individual[S, A]],
+      x: Individual[S, A]): Step[A, Position[A]] = {
     def createPairs[Z](acc: List[(Z, Z)], xs: List[Z]): List[(Z, Z)] =
       xs match {
         case Nil           => acc
@@ -44,24 +45,29 @@ object DE {
         case _             => sys.error("ugg")
       }
 
-    val target: RVar[Individual[S, A]] = selection(collection)
+    val target: Step[A, (Individual[S, A], Position[A])] = selection(collection)
     val filtered = target.map(t => collection.list.filterNot(a => List(t, x).contains(a)))
-    val pairs: RVar[List[Position[A]]] =
-      filtered.flatMap(_.toNel match {
-        case Some(l) =>
-          RVar
-            .shuffle(l)
-            .map(a =>
-              createPairs(List.empty[(Individual[S, A], Individual[S, A])], a.toList.take(2))
-                .map(z => z._1.pos - z._2.pos))
-        case None =>
-          RVar.point(List.empty)
+    val pairs: Step[A, List[Position[A]]] =
+      filtered.flatMap(x =>
+        x.toNel match {
+          case Some(l) =>
+            Step.pointR(
+              RVar
+                .shuffle(l)
+                .map(
+                  a =>
+                    createPairs(List.empty[(Individual[S, A], Individual[S, A])],
+                                a.toList.take(2 * y))
+                      .map(z => z._1.pos - z._2.pos))
+            )
+          case None =>
+            Step.point(List.empty)
       })
 
     for {
       t <- target
       p <- pairs
-    } yield p.foldLeft(t.pos)((a, c) => a + (p_m *: c))
+    } yield p.foldLeft(t._2)((a, c) => a + (p_m *: c))
   }
 
   def crossover[S, A](target: Individual[S, A], trial: Position[A], pivots: NonEmptyList[Boolean]) =
@@ -108,4 +114,76 @@ object DE {
         .getOrElse(sys.error("Impossible -> there has to be at least 1 element"))
     }
   }
+
+  // Selections
+  def randSelection[S, A](
+      collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
+    Step.pointR(RVar.choose(collection).map(x => (x, x.pos)))
+
+  def bestSelection[S, A](
+      collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
+    collection.tail
+      .foldLeftM(collection.head) {
+        case (acc, curr) =>
+          Comparison.fittest(acc, curr)
+      }
+      .map(x => (x, x.pos))
+
+  def randToBestSelection[S, A: Numeric](gamma: Double)(
+      collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
+    for {
+      best <- bestSelection(collection)
+      rand <- randSelection(collection)
+    } yield {
+      val R = implicitly[Numeric[A]]
+      val combination =
+        (R.fromDouble(gamma) *: best._2) + (R.fromDouble(1.0 - gamma) *: rand._2)
+
+      (rand._1, combination)
+    }
+
+  def currentToBestSelection[S, A: Numeric](p_m: Double)(
+      collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
+    for {
+      best <- bestSelection(collection)
+      rand <- randSelection(collection)
+    } yield {
+      val x = rand._2 + Numeric[A].fromDouble(p_m) *: (best._2 - rand._2)
+      (rand._1, x)
+    }
+
+  def best_1_bin[S, A: Numeric](p_r: Double, p_m: Double) =
+    best_bin(p_r, p_m, 1)
+
+  def rand_1_bin[S, A: Numeric](p_r: Double, p_m: Double) =
+    rand_bin(p_r, p_m, 1)
+
+  def best_1_exp[S, A: Numeric](p_r: Double, p_m: Double) =
+    best_exp(p_r, p_m, 1)
+
+  def best_bin[S, A: Numeric](p_r: Double, p_m: Double, y: Int Refined Positive) =
+    de(p_r, p_m, bestSelection[S, A], y, bin[Position, A])
+
+  def rand_bin[S, A: Numeric](p_r: Double, p_m: Double, y: Int Refined Positive) =
+    de(p_r, p_m, randSelection[S, A], y, bin[Position, A])
+
+  def best_exp[S, A: Numeric](p_r: Double, p_m: Double, y: Int Refined Positive) =
+    de(p_r, p_m, bestSelection[S, A], y, exp[Position, A])
+
+  def rand_exp[S, A: Numeric](p_r: Double, p_m: Double, y: Int Refined Positive) =
+    de(p_r, p_m, randSelection[S, A], y, exp[Position, A])
+
+  def randToBest[S, A: Numeric](p_r: Double,
+                                p_m: Double,
+                                gamma: Double,
+                                y: Int Refined Positive,
+                                z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]]) =
+    de(p_r, p_m, randToBestSelection[S, A](gamma), y, z)
+
+  def currentToBest[S, A: Numeric](p_r: Double,
+                                   p_m: Double,
+                                   y: Int Refined Positive,
+                                   z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]]) =
+    de(p_r, p_m, currentToBestSelection[S, A](p_m), y, z)
+
 }

@@ -62,7 +62,7 @@ object GAExample extends SafeApp {
       .flatMapK(
         r =>
           Step
-            .withCompare(o => r.sortWith((x, y) => Comparison.fittest(x.pos, y.pos).apply(o)))
+            .withCompare(o => r.sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o)))
             .map(_.take(20).toNel.getOrElse(sys.error("asdas"))))
 
   // Our IO[Unit] that runs at the end of the world

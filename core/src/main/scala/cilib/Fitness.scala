@@ -71,11 +71,17 @@ object Comparison {
   def quality(o: Opt) =
     dominance(o)
 
-  def fittest[F[_], A](x: F[A], y: F[A])(implicit F: Fitness[F, A]): Comparison => Boolean =
+  def fitter[F[_], A](x: F[A], y: F[A])(implicit F: Fitness[F, A]): Comparison => Boolean =
     a =>
       scalaz.std.option
         .optionOrder(a.opt.objectiveOrder[A])
         .order(F.fitness(x), F.fitness(y)) === GT
+
+  def fittest[F[_], A](a: F[A], b: F[A])(implicit F: Fitness[F, A]): Step[A, F[A]] =
+    Step.withCompareR(comp =>
+      RVar.point {
+        if (fitter(a, b).apply(comp)) a else b
+    })
 
 }
 
