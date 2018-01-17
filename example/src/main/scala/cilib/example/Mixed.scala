@@ -22,7 +22,7 @@ object Mixed extends SafeApp {
       bounds = Interval(-5.12, 5.12) ^ 30)
 
   // Define the DE
-  val de = DE.de(0.5, 0.5, DE.randSelection[Mem[Double], Double])
+  val de = DE.de(0.5, 0.5, DE.randSelection[Mem[Double], Double], 1, DE.bin[Position,Double])
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]
