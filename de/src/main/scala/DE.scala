@@ -47,7 +47,7 @@ object DE {
       }
 
     val target: Step[A, (Individual[S, A], Position[A])] = selection(collection)
-    val filtered = target.map(t => collection.list.filterNot(a => a === t._1 && a === x))
+    val filtered = target.map(t => collection.list.filterNot(a => a === t._1 || a === x))
     val pairs: Step[A, List[Position[A]]] =
       filtered.flatMap(x =>
         x.toNel match {
