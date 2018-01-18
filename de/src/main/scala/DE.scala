@@ -14,7 +14,7 @@ import Scalaz._
 
 object DE {
 
-  def de[S, A: Numeric](
+  def de[S, A: Numeric: Equal](
       p_r: Double,
       p_m: Double,
       targetSelection: NonEmptyList[Individual[S, A]] => Step[A, (Individual[S, A], Position[A])],
@@ -32,12 +32,13 @@ object DE {
           fittest <- Comparison.fittest(evaluated, evaluatedOffspring)
         } yield fittest
 
-  def basicMutation[S, A: Rng](
+  def basicMutation[S, A: Rng: Equal](
       p_m: A,
       selection: NonEmptyList[Individual[S, A]] => Step[A, (Individual[S, A], Position[A])],
       y: Int Refined Positive,
       collection: NonEmptyList[Individual[S, A]],
       x: Individual[S, A]): Step[A, Position[A]] = {
+
     def createPairs[Z](acc: List[(Z, Z)], xs: List[Z]): List[(Z, Z)] =
       xs match {
         case Nil           => acc
@@ -46,7 +47,7 @@ object DE {
       }
 
     val target: Step[A, (Individual[S, A], Position[A])] = selection(collection)
-    val filtered = target.map(t => collection.list.filterNot(a => List(t._1, x).contains(a)))
+    val filtered = target.map(t => collection.list.filterNot(a => a === t._1 && a === x))
     val pairs: Step[A, List[Position[A]]] =
       filtered.flatMap(x =>
         x.toNel match {
@@ -152,38 +153,38 @@ object DE {
       (rand._1, x)
     }
 
-  def best_1_bin[S, A: Numeric](p_r: Double, p_m: Double) =
+  def best_1_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
     best_bin(p_r, p_m, 1)
 
-  def rand_1_bin[S, A: Numeric](p_r: Double, p_m: Double) =
+  def rand_1_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
     rand_bin(p_r, p_m, 1)
 
-  def best_1_exp[S, A: Numeric](p_r: Double, p_m: Double) =
+  def best_1_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
     best_exp(p_r, p_m, 1)
 
-  def best_bin[S, A: Numeric](p_r: Double, p_m: Double, y: Int Refined Positive) =
+  def best_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Int Refined Positive) =
     de(p_r, p_m, bestSelection[S, A], y, bin[Position, A])
 
-  def rand_bin[S, A: Numeric](p_r: Double, p_m: Double, y: Int Refined Positive) =
+  def rand_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Int Refined Positive) =
     de(p_r, p_m, randSelection[S, A], y, bin[Position, A])
 
-  def best_exp[S, A: Numeric](p_r: Double, p_m: Double, y: Int Refined Positive) =
+  def best_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Int Refined Positive) =
     de(p_r, p_m, bestSelection[S, A], y, exp[Position, A])
 
-  def rand_exp[S, A: Numeric](p_r: Double, p_m: Double, y: Int Refined Positive) =
+  def rand_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Int Refined Positive) =
     de(p_r, p_m, randSelection[S, A], y, exp[Position, A])
 
-  def randToBest[S, A: Numeric](p_r: Double,
-                                p_m: Double,
-                                gamma: Double,
-                                y: Int Refined Positive,
-                                z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]]) =
+  def randToBest[S, A: Numeric: Equal](p_r: Double,
+                                       p_m: Double,
+                                       gamma: Double,
+                                       y: Int Refined Positive,
+                                       z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]]) =
     de(p_r, p_m, randToBestSelection[S, A](gamma), y, z)
 
-  def currentToBest[S, A: Numeric](p_r: Double,
-                                   p_m: Double,
-                                   y: Int Refined Positive,
-                                   z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]]) =
+  def currentToBest[S, A: Numeric: Equal](p_r: Double,
+                                          p_m: Double,
+                                          y: Int Refined Positive,
+                                          z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]]) =
     de(p_r, p_m, currentToBestSelection[S, A](p_m), y, z)
 
 }
