@@ -2,6 +2,7 @@ package cilib
 package example
 
 import scalaz._
+import Scalaz._
 import scalaz.effect._
 import scalaz.effect.IO._
 
