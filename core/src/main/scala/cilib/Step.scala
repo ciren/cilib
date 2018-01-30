@@ -1,14 +1,15 @@
 package cilib
 
 import scalaz.{Lens => _, _}
+import Scalaz._
 
 final case class Environment[A](
     cmp: Comparison,
-    eval: RVar[NonEmptyList[A] => Objective[A]],
+    eval: RVar[NonEmptyList[A] => String \/ Objective[A]],
     bounds: NonEmptyList[spire.math.Interval[Double]]) // This is still questionable?
 
 /**
-  A `Step` is a type that models a single step / operation within a CI Algorithm.
+  A `Step` is a type that models a single step / operation (that may fail) within a CI Algorithm.
 
   The general idea would be that you would compose different `Step`s
   to produce the desired algorithmic behaviour.
@@ -20,40 +21,54 @@ final case class Environment[A](
   `Step` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritmic parts.
   */
-final case class Step[A, B] private (run: Environment[A] => RVar[B]) {
+final case class Step[A, B] private (run: Environment[A] => RVar[String \/ B]) {
   def map[C](f: B => C): Step[A, C] =
-    Step(e => run(e).map(f))
+    Step(e => run(e).map(_.map(f)))
 
   def flatMap[C](f: B => Step[A, C]): Step[A, C] =
-    Step(e => run(e).flatMap(f(_).run(e)))
+    Step { e =>
+      run(e).flatMap(_.map(f(_).run(e)).sequence.map(_ match {
+          case -\/(l) => l.left
+          case \/-(r) => r
+        })
+      )
+    }
 }
 
 object Step {
   import scalaz._
 
   def point[A, B](b: B): Step[A, B] =
-    Step(_ => RVar.point(b))
+    Step(_ => RVar.point(b.right))
 
   def pointR[A, B](a: RVar[B]): Step[A, B] =
-    Step(_ => a)
+    Step(_ => a.map(_.right))
 
   def withCompare[A, B](a: Comparison => B): Step[A, B] =
-    Step(env => RVar.point(a.apply(env.cmp)))
+    Step(env => RVar.point(a.apply(env.cmp).right))
 
   @deprecated("Use Step#withCompare instead", "2.0.0-M3")
   def liftK[A, B](a: Comparison => B): Step[A, B] =
     withCompare[A, B](a)
 
   def withCompareR[A, B](f: Comparison => RVar[B]): Step[A, B] =
-    Step(env => f(env.cmp))
+    Step(env => f(env.cmp).map(_.right))
 
   def eval[S, A](f: Position[A] => Position[A])(entity: Entity[S, A]): Step[A, Entity[S, A]] =
     evalP(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 
   def evalP[A](pos: Position[A]): Step[A, Position[A]] =
-    Step { env =>
-      Position.eval(env.eval, pos)
+    Step(env => Position.eval(env.eval, pos))
+
+  object mightFail {
+    def withCompare[A, B](a: Comparison => String \/ B): Step[A, B] = {
+      Step(env => RVar.point(a.apply(env.cmp)))
     }
+    def point[A, B](b: String \/ B): Step[A, B] =
+      Step(_ => RVar.point(b))
+    def pointR[A, B](a: RVar[String \/ B]): Step[A, B] =
+      Step(_ => a)
+  }
 
   implicit def stepMonad[A]: Monad[Step[A, ?]] =
     new Monad[Step[A, ?]] {

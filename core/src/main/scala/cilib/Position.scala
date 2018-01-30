@@ -164,16 +164,16 @@ object Position {
         }
     }
 
-  def eval[F[_], A](e: RVar[NonEmptyList[A] => Objective[A]], pos: Position[A]): RVar[Position[A]] =
+  def eval[F[_], A](e: RVar[NonEmptyList[A] => String \/ Objective[A]], pos: Position[A]): RVar[String \/ Position[A]] =
     pos match {
       case Point(x, b) =>
         e.map(f => {
-          val s: Objective[A] = f.apply(x)
-          Solution(x, b, s)
+          val s: String \/ Objective[A] = f.apply(x)
+          s.map(Solution(x, b, _))
         })
 
       case x @ Solution(_, _, _) =>
-        RVar.point(x)
+        RVar.point(x.right)
     }
 
   /*private[cilib]*/
