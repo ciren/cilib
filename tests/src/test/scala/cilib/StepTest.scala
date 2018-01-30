@@ -16,8 +16,8 @@ object StepTest extends Spec("Step") {
     eval = Eval.unconstrained((l: NonEmptyList[Int]) => l.list.foldLeft(0.0)(_ + _)).eval,
     bounds = NonEmptyList(Interval(-5.12,5.12)))
 
-  implicit def stepEqual = scalaz.Equal[Int].contramap((_: Step[Int,Int]).run.apply(env).run(rng)._2)
-  implicit def stepSEqual = scalaz.Equal[Int].contramap((_: StepS[Int,Int,Int]).run.apply(3).run.apply(env).run(rng)._2._2)
+  implicit def stepEqual = scalaz.Equal[Int].contramap((_: Step[Int,Int]).run.apply(env).run(rng)._2.toOption.get)
+  implicit def stepSEqual = scalaz.Equal[Int].contramap((_: StepS[Int,Int,Int]).run.apply(3).run.apply(env).run(rng)._2.map(_._2).toOption.get)
 
   implicit def arbStep: Arbitrary[Step[Int,Int]] = Arbitrary {
     Arbitrary.arbitrary[Int].map(Step.point)

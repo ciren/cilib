@@ -43,9 +43,9 @@ object PSOTests extends Properties("QPSO") {
         cilib.pso.PSO.quantum(p, RVar.point(10.0), (a,b) => Dist.uniform(spire.math.Interval(a,b)))
           .run(env).run(RNG.init(seed))
 
-      val vectorLength = math.sqrt(result.pos.foldLeft(0.0)((a,c) => a + c*c))
+      val vectorLength = result.map(r => math.sqrt(r.pos.foldLeft(0.0)((a,c) => a + c*c)))
 
-      vectorLength <= 10.0
+      vectorLength.all(_ <= 10.0)
     }
   }
 }

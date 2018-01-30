@@ -16,15 +16,16 @@ object Crossover {
     parents => {
       def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
 
-      for {
+      val offspring = for {
         coef <- Dist.stdUniform.replicateM(4)
         s = coef.sum
-        scaled = coef
-          .map(norm(_, s))
-          .toNel
-          .getOrElse(sys.error("Impossible - this is a safe usage as coef is always length 4"))
-        offspring = parents.zip(scaled).map(t => t._2 *: t._1).foldLeft1(_ + _)
-      } yield NonEmptyList(offspring)
+        scaled = coef.map(norm(_, s)).toNel
+      } yield
+        scaled match {
+          case None    => "Impossible - this is a safe usage as coef is always length 4".left
+          case Some(s) => NonEmptyList(parents.zip(s).map(t => t._2 *: t._1).foldLeft1(_ + _)).right
+        }
+      Step.mightFail.pointR(offspring)
     }
 
   def pcx(sigma1: Double, sigma2: Double): Crossover[Double] =
@@ -47,7 +48,7 @@ object Crossover {
 
       val distance = if (k > 2) dd / (k - 1) else 0.0
 
-      for {
+      Step.pointR(for {
         s1 <- Dist.gaussian(0.0, sigma1)
         s2 <- Dist.gaussian(0.0, sigma2)
       } yield {
@@ -55,7 +56,7 @@ object Crossover {
         NonEmptyList(e_eta.tail.foldLeft(offspring) { (c, e) =>
           c + (s2 *: (distance *: e))
         })
-      }
+      })
     }
 
   def undx(sigma1: Double, sigma2: Double): Crossover[Double] =
@@ -64,43 +65,53 @@ object Crossover {
       val bounds = parents.head.boundary
 
       // calculate mean of parents except main parents
-      val g = Algebra.meanVector(
-        parents.init.toNel.getOrElse(sys.error("UNDX requires at least 3 parents")))
+      val mean = parents.init.toNel match {
+        case Some(ps) if ps.length >= 3 => Algebra.meanVector(ps).right
+        case _                          => "UNDX requires at least 3 parents".left
+      }
 
       // basis vectors defined by parents
       val initZeta = List[Position[Double]]()
-      val zeta = parents.init.foldLeft(initZeta) { (z, p) =>
-        val d = p - g
+      val zeta = mean.map { g =>
+        parents.init.foldLeft(initZeta) { (z, p) =>
+          val d = p - g
 
-        if (d.isZero) z
-        else {
-          val dbar = d.magnitude
-          val e = Algebra.orthogonalize(d, z)
+          if (d.isZero) z
+          else {
+            val dbar = d.magnitude
+            val e = Algebra.orthogonalize(d, z)
 
-          if (e.isZero) z
-          else z :+ (dbar *: e.normalize)
+            if (e.isZero) z
+            else z :+ (dbar *: e.normalize)
+          }
         }
       }
-
-      val dd = (parents.last - g).magnitude
 
       // create the remaining basis vectors
-      val initEta = NonEmptyList(parents.last - g)
-      positiveInt(n - zeta.length) { value =>
-        val reta = Position.createPositions(bounds, value) //n - zeta.length)
-        val eta = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
+      val basis = for {
+        g <- mean
+        z <- zeta
+        dd = (parents.last - g).magnitude
+      } yield {
+        val initEta = NonEmptyList(parents.last - g)
 
-        // construct the offspring
-        for {
-          s1 <- Dist.gaussian(0.0, sigma1)
-          s2 <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
-          e_eta <- eta
-        } yield {
-          val vars = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
-          val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
+        positiveInt(n - z.length) { value =>
+          val reta = Position.createPositions(bounds, value) //n - zeta.length)
+          val eta = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
 
-          NonEmptyList(offspring)
+          // construct the offspring
+          for {
+            s1 <- Dist.gaussian(0.0, sigma1)
+            s2 <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
+            e_eta <- eta
+          } yield {
+            val vars = z.foldLeft(g)((vr, zi) => vr + (s1 *: zi))
+            val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
+
+            NonEmptyList(offspring)
+          }
         }
       }
+      Step.mightFail.pointR(basis.sequenceU)
     }
 }
