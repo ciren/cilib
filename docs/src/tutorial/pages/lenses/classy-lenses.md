@@ -41,16 +41,6 @@ particle.eval(rng)
 By importing CILib we are including the implicits that are defined `HasMemory`.
 This allows us to use it in a function were given an `Entity` we may retrieve its best `Position`.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits.{eu =>  _, _}
-import spire.math._
-
-val interval = Interval(-5.12,5.12)^3
-
-val particle = Position.createPosition(interval).map(p => Entity(Mem(p, p.zeroed), p))
-val rng = RNG.init(12)
-```
 ```tut:book:silent
 def foo[S](x: Entity[S,Double])(implicit mem: HasMemory[S,Double]) = mem._memory.get(x.state)
 ```
@@ -64,16 +54,6 @@ particle.map(p => foo(p)).eval(rng)
 `HasVelocity` is works the exact same as `HasMemory`.
 The only difference is that it returns the velocity of an `Entity's` state.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits.{eu =>  _, _}
-import spire.math._
-
-val interval = Interval(-5.12,5.12)^3
-
-val particle = Position.createPosition(interval).map(p => Entity(Mem(p, p.zeroed), p))
-val rng = RNG.init(12)
-```
 ```tut:book:silent
 def foo[S](x: Entity[S,Double])(implicit mem: HasVelocity[S,Double]) = mem._velocity.get(x.state)
 ```

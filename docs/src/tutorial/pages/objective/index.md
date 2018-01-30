@@ -7,8 +7,11 @@ CILib offers just this.
 We will often see methods in CILib return an `Objective`.
 The two classes of `Objective` that we may encounter are
 
-- `Single[A](f: Fit, v: List[Constraint[A, Double]]) extends Objective[A]`
-- `Multi[A](x: List[Single[A]]) extends Objective[A]`
+```scala
+Single[A](f: Fit, v: List[Constraint[A, Double]]) extends Objective[A]
+
+Multi[A](x: List[Single[A]]) extends Objective[A]
+```
 
 ## Single
 

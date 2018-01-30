@@ -3,17 +3,29 @@
 Great. Now that we know how to create positions we may look at what we can do with the `Position` instances,
 `Point` and `Solution`.
 
-- `pos: NonEmptyList[A]`
-- `boundary: NonEmptyList[Interval[A]]`
-- `zip[B](other: Position[B]): Position[(A, B)]`
-- `take(n: Int): IList[A]`
-- `drop(n: Int): IList[A]`
-- `objective: Option[Objective[A]]`
-- `toPoint: Position[A]`
-- `map[B](f: A => B): Position[B]`
-- `flatMap[B](f: A => Position[B]): Position[B]`
-- `traverse[G[_]: Applicative, B](f: A => G[B]): G[Position[B]]`
-- `forall(f: A => Boolean)`
+```scala
+pos: NonEmptyList[A]
+
+boundary: NonEmptyList[Interval[A]]
+
+zip[B](other: Position[B]): Position[(A, B)]
+
+take(n: Int): IList[A]
+
+drop(n: Int): IList[A]
+
+objective: Option[Objective[A]]
+
+toPoint: Position[A]
+
+map[B](f: A => B): Position[B]
+
+flatMap[B](f: A => Position[B]): Position[B]
+
+traverse[G[_]: Applicative, B](f: A => G[B]): G[Position[B]]
+
+forall(f: A => Boolean)
+```
 
 Now you might recognize some, if not most, of these functions from your own experience with scala.
 And since this book is not only a guide of CILib but also to serve as documentation, we will quickly check out these methods.
@@ -37,17 +49,6 @@ val myPos = Position.createPosition(intervals).eval(rng)
 
 Returns the actual position.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
 ```tut:book
 myPos.pos
 ```
@@ -56,17 +57,6 @@ myPos.pos
 
 Returns the boundary.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
 ```tut:book
 myPos.boundary
 ```
@@ -75,17 +65,6 @@ myPos.boundary
 
 Combines the values of two `Positions` instances in to one instance.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
 ```tut:book
 val otherPos = Position.createPosition(intervals).eval(RNG.fromTime)
 myPos.zip(otherPos)
@@ -95,17 +74,6 @@ myPos.zip(otherPos)
 
 Returns n amount of points from the `Position`.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
 ```tut:book
 myPos.take(1)
 ```
@@ -114,17 +82,6 @@ myPos.take(1)
 
 Does the same as take. 
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
 ```tut:book
 myPos.drop(1)
 ```
@@ -142,34 +99,12 @@ Will convert a `Position` into a `Point` type.
 
 ### map
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
 ```tut:book
 myPos.map(x => x * 0.2)
 ```
 
 ### flatMap
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
 ```tut:book
 myPos.flatMap(x => cilib.Point(NonEmptyList(x * 2), myPos.boundary))
 ```
@@ -184,17 +119,6 @@ The list would be:
 - 6, -8
 - 6, 18
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
 ```tut:book
 myPos.traverse(x => NonEmptyList(x * -1, x * 2))
 ```
@@ -202,17 +126,7 @@ myPos.traverse(x => NonEmptyList(x * -1, x * 2))
 ### forall
 
 Applies a condition to each element.
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-val myPos = Position.createPosition(intervals).eval(rng)
-```
+
 ```tut:book
 myPos.forall(x => x > 1)
 ```

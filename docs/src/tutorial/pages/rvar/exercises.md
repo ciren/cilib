@@ -7,8 +7,7 @@ where the `List[Double]` is of size n.
 <div class="solution">
 
 ```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
+import cilib._
 ```
 ```tut:book:silent
 def genList(n: Int): RVar[List[Double]] = RVar.doubles(n)
@@ -22,7 +21,6 @@ which represent the lower and upper bounds of numbers we want to generate.
 <div class="solution">
 
 ```tut:book:invisible
-import cilib.{Dist, RNG, RVar}
 val rng = RNG.fromTime
 ```
 ```tut:book:silent
@@ -48,10 +46,6 @@ The type of the returned value should be `RVar[List[Double]]`.
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-```
 ```tut:book:silent
 def select(randomList: NonEmptyList[Double]): RVar[List[Double]] = {
     RVar.sample(3, randomList).getOrElse(List(0.0))
@@ -68,10 +62,6 @@ This list should be returned.
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-```
 ```tut:book:silent
 import scala.collection.mutable.ListBuffer
 def getMax(iterations: Int): List[Double] = {
@@ -95,13 +85,6 @@ The `List ` shoould be of size 5.
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib.RVar
-import scalaz._
-import Scalaz._
-import spire.implicits._
-import spire.math.Interval
-```
 ```tut:book:silent
 val composition = for {
     value <- Dist.uniform(Interval(20.0, 75.0))

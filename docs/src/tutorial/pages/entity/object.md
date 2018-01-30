@@ -3,8 +3,11 @@
 By now we understand what is `Entity`.
 And the companion object offers us a few methods.
 
-- `implicit def entityEqual[S,A:scalaz.Equal]: scalaz.Equal[Entity[S,A]]`
-- `implicit def entityFitness[S,A]: Fitness[Entity[S,?],A]`
+```scala
+implicit def entityEqual[S,A:scalaz.Equal]: scalaz.Equal[Entity[S,A]]
+
+implicit def entityFitness[S,A]: Fitness[Entity[S,?],A]
+```
 
 ### entityEqual
 

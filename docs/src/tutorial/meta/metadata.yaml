@@ -3,7 +3,7 @@
 title: "A Guide To CILib"
 subtitle: null
 author: "Kyle Erwin"
-date: "Version 0.2 - January 2018"
+date: "Version 1 - January 2018"
 # Used by Pandoc to generate the PDF cover...
 # see src/css/book.css for HTML/ePub covers:
 coverColor: "FF6F00"
@@ -12,7 +12,7 @@ filenameStem: "test"
 # Used by Grunt to create a ZIP of source code:
 exercisesRepo: null # "git@github.com:underscoreio/advanced-scala-code.git"
 tocDepth: 3
-copyright: "2017"
+copyright: "2017 - 2018"
 # Enable pandoc-crossref (must be installed on user's computer)
 # There's no distinction here between section and chapter prefixes.
 # We disable all prefixes for consistency and write them by hand:
@@ -99,23 +99,51 @@ pages:
   - step/summary.md  
 
   - stepS/index.md 
+  - stepS/class.md  
+  - stepS/object.md  
+  - stepS/summary.md  
 
   - runner/index.md 
   - runner/what-is-runner.md   
-  - runner/GAexample.md   
+  - runner/GAexample.md 
+  - runner/summary.md
 
-  - selection/index.md
-
-  - crossover/index.md
+#  - io/index.md
 
   - metric-space/index.md
+  - metric-space/object.md
+  - metric-space/summary.md
 
+  - selection/index.md
+  - selection/object.md
+  - selection/summary.md
+
+  - moving-forward/index.md
+  
   - parts/part3.md
+
+  - benchmarks/index.md
+
+  - ga/index.md
+
+  - pso/index.md
+  - pso/package.md
+  - pso/guide.md
+  - pso/pool.md
+  - pso/heterogeneous.md
+  - pso/pso.md
+  - pso/default.md
+#  - pso/heterogeneous.md
+
+  - de/index.md
+
+#  - moo/index.md
+
+# - eda/index.md
   
   - parts/part4.md
 
   - solutions.md
-
 
   - links.md
 ...

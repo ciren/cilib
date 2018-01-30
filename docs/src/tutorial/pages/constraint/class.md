@@ -1,11 +1,18 @@
 ## Constraint Classes
 
-- `LessThan[A,B](f: ConstraintFunction[A,B], v: B)`
-- `LessThanEqual[A,B](f: ConstraintFunction[A,B], v: B)`
-- `Equal[A,B](f: ConstraintFunction[A,B], v: B)`
-- `InInterval[A,B](f: ConstraintFunction[A,B], interval: Interval[B])`
-- `GreaterThan[A,B](f: ConstraintFunction[A,B], v: B)`
-- `GreaterThanEqual[A,B](f: ConstraintFunction[A,B], v: B)`
+```scala
+LessThan[A,B](f: ConstraintFunction[A,B], v: B)
+
+LessThanEqual[A,B](f: ConstraintFunction[A,B], v: B)
+
+Equal[A,B](f: ConstraintFunction[A,B], v: B)
+
+InInterval[A,B](f: ConstraintFunction[A,B], interval: Interval[B])
+
+GreaterThan[A,B](f: ConstraintFunction[A,B], v: B)
+
+GreaterThanEqual[A,B](f: ConstraintFunction[A,B], v: B)
+```
 
 All `Constraint` classes make use of two parameters
 
@@ -40,12 +47,6 @@ sumCF(NonEmptyList(2.0, 4.0, 7.5))
 
 ### Constraint Example
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-val sumCF = ConstraintFunction((l: NonEmptyList[Double]) => l.suml)
-```
 ```tut:book
 LessThan(sumCF, 12.0)
 ```

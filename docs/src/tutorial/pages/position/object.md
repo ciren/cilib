@@ -2,10 +2,15 @@
 
 The companion object offers a few ways for us create instances of a `Position` or collections of `Positions`.
 
-- `eval[A](e: Eval[A], pos: Position[A]): RVar[Position[A]]` 
-- `createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[A]]` 
-- `createPositions(domain: NonEmptyList[Interval[Double]], n: Int Refined GreaterEqual[_1]): RVar[List[Position[A]]]` 
-- `createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int Refined GreaterEqual[_1]): RVar[List[A]]` 
+```scala
+eval[A](e: Eval[A], pos: Position[A]): RVar[Position[A]]
+
+createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[A]]
+
+createPositions(domain: NonEmptyList[Interval[Double]], n: Int Refined GreaterEqual[_1]): RVar[List[Position[A]]]
+
+createCollection[A](f: Position[Double] => A)(domain: NonEmptyList[Interval[Double]], n: Int Refined GreaterEqual[_1]): RVar[List[A]]
+```
 
 There is also a handful implicit definitions within the object definition that if you want can check out over here [here][cilib-position-object].
 
@@ -54,16 +59,6 @@ Each `Interval` in the list represents a dimension.
 The `Intervals` do not need to be the same, meaning we can have different `Intervals` for different dimensions.
 The use of `NonEmptyLists` ensure that we will, at minimum, we have one dimension.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits.{eu =>  _, _}
-import spire.math._
-import scalaz._
-import Scalaz._
-
-val rng = RNG.init(12)
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
-```
 ```tut:book
 Position.createPosition(intervals).run(rng)
 ```
@@ -71,13 +66,6 @@ Position.createPosition(intervals).run(rng)
 CILib also adds some syntax has been added to the `Interval` data constructor to allow for repetition in a more convenient way.
 Allowing us to create multi dimensional positions with ease.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits.{eu =>  _, _}
-import spire.math._
-import scalaz._
-import Scalaz._
-```
 ```tut:book
 Position.createPosition(Interval(-5.12,5.12)^5)
 ```
@@ -89,17 +77,8 @@ We created a 5 dimensional search space where each dimension ranges from -5.12 t
 Like `createPosition`, but will result in a `RVar` of a list of `Positions`.
 Where n is the size of the parameter.
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-
-import spire.implicits.{eu =>  _, _}
-import spire.math.Interval
-
-import eu.timepit.refined.auto._
-val rng = RNG.init(12)
-```
 ```tut:book:silent
+import eu.timepit.refined.auto._
 val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
 ```
 ```tut:book
@@ -111,17 +90,8 @@ val pos = Position.createPositions(intervals, 2)
 Like `createPositions`, but will result in a `RVar` of a list of `A`.
 We are able to have a result of `List[A]` because the method allows us to pass our own function as a parameter.
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-
+```tut:book:silent
 import eu.timepit.refined.auto._
-
-import spire.implicits.{eu =>  _, _}
-import spire.math.Interval
-
-val rng = RNG.init(12)
-val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
 ```
 ```tut:book
 Position.createCollection(x => x)(intervals, 2).run(rng)

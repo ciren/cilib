@@ -52,20 +52,16 @@ def getArrowDamage(arrowType: Double): Double = arrowType * 90.0
 ### Question 1
 Create two methods with the following headers
 
-- `generateValuesBasedOn(bowType: Double, arrowType: Double) : NonEmptyList[Double]`
-- `generateValues : NonEmptyList[Double]`
+```scala
+generateValuesBasedOn(bowType: Double, arrowType: Double) : NonEmptyList[Double]
+
+generateValues : NonEmptyList[Double]
+```
 
 These must return a `NonEmptyList[Double]` with the format `Distance, Damage, Bow Type, Arrow Type, Cost`
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-import spire.implicits._
-import spire.math.Interval
-```
 ```tut:book:silent
 def generateValuesBasedOn(bowType: Double, arrowType: Double) : NonEmptyList[Double] = {
     val bowCost = getBowCost(bowType)
@@ -92,11 +88,6 @@ Implement a fitness method, `fitness (l: NonEmptyList[Double]): Double`, to be u
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-```
 ```tut:book:silent
 def fitness (l: NonEmptyList[Double]): Double = {
     val distanceRating = (l.index(0).getOrElse(0.0) / 38.0) - 1.0
@@ -111,11 +102,6 @@ Create the two `Constraints` from the information given, these will be used to g
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-```
 ```tut:book:silent
 val distanceConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(0).getOrElse(0)) , 38)
 val damageConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(1).getOrElse(0)), 520)
@@ -127,14 +113,6 @@ Using the `fitness` method and `Constraints` that were created in the previous q
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-
-val distanceConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(0).getOrElse(0)) , 38)
-val damageConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(1).getOrElse(0)), 520)
-```
 ```tut:book:silent
 val e = Eval.constrained[NonEmptyList, Double](fitness(_), List(damageConstraint, distanceConstraint))
 ```
@@ -144,17 +122,16 @@ val e = Eval.constrained[NonEmptyList, Double](fitness(_), List(damageConstraint
 Now that we have created the evaluation we will need some methods to extract the information from the the `Objective` result.
 Keeping this in mind, implement the following methods:
 
-- `getSolution (fit: Fit): Double`
-- `evalObjective (objective: Objective[Double]): Double`
-- `getViolations (objective: Objective[Double]): List[Constraint[Double]]`
+```scala
+getSolution (fit: Fit): Double
+
+evalObjective (objective: Objective[Double]): Double
+
+getViolations (objective: Objective[Double]): List[Constraint[Double]]
+```
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-```
 ```tut:book:silent
 def getSolution (fit: Fit): Double = {
     fit match {
@@ -189,47 +166,6 @@ Based on the given `values` list make the appropriate changes keeping the `viola
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-import spire.implicits._
-import spire.math.Interval
-
-val coins = 400
-val rng = RNG.fromTime
-
-def getGenBowType: Double = Math.floor(Dist.uniform(Interval(1.0, 5.0)).eval(RNG.fromTime))
-def getGenArrowType(remainingCoins: Double): Double = Math.floor(Dist.uniform(Interval(1.0, remainingCoins / 40)).eval(RNG.fromTime))
-
-def getBowCost(bowType: Double): Double = Math.pow(2.0, bowType).toInt * 10.0
-def getArrowCost(arrowType: Double): Double = arrowType * 40.0
-def getTotalCost(bowType: Double, arrowType: Double): Double = getBowCost(bowType) + getArrowCost(arrowType)
-
-def getBowDistance(bowType: Double, arrowType: Double): Double = (bowType * 16.0 ) - (arrowType * 4.0)
-def getArrowDamage(arrowType: Double): Double = arrowType * 90.0
-
-def generateValuesBasedOn(bowType: Double, arrowType: Double) : NonEmptyList[Double] = {
-    val bowCost = getBowCost(bowType)
-    val arrowCost = getArrowCost(arrowType)
-    val distance = getBowDistance(bowType, arrowType)
-    val damage = getArrowDamage(arrowType)
-    NonEmptyList(distance, damage, bowType, arrowType, arrowCost + bowCost)
-}
-
-def generateValues : NonEmptyList[Double] = {
-    val bowType = getGenBowType
-    val bowCost = getBowCost(bowType)
-    val arrowType = getGenArrowType(coins - bowCost)
-    val arrowCost = getArrowCost(arrowType)
-    val distance = getBowDistance(bowType, arrowType)
-    val damage = getArrowDamage(arrowType)
-    NonEmptyList(distance, damage, bowType, arrowType, arrowCost + bowCost)
-}
-
-val distanceConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(0).getOrElse(0)) , 38)
-val damageConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(1).getOrElse(0)), 520)
-```
 ```tut:book:silent
 def adjust (values: NonEmptyList[Double], violations: List[Constraint[Double]]): NonEmptyList[Double] = {
     val distanceConsViolated = violations.contains(distanceConstraint)
@@ -261,97 +197,6 @@ Implement a method called `getCustomWeapon` which will return a the details of t
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-import spire.implicits._
-import spire.math.Interval
-
-val coins = 400
-val rng = RNG.fromTime
-
-def getGenBowType: Double = Math.floor(Dist.uniform(Interval(1.0, 5.0)).eval(RNG.fromTime))
-def getGenArrowType(remainingCoins: Double): Double = Math.floor(Dist.uniform(Interval(1.0, remainingCoins / 40)).eval(RNG.fromTime))
-
-def getBowCost(bowType: Double): Double = Math.pow(2.0, bowType).toInt * 10.0
-def getArrowCost(arrowType: Double): Double = arrowType * 40.0
-def getTotalCost(bowType: Double, arrowType: Double): Double = getBowCost(bowType) + getArrowCost(arrowType)
-
-def getBowDistance(bowType: Double, arrowType: Double): Double = (bowType * 16.0 ) - (arrowType * 4.0)
-def getArrowDamage(arrowType: Double): Double = arrowType * 90.0
-
-def generateValuesBasedOn(bowType: Double, arrowType: Double) : NonEmptyList[Double] = {
-    val bowCost = getBowCost(bowType)
-    val arrowCost = getArrowCost(arrowType)
-    val distance = getBowDistance(bowType, arrowType)
-    val damage = getArrowDamage(arrowType)
-    NonEmptyList(distance, damage, bowType, arrowType, arrowCost + bowCost)
-}
-
-def generateValues : NonEmptyList[Double] = {
-    val bowType = getGenBowType
-    val bowCost = getBowCost(bowType)
-    val arrowType = getGenArrowType(coins - bowCost)
-    val arrowCost = getArrowCost(arrowType)
-    val distance = getBowDistance(bowType, arrowType)
-    val damage = getArrowDamage(arrowType)
-    NonEmptyList(distance, damage, bowType, arrowType, arrowCost + bowCost)
-}
-
-def fitness (l: NonEmptyList[Double]): Double = {
-    val distanceRating = (l.index(0).getOrElse(0.0) / 38.0) - 1.0
-    val damageRating = (l.index(1).getOrElse(0.0) / 520.0) - 1.0
-    100 - (distanceRating + damageRating) * 100
-}
-
-val distanceConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(0).getOrElse(0)) , 38)
-val damageConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(1).getOrElse(0)), 520)
-val e = Eval.constrained[NonEmptyList, Double](fitness(_), List(damageConstraint, distanceConstraint))
-
-def getSolution (fit: Fit): Double = {
-    fit match {
-        case Feasible(v) => v
-        case Infeasible(_, _) => -1.0
-        case Adjusted (_, _) => -1.0
-    }
-}
-
-def evalObjective (objective: Objective[Double]): Double = {
-    objective match {
-        case Single(f, _) => getSolution(f)
-        case Multi(_) => -1.0
-    }
-}
-
-def getViolations (objective: Objective[Double]): List[Constraint[Double]] = {
-    objective match {
-        case Single(_, l) => l
-        case Multi(_) => List()
-    }
-}
-
-def adjust (values: NonEmptyList[Double], violations: List[Constraint[Double]]): NonEmptyList[Double] = {
-    val distanceConsViolated = violations.contains(distanceConstraint)
-    val damageConsViolated = violations.contains(damageConstraint)
-
-    val bowType = values.index(2).get
-    val arrowType = values.index(3).get
-    var result = values
-
-    if (distanceConsViolated && damageConsViolated){
-        result = generateValuesBasedOn(bowType + 1.0, arrowType + 1.0)
-    }else if (distanceConsViolated){
-        if (getTotalCost(bowType + 1.0, arrowType) > coins) result = generateValuesBasedOn(bowType + 1.0, arrowType - 1.0)
-        else result = generateValuesBasedOn(bowType + 1.0, arrowType)
-    }else if (damageConsViolated){
-        if (getTotalCost(bowType, arrowType + 1.0) > coins) result = generateValuesBasedOn(bowType - 1.0, arrowType + 1.0)
-        else result = generateValuesBasedOn(bowType, arrowType + 1.0)
-    }
-    result
-}
-
-```
 ```tut:book:silent
 def getCustomWeapon : NonEmptyList[Double] = {
     var list = generateValues
@@ -381,11 +226,6 @@ Change the fitness method to return the amount of damage as the fitness score (a
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-```
 ```tut:book:silent
 def fitness (l: NonEmptyList[Double]): Double = l.index(1).get
 ```
@@ -397,107 +237,6 @@ Return the one that does the highest amount of damage.
 
 <div class="solution">
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-import spire.implicits._
-import spire.math.Interval
-
-val coins = 1000
-val rng = RNG.fromTime
-
-def getGenBowType: Double = Math.floor(Dist.uniform(Interval(1.0, 5.0)).eval(RNG.fromTime))
-def getGenArrowType(remainingCoins: Double): Double = Math.floor(Dist.uniform(Interval(1.0, remainingCoins / 40)).eval(RNG.fromTime))
-
-def getBowCost(bowType: Double): Double = bowType * 40.0
-def getArrowCost(arrowType: Double): Double = arrowType * 40.0
-def getTotalCost(bowType: Double, arrowType: Double): Double = (bowType + arrowType) * 40
-
-def getBowDistance(bowType: Double, arrowType: Double): Double = (bowType * 16.0 ) - (arrowType * 4.0)
-def getArrowDamage(arrowType: Double): Double = arrowType * 90.0
-
-def generateValuesBasedOn(bowType: Double, arrowType: Double) : NonEmptyList[Double] = {
-    val bowCost = getBowCost(bowType)
-    val arrowCost = getArrowCost(arrowType)
-    val distance = getBowDistance(bowType, arrowType)
-    val damage = getArrowDamage(arrowType)
-    NonEmptyList(distance, damage, bowType, arrowType, arrowCost + bowCost)
-}
-
-def generateValues : NonEmptyList[Double] = {
-    val bowType = getGenBowType
-    val bowCost = getBowCost(bowType)
-    val arrowType = getGenArrowType(coins - bowCost)
-    val arrowCost = getArrowCost(arrowType)
-    val distance = getBowDistance(bowType, arrowType)
-    val damage = getArrowDamage(arrowType)
-    NonEmptyList(distance, damage, bowType, arrowType, arrowCost + bowCost)
-}
-
-def fitness (l: NonEmptyList[Double]): Double = l.index(1).get
-
-val distanceConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(0).getOrElse(0)) , 38)
-val damageConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(1).getOrElse(0)), 520)
-val e = Eval.constrained[NonEmptyList, Double](fitness(_), List(damageConstraint, distanceConstraint))
-
-def getSolution (fit: Fit): Double = {
-    fit match {
-        case Feasible(v) => v
-        case Infeasible(_, _) => -1.0
-        case Adjusted (_, _) => -1.0
-    }
-}
-
-def evalObjective (objective: Objective[Double]): Double = {
-    objective match {
-        case Single(f, _) => getSolution(f)
-        case Multi(_) => -1.0
-    }
-}
-
-def getViolations (objective: Objective[Double]): List[Constraint[Double]] = {
-    objective match {
-        case Single(_, l) => l
-        case Multi(_) => List()
-    }
-}
-
-def adjust (values: NonEmptyList[Double], violations: List[Constraint[Double]]): NonEmptyList[Double] = {
-    val distanceConsViolated = violations.contains(distanceConstraint)
-    val damageConsViolated = violations.contains(damageConstraint)
-
-    val bowType = values.index(2).get
-    val arrowType = values.index(3).get
-    var result = values
-
-    if (distanceConsViolated && damageConsViolated){
-        result = generateValuesBasedOn(bowType + 1.0, arrowType + 1.0)
-    }else if (distanceConsViolated){
-        if (getTotalCost(bowType + 1.0, arrowType) > coins) result = generateValuesBasedOn(bowType + 1.0, arrowType - 1.0)
-        else result = generateValuesBasedOn(bowType + 1.0, arrowType)
-    }else if (damageConsViolated){
-        if (getTotalCost(bowType, arrowType + 1.0) > coins) result = generateValuesBasedOn(bowType - 1.0, arrowType + 1.0)
-        else result = generateValuesBasedOn(bowType, arrowType + 1.0)
-    }
-    result
-}
-
-def getCustomWeapon : NonEmptyList[Double] = {
-    var list = generateValues
-    var objective = e.eval.run(rng)._2(list)
-    var violations = getViolations(objective)
-    list = list.append(NonEmptyList(evalObjective(objective)))
-    while (violations.nonEmpty){
-        list = adjust(list, violations)
-        objective = e.eval.run(rng)._2(list)
-        violations = getViolations(objective)
-        list = list.append(NonEmptyList(evalObjective(objective)))
-
-    }
-    list
-}
-```
 ```tut:book:silent
 implicit def i = new Fitness[NonEmptyList, Double] {
     def fitness(l: NonEmptyList[Double]) = Option.apply(e.eval.run(rng)._2(l))

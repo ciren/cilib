@@ -8,11 +8,17 @@ In this section, as is the theme of this book,
 I will cover each method to help you understand functionally the `RVar` class has to offer. 
 This wil also serve as documentation to the class. At a quick glance we will be covering 
 
-- `run(initial: RNG): (RNG, A)` 
-- `exec(s: RNG): RNG`
-- `eval(s: RNG): A`
-- `map[B](f: A => B): RVar[B]`
-- `flatMap[B](f: A => RVar[B]): RVar[B]`
+```scala
+run(initial: RNG): (RNG, A)
+
+exec(s: RNG): RNG
+
+eval(s: RNG): A
+
+map[B](f: A => B): RVar[B]
+
+flatMap[B](f: A => RVar[B]): RVar[B]
+```
 
 However, its important to note that we are only able to instate `RVars` through the companion object. 
 Alright, let's get started. 
@@ -27,8 +33,7 @@ It returns the a `tuple` containing the `RNG` used as well as the resulting rand
 It should be noted that when we call `run`, or any method that uses `run`, with on the same `RVar` with the same `RNG` it will produce the same result.
 
 ```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
+import cilib._
 ```
 ```tut:book:silent
 val rng = RNG.fromTime
@@ -49,14 +54,6 @@ doubleResult == doubleResult2
 Note that the `RNG` returned is not our original, but rather a new `RNG` that represents the next state of the original after being used.
 If we were to use the returned `RNG` on the same `RVar` it would result in new random numbers.
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-```
-```tut:book:silent
-val rng = RNG.fromTime
-val doubles = RVar.doubles(2)
-```
 ```tut:book
 val (newRNG, x) = doubles.run(rng)
 doubles.run(newRNG)
@@ -73,14 +70,6 @@ newRNG == rng
 When we use `map`, we are simply changing the values in the context (RVar).
 An example of such use would be multiply each number by a factor.
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-```
-```tut:book:silent
-val rng = RNG.fromTime
-val doubles = RVar.doubles(3)
-```
 ```tut:book
 doubles.eval(rng)
 doubles.map(x => x map(_ * 0.2)).eval(rng)
@@ -94,14 +83,6 @@ When we use `flatMap`, we are changing the values and the context.
 Lets say we had a `RVar` of type `List[Double]` and we wanted a new `RVar` that contained a `List` with elements 
 from the original as well as each element multiplied by 0.2.
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-```
-```tut:book:silent
-val rng = RNG.fromTime
-val doubles = RVar.doubles(2)
-```
 ```tut:book
 doubles.eval(rng)
 doubles.flatMap(x => RVar.point(x.flatMap(el => List(el, el * 0.2)))).eval(rng)

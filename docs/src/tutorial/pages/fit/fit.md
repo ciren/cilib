@@ -4,9 +4,13 @@ In the past we have seen `Feasible` and `Infeasible`.
 But, you might have noticed, there is a third type, `Adjusted`.
 These types used to indicate information about a possible solution.
 
-- `Feasible(v: Double)`
-- `Infeasible(v: Double, violations: Int)`
-- `Adjusted (original: Infeasible, adjust: Double) `
+```scala
+Feasible(v: Double)
+
+Infeasible(v: Double, violations: Int)
+
+Adjusted (original: Infeasible, adjust: Double)
+```
 
 And the purpose of this is to allow for pattern matching so that we may control the flow of logic.
 For example
@@ -30,10 +34,6 @@ def control (fit: Fit) : Double = {
 A data type to represent a feasible solution.
 </div>
 
-
-```tut:book:invisible
-import cilib._ 
-```
 ```tut:book
 val f = Feasible.apply(5)
 Feasible.unapply(f)
@@ -56,7 +56,6 @@ Adjusted indactes we have adjusted an `Infeasible` solution. It contains the `In
 </div>
 
 ```tut:book:invisible
-import cilib._ 
 import scalaz._
 ```
 ```tut:book

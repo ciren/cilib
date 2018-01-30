@@ -19,19 +19,22 @@ However, CILib offers a random number generator object called `RNG` that is suit
 `RNG` does just that, generate random numbers.
 All we need to do is supply a seed value.
 It is always recommended to record the seed value, so that others may reproduce results, especially if the results are to be published.
-`RNG` offers 4 methods for us to use. 
+`RNG` offers 4 methods for us to use.
 
-- `RNG.fromTime` - Generates a `RNG` with a seed value based on the current time. 
-- `RNG.init(seed: Long)` - We can supply the seed value to generate a `RNG`.
-- `RNG.initN(n: Int, seed: Long)` - Given a seed value we can geberate a list of n `RNG`.
-- `RNG.split((r: RNG)` - Generates a tuple of two `RNGs` based on the original's, r's, seed value.
+```scala
+RNG.fromTime //Generates a `RNG` with a seed value based on the current time.
+
+RNG.init(seed: Long) //We can supply the seed value to generate a `RNG`.
+
+RNG.initN(n: Int, seed: Long) //Given a seed value we can geberate a list of n `RNG`.
+
+RNG.split((r: RNG) //Generates a tuple of two `RNGs` based on the original's, r's, seed value.
+```
 
 Now that we know what `RNG` is all about, let's create an instance for our example. 
 
-```tut:book:invisible
-import cilib.RNG
-```
 ```tut:book
+import cilib._
 val rng = RNG.fromTime
 ```
 
@@ -39,12 +42,12 @@ val rng = RNG.fromTime
 
 RVar offers a few methods but we wont get into all of the right now. We are going to be looking at 
 
-- `RVar.doubles(n: Int)` - Generates a list of size n where each element is a *generator placeholders* of type `Double`.
-- `RVar.ints(n: Int)` - Generates a list of size n where each element is a *generator placeholders* of type `Int`.
+```scala
+RVar.doubles(n: Int) //Generates a list of size n where each element is a *generator placeholders* of type `Double`.
 
-```tut:book:invisible
-import cilib.RVar
+RVar.ints(n: Int) //Generates a list of size n where each element is a *generator placeholders* of type `Int`.
 ```
+
 ```tut:book
 val doubles = RVar.doubles(3)
 val ints = RVar.ints(3)
@@ -58,16 +61,6 @@ Only place holders.
 We need to pass our `RNG` to the `RVars` to generate our random values. 
 This happens at run time. We can achieve this by using
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-```
-```tut:book:silent
-val rng = RNG.fromTime
-val doubles = RVar.doubles(3)
-val ints = RVar.ints(3)
-
-```
 ```tut:book
 val doubleResult = doubles.run(rng)
 val intsResult = ints.run(rng)

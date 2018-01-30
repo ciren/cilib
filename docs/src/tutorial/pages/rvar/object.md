@@ -5,15 +5,25 @@ This is the purpose of the companion object.
 
 The `RVar` Object has a several methods that allows to create instances of `RVar` (the class).
 
-- `apply[A](f: RNG => (RNG, A)): RVar[A]`
-- `point[A](a: => A): RVar[A]`
-- `next[A](implicit e: Generator[A]): RVar[A]`
-- `ints(n: Int): RVar[List[Int]]`
-- `doubles(n: Int): RVar[List[Double]]`
-- `choose[A](xs: NonEmptyList[A]): RVar[Option[A]]`
-- `choices[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]]`
-- `sample[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]]`
-- `shuffle[A](xs: NonEmptyList[A]): RVar[NonEmptyList[A]]`
+```scala
+apply[A](f: RNG => (RNG, A)): RVar[A]
+
+point[A](a: => A): RVar[A]
+
+next[A](implicit e: Generator[A]): RVar[A]
+
+ints(n: Int): RVar[List[Int]]
+
+doubles(n: Int): RVar[List[Double]]
+
+choose[A](xs: NonEmptyList[A]): RVar[Option[A]]
+
+choices[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]]
+
+sample[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]]
+
+shuffle[A](xs: NonEmptyList[A]): RVar[NonEmptyList[A]]
+```
 
 We will be testing all these methods using `eval` with a `RNG` on the instances of `RVar` that they create.
 
@@ -22,8 +32,7 @@ We will be testing all these methods using `eval` with a `RNG` on the instances 
 Given a `RNG` and type `A` apply will return an `RVar` of that type.
 
 ```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
+import cilib._
 val rng = RNG.fromTime
 ```
 ```tut:book
@@ -34,11 +43,6 @@ RVar(rng => (rng, 2)).eval(rng)
 
 `point` performs `apply`. The bennifit is that we need not to worry about supplying a `RNG`.
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-val rng = RNG.fromTime
-```
 ```tut:book
 RVar.point(4).eval(rng)
 ```
@@ -48,11 +52,6 @@ RVar.point(4).eval(rng)
 This is a really cool method as it allows us to access the next number from the PRNG stream.
 Furthermore, the monad instance for RVar allows for cleaner syntax through the use of a for-comprehension.
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-val rng = RNG.fromTime
-```
 ```tut:book
 val composition = for {
   a <- RVar.next[Int] // Get a single Int
@@ -67,19 +66,18 @@ composition.run(rng)
 
 We have already seen `ints` and `doubles` used before. 
 
-- `RVar.doubles(n: Int)` - Generates a list of size n where each element is a *generator placeholders* of type `Double`.
-- `RVar.ints(n: Int)` - Generates a list of size n where each element is a *generator placeholders* of type `Int`.
+```scala
+RVar.doubles(n: Int) //Generates a list of size n where each element is a *generator placeholders* of type `Double`.
+
+RVar.ints(n: Int) //Generates a list of size n where each element is a *generator placeholders* of type `Int`.
+```
 
 ### choices and sample
 
 These two methods perform the exact same function and will produce the same result. 
 
 ```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
 import scalaz._
-
-val rng = RNG.fromTime
 ```
 ```tut:book
 RVar.choices(4, NonEmptyList(4, 3, 2, 56, 78)).run.eval(rng)
@@ -94,11 +92,6 @@ perhaps in a GA or DE.
 
 Shuffle does exactly what you would expect it to do, shuffle a list.
 
-```tut:book:invisible
-import cilib.RNG
-import cilib.RVar
-val rng = RNG.fromTime
-```
 ```tut:book
 RVar.shuffle(NonEmptyList (73, 5, 2, 3, 19, 28)).eval(rng)
 ```

@@ -1,1 +1,1 @@
-\part{Algorithms and Problems}
+\part{Algorithms and Benchmarks}

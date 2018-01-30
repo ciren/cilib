@@ -11,8 +11,11 @@ final case class Step[A,B] private (run: Environment[A] => RVar[B])
 Not complicated at all.
 And because of it's monadic nature we have the following functions at our disposal.
 
-- `map[C](f: B => C): Step[A,C]`
-- `flatMap[C](f: B => Step[A,C]): Step[A,C]`
+```scala
+map[C](f: B => C): Step[A,C]
+
+flatMap[C](f: B => Step[A,C]): Step[A,C]
+```
 
 We will be using the `Step` we created at the beginning of this chapter, `myStep`.
 
@@ -53,20 +56,7 @@ Here we changing the context.
 In this example, We are passing an `Entity[A] => Step[A, C]`, thus producing a new `Step[A, C]` which will differ from our original `Step[A, B]`.
 What will happen here is that we adding an extra *step*.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
 
-val env = Environment(
-    cmp = Comparison.dominance(Min),
-    eval =  Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval,
-    bounds = Interval(-5.12,5.12)^2
-)
-
-```
 ```tut:book:silent
 val rng = RNG.init(12)
 def explore (position: Position[Double]): Position[Double] = position.map(x => x * 0.73)
@@ -84,26 +74,6 @@ This step might not serve any real world purpose but it demonstrates how we may 
 This is easily achieved by using for comprehensions.
 For example, take a look at the following method.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-
-val env = Environment(
-    cmp = Comparison.dominance(Min),
-    eval =  Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval,
-    bounds = Interval(-5.12,5.12)^2
-)
-
-def explore (position: Position[Double]): Position[Double] = position.map(x => x * 0.73)
-val particle = Position.createPosition(env.bounds).map(p => Entity(Mem(p, p.zeroed), p)).eval(rng)
-val myStep = Step.eval(explore)(particle)
-
-val rng = RNG.init(12)
-def negate (position: Position[Double]): Position[Double] = position.map(x => x * -1)
-```
 ```tut:book
 def algorithm(entity: Entity[Mem[Double], Double]) = (for {
     step1 <- Step.eval(explore)(entity)

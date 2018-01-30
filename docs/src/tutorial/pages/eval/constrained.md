@@ -22,15 +22,8 @@ Performs the same function as an unconstrained.
 However, our result may either be feasible or infeasible.
 If it is infeasible, you will notice that the result contains a violation count as well a `List` of the violated `Constraints`.
 
-```tut:book:invisible
-import cilib._ 
-import scalaz._
-import Scalaz._
-```
 ```tut:book:silent
 var l = NonEmptyList(20.0, 4.0, 5.0)
-val lesThanCons = LessThan(ConstraintFunction((l: NonEmptyList[Double]) => l.suml), 12.0)
-val e = Eval.constrained[NonEmptyList,Double](_.map(x => x * x).suml, List(lesThanCons))
 ```
 ```tut:book
 e.eval.run(RNG.fromTime)._2.apply(l)

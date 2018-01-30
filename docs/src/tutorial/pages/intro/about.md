@@ -36,6 +36,8 @@ Trying to maintain a modular set of functionalities, CILib consists of several s
 - de - Data structures and logic related to Differential Evolution.
 - docs - Sources for the website.
 - ga - Data structures and logic related to Genetic Algorithms.
+- eda
+- io - For CSV and parquet encoding
 - moo - Type classes, instances and data structures for Multi-Objective Optimization.
 - pso - Data structures and logic related to Particle Swarm Optimization.
 

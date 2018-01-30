@@ -23,14 +23,8 @@ Will return a function that produces an `Objective`, either `Single` or `Multi` 
 This function is wrapped in an `RVar`. So in oder to *extract* the function from within the `RVar` we can use `run`.
 Finally, we may use our function with other given list.
 
-```tut:book:invisible
-import cilib._ 
-import scalaz._
-import Scalaz._
-```
 ```tut:book:silent
 val l = NonEmptyList(20.0, 4.0, 5.0)
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml)
 ```
 ```tut:book
 e.eval

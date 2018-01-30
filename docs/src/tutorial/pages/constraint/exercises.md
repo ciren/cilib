@@ -23,13 +23,6 @@ whether the list meets the constraint you defined in the previous question.
 You need to check each element in the list.
 
 <div class="solution">
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-import spire.math.Interval
-import spire.implicits._
-```
 ```tut:book:silent
 val cons = InInterval(ConstraintFunction((l: NonEmptyList[Double]) => l.head), Interval(5, 10))
 def checkList(l: List[Double]): Boolean = {

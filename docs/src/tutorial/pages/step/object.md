@@ -2,14 +2,21 @@
 
 The companion object offers several methods that we may use to create instances of `Steps`.
 
-- `point[A,B](b: B): Step[A,B]`
-- `pointR[A,B](a: RVar[B]): Step[A,B]`
-- `eval[S,A:Numeric](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity S,A]`
-- `evalP[A](pos: Position[A]): Step[A,Position[A]]`
-- `withCompare[A,B](a: Comparison => B): Step[A,B]`
-- `withCompareR[A,B](f: Comparison => RVar[B]): Step[A,B]`
-- `evalF[A:Numeric](pos: Position[A]): Step[A,Position[A]]`
+```scala
+point[A,B](b: B): Step[A,B]
 
+pointR[A,B](a: RVar[B]): Step[A,B]
+
+eval[S,A:Numeric](f: Position[A] => Position[A])(entity: Entity[S,A]): Step[A,Entity S,A]
+
+evalP[A](pos: Position[A]): Step[A,Position[A]]
+
+withCompare[A,B](a: Comparison => B): Step[A,B]
+
+withCompareR[A,B](f: Comparison => RVar[B]): Step[A,B]
+
+evalF[A:Numeric](pos: Position[A]): Step[A,Position[A]]
+```
 
 We will be using the `Environment` and `RNG` we created at the beginning of this chapter.
 
@@ -50,19 +57,6 @@ Step.point(particle)
 
 Creates `Step` contained in `RVar`.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-val rng = RNG.init(12)
-val env = Environment(
-    cmp = Comparison.dominance(Min),
-    eval =  Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval,
-    bounds = Interval(-5.12,5.12)^2
-)
-```
 ```tut:book:silent
 val particle = Position.createPosition(env.bounds).map(p => Entity(Mem(p, p.zeroed), p))
 ```
@@ -75,27 +69,10 @@ Step.pointR(particle).run(env).eval(rng)
 `eval` is used for evaluating `Entities`.
 This function produces a `Step` which may be `run` using a function, `Environment => RVar[A]`.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-
-```
-```tut:book:silent
-val rng = RNG.init(12)
-
-val env = Environment(
-        cmp = Comparison.dominance(Min),
-        eval =  Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval,
-        bounds = Interval(-5.12,5.12)^2
-    )
-
+```tut:book
 val particle = Position.createPosition(env.bounds).map(p => Entity(Mem(p, p.zeroed), p)).eval(rng)
 def explore (position: Position[Double]): Position[Double] = position.map(x => x * 0.73)
-```
-```tut:book
+
 Step.eval(explore)(particle)
 ```
 ```tut:book:silent
@@ -129,21 +106,6 @@ However it's `state` remained the same as that is up to us as to how we update i
 
 An example of use would be comparing the current position of an `Entity` with it's best, and then returning a new `Entity` based on the comparison.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-
-val rng = RNG.init(12)
-val env = Environment(
-    cmp = Comparison.dominance(Min),
-    eval =  Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval,
-    bounds = Interval(-5.12,5.12)^2
-)
-
-```
 ```tut:book:silent
 import monocle._, Monocle._
 
@@ -163,21 +125,6 @@ updatePBest(particle).run(env).eval(rng)
 
 An example of use would be determining which un-evaluated `RVar[Entity]s` is fitter.
 
-```tut:book:invisible
-import cilib._
-import spire.implicits._
-import spire.math._
-import scalaz._
-import Scalaz._
-
-val rng = RNG.init(12)
-val env = Environment(
-    cmp = Comparison.dominance(Min),
-    eval =  Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval,
-    bounds = Interval(-5.12,5.12)^2
-)
-
-```
 ```tut:book:silent
 def better[S,A](a: Entity[S,A], b: Entity[S,A]): Step[A,Boolean] =
     Step.withCompareR(comp => RVar.point(Comparison.fittest(a.pos, b.pos).apply(comp)))
