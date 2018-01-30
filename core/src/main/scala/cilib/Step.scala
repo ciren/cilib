@@ -28,10 +28,9 @@ final case class Step[A, B] private (run: Environment[A] => RVar[String \/ B]) {
   def flatMap[C](f: B => Step[A, C]): Step[A, C] =
     Step { e =>
       run(e).flatMap(_.map(f(_).run(e)).sequence.map(_ match {
-          case -\/(l) => l.left
-          case \/-(r) => r
-        })
-      )
+        case -\/(l) => l.left
+        case \/-(r) => r
+      }))
     }
 }
 
@@ -61,9 +60,8 @@ object Step {
     Step(env => Position.eval(env.eval, pos))
 
   object mightFail {
-    def withCompare[A, B](a: Comparison => String \/ B): Step[A, B] = {
+    def withCompare[A, B](a: Comparison => String \/ B): Step[A, B] =
       Step(env => RVar.point(a.apply(env.cmp)))
-    }
     def point[A, B](b: String \/ B): Step[A, B] =
       Step(_ => RVar.point(b))
     def pointR[A, B](a: RVar[String \/ B]): Step[A, B] =

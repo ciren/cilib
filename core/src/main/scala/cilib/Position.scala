@@ -164,7 +164,8 @@ object Position {
         }
     }
 
-  def eval[F[_], A](e: RVar[NonEmptyList[A] => String \/ Objective[A]], pos: Position[A]): RVar[String \/ Position[A]] =
+  def eval[F[_], A](e: RVar[NonEmptyList[A] => String \/ Objective[A]],
+                    pos: Position[A]): RVar[String \/ Position[A]] =
     pos match {
       case Point(x, b) =>
         e.map(f => {

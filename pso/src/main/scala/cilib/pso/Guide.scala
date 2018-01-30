@@ -20,7 +20,8 @@ object Guide {
       val fittest = selected
         .map(e => M._memory.get(e.state))
         .reduceLeftOption((a, c) => Comparison.compare(a, c).apply(o))
-      fittest.toRightDisjunction("Impossible: reduce on entity memory worked on empty memory member")
+      fittest.toRightDisjunction(
+        "Impossible: reduce on entity memory worked on empty memory member")
     })
   }
 
@@ -54,12 +55,12 @@ object Guide {
       val col = collection.list.filter(_ != x).toNel.toRightDisjunction("No distinct elements")
 
       for {
-        xs       <- Step.mightFail.point(col)
-        chosen   <- Step.pointR(RVar.sample(3, xs).run)
-        xover     = Crossover.nmpc
-        parents   = chosen.map(c => NonEmptyList.nel(x.pos, c.map(_.pos).toIList))
+        xs <- Step.mightFail.point(col)
+        chosen <- Step.pointR(RVar.sample(3, xs).run)
+        xover = Crossover.nmpc
+        parents = chosen.map(c => NonEmptyList.nel(x.pos, c.map(_.pos).toIList))
         children <- parents.traverse(xover).map(_.getOrElse(NonEmptyList(x.pos)))
-        probs    <- Step.pointR(x.pos.traverse(_ => Dist.stdUniform))
+        probs <- Step.pointR(x.pos.traverse(_ => Dist.stdUniform))
       } yield {
         val zipped = x.pos.zip(children.head).zip(probs)
         zipped.map { case ((xi, ci), pi) => if (pi < prob) ci else xi }

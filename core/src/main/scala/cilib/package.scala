@@ -16,7 +16,7 @@ package object cilib extends EvalInstances {
   type RandSelection[A] = NonEmptyList[A] => RVar[List[A]]
   type RandIndexSelection[A] = (NonEmptyList[A], A) => RVar[List[A]]
 
-  type Crossover[A] = NonEmptyList[Position[A]] => Step[A,NonEmptyList[Position[A]]]
+  type Crossover[A] = NonEmptyList[Position[A]] => Step[A, NonEmptyList[Position[A]]]
 
   // Find a better home for this - should this even exist? it is unlawful
   implicit object DoubleMonoid extends Monoid[Double] {

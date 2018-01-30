@@ -148,9 +148,11 @@ object HPSO extends SafeApp {
     .run(RNG.fromTime)
 
   override val runc: IO[Unit] =
-    putStrLn { finalResult._2 match {
-      case -\/(error) => error
-      case \/-(result) => behaviourProfile(result._1._1, result._2).toString
-    }}
+    putStrLn {
+      finalResult._2 match {
+        case -\/(error)  => error
+        case \/-(result) => behaviourProfile(result._1._1, result._2).toString
+      }
+    }
 
 }

@@ -1,6 +1,6 @@
 package cilib
 
-import scalaz.{NonEmptyList,\/}
+import scalaz.{NonEmptyList, \/}
 import scalaz.Scalaz._
 
 trait Input[F[_]] {
@@ -15,14 +15,15 @@ sealed abstract class Eval[F[_], A] {
   def run: F[A] => String \/ Double
 
   def eval: RVar[NonEmptyList[A] => String \/ Objective[A]] =
-    RVar.point { (fa: NonEmptyList[A]) => F.toInput(fa).flatMap { v =>
-      this match {
-        case Unconstrained(f, _) => f(v).map(fv => Single(Feasible(fv), List.empty))
-        case Constrained(f, cs, _) =>
-          cs.filter(c => !Constraint.satisfies(c, fa)) match {
-            case Nil => f(v).map(fv => Single(Feasible(fv), List.empty))
-            case xs  => f(v).map(fv => Single(Infeasible(fv, xs.length), xs))
-          }
+    RVar.point { (fa: NonEmptyList[A]) =>
+      F.toInput(fa).flatMap { v =>
+        this match {
+          case Unconstrained(f, _) => f(v).map(fv => Single(Feasible(fv), List.empty))
+          case Constrained(f, cs, _) =>
+            cs.filter(c => !Constraint.satisfies(c, fa)) match {
+              case Nil => f(v).map(fv => Single(Feasible(fv), List.empty))
+              case xs  => f(v).map(fv => Single(Infeasible(fv, xs.length), xs))
+            }
         }
       }
     }
@@ -50,7 +51,8 @@ object Eval {
     Constrained(f.map(_.right), cs, F)
 
   object mightFail {
-    def unconstrained[F[_]: Input, A](f: F[A] => String \/ Double)(implicit F: Input[F]): Eval[F, A] =
+    def unconstrained[F[_]: Input, A](f: F[A] => String \/ Double)(
+        implicit F: Input[F]): Eval[F, A] =
       Unconstrained(f, F)
     def constrained[F[_]: Input, A](f: F[A] => String \/ Double, cs: List[Constraint[A]])(
         implicit F: Input[F]): Eval[F, A] =

@@ -20,10 +20,11 @@ object Crossover {
         coef <- Dist.stdUniform.replicateM(4)
         s = coef.sum
         scaled = coef.map(norm(_, s)).toNel
-      } yield scaled match {
-        case None => "Impossible - this is a safe usage as coef is always length 4".left
-        case Some(s) => NonEmptyList(parents.zip(s).map(t => t._2 *: t._1).foldLeft1(_ + _)).right
-      }
+      } yield
+        scaled match {
+          case None    => "Impossible - this is a safe usage as coef is always length 4".left
+          case Some(s) => NonEmptyList(parents.zip(s).map(t => t._2 *: t._1).foldLeft1(_ + _)).right
+        }
       Step.mightFail.pointR(offspring)
     }
 
@@ -66,30 +67,31 @@ object Crossover {
       // calculate mean of parents except main parents
       val mean = parents.init.toNel match {
         case Some(ps) if ps.length >= 3 => Algebra.meanVector(ps).right
-        case _ => "UNDX requires at least 3 parents".left
+        case _                          => "UNDX requires at least 3 parents".left
       }
 
       // basis vectors defined by parents
       val initZeta = List[Position[Double]]()
-      val zeta = mean.map { g => parents.init.foldLeft(initZeta) { (z, p) =>
-        val d = p - g
+      val zeta = mean.map { g =>
+        parents.init.foldLeft(initZeta) { (z, p) =>
+          val d = p - g
 
-        if (d.isZero) z
-        else {
-          val dbar = d.magnitude
-          val e = Algebra.orthogonalize(d, z)
+          if (d.isZero) z
+          else {
+            val dbar = d.magnitude
+            val e = Algebra.orthogonalize(d, z)
 
-          if (e.isZero) z
-          else z :+ (dbar *: e.normalize)
+            if (e.isZero) z
+            else z :+ (dbar *: e.normalize)
+          }
         }
-      }}
-
+      }
 
       // create the remaining basis vectors
       val basis = for {
-        g  <- mean
-        z  <- zeta
-        dd  = (parents.last - g).magnitude
+        g <- mean
+        z <- zeta
+        dd = (parents.last - g).magnitude
       } yield {
         val initEta = NonEmptyList(parents.last - g)
 
