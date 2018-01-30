@@ -114,7 +114,7 @@ have been performed
 val rng = RNG.fromTime // Seed the RNG with the current time of the computer
 
 val result = Runner.repeat(1000, iter, swarm).run(env)
-val positions = result.map(_.map(x => Lenses._position.get(x)))
+val positions = result.map(_.map(_.map(x => Lenses._position.get(x))))
 
 positions.run(rng)._2
 ```
