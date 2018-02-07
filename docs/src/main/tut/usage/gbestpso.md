@@ -113,8 +113,14 @@ have been performed
 ```tut
 val rng = RNG.fromTime // Seed the RNG with the current time of the computer
 
-val result = Runner.repeat(1000, iter, swarm).run(env)
-val positions = result.map(_.map(x => Lenses._position.get(x)))
+val result = Runner.repeat(1000, iter, swarm).run(env).run(rng)
 
-positions.run(rng)._2
+result._2 match {
+  case -\/(error) =>
+    // Not much to do. The process failed with an error
+    throw error
+
+  case \/-(value) =>
+    value.map(x => Lenses._position.get(x))
+}
 ```
