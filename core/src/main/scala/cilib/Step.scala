@@ -1,6 +1,7 @@
 package cilib
 
 import scalaz.{Lens => _, _}
+import Scalaz._
 
 final case class Environment[A](
     cmp: Comparison,
@@ -20,44 +21,73 @@ final case class Environment[A](
   `Step` is nothing more than a data structure that hides the details of a
   monad transformer stack which represents the algoritmic parts.
   */
-final case class Step[A, B] private (run: Environment[A] => RVar[B]) {
+sealed abstract class Step[A, B] {
+  import Step._
+
+  def run(env: Environment[A]): RVar[Exception \/ B] =
+    this match {
+      case Halt(r, e) =>
+        e match {
+          case None    => RVar.point(\/.left(new Exception(r)))
+          case Some(x) => RVar.point(\/.left(new Exception(r, x)))
+        }
+
+      case Cont(f) =>
+        f(env)
+    }
+
   def map[C](f: B => C): Step[A, C] =
-    Step(e => run(e).map(f))
+    this match {
+      case Halt(r, e) => Halt(r, e)
+      case Cont(_)    => Cont(e => run(e).map(_.map(f)))
+    }
 
   def flatMap[C](f: B => Step[A, C]): Step[A, C] =
-    Step(e => run(e).flatMap(f(_).run(e)))
+    this match {
+      case Halt(r, e) => Halt(r, e)
+      case Cont(_) =>
+        Cont(env =>
+          run(env).flatMap(_ match {
+            case -\/(error) => RVar.point(error.left)
+            case \/-(value) => f(value).run(env)
+          }))
+    }
 }
 
 object Step {
-  import scalaz._
+
+  private final case class Cont[A, B](f: Environment[A] => RVar[Exception \/ B]) extends Step[A, B]
+  private final case class Halt[A, B](reason: String, error: Option[Exception]) extends Step[A, B]
+
+  def fail[A, B](reason: String, error: Exception): Step[A, B] =
+    Halt(reason, Option(error))
+
+  def failString[A, B](reason: String): Step[A, B] =
+    Halt(reason, None)
 
   def point[A, B](b: B): Step[A, B] =
-    Step(_ => RVar.point(b))
+    Cont(_ => RVar.point(b.right))
 
   def pointR[A, B](a: RVar[B]): Step[A, B] =
-    Step(_ => a)
+    Cont(_ => a.map(_.right))
 
   def withCompare[A, B](a: Comparison => B): Step[A, B] =
-    Step(env => RVar.point(a.apply(env.cmp)))
-
-  @deprecated("Use Step#withCompare instead", "2.0.0-M3")
-  def liftK[A, B](a: Comparison => B): Step[A, B] =
-    withCompare[A, B](a)
+    Cont(env => RVar.point(a.apply(env.cmp).right))
 
   def withCompareR[A, B](f: Comparison => RVar[B]): Step[A, B] =
-    Step(env => f(env.cmp))
+    Cont(env => f(env.cmp).map(_.right))
 
   def eval[S, A](f: Position[A] => Position[A])(entity: Entity[S, A]): Step[A, Entity[S, A]] =
     evalP(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 
   def evalP[A](pos: Position[A]): Step[A, Position[A]] =
-    Step { env =>
-      Position.eval(env.eval, pos)
+    Cont { env =>
+      Position.eval(env.eval, pos).map(_.right)
     }
 
   implicit def stepMonad[A]: Monad[Step[A, ?]] =
     new Monad[Step[A, ?]] {
-      def point[B](a: => B) =
+      def point[B](a: => B): Step[A, B] =
         Step.point(a)
 
       def bind[B, C](fa: Step[A, B])(f: B => Step[A, C]): Step[A, C] =

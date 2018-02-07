@@ -6,7 +6,7 @@ import cilib.pso.Defaults._
 
 import eu.timepit.refined.auto._
 
-import scalaz.NonEmptyList
+import scalaz._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import spire.implicits._
@@ -33,8 +33,14 @@ object GBestPSO extends SafeApp {
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] = {
     val result = Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime)
-    val positions = result._2.map(x => Lenses._position.get(x))
 
-    putStrLn(positions.toString)
+    result._2 match {
+      case -\/(error) =>
+        throw error
+
+      case \/-(value) =>
+        val positions = value.map(x => Lenses._position.get(x))
+        putStrLn(positions.toString)
+    }
   }
 }
