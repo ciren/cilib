@@ -1,0 +1,149 @@
+---
+# Used by Pandoc to print covers:
+title: "A Guide To CILib"
+subtitle: null
+author: "Kyle Erwin"
+date: "Version 1 - January 2018"
+# Used by Pandoc to generate the PDF cover...
+# see src/css/book.css for HTML/ePub covers:
+coverColor: "FF6F00"
+# Used by Grunt to name output files:
+filenameStem: "test"
+# Used by Grunt to create a ZIP of source code:
+exercisesRepo: null # "git@github.com:underscoreio/advanced-scala-code.git"
+tocDepth: 3
+copyright: "2017 - 2018"
+# Enable pandoc-crossref (must be installed on user's computer)
+# There's no distinction here between section and chapter prefixes.
+# We disable all prefixes for consistency and write them by hand:
+usePandocCrossref: true
+# Enable pandoc-include (must be installed on user's computer):
+usePandocInclude: false
+figPrefixTemplate: "$$i$$"
+eqnPrefixTemplate: "$$i$$"
+tblPrefixTemplate: "$$i$$"
+lstPrefixTemplate: "$$i$$"
+secPrefixTemplate: "$$i$$"
+# Used by Grunt to assemble pandoc command line:
+pages:
+  - intro/about.md
+  - intro/conventions.md
+  - intro/acknowledgements.md
+
+  - parts/part1.md
+
+  - setting-up/index.md
+  - setting-up/ide.md
+  - setting-up/terminal.md
+  - setting-up/summary.md
+
+  - library-dependencies/index.md
+  - library-dependencies/modules.md
+  - library-dependencies/test.md
+  - library-dependencies/summary.md
+
+  - parts/part2.md
+
+  - rvar/index.md
+  - rvar/basics.md
+  - rvar/class.md
+  - rvar/object.md
+  - rvar/distributions.md
+  - rvar/exercises.md
+  - rvar/summary.md
+
+  - constraint/index.md
+  - constraint/class.md
+  - constraint/object.md
+  - constraint/exercises.md
+  - constraint/summary.md
+
+  - objective/index.md
+
+  - eval/index.md
+  - eval/unconstrained.md
+  - eval/constrained.md
+  - eval/example.md
+  - eval/summary.md
+
+  - fit/index.md
+  - fit/fit.md
+  - fit/opt.md
+  - fit/comparison.md
+  - fit/exercises.md
+  - fit/summary.md
+
+  - position/index.md
+  - position/object.md
+  - position/class.md
+  - position/maths.md
+  - position/summary.md
+
+  - lenses/index.md
+  - lenses/immutable-data.md
+  - lenses/mem.md
+  - lenses/entity.md
+  - lenses/classy-lenses.md
+  - lenses/lenses.md
+  - lenses/summary.md
+
+  - entity/index.md
+  - entity/class.md
+  - entity/object.md
+  - entity/summary.md
+
+  - step/index.md
+  - step/environment.md  
+  - step/class.md  
+  - step/object.md  
+  - step/summary.md  
+
+  - stepS/index.md 
+  - stepS/class.md  
+  - stepS/object.md  
+  - stepS/summary.md  
+
+  - runner/index.md 
+  - runner/what-is-runner.md   
+  - runner/GAexample.md 
+  - runner/summary.md
+
+#  - io/index.md
+
+  - metric-space/index.md
+  - metric-space/object.md
+  - metric-space/summary.md
+
+  - selection/index.md
+  - selection/object.md
+  - selection/summary.md
+
+  - moving-forward/index.md
+  
+  - parts/part3.md
+
+  - benchmarks/index.md
+
+  - ga/index.md
+
+  - pso/index.md
+  - pso/package.md
+  - pso/guide.md
+  - pso/pool.md
+  - pso/heterogeneous.md
+  - pso/pso.md
+  - pso/default.md
+#  - pso/heterogeneous.md
+
+  - de/index.md
+
+#  - moo/index.md
+
+# - eda/index.md
+  
+  - parts/part4.md
+
+  - solutions.md
+
+  - links.md
+...
