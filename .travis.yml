@@ -4,20 +4,21 @@ sudo: false
 
 env:
   global:
-  - secure: F5930bzECZ3rm062ng6hn8U0B3PL0d+Vqnow+J9aOwu7bK/ecqZUSpud+04GryCsuPDnAL8F5RqF74sa7ib3NAU4IqiozcyITfr7R+NXVKVU/OhLANRnNnGXQaSL6/4gd2NvtONeLiSvmfTJtQtYezBukmhAFkU2a27Pp8CwCas=
-  - secure: PoAdWHYX5wkBtcczX69mF2N8lNevm5G2ThBYJOtgvVovXTPl6QK9FhXxOTl8qRwpW9DdT0tWZkbgfYz6ZKY8wW3s/HCYr876VKA+qkh0LraOUv4gtL3td2Rhz/iKchaRiQfht8kN04F7T9h29xuwrXeRDQ/C3j2oIMo+VhnBfdw=
+  - secure: "F5930bzECZ3rm062ng6hn8U0B3PL0d+Vqnow+J9aOwu7bK/ecqZUSpud+04GryCsuPDnAL8F5RqF74sa7ib3NAU4IqiozcyITfr7R+NXVKVU/OhLANRnNnGXQaSL6/4gd2NvtONeLiSvmfTJtQtYezBukmhAFkU2a27Pp8CwCas="
+  - secure: "PoAdWHYX5wkBtcczX69mF2N8lNevm5G2ThBYJOtgvVovXTPl6QK9FhXxOTl8qRwpW9DdT0tWZkbgfYz6ZKY8wW3s/HCYr876VKA+qkh0LraOUv4gtL3td2Rhz/iKchaRiQfht8kN04F7T9h29xuwrXeRDQ/C3j2oIMo+VhnBfdw="
+  - secure: "CGDqHPcQr/dsJgd9yMn+quPu84ndSACYC3yedU5cIeuxrxRX2Ut6VkfUuqPco1Qsqd7XZwulfvw//KSAy7E+I6mhlH5LW/b0IqRqOb0SgpFM9zsGMBLOts8wGWjgUWF1Vn+Tlg16OrwHUzXpLvS+a6i6linL7+rPRmjuGkwyx7M=" 
 
 matrix:
   include:
-    - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck"
-      jdk: oraclejdk8
-      scala: 2.11.11
-    - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck"
-      jdk: oraclejdk8
-      scala: 2.12.4
-    - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck docs/makeSite"
-      jdk: oraclejdk9
-      scala: 2.12.4
+  - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck"
+    jdk: oraclejdk8
+    scala: 2.11.11
+  - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck"
+    jdk: oraclejdk8
+    scala: 2.12.4
+  - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck docs/makeSite"
+    jdk: oraclejdk9
+    scala: 2.12.4
 
 script:
   - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" $COMMAND
