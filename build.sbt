@@ -1,8 +1,5 @@
 import sbt._
 import sbt.Keys._
-import sbtrelease._
-import sbtrelease.ReleasePlugin._
-import sbtrelease.ReleaseStateTransformations._
 
 val scalazVersion     = "7.2.7"
 val spireVersion      = "0.13.0"
@@ -143,18 +140,7 @@ lazy val publishSettings = Seq(
       }
     </developers>
   ),
-  releaseProcess := Seq[ReleaseStep](
-    checkSnapshotDependencies,
-    inquireVersions,
-    runTest,
-    setReleaseVersion,
-    commitReleaseVersion,
-    tagRelease,
-    //publishSignedArtifacts,
-    setNextVersion,
-    commitNextVersion
-    //pushChanges
-  )
+  releaseEarlyWith := SonatypePublisher
 ) ++ credentialSettings
 
 lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings
