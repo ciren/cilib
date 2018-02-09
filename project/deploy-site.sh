@@ -1,6 +1,8 @@
 #!/bin/bash
 
-sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" releaseEarly docs/makeSite
+set -e
+
+sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" docs/makeSite releaseEarly
 
 mkdir _site
 cd _site

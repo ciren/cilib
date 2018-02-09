@@ -140,7 +140,9 @@ lazy val publishSettings = Seq(
       }
     </developers>
   ),
-  releaseEarlyWith := SonatypePublisher
+  releaseEarlyWith := SonatypePublisher,
+  pgpPublicRing := file("./project/local.pubring.asc"),
+  pgpSecretRing := file("./project/local.secring.asc")
 ) ++ credentialSettings
 
 lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings
