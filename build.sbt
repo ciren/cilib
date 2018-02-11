@@ -126,10 +126,15 @@ lazy val publishSettings = Seq(
   )
 )
 
-lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings
+lazy val cilibSettings =
+  buildSettings ++
+    commonSettings ++
+    publishSettings ++
+    credentialSettings
 
-lazy val cilib = project.in(file("."))
-.enablePlugins(GitVersioning, ReleasePlugin)
+lazy val cilib = project
+  .in(file("."))
+  .enablePlugins(GitVersioning, ReleasePlugin)
   .settings(credentialSettings ++ noPublishSettings ++ Seq(
     git.useGitDescribe := true,
     releaseProcess := Seq[ReleaseStep](
@@ -144,47 +149,53 @@ lazy val cilib = project.in(file("."))
   .dependsOn(core, de, docs, eda, example, exec, ga, moo, pso, tests)
 
 lazy val core = project
-  .settings(cilibSettings ++ Seq(
-    moduleName := "cilib-core",
-    libraryDependencies ++= Seq(
-      "org.scalaz"                 %% "scalaz-core"       % scalazVersion,
-      "org.scalaz"                 %% "scalaz-concurrent" % scalazVersion,
-      "org.spire-math"             %% "spire"             % spireVersion,
-      "com.github.julien-truffaut" %% "monocle-core"      % monocleVersion,
-      "com.chuusai"                %% "shapeless"         % "2.3.2",
-      "eu.timepit"                 %% "refined"           % "0.8.5"
-    ),
-    wartremoverErrors in (Compile, compile) ++= Seq(
-      Wart.ArrayEquals,
-      Wart.JavaSerializable,
-      //      Wart.Any,
-      Wart.ExplicitImplicitTypes,
-      Wart.LeakingSealed,
-      Wart.StringPlusAny,
-      Wart.AsInstanceOf,
-      Wart.IsInstanceOf,
-      Wart.ImplicitConversion,
-      Wart.ImplicitParameter,
-      Wart.DefaultArguments,
-      //Wart.ListOps,
-      Wart.NonUnitStatements,
-      Wart.Null,
-      Wart.Option2Iterable,
-      Wart.OptionPartial,
-      //Wart.Overloading,
-      Wart.Product,
-      Wart.Return,
-      Wart.Serializable,
-      Wart.TraversableOps,
-      Wart.Var
-    )
-  ))
+  .settings(
+    cilibSettings ++ Seq(
+      moduleName := "cilib-core",
+      libraryDependencies ++= Seq(
+        "org.scalaz" %% "scalaz-core" % scalazVersion,
+        "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
+        "org.spire-math" %% "spire" % spireVersion,
+        "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
+        "com.chuusai" %% "shapeless" % "2.3.2",
+        "eu.timepit" %% "refined" % "0.8.5"
+      ),
+      wartremoverErrors in (Compile, compile) ++= Seq(
+        Wart.ArrayEquals,
+        Wart.JavaSerializable,
+        //      Wart.Any,
+        Wart.ExplicitImplicitTypes,
+        Wart.LeakingSealed,
+        Wart.StringPlusAny,
+        Wart.AsInstanceOf,
+        Wart.IsInstanceOf,
+        Wart.ImplicitConversion,
+        Wart.ImplicitParameter,
+        Wart.DefaultArguments,
+        //Wart.ListOps,
+        Wart.NonUnitStatements,
+        Wart.Null,
+        Wart.Option2Iterable,
+        Wart.OptionPartial,
+        //Wart.Overloading,
+        Wart.Product,
+        Wart.Return,
+        Wart.Serializable,
+        Wart.TraversableOps,
+        Wart.Var
+      )
+    ))
 
-val siteStageDirectory    = SettingKey[File]("site-stage-directory")
-val copySiteToStage       = TaskKey[Unit]("copy-site-to-stage")
+val siteStageDirectory = SettingKey[File]("site-stage-directory")
+val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
 
-lazy val docs = project.in(file("docs"))
-  .enablePlugins(GhpagesPlugin, TutPlugin, ParadoxSitePlugin, ParadoxMaterialThemePlugin, ScalaUnidocPlugin)
+lazy val docs = project
+  .in(file("docs"))
+  .enablePlugins(GhpagesPlugin,
+                 TutPlugin,
+                 ParadoxSitePlugin,
+                 ParadoxMaterialThemePlugin,
+                 ScalaUnidocPlugin)
   .settings(ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox))
   .settings(moduleName := "cilib-docs")
   .settings(cilibSettings)
@@ -200,14 +211,15 @@ lazy val docSettings = Seq(
   ghpagesNoJekyll := true,
   excludeFilter in ghpagesCleanSite :=
     new FileFilter {
-      def accept(f: File) = (ghpagesRepository.value / "CNAME").getCanonicalPath == f.getCanonicalPath
+      def accept(f: File) =
+        (ghpagesRepository.value / "CNAME").getCanonicalPath == f.getCanonicalPath
     },
   siteSubdirName in SiteScaladoc := "api",
   unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
   addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
   siteStageDirectory := target.value / "site-stage",
   sourceDirectory in paradox in Paradox := siteStageDirectory.value,
-  sourceDirectory in paradox  := siteStageDirectory.value,
+  sourceDirectory in paradox := siteStageDirectory.value,
   paradoxMaterialTheme in Paradox ~= {
     _.withFavicon("img/favicon.png")
       .withLogo("img/sbt-logo.svg")
@@ -217,19 +229,15 @@ lazy val docSettings = Seq(
     "github.base_url" -> s"https://github.com/cirg-up/cilib/tree/series/2.0.x/${version.value}"
   ),
   copySiteToStage := {
-    IO.copyDirectory(
-      source = sourceDirectory.value / "main" / "paradox",
-      target = siteStageDirectory.value,
-      overwrite = false,
-      preserveLastModified = true)
-    IO.copyDirectory(
-      source = tutTargetDirectory.value,
-      target = siteStageDirectory.value,
-      overwrite = false,
-      preserveLastModified = true)
-    IO.write(
-      file = siteStageDirectory.value / "CNAME",
-      content = "cilib.net")
+    IO.copyDirectory(source = sourceDirectory.value / "main" / "paradox",
+                     target = siteStageDirectory.value,
+                     overwrite = false,
+                     preserveLastModified = true)
+    IO.copyDirectory(source = tutTargetDirectory.value,
+                     target = siteStageDirectory.value,
+                     overwrite = false,
+                     preserveLastModified = true)
+    IO.write(file = siteStageDirectory.value / "CNAME", content = "cilib.net")
   },
   copySiteToStage := copySiteToStage.dependsOn(tutQuick).value,
   makeSite := makeSite.dependsOn(copySiteToStage).value
@@ -239,65 +247,76 @@ lazy val credentialSettings = Seq(
   credentials ++= (for {
     username <- Option(System.getenv("SONATYPE_USERNAME"))
     password <- Option(System.getenv("SONATYPE_PASSWORD"))
-  } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq,
+  } yield
+    Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq,
   sonatypeProfileName := "net.cilib",
   pgpPublicRing := file("./project/local.pubring.asc"),
   pgpSecretRing := file("./project/local.secring.asc"),
   pgpPassphrase := Option(System.getenv("PGP_PASS")).map(_.toArray)
 )
 
-lazy val eda = project.dependsOn(core)
+lazy val eda = project
+  .dependsOn(core)
   .settings(Seq(moduleName := "cilib-eda") ++ cilibSettings)
 
-lazy val example = project.dependsOn(core, de, exec, ga, io, moo, pso)
-  .settings(cilibSettings ++ noPublishSettings ++ Seq(
-    fork in run := true,
-    moduleName := "cilib-example",
-    libraryDependencies ++= Seq(
-      "net.cilib"  %% "benchmarks"        % "0.1.1",
-      "org.scalaz" %% "scalaz-core"       % scalazVersion,
-      "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
-      "org.scalaz" %% "scalaz-effect"     % scalazVersion,
-      "org.scalaz.stream" %% "scalaz-stream"     % "0.8.6a"
-    )
-  ))
+lazy val example = project
+  .dependsOn(core, de, exec, ga, io, moo, pso)
+  .settings(
+    cilibSettings ++ noPublishSettings ++ Seq(
+      fork in run := true,
+      moduleName := "cilib-example",
+      libraryDependencies ++= Seq(
+        "net.cilib" %% "benchmarks" % "0.1.1",
+        "org.scalaz" %% "scalaz-core" % scalazVersion,
+        "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
+        "org.scalaz" %% "scalaz-effect" % scalazVersion,
+        "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
+      )
+    ))
 
-lazy val exec = project.dependsOn(core)
+lazy val exec = project
+  .dependsOn(core)
   .settings(Seq(moduleName := "cilib-exec") ++ cilibSettings)
 
-lazy val moo = project.dependsOn(core)
+lazy val moo = project
+  .dependsOn(core)
   .settings(Seq(moduleName := "cilib-moo") ++ cilibSettings)
 
-lazy val pso = project.dependsOn(core)
+lazy val pso = project
+  .dependsOn(core)
   .settings(Seq(moduleName := "cilib-pso") ++ cilibSettings)
 
-lazy val ga = project.dependsOn(core)
+lazy val ga = project
+  .dependsOn(core)
   .settings(Seq(moduleName := "cilib-ga") ++ cilibSettings)
 
-lazy val de = project.dependsOn(core)
+lazy val de = project
+  .dependsOn(core)
   .settings(Seq(moduleName := "cilib-de") ++ cilibSettings)
 
 lazy val tests = project
   .dependsOn(core, pso, ga, moo)
-  .settings(cilibSettings ++ noPublishSettings ++ Seq(
-    moduleName := "cilib-tests",
-    fork in test := true,
-    javaOptions in test += "-Xmx1G",
-    libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
-      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
-    )
-  ))
+  .settings(
+    cilibSettings ++ noPublishSettings ++ Seq(
+      moduleName := "cilib-tests",
+      fork in test := true,
+      javaOptions in test += "-Xmx1G",
+      libraryDependencies ++= Seq(
+        "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
+        "org.scalaz" %% "scalaz-scalacheck-binding" % scalazVersion % "test"
+      )
+    ))
 
 lazy val io = project
   .dependsOn(core)
-  .settings(cilibSettings ++ noPublishSettings ++ Seq(
-    moduleName := "cilib-io",
-    libraryDependencies ++= Seq(
-      "com.chuusai"    %% "shapeless" % "2.3.2",
-      "org.apache.orc"  % "orc-core"  % "1.3.3",
-      "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.0",
-      "org.apache.parquet" % "parquet-avro" % "1.8.2",
-      "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
-    )
-  ))
+  .settings(
+    cilibSettings ++ noPublishSettings ++ Seq(
+      moduleName := "cilib-io",
+      libraryDependencies ++= Seq(
+        "com.chuusai" %% "shapeless" % "2.3.2",
+        "org.apache.orc" % "orc-core" % "1.3.3",
+        "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.0",
+        "org.apache.parquet" % "parquet-avro" % "1.8.2",
+        "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
+      )
+    ))
