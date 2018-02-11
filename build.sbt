@@ -1,5 +1,6 @@
 import sbt._
 import sbt.Keys._
+import sbtrelease.ReleaseStateTransformations._
 
 val scalazVersion     = "7.2.7"
 val spireVersion      = "0.13.0"
@@ -83,22 +84,6 @@ lazy val commonSettings = Seq(
     |""".stripMargin
 )
 
-/*lazy val publishSignedArtifacts = ReleaseStep(
-  action = st => {
-    val extracted = st.extract
-    val ref = extracted.get(thisProjectRef)
-    extracted.runAggregated(PgpKeys.publishSigned in Global in ref, st)
-  },
-  check = st => {
-    // getPublishTo fails if no publish repository is set up.
-    val ex = st.extract
-    val ref = ex.get(thisProjectRef)
-    Classpaths.getPublishTo(ex.get(publishTo in Global in ref))
-    st
-  },
-  enableCrossBuild = true
-)*/
-
 lazy val noPublishSettings = Seq(
   publish := {},
   publishLocal := {},
@@ -140,7 +125,6 @@ lazy val publishSettings = Seq(
       }
     </developers>
   ),
-  releaseEarlyWith := SonatypePublisher,
   pgpPublicRing := file("./project/local.pubring.asc"),
   pgpSecretRing := file("./project/local.secring.asc")
 ) ++ credentialSettings
@@ -148,8 +132,17 @@ lazy val publishSettings = Seq(
 lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings
 
 lazy val cilib = project.in(file("."))
-  .settings(cilibSettings)
-  .settings(noPublishSettings)
+.enablePlugins(GitVersioning, ReleasePlugin)
+  .settings(noPublishSettings ++ Seq(
+    git.useGitDescribe := true,
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      runClean,
+      runTest,
+      releaseStepCommand("publishSigned"),
+      releaseStepCommand("sonatypeReleaseAll")
+    )
+  ))
   .aggregate(core, de, docs, eda, example, exec, ga, moo, pso, tests)
   .dependsOn(core, de, docs, eda, example, exec, ga, moo, pso, tests)
 
@@ -249,7 +242,8 @@ lazy val credentialSettings = Seq(
   credentials ++= (for {
     username <- Option(System.getenv("SONATYPE_USERNAME"))
     password <- Option(System.getenv("SONATYPE_PASSWORD"))
-  } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
+  } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq,
+  pgpPassphrase := Option(System.getenv("PGP_PASS")).map(_.toArray)
 )
 
 lazy val eda = project.dependsOn(core)

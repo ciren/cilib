@@ -2,7 +2,7 @@
 
 set -e
 
-sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" docs/makeSite publishSigned releaseEarly
+sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" docs/makeSite release
 
 mkdir _site
 cd _site
