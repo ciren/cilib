@@ -1,6 +1,7 @@
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.9.3")
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.0")
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.7")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.2")
 
 addSbtPlugin("com.eed3si9n"      % "sbt-unidoc"  % "0.4.1")
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.2.1")
