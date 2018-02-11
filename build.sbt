@@ -123,16 +123,14 @@ lazy val publishSettings = Seq(
         }
       }
     </developers>
-  ),
-  pgpPublicRing := file("./project/local.pubring.asc"),
-  pgpSecretRing := file("./project/local.secring.asc")
-) ++ credentialSettings
+  )
+)
 
 lazy val cilibSettings = buildSettings ++ commonSettings ++ publishSettings
 
 lazy val cilib = project.in(file("."))
 .enablePlugins(GitVersioning, ReleasePlugin)
-  .settings(noPublishSettings ++ Seq(
+  .settings(credentialSettings ++ noPublishSettings ++ Seq(
     git.useGitDescribe := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -242,6 +240,9 @@ lazy val credentialSettings = Seq(
     username <- Option(System.getenv("SONATYPE_USERNAME"))
     password <- Option(System.getenv("SONATYPE_PASSWORD"))
   } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq,
+  sonatypeProfileName := "net.cilib",
+  pgpPublicRing := file("./project/local.pubring.asc"),
+  pgpSecretRing := file("./project/local.secring.asc"),
   pgpPassphrase := Option(System.getenv("PGP_PASS")).map(_.toArray)
 )
 
