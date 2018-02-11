@@ -100,13 +100,14 @@ lazy val publishSettings = Seq(
   //publishArtifact in packageDoc := false,
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
-  publishTo := {
-    val nexus = "https://oss.sonatype.org/"
-    if (isSnapshot.value)
-      Some("snapshots" at nexus + "content/repositories/snapshots")
-    else
-      Some("releases" at nexus + "service/local/staging/deploy/maven2")
-  },
+  publishTo := Some("releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"),
+  //   {
+  //   val nexus = "https://oss.sonatype.org/"
+  //   if (isSnapshot.value)
+  //     Some("snapshots" at nexus + "content/repositories/snapshots")
+  //   else
+  //     Some("releases" at nexus + "service/local/staging/deploy/maven2")
+  // },
   pomExtra := (
     <developers>
       {
@@ -137,8 +138,8 @@ lazy val cilib = project.in(file("."))
     git.useGitDescribe := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
-      runClean,
-      runTest,
+//      runClean,
+//      runTest,
       releaseStepCommand("publishSigned"),
       releaseStepCommand("sonatypeReleaseAll")
     )
