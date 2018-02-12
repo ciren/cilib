@@ -18,7 +18,7 @@ script:
   - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" $COMMAND
 
 before_install:
-  - if [ $TRAVIS_PULL_REQUEST = "false" ]; then
+  - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
       openssl aes-256-cbc -K $encrypted_1444cb71e00b_key -iv $encrypted_1444cb71e00b_iv -in project/secrets.tar.enc -out local.secrets.tar -d;
       tar -xf local.secrets.tar -C project;
     fi
@@ -33,17 +33,23 @@ before_deploy:
   # Start ssh-agent in the background and load the deploy key
   - eval "$(ssh-agent -s)"
   - ssh-add project/travis-deploy-key
-  - chmod a+x project/deploy-site.sh
+  - chmod a+x project/deploy.sh
 
 deploy:
-  provider: script
-  script: ./project/deploy-site.sh
-  skip_cleanup: true
-  on:
-    branch: series/2.0.x
-    jdk: oraclejdk9
-    scala: 2.12.4
-    condition: $TRAVIS_PULL_REQUEST = false
+  - provider: script
+    script: ./project/deploy.sh
+    skip_cleanup: true
+    on:
+      jdk: oraclejdk9
+      scala: 2.12.4
+      branch: series/2.0.x
+  - provider: script
+    script: ./project/deploy.sh
+    skip_cleanup: true
+    on:
+      jdk: oraclejdk9
+      scala: 2.12.4
+      tags: true
 
 notifications:
   email:
