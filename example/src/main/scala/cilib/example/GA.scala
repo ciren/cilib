@@ -67,5 +67,5 @@ object GAExample extends SafeApp {
 
   // Our IO[Unit] that runs at the end of the world
   override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime).toString)
+    putStrLn(exec.Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime).toString)
 }

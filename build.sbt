@@ -3,6 +3,7 @@ import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
 val scalazVersion     = "7.2.7"
+val scalazStreamVersion = "0.8.6a"
 val spireVersion      = "0.13.0"
 val monocleVersion    = "1.3.2"
 val scalacheckVersion = "1.12.6"
@@ -267,16 +268,19 @@ lazy val example = project
       moduleName := "cilib-example",
       libraryDependencies ++= Seq(
         "net.cilib" %% "benchmarks" % "0.1.1",
-        "org.scalaz" %% "scalaz-core" % scalazVersion,
-        "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
-        "org.scalaz" %% "scalaz-effect" % scalazVersion,
-        "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
+        "org.scalaz" %% "scalaz-effect" % scalazVersion
       )
     ))
 
 lazy val exec = project
   .dependsOn(core)
-  .settings(Seq(moduleName := "cilib-exec") ++ cilibSettings)
+  .settings(cilibSettings ++ Seq(
+    moduleName := "cilib-exec",
+    libraryDependencies ++= Seq(
+      "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
+      "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
+    )
+  ))
 
 lazy val moo = project
   .dependsOn(core)
@@ -317,6 +321,6 @@ lazy val io = project
         "org.apache.orc" % "orc-core" % "1.3.3",
         "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.0",
         "org.apache.parquet" % "parquet-avro" % "1.8.2",
-        "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
+        "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
       )
     ))

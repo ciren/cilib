@@ -3,6 +3,7 @@ package example
 
 import cilib.pso._
 import cilib.pso.Defaults._
+import cilib.exec._
 
 import eu.timepit.refined.auto._
 

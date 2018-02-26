@@ -28,6 +28,7 @@ As the very first step, we need to get the needed imports in scope:
 ```tut:silent
 import cilib._
 import cilib.pso._
+import cilib.exec._
 
 import eu.timepit.refined.auto._
 

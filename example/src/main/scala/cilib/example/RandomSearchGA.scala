@@ -11,6 +11,7 @@ import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import cilib.ga._
+import cilib.exec._
 
 object RandomSearchGA extends SafeApp {
   type Ind = Individual[Unit]

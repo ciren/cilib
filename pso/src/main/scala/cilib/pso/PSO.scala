@@ -136,14 +136,14 @@ object PSO {
   // }//else
 
   // This is relative to the origin
-  def quantum[S](
-      x: Particle[S, Double], // passed in only to get the length of the vector
+  def quantum(
+      x: Position[Double], // passed in only to get the length of the vector
       r: RVar[Double], // magnitude of the radius for the hypersphere
       dist: (Double, Double) => RVar[Double] // Distribution used
   ): Step[Double, Position[Double]] =
     Step.pointR {
       for {
-        r_i <- x.pos.traverse(_ => Dist.stdUniform) //(0.0, 1.0))
+        r_i <- x.traverse(_ => Dist.stdUniform) //(0.0, 1.0))
         //_ = println("r_i: " + r_i)
         originSum = math.sqrt(r_i.pos.foldLeft(0.0)((a, c) => a + c * c))
         //_ = println("originSum: " + originSum)
