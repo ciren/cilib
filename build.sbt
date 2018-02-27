@@ -7,6 +7,7 @@ val scalazStreamVersion = "0.8.6a"
 val spireVersion      = "0.13.0"
 val monocleVersion    = "1.3.2"
 val scalacheckVersion = "1.12.6"
+val avro4sVersion = "1.8.3"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib"
@@ -278,7 +279,8 @@ lazy val exec = project
     moduleName := "cilib-exec",
     libraryDependencies ++= Seq(
       "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
-      "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
+      "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion,
+      "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion
     )
   ))
 
@@ -312,15 +314,15 @@ lazy val tests = project
     ))
 
 lazy val io = project
-  .dependsOn(core)
+  .dependsOn(core, exec)
   .settings(
     cilibSettings ++ noPublishSettings ++ Seq(
       moduleName := "cilib-io",
       libraryDependencies ++= Seq(
         "com.chuusai" %% "shapeless" % "2.3.2",
-        "org.apache.orc" % "orc-core" % "1.3.3",
-        "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.0",
-        "org.apache.parquet" % "parquet-avro" % "1.8.2",
+        "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion,
+        "org.apache.parquet" % "parquet-avro" % "1.9.0",
+        "org.apache.hadoop" % "hadoop-client" % "2.7.3",
         "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
       )
     ))

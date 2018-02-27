@@ -7,6 +7,8 @@ import Scalaz._
 import scalaz.stream._
 import scalaz.concurrent.Task
 
+trait Output
+
 object Runner {
 
   def repeat[M[_]: Monad, F[_], A](n: Int, alg: Kleisli[M, F[A], F[A]], collection: RVar[F[A]])(
@@ -51,15 +53,24 @@ object Runner {
     go(s2, e, env, rng2)
   }
 
+  final case class Progress[A](seed: Long, iteration: Int, env: Env, value: A)
+
+  /**
+    *  Interpreter for algorithm execution
+    */
   def foldStep[F[_], A, B](initalConfig: Environment[A],
                            rng: RNG,
                            collection: RVar[F[B]],
                            alg: Kleisli[Step[A, ?], F[B], F[B]],
                            env: Process[Task, (Env, NonEmptyList[A] => Objective[A])],
-                           onChange: F[B] => RVar[F[B]]): Process[Task, (Env, F[B])] = {
+                           onChange: F[B] => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
 
-    def go(r: RNG, current: F[B], config: Environment[A])
-      : Tee[(Env, NonEmptyList[A] => Objective[A]), Kleisli[Step[A, ?], F[B], F[B]], (Env, F[B])] =
+    def go(iteration: Int,
+           r: RNG,
+           current: F[B],
+           config: Environment[A]): Tee[(Env, NonEmptyList[A] => Objective[A]),
+                                        Kleisli[Step[A, ?], F[B], F[B]],
+                                        Progress[F[B]]] =
       Process.awaitL[(Env, NonEmptyList[A] => Objective[A])].awaitOption.flatMap {
         case None => Process.halt
         case Some((e, eval)) =>
@@ -76,14 +87,24 @@ object Runner {
 
               next match {
                 case -\/(error) => Process.fail(error)
-                case \/-(value) => Process.emit((e, value)) ++ go(r2, value, newConfig)
+                case \/-(value) =>
+                  val progress = Progress(r2.seed, iteration, e, value)
+                  Process.emit(progress) ++ go(iteration + 1, r2, value, newConfig)
               }
           }
       }
 
     val (rng2, current) = collection.run(rng) // the collection of entities
 
-    env.tee(Process.constant(alg))(go(rng2, current, initalConfig))
+    env.tee(Process.constant(alg))(go(1, rng2, current, initalConfig))
   }
 
+  import com.sksamuel.avro4s._
+
+  def measure[F[_], A, B <: Output](f: F[A] => B)(
+      implicit B: SchemaFor[B]): Process1[Progress[F[A]], Measurement[B]] =
+    process1.lift {
+      case Progress(seed, iteration, env, value) =>
+        Measurement("alg", "prob", iteration, env, seed, f(value))
+    }
 }
