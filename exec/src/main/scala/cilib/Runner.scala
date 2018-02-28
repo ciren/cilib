@@ -7,15 +7,21 @@ import Scalaz._
 import scalaz.stream._
 import scalaz.concurrent.Task
 
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.auto._
+import eu.timepit.refined.collection._
+
 trait Output
-final case class Algorithm[A](name: String, value: A)
-final case class Problem[A](name: String, env: Env, eval: RVar[NonEmptyList[A] => Objective[A]])
-final case class Progress[A](algorithm: String,
-                             problem: String,
-                             seed: Long,
-                             iteration: Int,
-                             env: Env,
-                             value: A)
+final case class Algorithm[A](name: String Refined NonEmpty, value: A)
+final case class Problem[A](name: String Refined NonEmpty,
+                            env: Env,
+                            eval: RVar[NonEmptyList[A] => Objective[A]])
+final case class Progress[A] private (algorithm: String,
+                                      problem: String,
+                                      seed: Long,
+                                      iteration: Int,
+                                      env: Env,
+                                      value: A)
 
 object Runner {
 
@@ -28,7 +34,7 @@ object Runner {
       })
 
   def staticProblem[S, A](
-      name: String,
+      name: String Refined NonEmpty,
       eval: RVar[NonEmptyList[A] => Objective[A]],
       rng: RNG
   ): Process[Task, Problem[A]] = {
@@ -36,14 +42,13 @@ object Runner {
     Process.constant(Problem(name, Unchanged, RVar.point(e)))
   }
 
-  def problem[S, A](name: String, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyList, A])])(
+  def problem[S, A](name: String Refined NonEmpty,
+                    state: RVar[S],
+                    next: S => RVar[(S, Eval[NonEmptyList, A])])(
       env: Stream[Env],
       rng: RNG
   ): Process[Task, Problem[A]] = {
-    def go(s: S,
-           c: Eval[NonEmptyList, A],
-           e: Stream[Env],
-           r: RNG): Process[Task, Problem[A]] =
+    def go(s: S, c: Eval[NonEmptyList, A], e: Stream[Env], r: RNG): Process[Task, Problem[A]] =
       e match {
         case Stream.Empty => Process.empty
         case h #:: t =>
