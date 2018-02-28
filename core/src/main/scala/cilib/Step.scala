@@ -140,9 +140,6 @@ object StepS {
         StepS(M.put(s))
     }
 
-  def apply[A, S, B](f: S => Step[A, (S, B)]): StepS[A, S, B] =
-    StepS(StateT[Step[A, ?], S, B](f))
-
   def pointR[A, S, B](a: RVar[B]): StepS[A, S, B] =
     StepS(StateT[Step[A, ?], S, B]((s: S) => Step.pointR(a).map((s, _))))
 

@@ -90,7 +90,13 @@ object Runner {
                   case Change    => config.copy(eval = eval)
                 }
 
-              val (r2, next) = algorithm.value.run(current).run(newConfig).run(r)
+              val (r2, next) =
+                e match {
+                  case Unchanged => algorithm.value.run(current).run(newConfig).run(r)
+                  case Change =>
+                    val (r3, updated) = onChange(current).run(r)
+                    algorithm.value.run(updated).run(newConfig).run(r3)
+                }
 
               next match {
                 case -\/(error) => Process.fail(error)
