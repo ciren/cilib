@@ -8,6 +8,14 @@ import scalaz.stream._
 import scalaz.concurrent.Task
 
 trait Output
+final case class Algorithm[A](name: String, value: A)
+final case class Problem[A](name: String, env: Env, eval: RVar[NonEmptyList[A] => Objective[A]])
+final case class Progress[A](algorithm: String,
+                             problem: String,
+                             seed: Long,
+                             iteration: Int,
+                             env: Env,
+                             value: A)
 
 object Runner {
 
@@ -20,32 +28,32 @@ object Runner {
       })
 
   def staticProblem[S, A](
-      //eval: RVar[Eval[NonEmptyList, Double]],
+      name: String,
       eval: RVar[NonEmptyList[A] => Objective[A]],
       rng: RNG
-  ): Process[Task, (Env, NonEmptyList[A] => Objective[A])] = {
+  ): Process[Task, Problem[A]] = {
     val (_, e) = eval.run(rng)
-    Process.constant((Unchanged, e))
+    Process.constant(Problem(name, Unchanged, RVar.point(e)))
   }
 
-  def problem[S, A](state: RVar[S], next: S => RVar[(S, Eval[NonEmptyList, A])])(
+  def problem[S, A](name: String, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyList, A])])(
       env: Stream[Env],
       rng: RNG
-  ): Process[Task, (Env, Eval[NonEmptyList, A])] = {
+  ): Process[Task, Problem[A]] = {
     def go(s: S,
            c: Eval[NonEmptyList, A],
            e: Stream[Env],
-           r: RNG): Process[Task, (Env, Eval[NonEmptyList, A])] =
+           r: RNG): Process[Task, Problem[A]] =
       e match {
         case Stream.Empty => Process.empty
         case h #:: t =>
           h match {
             case Unchanged =>
-              Process.emit((h, c)) ++ go(s, c, t, r)
+              Process.emit(Problem(name, h, c.eval)) ++ go(s, c, t, r)
 
             case Change =>
               val (rng2, (s1, c1)) = next(s).run(r)
-              Process.emit((h, c1)) ++ go(s1, c1, t, rng2)
+              Process.emit(Problem(name, h, c1.eval)) ++ go(s1, c1, t, rng2)
           }
       }
 
@@ -53,42 +61,37 @@ object Runner {
     go(s2, e, env, rng2)
   }
 
-  final case class Progress[A](seed: Long, iteration: Int, env: Env, value: A)
-
   /**
     *  Interpreter for algorithm execution
     */
   def foldStep[F[_], A, B](initalConfig: Environment[A],
                            rng: RNG,
                            collection: RVar[F[B]],
-                           alg: Kleisli[Step[A, ?], F[B], F[B]],
-                           env: Process[Task, (Env, NonEmptyList[A] => Objective[A])],
+                           alg: Algorithm[Kleisli[Step[A, ?], F[B], F[B]]], // Simplify?
+                           env: Process[Task, Problem[A]],
                            onChange: F[B] => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
 
-    def go(iteration: Int,
-           r: RNG,
-           current: F[B],
-           config: Environment[A]): Tee[(Env, NonEmptyList[A] => Objective[A]),
-                                        Kleisli[Step[A, ?], F[B], F[B]],
-                                        Progress[F[B]]] =
-      Process.awaitL[(Env, NonEmptyList[A] => Objective[A])].awaitOption.flatMap {
+    def go(iteration: Int, r: RNG, current: F[B], config: Environment[A])
+      : Tee[Problem[A], Algorithm[Kleisli[Step[A, ?], F[B], F[B]]], Progress[F[B]]] =
+      Process.awaitL[Problem[A]].awaitOption.flatMap {
         case None => Process.halt
-        case Some((e, eval)) =>
-          Process.awaitR[Kleisli[Step[A, ?], F[B], F[B]]].awaitOption.flatMap {
+        case Some(Problem(problem, e, eval)) =>
+          Process.awaitR[Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]].awaitOption.flatMap {
             case None => Process.halt
             case Some(algorithm) =>
               val newConfig: Environment[A] =
                 e match {
                   case Unchanged => config
-                  case Change    => config.copy(eval = RVar.point(eval))
+                  case Change    => config.copy(eval = eval)
                 }
 
-              val (r2, next) = algorithm.run(current).run(newConfig).run(r)
+              val (r2, next) = algorithm.value.run(current).run(newConfig).run(r)
 
               next match {
                 case -\/(error) => Process.fail(error)
                 case \/-(value) =>
-                  val progress = Progress(r2.seed, iteration, e, value)
+                  val progress =
+                    Progress(algorithm.name, problem, r2.seed, iteration, e, value)
                   Process.emit(progress) ++ go(iteration + 1, r2, value, newConfig)
               }
           }
@@ -104,7 +107,7 @@ object Runner {
   def measure[F[_], A, B <: Output](f: F[A] => B)(
       implicit B: SchemaFor[B]): Process1[Progress[F[A]], Measurement[B]] =
     process1.lift {
-      case Progress(seed, iteration, env, value) =>
-        Measurement("alg", "prob", iteration, env, seed, f(value))
+      case Progress(algorithm, problem, seed, iteration, env, value) =>
+        Measurement(algorithm, problem, iteration, env, seed, f(value))
     }
 }
