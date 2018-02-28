@@ -13,6 +13,7 @@ import spire.implicits._
 
 import cilib.de._
 import cilib.pso._
+import cilib.exec._
 
 object Mixed extends SafeApp {
 

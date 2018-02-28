@@ -40,7 +40,7 @@ object PSOTests extends Properties("QPSO") {
         bounds = x.boundary)
 
       val (_, result) =
-        cilib.pso.PSO.quantum(p, RVar.point(10.0), (a,b) => Dist.uniform(spire.math.Interval(a,b)))
+        cilib.pso.PSO.quantum(p.pos, RVar.point(10.0), (a,b) => Dist.uniform(spire.math.Interval(a,b)))
           .run(env).run(RNG.init(seed))
 
       result match {

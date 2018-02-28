@@ -11,6 +11,7 @@ import spire.math.Interval
 
 import cilib.pso._
 import cilib.pso.Defaults._
+import cilib.exec._
 
 object LBestPSO extends SafeApp {
   val env =

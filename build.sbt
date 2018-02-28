@@ -3,9 +3,11 @@ import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
 val scalazVersion     = "7.2.7"
+val scalazStreamVersion = "0.8.6a"
 val spireVersion      = "0.13.0"
 val monocleVersion    = "1.3.2"
 val scalacheckVersion = "1.12.6"
+val avro4sVersion = "1.8.3"
 
 lazy val buildSettings = Seq(
   organization := "net.cilib"
@@ -161,27 +163,35 @@ lazy val core = project
         "eu.timepit" %% "refined" % "0.8.5"
       ),
       wartremoverErrors in (Compile, compile) ++= Seq(
+        //Wart.Any,
+        //Wart.Nothing,
+        Wart.AnyVal,
         Wart.ArrayEquals,
-        Wart.JavaSerializable,
-        //      Wart.Any,
-        Wart.ExplicitImplicitTypes,
-        Wart.LeakingSealed,
-        Wart.StringPlusAny,
         Wart.AsInstanceOf,
-        Wart.IsInstanceOf,
+        Wart.DefaultArguments,
+        Wart.ExplicitImplicitTypes,
+        Wart.FinalCaseClass,
+        Wart.FinalVal,
         Wart.ImplicitConversion,
         Wart.ImplicitParameter,
-        Wart.DefaultArguments,
-        //Wart.ListOps,
+        Wart.IsInstanceOf,
+        Wart.JavaConversions,
+        Wart.JavaSerializable,
+        Wart.LeakingSealed,
+        Wart.MutableDataStructures,
         Wart.NonUnitStatements,
         Wart.Null,
         Wart.Option2Iterable,
         Wart.OptionPartial,
-        //Wart.Overloading,
+        Wart.Overloading,
         Wart.Product,
+        //Wart.PublicInference,
         Wart.Return,
         Wart.Serializable,
+        Wart.StringPlusAny,
+        Wart.Throw,
         Wart.TraversableOps,
+        Wart.TryPartial,
         Wart.Var
       )
     ))
@@ -267,16 +277,20 @@ lazy val example = project
       moduleName := "cilib-example",
       libraryDependencies ++= Seq(
         "net.cilib" %% "benchmarks" % "0.1.1",
-        "org.scalaz" %% "scalaz-core" % scalazVersion,
-        "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
-        "org.scalaz" %% "scalaz-effect" % scalazVersion,
-        "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
+        "org.scalaz" %% "scalaz-effect" % scalazVersion
       )
     ))
 
 lazy val exec = project
   .dependsOn(core)
-  .settings(Seq(moduleName := "cilib-exec") ++ cilibSettings)
+  .settings(cilibSettings ++ Seq(
+    moduleName := "cilib-exec",
+    libraryDependencies ++= Seq(
+      "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
+      "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion,
+      "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion
+    )
+  ))
 
 lazy val moo = project
   .dependsOn(core)
@@ -308,15 +322,15 @@ lazy val tests = project
     ))
 
 lazy val io = project
-  .dependsOn(core)
+  .dependsOn(core, exec)
   .settings(
     cilibSettings ++ noPublishSettings ++ Seq(
       moduleName := "cilib-io",
       libraryDependencies ++= Seq(
         "com.chuusai" %% "shapeless" % "2.3.2",
-        "org.apache.orc" % "orc-core" % "1.3.3",
-        "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.0",
-        "org.apache.parquet" % "parquet-avro" % "1.8.2",
-        "org.scalaz.stream" %% "scalaz-stream" % "0.8.6a"
+        "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion,
+        "org.apache.parquet" % "parquet-avro" % "1.9.0",
+        "org.apache.hadoop" % "hadoop-client" % "2.7.3",
+        "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
       )
     ))

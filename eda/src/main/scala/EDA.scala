@@ -4,8 +4,6 @@ package eda
 import scalaz._
 import Scalaz._
 
-import spire.implicits._
-
 object EDA {
 
   def eda[M, S, A](

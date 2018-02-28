@@ -2,7 +2,7 @@ package cilib
 
 import monocle._
 
-case class Mem[A](b: Position[A], v: Position[A])
+final case class Mem[A](b: Position[A], v: Position[A])
 
 @annotation.implicitNotFound(
   "A HasMemory instance cannot be found for the provided state type ${S}")

@@ -30,7 +30,7 @@ object ViolationCount {
     }
 }
 
-case class ConstraintFunction[A](f: NonEmptyList[A] => Double) {
+final case class ConstraintFunction[A](f: NonEmptyList[A] => Double) {
   def apply(a: NonEmptyList[A]): Double =
     f(a)
 }

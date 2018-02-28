@@ -3,11 +3,11 @@ package cilib
 import scalaz.Foldable
 import scalaz.stream._
 import scalaz.concurrent.Task
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.Path
 import com.sksamuel.avro4s._
 import org.apache.parquet.avro._
 import org.apache.avro.generic.GenericRecord
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.Path
 
 package object io {
   import EncodeCsv._
@@ -84,7 +84,7 @@ package object io {
   }
 
   def writeParquet[F[_]: Foldable, A: SchemaFor: ToRecord](file: java.io.File, data: F[A])(
-      implicit T: ToRecord[A]) = {
+      implicit T: ToRecord[A]): Unit = {
     val testConf = new Configuration
     val schema = AvroSchema[A]
 

@@ -3,6 +3,7 @@ package example
 
 import cilib.pso._
 import cilib.pso.Defaults._
+import cilib.exec._
 
 import eu.timepit.refined.auto._
 
@@ -30,17 +31,17 @@ object GBestPSO extends SafeApp {
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
   val iter = Iteration.sync(gbestPSO)
 
+  val problemStream = Runner.staticProblem("spherical", env.eval, RNG.init(123L)).take(1000)
+
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] = {
-    val result = Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime)
+    val t = Runner.foldStep(env,
+                            RNG.fromTime,
+                            swarm,
+                            Algorithm("gbestPSO", iter),
+                            problemStream,
+                            (x: NonEmptyList[Particle[Mem[Double], Double]]) => RVar.point(x))
 
-    result._2 match {
-      case -\/(error) =>
-        throw error
-
-      case \/-(value) =>
-        val positions = value.map(x => Lenses._position.get(x))
-        putStrLn(positions.toString)
-    }
+    putStrLn(t.runLast.unsafePerformSync.toString)
   }
 }

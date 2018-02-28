@@ -3,6 +3,7 @@ package example
 
 import cilib.pso._
 import cilib.pso.Defaults._
+import cilib.exec._
 
 import eu.timepit.refined.auto._
 
@@ -45,7 +46,7 @@ object GCPSO extends SafeApp {
 
     val result =
       Runner
-        .repeatS(1000, iter, swarm)
+        .repeat(1000, iter, swarm)
         .run(algParams)
         .run(env)
         .run(RNG.fromTime)
