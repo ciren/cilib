@@ -20,7 +20,6 @@ object GBestPSO extends SafeApp {
       cmp = Comparison.dominance(Min),
       eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
 
-
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]
   val social = Guide.gbest[Mem[Double]]
