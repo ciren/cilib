@@ -59,17 +59,17 @@ directly to update the content within the GitHub interface.
 
 CIlib maintains two branches:
 
-* [series-2.0.x]: The current actively developed version
+* [master]: The current actively developed version
 * [series-1.0.x]: The original Java implementation, no longer developed and deprecated
 
 The guide below helps find the most appropriate branch for your change.
 
 My change is...                               | Branch
 ----------------------------------------------|-------------------
-Documentation of existing features            | [series-2.0.x]
-Documentation of unreleased features          | [series-2.0.x]
-Change to docs                                | [series-2.0.x]
-Binary compatible with current release        | [series-2.0.x]
+Documentation of existing features            | [master]
+Documentation of unreleased features          | [master]
+Change to docs                                | [master]
+Binary compatible with current release        | [master]
 
 Still unsure?  Don't worry!  Send us that PR, and we'll cherry-pick it
 to the right place.
@@ -83,9 +83,9 @@ link to the original work.
 
 ### Grant of license
 
-cilib is licensed under the [MIT License]. Opening a pull
+cilib is licensed under the [Apache-2.0 License]. Opening a pull
 request signifies your consent to license your contributions under the
-MIT License.
+Apache-2.0 License.
 
 ## Building the Community
 
@@ -125,13 +125,12 @@ This document is heavily based on the [Cats contributor's guide].
 [sbt]: http://www.scala-sbt.org/0.13/tutorial/Setup.html
 [Gitter]: http://gitter.im/cirg-up/cilib
 [The documentation]: https://cirg-up.github.io/cilib
-[docs subproject]: https://github.com/cirg-up/cilib/tree/series/2.0.x/docs/
-[series-2.0.x]: https://github.com/cirg-up/cilib/tree/series/2.0.x
+[docs subproject]: https://github.com/cirg-up/cilib/tree/master/docs/
+[master]: https://github.com/cirg-up/cilib/tree/master
 [series-1.0.x]: https://github.com/cirg-up/cilib/tree/series/1.0.x
-[MIT License]: License here
+[Apache-2.0 License]: https://github.com/cirg-up/cilib/blob/master/LICENSE
 [add yourself as an adopter]: https://github.com/cirg-up/cilib/edit/master/docs/src/hugo/content/adopters.md
 [adopters list]: http://cirg-up.github.io/cilib/adopters/
 [GitHub issues]: https://github.com/cirg-up/cilib/issues
 [community staff]: http://cirg-up.github.io/cilib/community/conduct.html#community-staff
 [Cats contributor's guide]: https://github.com/typelevel/cats/blob/master/CONTRIBUTING.md
-
