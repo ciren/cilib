@@ -58,7 +58,7 @@ a whole series of errors, which is just too valuable to ignore.
 
 Furthermore, where possible, as many errors will be reported to the
 user during compile time. Although this may seem very inconvenient,
-the benefits far out-weight the perceived disadvantages. One of the
+the benefits far out-weigh the perceived disadvantages. One of the
 main ideas with the design and implementation of the library is that
 if the code compiles, it will execute. This does not mean that there
 will be no errors - that's a foolish thing to say - but what it does
