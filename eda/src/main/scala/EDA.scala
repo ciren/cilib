@@ -32,16 +32,16 @@ object EDA {
     }
   }
 
-  private def test =
-    eda(
-      sample = (model: RVar[Double], entity: Entity[Unit, Double]) =>
-        model
-          .replicateM(entity.pos.length)
-          .map(l =>
-            Entity((), Position(l.toNel.getOrElse(sys.error("asdsad")), entity.pos.boundary))),
-      selection = (l: NonEmptyList[Entity[Unit, Double]]) => RVar.point(l),
-      generateModel = (_: NonEmptyList[Entity[Unit, Double]]) => RVar.point(Dist.stdUniform)
-    )
+  // private def test =
+  //   eda(
+  //     sample = (model: RVar[Double], entity: Entity[Unit, Double]) =>
+  //       model
+  //         .replicateM(entity.pos.length)
+  //         .map(l =>
+  //           Entity((), Position(l.toNel.getOrElse(sys.error("asdsad")), entity.pos.boundary))),
+  //     selection = (l: NonEmptyList[Entity[Unit, Double]]) => RVar.point(l),
+  //     generateModel = (_: NonEmptyList[Entity[Unit, Double]]) => RVar.point(Dist.stdUniform)
+  //   )
 }
 
 /* Discrete EDA:

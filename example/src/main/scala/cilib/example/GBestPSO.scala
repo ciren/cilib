@@ -14,12 +14,11 @@ import spire.implicits._
 import spire.math.Interval
 
 object GBestPSO extends SafeApp {
-
+  val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12, 5.12) ^ 30)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]
@@ -28,7 +27,7 @@ object GBestPSO extends SafeApp {
 
   // RVar
   val swarm =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
   val iter = Iteration.sync(gbestPSO)
 
   val problemStream = Runner.staticProblem("spherical", env.eval, RNG.init(123L)).take(1000)

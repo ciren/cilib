@@ -6,9 +6,9 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.2")
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.1")
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.2.1")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.1")
+addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.2")
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.2")
-addSbtPlugin("io.github.jonas" % "sbt-paradox-material-theme" % "0.3.0")
+addSbtPlugin("io.github.jonas" % "sbt-paradox-material-theme" % "0.4.0")
 
 addSbtPlugin("org.tpolecat" % "tut-plugin" % "0.6.2")
 

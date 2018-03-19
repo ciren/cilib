@@ -232,7 +232,7 @@ lazy val docSettings = Seq(
   sourceDirectory in paradox := siteStageDirectory.value,
   paradoxMaterialTheme in Paradox ~= {
     _.withFavicon("img/favicon.png")
-      .withLogo("img/sbt-logo.svg")
+      .withLogo("img/cilib_logo_transparent.png")
       .withRepository(uri("https://github.com/cirg-up/cilib"))
   },
   paradoxProperties in Compile ++= Map(

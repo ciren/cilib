@@ -85,8 +85,9 @@ minimizing this problem and defining the bounds of the problem space.
 val env =
   Environment(
     cmp = Comparison.dominance(Min),
-    eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-    bounds = Interval(-5.12,5.12)^30)
+    eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
+
+val bounds = Interval(-5.12,5.12)^30
 ```
 
 Here we define a the evaluator, which is an unconstrained `Eval`
@@ -103,7 +104,7 @@ also defines how the entity instances will be initialized, once random
 positions are generated for the given problem space
 
 ```tut
-val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 ```
 
 The last requirement is to provide the RNG instance that will use used within

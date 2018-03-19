@@ -17,11 +17,12 @@ import Lenses._
 object GAExample extends SafeApp {
   type Ind = Individual[Unit]
 
+  val bounds = Interval(-5.12, 5.12) ^ 30
+
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12, 5.12) ^ 30)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
 
   def onePoint(xs: List[Ind]): RVar[List[Ind]] =
     xs match {
@@ -53,7 +54,7 @@ object GAExample extends SafeApp {
   val ga: NonEmptyList[Ind] => (Ind => Step[Double, List[Ind]]) =
     GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
 
-  val swarm = Position.createCollection[Ind](x => Entity((), x))(env.bounds, 20)
+  val swarm = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
 
   val cullingGA: Kleisli[Step[Double, ?], NonEmptyList[Ind], NonEmptyList[Ind]] =
     Iteration

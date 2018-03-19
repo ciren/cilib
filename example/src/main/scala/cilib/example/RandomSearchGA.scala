@@ -16,11 +16,11 @@ import cilib.exec._
 object RandomSearchGA extends SafeApp {
   type Ind = Individual[Unit]
 
+  val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12, 5.12) ^ 30)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
 
   val randomSelection = (l: NonEmptyList[Ind]) => RVar.sample(2, l).getOrElse(List.empty[Ind])
   val distribution = (position: Double) =>
@@ -28,7 +28,7 @@ object RandomSearchGA extends SafeApp {
 
   val ga = GA.randomSearch(randomSelection, distribution)
 
-  val swarm = Position.createCollection[Ind](x => Entity((), x))(env.bounds, 20)
+  val swarm = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
   val myGA =
     Iteration
       .sync(ga)

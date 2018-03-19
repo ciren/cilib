@@ -17,11 +17,11 @@ import scalaz._
 
 object GCPSO extends SafeApp {
 
+  val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12, 5.12) ^ 30)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]
@@ -38,7 +38,7 @@ object GCPSO extends SafeApp {
     Iteration.syncS(gcPSO)
 
   val swarm =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] = {
