@@ -3,10 +3,7 @@ package cilib
 import scalaz.{Lens => _, _}
 import Scalaz._
 
-final case class Environment[A](
-    cmp: Comparison,
-    eval: RVar[NonEmptyList[A] => Objective[A]],
-    bounds: NonEmptyList[spire.math.Interval[Double]]) // This is still questionable?
+final case class Environment[A](cmp: Comparison, eval: RVar[NonEmptyList[A] => Objective[A]]) // This is still questionable?
 
 /**
   A `Step` is a type that models a single step / operation within a CI Algorithm.

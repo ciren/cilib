@@ -17,11 +17,11 @@ import cilib.exec._
 
 object Mixed extends SafeApp {
 
+  val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval,
-      bounds = Interval(-5.12, 5.12) ^ 30)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
 
   // Define the DE
   val de = DE.de(0.5, 0.5, DE.randSelection[Mem[Double], Double], 1, DE.bin[Position, Double])
@@ -35,7 +35,7 @@ object Mixed extends SafeApp {
   // so in the case of DE and PSO, the state from the particle is needed to be
   // managed
   val swarm =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(env.bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
   val combinedAlg: NonEmptyList[Entity[Mem[Double], Double]] => Entity[Mem[Double], Double] => Step[
     Double,

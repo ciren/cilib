@@ -36,8 +36,7 @@ object PSOTests extends Properties("QPSO") {
       val p = Entity(Mem(x, x.zeroed), x)
       val env = Environment(
         cmp = Comparison.dominance(Min),
-        eval = Eval.unconstrained((x: NonEmptyList[Double]) => 0.0).eval,
-        bounds = x.boundary)
+        eval = Eval.unconstrained((x: NonEmptyList[Double]) => 0.0).eval)
 
       val (_, result) =
         cilib.pso.PSO.quantum(p.pos, RVar.point(10.0), (a,b) => Dist.uniform(spire.math.Interval(a,b)))
