@@ -15,6 +15,14 @@ import ops.tuple.FlatMapper
 object PSO {
   import Lenses._
 
+  trait LowPriorityFlatten extends Poly1 {
+      implicit def default[T] = at[T](Tuple1(_))
+  }
+  object flatten extends LowPriorityFlatten {
+      implicit def caseTuple[P <: Product](implicit lfm: Lazy[FlatMapper[P, flatten.type]]) =
+          at[P](lfm.value(_))
+  }
+
   // Constrain this better - Not numeric. Operation for vector addition
   def stdPosition[S, A](
       c: Particle[S, A],
@@ -56,17 +64,6 @@ object PSO {
 
     if (b) updatePBest(p) else Step.point(p)
   }
-
-
-
-    trait LowPriorityFlatten extends Poly1 {
-        implicit def default[T] = at[T](Tuple1(_))
-    }
-    object flatten extends LowPriorityFlatten {
-        implicit def caseTuple[P <: Product](implicit lfm: Lazy[FlatMapper[P, flatten.type]]) =
-            at[P](lfm.value(_))
-    }
-
 
  def clamp[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
