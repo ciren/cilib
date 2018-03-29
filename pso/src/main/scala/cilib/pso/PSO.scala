@@ -54,186 +54,92 @@ object PSO {
     if (b) updatePBest(p) else Step.pure(p)
   }
 
-  def clamping[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
-      val newPos = particle.pos.pos zip particle.pos.boundary map {
-          case t if t._1 < t._2.lowerValue => t._2.lowerValue
-          case t if t._1 > t._2.upperValue => t._2.upperValue
-          case t if t._2.contains(t._1) => t._1
+    import shapeless._
+    import ops.tuple.FlatMapper
+
+    trait LowPriorityFlatten extends Poly1 {
+        implicit def default[T] = at[T](Tuple1(_))
+    }
+    object flatten extends LowPriorityFlatten {
+        implicit def caseTuple[P <: Product](implicit lfm: Lazy[FlatMapper[P, flatten.type]]) =
+            at[P](lfm.value(_))
+    }
+
+
+ def clamp[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A]) =
+    Lenses._position.modify((p: Position[A]) => {
+      val c: NonEmptyList[A] = p.pos zip p.boundary map {
+        case t if N.toDouble(t._1) < t._2.lowerValue => N.fromDouble(t._2.lowerValue)
+        case t if N.toDouble(t._1) > t._2.upperValue => N.fromDouble(t._2.upperValue)
+        case t if t._2.contains(N.toDouble(t._1)) => t._1
       }
+      Lenses._vector[A].set(c)(p)
+    })(x)
+    
+ def initToPB[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A], M: HasMemory[S, A]) =
+    Lenses._position.modify((p: Position[A]) => {
+        val c: NonEmptyList[A] = p.pos zip p.boundary zip M._memory.get(x.state).pos map {x => flatten(x)} map {
+            case t if t._2.contains(N.toDouble(t._1)) => t._1
+            case t if t._2.doesNotContain(N.toDouble(t._1)) => t._3
+        }
+        Lenses._vector[A].set(c)(p)
+    })(x)
 
-      for {
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(particle))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
+def initToGB[S,A:scalaz.Equal](x: Entity[S,A], gBest: Position[A])(implicit N: spire.math.Numeric[A]) = 
+    Lenses._position.modify((p: Position[A]) => {
+        val c: NonEmptyList[A] = p.pos zip p.boundary zip gBest.pos map {x => flatten(x)} map {
+            case t if t._2.contains(N.toDouble(t._1)) => t._1
+            case t if t._2.doesNotContain(N.toDouble(t._1)) => t._3
+        }
+        Lenses._vector[A].set(c)(p)
+    })(x)
 
-  def initToPB[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
-      val newPos = particle.pos.pos zip particle.pos.boundary zip M._memory.get(particle.state).pos map {
-          case ((a, b), c) => (a, b, c)
-      } map {
-          case t if t._2.contains(t._1) => t._1
-          case t if t._2.doesNotContain(t._1) => t._3
+def zeroedVelocity[S,A:scalaz.Equal](x: Entity[S,A])(
+    implicit N: spire.math.Numeric[A], V: HasVelocity[S, A]) =
+    Entity(V._velocity.modify((p: Position[A]) => {
+        val c: NonEmptyList[A] = p.pos zip p.boundary zip V._velocity.get(x.state).pos map {x => flatten(x)} map {
+            case t if t._2.contains(N.toDouble(t._1)) => t._3
+            case t if t._2.doesNotContain(N.toDouble(t._1)) => N.fromAlgebraic(0.0)
+        }
+        Lenses._vector[A].set(c)(p)
+    })(x.state), x.pos)
+
+
+def reverseVelocity[S,A:scalaz.Equal](x: Entity[S,A])(
+    implicit N: spire.math.Numeric[A], V: HasVelocity[S, A]) =
+    Entity(V._velocity.modify((p: Position[A]) => {
+        val c: NonEmptyList[A] = p.pos zip p.boundary zip V._velocity.get(x.state).pos map {x => flatten(x)} map {
+            case t if t._2.contains(N.toDouble(t._1)) => t._3
+            case t if t._2.doesNotContain(N.toDouble(t._1)) => t._3 * -1
+        }
+        Lenses._vector[A].set(c)(p)
+    })(x.state), x.pos)
+
+
+  def initToMidPoint[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A]) =
+    Lenses._position.modify((p: Position[A]) => {
+      val c: NonEmptyList[A] = p.pos zip p.boundary map {
+          case t if t._2.contains(N.toDouble(t._1)) => t._1
+          case t if t._2.doesNotContain(N.toDouble(t._1)) => N.fromAlgebraic((t._2.upperValue + t._2.lowerValue) / 2)
       }
+      Lenses._vector[A].set(c)(p)
+    })(x)
 
-      for {
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(particle))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
-
-  def initToPBAndZeroedVelocity[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): Step[Double, Particle[S, Double]] = {
-      val updated = particle.pos.pos zip particle.pos.boundary zip V._velocity.get(particle.state).pos zip M._memory.get(particle.state).pos map {
-          case (((a, b), c), d) => (a, b, c, d)
-      } map {
-          case t if t._2.contains(t._1) => (t._1, t._3)
-          case t if t._2.doesNotContain(t._1) => (t._4, 0.0)
+  def wrap[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A]) =
+    Lenses._position.modify((p: Position[A]) => {
+      val c: NonEmptyList[A] = p.pos zip p.boundary map {
+        case t if N.toDouble(t._1) < t._2.lowerValue => N.fromAlgebraic(t._2.upperValue)
+        case t if N.toDouble(t._1) > t._2.upperValue => N.fromAlgebraic(t._2.lowerValue)
+        case t if t._2.contains(N.toDouble(t._1)) => t._1
       }
-      val newPos = updated.map(t => t._1)
-      val newVelocity = updated.map(t => t._2)
+      Lenses._vector[A].set(c)(p)
+    })(x)
 
-      for {
-          v <- PSO.updateVelocity(particle, Position.apply(newVelocity, particle.pos.boundary))
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(v))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
+  def absorb[S,A:scalaz.Equal](x: Entity[S,A])(
+    implicit N: spire.math.Numeric[A], V: HasVelocity[S, A]) = clamp(zeroedVelocity(x))
 
-  def initToGB[S](particle: Particle[S, Double], gBest: Position[Double])(
-    implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
-      val newPos = particle.pos.pos zip particle.pos.boundary zip M._memory.get(particle.state).pos zip gBest.pos map {
-          case (((a, b), c), d) => (a, b, c, d)
-      } map {
-          case t if t._2.contains(t._1) => t._1
-          case t if t._2.doesNotContain(t._1) => t._4
-      }
-
-      for {
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(particle))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
-
-  def initToGBAndZeroedVelocity[S](particle: Particle[S, Double], gBest: Position[Double])(
-    implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): Step[Double, Particle[S, Double]] = {
-      val updated = particle.pos.pos zip particle.pos.boundary zip V._velocity.get(particle.state).pos zip gBest.pos map {
-          case (((a, b), c), d) => (a, b, c, d)
-      } map {
-          case t if t._2.contains(t._1) => (t._1, t._3)
-          case t if t._2.doesNotContain(t._1) => (t._4, 0.0)
-      }
-      val newPos = updated.map(t => t._1)
-      val newVelocity = updated.map(t => t._2)
-
-      for {
-          v <- PSO.updateVelocity(particle, Position.apply(newVelocity, particle.pos.boundary))
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(v))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
-
-  def reverseVelocity[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): Step[Double, Particle[S, Double]] = {
-      val newVelocity = particle.pos.pos zip particle.pos.boundary zip V._velocity.get(particle.state).pos map {
-          case ((a, b), c) => (a, b, c)
-      } map {
-          case t if t._2.contains(t._1) => t._3
-          case t if t._2.doesNotContain(t._1) => -t._3
-      }
-      for {
-          v <- PSO.updateVelocity(particle, Position.apply(newVelocity, particle.pos.boundary))
-          e <- PSO.evalParticle(v)
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
-
-  def initToMidPoint[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
-      val newPos = particle.pos.pos zip particle.pos.boundary map {
-          case t if t._2.contains(t._1) => t._1
-          case t if t._2.doesNotContain(t._1) => (t._2.upperValue + t._2.lowerValue) / 2
-      }
-      for {
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(particle))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
-
-  def wrapping[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
-      val newPos = particle.pos.pos zip particle.pos.boundary map {
-          case t if t._1 < t._2.lowerValue => t._2.upperValue
-          case t if t._1 > t._2.upperValue => t._2.lowerValue
-          case t if t._2.contains(t._1) => t._1
-      }
-
-      for {
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(particle))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
-
-  def wrappingAndZeroedVelocity[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): Step[Double, Particle[S, Double]] = {
-      val updated = particle.pos.pos zip particle.pos.boundary zip V._velocity.get(particle.state).pos map {
-          case ((a, b), c) => (a, b, c)
-      } map {
-          case t if t._1 < t._2.lowerValue => (t._2.upperValue, 0.0)
-          case t if t._1 > t._2.upperValue => (t._2.lowerValue, 0.0)
-          case t if t._2.contains(t._1) => (t._1, t._3)
-      }
-
-      val newPos = updated.map(t => t._1)
-      val newVelocity = updated.map(t => t._2)
-
-      for {
-          v <- PSO.updateVelocity(particle, Position.apply(newVelocity, particle.pos.boundary))
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(v))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
-
-  def absorbing[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): Step[Double, Particle[S, Double]] = {
-      val updated = particle.pos.pos zip particle.pos.boundary zip V._velocity.get(particle.state).pos map {
-          case ((a, b), c) => (a, b, c)
-      } map {
-          case t if t._1 < t._2.lowerValue => (t._2.lowerValue, 0.0)
-          case t if t._1 > t._2.upperValue => (t._2.upperValue, 0.0)
-          case t if t._2.contains(t._1) => (t._1, t._3)
-      }
-
-      val newPos = updated.map(t => t._1)
-      val newVelocity = updated.map(t => t._2)
-
-      for {
-          v <- PSO.updateVelocity(particle, Position.apply(newVelocity, particle.pos.boundary))
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(v))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
-
-  def reflecting[S](particle: Particle[S, Double])(
-    implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): Step[Double, Particle[S, Double]] = {
-      val updated = particle.pos.pos zip particle.pos.boundary zip V._velocity.get(particle.state).pos map {
-          case ((a, b), c) => (a, b, c)
-      } map {
-          case t if t._1 < t._2.lowerValue => (t._2.lowerValue, -t._3)
-          case t if t._1 > t._2.upperValue => (t._2.upperValue, -t._3)
-          case t if t._2.contains(t._1) => (t._1, t._3)
-      }
-
-      val newPos = updated.map(t => t._1)
-      val newVelocity = updated.map(t => t._2)
-
-      for {
-          v <- PSO.updateVelocity(particle, Position.apply(newVelocity, particle.pos.boundary))
-          e <- PSO.evalParticle(Lenses._position.set(Position.apply(newPos, particle.pos.boundary)).apply(v))
-          u <- PSO.updatePBest(e)
-      } yield u
-  }
+  def reflect[S,A:scalaz.Equal](x: Entity[S,A])(
+    implicit N: spire.math.Numeric[A], V: HasVelocity[S, A]) = clamp(reverseVelocity(x))
 
   def updateVelocity[S](p: Particle[S, Double], v: Position[Double])(
       implicit V: HasVelocity[S, Double]): Step[Double, Particle[S, Double]] =
