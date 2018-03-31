@@ -107,7 +107,7 @@ object HPSO extends SafeApp {
 
   val population =
     StepS
-      .pointR[Double, BehaviourPool, NonEmptyList[Particle[PState, Double]]](
+      .liftR[Double, BehaviourPool, NonEmptyList[Particle[PState, Double]]](
         Position.createCollection(particleBuilder)(bounds, 10))
       //.liftStepS[Double,BehaviourPool]
       .flatMap(assignRandom)

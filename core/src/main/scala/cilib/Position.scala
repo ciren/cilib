@@ -173,7 +173,7 @@ object Position {
         })
 
       case x @ Solution(_, _, _) =>
-        RVar.point(x)
+        RVar.pure(x)
     }
 
   /*private[cilib]*/
