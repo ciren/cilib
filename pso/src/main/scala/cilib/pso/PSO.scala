@@ -9,9 +9,6 @@ import Scalaz._
 import spire.algebra._
 import spire.implicits._
 
-import shapeless._
-import ops.tuple.FlatMapper
-
 object PSO {
   import Lenses._
   // Constrain this better - Not numeric. Operation for vector addition
