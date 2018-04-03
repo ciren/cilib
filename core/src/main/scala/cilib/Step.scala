@@ -25,8 +25,8 @@ sealed abstract class Step[A, B] {
     this match {
       case Halt(r, e) =>
         e match {
-          case None    => RVar.point(\/.left(new Exception(r)))
-          case Some(x) => RVar.point(\/.left(new Exception(r, x)))
+          case None    => RVar.pure(\/.left(new Exception(r)))
+          case Some(x) => RVar.pure(\/.left(new Exception(r, x)))
         }
 
       case Cont(f) =>
@@ -45,7 +45,7 @@ sealed abstract class Step[A, B] {
       case Cont(_) =>
         Cont(env =>
           run(env).flatMap(_ match {
-            case -\/(error) => RVar.point(error.left)
+            case -\/(error) => RVar.pure(error.left)
             case \/-(value) => f(value).run(env)
           }))
     }
@@ -62,14 +62,24 @@ object Step {
   def failString[A, B](reason: String): Step[A, B] =
     Halt(reason, None)
 
+  @deprecated("This method has been deprecated, use pure instead, it is technically more accurate",
+              "2.0.2")
   def point[A, B](b: B): Step[A, B] =
-    Cont(_ => RVar.point(b.right))
+    pure(b)
 
+  def pure[A, B](b: B): Step[A, B] =
+    Cont(_ => RVar.pure(b.right))
+
+  @deprecated("This method has been deprecated, use liftR instead, it is technically more accurate",
+              "2.0.2")
   def pointR[A, B](a: RVar[B]): Step[A, B] =
+    liftR(a)
+
+  def liftR[A, B](a: RVar[B]): Step[A, B] =
     Cont(_ => a.map(_.right))
 
   def withCompare[A, B](a: Comparison => B): Step[A, B] =
-    Cont(env => RVar.point(a.apply(env.cmp).right))
+    Cont(env => RVar.pure(a.apply(env.cmp).right))
 
   def withCompareR[A, B](f: Comparison => RVar[B]): Step[A, B] =
     Cont(env => f(env.cmp).map(_.right))
@@ -85,7 +95,7 @@ object Step {
   implicit def stepMonad[A]: Monad[Step[A, ?]] =
     new Monad[Step[A, ?]] {
       def point[B](a: => B): Step[A, B] =
-        Step.point(a)
+        Step.pure(a)
 
       def bind[B, C](fa: Step[A, B])(f: B => Step[A, C]): Step[A, C] =
         fa.flatMap(f)
@@ -113,7 +123,7 @@ object StepS {
   implicit def stepSMonad[A, S]: Monad[StepS[A, S, ?]] =
     new Monad[StepS[A, S, ?]] {
       def point[B](a: => B): StepS[A, S, B] =
-        StepS(StateT[Step[A, ?], S, B]((s: S) => Step.point((s, a))))
+        StepS(StateT[Step[A, ?], S, B]((s: S) => Step.pure((s, a))))
 
       def bind[B, C](fa: StepS[A, S, B])(f: B => StepS[A, S, C]): StepS[A, S, C] =
         fa.flatMap(f)
@@ -123,7 +133,7 @@ object StepS {
     new MonadState[StepS[A, S, ?], S] {
       private val M = StateT.stateTMonadState[S, Step[A, ?]]
 
-      def point[B](a: => B) = StepS(M.point(a))
+      def point[B](a: => B) = StepS(M.pure(a))
 
       def bind[B, C](fa: StepS[A, S, B])(f: B => StepS[A, S, C]): StepS[A, S, C] =
         fa.flatMap(f)
@@ -137,8 +147,13 @@ object StepS {
         StepS(M.put(s))
     }
 
+  @deprecated("This method has been deprecated, use pure instead, it is technically more accurate",
+              "2.0.2")
   def pointR[A, S, B](a: RVar[B]): StepS[A, S, B] =
-    StepS(StateT[Step[A, ?], S, B]((s: S) => Step.pointR(a).map((s, _))))
+    liftR(a)
+
+  def liftR[A, S, B](a: RVar[B]): StepS[A, S, B] =
+    StepS(StateT[Step[A, ?], S, B]((s: S) => Step.liftR(a).map((s, _))))
 
   def pointS[A, S, B](a: Step[A, B]): StepS[A, S, B] =
     StepS(StateT[Step[A, ?], S, B]((s: S) => a.map((s, _))))

@@ -79,7 +79,7 @@ object Comparison {
 
   def fittest[F[_], A](a: F[A], b: F[A])(implicit F: Fitness[F, A]): Step[A, F[A]] =
     Step.withCompareR(comp =>
-      RVar.point {
+      RVar.pure {
         if (fitter(a, b).apply(comp)) a else b
     })
 

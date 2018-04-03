@@ -14,7 +14,7 @@ sealed abstract class Eval[F[_], A] {
   def run: F[A] => Double
 
   def eval: RVar[NonEmptyList[A] => Objective[A]] =
-    RVar.point { (fa: NonEmptyList[A]) =>
+    RVar.pure { (fa: NonEmptyList[A]) =>
       this match {
         case Unconstrained(f, _) => Single(Feasible(f(F.toInput(fa))), List.empty)
         case Constrained(f, cs, _) =>
