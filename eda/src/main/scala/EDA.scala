@@ -13,9 +13,9 @@ object EDA {
   ): NonEmptyList[Entity[S, A]] => Step[A, NonEmptyList[Entity[S, A]]] =
     collection =>
       for {
-        selected <- Step.pointR(selection(collection))
-        newModel <- Step.pointR(generateModel(collection))
-        generated <- Step.pointR(collection.traverse(x => sample(newModel, x)))
+        selected <- Step.liftR(selection(collection))
+        newModel <- Step.liftR(generateModel(collection))
+        generated <- Step.liftR(collection.traverse(x => sample(newModel, x)))
         evaluated <- generated.traverse(x => Step.eval((v: Position[A]) => v)(x))
       } yield evaluated
 
@@ -39,8 +39,8 @@ object EDA {
   //         .replicateM(entity.pos.length)
   //         .map(l =>
   //           Entity((), Position(l.toNel.getOrElse(sys.error("asdsad")), entity.pos.boundary))),
-  //     selection = (l: NonEmptyList[Entity[Unit, Double]]) => RVar.point(l),
-  //     generateModel = (_: NonEmptyList[Entity[Unit, Double]]) => RVar.point(Dist.stdUniform)
+  //     selection = (l: NonEmptyList[Entity[Unit, Double]]) => RVar.pure(l),
+  //     generateModel = (_: NonEmptyList[Entity[Unit, Double]]) => RVar.pure(Dist.stdUniform)
   //   )
 }
 

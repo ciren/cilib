@@ -8,10 +8,10 @@ import scalaz.Scalaz._
 object Guide {
 
   def identity[S, F[_], A]: Guide[S, A] =
-    (_, x) => Step.point(x.pos)
+    (_, x) => Step.pure(x.pos)
 
   def pbest[S, A](implicit M: HasMemory[S, A]): Guide[S, A] =
-    (_, x) => Step.point(M._memory.get(x.state))
+    (_, x) => Step.pure(M._memory.get(x.state))
 
   def nbest[S](neighbourhood: IndexSelection[Particle[S, Double]])(
       implicit M: HasMemory[S, Double]): Guide[S, Double] = { (collection, x) =>
@@ -48,11 +48,11 @@ object Guide {
 
   def crossover[S](parentAttractors: NonEmptyList[Position[Double]],
                    op: Crossover[Double]): Guide[S, Double] =
-    (collection, x) => Step.pointR(op(parentAttractors).map(_.head))
+    (collection, x) => Step.liftR(op(parentAttractors).map(_.head))
 
   def nmpc[S](prob: Double): Guide[S, Double] =
     (collection, x) =>
-      Step.pointR {
+      Step.liftR {
         val col = collection.list.filter(_ != x).toNel.getOrElse(sys.error("nmpc...."))
         val chosen = RVar.sample(3, col).run
         val crossover = Crossover.nmpc
@@ -60,7 +60,7 @@ object Guide {
         for {
           chos <- chosen
           parents = chos.map(c => NonEmptyList.nel(x.pos, c.map(_.pos).toIList))
-          children <- parents.map(crossover).getOrElse(RVar.point(NonEmptyList(x.pos)))
+          children <- parents.map(crossover).getOrElse(RVar.pure(NonEmptyList(x.pos)))
           probs <- x.pos.traverse(_ => Dist.stdUniform)
         } yield {
           val zipped = x.pos.zip(children.head).zip(probs)
@@ -79,7 +79,7 @@ object Guide {
         i <- identity(collection, x)
         n <- gb(collection, x)
         parents = NonEmptyList(p, i, n)
-        offspring <- Step.pointR(pcx(parents))
+        offspring <- Step.liftR(pcx(parents))
       } yield offspring.head
     }
 
@@ -94,7 +94,7 @@ object Guide {
         i <- identity(collection, x)
         n <- gb(collection, x)
         parents = NonEmptyList(p, i, n)
-        offspring <- Step.pointR(undx(parents))
+        offspring <- Step.liftR(undx(parents))
       } yield offspring.head
     }
 

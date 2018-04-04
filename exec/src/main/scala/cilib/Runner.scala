@@ -27,7 +27,7 @@ object Runner {
 
   def repeat[M[_]: Monad, F[_], A](n: Int, alg: Kleisli[M, F[A], F[A]], collection: RVar[F[A]])(
       implicit M: MonadStep[M]): M[F[A]] =
-    M.pointR(collection)
+    M.liftR(collection)
       .flatMap(coll =>
         (1 to n).toStream.foldLeftM[M, F[A]](coll) { (a, _) =>
           alg.run(a)
@@ -39,7 +39,7 @@ object Runner {
       rng: RNG
   ): Process[Task, Problem[A]] = {
     val (_, e) = eval.run(rng)
-    Process.constant(Problem(name, Unchanged, RVar.point(e)))
+    Process.constant(Problem(name, Unchanged, RVar.pure(e)))
   }
 
   def problem[S, A](name: String Refined NonEmpty,

@@ -39,7 +39,7 @@ object GBestPSO extends SafeApp {
                             swarm,
                             Algorithm("gbestPSO", iter),
                             problemStream,
-                            (x: NonEmptyList[Particle[Mem[Double], Double]]) => RVar.point(x))
+                            (x: NonEmptyList[Particle[Mem[Double], Double]]) => RVar.pure(x))
 
     putStrLn(t.runLast.unsafePerformSync.toString)
   }

@@ -97,7 +97,7 @@ object Defaults {
           for {
             gbest <- hoist.liftMU(g(collection, x))
             cog <- hoist.liftMU(cognitive(collection, x))
-            isBest <- hoist.liftMU(Step.point[Double, Boolean](x.pos eq gbest))
+            isBest <- hoist.liftMU(Step.pure[Double, Boolean](x.pos eq gbest))
             s <- S.get
             v <- hoist.liftMU(
               if (isBest) gcVelocity(x, gbest, w, s)
@@ -196,7 +196,7 @@ object Defaults {
       nbest: Position[Double],
       g: Double
     )(implicit M:Memory[S,Double], MO: Module[Position[Double],Double], F:Field[Double]): Step[Double,Position[Double]] =
-      Step.pointR(for {
+      Step.liftR(for {
         c1 <- Dist.stdUniform.replicateM(entity.pos.pos.size).map(Position.hack) // RVar[List[Double]]
         c2 <- Dist.stdUniform.replicateM(entity.pos.pos.size).map(Position.hack)
         (p_i: Position[Double]) = M._memory.get(entity.state).zip(c1).map(x => x._1 * x._2)
