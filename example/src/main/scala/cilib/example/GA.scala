@@ -44,7 +44,7 @@ object GAExample extends SafeApp {
         p.traverse(z =>
           for {
             za <- Dist.stdUniform.map(_ < p_m)
-            zb <- if (za) Dist.stdNormal.flatMap(Dist.gaussian(0, _)).map(_ * z) else RVar.point(z)
+            zb <- if (za) Dist.stdNormal.flatMap(Dist.gaussian(0, _)).map(_ * z) else RVar.pure(z)
           } yield zb))(x)
     })
 

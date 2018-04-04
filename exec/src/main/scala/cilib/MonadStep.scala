@@ -4,5 +4,10 @@ package exec
 import scalaz.Monad
 
 abstract class MonadStep[M[_]: Monad] {
-  def pointR[A](r: RVar[A]): M[A]
+  @deprecated("This method has been deprecated, use liftR instead, it is technically more accurate",
+              "2.0.2")
+  def pointR[A](r: RVar[A]): M[A] =
+    liftR(r)
+
+  def liftR[A](r: RVar[A]): M[A]
 }

@@ -13,11 +13,11 @@ object RVarTests extends Spec("RVar") {
   implicit def rngEqual = scalaz.Equal[Int].contramap((_: RVar[Int]).run(rng)._2)
 
   implicit def arbRVar: Arbitrary[RVar[Int]] = Arbitrary {
-    Arbitrary.arbitrary[Int].map(RVar.point(_))
+    Arbitrary.arbitrary[Int].map(RVar.pure(_))
   }
 
   implicit def arbRVarFunc: Arbitrary[RVar[Int => Int]] = Arbitrary {
-    Arbitrary.arbitrary[Int => Int].map(RVar.point(_))
+    Arbitrary.arbitrary[Int => Int].map(RVar.pure(_))
   }
 
   checkAll(equal.laws[RVar[Int]])

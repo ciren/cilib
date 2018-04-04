@@ -16,11 +16,11 @@ object StepTest extends Spec("Step") {
   implicit def stepSEqual = scalaz.Equal[Int].contramap((_: StepS[Int,Int,Int]).run.apply(3).run(env).run(rng)._2.fold(l => 0, r => r._2))
 
   implicit def arbStep: Arbitrary[Step[Int,Int]] = Arbitrary {
-    Arbitrary.arbitrary[Int].map(Step.point)
+    Arbitrary.arbitrary[Int].map(Step.pure)
   }
 
   implicit def arbStepFunc: Arbitrary[Step[Int, Int => Int]] = Arbitrary {
-    Arbitrary.arbitrary[Int => Int].map(Step.point[Int, Int => Int])
+    Arbitrary.arbitrary[Int => Int].map(Step.pure[Int, Int => Int])
   }
 
   implicit def arbStepS: Arbitrary[StepS[Int, Int, Int]] = Arbitrary {

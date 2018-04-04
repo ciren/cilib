@@ -31,7 +31,7 @@ object RVar {
       def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
         a.flatMap(f)
       def point[A](a: => A) =
-        RVar.point(a)
+        RVar.pure(a)
     }
 
   def apply[A](f: RNG => (RNG, A)) = new RVar[A] {
@@ -42,7 +42,12 @@ object RVar {
     def trampolined(s: RNG) = Trampoline.suspend(f(s))
   }
 
+  @deprecated("This method has been deprecated, use pure instead, it is technically better",
+              "2.0.2")
   def point[A](a: => A): RVar[A] =
+    pure(a)
+
+  def pure[A](a: => A): RVar[A] =
     apply(r => (r, a))
 
   def next[A](implicit e: Generator[A]): RVar[A] =
@@ -142,7 +147,7 @@ object RVar {
 
   def choices[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]] =
     OptionT {
-      if (xs.length < n) RVar.point(None)
+      if (xs.length < n) RVar.pure(None)
       else {
         import scalaz.syntax.foldable._
         import scalaz.std.list._
@@ -255,7 +260,7 @@ object Dist {
               (zeta, eta)
             }
           }
-          r <- if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) inner else RVar.point(zeta)
+          r <- if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) inner else RVar.pure(zeta)
         } yield r
 
       inner
@@ -327,7 +332,7 @@ object Dist {
     for {
       u <- stdUniform.map(2.0 * _ - 1)
       i <- next[Int].map(a => ((a & 0xffffffffL) % 127).toInt)
-      r <- if (math.abs(u) < ratios(i)) RVar.point(u * blocks(i))
+      r <- if (math.abs(u) < ratios(i)) RVar.pure(u * blocks(i))
       else if (i == 0) DRandNormalTail(ZIGNOR_R, u < 0)
       else {
         val x = u * blocks(i)
@@ -336,7 +341,7 @@ object Dist {
         stdUniform
           .map(a => f1 + a * (f0 - f1) < 1.0)
           .ifM(
-            ifTrue = RVar.point(x),
+            ifTrue = RVar.pure(x),
             ifFalse = gaussian(mean, dev)
           )
       }

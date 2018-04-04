@@ -18,11 +18,11 @@ object GA {
     collection =>
       x =>
         for {
-          parents <- Step.pointR(parentSelection(collection))
-          r <- Step.pointR(Dist.stdUniform.map(_ < p_c))
-          crossed <- if (r) Step.pointR[Double, List[Individual[S]]](crossover(parents))
-          else Step.point[Double, List[Individual[S]]](parents)
-          mutated <- Step.pointR[Double, List[Individual[S]]](mutation(crossed))
+          parents <- Step.liftR(parentSelection(collection))
+          r <- Step.liftR(Dist.stdUniform.map(_ < p_c))
+          crossed <- if (r) Step.liftR[Double, List[Individual[S]]](crossover(parents))
+          else Step.pure[Double, List[Individual[S]]](parents)
+          mutated <- Step.liftR[Double, List[Individual[S]]](mutation(crossed))
           evaluated <- mutated.traverse(x => Step.eval((v: Position[Double]) => v)(x))
         } yield evaluated
 
@@ -38,6 +38,6 @@ object GA {
       parents.traverse(parent =>
         Lenses._position.modifyF((p: Position[Double]) => p.traverse(distribution))(parent))
 
-    GA.ga(1.0, parentSelection, RVar.point(_), mutation(distribution))
+    GA.ga(1.0, parentSelection, RVar.pure(_), mutation(distribution))
   }
 }

@@ -50,7 +50,7 @@ object QuantumPSO extends SafeApp {
     }
 
   def evalParticleWithPenalty[S](entity: Particle[S,Double]) =
-    Entity.eval[S,Double](x => x)(entity).flatMap(e => Step.withCompare(o => RVar.point {
+    Entity.eval[S,Double](x => x)(entity).flatMap(e => Step.withCompare(o => RVar.pure {
       penalize(o.opt)(e)
     }))
 
@@ -99,7 +99,7 @@ object QuantumPSO extends SafeApp {
   // Usage
   val domain = spire.math.Interval(0.0, 100.0)^2
   //val r = Iteration.sync(quantumPSO[QuantumState,List](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest))
-  val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.dominance(Selection.star), (_,_) => RVar.point(50.0)))
+  val qpso = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.dominance(Selection.star), (_,_) => RVar.pure(50.0)))
   val qpsoDist = Iteration.sync(quantumPSO[QuantumState](0.729844, 1.496180, 1.496180, Guide.pbest, Guide.gbest, (_,_) => Dist.cauchy(0.0, 10.0)))
 
   def swarm = Position.createCollection(
@@ -179,14 +179,14 @@ object QuantumPSO extends SafeApp {
     def iteration(
       swarm: List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]
     ): Step[Double,List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]] = {
-      //swarm.toNel.cata(nel => qpso.run(nel.list).run.map(_.map(penalize(Max))), Step.point(List.empty))
+      //swarm.toNel.cata(nel => qpso.run(nel.list).run.map(_.map(penalize(Max))), Step.pure(List.empty))
       qpso.run(swarm)
     }
 
     import scalaz.StateT
     def mpb(heightSeverity: Double, widthSeverity: Double): StateT[RVar, (NonEmptyList[Problems.PeakCone],List[cilib.Entity[cilib.example.QuantumPSO.QuantumState,Double]]), Eval[NonEmptyList,Double]] =
       StateT { case (peaks, pop) => {
-        val newPeaks: RVar[NonEmptyList[Problems.PeakCone]] = RVar.point(peaks)//.traverse(_.update(heightSeverity, widthSeverity))
+        val newPeaks: RVar[NonEmptyList[Problems.PeakCone]] = RVar.pure(peaks)//.traverse(_.update(heightSeverity, widthSeverity))
         newPeaks.map(np => ((np, pop), Problems.peakEval(np).constrain(EnvConstraints.centerEllipse)))
       }}
   }

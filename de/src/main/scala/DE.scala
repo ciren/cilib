@@ -26,7 +26,7 @@ object DE {
         for {
           evaluated <- Step.eval((a: Position[A]) => a)(x)
           trial <- basicMutation(Numeric[A].fromDouble(p_m), targetSelection, y, collection, x)
-          pivots <- Step.pointR(z(p_r, evaluated.pos))
+          pivots <- Step.liftR(z(p_r, evaluated.pos))
           offspring = crossover(x, trial, pivots)
           evaluatedOffspring <- Step.eval((a: Position[A]) => a)(offspring)
           fittest <- Comparison.fittest(evaluated, evaluatedOffspring)
@@ -52,7 +52,7 @@ object DE {
       filtered.flatMap(x =>
         x.toNel match {
           case Some(l) =>
-            Step.pointR(
+            Step.liftR(
               RVar
                 .shuffle(l)
                 .map(
@@ -62,7 +62,7 @@ object DE {
                       .map(z => z._1.pos - z._2.pos))
             )
           case None =>
-            Step.point(List.empty)
+            Step.pure(List.empty)
       })
 
     for {
@@ -88,7 +88,7 @@ object DE {
       .flatMap(j =>
         parent.toNel.zipWithIndex.traverse {
           case (_, i) =>
-            if (i == j) RVar.point(true)
+            if (i == j) RVar.pure(true)
             else Dist.stdUniform.map(_ < p_r)
       })
 
@@ -119,7 +119,7 @@ object DE {
   // Selections
   def randSelection[S, A](
       collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
-    Step.pointR(RVar.choose(collection).map(x => (x, x.pos)))
+    Step.liftR(RVar.choose(collection).map(x => (x, x.pos)))
 
   def bestSelection[S, A](
       collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
