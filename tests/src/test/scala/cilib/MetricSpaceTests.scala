@@ -12,11 +12,11 @@ import spire.implicits._
 object MetricSpaceTest extends Spec("MetricSpace") {
 
   implicit def arbMetricSpace: Arbitrary[MetricSpace[Int,Int]] = Arbitrary {
-    Arbitrary.arbitrary[Int].map(x => MetricSpace.point[Int,Int](x))
+    Arbitrary.arbitrary[Int].map(x => MetricSpace.pure[Int,Int](x))
   }
 
   implicit def arbMetricSpaceFunc: Arbitrary[MetricSpace[Int, Int => Int]] = Arbitrary {
-    Arbitrary.arbitrary[Int => Int].map(MetricSpace.point[Int, Int => Int])
+    Arbitrary.arbitrary[Int => Int].map(MetricSpace.pure[Int, Int => Int])
   }
 
   implicit val doubleGen = Gen.choose(-100000000.0, 100000000.0)

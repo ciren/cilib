@@ -90,7 +90,12 @@ object MetricSpace {
         x.toList.zip(y.toList).filter { case (ai, bi) => ai != bi }.size
     }
 
+  @deprecated("This method has been deprecated, use pure instead, it is technically better",
+              "2.0.2")
   def point[A, B](a: B): MetricSpace[A, B] =
+    pure(a)
+
+  def pure[A, B](a: B): MetricSpace[A, B] =
     new MetricSpace[A, B] {
       def dist(x: A, y: A) = a
     }
@@ -118,7 +123,7 @@ object MetricSpace {
   implicit def metricSpaceMonad[A]: Monad[MetricSpace[A, ?]] =
     new Monad[MetricSpace[A, ?]] {
       def point[B](a: => B): MetricSpace[A, B] =
-        MetricSpace.point[A, B](a)
+        MetricSpace.pure[A, B](a)
 
       def bind[B, C](fa: MetricSpace[A, B])(f: B => MetricSpace[A, C]): MetricSpace[A, C] =
         fa.flatMap(f)

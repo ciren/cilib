@@ -113,7 +113,7 @@ object Heterogeneous {
     xs =>
       for {
         pool <- M.get
-        collection <- StepS.pointR(xs.traverse { x =>
+        collection <- StepS.liftR(xs.traverse { x =>
           RVar.shuffle(pool).map { l =>
             User(x, l.head)
           }
@@ -137,7 +137,7 @@ object Heterogeneous {
         val M = MonadState[StepS[C, Pool[B], ?], Pool[B]]
         for {
           pool <- M.get
-          user <- StepS.pointR(RVar.shuffle(pool).map { l =>
+          user <- StepS.liftR(RVar.shuffle(pool).map { l =>
             User(x.user, l.head)
           })
         } yield user
@@ -150,7 +150,7 @@ object Heterogeneous {
         val M = MonadState[StepS[C, Pool[B], ?], Pool[B]]
         for {
           pool <- M.get
-          user <- StepS.pointR(RVar.shuffle(pool).map(_.toList.take(k)).map { bs =>
+          user <- StepS.liftR(RVar.shuffle(pool).map(_.toList.take(k)).map { bs =>
             {
               val tournament = bs.take(k) // ???? This is an error. Might as well just use head directly???
               val head = tournament.headOption.getOrElse(sys.error("Empty behaviour pool."))
@@ -217,8 +217,8 @@ object Heterogeneous {
 
         for {
           p1 <- S
-            .point(schedule(x))
-            .ifM(ifTrue = selector(collection)(x).zoom(pool), ifFalse = S.point(x))
+            .pure(schedule(x))
+            .ifM(ifTrue = selector(collection)(x).zoom(pool), ifFalse = S.pure(x))
           p2 <- useBehaviour(collection)(p1).zoom(params)
           newP <- updater(x)(p2).zoom(pool)
           _ <- MonadState[StepS[A, Pool[Behaviour[S, A, B]], ?], Pool[Behaviour[S, A, B]]]
