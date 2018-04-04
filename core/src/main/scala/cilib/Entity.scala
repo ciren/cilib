@@ -25,11 +25,10 @@ object BCHM {
   def clamp[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
       val c: NonEmptyList[A] = p.pos.zip(p.boundary).map {
-        case (p, b) => {
+        case (p, b) =>
           if (N.toDouble(p) < b.lowerValue) N.fromDouble(b.lowerValue)
           else if (N.toDouble(p) > b.upperValue) N.fromDouble(b.upperValue)
           else p
-        }
       }
       Lenses._vector[A].set(c)(p)
     })(x)
@@ -38,8 +37,7 @@ object BCHM {
                                                     M: HasMemory[S, A]) =
     Lenses._position.modify((p: Position[A]) => {
       val c: NonEmptyList[A] = p.pos.zip(p.boundary).zip(M._memory.get(x.state).pos).map {
-        case ((p, b), _) if b.contains(N.toDouble(p))       => p
-        case ((p, b), m) if b.doesNotContain(N.toDouble(p)) => m
+        case ((p, b), m) => if (b.contains(N.toDouble(p))) p else m
       }
       Lenses._vector[A].set(c)(p)
     })(x)
@@ -48,8 +46,7 @@ object BCHM {
       implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
       val c: NonEmptyList[A] = p.pos.zip(p.boundary).zip(gBest.pos).map {
-        case ((p, b), _) if b.contains(N.toDouble(p))       => p
-        case ((p, b), g) if b.doesNotContain(N.toDouble(p)) => g
+        case ((p, b), g) => if (b.contains(N.toDouble(p))) p else g
       }
       Lenses._vector[A].set(c)(p)
     })(x)
@@ -59,8 +56,7 @@ object BCHM {
     Entity(
       V._velocity.modify((p: Position[A]) => {
         val c: NonEmptyList[A] = p.pos.zip(p.boundary).zip(V._velocity.get(x.state).pos).map {
-          case ((p, b), v) if b.contains(N.toDouble(p))       => v
-          case ((p, b), _) if b.doesNotContain(N.toDouble(p)) => N.fromAlgebraic(0.0)
+          case ((p, b), v) => if (b.contains(N.toDouble(p))) p else v
         }
         Lenses._vector[A].set(c)(p)
       })(x.state),
@@ -72,9 +68,8 @@ object BCHM {
     Entity(
       V._velocity.modify((p: Position[A]) => {
         val c: NonEmptyList[A] = p.pos.zip(p.boundary).zip(V._velocity.get(x.state).pos).map {
-          case ((p, b), v) if b.contains(N.toDouble(p)) => v
-          case ((p, b), v) if b.doesNotContain(N.toDouble(p)) =>
-            N.fromAlgebraic(N.toDouble(v) * -1.0)
+          case ((p, b), v) =>
+            if (b.contains(N.toDouble(p))) v else N.fromAlgebraic(N.toDouble(v) * -1.0)
         }
         Lenses._vector[A].set(c)(p)
       })(x.state),
@@ -84,9 +79,8 @@ object BCHM {
   def initToMidPoint[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
       val c: NonEmptyList[A] = p.pos.zip(p.boundary).map {
-        case (p, b) if b.contains(N.toDouble(p)) => p
-        case (p, b) if b.doesNotContain(N.toDouble(p)) =>
-          N.fromAlgebraic((b.upperValue + b.lowerValue) / 2)
+        case (p, b) =>
+          if (b.contains(N.toDouble(p))) p else N.fromAlgebraic((b.upperValue + b.lowerValue) / 2)
       }
       Lenses._vector[A].set(c)(p)
     })(x)
