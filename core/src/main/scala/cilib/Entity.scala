@@ -21,79 +21,87 @@ object Entity {
     }
 }
 
-object BCHM {    
- def clamp[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A]) =
+object BCHM {
+  def clamp[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
-      val c: NonEmptyList[A] = p.pos zip p.boundary map {
+      val c: NonEmptyList[A] = p.pos.zip(p.boundary).map {
         case t if N.toDouble(t._1) < t._2.lowerValue => N.fromDouble(t._2.lowerValue)
         case t if N.toDouble(t._1) > t._2.upperValue => N.fromDouble(t._2.upperValue)
+        case t if t._2.contains(N.toDouble(t._1))    => t._1
+      }
+      Lenses._vector[A].set(c)(p)
+    })(x)
+
+  def initToPB[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A],
+                                                    M: HasMemory[S, A]) =
+    Lenses._position.modify((p: Position[A]) => {
+      val c: NonEmptyList[A] = p.pos.zip(p.boundary).zip(M._memory.get(x.state).pos).map {
+        case ((p, b), _) if b.contains(N.toDouble(p))       => p
+        case ((p, b), m) if b.doesNotContain(N.toDouble(p)) => m
+      }
+      Lenses._vector[A].set(c)(p)
+    })(x)
+
+  def initToGB[S, A: scalaz.Equal](x: Entity[S, A], gBest: Position[A])(
+      implicit N: spire.math.Numeric[A]) =
+    Lenses._position.modify((p: Position[A]) => {
+      val c: NonEmptyList[A] = p.pos.zip(p.boundary).zip(gBest.pos).map {
+        case ((p, b), _) if b.contains(N.toDouble(p))       => p
+        case ((p, b), g) if b.doesNotContain(N.toDouble(p)) => g
+      }
+      Lenses._vector[A].set(c)(p)
+    })(x)
+
+  def zeroedVelocity[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A],
+                                                          V: HasVelocity[S, A]) =
+    Entity(
+      V._velocity.modify((p: Position[A]) => {
+        val c: NonEmptyList[A] = p.pos.zip(p.boundary).zip(V._velocity.get(x.state).pos).map {
+          case ((p, b), v) if b.contains(N.toDouble(p))       => v
+          case ((p, b), _) if b.doesNotContain(N.toDouble(p)) => N.fromAlgebraic(0.0)
+        }
+        Lenses._vector[A].set(c)(p)
+      })(x.state),
+      x.pos
+    )
+
+  def reverseVelocity[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A],
+                                                           V: HasVelocity[S, A]) =
+    Entity(
+      V._velocity.modify((p: Position[A]) => {
+        val c: NonEmptyList[A] = p.pos.zip(p.boundary).zip(V._velocity.get(x.state).pos).map {
+          case ((p, b), v) if b.contains(N.toDouble(p)) => v
+          case ((p, b), v) if b.doesNotContain(N.toDouble(p)) =>
+            N.fromAlgebraic(N.toDouble(v) * -1.0)
+        }
+        Lenses._vector[A].set(c)(p)
+      })(x.state),
+      x.pos
+    )
+
+  def initToMidPoint[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A]) =
+    Lenses._position.modify((p: Position[A]) => {
+      val c: NonEmptyList[A] = p.pos.zip(p.boundary).map {
         case t if t._2.contains(N.toDouble(t._1)) => t._1
-      }
-      Lenses._vector[A].set(c)(p)
-    })(x)
-    
- def initToPB[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A], M: HasMemory[S, A]) =
-    Lenses._position.modify((p: Position[A]) => {
-        val c: NonEmptyList[A] = p.pos zip p.boundary zip M._memory.get(x.state).pos map {
-            case ((p, b), _) if b.contains(N.toDouble(p)) => p
-            case ((p, b), m) if b.doesNotContain(N.toDouble(p)) => m
-        }
-        Lenses._vector[A].set(c)(p)
-    })(x)
-
-  def initToGB[S,A:scalaz.Equal](x: Entity[S,A], gBest: Position[A])(implicit N: spire.math.Numeric[A]) = 
-    Lenses._position.modify((p: Position[A]) => {
-      val c: NonEmptyList[A] = p.pos zip p.boundary zip gBest.pos map {
-          case ((p, b), _) if b.contains(N.toDouble(p)) => p
-          case ((p, b), g) if b.doesNotContain(N.toDouble(p)) => g
+        case t if t._2.doesNotContain(N.toDouble(t._1)) =>
+          N.fromAlgebraic((t._2.upperValue + t._2.lowerValue) / 2)
       }
       Lenses._vector[A].set(c)(p)
     })(x)
 
-  def zeroedVelocity[S,A:scalaz.Equal](x: Entity[S,A])(
-    implicit N: spire.math.Numeric[A], V: HasVelocity[S, A]) =
-    Entity(V._velocity.modify((p: Position[A]) => {
-        val c: NonEmptyList[A] = p.pos zip p.boundary zip V._velocity.get(x.state).pos map {
-            case ((p, b), v)  if b.contains(N.toDouble(p)) => v
-            case ((p, b), _)  if b.doesNotContain(N.toDouble(p)) => N.fromAlgebraic(0.0)
-        }
-        Lenses._vector[A].set(c)(p)
-    })(x.state), x.pos)
-
-
-  def reverseVelocity[S,A:scalaz.Equal](x: Entity[S,A])(
-    implicit N: spire.math.Numeric[A], V: HasVelocity[S, A]) =
-    Entity(V._velocity.modify((p: Position[A]) => {
-        val c: NonEmptyList[A] = p.pos zip p.boundary zip V._velocity.get(x.state).pos map {
-            case ((p, b), v) if b.contains(N.toDouble(p)) => v
-            case ((p, b), v) if b.doesNotContain(N.toDouble(p)) => N.fromAlgebraic(N.toDouble(v) * -1.0)
-        }
-        Lenses._vector[A].set(c)(p)
-    })(x.state), x.pos)
-
-
-  def initToMidPoint[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A]) =
+  def wrap[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
-      val c: NonEmptyList[A] = p.pos zip p.boundary map {
-          case t if t._2.contains(N.toDouble(t._1)) => t._1
-          case t if t._2.doesNotContain(N.toDouble(t._1)) => N.fromAlgebraic((t._2.upperValue + t._2.lowerValue) / 2)
-      }
-      Lenses._vector[A].set(c)(p)
-    })(x)
-
-  def wrap[S,A:scalaz.Equal](x: Entity[S,A])(implicit N: spire.math.Numeric[A]) =
-    Lenses._position.modify((p: Position[A]) => {
-      val c: NonEmptyList[A] = p.pos zip p.boundary map {
+      val c: NonEmptyList[A] = p.pos.zip(p.boundary).map {
         case t if N.toDouble(t._1) < t._2.lowerValue => N.fromAlgebraic(t._2.upperValue)
         case t if N.toDouble(t._1) > t._2.upperValue => N.fromAlgebraic(t._2.lowerValue)
-        case t if t._2.contains(N.toDouble(t._1)) => t._1
+        case t if t._2.contains(N.toDouble(t._1))    => t._1
       }
       Lenses._vector[A].set(c)(p)
     })(x)
 
-  def absorb[S,A:scalaz.Equal](x: Entity[S,A])(
-    implicit N: spire.math.Numeric[A], V: HasVelocity[S, A]) = clamp(zeroedVelocity(x))
+  def absorb[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A],
+                                                  V: HasVelocity[S, A]) = clamp(zeroedVelocity(x))
 
-  def reflect[S,A:scalaz.Equal](x: Entity[S,A])(
-    implicit N: spire.math.Numeric[A], V: HasVelocity[S, A]) = clamp(reverseVelocity(x))
-} 
+  def reflect[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A],
+                                                   V: HasVelocity[S, A]) = clamp(reverseVelocity(x))
+}
