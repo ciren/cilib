@@ -25,9 +25,11 @@ object BCHM {
   def clamp[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
       val c: NonEmptyList[A] = p.pos.zip(p.boundary).map {
-        case t if N.toDouble(t._1) < t._2.lowerValue => N.fromDouble(t._2.lowerValue)
-        case t if N.toDouble(t._1) > t._2.upperValue => N.fromDouble(t._2.upperValue)
-        case t if t._2.contains(N.toDouble(t._1))    => t._1
+        case (p, b) => {
+          if (N.toDouble(p) < b.lowerValue) N.fromDouble(b.lowerValue)
+          else if (N.toDouble(p) > b.upperValue) N.fromDouble(b.upperValue)
+          else p
+        }
       }
       Lenses._vector[A].set(c)(p)
     })(x)
@@ -82,9 +84,9 @@ object BCHM {
   def initToMidPoint[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
       val c: NonEmptyList[A] = p.pos.zip(p.boundary).map {
-        case t if t._2.contains(N.toDouble(t._1)) => t._1
-        case t if t._2.doesNotContain(N.toDouble(t._1)) =>
-          N.fromAlgebraic((t._2.upperValue + t._2.lowerValue) / 2)
+        case (p, b) if b.contains(N.toDouble(p)) => p
+        case (p, b) if b.doesNotContain(N.toDouble(p)) =>
+          N.fromAlgebraic((b.upperValue + b.lowerValue) / 2)
       }
       Lenses._vector[A].set(c)(p)
     })(x)
@@ -92,9 +94,11 @@ object BCHM {
   def wrap[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A]) =
     Lenses._position.modify((p: Position[A]) => {
       val c: NonEmptyList[A] = p.pos.zip(p.boundary).map {
-        case t if N.toDouble(t._1) < t._2.lowerValue => N.fromAlgebraic(t._2.upperValue)
-        case t if N.toDouble(t._1) > t._2.upperValue => N.fromAlgebraic(t._2.lowerValue)
-        case t if t._2.contains(N.toDouble(t._1))    => t._1
+        case (p, b) => {
+          if (N.toDouble(p) < b.lowerValue) N.fromDouble(b.upperValue)
+          else if (N.toDouble(p) > b.upperValue) N.fromDouble(b.lowerValue)
+          else p
+        }
       }
       Lenses._vector[A].set(c)(p)
     })(x)
