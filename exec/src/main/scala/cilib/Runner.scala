@@ -11,7 +11,6 @@ import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.collection._
 
-trait Output
 final case class Algorithm[A](name: String Refined NonEmpty, value: A)
 final case class Problem[A](name: String Refined NonEmpty,
                             env: Env,
@@ -69,19 +68,35 @@ object Runner {
   /**
     *  Interpreter for algorithm execution
     */
-  def foldStep[F[_], A, B](initalConfig: Environment[A],
+  def foldStep[F[_], A, B](initialConfig: Environment[A],
                            rng: RNG,
                            collection: RVar[F[B]],
-                           alg: Algorithm[Kleisli[Step[A, ?], F[B], F[B]]], // Simplify?
+                           alg: Process[Task, Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]],
                            env: Process[Task, Problem[A]],
                            onChange: F[B] => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
 
-    def go(iteration: Int, r: RNG, current: F[B], config: Environment[A])
-      : Tee[Problem[A], Algorithm[Kleisli[Step[A, ?], F[B], F[B]]], Progress[F[B]]] =
+    // Convert to a StepS with Unit as the state parameter
+    val alg2: Process[Task, Algorithm[Kleisli[StepS[A, Unit, ?], F[B], F[B]]]] =
+      alg.map(x => x.copy(value = Kleisli((a: F[B]) => StepS.pointS(x.value.run(a)))))
+
+    foldStepS(initialConfig, (), rng, collection, alg2, env, onChange)
+      .map(x => x.copy(value = x.value._2))
+  }
+
+  def foldStepS[F[_], S, A, B](initialConfig: Environment[A],
+                               initialState: S,
+                               rng: RNG,
+                               collection: RVar[F[B]],
+                               alg: Process[Task, Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]],
+                               env: Process[Task, Problem[A]],
+                               onChange: F[B] => RVar[F[B]]): Process[Task, Progress[(S, F[B])]] = {
+
+    def go(iteration: Int, r: RNG, current: F[B], config: Environment[A], state: S)
+      : Tee[Problem[A], Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]], Progress[(S, F[B])]] =
       Process.awaitL[Problem[A]].awaitOption.flatMap {
         case None => Process.halt
         case Some(Problem(problem, e, eval)) =>
-          Process.awaitR[Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]].awaitOption.flatMap {
+          Process.awaitR[Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]].awaitOption.flatMap {
             case None => Process.halt
             case Some(algorithm) =>
               val newConfig: Environment[A] =
@@ -92,33 +107,40 @@ object Runner {
 
               val (r2, next) =
                 e match {
-                  case Unchanged => algorithm.value.run(current).run(newConfig).run(r)
+                  case Unchanged => algorithm.value.run(current).run(state).run(newConfig).run(r)
                   case Change =>
                     val (r3, updated) = onChange(current).run(r)
-                    algorithm.value.run(updated).run(newConfig).run(r3)
+                    algorithm.value.run(updated).run(state).run(newConfig).run(r3)
                 }
 
               next match {
                 case -\/(error) => Process.fail(error)
-                case \/-(value) =>
+                case \/-((newState, value)) =>
                   val progress =
-                    Progress(algorithm.name, problem, r2.seed, iteration, e, value)
-                  Process.emit(progress) ++ go(iteration + 1, r2, value, newConfig)
+                    Progress(algorithm.name, problem, r2.seed, iteration, e, (newState, value))
+                  Process.emit(progress) ++ go(iteration + 1, r2, value, newConfig, newState)
               }
           }
       }
 
     val (rng2, current) = collection.run(rng) // the collection of entities
 
-    env.tee(Process.constant(alg))(go(1, rng2, current, initalConfig))
+    env.tee(alg)(go(1, rng2, current, initialConfig, initialState))
   }
 
   import com.sksamuel.avro4s._
 
-  def measure[F[_], A, B <: Output](f: F[A] => B)(
+  def measure[F[_], A, S, B](f: F[A] => B)(
       implicit B: SchemaFor[B]): Process1[Progress[F[A]], Measurement[B]] =
     process1.lift {
       case Progress(algorithm, problem, seed, iteration, env, value) =>
         Measurement(algorithm, problem, iteration, env, seed, f(value))
+    }
+
+  def measureWithState[F[_], A, S, B](f: (S, F[A]) => B)(
+      implicit B: SchemaFor[B]): Process1[Progress[(S, F[A])], Measurement[B]] =
+    process1.lift {
+      case Progress(algorithm, problem, seed, iteration, env, (state, value)) =>
+        Measurement(algorithm, problem, iteration, env, seed, f(state, value))
     }
 }

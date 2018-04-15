@@ -37,7 +37,7 @@ object GBestPSO extends SafeApp {
     val t = Runner.foldStep(env,
                             RNG.fromTime,
                             swarm,
-                            Algorithm("gbestPSO", iter),
+                            scalaz.stream.Process.constant(Algorithm("gbestPSO", iter)),
                             problemStream,
                             (x: NonEmptyList[Particle[Mem[Double], Double]]) => RVar.pure(x))
 
