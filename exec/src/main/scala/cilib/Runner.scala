@@ -32,6 +32,10 @@ object Runner {
           alg.run(a)
       })
 
+  def constantAlgorithm[M[_]: Monad, F[_], A](name: String Refined NonEmpty,
+                                              a: Kleisli[M, F[A], F[A]]) =
+    Process.constant(Algorithm(name, a))
+
   def staticProblem[S, A](
       name: String Refined NonEmpty,
       eval: RVar[NonEmptyList[A] => Objective[A]],
@@ -76,10 +80,10 @@ object Runner {
                            onChange: F[B] => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
 
     // Convert to a StepS with Unit as the state parameter
-    val alg2: Process[Task, Algorithm[Kleisli[StepS[A, Unit, ?], F[B], F[B]]]] =
+    val a: Process[Task, Algorithm[Kleisli[StepS[A, Unit, ?], F[B], F[B]]]] =
       alg.map(x => x.copy(value = Kleisli((a: F[B]) => StepS.pointS(x.value.run(a)))))
 
-    foldStepS(initialConfig, (), rng, collection, alg2, env, onChange)
+    foldStepS(initialConfig, (), rng, collection, a, env, onChange)
       .map(x => x.copy(value = x.value._2))
   }
 
