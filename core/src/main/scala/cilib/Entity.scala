@@ -1,7 +1,6 @@
 package cilib
 
 import scalaz._
-//import Scalaz._
 
 final case class Entity[S, A](state: S, pos: Position[A])
 
@@ -24,10 +23,7 @@ object Entity {
 
 object BCHM {
 
-  def boundaryConstraint[A: scalaz.Equal](f: Position[A] => NonEmptyList[A])(x: Position[A]): Position[A] = {
-    Lenses._vector[A].set(f(x))(x)
-  }
-
+  // clamp and wrap are the same function - the logic operator is just flipped
   def clamp[A: scalaz.Equal](x: Position[A])(implicit N: spire.math.Numeric[A]): NonEmptyList[A] =
     x.pos.zip(x.boundary).map {
       case (p, b) =>
@@ -45,28 +41,24 @@ object BCHM {
       }
     }
 
-
-  def initTo[A: scalaz.Equal](target: NonEmptyList[A])(x: Position[A])(implicit N: spire.math.Numeric[A]) =
-    x.pos.zip(x.boundary).zip(target).map {
+  def intoInterval[A: scalaz.Equal](default: NonEmptyList[A])(x: Position[A])(implicit N: spire.math.Numeric[A]) =
+    x.pos.zip(x.boundary).zip(default).map {
       case ((p, b), m) => if (b.contains(N.toDouble(p))) p else m
     }
 
   def initToMidpoint[A: scalaz.Equal](x: Position[A])(implicit N: spire.math.Numeric[A]) =
-    initTo[A](x.boundary.map(b => N.fromAlgebraic((b.upperValue + b.lowerValue) / 2)))(x)
+    intoInterval[A](x.boundary.map(b => N.fromAlgebraic((b.upperValue + b.lowerValue) / 2)))(x)
 
+  def reverseVelocity[A: scalaz.Equal](target: NonEmptyList[A])(p: Position[A])(implicit N: spire.math.Numeric[A]) =
+    intoInterval(target.map(v => N.fromAlgebraic(N.toDouble(v) * -1.0)))(p)
 
-  def reverseVelocity[A: scalaz.Equal](p: Position[A])(target: NonEmptyList[A])(implicit N: spire.math.Numeric[A]) =
-    initTo(target.map(v => N.fromAlgebraic(N.toDouble(v) * -1.0)))(p)
+  def absorb[A: scalaz.Equal:spire.math.Numeric](target: NonEmptyList[A])(x: Position[A]) = {
+    val a = intoInterval(target)(x)
+    clamp(Lenses._vector[A].set(a)(x))
+  }
 
-  def zeroedVelocity[A: scalaz.Equal](target: NonEmptyList[A])(p: Position[A])(implicit N: spire.math.Numeric[A]) =
-    initTo(target)(p)
-    // p.pos.zip(p.boundary).zip(target).map {
-    //   case ((p, b), v) => if (b.contains(N.toDouble(p))) p else v
-    // }
-
-  def absorb[A: scalaz.Equal](target: NonEmptyList[A])(x: Position[A])(implicit N: spire.math.Numeric[A]) =
-    clamp(zeroedVelocity(target)(x))
-
-  def reflect[S, A: scalaz.Equal](x: Entity[S, A])(implicit N: spire.math.Numeric[A],
-                                                   V: HasVelocity[S, A]) = clamp(reverseVelocity(x))
+  def reflect[A: scalaz.Equal: spire.math.Numeric](x: Position[A], velocity: Position[A]) = {
+    val a = reverseVelocity(velocity.pos)(x)
+    clamp(Lenses._vector[A].set(a)(x))
+  }
 }
