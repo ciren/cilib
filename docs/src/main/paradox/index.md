@@ -4,6 +4,7 @@
 
 * [Design](design/index.md)
 * [Usage](usage/index.md)
+* [Blog](blog/index.md)
 
 @@@
 
@@ -33,7 +34,3 @@ constructed.
   a look in the @github[example](/example/src/main/scala/cilib/example)
   directory
 * If you run into trouble, please open an issue
-
-
-CIlib is maintained by several individuals and supported by CIRG @ UP
-(Computational Intelligence Research Group @ University of Pretoria).

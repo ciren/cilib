@@ -246,6 +246,7 @@ lazy val docSettings = Seq(
   siteStageDirectory := target.value / "site-stage",
   sourceDirectory in paradox in Paradox := siteStageDirectory.value,
   sourceDirectory in paradox := siteStageDirectory.value,
+  sourceDirectory in Paradox in paradoxTheme := sourceDirectory.value / "main" / "paradox" / "_template", // https://github.com/lightbend/paradox/issues/139
   paradoxMaterialTheme in Paradox ~= {
     _.withFavicon("img/favicon.png")
       .withLogo("img/cilib_logo_transparent.png")
