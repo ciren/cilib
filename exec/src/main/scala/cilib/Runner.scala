@@ -24,6 +24,8 @@ final case class Progress[A] private (algorithm: String,
 
 object Runner {
 
+  trait Iteration
+
   def repeat[M[_]: Monad, F[_], A](n: Int, alg: Kleisli[M, F[A], F[A]], collection: RVar[F[A]])(
       implicit M: MonadStep[M]): M[F[A]] =
     M.liftR(collection)
@@ -32,9 +34,25 @@ object Runner {
           alg.run(a)
       })
 
-  def constantAlgorithm[M[_]: Monad, F[_], A](name: String Refined NonEmpty,
-                                              a: Kleisli[M, F[A], F[A]]) =
+  def staticAlgorithm[M[_]: Monad, F[_], A](name: String Refined NonEmpty,
+                                            a: Kleisli[M, F[A], F[A]]) =
     Process.constant(Algorithm(name, a))
+
+  def algorithm[M[_]: Monad, F[_]: Foldable1, A, B](
+      name: String Refined NonEmpty,
+      config: A,
+      f: A => Kleisli[M, F[B], F[B]],
+      updater: (A, Int @@ Iteration) => A): Process[Nothing, Algorithm[Kleisli[M, F[B], F[B]]]] = {
+
+    def go(current: A, iteration: Int): Process[Nothing, Algorithm[Kleisli[M, F[B], F[B]]]] = {
+      val next = f(current)
+
+      Process.emit(Algorithm(name, next)) ++
+        go(updater(current, Tag[Int, Iteration](iteration)), iteration + 1)
+    }
+
+    go(config, 1)
+  }
 
   def staticProblem[S, A](
       name: String Refined NonEmpty,
