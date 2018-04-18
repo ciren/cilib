@@ -30,6 +30,3 @@ intelligence algorithms and uses several typeclasses such as `Functor` and
 * If you run into trouble, please open an issue
 * Come join in the discussion in `#cilib` on `FreeNode`, or join
   the [Gitter channel](https://gitter.im/cirg-up/cilib)
-
-CIlib is maintained by several individuals and supported by CIRG @ UP
-(Computational Intelligence Research Group @ University of Pretoria).
