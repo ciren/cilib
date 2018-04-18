@@ -12,6 +12,7 @@ val avro4sVersion = "1.8.3"
 val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
 val siteStageDirectory = SettingKey[File]("site-stage-directory")
 val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
+val generateBlog = TaskKey[Unit]("generate-blog-entries")
 
 lazy val commonSettings = Seq(
   organization := "net.cilib",
@@ -264,8 +265,19 @@ lazy val docSettings = Seq(
                      target = siteStageDirectory.value,
                      overwrite = false,
                      preserveLastModified = true)
+    IO.copyDirectory(source = target.value / "blog",
+                     target = siteStageDirectory.value / "blog",
+                     overwrite = false,
+                     preserveLastModified = true)
     IO.write(file = siteStageDirectory.value / "CNAME", content = "cilib.net")
   },
+  generateBlog := {
+    BlogPostProcessing.generate(
+      streams.value.cacheDirectory / "posts",
+      sourceDirectory.value / "main" / "posts",
+      target.value / "blog")
+  },
+  tutQuick := tutQuick.dependsOn(generateBlog).value,
   copySiteToStage := copySiteToStage.dependsOn(tutQuick).value,
   makeSite := makeSite.dependsOn(copySiteToStage).value
 )
