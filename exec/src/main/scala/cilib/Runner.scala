@@ -34,8 +34,8 @@ object Runner {
           alg.run(a)
       })
 
-  def constantAlgorithm[M[_]: Monad, F[_], A](name: String Refined NonEmpty,
-                                              a: Kleisli[M, F[A], F[A]]) =
+  def staticAlgorithm[M[_]: Monad, F[_], A](name: String Refined NonEmpty,
+                                            a: Kleisli[M, F[A], F[A]]) =
     Process.constant(Algorithm(name, a))
 
   def algorithm[M[_]: Monad, F[_]: Foldable1, A, B](
