@@ -40,17 +40,18 @@ object Runner {
 
   def algorithm[M[_]: Monad, F[_]: Foldable1, A, B](
       name: String Refined NonEmpty,
-      a: A,
+      config: A,
       f: A => Kleisli[M, F[B], F[B]],
       updater: (A, Int @@ Iteration) => A): Process[Nothing, Algorithm[Kleisli[M, F[B], F[B]]]] = {
 
     def go(current: A, iteration: Int): Process[Nothing, Algorithm[Kleisli[M, F[B], F[B]]]] = {
       val next = f(current)
 
-      Process.emit(Algorithm(name, next)) ++ go(updater(current, Tag[Int, Iteration](iteration)), iteration + 1)
+      Process.emit(Algorithm(name, next)) ++
+        go(updater(current, Tag[Int, Iteration](iteration)), iteration + 1)
     }
 
-    go(a, 1)
+    go(config, 1)
   }
 
   def staticProblem[S, A](
