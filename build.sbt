@@ -9,6 +9,8 @@ val monocleVersion    = "1.3.2"
 val scalacheckVersion = "1.12.6"
 val avro4sVersion = "1.8.3"
 
+val previousCIlibVersion = "2.0.1" // Can we get this from the git history?
+
 lazy val buildSettings = Seq(
   organization := "net.cilib"
 )
@@ -83,11 +85,13 @@ lazy val commonSettings = Seq(
     |import scalaz._
     |import Scalaz._
     |import cilib._
-    |""".stripMargin
+    |""".stripMargin,
+  mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousCIlibVersion)
 )
 
 lazy val noPublishSettings = Seq(
-  skip in publish := true
+  skip in publish := true,
+  mimaPreviousArtifacts := Set()
 )
 
 lazy val publishSettings = Seq(
