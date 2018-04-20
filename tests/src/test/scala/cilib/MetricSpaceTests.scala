@@ -19,7 +19,7 @@ object MetricSpaceTest extends Spec("MetricSpace") {
     Arbitrary.arbitrary[Int => Int].map(MetricSpace.pure[Int, Int => Int])
   }
 
-  implicit val doubleGen = Gen.choose(-100000000.0, 100000000.0)
+  implicit val doubleGen = Gen.choose(-1000000.0, 1000000.0)
 
   val listTuple2 = Gen.sized { size =>
     for {

@@ -10,6 +10,7 @@ import org.apache.parquet.avro._
 import org.apache.avro.generic.GenericRecord
 
 package object io {
+  import cilib.exec._
   import EncodeCsv._
 
   def writeCsvWithHeader[F[_], A](file: java.io.File, data: F[A])(implicit F: Foldable[F],
@@ -54,24 +55,24 @@ package object io {
     }
   }
 
-  def csvSink[A: EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[A]): Sink[Task, A] = {
+  def csvSink[A: EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[Measurement[A]]): Sink[Task, Measurement[A]] = {
     val fileWriter = new java.io.PrintWriter(file)
 
     sink
-      .lift { (input: A) =>
+      .lift { (input: Measurement[A]) =>
         val encoded = A.encode(input)
         Task.delay(fileWriter.println(encoded.mkString(",")))
       }
       .onComplete(Process.eval_(Task.delay(fileWriter.close())))
   }
 
-  def csvHeaderSink[A: EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[A],
-                                                      N: ColumnNames[A]): Sink[Task, A] = {
+  def csvHeaderSink[A: EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[Measurement[A]],
+                                                      N: ColumnNames[Measurement[A]]): Sink[Task, Measurement[A]] = {
     val fileWriter = new java.io.PrintWriter(file)
     var headerWritten = false
 
     sink
-      .lift { (input: A) =>
+      .lift { (input: Measurement[A]) =>
         if (!headerWritten) {
           fileWriter.println(N.names(input).mkString(","))
           headerWritten = true
@@ -83,7 +84,7 @@ package object io {
       .onComplete(Process.eval_(Task.delay(fileWriter.close())))
   }
 
-  def writeParquet[F[_]: Foldable, A: SchemaFor: ToRecord](file: java.io.File, data: F[A])(
+  def writeParquet[F[_]: Foldable, A: SchemaFor](file: java.io.File, data: F[A])(
       implicit T: ToRecord[A]): Unit = {
     val testConf = new Configuration
     val schema = AvroSchema[A]
@@ -101,15 +102,11 @@ package object io {
     writer.close()
   }
 
-  def parquetSink[A: SchemaFor: ToRecord](file: java.io.File)(
-      implicit toRecord: ToRecord[A]): Sink[Task, A] = {
+  def parquetSink[A:ToRecord:ToSchema](file: java.io.File)(
+      implicit toRecord: ToRecord[Measurement[A]]): Sink[Task, Measurement[A]] = {
     val testConf = new Configuration
-    val schema = AvroSchema[A]
-
-    println("schema: " + schema)
-
+    val schema = AvroSchema[Measurement[A]]
     val path = new Path(file.getAbsolutePath)
-
     val writer = AvroParquetWriter
       .builder[GenericRecord](path)
       .withSchema(schema)
@@ -119,7 +116,7 @@ package object io {
     val complete = Process.eval_(Task.delay(writer.close))
 
     sink
-      .lift { (input: A) =>
+      .lift { (input: Measurement[A]) =>
         Task.delay(writer.write(toRecord.apply(input)))
       }
       .onComplete(complete)
