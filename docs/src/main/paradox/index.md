@@ -2,9 +2,9 @@
 
 @@@ index
 
+* [Blog](blog/index.md)
 * [Design](design/index.md)
 * [Usage](usage/index.md)
-* [Blog](blog/index.md)
 
 @@@
 

@@ -253,9 +253,6 @@ lazy val docSettings = Seq(
       .withLogo("img/cilib_logo_transparent.png")
       .withRepository(uri("https://github.com/cirg-up/cilib"))
   },
-  paradoxProperties in Compile ++= Map(
-    "github.base_url" -> s"https://github.com/cirg-up/cilib/tree/series/2.0.x/${version.value}"
-  ),
   copySiteToStage := {
     IO.copyDirectory(source = sourceDirectory.value / "main" / "paradox",
                      target = siteStageDirectory.value,
