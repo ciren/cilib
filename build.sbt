@@ -9,13 +9,12 @@ val monocleVersion    = "1.3.2"
 val scalacheckVersion = "1.12.6"
 val avro4sVersion = "1.8.3"
 
-val previousCIlibVersion = "2.0.1" // Can we get this from the git history?
-
-lazy val buildSettings = Seq(
-  organization := "net.cilib"
-)
+val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
+val siteStageDirectory = SettingKey[File]("site-stage-directory")
+val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
 
 lazy val commonSettings = Seq(
+  organization := "net.cilib",
   autoAPIMappings := true,
   scalacOptions ++= Seq(
     "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
@@ -77,7 +76,7 @@ lazy val commonSettings = Seq(
     "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
-    compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3" cross CrossVersion.binary)
+    compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.6" cross CrossVersion.binary)
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "scm:git:git@github.com:cirg-up/cilib.git")),
@@ -86,7 +85,24 @@ lazy val commonSettings = Seq(
     |import Scalaz._
     |import cilib._
     |""".stripMargin,
-  mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousCIlibVersion)
+  // MiMa related
+  previousArtifactVersion := { // Can this be done nicer/safer?
+    import org.eclipse.jgit._
+    import org.eclipse.jgit.api._
+    import org.eclipse.jgit.lib.Constants
+
+    val git = Git.open(new java.io.File("."))
+    val tags = git.tagList.call()
+    val current = git.getRepository.resolve(Constants.HEAD)
+
+    val lastTag = tags.get(tags.size - 1)
+    val name =
+      if (lastTag.getObjectId.getName == current.getName) tags.get(tags.size - 2).getName
+      else lastTag.getName
+
+    name.replace("refs/tags/v", "")
+  },
+  mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)
 )
 
 lazy val noPublishSettings = Seq(
@@ -95,11 +111,11 @@ lazy val noPublishSettings = Seq(
 )
 
 lazy val publishSettings = Seq(
-  organizationHomepage := Some(url("http://cirg.cs.up.ac.za")),
-  homepage := Some(url("http://www.cilib.net")),
-  licenses := Seq("BSD-style" -> url("http://opensource.org/licenses/BSD-2-Clause")),//Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
+  organizationHomepage := Some(url("http://github.com/cirg-up")),
+  homepage := Some(url("http://cilib.net")),
+  licenses := Seq("Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")),
   autoAPIMappings := true,
-  apiURL := Some(url("https://www.cilib.net/api/")),
+  apiURL := Some(url("https://cilib.net/api/")),
   publishMavenStyle := true,
   //publishArtifact in packageDoc := false,
   publishArtifact in Test := false,
@@ -133,8 +149,7 @@ lazy val publishSettings = Seq(
 )
 
 lazy val cilibSettings =
-  buildSettings ++
-    commonSettings ++
+  commonSettings ++
     publishSettings ++
     credentialSettings
 
@@ -199,9 +214,6 @@ lazy val core = project
         Wart.Var
       )
     ))
-
-val siteStageDirectory = SettingKey[File]("site-stage-directory")
-val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
 
 lazy val docs = project
   .in(file("docs"))
