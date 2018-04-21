@@ -4,13 +4,13 @@ sudo: false
 
 matrix:
   include:
-  - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck"
+  - env: SBT_VERSION="1.1.2" COMMAND="clean test scalafmtCheck"
     jdk: oraclejdk8
     scala: 2.11.11
-  - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck"
+  - env: SBT_VERSION="1.1.2" COMMAND="clean test scalafmtCheck"
     jdk: oraclejdk8
     scala: 2.12.4
-  - env: SBT_VERSION="1.0.4" COMMAND="clean test scalafmtCheck docs/makeSite"
+  - env: SBT_VERSION="1.1.2" COMMAND="clean test scalafmtCheck docs/makeSite"
     jdk: oraclejdk9
     scala: 2.12.4
 

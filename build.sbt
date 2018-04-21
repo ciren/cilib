@@ -2,9 +2,9 @@ import sbt._
 import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
-val scalazVersion     = "7.2.7"
+val scalazVersion     = "7.2.21"
 val scalazStreamVersion = "0.8.6a"
-val spireVersion      = "0.13.0"
+val spireVersion      = "0.14.1"
 val monocleVersion    = "1.3.2"
 val scalacheckVersion = "1.12.6"
 val avro4sVersion = "1.8.3"
@@ -176,7 +176,7 @@ lazy val core = project
       libraryDependencies ++= Seq(
         "org.scalaz" %% "scalaz-core" % scalazVersion,
         "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
-        "org.spire-math" %% "spire" % spireVersion,
+        "org.typelevel" %% "spire" % spireVersion,
         "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
         "com.chuusai" %% "shapeless" % "2.3.2",
         "eu.timepit" %% "refined" % "0.8.5"
