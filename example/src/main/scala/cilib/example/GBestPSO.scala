@@ -41,10 +41,6 @@ object GBestPSO extends SafeApp {
                             problemStream,
                             (x: NonEmptyList[Particle[Mem[Double], Double]]) => RVar.pure(x))
 
-    putStrLn(
-      t.take(1000)
-        .runLast
-        .unsafePerformSync
-        .toString)
+    putStrLn(t.take(1000).runLast.unsafePerformSync.toString)
   }
 }
