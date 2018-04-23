@@ -1,12 +1,14 @@
 package cilib
 package io
 
-@annotation.implicitNotFound(
-  """Not all members of type ${A} have instances of EncodeCsv defined or in scope.
-It is recommended to examine the fields of ${A} and then to define
-an instance of EncodeCsv for the custom parameter type. The predefined
-known instances are for the following types: Boolean, Byte, Short,
-Int, Long, FLoat, Double, String, and Foldable[_] types such as List""")
+@annotation.implicitNotFound("""
+EncodeCsv derivation error for type: ${A}
+Not all members of the type have instances of EncodeCsv defined, or in
+scope. It is recommended to examine the fields of the type and then to
+define an instance of EncodeCsv for the any custom parameter type. The
+pre-defined, known, instances exist for the following types:
+Boolean, Byte, Short, Int, Long, FLoat, Double, String, Env, and
+Foldable[_] types such as List""")
 trait EncodeCsv[A] {
   def encode(a: A): List[String]
 }
@@ -30,6 +32,12 @@ object EncodeCsv {
 
   implicit def foldableEncodeCsv[F[_], A](implicit F: Foldable[F], A: EncodeCsv[A]) =
     EncodeCsv[F[A]](l => List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
+
+  implicit val envEncodeCsv =
+    EncodeCsv[cilib.exec.Env](_ match {
+      case cilib.exec.Unchanged => List("Unchanged")
+      case cilib.exec.Change => List("Changed")
+    })
 
   implicit def genericEncodeCsv[A, R](
       implicit gen: Generic.Aux[A, R],

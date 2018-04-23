@@ -30,7 +30,7 @@ object GBestPSO extends SafeApp {
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
   val iter = Iteration.sync(gbestPSO)
 
-  val problemStream = Runner.staticProblem("spherical", env.eval, RNG.init(123L)).take(1000)
+  val problemStream = Runner.staticProblem("spherical", env.eval, RNG.init(123L))
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] = {
@@ -41,6 +41,6 @@ object GBestPSO extends SafeApp {
                             problemStream,
                             (x: NonEmptyList[Particle[Mem[Double], Double]]) => RVar.pure(x))
 
-    putStrLn(t.runLast.unsafePerformSync.toString)
+    putStrLn(t.take(1000).runLast.unsafePerformSync.toString)
   }
 }

@@ -2,7 +2,7 @@ import sbt._
 import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
-val scalazVersion     = "7.2.7"
+val scalazVersion     = "7.2.21"
 val scalazStreamVersion = "0.8.6a"
 val spireVersion      = "0.13.0"
 val monocleVersion    = "1.3.2"
