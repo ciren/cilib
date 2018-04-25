@@ -2,7 +2,6 @@
 
 @@@ index
 
-* [Blog](blog/index.md)
 * [Design](design/index.md)
 * [Usage](usage/index.md)
 
