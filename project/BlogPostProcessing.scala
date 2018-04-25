@@ -66,12 +66,24 @@ object BlogPostProcessing {
     val items = articles.reverse.take(10).flatMap(x =>
       postUrlPath(x).map(y => {
         val name = y.getName.substring(0, y.getName.lastIndexOf('.')).replace("-", " ")
-        val path = y.toString.substring(0, y.toString.lastIndexOf('.'))
-        s"   * [$name]($path.html)"
+        s"   * [$name]($y)"
       }).toList
-    )
+    ).mkString("\n")
 
-    IO.write(index, items.mkString("# Blog\n\n","\n",""))
+    // TODO: Should this use a string template?
+    val template = s"""
+# Blog
+
+@@@ index
+
+$items
+
+@@@
+
+@@toc { depth=1 }
+"""
+
+    IO.write(index, template)
 
     index
   }
