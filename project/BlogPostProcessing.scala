@@ -51,8 +51,9 @@ object BlogPostProcessing {
     val file = postUrlPath(input)
 
     file.foreach(outputFile => {
-      outputFile.getParentFile.mkdirs()
-      IO.copyFile(input, new File(target, outputFile.toString))
+      val o = new File(target, outputFile.toString)
+      o.getParentFile.mkdirs()
+      IO.copyFile(input, o)
     })
 
     file
@@ -72,7 +73,9 @@ object BlogPostProcessing {
 
     // TODO: Should this use a string template?
     val template = s"""
-# Blog
+---
+layout: blog
+---
 
 @@@ index
 
@@ -80,7 +83,8 @@ $items
 
 @@@
 
-@@toc { depth=1 }
+# Blog
+
 """
 
     IO.write(index, template)
