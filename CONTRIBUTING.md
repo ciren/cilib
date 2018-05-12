@@ -123,14 +123,14 @@ This document is heavily based on the [Cats contributor's guide].
 [create a GitHub issue]: https://github.com/cirg-up/cilib/issues/new
 [Github pull requests]: https://help.github.com/articles/about-pull-requests/
 [sbt]: http://www.scala-sbt.org/0.13/tutorial/Setup.html
-[Gitter]: http://gitter.im/cirg-up/cilib
+[Gitter]: https://gitter.im/cirg-up/cilib
 [The documentation]: https://cirg-up.github.io/cilib
 [docs subproject]: https://github.com/cirg-up/cilib/tree/master/docs/
 [master]: https://github.com/cirg-up/cilib/tree/master
 [series-1.0.x]: https://github.com/cirg-up/cilib/tree/series/1.0.x
 [Apache-2.0 License]: https://github.com/cirg-up/cilib/blob/master/LICENSE
 [add yourself as an adopter]: https://github.com/cirg-up/cilib/edit/master/docs/src/hugo/content/adopters.md
-[adopters list]: http://cirg-up.github.io/cilib/adopters/
+[adopters list]: https://cirg-up.github.io/cilib/adopters/
 [GitHub issues]: https://github.com/cirg-up/cilib/issues
-[community staff]: http://cirg-up.github.io/cilib/community/conduct.html#community-staff
+[community staff]: https://cirg-up.github.io/cilib/community/conduct.html#community-staff
 [Cats contributor's guide]: https://github.com/typelevel/cats/blob/master/CONTRIBUTING.md

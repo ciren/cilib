@@ -23,8 +23,8 @@ intelligence algorithms and uses several typeclasses such as `Functor` and
 
 ## Documentation and Support
 
-* Have a look a the [website](http://cilib.net)
-* [scaladoc](http://cilib.net/api/cilib)
+* Have a look a the [website](https://cilib.net)
+* [scaladoc](https://cilib.net/api/cilib)
 * The source code of the project also contains several examples, have
   a look in the `example` directory
 * If you run into trouble, please open an issue
