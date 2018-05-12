@@ -195,3 +195,48 @@ object Position {
       n: Int Refined Positive): RVar[NonEmptyList[A]] =
     createPositions(domain, n).map(_.map(f))
 }
+
+
+object BCHM {
+
+  final case class BoundaryEnforce[A]()
+
+  // clamp and wrap are the same function - the logic operator is just flipped
+  def clamp[A: scalaz.Equal](x: Position[A])(implicit N: spire.math.Numeric[A]): NonEmptyList[A] =
+    x.pos.zip(x.boundary).map {
+      case (p, b) =>
+        if (N.toDouble(p) < b.lowerValue) N.fromDouble(b.lowerValue)
+        else if (N.toDouble(p) > b.upperValue) N.fromDouble(b.upperValue)
+        else p
+    }
+
+  def wrap[A: scalaz.Equal](p: Position[A])(implicit N: spire.math.Numeric[A]): NonEmptyList[A] =
+    p.pos.zip(p.boundary).map {
+      case (p, b) => {
+        if (N.toDouble(p) < b.lowerValue) N.fromDouble(b.upperValue)
+        else if (N.toDouble(p) > b.upperValue) N.fromDouble(b.lowerValue)
+        else p
+      }
+    }
+
+  def inBoundsOr[A: scalaz.Equal](default: NonEmptyList[A])(x: Position[A])(implicit N: spire.math.Numeric[A]) =
+    x.pos.zip(x.boundary).zip(default).map {
+      case ((p, b), m) => if (b.contains(N.toDouble(p))) p else m
+    }
+
+  def initToMidpoint[A: scalaz.Equal](x: Position[A])(implicit N: spire.math.Numeric[A]) =
+    inBoundsOr[A](x.boundary.map(b => N.fromAlgebraic((b.upperValue + b.lowerValue) / 2)))(x)
+
+  def reverseVelocity[A: scalaz.Equal](target: NonEmptyList[A])(p: Position[A])(implicit N: spire.math.Numeric[A]) =
+    inBoundsOr(target.map(v => N.fromAlgebraic(N.toDouble(v) * -1.0)))(p)
+
+  def absorb[A: scalaz.Equal:spire.math.Numeric](target: NonEmptyList[A])(x: Position[A]) = {
+    val a = inBoundsOr(target)(x)
+    clamp(Lenses._vector[A].set(a)(x))
+  }
+
+  def reflect[A: scalaz.Equal: spire.math.Numeric](x: Position[A], velocity: Position[A]) = {
+    val a = reverseVelocity(velocity.pos)(x)
+    clamp(Lenses._vector[A].set(a)(x))
+  }
+}
