@@ -10,3 +10,4 @@ readme.content
 *~
 project/travis-deploy-key
 local.*
+.idea
