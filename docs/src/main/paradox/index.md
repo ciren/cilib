@@ -28,12 +28,8 @@ constructed.
 
 * Come join in the discussion in `#cilib` on `FreeNode`, or join the
   [Gitter channel](https://gitter.im/cirg-up/cilib)
-* [scaladoc](http://cilib.net/api/cilib)
+* [scaladoc](https://cilib.net/api/cilib)
 * The source code of the project also contains several examples, have
   a look in the @github[example](/example/src/main/scala/cilib/example)
   directory
 * If you run into trouble, please open an issue
-
-
-CIlib is maintained by several individuals and supported by CIRG @ UP
-(Computational Intelligence Research Group @ University of Pretoria).

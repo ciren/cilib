@@ -14,12 +14,12 @@ algorithms.
 Given that this is the first release of the library, what follows is a
 general description of the main features within the library. For usage
 details and examples, please consult either the project
-[website](http://cilib.net), the _examples_ directory in the project
+[website](https://cilib.net), the _examples_ directory in the project
 source, or the community created [tutorial
 book](https://github.com/cirg-up/cilib-tutorial/releases/latest)
 
 For more information, please consult the
-[scaladoc](http://cilib.net/api/cilib/index.html) and come join the
+[scaladoc](https://cilib.net/api/cilib/index.html) and come join the
 community on [gitter.im](https://gitter.im/cirg-up/cilib)
 
 #### Controlled Randomness

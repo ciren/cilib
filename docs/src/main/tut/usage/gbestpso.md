@@ -78,7 +78,7 @@ algorithm, such as minimizing a benchmark problem.
 
 Let's define such an environment using a simple problem, borrowing the
 problem definition from the [benchmarks sister
-project](http://github.com/cirg-up/benchmarks). We will also be
+project](https://github.com/cirg-up/benchmarks). We will also be
 minimizing this problem and defining the bounds of the problem space.
 
 ```tut

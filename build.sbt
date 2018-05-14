@@ -111,8 +111,8 @@ lazy val noPublishSettings = Seq(
 )
 
 lazy val publishSettings = Seq(
-  organizationHomepage := Some(url("http://github.com/cirg-up")),
-  homepage := Some(url("http://cilib.net")),
+  organizationHomepage := Some(url("https://github.com/cirg-up")),
+  homepage := Some(url("https://cilib.net")),
   licenses := Seq("Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")),
   autoAPIMappings := true,
   apiURL := Some(url("https://cilib.net/api/")),
@@ -140,7 +140,7 @@ lazy val publishSettings = Seq(
             <developer>
               <id>{id}</id>
               <name>{name}</name>
-              <url>http://github.com/{id}</url>
+              <url>https://github.com/{id}</url>
             </developer>
         }
       }
@@ -246,17 +246,19 @@ lazy val docSettings = Seq(
   siteStageDirectory := target.value / "site-stage",
   sourceDirectory in paradox in Paradox := siteStageDirectory.value,
   sourceDirectory in paradox := siteStageDirectory.value,
+  // https://github.com/lightbend/paradox/issues/139
+  sourceDirectory in Paradox in paradoxTheme := sourceDirectory.value / "main" / "paradox" / "_template",
   paradoxMaterialTheme in Paradox ~= {
     _.withFavicon("img/favicon.png")
       .withLogo("img/cilib_logo_transparent.png")
       .withRepository(uri("https://github.com/cirg-up/cilib"))
   },
-  paradoxProperties in Compile ++= Map(
-    "github.base_url" -> s"https://github.com/cirg-up/cilib/tree/series/2.0.x/${version.value}"
-  ),
   copySiteToStage := {
-    IO.copyDirectory(source = sourceDirectory.value / "main" / "paradox",
-                     target = siteStageDirectory.value,
+    IO.copyFile(sourceFile = sourceDirectory.value / "main" / "paradox" / "index.md",
+                targetFile = siteStageDirectory.value / "index.md",
+                preserveLastModified = true)
+    IO.copyDirectory(source = sourceDirectory.value / "main" / "paradox" / "img",
+                     target = siteStageDirectory.value / "img",
                      overwrite = false,
                      preserveLastModified = true)
     IO.copyDirectory(source = tutTargetDirectory.value,
