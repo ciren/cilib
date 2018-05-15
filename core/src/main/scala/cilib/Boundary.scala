@@ -1,39 +1,82 @@
 package cilib
 
-import scalaz.NonEmptyList
+import scalaz._
+import Scalaz._
 import spire.math.Interval
-import spire.implicits._
 
 object Boundary {
 
-  def enforce[A: spire.math.Numeric](x: Position[A],
-                                     f: (A, Interval[Double]) => A): NonEmptyList[A] =
-    x.pos.zip(x.boundary).map { case (a, b) => f(a, b) }
+  final case class Enforce[F[_], A](f: (A, Interval[Double]) => F[A])
+  final case class EnforceTo[F[_], A](f: (A, Interval[Double], A) => F[A])
 
-  def enforceTo[A: spire.math.Numeric](x: Position[A],
-                                       z: Position[A],
-                                       f: (A, Interval[Double]) => Option[A]): NonEmptyList[A] =
-    x.pos.zip(x.boundary).zip(z.pos).map {
-      case ((a, b), c) => f(a, b).fold(c)(identity)
+  def enforce[F[_]: Applicative, A: spire.math.Numeric](x: Position[A],
+                                                        f: Enforce[F, A]): F[NonEmptyList[A]] =
+    x.pos.zip(x.boundary).traverse { case (a, b) => f.f(a, b) }
+
+  def enforceTo[F[_], A: spire.math.Numeric, B](x: Position[A], z: Position[A], f: EnforceTo[F, A])(
+      implicit F: Applicative[F]): F[NonEmptyList[A]] =
+    x.pos.zip(x.boundary).zip(z.pos).traverse {
+      case ((a, b), c) => f.f(a, b, c)
     }
 
   def clamp[A](implicit N: spire.math.Numeric[A]) =
-    (a: A, b: Interval[Double]) =>
-      if (N.toDouble(a) > b.lowerValue) N.fromDouble(b.upperValue)
-      else if (N.toDouble(a) < b.upperValue) N.fromDouble(b.lowerValue)
-      else a
+    absorb
 
-  def wrap[A](implicit N: spire.math.Numeric[A]) =
-    (a: A, b: Interval[Double]) =>
-      if (N.toDouble(a) < b.lowerValue) N.fromDouble(b.upperValue)
-      else if (N.toDouble(a) > b.upperValue) N.fromDouble(b.lowerValue)
-      else a
+  def absorb[A](implicit N: spire.math.Numeric[A]) =
+    Enforce((a: A, b: Interval[Double]) =>
+      Need {
+        val z = N.toDouble(a)
 
-  def midpoint[A](implicit N: spire.math.Numeric[A]) =
-    (a: A, b: Interval[Double]) =>
-      if (b.contains(N.toDouble(a))) a else N.fromAlgebraic((b.upperValue + b.lowerValue) / 2.0)
+        if (z < b.lowerValue) N.fromDouble(b.lowerValue)
+        else if (z > b.upperValue) N.fromDouble(b.upperValue)
+        else a
+    })
+
+  def random[A](implicit N: spire.math.Numeric[A]) =
+    Enforce(
+      (a: A, b: Interval[Double]) =>
+        if (b.contains(N.toDouble(a))) RVar.pure(a)
+        else Dist.uniform(b).map(N.fromDouble))
 
   def reflect[A](implicit N: spire.math.Numeric[A]) =
-    (a: A, b: Interval[Double]) => if (b.contains(N.toDouble(a))) a else -a
+    Enforce((a: A, b: Interval[Double]) =>
+      Need {
+        val z = N.toDouble(a)
+
+        if (z < b.lowerValue) N.fromDouble(b.lowerValue - (z - b.lowerValue))
+        else if (z > b.upperValue) N.fromDouble(b.upperValue - (z - b.upperValue))
+        else a
+    })
+
+  def wrap[A](implicit N: spire.math.Numeric[A]) =
+    toroidal
+
+  def toroidal[A](implicit N: spire.math.Numeric[A]) =
+    Enforce((a: A, b: Interval[Double]) =>
+      Need {
+        val z = N.toDouble(a)
+
+        if (z < b.lowerValue) N.fromDouble(b.lowerValue + (z - b.lowerValue))
+        else if (z > b.upperValue) N.fromDouble(b.upperValue + (z - b.upperValue))
+        else a
+    })
+
+  def midpoint[A](implicit N: spire.math.Numeric[A]) =
+    Enforce((a: A, b: Interval[Double]) =>
+      Need {
+        if (b.contains(N.toDouble(a))) a
+        else N.fromDouble((b.upperValue + b.lowerValue) / 2.0)
+    })
+
+  def around[A](implicit N: spire.math.Numeric[A]) =
+    EnforceTo((a: A, b: Interval[Double], target: A) => {
+      val z = N.toDouble(a)
+
+      if (z < b.lowerValue)
+        Dist.stdUniform.map(x => N.fromDouble(x * b.lowerValue + (1.0 - x) * N.toDouble(target)))
+      else if (z > b.upperValue)
+        Dist.stdUniform.map(x => N.fromDouble(x * b.upperValue + (1.0 - x) * N.toDouble(target)))
+      else RVar.pure(a)
+    })
 
 }
