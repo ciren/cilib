@@ -42,7 +42,7 @@ deploy:
     on:
       jdk: oraclejdk9
       scala: 2.12.4
-      branch: series/2.0.x
+      branch: master
   - provider: script
     script: ./project/deploy.sh
     skip_cleanup: true
