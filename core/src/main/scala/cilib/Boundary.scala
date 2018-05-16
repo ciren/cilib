@@ -51,13 +51,17 @@ object Boundary {
   def wrap[A](implicit N: spire.math.Numeric[A]) =
     toroidal
 
+  def periodic[A](implicit N: spire.math.Numeric[A]) =
+    toroidal
+
   def toroidal[A](implicit N: spire.math.Numeric[A]) =
     Enforce((a: A, b: Interval[Double]) =>
       Need {
         val z = N.toDouble(a)
+        val range = math.abs(b.upperValue - b.lowerValue)
 
-        if (z < b.lowerValue) N.fromDouble(b.lowerValue + (z - b.lowerValue))
-        else if (z > b.upperValue) N.fromDouble(b.upperValue + (z - b.upperValue))
+        if (z < b.lowerValue) N.fromDouble(b.upperValue - (b.lowerValue - z) % range)
+        else if (z > b.upperValue) N.fromDouble(b.lowerValue + (z - b.upperValue) % range)
         else a
     })
 
