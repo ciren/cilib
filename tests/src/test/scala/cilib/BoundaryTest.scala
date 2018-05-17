@@ -11,8 +11,6 @@ import spire.implicits._
 
 object BoundaryTest extends Spec("Boundary enforcement") {
 
-  final case class Foo(b: Interval[Double], a: Double)
-
   val doubleGen = Gen.choose(-1000000.0, 1000000.0)
 
   val intervalGen: Gen[Interval[Double]] =
@@ -20,15 +18,8 @@ object BoundaryTest extends Spec("Boundary enforcement") {
         a <- doubleGen
         b <- doubleGen suchThat (_ > a)
       } yield Interval(a, b)
-  implicit def arbInterval = Arbitrary { intervalGen }
 
-  implicit def fooGen = Arbitrary {
-    for {
-      i <- intervalGen
-      range = math.abs(i.upperValue - i.lowerValue) * 0.4
-      p <- Gen.choose(i.lowerValue - range, i.upperValue + range)
-    } yield Foo(i, p)
-  }
+  implicit def arbInterval = Arbitrary { intervalGen }
 
   property("absorb") =
     forAll { (a: Double, b: Interval[Double]) =>
@@ -50,12 +41,12 @@ object BoundaryTest extends Spec("Boundary enforcement") {
     }
 
   property("reflect") =
-    forAll { (a: Foo) =>
-      val p = Position(NonEmptyList(a.a), NonEmptyList(a.b))
+    forAll { (a: Double, b: Interval[Double]) =>
+      val p = Position(NonEmptyList(a), NonEmptyList(b))
       val enforced =
         Boundary.enforce(p, Boundary.reflect[Double]).value
 
-      enforced.list.toList.forall(x => a.b.contains(x))
+      enforced.list.toList.forall(x => b.contains(x))
     }
 
   property("toroidal") =
