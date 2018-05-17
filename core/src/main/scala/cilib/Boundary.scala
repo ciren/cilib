@@ -39,15 +39,17 @@ object Boundary {
         else Dist.uniform(b).map(N.fromDouble))
 
   def reflect[A](implicit N: spire.math.Numeric[A]) =
-    Enforce((a: A, b: Interval[Double]) => Need {
-      val z = N.toDouble(a)
-      val range = math.abs(b.upperValue - b.lowerValue)
+    Enforce((a: A, b: Interval[Double]) =>
+      Need {
+        val z = N.toDouble(a)
+        val range = math.abs(b.upperValue - b.lowerValue)
 
-      val result = if (z < b.lowerValue) N.fromDouble(b.lowerValue + (b.lowerValue - z) % range)
-      else if (z > b.upperValue) N.fromDouble(b.upperValue - (z - b.upperValue) % range)
-      else a
+        val result =
+          if (z < b.lowerValue) N.fromDouble(b.lowerValue + (b.lowerValue - z) % range)
+          else if (z > b.upperValue) N.fromDouble(b.upperValue - (z - b.upperValue) % range)
+          else a
 
-      result
+        result
     })
 
   def wrap[A](implicit N: spire.math.Numeric[A]) =
