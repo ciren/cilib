@@ -4,15 +4,15 @@ sudo: false
 
 matrix:
   include:
-  - env: SBT_VERSION="1.1.2" COMMAND="clean test scalafmtCheck"
+  - env: SBT_VERSION="1.1.4" COMMAND="clean test scalafmtCheck"
     jdk: oraclejdk8
-    scala: 2.11.11
-  - env: SBT_VERSION="1.1.2" COMMAND="clean test scalafmtCheck"
+    scala: 2.11.12
+  - env: SBT_VERSION="1.1.4" COMMAND="clean test scalafmtCheck"
     jdk: oraclejdk8
-    scala: 2.12.4
-  - env: SBT_VERSION="1.1.2" COMMAND="clean test scalafmtCheck docs/makeSite"
+    scala: 2.12.6
+  - env: SBT_VERSION="1.1.4" COMMAND="clean test scalafmtCheck docs/makeSite"
     jdk: oraclejdk9
-    scala: 2.12.4
+    scala: 2.12.6
 
 script:
   - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" $COMMAND
@@ -41,14 +41,14 @@ deploy:
     skip_cleanup: true
     on:
       jdk: oraclejdk9
-      scala: 2.12.4
-      branch: series/2.0.x
+      scala: 2.12.6
+      branch: master
   - provider: script
     script: ./project/deploy.sh
     skip_cleanup: true
     on:
       jdk: oraclejdk9
-      scala: 2.12.4
+      scala: 2.12.6
       tags: true
 
 notifications:

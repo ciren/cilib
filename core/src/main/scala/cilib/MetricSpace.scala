@@ -37,16 +37,26 @@ trait MetricSpace[A, B] { self =>
 object MetricSpace {
   def levenshtein[B](implicit B: Integral[B]): MetricSpace[String, B] =
     new MetricSpace[String, B] {
-      def dist(x: String, y: String) = {
-        lazy val lev: ((Int, Int)) => Int = Memo.mutableHashMapMemo[(Int, Int), Int] {
-          case (i, 0) => i
-          case (0, j) => j
-          case (i, j) =>
-            Seq(lev((i - 1, j)) + 1,
-                lev((i, j - 1)) + 1,
-                lev((i - 1, j - 1)) + (if (x(i - 1) == y(j - 1)) 0 else 1)).min
-        }
-        B.fromInt(lev((x.length, y.length)))
+
+      def dist(x: String, y: String): B = {
+        def f(i: Int, j: Int): State[Map[(Int, Int), Int], Int] =
+          (i, j) match {
+            case (i, 0) => State(s => (s, i))
+            case (0, j) => State(s => (s, j))
+            case (i, j) =>
+              for {
+                a <- f(i - 1, j)
+                b <- f(i, j - 1)
+                c <- f(i - 1, j - 1)
+              } yield
+                List(
+                  a + 1,
+                  b + 1,
+                  c + (if (x(i - 1) == y(j - 1)) 0 else 1)
+                ).min
+          }
+
+        B.fromInt(f(x.length, y.length).eval(Map.empty))
       }
     }
 
