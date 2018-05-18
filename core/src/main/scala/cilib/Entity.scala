@@ -1,7 +1,5 @@
 package cilib
 
-import scalaz._
-
 final case class Entity[S, A](state: S, pos: Position[A])
 
 object Entity {
