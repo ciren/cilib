@@ -45,7 +45,7 @@ object Boundary {
     J. Ronkkonen, S. Kukkonen, and K. Price, “Real-parameter optimization
     with  differential  evolution,”  in Evolutionary  Computation,  2005.  The
     2005 IEEE Congress on, vol. 1, Sept 2005, pp. 506–513 Vol.1
-   */
+    */
   def reflect[A](implicit N: spire.math.Numeric[A]) =
     Enforce((a: A, b: Interval[Double]) =>
       Need {
