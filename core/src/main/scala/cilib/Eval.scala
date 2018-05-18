@@ -40,10 +40,10 @@ object Eval {
                                                 F: Input[F])
       extends Eval[F, A]
 
-  def unconstrained[F[_]: Input, A](f: F[A] => Double)(implicit F: Input[F]): Eval[F, A] =
+  def unconstrained[F[_], A](f: F[A] => Double)(implicit F: Input[F]): Eval[F, A] =
     Unconstrained(f, F)
 
-  def constrained[F[_]: Input, A](f: F[A] => Double, cs: List[Constraint[A]])(
+  def constrained[F[_], A](f: F[A] => Double, cs: List[Constraint[A]])(
       implicit F: Input[F]): Eval[F, A] =
     Constrained(f, cs, F)
 }

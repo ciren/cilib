@@ -11,7 +11,6 @@ import spire.implicits._
 
 object PSO {
   import Lenses._
-
   // Constrain this better - Not numeric. Operation for vector addition
   def stdPosition[S, A](
       c: Particle[S, A],

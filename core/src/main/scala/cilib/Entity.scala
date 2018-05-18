@@ -16,5 +16,4 @@ object Entity {
       def fitness(a: Entity[S, A]) =
         a.pos.objective
     }
-
 }

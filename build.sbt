@@ -84,6 +84,7 @@ lazy val commonSettings = Seq(
     |import scalaz._
     |import Scalaz._
     |import cilib._
+    |import spire.implicits._
     |""".stripMargin,
   // MiMa related
   previousArtifactVersion := { // Can this be done nicer/safer?
