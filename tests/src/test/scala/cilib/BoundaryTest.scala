@@ -21,13 +21,20 @@ object BoundaryTest extends Spec("Boundary enforcement") {
 
   implicit def arbInterval = Arbitrary { intervalGen }
 
+  val intervalPairGen =
+    for {
+      b <- intervalGen
+      a <- Gen.choose(b.lowerValue, b.upperValue)
+      scale <- Gen.choose(1,50)
+    } yield (a*scale, b)
+
   property("absorb") =
     forAll { (a: Double, b: Interval[Double]) =>
       val p = Position(NonEmptyList(a), NonEmptyList(b))
       val enforced =
         Boundary.enforce(p, Boundary.absorb[Double]).value
 
-      enforced.list.toList.forall(x => b.contains(x))
+      enforced.list.toList.forall(b.contains)
     }
 
   property("random") =
@@ -37,16 +44,16 @@ object BoundaryTest extends Spec("Boundary enforcement") {
         Boundary.enforce(p, Boundary.random[Double])
           .eval(RNG.init(rng))
 
-      enforced.list.toList.forall(x => b.contains(x))
+      enforced.list.toList.forall(b.contains)
     }
 
   property("reflect") =
-    forAll { (a: Double, b: Interval[Double]) =>
-      val p = Position(NonEmptyList(a), NonEmptyList(b))
+    forAll(intervalPairGen) { (x: (Double, Interval[Double])) =>
+      val p = Position(NonEmptyList(x._1), NonEmptyList(x._2))
       val enforced =
         Boundary.enforce(p, Boundary.reflect[Double]).value
 
-      enforced.list.toList.forall(x => b.contains(x))
+      enforced.list.toList.forall(x._2.contains)
     }
 
   property("toroidal") =
@@ -55,6 +62,6 @@ object BoundaryTest extends Spec("Boundary enforcement") {
       val enforced =
         Boundary.enforce(p, Boundary.toroidal[Double]).value
 
-      enforced.list.toList.forall(z => b.contains(z))
+      enforced.list.toList.forall(b.contains)
     }
 }

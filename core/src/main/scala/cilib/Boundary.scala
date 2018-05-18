@@ -22,6 +22,9 @@ object Boundary {
   def clamp[A](implicit N: spire.math.Numeric[A]) =
     absorb
 
+  def projection[A](implicit N: spire.math.Numeric[A]) =
+    absorb
+
   def absorb[A](implicit N: spire.math.Numeric[A]) =
     Enforce((a: A, b: Interval[Double]) =>
       Need {
@@ -38,18 +41,26 @@ object Boundary {
         if (b.contains(N.toDouble(a))) RVar.pure(a)
         else Dist.uniform(b).map(N.fromDouble))
 
+  /**
+    J. Ronkkonen, S. Kukkonen, and K. Price, “Real-parameter optimization
+    with  differential  evolution,”  in Evolutionary  Computation,  2005.  The
+    2005 IEEE Congress on, vol. 1, Sept 2005, pp. 506–513 Vol.1
+   */
   def reflect[A](implicit N: spire.math.Numeric[A]) =
     Enforce((a: A, b: Interval[Double]) =>
       Need {
-        val z = N.toDouble(a)
-        val range = math.abs(b.upperValue - b.lowerValue)
+        @annotation.tailrec
+        def go(c: Double): Double =
+          if (b.contains(c)) c
+          else
+            go(
+              if (c < b.lowerValue)
+                2 * b.lowerValue - c
+              else
+                2 * b.upperValue - c
+            )
 
-        val result =
-          if (z < b.lowerValue) N.fromDouble(b.lowerValue + (b.lowerValue - z) % range)
-          else if (z > b.upperValue) N.fromDouble(b.upperValue - (z - b.upperValue) % range)
-          else a
-
-        result
+        N.fromDouble(go(N.toDouble(a)))
     })
 
   def wrap[A](implicit N: spire.math.Numeric[A]) =
@@ -76,7 +87,7 @@ object Boundary {
         else N.fromDouble((b.upperValue + b.lowerValue) / 2.0)
     })
 
-  def around[A](implicit N: spire.math.Numeric[A]) =
+  def evolutionary[A](implicit N: spire.math.Numeric[A]) =
     EnforceTo((a: A, b: Interval[Double], target: A) => {
       val z = N.toDouble(a)
 
@@ -86,5 +97,8 @@ object Boundary {
         Dist.stdUniform.map(x => N.fromDouble(x * b.upperValue + (1.0 - x) * N.toDouble(target)))
       else RVar.pure(a)
     })
+
+  def around[A](implicit N: spire.math.Numeric[A]) =
+    evolutionary
 
 }
