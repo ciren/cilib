@@ -147,7 +147,7 @@ object StepS {
         StepS(M.put(s))
     }
 
-  @deprecated("This method has been deprecated, use pure instead, it is technically more accurate",
+  @deprecated("This method has been deprecated, use liftR instead, it is technically more accurate",
               "2.0.2")
   def pointR[A, S, B](a: RVar[B]): StepS[A, S, B] =
     liftR(a)
