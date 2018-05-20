@@ -152,8 +152,7 @@ object Runner {
 
   import com.sksamuel.avro4s._
 
-  def measure[A, S, B](f: A => B)(
-      implicit B: SchemaFor[B]): Process1[Progress[A], Measurement[B]] =
+  def measure[A, S, B](f: A => B)(implicit B: SchemaFor[B]): Process1[Progress[A], Measurement[B]] =
     process1.lift {
       case Progress(algorithm, problem, seed, iteration, env, value) =>
         Measurement(algorithm, problem, iteration, env, seed, f(value))
