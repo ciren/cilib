@@ -84,43 +84,41 @@ object Defaults {
   // attached to it.
   def gcpso[S](w: Double, c1: Double, c2: Double, cognitive: Guide[S, Double])(
       implicit M: HasMemory[S, Double],
-      V: HasVelocity[S, Double])
+      V: HasVelocity[S, Double],
+      S: MonadState[StepS[Double, GCParams, ?], GCParams])
     : NonEmptyList[Particle[S, Double]] => Particle[S, Double] => StepS[Double,
                                                                         GCParams,
                                                                         Particle[S, Double]] =
     collection =>
-      x =>
-        StepS {
-          val S = StateT.stateTMonadState[GCParams, Step[Double, ?]]
-          val hoist = StateT.StateMonadTrans[GCParams]
-          val g = Guide.gbest[S]
-          for {
-            gbest <- hoist.liftMU(g(collection, x))
-            cog <- hoist.liftMU(cognitive(collection, x))
-            isBest <- hoist.liftMU(Step.pure[Double, Boolean](x.pos eq gbest))
-            s <- S.get
-            v <- hoist.liftMU(
-              if (isBest) gcVelocity(x, gbest, w, s)
-              else stdVelocity(x, gbest, cog, w, c1, c2)) // Yes, we do want reference equality
-            p <- hoist.liftMU(stdPosition(x, v))
-            p2 <- hoist.liftMU(evalParticle(p))
-            p3 <- hoist.liftMU(updateVelocity(p2, v))
-            updated <- hoist.liftMU(updatePBest(p3))
-            failure <- hoist.liftMU(
-              Step.withCompare[Double, Boolean](
-                Comparison.compare(x.pos, updated.pos).andThen(_ eq x.pos)))
-            _ <- S.modify(params =>
-              if (isBest) {
-                params.copy(
-                  p =
-                    if (params.successes > params.e_s) 2.0 * params.p
-                    else if (params.failures > params.e_f) 0.5 * params.p
-                    else params.p,
-                  failures = if (failure) params.failures + 1 else 0,
-                  successes = if (!failure) params.successes + 1 else 0
-                )
-              } else params)
-          } yield updated
+      x => {
+        val g = Guide.gbest[S]
+        for {
+          gbest <- StepS.pointS(g(collection, x))
+          cog <- StepS.pointS(cognitive(collection, x))
+          isBest <- StepS.pointS(Step.pure[Double, Boolean](x.pos eq gbest)) // Yes, we do want reference equality
+          s <- S.get
+          v <- StepS.pointS(
+            if (isBest) gcVelocity(x, gbest, w, s)
+            else stdVelocity(x, gbest, cog, w, c1, c2))
+          p <- StepS.pointS(stdPosition(x, v))
+          p2 <- StepS.pointS(evalParticle(p))
+          p3 <- StepS.pointS(updateVelocity(p2, v))
+          updated <- StepS.pointS(updatePBest(p3))
+          failure <- StepS.pointS(
+            Step.withCompare[Double, Boolean](
+              Comparison.compare(x.pos, updated.pos).andThen(_ eq x.pos)))
+          _ <- S.modify(params =>
+            if (isBest) {
+              params.copy(
+                p =
+                  if (params.successes > params.e_s) 2.0 * params.p
+                  else if (params.failures > params.e_f) 0.5 * params.p
+                  else params.p,
+                failures = if (failure) params.failures + 1 else 0,
+                successes = if (!failure) params.successes + 1 else 0
+              )
+            } else params)
+        } yield updated
     }
 
   def charged[S: HasCharge](
