@@ -62,11 +62,10 @@ object TimeVaryingGBestPSO extends SafeApp {
       RNG.fromTime,
       swarm,
       Runner.algorithm( // We now create a stream of algorithms that are updated based on our custom functions
-        "gbestPSO",
-        initial,
-        mkAlgorithm,
-        updateParams
-      ),
+                       "gbestPSO",
+                       initial,
+                       mkAlgorithm,
+                       updateParams),
       problemStream,
       (x: NonEmptyList[Particle[Mem[Double], Double]]) => RVar.pure(x)
     )
