@@ -103,7 +103,7 @@ object HPSO extends SafeApp {
   val env =
     Environment(
       cmp = Comparison.quality(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
 
   val population =
     StepS

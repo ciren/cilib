@@ -3,8 +3,6 @@ package cilib
 import scalaz.{Lens => _, _}
 import Scalaz._
 
-final case class Environment[A](cmp: Comparison, eval: RVar[NonEmptyList[A] => Objective[A]]) // This is still questionable?
-
 /**
   A `Step` is a type that models a single step / operation within a CI Algorithm.
 
@@ -89,7 +87,7 @@ object Step {
 
   def evalP[A](pos: Position[A]): Step[A, Position[A]] =
     Cont { env =>
-      Position.eval(env.eval, pos).map(_.right)
+      Position.eval(env.eval.eval, pos).map(_.right)
     }
 
   implicit def stepMonad[A]: Monad[Step[A, ?]] =

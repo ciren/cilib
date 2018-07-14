@@ -21,7 +21,7 @@ object Mixed extends SafeApp {
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
 
   // Define the DE
   val de = DE.de(0.5, 0.5, DE.randSelection[Mem[Double], Double], 1, DE.bin[Position, Double])

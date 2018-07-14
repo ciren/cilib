@@ -22,7 +22,7 @@ object GAExample extends SafeApp {
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
 
   def onePoint(xs: List[Ind]): RVar[List[Ind]] =
     xs match {

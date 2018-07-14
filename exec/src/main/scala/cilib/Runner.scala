@@ -14,7 +14,7 @@ import eu.timepit.refined.collection._
 final case class Algorithm[A](name: String Refined NonEmpty, value: A)
 final case class Problem[A](name: String Refined NonEmpty,
                             env: Env,
-                            eval: RVar[NonEmptyList[A] => Objective[A]])
+                            eval: Eval[NonEmptyList, A])
 final case class Progress[A] private (algorithm: String,
                                       problem: String,
                                       seed: Long,
@@ -56,12 +56,10 @@ object Runner {
 
   def staticProblem[S, A](
       name: String Refined NonEmpty,
-      eval: RVar[NonEmptyList[A] => Objective[A]],
-      rng: RNG
-  ): Process[Task, Problem[A]] = {
-    val (_, e) = eval.run(rng)
-    Process.constant(Problem(name, Unchanged, RVar.pure(e)))
-  }
+      eval: Eval[NonEmptyList, A]
+  ): Process[Task, Problem[A]] =
+    Process.constant(Problem(name, Unchanged, eval))
+
 
   def problem[S, A](name: String Refined NonEmpty,
                     state: RVar[S],
@@ -75,11 +73,11 @@ object Runner {
         case h #:: t =>
           h match {
             case Unchanged =>
-              Process.emit(Problem(name, h, c.eval)) ++ go(s, c, t, r)
+              Process.emit(Problem(name, h, c)) ++ go(s, c, t, r)
 
             case Change =>
               val (rng2, (s1, c1)) = next(s).run(r)
-              Process.emit(Problem(name, h, c1.eval)) ++ go(s1, c1, t, rng2)
+              Process.emit(Problem(name, h, c1)) ++ go(s1, c1, t, rng2)
           }
       }
 
@@ -95,7 +93,7 @@ object Runner {
                            collection: RVar[F[B]],
                            alg: Process[Task, Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]],
                            env: Process[Task, Problem[A]],
-                           onChange: F[B] => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
+                           onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
 
     // Convert to a StepS with Unit as the state parameter
     val a: Process[Task, Algorithm[Kleisli[StepS[A, Unit, ?], F[B], F[B]]]] =
@@ -111,7 +109,7 @@ object Runner {
                                collection: RVar[F[B]],
                                alg: Process[Task, Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]],
                                env: Process[Task, Problem[A]],
-                               onChange: F[B] => RVar[F[B]]): Process[Task, Progress[(S, F[B])]] = {
+                               onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]): Process[Task, Progress[(S, F[B])]] = {
 
     def go(iteration: Int, r: RNG, current: F[B], config: Environment[A], state: S)
       : Tee[Problem[A], Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]], Progress[(S, F[B])]] =
@@ -121,17 +119,17 @@ object Runner {
           Process.awaitR[Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]].awaitOption.flatMap {
             case None => Process.halt
             case Some(algorithm) =>
-              val newConfig: Environment[A] =
+              val newConfig =
                 e match {
                   case Unchanged => config
-                  case Change    => config.copy(eval = eval)
+                  case Change    => Environment._eval[A].set(eval)(config)
                 }
 
               val (r2, next) =
                 e match {
                   case Unchanged => algorithm.value.run(current).run(state).run(newConfig).run(r)
                   case Change =>
-                    val (r3, updated) = onChange(current).run(r)
+                    val (r3, updated) = onChange(current, newConfig.eval).run(r)
                     algorithm.value.run(updated).run(state).run(newConfig).run(r3)
                 }
 

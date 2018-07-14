@@ -18,7 +18,7 @@ object LBestPSO extends SafeApp {
   val env =
     Environment(
       cmp = Comparison.quality(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
 
   // LBest is a network topology where every Paricle 'x' has (n/2) neighbours
   // on each side. For example, a neighbourhood size of 3 means that there is

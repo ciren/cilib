@@ -18,7 +18,7 @@ object PCXPSO extends SafeApp {
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
+      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
 
   val guide = Guide.pcx[Mem[Double]](2.0, 2.0)
   val pcxPSO = crossoverPSO(guide)
