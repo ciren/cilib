@@ -72,7 +72,7 @@ object Lenses {
   def _fitness[A]: Fold[Position[A], Fit \/ List[Fit]] =
     _objective[A]
       .composePrism(some[Objective[A]])
-      .composeGetter(_.fitness)
+      .composeGetter(Getter(_.fitness))
 
   def _singleFitness[A]: Fold[Position[A], Fit] =
     _fitness[A].composePrism(left[Fit, List[Fit]])
