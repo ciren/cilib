@@ -35,7 +35,7 @@ final case class ConstraintFunction[A](f: NonEmptyList[A] => Double) {
     f(a)
 }
 
-sealed trait Constraint[A]
+sealed abstract class Constraint[A]
 final case class LessThan[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
 final case class LessThanEqual[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
 final case class Equal[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]

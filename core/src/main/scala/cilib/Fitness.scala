@@ -2,8 +2,7 @@ package cilib
 
 import scalaz._
 import scalaz.Ordering._
-import scalaz.std.anyVal._
-import scalaz.syntax.equal._
+import Scalaz._
 
 sealed trait Fit {
   def fold[Z](penalty: Adjusted => Z, valid: Feasible => Z, infeasible: Infeasible => Z): Z =
@@ -114,20 +113,20 @@ final case object Min extends Opt {
 
   def objectiveOrder[A] = new Order[Objective[A]] {
     def order(x: Objective[A], y: Objective[A]) =
-      (x, y) match {
-        case (Single(f1, _), Single(f2, _)) => fitCompare(f1, f2)
-        case (Multi(xs), Multi(ys)) =>
+      (x.fitness, y.fitness) match {
+        case (-\/(f1), -\/(f2)) => fitCompare(f1, f2)
+        case (\/-(xs), \/-(ys)) =>
           val z = xs.zip(ys)
           val x = z.forall {
             case (a, b) =>
-              val r = fitCompare(a.f, b.f)
+              val r = fitCompare(a, b)
               r == LT || r == EQ
           }
-          val y = z.exists { case (a, b) => fitCompare(a.f, b.f) == LT }
+          val y = z.exists { case (a, b) => fitCompare(a, b) == LT }
 
           if (x && y) LT else if (x) EQ else GT
 
-        case _ => sys.error("Cannot compare multiple objective against a single objective")
+        case _ => EQ
       }
   }
 }
@@ -150,20 +149,20 @@ final case object Max extends Opt {
 
   def objectiveOrder[A] = new Order[Objective[A]] {
     def order(x: Objective[A], y: Objective[A]) =
-      (x, y) match {
-        case (Single(f1, _), Single(f2, _)) => fitCompare(f1, f2)
-        case (Multi(xs), Multi(ys)) =>
+      (x.fitness, y.fitness) match {
+        case (-\/(f1), -\/(f2)) => fitCompare(f1, f2)
+        case (\/-(xs), \/-(ys)) =>
           val z = xs.zip(ys)
           val x = z.forall {
             case (a, b) =>
-              val r = fitCompare(a.f, b.f)
+              val r = fitCompare(a, b)
               r == GT || r == EQ
           }
-          val y = z.exists { case (a, b) => fitCompare(a.f, b.f) == GT }
+          val y = z.exists { case (a, b) => fitCompare(a, b) == GT }
 
           if (x && y) GT else if (x) EQ else LT
 
-        case _ => sys.error("Cannot compare multiple objective against a single objective")
+        case _ => EQ
       }
   }
 

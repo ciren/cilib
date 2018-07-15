@@ -1,6 +1,8 @@
 package cilib
 
 import monocle._
+import monocle.std.disjunction._
+import monocle.std.option._
 
 final case class Mem[A](b: Position[A], v: Position[A])
 
@@ -46,14 +48,11 @@ object Lenses {
   def _position[S, A] = Lens[Entity[S, A], Position[A]](_.pos)(c => e => e.copy(pos = c))
 
   def _vector[A: scalaz.Equal] =
-    Lens[Position[A], NonEmptyList[A]](_.pos)(c =>
-      e =>
-        e match {
-          case Point(_, b) => Point(c, b)
-          case Solution(x, b, _) =>
-            if (scalaz.Equal[NonEmptyList[A]].equal(x, c)) e
-            else Point(c, b)
-    })
+    Lens[Position[A], NonEmptyList[A]](_.pos)(
+      c =>
+        e =>
+          if (scalaz.Equal[NonEmptyList[A]].equal(e.pos, c)) e
+          else Position(c, e.boundary))
 
   def _solutionPrism[A]: Prism[Position[A], Solution[A]] =
     Prism[Position[A], Solution[A]] {
@@ -61,42 +60,30 @@ object Lenses {
       case _                     => None
     }(identity)
 
+  @deprecated(
+    "The _objective lens is not sound and will be removed in 2.1. Use Position#objective, or _objective instead",
+    "2.0.2")
   def _objectiveLens[A]: Lens[Solution[A], Objective[A]] =
-    Lens[Solution[A], Objective[A]](_.o)(o => s => s.copy(o = o))
+    Lens[Solution[A], Objective[A]](_.o)(o => s => s)
 
-  def _singleObjective[A]: Prism[Objective[A], Single[A]] =
-    Prism[Objective[A], Single[A]](_ match {
-      case x @ Single(_, _) => Some(x)
-      case _                => None
-    })(x => x)
+  def _objective[A]: Getter[Position[A], Option[Objective[A]]] =
+    Getter(_.objective)
 
-  def _multiObjective[A]: Prism[Objective[A], Multi[A]] =
-    Prism[Objective[A], Multi[A]](_ match {
-      case x @ Multi(_) => Some(x)
-      case _            => None
-    })(x => x)
+  def _fitness[A]: Fold[Position[A], Fit \/ List[Fit]] =
+    _objective[A]
+      .composePrism(some[Objective[A]])
+      .composeGetter(_.fitness)
 
-  def _singleFit[A]: Lens[Single[A], Fit] =
-    Lens[Single[A], Fit](_.f)(f => s => s.copy(f = f))
+  def _singleFitness[A]: Fold[Position[A], Fit] =
+    _fitness[A].composePrism(left[Fit, List[Fit]])
 
-  def _singleFitness[A]: Optional[Position[A], Fit] =
-    _solutionPrism[A]
-      .composeLens(_objectiveLens[A])
-      .composePrism(_singleObjective)
-      .composeLens(_singleFit)
+  def _multiFitness[A]: Fold[Position[A], List[Fit]] =
+    _fitness[A].composePrism(right[Fit, List[Fit]])
 
   def _feasible: Prism[Fit, Double] =
     Prism[Fit, Double](_ match {
       case Feasible(x) => Some(x)
       case _           => None
     })(x => Feasible(x))
-
-  // def _infeasible: Prism[Fit,Double] =
-  //   Prism[Fit,Double](_ match {
-  //     case Infeasible(x,_) => Some(x)
-  //     case _ => None
-  //   })(x => Infeasible(x))
-
-//  def _penalty: Prism[] =
 
 }

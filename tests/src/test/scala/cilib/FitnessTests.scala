@@ -26,7 +26,7 @@ object FitnessTest extends Properties("Fitness") {
 
   implicit val intFitness = new Fitness[Id, Int] {
     def fitness(a: Id[Int]) =
-      Option(Single(Feasible(a.underlying.toDouble), List.empty))
+      Option(Objective.single(Feasible(a.underlying.toDouble), List.empty))
     //    def quality(a: Int) = (Maybe.just(Feasible(a.toDouble)), ViolationCount.zero)
   }
 
