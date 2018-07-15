@@ -136,8 +136,8 @@ object Position {
     }
   }
 
-  implicit def positionFitness[A]: Fitness[Position, A] =
-    new Fitness[Position, A] {
+  implicit def positionFitness[A]: Fitness[Position, A, A] =
+    new Fitness[Position, A, A] {
       def fitness(a: Position[A]) =
         a.objective
     }

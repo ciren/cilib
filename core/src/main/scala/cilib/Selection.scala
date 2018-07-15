@@ -72,7 +72,7 @@ object Selection {
     (l: NonEmptyList[A], x: A) => l.toList
 
   def tournament[F[_], A](n: Int, l: NonEmptyList[F[A]])(
-      implicit F: Fitness[F, A]): Comparison => RVar[Option[F[A]]] =
+      implicit F: Fitness[F, A, A]): Comparison => RVar[Option[F[A]]] =
     o =>
       RVar
         .sample(n, l)

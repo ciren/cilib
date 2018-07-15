@@ -20,7 +20,7 @@ sealed abstract class Eval[F[_], A] {
         case Constrained(f, cs, _) =>
           cs.filter(c => !Constraint.satisfies(c, fa)) match {
             case Nil => Objective.single(Feasible(f(F.toInput(fa))), List.empty)
-            case xs  => Objective.single(Infeasible(f(F.toInput(fa)), xs.length), xs)
+            case xs  => Objective.single(Infeasible(f(F.toInput(fa))), xs)
           }
       }
     }

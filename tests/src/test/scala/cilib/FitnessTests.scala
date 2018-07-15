@@ -1,7 +1,8 @@
 package cilib
 
+import spire.implicits._
+
 import scalaz._
-import Scalaz._
 
 import org.scalacheck._
 import org.scalacheck.Prop._
@@ -10,34 +11,77 @@ import org.scalacheck.Arbitrary._
 
 object FitnessTest extends Properties("Fitness") {
 
-  case class Id[A](val underlying: A) extends AnyVal {
-    def min(other: Id[A])(implicit A:Numeric[A]) =
-      Id(A.min(underlying, other.underlying))
+  val genFeasibleFitness: Gen[Fit] =
+    Gen.choose(-1000, 1000).map(x => Feasible(x.toDouble))
 
-    def max(other: Id[A])(implicit A:Numeric[A]) =
-      Id(A.max(underlying, other.underlying))
+  val genInfeasibleFitenss: Gen[Fit] =
+    Gen.choose(-1000, 1000).map(x => Infeasible(x.toDouble))
 
-    def ===(other: Id[A])(implicit A:scalaz.Equal[A]) =
-      A.equal(underlying, other.underlying)
-  }
+  val genPenaltyFitness: Gen[Fit] =
+    genInfeasibleFitenss.map(_.adjust(identity _))
 
-  implicit def arbId[A:Arbitrary]: Arbitrary[Id[A]] =
-    Arbitrary { arbitrary[A].map(Id(_)) }
+  def simpleViolationGen: Gen[Constraint[Int]] =
+    for {
+      value <- Gen.choose(-100.0, 100.0)
+      function = ConstraintFunction((_: NonEmptyList[Int]) => 0.0)
+      constraint <- Gen.oneOf(
+        LessThan(function, value),
+        LessThanEqual(function, value),
+        Equal(function, value),
+        GreaterThan(function, value),
+        GreaterThanEqual(function, value),
+        InInterval(function, spire.math.Interval(-5.12, 5.12))
+      )
+    } yield constraint
 
-  implicit val intFitness = new Fitness[Id, Int] {
-    def fitness(a: Id[Int]) =
-      Option(Objective.single(Feasible(a.underlying.toDouble), List.empty))
-    //    def quality(a: Int) = (Maybe.just(Feasible(a.toDouble)), ViolationCount.zero)
-  }
+  def objectiveGen: Gen[Objective[Int]] =
+    for {
+      violationCount <- Gen.choose(1, 3)
+      violations <- Gen.listOfN(violationCount, simpleViolationGen)
+      obj <- Gen.oneOf(
+        genFeasibleFitness.map(f => Objective.single(f, List.empty[Constraint[Int]])),
+        genPenaltyFitness.map(f => Objective.single(f, violations)),
+        genInfeasibleFitenss.map(f => Objective.single(f, violations))
+      )
+    } yield obj
 
-  property("min") =
-    forAll { (x: Id[Int], y: Id[Int]) =>
-      Comparison.quality(Min)(x, y) === (x min y)
+
+  implicit def arbObjective = Arbitrary { objectiveGen }
+
+  implicit def idFitness: Fitness[Option, Objective[Int], Int] =
+    new Fitness[Option, Objective[Int], Int] {
+      def fitness(x: Option[Objective[Int]]): Option[Objective[Int]] =
+        x
     }
 
-  property("max") =
-    forAll { (x: Id[Int], y: Id[Int]) =>
-      Comparison.quality(Max)(x, y) === (x max y)
+  implicit def idFitness3: Fitness[Objective, Int, Int] =
+    new Fitness[Objective, Int, Int] {
+      def fitness(x: Objective[Int]): Option[Objective[Int]] =
+        Some(x)
     }
 
+  def better(opt: Opt)(x: Option[Objective[Int]], y: Option[Objective[Int]]) =
+    (x, y) match {
+      case (Some(a), Some(b)) =>
+        if (Comparison.fitter(a, b).apply(Comparison.quality(opt))) x else y
+      case (None, Some(_)) => y
+      case (Some(_), None) => x
+      case _ => x
+    }
+
+  property("min") = {
+    def min(x: Option[Objective[Int]], y: Option[Objective[Int]]) = better(Min)(x, y)
+
+    forAll { (x: Option[Objective[Int]], y: Option[Objective[Int]]) =>
+      Comparison.quality(Min)(x, y) == min(x, y)
+    }
+  }
+
+  property("max") = {
+    def max(x: Option[Objective[Int]], y: Option[Objective[Int]]) = better(Max)(x, y)
+
+    forAll { (x: Option[Objective[Int]], y: Option[Objective[Int]]) =>
+      Comparison.quality(Max)(x, y) == max(x, y)
+    }
+  }
 }
