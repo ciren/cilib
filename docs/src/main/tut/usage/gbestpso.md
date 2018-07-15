@@ -85,7 +85,7 @@ minimizing this problem and defining the bounds of the problem space.
 val env =
   Environment(
     cmp = Comparison.dominance(Min),
-    eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
+    eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
 
 val bounds = Interval(-5.12,5.12)^30
 ```
