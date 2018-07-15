@@ -12,9 +12,7 @@ import eu.timepit.refined.auto._
 import eu.timepit.refined.collection._
 
 final case class Algorithm[A](name: String Refined NonEmpty, value: A)
-final case class Problem[A](name: String Refined NonEmpty,
-                            env: Env,
-                            eval: Eval[NonEmptyList, A])
+final case class Problem[A](name: String Refined NonEmpty, env: Env, eval: Eval[NonEmptyList, A])
 final case class Progress[A] private (algorithm: String,
                                       problem: String,
                                       seed: Long,
@@ -60,7 +58,6 @@ object Runner {
   ): Process[Task, Problem[A]] =
     Process.constant(Problem(name, Unchanged, eval))
 
-
   def problem[S, A](name: String Refined NonEmpty,
                     state: RVar[S],
                     next: S => RVar[(S, Eval[NonEmptyList, A])])(
@@ -88,12 +85,13 @@ object Runner {
   /**
     *  Interpreter for algorithm execution
     */
-  def foldStep[F[_], A, B](initialConfig: Environment[A],
-                           rng: RNG,
-                           collection: RVar[F[B]],
-                           alg: Process[Task, Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]],
-                           env: Process[Task, Problem[A]],
-                           onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
+  def foldStep[F[_], A, B](
+      initialConfig: Environment[A],
+      rng: RNG,
+      collection: RVar[F[B]],
+      alg: Process[Task, Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]],
+      env: Process[Task, Problem[A]],
+      onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
 
     // Convert to a StepS with Unit as the state parameter
     val a: Process[Task, Algorithm[Kleisli[StepS[A, Unit, ?], F[B], F[B]]]] =
@@ -103,13 +101,14 @@ object Runner {
       .map(x => x.copy(value = x.value._2))
   }
 
-  def foldStepS[F[_], S, A, B](initialConfig: Environment[A],
-                               initialState: S,
-                               rng: RNG,
-                               collection: RVar[F[B]],
-                               alg: Process[Task, Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]],
-                               env: Process[Task, Problem[A]],
-                               onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]): Process[Task, Progress[(S, F[B])]] = {
+  def foldStepS[F[_], S, A, B](
+      initialConfig: Environment[A],
+      initialState: S,
+      rng: RNG,
+      collection: RVar[F[B]],
+      alg: Process[Task, Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]],
+      env: Process[Task, Problem[A]],
+      onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]): Process[Task, Progress[(S, F[B])]] = {
 
     def go(iteration: Int, r: RNG, current: F[B], config: Environment[A], state: S)
       : Tee[Problem[A], Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]], Progress[(S, F[B])]] =
