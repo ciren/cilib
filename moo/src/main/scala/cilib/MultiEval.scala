@@ -3,7 +3,6 @@ package cilib
 import scalaz._
 import Scalaz._
 
-
 final class MultiEval[F[_], A](objectives: NonEmptyList[Eval[F, A]]) {
 
   def eval(p: Position[A]): RVar[Objective[A]] =
