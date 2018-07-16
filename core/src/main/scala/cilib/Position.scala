@@ -61,15 +61,13 @@ sealed abstract class Position[A] {
     pos.list.toList.forall(f)
 }
 
-
 object Position {
   private final case class Point[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]])
-    extends Position[A]
+      extends Position[A]
   private final case class Solution[A](x: NonEmptyList[A],
-                                             b: NonEmptyList[Interval[Double]],
-                                             o: Objective[A])
-    extends Position[A]
-
+                                       b: NonEmptyList[Interval[Double]],
+                                       o: Objective[A])
+      extends Position[A]
 
   implicit def positionInstances: Bind[Position] with Traverse1[Position] with Align[Position] =
     new Bind[Position] with Traverse1[Position] with Align[Position] {
