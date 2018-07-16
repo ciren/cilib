@@ -10,6 +10,7 @@ import spire.algebra.{Module, Rng}
 import spire.math._
 
 sealed abstract class Position[A] {
+  import Position._
 
   def map[B](f: A => B): Position[B] =
     Point(pos.map(f), boundary)
@@ -60,14 +61,15 @@ sealed abstract class Position[A] {
     pos.list.toList.forall(f)
 }
 
-final case class Point[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]])
+
+object Position {
+  private final case class Point[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]])
     extends Position[A]
-final case class Solution[A] private[cilib] (x: NonEmptyList[A],
+  private final case class Solution[A](x: NonEmptyList[A],
                                              b: NonEmptyList[Interval[Double]],
                                              o: Objective[A])
     extends Position[A]
 
-object Position {
 
   implicit def positionInstances: Bind[Position] with Traverse1[Position] with Align[Position] =
     new Bind[Position] with Traverse1[Position] with Align[Position] {

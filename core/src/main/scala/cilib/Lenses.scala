@@ -54,18 +54,6 @@ object Lenses {
           if (scalaz.Equal[NonEmptyList[A]].equal(e.pos, c)) e
           else Position(c, e.boundary))
 
-  def _solutionPrism[A]: Prism[Position[A], Solution[A]] =
-    Prism[Position[A], Solution[A]] {
-      case x @ Solution(_, _, _) => Some(x)
-      case _                     => None
-    }(identity)
-
-  @deprecated(
-    "The _objective lens is not sound and will be removed in 2.1. Use Position#objective, or _objective instead",
-    "2.0.2")
-  def _objectiveLens[A]: Lens[Solution[A], Objective[A]] =
-    Lens[Solution[A], Objective[A]](_.o)(o => s => s)
-
   def _objective[A]: Getter[Position[A], Option[Objective[A]]] =
     Getter(_.objective)
 
