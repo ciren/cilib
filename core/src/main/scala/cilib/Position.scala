@@ -176,7 +176,6 @@ object Position {
         RVar.pure(x)
     }
 
-  /*private[cilib]*/
   def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)
 
