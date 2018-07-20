@@ -16,9 +16,9 @@ import spire.math.Interval
 object TimeVaryingGBestPSO extends SafeApp {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
-    Environment(
-      cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]).eval)
+    Environment(cmp = Comparison.dominance(Min),
+                eval =
+                  Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
 
   // To define one or more parameters for an algorithm, we need a few pieces:
 
@@ -53,7 +53,7 @@ object TimeVaryingGBestPSO extends SafeApp {
   val swarm =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
-  val problemStream = Runner.staticProblem("spherical", env.eval, RNG.init(123L))
+  val problemStream = Runner.staticProblem("spherical", env.eval)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   override val runc: IO[Unit] = {
@@ -67,7 +67,8 @@ object TimeVaryingGBestPSO extends SafeApp {
                        mkAlgorithm,
                        updateParams),
       problemStream,
-      (x: NonEmptyList[Particle[Mem[Double], Double]]) => RVar.pure(x)
+      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) =>
+        RVar.pure(x)
     )
 
     putStrLn(t.take(1000).runLast.unsafePerformSync.toString)

@@ -13,7 +13,7 @@ sealed abstract class Eval[F[_], A] {
 
   def run: F[A] => Double
 
-  def eval: RVar[NonEmptyList[A] => Objective[A]] =
+  lazy val eval: RVar[NonEmptyList[A] => Objective[A]] =
     RVar.pure { (fa: NonEmptyList[A]) =>
       this match {
         case Unconstrained(f, _) => Single(Feasible(f(F.toInput(fa))), List.empty)
