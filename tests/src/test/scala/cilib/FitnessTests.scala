@@ -77,9 +77,9 @@ object FitnessTest extends Properties("Fitness") {
       case (Some(a), Some(b)) =>
         (a.fitness, b.fitness) match {
           case (-\/(f1), -\/(f2)) =>
-            if (Comparison.fitCompare(opt)(f1, f2, a.violationCount, b.violationCount) == GT) x else y
+            if (Comparison.fitCompare(opt, f1, f2, a.violationCount, b.violationCount) == GT) x else y
           case (\/-(f1), \/-(f2)) =>
-            if (Comparison.multiFitCompare(opt)(f1, f2, a.violationCount, b.violationCount) == GT) x else y
+            if (Comparison.multiFitCompare(opt, f1, f2, a.violationCount, b.violationCount) == GT) x else y
           case _ => x
         }
       case (None, None) => x
