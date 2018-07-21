@@ -43,9 +43,7 @@ object Comparison {
     compare(x, y).andThen(_ == x)
 
   def fittest[F[_], A, B](a: F[A], b: F[A])(implicit F: Fitness[F, A, B]): Step[A, F[A]] =
-    Step.withCompare(comp =>
-      if (fitter(a, b).apply(comp)) a else b
-    )
+    Step.withCompare(comp => if (fitter(a, b).apply(comp)) a else b)
 
   def fitCompare(opt: Opt, x: Fit, y: Fit, xv: => Int, yv: => Int) =
     (x, y) match {

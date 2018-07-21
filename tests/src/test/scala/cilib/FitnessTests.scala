@@ -87,46 +87,39 @@ object FitnessTest extends Properties("Fitness") {
       case (_, None) => x
     }
 
-  property("single objective min") = {
+  val min = better(Min) _
+  val max = better(Max) _
+
+  property("single objective min") =
     forAll { (x: Option[Objective[Int] @@ Single], y: Option[Objective[Int] @@ Single]) =>
       val a = x.map(Tag.unwrap)
       val b = y.map(Tag.unwrap)
 
-      Comparison.quality(Min)(a, b) == better(Min)(a, b)
+      Comparison.quality(Min)(a, b) == min(a, b)
     }
-  }
 
-  property("single objective max") = {
+  property("single objective max") =
     forAll { (x: Option[Objective[Int] @@ Single], y: Option[Objective[Int] @@ Single]) =>
       val a = x.map(Tag.unwrap)
       val b = y.map(Tag.unwrap)
 
-      Comparison.quality(Max)(a, b) == better(Max)(a, b)
+      Comparison.quality(Max)(a, b) == max(a, b)
     }
-  }
 
-  property("multi objective dominance min") = {
-    def min(x: Option[Objective[Int]], y: Option[Objective[Int]]) =
-      better(Min)(x, y)
-
+  property("multi objective dominance min") =
     forAll { (x: Option[Objective[Int] @@ Multi], y: Option[Objective[Int] @@ Multi]) =>
       val a = x.map(Tag.unwrap)
       val b = y.map(Tag.unwrap)
 
       Comparison.quality(Min)(a, b) == min(a, b)
     }
-  }
 
-  property("multi objective dominance max") = {
-    def max(x: Option[Objective[Int]], y: Option[Objective[Int]]) =
-      better(Max)(x, y)
-
+  property("multi objective dominance max") =
     forAll { (x: Option[Objective[Int] @@ Multi], y: Option[Objective[Int] @@ Multi]) =>
       val a = x.map(Tag.unwrap)
       val b = y.map(Tag.unwrap)
 
       Comparison.quality(Max)(a, b) == max(a, b)
     }
-  }
 
 }
