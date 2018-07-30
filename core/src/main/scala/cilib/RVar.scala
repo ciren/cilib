@@ -149,30 +149,27 @@ object RVar {
   def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]) =
     choices(n, xs)
 
-  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(
-      implicit F: Foldable[F]): OptionT[RVar, List[A]] =
-    OptionT {
-      if (xs.length < n) RVar.pure(None)
-      else {
-        type M[B] = StateT[RVar, List[A], B]
+  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(implicit F: Foldable[F]): RVar[List[A]] =
+    if (xs.length < n) RVar.pure(List.empty)
+    else {
+      type M[B] = StateT[RVar, List[A], B]
 
-        (0 until F.length(xs)).toList.reverse
-          .take(n)
-          .foldLeftM[M, List[A]](List.empty) {
-            case (s, a) =>
-              StateT[RVar, List[A], List[A]] { currentList =>
-                Dist
-                  .uniformInt(Interval(0, a))
-                  .map(r => {
-                    val selected = currentList(r)
-                    (currentList.diff(List(selected)), selected :: s)
-                  })
-              }
-          }
-          .eval(xs.toList)
-          .map(Option(_))
-      }
+      (0 until F.length(xs)).toList.reverse
+        .take(n)
+        .foldLeftM[M, List[A]](List.empty) {
+          case (s, a) =>
+            StateT[RVar, List[A], List[A]] { currentList =>
+              Dist
+                .uniformInt(Interval(0, a))
+                .map(r => {
+                  val selected = currentList(r)
+                  (currentList.diff(List(selected)), selected :: s)
+                })
+            }
+        }
+        .eval(xs.toList)
     }
+
 }
 
 sealed trait Generator[A] {

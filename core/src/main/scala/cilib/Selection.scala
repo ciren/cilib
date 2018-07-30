@@ -80,7 +80,5 @@ object Selection {
       RVar
         .sample(n, l)
         .map(_.reduceLeftOption((a, c) => o.apply(a, c)))
-        .run
-        .map(_.flatten)
 
 }

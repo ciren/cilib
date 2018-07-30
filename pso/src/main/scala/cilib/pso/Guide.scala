@@ -55,7 +55,7 @@ object Guide {
     (collection, x) =>
       Step.liftR {
         val col = collection.list.filter(_ ne x)
-        val chosen = RVar.sample(3, col).run
+        val chosen = RVar.sample(3, col).map(Option(_))
         val crossover = Crossover.nmpc
 
         for {
