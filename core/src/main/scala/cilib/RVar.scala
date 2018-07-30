@@ -5,6 +5,10 @@ import scalaz._
 import Scalaz._
 import scalaz.Free._
 
+import eu.timepit.refined.auto._
+import eu.timepit.refined.api._
+import eu.timepit.refined.numeric.Positive
+
 import spire.math._
 import spire.implicits._
 
@@ -142,18 +146,17 @@ object RVar {
     }
   }
 
-  def sample[A](n: Int, xs: NonEmptyList[A]) =
+  def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]) =
     choices(n, xs)
 
-  def choices[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]] =
+  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(
+      implicit F: Foldable[F]): OptionT[RVar, List[A]] =
     OptionT {
       if (xs.length < n) RVar.pure(None)
       else {
-        import scalaz.syntax.foldable._
-        import scalaz.std.list._
         type M[B] = StateT[RVar, List[A], B]
 
-        (0 until xs.size).toList.reverse
+        (0 until F.length(xs)).toList.reverse
           .take(n)
           .foldLeftM[M, List[A]](List.empty) {
             case (s, a) =>

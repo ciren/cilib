@@ -3,6 +3,9 @@ package cilib
 import scalaz.{Ordering => _, _}
 import Scalaz._
 
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.numeric.Positive
+
 object Selection {
 
   private implicit class RicherEphemeralStream[A](val s: EphemeralStream[A]) extends AnyVal {
@@ -71,7 +74,7 @@ object Selection {
   def star[A] =
     (l: NonEmptyList[A], x: A) => l.toList
 
-  def tournament[F[_], A](n: Int, l: NonEmptyList[F[A]])(
+  def tournament[F[_], A](n: Int Refined Positive, l: NonEmptyList[F[A]])(
       implicit F: Fitness[F, A]): Comparison => RVar[Option[F[A]]] =
     o =>
       RVar
