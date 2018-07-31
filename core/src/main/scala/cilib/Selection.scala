@@ -78,7 +78,7 @@ object Selection {
       implicit F: Fitness[F, A]): Comparison => RVar[Option[F[A]]] =
     o =>
       RVar
-        .sample(n, l)
-        .map(_.reduceLeftOption((a, c) => o.apply(a, c)))
+        .sample(n, l) // RVar[Option[List[F[A]]]]
+        .map(_.flatMap(_.reduceLeftOption((a, c) => o.apply(a, c))))
 
 }

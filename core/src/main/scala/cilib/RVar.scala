@@ -136,9 +136,8 @@ object RVar {
 
     val length = xs.length - 1
     val randoms: RVar[List[Int]] =
-      (0 until length)
+      (length to 1 by -1)
         .foldLeft(List.empty[RVar[Int]])((a, c) => Dist.uniformInt(Interval(0, length - c)) :: a)
-        .reverse // TODO / FIX: Remove the need to reverse!
         .sequence
 
     randoms.map { r =>
@@ -149,25 +148,24 @@ object RVar {
   def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]) =
     choices(n, xs)
 
-  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(implicit F: Foldable[F]): RVar[List[A]] =
-    if (xs.length < n) RVar.pure(List.empty)
+  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(
+      implicit F: Foldable[F]): RVar[Option[List[A]]] =
+    if (xs.length < n) RVar.pure(None)
     else {
-      type M[B] = StateT[RVar, List[A], B]
+      val length = F.length(xs) - 1
+      val backsaw: RVar[List[Int]] =
+        (length to 0 by -1)
+          .take(n)
+          .toList
+          .traverse(x => Dist.uniformInt(Interval(0, x)))
 
-      (0 until F.length(xs)).toList.reverse
-        .take(n)
-        .foldLeftM[M, List[A]](List.empty) {
-          case (s, a) =>
-            StateT[RVar, List[A], List[A]] { currentList =>
-              Dist
-                .uniformInt(Interval(0, a))
-                .map(r => {
-                  val selected = currentList(r)
-                  (currentList.diff(List(selected)), selected :: s)
-                })
-            }
-        }
-        .eval(xs.toList)
+      backsaw
+        .map(_.foldLeft(List.empty[A])((a, c) =>
+          F.index(xs, c) match {
+            case Some(i) => a :+ i
+            case None    => sys.error("Shouldn't be possible")
+        }))
+        .map(_.some)
     }
 
 }
