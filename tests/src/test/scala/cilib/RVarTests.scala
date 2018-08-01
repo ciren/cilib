@@ -33,7 +33,6 @@ object RVarTests extends Spec("RVar") {
   property("shuffle") =
     forAll { (xs: NonEmptyList[Int]) =>
       val shuffled = RVar.shuffle(xs).run(RNG.fromTime)._2
-
       shuffled.length == xs.length && shuffled.sorted == xs.sorted
     }
 
