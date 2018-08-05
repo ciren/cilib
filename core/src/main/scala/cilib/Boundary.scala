@@ -19,13 +19,13 @@ object Boundary {
       case ((a, b), c) => f.f(a, b, c)
     }
 
-  def clamp[A](implicit N: spire.math.Numeric[A]) =
+  def clamp[A](implicit N: spire.math.Numeric[A]): Enforce[Need, A] =
     absorb
 
-  def projection[A](implicit N: spire.math.Numeric[A]) =
+  def projection[A](implicit N: spire.math.Numeric[A]): Enforce[Need, A] =
     absorb
 
-  def absorb[A](implicit N: spire.math.Numeric[A]) =
+  def absorb[A](implicit N: spire.math.Numeric[A]): Enforce[Need, A] =
     Enforce((a: A, b: Interval[Double]) =>
       Need {
         val z = N.toDouble(a)
@@ -35,7 +35,7 @@ object Boundary {
         else a
     })
 
-  def random[A](implicit N: spire.math.Numeric[A]) =
+  def random[A](implicit N: spire.math.Numeric[A]): Enforce[RVar, A] =
     Enforce(
       (a: A, b: Interval[Double]) =>
         if (b.contains(N.toDouble(a))) RVar.pure(a)
@@ -46,7 +46,7 @@ object Boundary {
     with  differential  evolution,”  in Evolutionary  Computation,  2005.  The
     2005 IEEE Congress on, vol. 1, Sept 2005, pp. 506–513 Vol.1
     */
-  def reflect[A](implicit N: spire.math.Numeric[A]) =
+  def reflect[A](implicit N: spire.math.Numeric[A]): Enforce[Need, A] =
     Enforce((a: A, b: Interval[Double]) =>
       Need {
         @annotation.tailrec
@@ -63,13 +63,13 @@ object Boundary {
         N.fromDouble(go(N.toDouble(a)))
     })
 
-  def wrap[A](implicit N: spire.math.Numeric[A]) =
+  def wrap[A](implicit N: spire.math.Numeric[A]): Enforce[Need, A] =
     toroidal
 
-  def periodic[A](implicit N: spire.math.Numeric[A]) =
+  def periodic[A](implicit N: spire.math.Numeric[A]): Enforce[Need, A] =
     toroidal
 
-  def toroidal[A](implicit N: spire.math.Numeric[A]) =
+  def toroidal[A](implicit N: spire.math.Numeric[A]): Enforce[Need, A] =
     Enforce((a: A, b: Interval[Double]) =>
       Need {
         val z = N.toDouble(a)
@@ -80,14 +80,14 @@ object Boundary {
         else a
     })
 
-  def midpoint[A](implicit N: spire.math.Numeric[A]) =
+  def midpoint[A](implicit N: spire.math.Numeric[A]): Enforce[Need, A] =
     Enforce((a: A, b: Interval[Double]) =>
       Need {
         if (b.contains(N.toDouble(a))) a
         else N.fromDouble((b.upperValue + b.lowerValue) / 2.0)
     })
 
-  def evolutionary[A](implicit N: spire.math.Numeric[A]) =
+  def evolutionary[A](implicit N: spire.math.Numeric[A]): EnforceTo[RVar, A] =
     EnforceTo((a: A, b: Interval[Double], target: A) => {
       val z = N.toDouble(a)
 
@@ -98,7 +98,7 @@ object Boundary {
       else RVar.pure(a)
     })
 
-  def around[A](implicit N: spire.math.Numeric[A]) =
+  def around[A](implicit N: spire.math.Numeric[A]): EnforceTo[RVar, A] =
     evolutionary
 
 }

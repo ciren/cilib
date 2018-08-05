@@ -20,7 +20,7 @@ sealed abstract class Objective[A] {
       case Multi(xs)    => xs.foldMap(_.violations)
     }
 
-  def violationCount =
+  def violationCount: Int =
     violations.length
 
   def fitness: Fit \/ List[Fit] = // Should this be tail-recursive?

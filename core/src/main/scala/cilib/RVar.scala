@@ -12,8 +12,8 @@ sealed abstract class RVar[A] {
   def trampolined(s: RNG): Trampoline[(RNG, A)]
 
   def run(initial: RNG): (RNG, A) = trampolined(initial).run
-  def exec(s: RNG) = run(s)._1
-  def eval(s: RNG) = run(s)._2
+  def exec(s: RNG): RNG = run(s)._1
+  def eval(s: RNG): A = run(s)._2
 
   def map[B](f: A => B): RVar[B] =
     RVar.trampolined(rng => trampolined(rng).map(a => (a._1, f(a._2))))
@@ -25,22 +25,45 @@ sealed abstract class RVar[A] {
           .flatMap((a: (RNG, A)) => f(a._2).trampolined(a._1)))
 }
 
-object RVar {
+sealed abstract class RVarInstances0 {
   implicit val rvarMonad: Monad[RVar] =
     new Monad[RVar] {
       def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
         a.flatMap(f)
+
       def point[A](a: => A) =
         RVar.pure(a)
     }
+}
 
-  def apply[A](f: RNG => (RNG, A)) = new RVar[A] {
-    def trampolined(s: RNG) = Trampoline.delay(f(s))
-  }
+sealed abstract class RVarInstances extends RVarInstances0 {
+  implicit val rvarBindRec: BindRec[RVar] =
+    new BindRec[RVar] {
+      def bind[A, B](fa: RVar[A])(f: A => RVar[B]): RVar[B] =
+        fa.flatMap(f)
 
-  def trampolined[A](f: RNG => Trampoline[(RNG, A)]) = new RVar[A] {
-    def trampolined(s: RNG) = Trampoline.suspend(f(s))
-  }
+      def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
+        fa.map(f)
+
+      def tailrecM[A, B](f: A => RVar[A \/ B])(a: A): RVar[B] =
+        f(a).flatMap {
+          case -\/(a0) => tailrecM(f)(a0)
+          case \/-(b)  => RVar.pure(b)
+        }
+    }
+}
+
+object RVar extends RVarInstances {
+
+  def apply[A](f: RNG => (RNG, A)): RVar[A] =
+    new RVar[A] {
+      def trampolined(s: RNG) = Trampoline.delay(f(s))
+    }
+
+  def trampolined[A](f: RNG => Trampoline[(RNG, A)]): RVar[A] =
+    new RVar[A] {
+      def trampolined(s: RNG) = Trampoline.suspend(f(s))
+    }
 
   @deprecated("This method has been deprecated, use pure instead, it is technically better",
               "2.0.2")
@@ -53,10 +76,10 @@ object RVar {
   def next[A](implicit e: Generator[A]): RVar[A] =
     e.gen
 
-  def ints(n: Int) =
+  def ints(n: Int): RVar[List[Int]] =
     next[Int](Generator.IntGen).replicateM(n)
 
-  def doubles(n: Int) =
+  def doubles(n: Int): RVar[List[Double]] =
     next[Double](Generator.DoubleGen).replicateM(n)
 
   def choose[A](xs: NonEmptyList[A]): RVar[A] =
@@ -88,14 +111,16 @@ object RVar {
         }
 
       def inner(l: NonEmptyList[BinTree]): NonEmptyList[BinTree] = {
-        def go(xs: List[BinTree]): List[BinTree] =
+        @annotation.tailrec
+        def go(xs: List[BinTree], acc: List[BinTree]): List[BinTree] =
           xs match {
-            case e :: Nil       => List(e)
-            case e1 :: e2 :: es => join(e1, e2) :: go(es)
-            case Nil            => List.empty[BinTree]
+            case Nil            => acc
+            case _ :: Nil       => acc ++ xs
+            case e1 :: e2 :: es => go(es, join(e1, e2) :: acc)
           }
 
-        go(l.toList).toNel.getOrElse(sys.error("This is impossible as the input is non-empty"))
+        go(l.toList, List.empty[BinTree]).toNel
+          .getOrElse(sys.error("This is impossible as the input is non-empty"))
       }
 
       fix[NonEmptyList[BinTree], NonEmptyList[BinTree]](f =>
@@ -142,7 +167,7 @@ object RVar {
     }
   }
 
-  def sample[A](n: Int, xs: NonEmptyList[A]) =
+  def sample[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]] =
     choices(n, xs)
 
   def choices[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]] =
@@ -155,7 +180,7 @@ object RVar {
 
         (0 until xs.size).toList.reverse
           .take(n)
-          .foldLeftM[M, List[A]](List.empty) {
+          .foldLeftM[M, List[A]](List.empty[A]) {
             case (s, a) =>
               StateT[RVar, List[A], List[A]] { currentList =>
                 Dist
@@ -209,16 +234,16 @@ object Dist {
   import RVar._
   import scalaz.std.AllInstances._
 
-  val stdUniform = next[Double]
-  val stdNormal = gaussian(0.0, 1.0)
-  val stdCauchy = cauchy(0.0, 1.0)
-  val stdExponential = exponential(1.0)
-  val stdGamma = gamma(2, 2.0)
-  val stdLaplace = laplace(0.0, 1.0)
-  val stdLognormal = lognormal(0.0, 1.0)
+  val stdUniform: RVar[Double] = next[Double]
+  val stdNormal: RVar[Double] = gaussian(0.0, 1.0)
+  val stdCauchy: RVar[Double] = cauchy(0.0, 1.0)
+  val stdExponential: RVar[Double] = exponential(1.0)
+  val stdGamma: RVar[Double] = gamma(2, 2.0)
+  val stdLaplace: RVar[Double] = laplace(0.0, 1.0)
+  val stdLognormal: RVar[Double] = lognormal(0.0, 1.0)
 
   /** Generate a discrete uniform value in [from, to]. Note that the upper bound is *inclusive* */
-  def uniformInt(i: Interval[Int]) =
+  def uniformInt(i: Interval[Int]): RVar[Int] =
     next[Int].map(x => {
       val (from, to) = (i.lowerValue, i.upperValue)
       val (ll, hh) = if (to < from) (to, from) else (from, to)
@@ -227,43 +252,65 @@ object Dist {
       else (ll.toLong + (math.abs(x.toLong) % (diff + 1))).toInt
     })
 
-  def uniform(i: Interval[Double]) =
+  def uniform(i: Interval[Double]): RVar[Double] =
     stdUniform.map { x =>
       i.lowerValue + x * (i.upperValue - i.lowerValue)
     }
 
-  def cauchy(l: Double, s: Double) =
+  def cauchy(l: Double, s: Double): RVar[Double] =
     stdUniform.map { x =>
       l + s * math.tan(math.Pi * (x - 0.5))
     }
 
-  def gamma(k: Double, theta: Double) = {
+  def gamma(k: Double, theta: Double): RVar[Double] = {
     val n = k.toInt
     val gammaInt = stdUniform.replicateM(n).map(_.foldMap(x => -math.log(x)))
     val gammaFrac = {
       val delta = k - n
 
-      def inner: RVar[Double] =
-        for {
-          u1 <- stdUniform
-          u2 <- stdUniform
-          u3 <- stdUniform
-          (zeta, eta) = {
-            val v0 = math.E / (math.E + delta)
-            if (u1 <= v0) {
-              val zeta = math.pow(u2, 1.0 / delta)
-              val eta = u3 * math.pow(zeta, delta - 1)
-              (zeta, eta)
-            } else {
-              val zeta = 1 - math.log(u2)
-              val eta = u3 * math.exp(-zeta)
-              (zeta, eta)
-            }
+      val a: RVar[(Double, Double)] =
+        (stdUniform |@| stdUniform |@| stdUniform) { (u1, u2, u3) =>
+          val v0 = math.E / (math.E + delta)
+          if (u1 <= v0) {
+            val zeta = math.pow(u2, 1.0 / delta)
+            val eta = u3 * math.pow(zeta, delta - 1)
+            (zeta, eta)
+          } else {
+            val zeta = 1 - math.log(u2)
+            val eta = u3 * math.exp(-zeta)
+            (zeta, eta)
           }
-          r <- if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) inner else RVar.pure(zeta)
-        } yield r
+        }
 
-      inner
+      a.flatMap(a0 =>
+        BindRec[RVar].tailrecM((x: (Double, Double)) => {
+          val (zeta, eta) = x
+
+          if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) a.map(_.left[Double])
+          else RVar.pure(zeta.right[(Double, Double)])
+        })(a0))
+
+      // def inner: RVar[Double] =
+      //   for {
+      //     u1 <- stdUniform
+      //     u2 <- stdUniform
+      //     u3 <- stdUniform
+      //     (zeta, eta) = {
+      //       val v0 = math.E / (math.E + delta)
+      //       if (u1 <= v0) {
+      //         val zeta = math.pow(u2, 1.0 / delta)
+      //         val eta = u3 * math.pow(zeta, delta - 1)
+      //         (zeta, eta)
+      //       } else {
+      //         val zeta = 1 - math.log(u2)
+      //         val eta = u3 * math.exp(-zeta)
+      //         (zeta, eta)
+      //       }
+      //     }
+      //     r <- if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) inner else RVar.pure(zeta)
+      //   } yield r
+      //
+      // inner
     }
 
     (gammaInt |@| gammaFrac) { (a, b) =>
@@ -271,19 +318,19 @@ object Dist {
     }
   }
 
-  def exponential(l: Double) =
+  def exponential(l: Double): RVar[Double] =
     stdUniform.map { math.log(_) / l }
 
-  def laplace(b0: Double, b1: Double) =
+  def laplace(b0: Double, b1: Double): RVar[Double] =
     stdUniform.map { x =>
       val rr = x - 0.5
       b0 - b1 * (math.log(1 - 2 * rr.abs)) * rr.signum
     }
 
-  def lognormal(mean: Double, dev: Double) =
+  def lognormal(mean: Double, dev: Double): RVar[Double] =
     stdNormal.map(x => math.exp(mean + dev * x))
 
-  def dirichlet(alphas: List[Double]) =
+  def dirichlet(alphas: List[Double]): RVar[List[Double]] =
     alphas
       .traverse(gamma(_, 1))
       .map(ys => {
@@ -321,7 +368,7 @@ object Dist {
         {
           val f = math.exp(-0.5 * a._3 * a._3)
           val v = math.sqrt(-2.0 * math.log(ZIGNOR_V / a._2 + f))
-          if (a._1 == 0) none else (v, (a._1 - 1, a._3, v)).some
+          if (a._1 == 0) none[(Double, (Int, Double, Double))] else (v, (a._1 - 1, a._3, v)).some
         }
       } :+ 0.0
 
@@ -360,7 +407,7 @@ object Dist {
 
   private def invErfc(x: Double) = invErf(1.0 - x) // check this. invErfc(1 - x) == invErf(x)
 
-  def levy(l: Double, s: Double) =
+  def levy(l: Double, s: Double): RVar[Double] =
     stdUniform.map { x =>
       l + s / (0.5 * invErfc(x) * invErfc(x))
     }

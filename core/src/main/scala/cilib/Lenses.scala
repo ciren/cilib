@@ -13,7 +13,7 @@ trait HasMemory[S, A] {
 }
 
 object HasMemory {
-  @inline def apply[S, A](implicit A: HasMemory[S, A]) = A
+  @inline def apply[S, A](implicit A: HasMemory[S, A]): HasMemory[S, A] = A
 
   implicit val memMemory: HasMemory[Mem[Double], Double] =
     new HasMemory[Mem[Double], Double] {
@@ -44,10 +44,13 @@ object Lenses {
   import scalaz.{Lens => _, Optional => _, _}
 
   // Base Entity lenses
-  def _state[S, A] = Lens[Entity[S, A], S](_.state)(c => e => e.copy(state = c))
-  def _position[S, A] = Lens[Entity[S, A], Position[A]](_.pos)(c => e => e.copy(pos = c))
+  def _state[S, A]: Lens[Entity[S, A], S] =
+    Lens[Entity[S, A], S](_.state)(c => e => e.copy(state = c))
 
-  def _vector[A: scalaz.Equal] =
+  def _position[S, A]: Lens[Entity[S, A], Position[A]] =
+    Lens[Entity[S, A], Position[A]](_.pos)(c => e => e.copy(pos = c))
+
+  def _vector[A: scalaz.Equal]: Lens[Position[A], NonEmptyList[A]] =
     Lens[Position[A], NonEmptyList[A]](_.pos)(
       c =>
         e =>

@@ -33,7 +33,7 @@ sealed abstract class Position[A] {
       case Solution(x, _, _) => x.list.drop(n)
     }
 
-  def pos =
+  def pos: NonEmptyList[A] =
     this match {
       case Point(x, _)       => x
       case Solution(x, _, _) => x
@@ -51,13 +51,13 @@ sealed abstract class Position[A] {
       case Solution(_, _, o) => Some(o)
     }
 
-  def boundary =
+  def boundary: NonEmptyList[Interval[Double]] =
     this match {
       case Point(_, b)       => b
       case Solution(_, b, _) => b
     }
 
-  def forall(f: A => Boolean) =
+  def forall(f: A => Boolean): Boolean =
     pos.list.toList.forall(f)
 }
 
@@ -125,7 +125,8 @@ object Position {
     def unary_-(implicit M: Module[Position[A], A]): Position[A] =
       M.negate(x)
 
-    def isZero(implicit R: Rng[A]) = {
+    def isZero(implicit R: Rng[A]): Boolean = {
+      @annotation.tailrec
       def test(xs: IList[A]): Boolean =
         xs match {
           case INil()        => true

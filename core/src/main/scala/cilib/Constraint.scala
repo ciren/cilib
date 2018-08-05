@@ -12,7 +12,7 @@ object ViolationCount {
     if (i >= 0) Maybe.Just(new ViolationCount(i))
     else Maybe.Empty()
 
-  val zero = new ViolationCount(0)
+  val zero: ViolationCount = new ViolationCount(0)
 
   import scalaz.Order
   import scalaz.std.anyVal._
@@ -113,7 +113,7 @@ object Constraint {
     ViolationCount(constraints.map(satisfies(_, cs)).filterNot(x => x).length)
       .getOrElse(ViolationCount.zero)
 
-  def satisfies[A](constraint: Constraint[A], cs: NonEmptyList[A]) =
+  def satisfies[A](constraint: Constraint[A], cs: NonEmptyList[A]): Boolean =
     constraint match {
       case LessThan(f, v)      => f(cs) < v
       case LessThanEqual(f, v) => f(cs) <= v

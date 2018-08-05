@@ -9,12 +9,12 @@ import spire.implicits._
 
 trait DotProd[F[_], A] {
   def dot(a: F[A], b: F[A]): Double
-  def ∙(a: F[A], b: F[A]) = dot(a, b)
+  def ∙(a: F[A], b: F[A]): Double = dot(a, b)
 
-  def normsqr(a: F[A]) = dot(a, a)
-  def norm(a: F[A]) = math.sqrt(normsqr(a))
-  def lensqr(a: F[A]) = normsqr(a)
-  def len(a: F[A]) = norm(a)
+  def normsqr(a: F[A]): Double = dot(a, a)
+  def norm(a: F[A]): Double = math.sqrt(normsqr(a))
+  def lensqr(a: F[A]): Double = normsqr(a)
+  def len(a: F[A]): Double = norm(a)
 }
 
 trait CrossProd[F[_], A] {
@@ -31,25 +31,26 @@ trait Orthongonal { // Need to examine the name of this typeclass??
 
 object Algebra {
 
-  def normalize[F[_], A](a: F[A])(implicit M: Module[F[A], Double], D: DotProd[F, A]) = {
+  def normalize[F[_], A](a: F[A])(implicit M: Module[F[A], Double], D: DotProd[F, A]): F[A] = {
     val mag = D.norm(a)
     if (mag === 0.0) a
     else (1.0 / mag) *: a
   }
 
-  def magnitude[F[_], A](a: F[A])(implicit D: DotProd[F, A]) =
+  def magnitude[F[_], A](a: F[A])(implicit D: DotProd[F, A]): Double =
     D.norm(a)
 
-  def distance[F[_], A](a: F[A], b: F[A])(implicit D: DotProd[F, A], M: Module[F[A], Double]) =
+  def distance[F[_], A](a: F[A], b: F[A])(implicit D: DotProd[F, A],
+                                          M: Module[F[A], Double]): Double =
     D.norm(M.minus(a, b))
 
-  def pointwise[F[_], A](a: F[A], b: F[A])(implicit P: Pointwise[F, A]) =
+  def pointwise[F[_], A](a: F[A], b: F[A])(implicit P: Pointwise[F, A]): F[A] =
     P.pointwise(a, b)
 
-  def vectorSum[F[_], A](xs: NonEmptyList[F[A]])(implicit M: Module[F[A], Double]) =
+  def vectorSum[F[_], A](xs: NonEmptyList[F[A]])(implicit M: Module[F[A], Double]): F[A] =
     xs.foldLeft1(M.plus)
 
-  def meanVector[F[_], A](xs: NonEmptyList[F[A]])(implicit M: Module[F[A], Double]) =
+  def meanVector[F[_], A](xs: NonEmptyList[F[A]])(implicit M: Module[F[A], Double]): F[A] =
     (1.0 / xs.length) *: vectorSum(xs)
 
   def orthogonalize[F[_]: Functor, A](x: F[A], vs: List[F[A]])(implicit D: DotProd[F, A],
@@ -64,8 +65,10 @@ object Algebra {
     if (D.dot(other, other) == F2.zero) F.map(other)(_ => F2.zero)
     else (D.dot(x, other) / D.dot(other, other)) *: other
 
-  def orthonormalize[F[_]: Functor: Foldable1, A: NRoot](
-      vs: NonEmptyList[F[A]])(implicit D: DotProd[F, A], M: Module[F[A], Double], A: Field[A]) = {
+  def orthonormalize[F[_]: Functor: Foldable1, A: NRoot](vs: NonEmptyList[F[A]])(
+      implicit D: DotProd[F, A],
+      M: Module[F[A], Double],
+      A: Field[A]): NonEmptyList[F[A]] = {
     val bases = vs.foldLeft(NonEmptyList(vs.head)) { (ob, v) =>
       val ui = ob.foldLeft(v) { (u, o) =>
         u - project(v, o)
