@@ -68,8 +68,13 @@ sealed abstract class Archive[A: Order, B] {
         this match {
             case Empty(b) => NonEmpty[A, B](==>>.singleton(k, v), b)
             case NonEmpty(m, b) =>
-                if (m.values.forall(x => f(v, x))) NonEmpty[A, B](m.insert(k, v), b)
-                else NonEmpty[A, B](m, b)
+                b match {
+                    case Closed(limit) =>
+                        if (limit.value <= m.size && m.values.forall(x => f(v, x))) NonEmpty[A, B](m.insert(k, v), b)
+                        else NonEmpty[A, B](m, b)
+                    case Open() => NonEmpty[A, B](m, b)
+                }
+
         }
 
     def deleteByKey(k: A): Archive[A, B] =
