@@ -5,8 +5,8 @@ import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
 
 sealed trait Bound
-final case class Closed(limit: Int Refined Positive) extends Bound
-final case class Open() extends Bound
+final case class Bounded(limit: Int Refined Positive) extends Bound
+final case class Unbounded() extends Bound
 
 sealed abstract class Archive[A: Order, B] {
 
@@ -57,10 +57,10 @@ sealed abstract class Archive[A: Order, B] {
       case Empty(b) => NonEmpty[A, B](==>>.singleton(k, v), b)
       case NonEmpty(m, b) =>
         b match {
-          case Closed(limit) =>
+          case Bounded(limit) =>
             if (limit.value <= m.size) NonEmpty[A, B](m.insert(k, v), b)
             else NonEmpty[A, B](m, b)
-          case Open() => NonEmpty[A, B](m, b)
+          case Unbounded() => NonEmpty[A, B](m, b)
         }
     }
 
@@ -69,11 +69,11 @@ sealed abstract class Archive[A: Order, B] {
       case Empty(b) => NonEmpty[A, B](==>>.singleton(k, v), b)
       case NonEmpty(m, b) =>
         b match {
-          case Closed(limit) =>
+          case Bounded(limit) =>
             if (limit.value <= m.size && m.values.forall(x => f(v, x)))
               NonEmpty[A, B](m.insert(k, v), b)
             else NonEmpty[A, B](m, b)
-          case Open() => NonEmpty[A, B](m, b)
+          case Unbounded() => NonEmpty[A, B](m, b)
         }
 
     }
@@ -103,6 +103,30 @@ sealed abstract class Archive[A: Order, B] {
         val newMap = m.filter(x => f(x))
         if (newMap.isEmpty) Empty[A, B](b)
         else NonEmpty(newMap, b)
+    }
+
+  def deleteMax: Archive[A, B] =
+    this match {
+      case Empty(b)       => Empty[A, B](b)
+      case NonEmpty(m, b) => NonEmpty(m.deleteMax, b)
+    }
+
+  def deleteMin: Archive[A, B] =
+    this match {
+      case Empty(b)       => Empty[A, B](b)
+      case NonEmpty(m, b) => NonEmpty(m.deleteMin, b)
+    }
+
+  def findMax: Option[(A, B)] =
+    this match {
+      case Empty(_)       => None
+      case NonEmpty(m, _) => m.findMax
+    }
+
+  def findMin: Option[(A, B)] =
+    this match {
+      case Empty(_)       => None
+      case NonEmpty(m, _) => m.findMin
     }
 
   def adjust(k: A, f: B => B): Archive[A, B] =
