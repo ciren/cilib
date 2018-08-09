@@ -3,6 +3,9 @@ package cilib
 import scalaz.{Ordering => _, _}
 import Scalaz._
 
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.numeric.Positive
+
 object Selection {
 
   private implicit class RicherEphemeralStream[A](val s: EphemeralStream[A]) extends AnyVal {
@@ -73,13 +76,11 @@ object Selection {
   def star[A]: (NonEmptyList[A], A) => List[A] =
     (l: NonEmptyList[A], x: A) => l.toList
 
-  def tournament[F[_], A](n: Int, l: NonEmptyList[F[A]])(
+  def tournament[F[_], A](n: Int Refined Positive, l: NonEmptyList[F[A]])(
       implicit F: Fitness[F, A, A]): Comparison => RVar[Option[F[A]]] =
     o =>
       RVar
-        .sample(n, l)
-        .map(_.reduceLeftOption((a, c) => o.apply(a, c)))
-        .run
-        .map(_.flatten)
+        .sample(n, l) // RVar[Option[List[F[A]]]]
+        .map(_.flatMap(_.reduceLeftOption((a, c) => o.apply(a, c))))
 
 }

@@ -22,7 +22,7 @@ object RandomSearchGA extends SafeApp {
                 eval =
                   Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
 
-  val randomSelection = (l: NonEmptyList[Ind]) => RVar.sample(2, l).getOrElse(List.empty[Ind])
+  val randomSelection = (l: NonEmptyList[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
   val distribution = (position: Double) =>
     Dist.stdNormal.flatMap(x => Dist.gaussian(0, 1.25)).map(_ + position)
 
