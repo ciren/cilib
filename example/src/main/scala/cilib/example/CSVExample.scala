@@ -101,56 +101,28 @@ object CSVExample extends SafeApp {
   val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) =>
     RVar.pure(x)
 
+  def simulation(env: Environment[Double], stream: Process[Task, Problem[Double]]) =
+    List(
+      Runner.foldStep(env,
+                      rng,
+                      swarm,
+                      Runner.staticAlgorithm("GBestPSO", gbestIter),
+                      stream,
+                      onChange),
+      Runner.foldStep(env,
+                      rng,
+                      swarm,
+                      Runner.staticAlgorithm("LBestPSO", lbestIter),
+                      stream,
+                      onChange)
+    )
+
   val simulations = List(
-    Runner.foldStep(absolute,
-                    rng,
-                    swarm,
-                    Runner.staticAlgorithm("GBestPSO", gbestIter),
-                    absoluteStream,
-                    onChange),
-    Runner.foldStep(ackley,
-                    rng,
-                    swarm,
-                    Runner.staticAlgorithm("GBestPSO", gbestIter),
-                    ackleyStream,
-                    onChange),
-    Runner.foldStep(quadric,
-                    rng,
-                    swarm,
-                    Runner.staticAlgorithm("GBestPSO", gbestIter),
-                    quadricStream,
-                    onChange),
-    Runner.foldStep(spherical,
-                    rng,
-                    swarm,
-                    Runner.staticAlgorithm("GBestPSO", gbestIter),
-                    sphericalStream,
-                    onChange),
-    Runner.foldStep(absolute,
-                    rng,
-                    swarm,
-                    Runner.staticAlgorithm("LBestPSO", lbestIter),
-                    absoluteStream,
-                    onChange),
-    Runner.foldStep(ackley,
-                    rng,
-                    swarm,
-                    Runner.staticAlgorithm("LBestPSO", lbestIter),
-                    ackleyStream,
-                    onChange),
-    Runner.foldStep(quadric,
-                    rng,
-                    swarm,
-                    Runner.staticAlgorithm("LBestPSO", lbestIter),
-                    quadricStream,
-                    onChange),
-    Runner.foldStep(spherical,
-                    rng,
-                    swarm,
-                    Runner.staticAlgorithm("LBestPSO", lbestIter),
-                    sphericalStream,
-                    onChange)
-  )
+    simulation(absolute, absoluteStream),
+    simulation(ackley, ackleyStream),
+    simulation(quadric, quadricStream),
+    simulation(spherical, sphericalStream)
+  ).flatten
 
   // Our method to execute the simulations, where each simulation lasts 1000 iterations,
   // across 4 cores and save the results to a csv file.
