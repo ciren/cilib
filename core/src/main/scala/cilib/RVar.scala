@@ -161,7 +161,7 @@ object RVar extends RVarInstances {
           .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty")))
   }
 
-  def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]) =
+  def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]): RVar[Option[List[A]]] =
     choices(n, xs)
 
   def choices[F[_], A](n: Int Refined Positive, xs: F[A])(
