@@ -21,7 +21,7 @@ import spire.math.Interval
 object CSVExample extends SafeApp {
 
   // An example showing how to compare multiple algorithms across multiple
-  // benchmarks and save the results to a CSV file.
+  // benchmarks and save the results to a csv (or parquet) file.
 
   val bounds = Interval(-5.12, 5.12) ^ 30
   val rng = RNG.init(12L)
