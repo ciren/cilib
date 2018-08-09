@@ -4,192 +4,169 @@ import scalaz._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
 
-sealed trait Bound
-final case class Bounded(limit: Int Refined Positive) extends Bound
-final case class Unbounded() extends Bound
+sealed trait ArchiveBound
+final case class Bounded(limit: Int Refined Positive) extends ArchiveBound
+final case class Unbounded() extends ArchiveBound
 
-sealed abstract class Archive[A: Order, B] {
+sealed abstract class Archive[A, B] {
 
-  def keys: Option[List[A]] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => Some(m.keys)
-    }
-
-  def values: Option[List[B]] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => Some(m.values)
-    }
-
-  def bound: Bound =
-    this match {
-      case Empty(b)       => b
-      case NonEmpty(_, b) => b
-    }
-
-  def map[C](f: B => C): Archive[A, C] =
-    this match {
-      case Empty(b)       => Empty(b)
-      case NonEmpty(m, b) => NonEmpty(m.map(f), b)
-    }
-
-  def fold[C](z: C)(f: (A, B, C) => C): Option[C] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => Some(m.fold(z)(f))
-    }
-
-  def foldlWithKey(z: B)(f: (B, A, B) => B): Option[B] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => Some(m.foldlWithKey(z)(f))
-    }
-
-  def foldrWithKey(z: B)(f: (A, B, B) => B): Option[B] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => Some(m.foldrWithKey(z)(f))
-    }
-
-  def insert(k: A, v: B): NonEmpty[A, B] =
-    this match {
-      case Empty(b) => NonEmpty[A, B](==>>.singleton(k, v), b)
-      case NonEmpty(m, b) =>
-        b match {
-          case Bounded(limit) =>
-            if (limit.value <= m.size) NonEmpty[A, B](m.insert(k, v), b)
-            else NonEmpty[A, B](m, b)
-          case Unbounded() => NonEmpty[A, B](m, b)
-        }
-    }
-
-  def insertWithCondition(f: (B, B) => Boolean)(k: A, v: B): Archive[A, B] =
-    this match {
-      case Empty(b) => NonEmpty[A, B](==>>.singleton(k, v), b)
-      case NonEmpty(m, b) =>
-        b match {
-          case Bounded(limit) =>
-            if (limit.value <= m.size && m.values.forall(x => f(v, x)))
-              NonEmpty[A, B](m.insert(k, v), b)
-            else NonEmpty[A, B](m, b)
-          case Unbounded() => NonEmpty[A, B](m, b)
+    def keys: Option[List[A]] =
+        this match {
+            case Empty(_)       => None
+            case NonEmpty(m, _) => Some(m.keys)
         }
 
-    }
+    def values: Option[List[B]] =
+        this match {
+            case Empty(_)       => None
+            case NonEmpty(m, _) => Some(m.values)
+        }
 
-  def deleteByKey(k: A): Archive[A, B] =
-    this match {
-      case Empty(b) => Empty[A, B](b)
-      case NonEmpty(m, b) =>
-        val newMap = m.delete(k)
-        if (newMap.isEmpty) Empty[A, B](b)
-        else NonEmpty(newMap, b)
-    }
+    def bound: ArchiveBound =
+        this match {
+            case Empty(b)       => b
+            case NonEmpty(_, b) => b
+        }
 
-  def deleteByValue(v: B): Archive[A, B] =
-    this match {
-      case Empty(b) => Empty[A, B](b)
-      case NonEmpty(m, b) =>
-        val newMap = m.filter(x => x != v)
-        if (newMap.isEmpty) Empty[A, B](b)
-        else NonEmpty(newMap, b)
-    }
+    def map[C](f: B => C): Archive[A, C] =
+        this match {
+            case Empty(b)       => Empty(b)
+            case NonEmpty(m, b) => NonEmpty(m.map(f), b)
+        }
 
-  def deleteWithCondition(f: B => Boolean): Archive[A, B] =
-    this match {
-      case Empty(b) => Empty(b)
-      case NonEmpty(m, b) =>
-        val newMap = m.filter(x => f(x))
-        if (newMap.isEmpty) Empty[A, B](b)
-        else NonEmpty(newMap, b)
-    }
+    def fold[C](z: C)(f: (A, B, C) => C): Option[C] =
+        this match {
+            case Empty(_)       => None
+            case NonEmpty(m, _) => Some(m.fold(z)(f))
+        }
 
-  def deleteMax: Archive[A, B] =
-    this match {
-      case Empty(b)       => Empty[A, B](b)
-      case NonEmpty(m, b) => NonEmpty(m.deleteMax, b)
-    }
+    def insert(k: A, v: B)(implicit A: Order[A]): NonEmpty[A, B] =
+        this match {
+            case Empty(b) => NonEmpty[A, B](==>>.singleton(k, v), b)
+            case NonEmpty(m, b) =>
+                b match {
+                    case Bounded(limit) =>
+                        if (limit.value <= m.size) NonEmpty[A, B](m.insert(k, v), b)
+                        else NonEmpty[A, B](m, b)
+                    case Unbounded() => NonEmpty[A, B](m.insert(k, v), b)
+                }
+        }
 
-  def deleteMin: Archive[A, B] =
-    this match {
-      case Empty(b)       => Empty[A, B](b)
-      case NonEmpty(m, b) => NonEmpty(m.deleteMin, b)
-    }
+    def insertWithCondition(f: (B, B) => Boolean)(k: A, v: B)(implicit A: Order[A]): Archive[A, B] =
+        this match {
+            case Empty(b) => NonEmpty[A, B](==>>.singleton(k, v), b)
+            case NonEmpty(m, b) =>
+                b match {
+                    case Bounded(limit) =>
+                        if (limit.value <= m.size && m.values.forall(x => f(v, x)))
+                            NonEmpty[A, B](m.insert(k, v), b)
+                        else NonEmpty[A, B](m, b)
+                    case Unbounded() => NonEmpty[A, B](m.insert(k, v), b)
+                }
 
-  def findMax: Option[(A, B)] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => m.findMax
-    }
+        }
 
-  def findMin: Option[(A, B)] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => m.findMin
-    }
+    def deleteByKey(k: A)(implicit A: Order[A]): Archive[A, B] =
+        this match {
+            case Empty(b) => Empty[A, B](b)
+            case NonEmpty(m, b) =>
+                val newMap = m.delete(k)
+                if (newMap.isEmpty) Empty[A, B](b)
+                else NonEmpty(newMap, b)
+        }
 
-  def adjust(k: A, f: B => B): Archive[A, B] =
-    this match {
-      case Empty(b)       => Empty(b)
-      case NonEmpty(m, b) => NonEmpty(m.adjust(k, f), b)
-    }
+    def deleteWithCondition(f: B => Boolean)(implicit A: Order[A]): Archive[A, B] =
+        this match {
+            case Empty(b) => Empty(b)
+            case NonEmpty(m, b) =>
+                val newMap = m.filter(x => f(x))
+                if (newMap.isEmpty) Empty[A, B](b)
+                else NonEmpty(newMap, b)
+        }
 
-  def adjustWithKey(k: A, f: (A, B) => B): Archive[A, B] =
-    this match {
-      case Empty(b)       => Empty(b)
-      case NonEmpty(m, b) => NonEmpty(m.adjustWithKey(k, f), b)
-    }
+    def deleteMax: Archive[A, B] =
+        this match {
+            case Empty(b)       => Empty[A, B](b)
+            case NonEmpty(m, b) => NonEmpty(m.deleteMax, b)
+        }
 
-  def dominates(f: (B, B) => Boolean)(v: B): Boolean =
-    this match {
-      case Empty(_)       => true
-      case NonEmpty(m, _) => m.values.forall(x => f(v, x))
-    }
+    def deleteMin: Archive[A, B] =
+        this match {
+            case Empty(b)       => Empty[A, B](b)
+            case NonEmpty(m, b) => NonEmpty(m.deleteMin, b)
+        }
 
-  def elemAt(i: Int): Option[(A, B)] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => m.elemAt(i)
-    }
+    def findMax: Option[(A, B)] =
+        this match {
+            case Empty(_)       => None
+            case NonEmpty(m, _) => m.findMax
+        }
 
-  def empty: Empty[A, B] =
-    this match {
-      case Empty(b)       => Empty(b)
-      case NonEmpty(_, b) => Empty(b)
-    }
+    def findMin: Option[(A, B)] =
+        this match {
+            case Empty(_)       => None
+            case NonEmpty(m, _) => m.findMin
+        }
 
-  def isEmpty: Boolean =
-    this match {
-      case Empty(_)       => true
-      case NonEmpty(m, _) => m.isEmpty
-    }
+    def adjust(k: A, f: B => B)(implicit A: Order[A]): Archive[A, B] =
+        this match {
+            case Empty(b)       => Empty(b)
+            case NonEmpty(m, b) => NonEmpty(m.adjust(k, f), b)
+        }
 
-  def lastKey: Option[A] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => m.keys.lastOption
-    }
+    def adjustWithKey(k: A, f: (A, B) => B)(implicit A: Order[A]): Archive[A, B] =
+        this match {
+            case Empty(b)       => Empty(b)
+            case NonEmpty(m, b) => NonEmpty(m.adjustWithKey(k, f), b)
+        }
 
-  def lookup(k: A): Option[B] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(m, _) => m.lookup(k)
-    }
+    def dominates(f: (B, B) => Boolean)(v: B): Boolean =
+        this match {
+            case Empty(_)       => true
+            case NonEmpty(m, _) => m.values.forall(x => f(v, x))
+        }
 
-  def member(k: A): Boolean =
-    this match {
-      case Empty(_)       => false
-      case NonEmpty(m, _) => m.member(k)
-    }
+    def empty: Empty[A, B] =
+        Empty(bound)
 
-  def size: Int =
-    this match {
-      case Empty(_)       => 0
-      case NonEmpty(m, _) => m.size
-    }
+    def isEmpty: Boolean =
+        this match {
+            case Empty(_)       => true
+            case NonEmpty(_, _) => false
+        }
+
+    def lastKey: Option[A] =
+        this match {
+            case Empty(_)       => None
+            case NonEmpty(m, _) => m.keys.lastOption
+        }
+
+    def lookup(k: A)(implicit A: Order[A]): Option[B] =
+        this match {
+            case Empty(_)       => None
+            case NonEmpty(m, _) => m.lookup(k)
+        }
+
+    def member(k: A)(implicit A: Order[A]): Boolean =
+        this match {
+            case Empty(_)       => false
+            case NonEmpty(m, _) => m.member(k)
+        }
+
+    def size: Int =
+        this match {
+            case Empty(_)       => 0
+            case NonEmpty(m, _) => m.size
+        }
 }
 
-final case class Empty[A: Order, B] private[cilib] (b: Bound) extends Archive[A, B]
-final case class NonEmpty[A: Order, B] private[cilib] (m: ==>>[A, B], b: Bound)
+final case class Empty[A, B] private (b: ArchiveBound) extends Archive[A, B]
+final case class NonEmpty[A, B] private (m: ==>>[A, B], b: ArchiveBound)
     extends Archive[A, B]
+
+object Archive {
+
+    def bounded[A, B](limit: Int Refined Positive): Empty[A, B] = Empty[A, B](Bounded(limit))
+    def unbounded[A, B]: Empty[A, B] = Empty[A, B](Unbounded())
+
+}
