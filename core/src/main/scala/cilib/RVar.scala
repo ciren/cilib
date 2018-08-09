@@ -5,6 +5,10 @@ import scalaz._
 import Scalaz._
 import scalaz.Free._
 
+import eu.timepit.refined.auto._
+import eu.timepit.refined.api._
+import eu.timepit.refined.numeric.Positive
+
 import spire.math._
 import spire.implicits._
 
@@ -76,100 +80,85 @@ object RVar {
     final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
     final case class Leaf(element: A) extends BinTree
 
-    def fix[AA, B](f: (AA => B) => (AA => B)): AA => B = f(fix(f))(_)
+    def buildTree(zs: NonEmptyList[A]): BinTree =
+      growLevel(zs.toList.map(Leaf(_): BinTree))
 
-    def buildTree(zs: NonEmptyList[A]): NonEmptyList[BinTree] = {
-      def join(left: BinTree, right: BinTree): BinTree =
-        (left, right) match {
-          case (Leaf(_), Leaf(_))                 => Node(2, left, right)
-          case (Node(ct, _, _), Leaf(_))          => Node(ct + 1, left, right)
-          case (Leaf(_), Node(ct, _, _))          => Node(ct + 1, left, right)
-          case (Node(ctl, _, _), Node(ctr, _, _)) => Node(ctl + ctr, left, right)
+    def growLevel(zs: List[BinTree]): BinTree =
+      zs match {
+        case x :: Nil => x
+        case l        => growLevel(inner(l))
+      }
+
+    def inner(zs: List[BinTree]): List[BinTree] = {
+      @annotation.tailrec
+      def go(acc: List[BinTree], rs: List[BinTree]): List[BinTree] =
+        rs match {
+          case Nil              => acc
+          case x :: Nil         => acc :+ x
+          case e1 :: e2 :: rest => go(acc :+ join(e1, e2), rest)
         }
 
-      def inner(l: NonEmptyList[BinTree]): NonEmptyList[BinTree] = {
-        def go(xs: List[BinTree]): List[BinTree] =
-          xs match {
-            case e :: Nil       => List(e)
-            case e1 :: e2 :: es => join(e1, e2) :: go(es)
-            case Nil            => List.empty[BinTree]
-          }
-
-        go(l.toList).toNel.getOrElse(sys.error("This is impossible as the input is non-empty"))
-      }
-
-      fix[NonEmptyList[BinTree], NonEmptyList[BinTree]](f =>
-        a => if (a.length == 1) a else f(inner(a)))(zs.map(Leaf(_)))
+      go(List.empty, zs)
     }
 
-    def extractTree(n: Int, t: BinTree): (A, BinTree) =
-      (n, t) match {
-        case (0, Node(_, Leaf(e), r))       => (e, r)
-        case (1, Node(2, Leaf(l), Leaf(r))) => (r, Leaf(l))
-        case (n, Node(c, Leaf(l), r)) =>
-          val (e, r2) = extractTree(n - 1, r)
-          (e, Node(c - 1, Leaf(l), r2))
-        case (n, Node(c, l, Leaf(e))) if n + 1 == c => (e, l)
-        case (n, Node(c, l @ Node(c1, _, _), r)) =>
-          if (n < c1) {
-            val (e, l2) = extractTree(n, l)
-            (e, Node(c - 1, l2, r))
-          } else {
-            val (e, r2) = extractTree(n - c1, r)
-            (e, Node(c - 1, l, r2))
-          }
-        case (_, _) => sys.error("[extractTree] impossible")
+    def join(e1: BinTree, e2: BinTree): BinTree =
+      (e1, e2) match {
+        case (l @ Leaf(_), r @ Leaf(_))                 => Node(2, l, r)
+        case (l @ Node(ct, _, _), r @ Leaf(_))          => Node(ct + 1, l, r)
+        case (l @ Leaf(_), r @ Node(ct, _, _))          => Node(ct + 1, l, r)
+        case (l @ Node(ctl, _, _), r @ Node(ctr, _, _)) => Node(ctl + ctr, l, r)
       }
 
-    def shuffleTree(l: BinTree, rs: List[Int]): NonEmptyList[A] =
-      (l, rs) match {
-        case (Leaf(e), Nil) => NonEmptyList(e)
-        case (tree, r :: rs) =>
-          val (b, rest) = extractTree(r, tree)
-          b <:: shuffleTree(rest, rs)
-        case (_, _) => sys.error("[shuffle] called with lists of different lengths")
+    def rseq(n: Int): RVar[List[Int]] =
+      (n - 1 to 1 by -1).toList
+        .traverse(x => Dist.uniformInt(Interval(0, x)))
+
+    def extractTree(target: Int, tree: BinTree, next: BinTree => List[A]): List[A] =
+      (target, tree, next) match {
+        case (0, Node(_, Leaf(e), r), k)           => e :: k(r)
+        case (1, Node(2, l @ Leaf(_), Leaf(r)), k) => r :: k(l)
+        case (n, Node(c, l @ Leaf(_), r), k) =>
+          extractTree(n - 1, r, new_r => k(Node(c - 1, l, new_r)))
+        case (n, Node(n1, l, Leaf(e)), k) if n + 1 == n1 => e :: k(l)
+        case (n, Node(c, l @ Node(c1, _, _), r), k) =>
+          if (n < c1) extractTree(n, l, new_l => k(Node(c - 1, new_l, r)))
+          else extractTree(n - c1, r, new_r => k(Node(c - 1, l, new_r)))
       }
 
-    val length = xs.length - 1
-    val randoms: RVar[List[Int]] =
-      (0 until length)
-        .foldLeft(List.empty[RVar[Int]])((a, c) => Dist.uniformInt(Interval(0, length - c)) :: a)
-        .reverse // TODO / FIX: Remove the need to reverse!
-        .sequence
+    def local(t: BinTree, rs: List[Int]): List[A] =
+      (t, rs) match {
+        case (Leaf(e), Nil)        => List(e)
+        case (tree, ri :: rothers) => extractTree(ri, tree, (t: BinTree) => local(t, rothers))
+        case _                     => sys.error("impossible")
+      }
 
-    randoms.map { r =>
-      shuffleTree(buildTree(xs).head, r)
-    }
+    rseq(xs.length).map(
+      r =>
+        local(buildTree(xs), r).toNel
+          .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty")))
   }
 
-  def sample[A](n: Int, xs: NonEmptyList[A]) =
+  def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]) =
     choices(n, xs)
 
-  def choices[A](n: Int, xs: NonEmptyList[A]): OptionT[RVar, List[A]] =
-    OptionT {
-      if (xs.length < n) RVar.pure(None)
-      else {
-        import scalaz.syntax.foldable._
-        import scalaz.std.list._
-        type M[B] = StateT[RVar, List[A], B]
+  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(
+      implicit F: Foldable[F]): RVar[Option[List[A]]] =
+    if (xs.length < n) RVar.pure(None)
+    else {
+      val length = F.length(xs)
+      val backsaw: RVar[List[Int]] =
+        (length - 1 to length - n by -1).toList
+          .traverse(x => Dist.uniformInt(Interval(0, x)))
 
-        (0 until xs.size).toList.reverse
-          .take(n)
-          .foldLeftM[M, List[A]](List.empty) {
-            case (s, a) =>
-              StateT[RVar, List[A], List[A]] { currentList =>
-                Dist
-                  .uniformInt(Interval(0, a))
-                  .map(r => {
-                    val selected = currentList(r)
-                    (currentList.diff(List(selected)), selected :: s)
-                  })
-              }
-          }
-          .eval(xs.toList)
-          .map(Option(_))
-      }
+      backsaw
+        .map(_.foldLeft(List.empty[A])((a, c) =>
+          F.index(xs, c) match {
+            case Some(i) => a :+ i
+            case None    => sys.error("Shouldn't be possible")
+        }))
+        .map(_.some)
     }
+
 }
 
 sealed trait Generator[A] {

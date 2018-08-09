@@ -49,7 +49,7 @@ object GAExample extends SafeApp {
     })
 
   val randomSelection: NonEmptyList[Ind] => RVar[List[Ind]] =
-    (l: NonEmptyList[Ind]) => RVar.sample(2, l).getOrElse(List.empty[Ind])
+    (l: NonEmptyList[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
 
   val ga: NonEmptyList[Ind] => (Ind => Step[Double, List[Ind]]) =
     GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
