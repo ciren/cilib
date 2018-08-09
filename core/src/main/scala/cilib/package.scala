@@ -55,8 +55,8 @@ package object cilib extends EvalInstances {
     private def getValue(b: Bound[A]) =
       ValueBound.unapply(b).getOrElse(sys.error("Empty and Unbounded bounds are not supported"))
 
-    def lowerValue = getValue(interval.lowerBound)
-    def upperValue = getValue(interval.upperBound)
+    def lowerValue: A = getValue(interval.lowerBound)
+    def upperValue: A = getValue(interval.upperBound)
   }
 
   implicit def intervalEqual[A]: scalaz.Equal[Interval[A]] =
@@ -64,14 +64,14 @@ package object cilib extends EvalInstances {
 
   /* Refinement definitions */
   def refine[A, B, C](a: A)(f: A Refined B => C)(
-      implicit ev: eu.timepit.refined.api.Validate[A, B]) =
+      implicit ev: eu.timepit.refined.api.Validate[A, B]): C =
     refineV[B](a) match {
       case Left(error)  => sys.error(error)
       case Right(value) => f(value)
     }
 
   /** Positive integers are the set of inegers that are greater than 0 */
-  def positiveInt[A](n: Int)(f: Int Refined Positive => A) =
+  def positiveInt[A](n: Int)(f: Int Refined Positive => A): A =
     refine(n)((x: Int Refined Positive) => f(x))
 
 }

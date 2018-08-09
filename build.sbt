@@ -183,13 +183,14 @@ lazy val core = project
         "eu.timepit" %% "refined" % "0.9.0"
       ),
       wartremoverErrors in (Compile, compile) ++= Seq(
-        //Wart.Any,
-        //Wart.Nothing,
+//        Wart.Any,
         Wart.AnyVal,
         Wart.ArrayEquals,
         Wart.AsInstanceOf,
         Wart.DefaultArguments,
         Wart.ExplicitImplicitTypes,
+        Wart.Enumeration,
+        //Wart.Equals,
         Wart.FinalCaseClass,
         Wart.FinalVal,
         Wart.ImplicitConversion,
@@ -200,19 +201,23 @@ lazy val core = project
         Wart.LeakingSealed,
         Wart.MutableDataStructures,
         Wart.NonUnitStatements,
+//        Wart.Nothing,
         Wart.Null,
         Wart.Option2Iterable,
         Wart.OptionPartial,
         Wart.Overloading,
         Wart.Product,
-        //Wart.PublicInference,
+        Wart.PublicInference,
         Wart.Return,
+//        Wart.Recursion,
         Wart.Serializable,
         Wart.StringPlusAny,
         Wart.Throw,
+        Wart.ToString,
         Wart.TraversableOps,
         Wart.TryPartial,
-        Wart.Var
+        Wart.Var,
+        Wart.While
       )
     ))
 

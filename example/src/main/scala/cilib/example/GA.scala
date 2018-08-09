@@ -33,7 +33,7 @@ object GAExample extends SafeApp {
             List(
               a.pos.take(p) ++ b.pos.drop(p),
               b.pos.take(p) ++ a.pos.drop(p)
-            ).traverse(_.toNel.map(x => Entity((), Point(x, a.pos.boundary))))
+            ).traverse(_.toNel.map(x => Entity((), Position(x, a.pos.boundary))))
               .getOrElse(List.empty[Ind]))
       case _ => sys.error("Incorrect number of parents")
     }

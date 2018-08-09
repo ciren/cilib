@@ -10,6 +10,7 @@ object Selection {
 
   private implicit class RicherEphemeralStream[A](val s: EphemeralStream[A]) extends AnyVal {
     def drop(n: Int): EphemeralStream[A] = {
+      @annotation.tailrec
       def go(count: Int, c: Option[EphemeralStream[A]]): EphemeralStream[A] =
         if (count > 0) go(count - 1, c.flatMap(_.tailOption))
         else c.cata(x => x, EphemeralStream())
@@ -62,20 +63,21 @@ object Selection {
       result.getOrElse(sys.error("error in latticeNeighbours"))
     }
 
-  def distanceNeighbours[F[_]: Foldable, A: Order](distance: MetricSpace[F[A], A])(n: Int) =
+  def distanceNeighbours[F[_]: Foldable, A: Order](distance: MetricSpace[F[A], A])(
+      n: Int): (NonEmptyList[F[A]], F[A]) => List[F[A]] =
     (l: NonEmptyList[F[A]], x: F[A]) => l.sortBy(li => distance.dist(li, x)).toList.take(n)
 
-  def wheel[A] =
+  def wheel[A]: (NonEmptyList[A], A) => List[A] =
     (l: NonEmptyList[A], a: A) => {
       if (l.head == a) l.toList
       else List(l.head, a)
     }
 
-  def star[A] =
+  def star[A]: (NonEmptyList[A], A) => List[A] =
     (l: NonEmptyList[A], x: A) => l.toList
 
   def tournament[F[_], A](n: Int Refined Positive, l: NonEmptyList[F[A]])(
-      implicit F: Fitness[F, A]): Comparison => RVar[Option[F[A]]] =
+      implicit F: Fitness[F, A, A]): Comparison => RVar[Option[F[A]]] =
     o =>
       RVar
         .sample(n, l) // RVar[Option[List[F[A]]]]

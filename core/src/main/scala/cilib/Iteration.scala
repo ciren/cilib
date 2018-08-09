@@ -32,10 +32,12 @@ object Iteration {
 //    (l: List[A]) => Functor[M].map(l traverseU f(l))(_.suml)
     Kleisli.kleisli((l: NonEmptyList[A]) => l.traverse(f(l)))
 
-  def sync[A, B, C](f: NonEmptyList[B] => B => Step[A, C]) =
+  def sync[A, B, C](f: NonEmptyList[B] => B => Step[A, C])
+    : Kleisli[Step[A, ?], NonEmptyList[B], NonEmptyList[C]] =
     sync_[Step[A, ?], B, C](f)
 
-  def syncS[A, S, B, C](f: NonEmptyList[B] => B => StepS[A, S, C]) =
+  def syncS[A, S, B, C](f: NonEmptyList[B] => B => StepS[A, S, C])
+    : Kleisli[StepS[A, S, ?], NonEmptyList[B], NonEmptyList[C]] =
     sync_[StepS[A, S, ?], B, C](f)
 
   def async_[M[_]: Monad, A](
@@ -52,10 +54,12 @@ object Iteration {
       intermediate.map(_.toNel.getOrElse(sys.error("")))
     })
 
-  def async[A, B](f: NonEmptyList[B] => B => Step[A, B]) =
+  def async[A, B](f: NonEmptyList[B] => B => Step[A, B])
+    : Kleisli[Step[A, ?], NonEmptyList[B], NonEmptyList[B]] =
     async_[Step[A, ?], B](f)
 
-  def asyncS[A, S, B](f: NonEmptyList[B] => B => StepS[A, S, B]) =
+  def asyncS[A, S, B](f: NonEmptyList[B] => B => StepS[A, S, B])
+    : Kleisli[StepS[A, S, ?], NonEmptyList[B], NonEmptyList[B]] =
     async_[StepS[A, S, ?], B](f)
 
 }

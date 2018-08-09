@@ -50,7 +50,7 @@ object RNG {
   private def initLCG(seed: Long): RNG =
     new LCG((seed ^ 0x5DEECE66DL) & ((1L << 48) - 1))
 
-  def split(r: RNG) =
+  def split(r: RNG): (RNG, RNG) =
     (init(r.seed - 1), init(r.seed + 1))
 
 }

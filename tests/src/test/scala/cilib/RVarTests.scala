@@ -29,6 +29,7 @@ object RVarTests extends Spec("RVar") {
 
   checkAll(equal.laws[RVar[Int]])
   checkAll(monad.laws[RVar])
+  checkAll(bindRec.laws[RVar])
 
   property("shuffle") =
     forAll { (xs: NonEmptyList[Int]) =>

@@ -7,9 +7,9 @@ final class Environment[A] private (val cmp: Comparison, val eval: Eval[NonEmpty
 
 object Environment {
 
-  def apply[A](cmp: Comparison, eval: Eval[NonEmptyList, A]) =
+  def apply[A](cmp: Comparison, eval: Eval[NonEmptyList, A]): Environment[A] =
     new Environment(cmp, eval)
 
-  def _eval[A] =
+  def _eval[A]: Lens[Environment[A], Eval[NonEmptyList, A]] =
     Lens[Environment[A], Eval[NonEmptyList, A]](_.eval)(b => a => new Environment(a.cmp, b))
 }
