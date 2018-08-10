@@ -76,7 +76,7 @@ object FileOutput extends SafeApp {
   def performanceMeasure =
     measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results](collection => {
       val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
-      val fitnessValues = collection.map(x => feasibleOptic.getOption(x.pos).getOrElse(Double.PositiveInfinity))
+      val fitnessValues = collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
       Results(fitnessValues.minimum1, fitnessValues.suml / fitnessValues.size)
     })
 
