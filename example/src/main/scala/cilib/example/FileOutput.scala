@@ -18,7 +18,7 @@ import scalaz.stream._
 import spire.implicits._
 import spire.math.Interval
 
-object FileOutputExample extends SafeApp {
+object FileOutput extends SafeApp {
 
   // An example showing how to compare multiple algorithms across multiple
   // benchmarks and save the results to a a file (either csv or parquet).
@@ -86,20 +86,16 @@ object FileOutputExample extends SafeApp {
     RVar.pure(x)
 
   def simulation(env: Environment[Double], stream: Process[Task, Problem[Double]]) =
-    List(
-      Runner.foldStep(env,
-                      rng,
-                      swarm,
-                      Runner.staticAlgorithm("GBestPSO", gbestIter),
-                      stream,
-                      onChange),
-      Runner.foldStep(env,
-                      rng,
-                      swarm,
-                      Runner.staticAlgorithm("LBestPSO", lbestIter),
-                      stream,
-                      onChange)
-    )
+      List(
+            Runner.staticAlgorithm("GBestPSO", gbestIter),
+            Runner.staticAlgorithm("LBestPSO", lbestIter))
+            .map(alg => Runner.foldStep(env,
+                rng,
+                swarm,
+                alg,
+                stream,
+                onChange))
+
 
   val simulations = List.concat(
     simulation(absolute, absoluteStream),
