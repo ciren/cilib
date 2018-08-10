@@ -101,12 +101,12 @@ object CSVExample extends SafeApp {
                       onChange)
     )
 
-  val simulations = List(
+  val simulations = List.concat(
     simulation(absolute, absoluteStream),
     simulation(ackley, ackleyStream),
     simulation(quadric, quadricStream),
     simulation(spherical, sphericalStream)
-  ).flatten
+  )
 
   // Our method to execute the simulations, where each simulation lasts 1000 iterations,
   // across 4 cores and save the results to a csv file.
