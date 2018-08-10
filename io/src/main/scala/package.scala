@@ -14,7 +14,7 @@ package object io {
   import EncodeCsv._
 
   def writeCsvWithHeader[F[_], A](file: java.io.File, data: F[A])(implicit F: Foldable[F],
-                                                                  N: ColumnNames[A],
+                                                                  N: ColumnNameEncoder[A],
                                                                   A: EncodeCsv[A]): Unit = {
     val list = F.toList(data)
 
@@ -25,7 +25,7 @@ package object io {
       case Some(o) =>
         val pw = new java.io.PrintWriter(file, "UTF-8")
 
-        pw.println(N.names(o).mkString(","))
+        pw.println(N.encode(o).mkString(","))
 
         list.foreach(item => {
           val encoded = EncodeCsv.write(item)
@@ -67,14 +67,14 @@ package object io {
   }
 
   def csvHeaderSink[A: EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[Measurement[A]],
-                                                      N: ColumnNames[Measurement[A]]): Sink[Task, Measurement[A]] = {
+                                                      N: ColumnNameEncoder[Measurement[A]]): Sink[Task, Measurement[A]] = {
     val fileWriter = new java.io.PrintWriter(file)
     var headerWritten = false
 
     sink
       .lift { (input: Measurement[A]) =>
         if (!headerWritten) {
-          fileWriter.println(N.names(input).mkString(","))
+          fileWriter.println(N.encode(input).mkString(","))
           headerWritten = true
         }
 

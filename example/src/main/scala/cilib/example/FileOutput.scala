@@ -76,7 +76,8 @@ object FileOutput extends SafeApp {
   def performanceMeasure =
     measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results](collection => {
       val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
-      val fitnessValues = collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
+      val fitnessValues =
+        collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
       Results(fitnessValues.minimum1, fitnessValues.suml / fitnessValues.size)
     })
 
@@ -86,16 +87,9 @@ object FileOutput extends SafeApp {
     RVar.pure(x)
 
   def simulation(env: Environment[Double], stream: Process[Task, Problem[Double]]) =
-      List(
-            Runner.staticAlgorithm("GBestPSO", gbestIter),
-            Runner.staticAlgorithm("LBestPSO", lbestIter))
-            .map(alg => Runner.foldStep(env,
-                rng,
-                swarm,
-                alg,
-                stream,
-                onChange))
-
+    List(Runner.staticAlgorithm("GBestPSO", gbestIter),
+         Runner.staticAlgorithm("LBestPSO", lbestIter))
+      .map(alg => Runner.foldStep(env, rng, swarm, alg, stream, onChange))
 
   val simulations = List.concat(
     simulation(absolute, absoluteStream),
@@ -104,27 +98,44 @@ object FileOutput extends SafeApp {
     simulation(spherical, sphericalStream)
   )
 
-  // Our method to execute the simulations, where each simulation lasts 1000 iterations,
-  // across 4 cores and save the results to a csv file.
-  // To save the results to a parquet file change the line
-  // .to(csvHeaderSink[Results](new File("Results.csv")))
-  // to
-  // .to(parquetSink[Results](new File("Results.parquet")))
-  def writeResultsToCSV(): Unit = {
+  sealed abstract class Choice {
+    def filename =
+      this match {
+        case CSV     => "results.csv"
+        case Parquet => "results.parquet"
+        case Invalid => throw new Exception("Invalid choice")
+      }
+  }
+  final case object CSV extends Choice
+  final case object Parquet extends Choice
+  final case object Invalid extends Choice
+
+  def writeResults(choice: Choice): Process[Task, Unit] = {
     val measured: Process[Task, Process[Task, Measurement[Results]]] =
       Process.emitAll(simulations.map(_.take(1000).pipe(performanceMeasure)))
 
     merge
       .mergeN(4)(measured)
-      .to(csvHeaderSink[Results](new File("Results.csv")))
-      .run
-      .unsafePerformSync
+      .to(choice match {
+        case CSV     => csvHeaderSink(new File(choice.filename))
+        case Parquet => parquetSink(new File(choice.filename))
+        case _       => Process.fail(new Exception("Unsupported value. Please select a valid choice."))
+      })
   }
 
   override val runc: IO[Unit] =
     for {
-      _ <- putStrLn("Executing " + simulations.size + " simulations.")
-      _ <- IO(writeResultsToCSV())
+      _ <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
+      choice <- IO.readLn.map(s =>
+        \/.fromTryCatchNonFatal(s.toInt) match {
+          case \/-(1) => Parquet: Choice
+          case \/-(2) => CSV: Choice
+          case _      => Invalid: Choice
+      })
+      _ <- putStrLn(s"Executing ${simulations.size} simulations.")
+      _ <- IO {
+        writeResults(choice).run.unsafePerformSync
+      }
       _ <- putStrLn("Complete.")
     } yield ()
 
