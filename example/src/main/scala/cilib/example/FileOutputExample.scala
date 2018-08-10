@@ -18,10 +18,10 @@ import scalaz.stream._
 import spire.implicits._
 import spire.math.Interval
 
-object CSVExample extends SafeApp {
+object FileOutputExample extends SafeApp {
 
   // An example showing how to compare multiple algorithms across multiple
-  // benchmarks and save the results to a csv (or parquet) file.
+  // benchmarks and save the results to a a file (either csv or parquet).
 
   val bounds = Interval(-5.12, 5.12) ^ 30
   val rng = RNG.init(12L)
@@ -110,6 +110,10 @@ object CSVExample extends SafeApp {
 
   // Our method to execute the simulations, where each simulation lasts 1000 iterations,
   // across 4 cores and save the results to a csv file.
+  // To save the results to a parquet file change the line
+  // .to(csvHeaderSink[Results](new File("Results.csv")))
+  // to
+  // .to(parquetSink[Results](new File("Results.parquet")))
   def writeResultsToCSV(): Unit = {
     val measured: Process[Task, Process[Task, Measurement[Results]]] =
       Process.emitAll(simulations.map(_.take(1000).pipe(performanceMeasure)))
@@ -124,7 +128,7 @@ object CSVExample extends SafeApp {
   override val runc: IO[Unit] =
     for {
       _ <- putStrLn("Executing " + simulations.size + " simulations.")
-      _ <- IO(writeResultsToCSV)
+      _ <- IO(writeResultsToCSV())
       _ <- putStrLn("Complete.")
     } yield ()
 
