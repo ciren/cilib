@@ -1,6 +1,8 @@
 package cilib
 package io
 
+import cilib.exec.{ Env, Change, Unchanged }
+
 @annotation.implicitNotFound("""
 EncodeCsv derivation error for type: ${A}
 Not all members of the type have instances of EncodeCsv defined, or in
@@ -17,102 +19,111 @@ object EncodeCsv {
   import scalaz.Foldable
   import shapeless._
 
-  final def apply[A](f: A => List[String]) = new EncodeCsv[A] {
+  final def createEncoder[A](f: A => List[String]) = new EncodeCsv[A] {
     def encode(a: A) = f(a)
   }
 
-  implicit val booleanCsvEncode = EncodeCsv[Boolean](x => List(x.toString))
-  implicit val byteEncodeCsv = EncodeCsv[Byte](x => List(x.toString))
-  implicit val shortEncodeCsv = EncodeCsv[Short](x => List(x.toString))
-  implicit val intEncodeCsv = EncodeCsv[Int](x => List(x.toString))
-  implicit val longEncodeCsv = EncodeCsv[Long](x => List(x.toString))
-  implicit val floatEncodeCsv = EncodeCsv[Float](x => List(x.toString))
-  implicit val doubleEncodeCsv = EncodeCsv[Double](x => List(x.toString))
-  implicit val stringEncodeCsv = EncodeCsv[String](List(_))
+  implicit val booleanCsvEncode = createEncoder[Boolean](x => List(x.toString))
+  implicit val byteEncodeCsv = createEncoder[Byte](x => List(x.toString))
+  implicit val shortEncodeCsv = createEncoder[Short](x => List(x.toString))
+  implicit val intEncodeCsv = createEncoder[Int](x => List(x.toString))
+  implicit val longEncodeCsv = createEncoder[Long](x => List(x.toString))
+  implicit val floatEncodeCsv = createEncoder[Float](x => List(x.toString))
+  implicit val doubleEncodeCsv = createEncoder[Double](x => List(x.toString))
+  implicit val stringEncodeCsv = createEncoder[String](List(_))
 
   implicit def foldableEncodeCsv[F[_], A](implicit F: Foldable[F], A: EncodeCsv[A]) =
-    EncodeCsv[F[A]](l => List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
+    createEncoder[F[A]](l => List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
 
   implicit val envEncodeCsv =
-    EncodeCsv[cilib.exec.Env](_ match {
-      case cilib.exec.Unchanged => List("Unchanged")
-      case cilib.exec.Change => List("Changed")
+    createEncoder[Env](_ match {
+      case Unchanged => List("Unchanged")
+      case Change => List("Changed")
     })
 
-  implicit def genericEncodeCsv[A, R](
-      implicit gen: Generic.Aux[A, R],
-      enc: Lazy[EncodeCsv[R]]
+  implicit def genericEncodeCsv[A, H](
+      implicit gen: Generic.Aux[A, H],
+      enc: Lazy[EncodeCsv[H]]
   ): EncodeCsv[A] =
-    EncodeCsv(a => enc.value.encode(gen.to(a)))
+    createEncoder(a => enc.value.encode(gen.to(a)))
 
   // HList induction
   implicit val hnilToEncodeCsv: EncodeCsv[HNil] =
-    EncodeCsv(_ => Nil)
+    createEncoder(_ => Nil)
 
   implicit def hconsToEncodeCsv[H, T <: HList](implicit
                                                hEncode: EncodeCsv[H],
                                                tEncode: EncodeCsv[T]): EncodeCsv[H :: T] =
-    EncodeCsv {
+    createEncoder {
       case h :: t => hEncode.encode(h) ++ tEncode.encode(t)
     }
+
+  @inline def apply[A](implicit c: EncodeCsv[A]): EncodeCsv[A] = c
 
   def write[A](a: A)(implicit enc: EncodeCsv[A]): String =
     enc.encode(a).mkString(",")
 }
 
-@annotation.implicitNotFound("Implicit instance is missing for the provided type ${A}")
-trait ColumnNames[A] {
-  def names(a: A): List[String]
+
+
+
+
+
+@annotation.implicitNotFound("Implicit ColumnNameEncoder instance is missing for the provided type ${A}")
+trait ColumnNameEncoder[A] {
+  def encode(a: A): List[String]
 }
 
-object ColumnNames {
-  import scalaz.Foldable
+object ColumnNameEncoder {
+
+  @inline def apply[A](implicit c: ColumnNameEncoder[A]): ColumnNameEncoder[A] = c
+
+  def createEncoder[A](f: A => List[String]): ColumnNameEncoder[A] =
+    new ColumnNameEncoder[A] {
+      def encode(a: A) = f(a)
+    }
+
   import shapeless._
-  import shapeless.labelled._
+  import shapeless.LabelledGeneric
+  import shapeless.Witness
+  import shapeless.labelled.FieldType
 
-  @inline def apply[A](implicit c: ColumnNames[A]): ColumnNames[A] = c
+  implicit val booleanColumnNameEncoder = createEncoder((_: Boolean) => List.empty)
+  implicit val byteColumnNameEncoder = createEncoder((_: Byte) => List.empty)
+  implicit val shortColumnNameEncoder = createEncoder((_: Short) => List.empty)
+  implicit val intColumnNameEncoder = createEncoder((_: Int) => List.empty)
+  implicit val longColumnNameEncoder = createEncoder((_: Long) => List.empty)
+  implicit val floatColumnNameEncoder = createEncoder((_: Float) => List.empty)
+  implicit val doubleColumnNameEncoder = createEncoder((_: Double) => List.empty)
+  implicit val stringColumnNameEncoder = createEncoder((_: String) => List.empty)
+  implicit val envEncodeCsv = createEncoder((e: Env) => List.empty)
 
-  def columnName[A](f: A => List[String]): ColumnNames[A] =
-    new ColumnNames[A] {
-      def names(a: A) = f(a)
-    }
+  implicit val hnilColumnNameEncoder: ColumnNameEncoder[HNil] =
+    createEncoder(_ => List.empty)
 
-  implicit val booleanColumnNames = columnName[Boolean](_ => List())
-  implicit val byteColumnNames = columnName[Byte](_ => List())
-  implicit val shortColumnNames = columnName[Short](_ => List())
-  implicit val intColumnNames = columnName[Int](_ => List())
-  implicit val longColumnNames = columnName[Long](_ => List())
-  implicit val floatColumnNames = columnName[Float](_ => List())
-  implicit val doubleColumnNames = columnName[Double](_ => List())
-  implicit val stringColumnNames = columnName[String](_ => List())
-
-  implicit def foldableCoilumnNames[F[_], A](implicit F: Foldable[F], A: ColumnNames[A]) =
-    columnName[F[A]](l => List(F.toList(l).flatMap(A.names).mkString("[", ",", "]")))
-
-  implicit val hnilColumnsNames: ColumnNames[HNil] =
-    new ColumnNames[HNil] {
-      def names(a: HNil) = List()
-    }
-
-  implicit def hconsColumnNames[K <: Symbol, H, T <: HList](
-      implicit
+  implicit def hconsColumnNameEncoder[K <: Symbol, H, T <: HList](
+    implicit
       witness: Witness.Aux[K],
-//      hNamer: ColumnNames[H],
-      tNamer: ColumnNames[T]
-  ): ColumnNames[FieldType[K, H] :: T] = {
+      hEncoder: Lazy[ColumnNameEncoder[H]],
+    tEncoder: ColumnNameEncoder[T]
+  ): ColumnNameEncoder[shapeless.::[FieldType[K, H], T]] = {
     val fieldName: String = witness.value.name
-    new ColumnNames[FieldType[K, H] :: T] {
-      def names(a: FieldType[K, H] :: T) =
-        List(fieldName) ++ tNamer.names(a.tail)
+
+    createEncoder { hlist =>
+      val head: List[String] = hEncoder.value.encode(hlist.head)
+      val tail: List[String] = tEncoder.encode(hlist.tail)
+
+
+      (if (head.isEmpty) List(fieldName) else head) ++ tail
     }
   }
 
-  implicit def genericColumnNames[A, H <: HList](
-      implicit generic: LabelledGeneric.Aux[A, H],
-      hNamer: Lazy[ColumnNames[H]]
-  ): ColumnNames[A] =
-    new ColumnNames[A] {
-      def names(a: A) =
-        hNamer.value.names(generic.to(a))
-    }
+  implicit def genericProductEncoder[A, H](
+  implicit
+  generic: LabelledGeneric.Aux[A, H],
+  hEncoder: Lazy[ColumnNameEncoder[H]]
+): ColumnNameEncoder[A] =
+  createEncoder { value =>
+    hEncoder.value.encode(generic.to(value))
+  }
 }

@@ -298,6 +298,7 @@ lazy val example = project
   .settings(
     cilibSettings ++ noPublishSettings ++ Seq(
       fork in run := true,
+      connectInput in run := true,
       moduleName := "cilib-example",
       libraryDependencies ++= Seq(
         "net.cilib" %% "benchmarks" % "0.1.1",
