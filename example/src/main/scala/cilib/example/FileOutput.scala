@@ -132,13 +132,11 @@ object FileOutput extends SafeApp {
           case \/-(2) => CSV: Choice
           case _      => Invalid: Choice
       })
-      result <- for {
-        _ <- putStrLn(s"Executing ${simulations.size} simulations.")
-        _ <- IO {
-          writeResults(choice).run.unsafePerformSync
-        }
-        _ <- putStrLn("Complete.")
-      } yield ()
-    } yield result
+      _ <- putStrLn(s"Executing ${simulations.size} simulations.")
+      _ <- IO {
+        writeResults(choice).run.unsafePerformSync
+      }
+      _ <- putStrLn("Complete.")
+    } yield ()
 
 }
