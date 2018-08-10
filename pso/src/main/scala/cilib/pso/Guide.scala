@@ -3,6 +3,7 @@ package pso
 
 import scalaz.NonEmptyList
 import scalaz.Scalaz._
+import eu.timepit.refined.auto._
 
 // A Guide is a selection followed by a comparison, wrapped up in a Step
 object Guide {
@@ -53,8 +54,8 @@ object Guide {
   def nmpc[S](prob: Double): Guide[S, Double] =
     (collection, x) =>
       Step.liftR {
-        val col = collection.list.filter(_ != x).toNel.getOrElse(sys.error("nmpc...."))
-        val chosen = RVar.sample(3, col).run
+        val col = collection.list.filter(_ ne x)
+        val chosen = RVar.sample(3, col)
         val crossover = Crossover.nmpc
 
         for {

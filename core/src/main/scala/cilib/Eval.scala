@@ -16,11 +16,11 @@ sealed abstract class Eval[F[_], A] {
   lazy val eval: RVar[NonEmptyList[A] => Objective[A]] =
     RVar.pure { (fa: NonEmptyList[A]) =>
       this match {
-        case Unconstrained(f, _) => Single(Feasible(f(F.toInput(fa))), List.empty)
+        case Unconstrained(f, _) => Objective.single(Feasible(f(F.toInput(fa))), List.empty)
         case Constrained(f, cs, _) =>
           cs.filter(c => !Constraint.satisfies(c, fa)) match {
-            case Nil => Single(Feasible(f(F.toInput(fa))), List.empty)
-            case xs  => Single(Infeasible(f(F.toInput(fa)), xs.length), xs)
+            case Nil => Objective.single(Feasible(f(F.toInput(fa))), List.empty)
+            case xs  => Objective.single(Infeasible(f(F.toInput(fa))), xs)
           }
       }
     }

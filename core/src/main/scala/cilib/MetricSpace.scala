@@ -60,13 +60,13 @@ object MetricSpace {
       }
     }
 
-  def discrete[A, B](implicit A: scalaz.Equal[A], B: Integral[B]) =
+  def discrete[A, B](implicit A: scalaz.Equal[A], B: Integral[B]): MetricSpace[A, B] =
     new MetricSpace[A, B] {
       def dist(x: A, y: A) = B.fromInt(if (A.equal(x, y)) 0 else 1)
     }
 
-  def minkowski[F[_]: Foldable, A: Signed: Field, B](alpha: Int)(implicit A: Fractional[A],
-                                                                 ev: Field[B]) =
+  def minkowski[F[_]: Foldable, A: Signed: Field, B](
+      alpha: Int)(implicit A: Fractional[A], ev: Field[B]): MetricSpace[F[A], B] =
     new MetricSpace[F[A], B] {
       def dist(x: F[A], y: F[A]) =
         ev.fromDouble(
@@ -78,12 +78,15 @@ object MetricSpace {
             })
     }
 
-  def manhattan[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field] =
+  def manhattan[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field]
+    : MetricSpace[F[A], B] =
     minkowski[F, A, B](1)
-  def euclidean[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field] =
+
+  def euclidean[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field]
+    : MetricSpace[F[A], B] =
     minkowski[F, A, B](2)
 
-  def chebyshev[F[_]: Foldable, A: Order: Signed](implicit ev: Ring[A]) =
+  def chebyshev[F[_]: Foldable, A: Order: Signed](implicit ev: Ring[A]): MetricSpace[F[A], A] =
     new MetricSpace[F[A], A] {
       def dist(x: F[A], y: F[A]) =
         x.toList
@@ -94,7 +97,7 @@ object MetricSpace {
           }
     }
 
-  def hamming[F[_]: Foldable, A] =
+  def hamming[F[_]: Foldable, A]: MetricSpace[F[A], Int] =
     new MetricSpace[F[A], Int] {
       def dist(x: F[A], y: F[A]) =
         x.toList.zip(y.toList).filter { case (ai, bi) => ai != bi }.size

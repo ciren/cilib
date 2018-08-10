@@ -28,8 +28,8 @@ object PSOTests extends Properties("QPSO") {
     for {
       bounds <- Gen.listOfN(2, arbitrary[spire.math.Interval[Double]])
       pos <- Gen.const(bounds.traverse(b => Gen.choose(b.lowerValue, b.upperValue).sample))
-    } yield Point(pos.flatMap(_.toNel).getOrElse(sys.error("Error generating NonEmptyList[Double]")),
-                  bounds.toNel.getOrElse(sys.error("Error generating NonEmptyList[Interval[Double]]")))
+    } yield Position(pos.flatMap(_.toNel).getOrElse(sys.error("Error generating NonEmptyList[Double]")),
+                     bounds.toNel.getOrElse(sys.error("Error generating NonEmptyList[Interval[Double]]")))
 
   property("Uniform sampled cloud <= R") = forAll {
     (center: Position[Double], x: Position[Double], seed: Long) => {

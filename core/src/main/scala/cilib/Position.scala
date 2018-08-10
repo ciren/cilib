@@ -10,6 +10,7 @@ import spire.algebra.{Module, Rng}
 import spire.math._
 
 sealed abstract class Position[A] {
+  import Position._
 
   def map[B](f: A => B): Position[B] =
     Point(pos.map(f), boundary)
@@ -32,7 +33,7 @@ sealed abstract class Position[A] {
       case Solution(x, _, _) => x.list.drop(n)
     }
 
-  def pos =
+  def pos: NonEmptyList[A] =
     this match {
       case Point(x, _)       => x
       case Solution(x, _, _) => x
@@ -50,24 +51,23 @@ sealed abstract class Position[A] {
       case Solution(_, _, o) => Some(o)
     }
 
-  def boundary =
+  def boundary: NonEmptyList[Interval[Double]] =
     this match {
       case Point(_, b)       => b
       case Solution(_, b, _) => b
     }
 
-  def forall(f: A => Boolean) =
+  def forall(f: A => Boolean): Boolean =
     pos.list.toList.forall(f)
 }
 
-final case class Point[A] private[cilib] (x: NonEmptyList[A], b: NonEmptyList[Interval[Double]])
-    extends Position[A]
-final case class Solution[A] private[cilib] (x: NonEmptyList[A],
-                                             b: NonEmptyList[Interval[Double]],
-                                             o: Objective[A])
-    extends Position[A]
-
 object Position {
+  private final case class Point[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]])
+      extends Position[A]
+  private final case class Solution[A](x: NonEmptyList[A],
+                                       b: NonEmptyList[Interval[Double]],
+                                       o: Objective[A])
+      extends Position[A]
 
   implicit def positionInstances: Bind[Position] with Traverse1[Position] with Align[Position] =
     new Bind[Position] with Traverse1[Position] with Align[Position] {
@@ -125,7 +125,8 @@ object Position {
     def unary_-(implicit M: Module[Position[A], A]): Position[A] =
       M.negate(x)
 
-    def isZero(implicit R: Rng[A]) = {
+    def isZero(implicit R: Rng[A]): Boolean = {
+      @annotation.tailrec
       def test(xs: IList[A]): Boolean =
         xs match {
           case INil()        => true
@@ -136,8 +137,8 @@ object Position {
     }
   }
 
-  implicit def positionFitness[A]: Fitness[Position, A] =
-    new Fitness[Position, A] {
+  implicit def positionFitness[A]: Fitness[Position, A, A] =
+    new Fitness[Position, A, A] {
       def fitness(a: Position[A]) =
         a.objective
     }
@@ -176,7 +177,6 @@ object Position {
         RVar.pure(x)
     }
 
-  /*private[cilib]*/
   def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)
 
