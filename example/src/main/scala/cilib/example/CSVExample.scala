@@ -75,25 +75,9 @@ object CSVExample extends SafeApp {
   // A performance measure that we apply to the collection at the end of each iteration.
   def performanceMeasure =
     measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results](collection => {
-
-      val fitnessValues = collection
-        .map(x =>
-          x.pos match {
-            case Point(_, _) => Double.PositiveInfinity
-            case Solution(_, _, o) =>
-              o match {
-                case Single(f, _) =>
-                  f match {
-                    case Feasible(v)      => v
-                    case Infeasible(_, _) => Double.PositiveInfinity
-                    case Adjusted(_, _)   => Double.PositiveInfinity
-                  }
-                case Multi(_) => Double.PositiveInfinity
-              }
-        })
-        .toList
-
-      Results(fitnessValues.min, fitnessValues.suml / fitnessValues.size)
+      val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
+      val fitnessValues = collection.map(x => feasibleOptic.getOption(x.pos).getOrElse(Double.PositiveInfinity))
+      Results(fitnessValues.minimum1, fitnessValues.suml / fitnessValues.size)
     })
 
   // A simple RVar.pure function that is called when the the environment changes
