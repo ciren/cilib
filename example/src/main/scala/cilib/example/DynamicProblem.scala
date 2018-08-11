@@ -22,7 +22,7 @@ object DynamicProblem extends SafeApp {
   override val runc: IO[Unit] = {
     val t = Runner.foldStep(
       env,
-      RNG.fromTime,
+      RNG.init(12L),
       swarm,
       Runner.staticAlgorithm("gbestPSO", iter),
       problemStream,
@@ -32,20 +32,27 @@ object DynamicProblem extends SafeApp {
 
     putStrLn(t.take(1000).runLast.unsafePerformSync.toString)
   }
+
   val bounds = Interval(0.0, 10.0) ^ 30
   val env =
-    Environment(cmp = Comparison.dominance(Max), eval = Eval.unconstrained(fitnessFunction(0.0)))
+    Environment(cmp = Comparison.dominance(Max), eval = Eval.unconstrained(fitnessFunction(0.0)))// Start with no bias
+    // Define the guides for our PSO algorithms
   val cognitive = Guide.pbest[Mem[Double], Double]
   val social = Guide.gbest[Mem[Double]]
   val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
-  // RVar
-  val swarm =
+    // Define the initial swarm
+    val swarm =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
-  val iter = Iteration.sync(gbestPSO)
+    // Define iterators for our algorithm
+    val iter = Iteration.sync(gbestPSO)
+  // How frequently we want to update the evaluation method
   val freq = Env.frequency(10)
+  // problem takes in the name of the problem, the initial state and a method to update the
+  // evaluation process.
   val problemStream =
     Runner.problem[Double, Double]("spherical", Dist.stdUniform, dynamicUpdate)(freq, RNG.init(12L))
 
+  // Our gbest PSO algorithm with bounds a checking mechanism (updatePBestBounds)
   def gbest[S](
       w: Double,
       c1: Double,
@@ -66,6 +73,8 @@ object DynamicProblem extends SafeApp {
           updated <- updatePBestBounds(p3)
         } yield updated
 
+  // A method to update update the evaluation method that takes in some state,
+  // in oue case a double.
   def dynamicUpdate(state: Double): RVar[(Double, Eval[NonEmptyList, Double])] =
     Dist.stdUniform.map(x => {
       val newState = x + state
