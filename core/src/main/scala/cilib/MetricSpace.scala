@@ -1,7 +1,7 @@
 package cilib
 
 import scalaz.{Order => _, _}
-import scalaz.syntax.foldable._
+import Scalaz._
 
 import spire.math.{abs, max}
 import spire.implicits._
@@ -49,11 +49,11 @@ object MetricSpace {
                 b <- f(i, j - 1)
                 c <- f(i - 1, j - 1)
               } yield
-                List(
+                NonEmptyList(
                   a + 1,
                   b + 1,
                   c + (if (x(i - 1) == y(j - 1)) 0 else 1)
-                ).min
+                ).minimum1
           }
 
         B.fromInt(f(x.length, y.length).eval(Map.empty))
