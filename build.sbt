@@ -356,6 +356,7 @@ lazy val io = project
         "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion,
         "org.apache.parquet" % "parquet-avro" % "1.9.0",
         "org.apache.hadoop" % "hadoop-client" % "2.7.3",
-        "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
+        "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion,
+        "org.typelevel" %% "paiges-core" % "0.2.1"
       )
     ))
