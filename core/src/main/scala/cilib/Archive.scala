@@ -55,7 +55,7 @@ sealed abstract class Archive[A] {
       case NonEmpty(l, b) =>
         b match {
           case Bounded(limit) =>
-            if (limit.value <= l.size && l.forall(x => f(v, x)))
+            if (l.size < limit.value && l.forall(x => f(v, x)))
               NonEmpty[A](v :: l, b)
             else
               NonEmpty[A](l, b)
