@@ -64,11 +64,8 @@ sealed abstract class Archive[A] {
                 }
         }
 
-  def delete(v: A): Archive[A] =
-    this match {
-      case Empty(b) => Empty(b)
-      case NonEmpty(l, b) => NonEmpty(l.filter(!_.equals(v)), b)
-    }
+    def delete(v: A): Archive[A] =
+        deleteWithCondition(x => x.equals(v))
 
     def deleteWithCondition(f: A => Boolean): Archive[A] =
         this match {
