@@ -70,14 +70,14 @@ sealed abstract class Archive[A] {
       case NonEmpty(l, b) => NonEmpty(l.filter(!_.equals(v)), b)
     }
 
-  def deleteWithCondition(f: A => Boolean): Archive[A] =
-    this match {
-      case Empty(b) => Empty(b)
-      case NonEmpty(l, b) =>
-        val newList = l.filter(x => f(x))
-        if (newList.isEmpty) Empty[A](b)
-        else NonEmpty(newList, b)
-    }
+    def deleteWithCondition(f: A => Boolean): Archive[A] =
+        this match {
+            case Empty(b) => Empty(b)
+            case NonEmpty(l, b) =>
+                val newList = l.filterNot(x => f(x))
+                if (newList.isEmpty) Empty[A](b)
+                else NonEmpty(newList, b)
+        }
 
   def max(implicit ord: scalaz.Order[A]): Option[A] =
     this match {
