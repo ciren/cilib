@@ -36,35 +36,33 @@ sealed abstract class Archive[A] {
       case NonEmpty(l, _) => l.fold(z)(f)
     }
 
-  def insert(v: A): Archive[A] =
-    this match {
-      case Empty(b) => NonEmpty[A](List(v), b)
-      case NonEmpty(l, b) =>
-        b match {
-          case Bounded(limit) =>
-            if (l.size < limit.value)
-              NonEmpty[A](l.patch(0, Seq(v), 0), b)
-            else NonEmpty[A](l, b)
-          case Unbounded() => NonEmpty[A](l.patch(0, Seq(v), 0), b)
+    def insert(v: A): Archive[A] =
+        this match {
+            case Empty(b) => NonEmpty[A](List(v), b)
+            case NonEmpty(l, b) =>
+                b match {
+                    case Bounded(limit) =>
+                        if (l.size < limit.value)
+                            NonEmpty[A](v :: l, b)
+                        else NonEmpty[A](l, b)
+                    case Unbounded() => NonEmpty[A](v :: l, b)
+                }
         }
-    }
 
-  def insertWithCondition(f: (A, A) => Boolean)(v: A): Archive[A] =
-    this match {
-      case Empty(b) => NonEmpty[A](List(v), b)
-      case NonEmpty(l, b) =>
-        b match {
-          case Bounded(limit) =>{
-            if (limit.value <= l.size && l.forall(x => f(v, x)))
-              this.insert(v)
-            else
-              this
-          }
-          case Unbounded() => {
-            this.insert(v)
-          }
+    def insertWithCondition(f: (A, A) => Boolean)(v: A): Archive[A] =
+        this match {
+            case Empty(b) => NonEmpty[A](List(v), b)
+            case NonEmpty(l, b) =>
+                b match {
+                    case Bounded(limit) =>
+                        if (limit.value <= l.size && l.forall(x => f(v, x)))
+                            NonEmpty[A](v :: l, b)
+                        else
+                            NonEmpty[A](l, b)
+
+                    case Unbounded() => NonEmpty[A](v :: l, b)
+                }
         }
-    }
 
   def delete(v: A): Archive[A] =
     this match {
