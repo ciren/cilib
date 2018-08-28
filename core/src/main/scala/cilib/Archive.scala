@@ -36,45 +36,45 @@ sealed abstract class Archive[A] {
       case NonEmpty(l, _) => l.fold(z)(f)
     }
 
-    def insert(v: A): Archive[A] =
-        this match {
-            case Empty(b) => NonEmpty[A](List(v), b)
-            case NonEmpty(l, b) =>
-                b match {
-                    case Bounded(limit) =>
-                        if (l.size < limit.value)
-                            NonEmpty[A](v :: l, b)
-                        else NonEmpty[A](l, b)
-                    case Unbounded() => NonEmpty[A](v :: l, b)
-                }
+  def insert(v: A): Archive[A] =
+    this match {
+      case Empty(b) => NonEmpty[A](List(v), b)
+      case NonEmpty(l, b) =>
+        b match {
+          case Bounded(limit) =>
+            if (l.size < limit.value)
+              NonEmpty[A](v :: l, b)
+            else NonEmpty[A](l, b)
+          case Unbounded() => NonEmpty[A](v :: l, b)
         }
+    }
 
-    def insertWithCondition(f: (A, A) => Boolean)(v: A): Archive[A] =
-        this match {
-            case Empty(b) => NonEmpty[A](List(v), b)
-            case NonEmpty(l, b) =>
-                b match {
-                    case Bounded(limit) =>
-                        if (limit.value <= l.size && l.forall(x => f(v, x)))
-                            NonEmpty[A](v :: l, b)
-                        else
-                            NonEmpty[A](l, b)
+  def insertWithCondition(f: (A, A) => Boolean)(v: A): Archive[A] =
+    this match {
+      case Empty(b) => NonEmpty[A](List(v), b)
+      case NonEmpty(l, b) =>
+        b match {
+          case Bounded(limit) =>
+            if (limit.value <= l.size && l.forall(x => f(v, x)))
+              NonEmpty[A](v :: l, b)
+            else
+              NonEmpty[A](l, b)
 
-                    case Unbounded() => NonEmpty[A](v :: l, b)
-                }
+          case Unbounded() => NonEmpty[A](v :: l, b)
         }
+    }
 
-    def delete(v: A): Archive[A] =
-        deleteWithCondition(x => x.equals(v))
+  def delete(v: A): Archive[A] =
+    deleteWithCondition(x => x.equals(v))
 
-    def deleteWithCondition(f: A => Boolean): Archive[A] =
-        this match {
-            case Empty(b) => Empty(b)
-            case NonEmpty(l, b) =>
-                val newList = l.filterNot(x => f(x))
-                if (newList.isEmpty) Empty[A](b)
-                else NonEmpty(newList, b)
-        }
+  def deleteWithCondition(f: A => Boolean): Archive[A] =
+    this match {
+      case Empty(b) => Empty(b)
+      case NonEmpty(l, b) =>
+        val newList = l.filterNot(x => f(x))
+        if (newList.isEmpty) Empty[A](b)
+        else NonEmpty(newList, b)
+    }
 
   def max(implicit ord: scalaz.Order[A]): Option[A] =
     this match {
@@ -91,7 +91,7 @@ sealed abstract class Archive[A] {
   def replace(oldV: A, newV: A)(implicit E: scalaz.Equal[A]): Archive[A] =
     this match {
       case Empty(b)       => Empty(b)
-      case NonEmpty(l, b) => NonEmpty(l.map(x => if(x === oldV) newV else x), b)
+      case NonEmpty(l, b) => NonEmpty(l.map(x => if (x === oldV) newV else x), b)
     }
 
   def dominates(f: (A, A) => Boolean)(v: A): Boolean =
@@ -128,15 +128,15 @@ sealed abstract class Archive[A] {
 
   def toList: List[A] =
     this match {
-      case Empty(_) => List.empty[A]
+      case Empty(_)       => List.empty[A]
       case NonEmpty(l, _) => l
     }
 }
 
 object Archive {
 
-  private final case class Empty[A] (b: ArchiveBound) extends Archive[A]
-  private final case class NonEmpty[A] (l: List[A], b: ArchiveBound) extends Archive[A]
+  private final case class Empty[A](b: ArchiveBound) extends Archive[A]
+  private final case class NonEmpty[A](l: List[A], b: ArchiveBound) extends Archive[A]
 
   def bounded[A](limit: Int Refined Positive): Archive[A] = Empty[A](Bounded(limit))
   def unbounded[A]: Archive[A] = Empty[A](Unbounded())
