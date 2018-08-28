@@ -2,7 +2,7 @@ import sbt._
 import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
-val scalazVersion     = "7.2.23"
+val scalazVersion     = "7.2.25"
 val scalazStreamVersion = "0.8.6a"
 val spireVersion      = "0.13.0"
 val monocleVersion    = "1.5.0"
@@ -76,7 +76,7 @@ lazy val commonSettings = Seq(
     "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
-    compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.6" cross CrossVersion.binary)
+    compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.7" cross CrossVersion.binary)
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "scm:git:git@github.com:cirg-up/cilib.git")),
@@ -180,16 +180,17 @@ lazy val core = project
         "org.spire-math" %% "spire" % spireVersion,
         "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
         "com.chuusai" %% "shapeless" % "2.3.3",
-        "eu.timepit" %% "refined" % "0.9.0"
+        "eu.timepit" %% "refined" % "0.9.2"
       ),
       wartremoverErrors in (Compile, compile) ++= Seq(
-        //Wart.Any,
-        //Wart.Nothing,
+//        Wart.Any,
         Wart.AnyVal,
         Wart.ArrayEquals,
         Wart.AsInstanceOf,
         Wart.DefaultArguments,
         Wart.ExplicitImplicitTypes,
+        Wart.Enumeration,
+        //Wart.Equals,
         Wart.FinalCaseClass,
         Wart.FinalVal,
         Wart.ImplicitConversion,
@@ -200,19 +201,23 @@ lazy val core = project
         Wart.LeakingSealed,
         Wart.MutableDataStructures,
         Wart.NonUnitStatements,
+//        Wart.Nothing,
         Wart.Null,
         Wart.Option2Iterable,
         Wart.OptionPartial,
         Wart.Overloading,
         Wart.Product,
-        //Wart.PublicInference,
+        Wart.PublicInference,
         Wart.Return,
+//        Wart.Recursion,
         Wart.Serializable,
         Wart.StringPlusAny,
         Wart.Throw,
+        Wart.ToString,
         Wart.TraversableOps,
         Wart.TryPartial,
-        Wart.Var
+        Wart.Var,
+        Wart.While
       )
     ))
 
@@ -293,6 +298,7 @@ lazy val example = project
   .settings(
     cilibSettings ++ noPublishSettings ++ Seq(
       fork in run := true,
+      connectInput in run := true,
       moduleName := "cilib-example",
       libraryDependencies ++= Seq(
         "net.cilib" %% "benchmarks" % "0.1.1",

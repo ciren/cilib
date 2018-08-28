@@ -8,7 +8,7 @@ private.sbt
 .project
 readme.content
 *~
-project/travis-deploy-key
+project/travis-deploy-key*
 local.*
 .idea
 *.csv

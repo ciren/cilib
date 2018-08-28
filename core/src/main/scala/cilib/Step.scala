@@ -23,8 +23,8 @@ sealed abstract class Step[A, B] {
     this match {
       case Halt(r, e) =>
         e match {
-          case None    => RVar.pure(\/.left(new Exception(r)))
-          case Some(x) => RVar.pure(\/.left(new Exception(r, x)))
+          case None    => RVar.pure(\/.left[Exception, B](new Exception(r)))
+          case Some(x) => RVar.pure(\/.left[Exception, B](new Exception(r, x)))
         }
 
       case Cont(f) =>
@@ -43,7 +43,7 @@ sealed abstract class Step[A, B] {
       case Cont(_) =>
         Cont(env =>
           run(env).flatMap(_ match {
-            case -\/(error) => RVar.pure(error.left)
+            case -\/(error) => RVar.pure(error.left[C])
             case \/-(value) => f(value).run(env)
           }))
     }
@@ -66,7 +66,7 @@ object Step {
     pure(b)
 
   def pure[A, B](b: B): Step[A, B] =
-    Cont(_ => RVar.pure(b.right))
+    Cont(_ => RVar.pure(b.right[Exception]))
 
   @deprecated("This method has been deprecated, use liftR instead, it is technically more accurate",
               "2.0.2")
@@ -74,20 +74,20 @@ object Step {
     liftR(a)
 
   def liftR[A, B](a: RVar[B]): Step[A, B] =
-    Cont(_ => a.map(_.right))
+    Cont(_ => a.map(_.right[Exception]))
 
   def withCompare[A, B](a: Comparison => B): Step[A, B] =
-    Cont(env => RVar.pure(a.apply(env.cmp).right))
+    Cont(env => RVar.pure(a.apply(env.cmp).right[Exception]))
 
   def withCompareR[A, B](f: Comparison => RVar[B]): Step[A, B] =
-    Cont(env => f(env.cmp).map(_.right))
+    Cont(env => f(env.cmp).map(_.right[Exception]))
 
   def eval[S, A](f: Position[A] => Position[A])(entity: Entity[S, A]): Step[A, Entity[S, A]] =
     evalP(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 
   def evalP[A](pos: Position[A]): Step[A, Position[A]] =
     Cont { env =>
-      Position.eval(env.eval.eval, pos).map(_.right)
+      Position.eval(env.eval.eval, pos).map(_.right[Exception])
     }
 
   implicit def stepMonad[A]: Monad[Step[A, ?]] =
@@ -113,7 +113,7 @@ final case class StepS[A, S, B](run: StateT[Step[A, ?], S, B]) {
 
 object StepS {
 
-  def lensIso[A, B] =
+  def lensIso[A, B]: monocle.Iso[scalaz.Lens[A, B], monocle.Lens[A, B]] =
     monocle.Iso[scalaz.Lens[A, B], monocle.Lens[A, B]]((s: scalaz.Lens[A, B]) =>
       monocle.Lens[A, B](s.get)(b => a => s.set(a, b)))((m: monocle.Lens[A, B]) =>
       scalaz.Lens.lensu[A, B]((a, b) => m.set(b)(a), m.get(_)))
