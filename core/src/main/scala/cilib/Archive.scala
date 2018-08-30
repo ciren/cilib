@@ -49,7 +49,7 @@ sealed abstract class Archive[A] {
         }
     }
 
-  def insertWithCondition(f: (A, A) => Boolean)(v: A): Archive[A] =
+  def insertWith(f: (A, A) => Boolean)(v: A): Archive[A] =
     this match {
       case Empty(b) => NonEmpty[A](List(v), b)
       case NonEmpty(l, b) =>
@@ -60,14 +60,18 @@ sealed abstract class Archive[A] {
             else
               NonEmpty[A](l, b)
 
-          case Unbounded() => NonEmpty[A](v :: l, b)
+          case Unbounded() => 
+            if(l.forall(x => f(v,x)))
+              NonEmpty[A](v :: l, b)
+            else
+              NonEmpty[A](l, b)
         }
     }
 
   def delete(v: A): Archive[A] =
     deleteWithCondition(x => x.equals(v))
 
-  def deleteWithCondition(f: A => Boolean): Archive[A] =
+  def deleteWith(f: A => Boolean): Archive[A] =
     this match {
       case Empty(b) => Empty(b)
       case NonEmpty(l, b) =>
