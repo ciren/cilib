@@ -1,9 +1,9 @@
 package cilib
 
-import scalaz._
-import Scalaz._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
+import scalaz.Scalaz._
+import scalaz._
 
 sealed trait ArchiveBound
 final case class Bounded(limit: Int Refined Positive) extends ArchiveBound
@@ -69,7 +69,7 @@ sealed abstract class Archive[A] {
     }
 
   def delete(v: A): Archive[A] =
-    deleteWithCondition(x => x.equals(v))
+    deleteWith(x => x.equals(v))
 
   def deleteWith(f: A => Boolean): Archive[A] =
     this match {
