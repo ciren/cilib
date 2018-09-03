@@ -143,11 +143,11 @@ object Archive {
 
   def boundedNonEmpty[A](seeds: NonEmptyList[A], limit: Int Refined Positive): Archive[A] = {
     val emptyArchive: Archive[A] = bounded(limit)
-    seeds.toList.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
+    seeds.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
   }
 
   def unboundedNonEmpty[A](seeds: NonEmptyList[A]): Archive[A] = {
     val emptyArchive: Archive[A] = unbounded
-    seeds.toList.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
+    seeds.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
   }
 }
