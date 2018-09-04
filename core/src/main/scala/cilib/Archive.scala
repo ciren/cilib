@@ -1,9 +1,9 @@
 package cilib
 
+import scalaz._
+import Scalaz._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
-import scalaz.Scalaz._
-import scalaz._
 
 sealed trait ArchiveBound
 final case class Bounded(limit: Int Refined Positive) extends ArchiveBound
@@ -11,12 +11,6 @@ final case class Unbounded() extends ArchiveBound
 
 sealed abstract class Archive[A] {
   import Archive._
-
-  def values: Option[List[A]] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(l, _) => Some(l)
-    }
 
   def bound: ArchiveBound =
     this match {
@@ -28,12 +22,6 @@ sealed abstract class Archive[A] {
     this match {
       case Empty(b)       => Empty(b)
       case NonEmpty(l, b) => NonEmpty(l.map(f), b)
-    }
-
-  def fold(z: A)(f: (A, A) => A): A =
-    this match {
-      case Empty(_)       => z
-      case NonEmpty(l, _) => l.fold(z)(f)
     }
 
   def insert(v: A): Archive[A] =
@@ -49,59 +37,30 @@ sealed abstract class Archive[A] {
         }
     }
 
+  // Needs work
   def insertWith(f: (A, A) => Boolean)(v: A): Archive[A] =
     this match {
       case Empty(b) => NonEmpty[A](List(v), b)
       case NonEmpty(l, b) =>
         b match {
           case Bounded(limit) =>
-            if (l.size < limit.value && l.forall(x => f(v, x)))
+            if (l.size == 0)
               NonEmpty[A](v :: l, b)
+            else if (l.size < limit.value && l.forall(x => f(v, x)))
+              NonEmpty[A](NonEmpty[A](v :: l, b).toList.filterNot(x => this.management.strategy(x)), b) // Cleanup after insert: Idea is to call/use a user specified archive management function that was specified at archive creation passed to constructor?
+            else if(l.size == limit.value && l.forall(x => f(v, x))) // Still to add removal of mostCrowded when archive is full
+              ???
             else
               NonEmpty[A](l, b)
 
-          case Unbounded() => 
-            if(l.forall(x => f(v,x)))
+          case Unbounded() =>
+            if (l.size == 0)
               NonEmpty[A](v :: l, b)
+            else if(l.forall(x => f(v,x)))
+              NonEmpty[A](NonEmpty[A](v :: l, b).toList.filterNot(x => this.management.strategy(x)), b)
             else
               NonEmpty[A](l, b)
         }
-    }
-
-  def delete(v: A): Archive[A] =
-    deleteWith(x => x.equals(v))
-
-  def deleteWith(f: A => Boolean): Archive[A] =
-    this match {
-      case Empty(b) => Empty(b)
-      case NonEmpty(l, b) =>
-        val newList = l.filterNot(x => f(x))
-        if (newList.isEmpty) Empty[A](b)
-        else NonEmpty(newList, b)
-    }
-
-  def max(implicit ord: scalaz.Order[A]): Option[A] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(l, _) => l.maximum
-    }
-
-  def min(implicit ord: scalaz.Order[A]): Option[A] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(l, _) => l.minimum
-    }
-
-  def replace(oldV: A, newV: A)(implicit E: scalaz.Equal[A]): Archive[A] =
-    this match {
-      case Empty(b)       => Empty(b)
-      case NonEmpty(l, b) => NonEmpty(l.map(x => if (x === oldV) newV else x), b)
-    }
-
-  def dominates(f: (A, A) => Boolean)(v: A): Boolean =
-    this match {
-      case Empty(_)       => true
-      case NonEmpty(l, _) => l.forall(x => f(v, x))
     }
 
   def empty: Archive[A] = Empty(bound)
@@ -116,12 +75,6 @@ sealed abstract class Archive[A] {
     this match {
       case Empty(_)       => None
       case NonEmpty(l, _) => l.headOption
-    }
-
-  def contains(v: A): Boolean =
-    this match {
-      case Empty(_)       => false
-      case NonEmpty(l, _) => l.contains(v)
     }
 
   def size: Int =
