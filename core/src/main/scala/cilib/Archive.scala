@@ -41,7 +41,7 @@ sealed abstract class Archive[A] {
               NonEmpty[A](v :: l, b, c)
             else if (l.size >= limit.value && l.forall(x => c(v, x))) {
               val selected = deletePolicy(l)
-              NonEmpty[A](l.filterNot(x => x.equals(selected)), b, c)
+              NonEmpty[A](v :: l.filterNot(x => x.equals(selected)), b, c)
             } else
               NonEmpty[A](l, b, c)
           case Unbounded() =>
