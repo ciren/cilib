@@ -1,110 +1,101 @@
 package cilib
 
-import scalaz._
-import Scalaz._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
+import scalaz.Scalaz._
+import scalaz._
 
 sealed trait ArchiveBound
-final case class Bounded(limit: Int Refined Positive) extends ArchiveBound
+final case class Bounded[A](limit: Int Refined Positive, deletePolicy: List[A] => A) extends ArchiveBound
 final case class Unbounded() extends ArchiveBound
 
 sealed abstract class Archive[A] {
-  import Archive._
+    import Archive._
 
-  def bound: ArchiveBound =
-    this match {
-      case Empty(b)       => b
-      case NonEmpty(_, b) => b
-    }
-
-  def map[C](f: A => C): Archive[C] =
-    this match {
-      case Empty(b)       => Empty(b)
-      case NonEmpty(l, b) => NonEmpty(l.map(f), b)
-    }
-
-  def insert(v: A): Archive[A] =
-    this match {
-      case Empty(b) => NonEmpty[A](List(v), b)
-      case NonEmpty(l, b) =>
-        b match {
-          case Bounded(limit) =>
-            if (l.size < limit.value)
-              NonEmpty[A](v :: l, b)
-            else NonEmpty[A](l, b)
-          case Unbounded() => NonEmpty[A](v :: l, b)
+    def values: List[A] =
+        this match {
+            case Empty(_, _)       => List()
+            case NonEmpty(l, _, _) => l
         }
-    }
 
-  // Needs work
-  def insertWith(f: (A, A) => Boolean)(v: A): Archive[A] =
-    this match {
-      case Empty(b) => NonEmpty[A](List(v), b)
-      case NonEmpty(l, b) =>
-        b match {
-          case Bounded(limit) =>
-            if (l.size == 0)
-              NonEmpty[A](v :: l, b)
-            else if (l.size < limit.value && l.forall(x => f(v, x)))
-              NonEmpty[A](NonEmpty[A](v :: l, b).toList.filterNot(x => this.management.strategy(x)), b) // Cleanup after insert: Idea is to call/use a user specified archive management function that was specified at archive creation passed to constructor?
-            else if(l.size == limit.value && l.forall(x => f(v, x))) // Still to add removal of mostCrowded when archive is full
-              ???
-            else
-              NonEmpty[A](l, b)
-
-          case Unbounded() =>
-            if (l.size == 0)
-              NonEmpty[A](v :: l, b)
-            else if(l.forall(x => f(v,x)))
-              NonEmpty[A](NonEmpty[A](v :: l, b).toList.filterNot(x => this.management.strategy(x)), b)
-            else
-              NonEmpty[A](l, b)
+    def bound: ArchiveBound =
+        this match {
+            case Empty(b, _)       => b
+            case NonEmpty(_, b, _) => b
         }
-    }
 
-  def empty: Archive[A] = Empty(bound)
+    def condition: (A, A) => Boolean =
+        this match {
+            case Empty(_, c)       => c
+            case NonEmpty(_, _, c) => c
+        }
 
-  def isEmpty: Boolean =
-    this match {
-      case Empty(_)       => true
-      case NonEmpty(_, _) => false
-    }
+    def insert(v: A): Archive[A] =
+        this match {
+            case Empty(b, c) => NonEmpty[A](List(v), b, c)
+            case NonEmpty(l, b, c) =>
+                b match {
+                    case Bounded(limit, deletePolicy) =>
+                        if (l.size < limit.value && l.forall(x => c(v, x)))
+                            NonEmpty[A](v :: l, b, c)
+                        else if (l.size >= limit.value && l.forall(x => c(v, x))){
+                            val selected = deletePolicy(l)
+                            NonEmpty[A](l.filterNot(x => x.equals(selected)), b, c)
+                        }
+                        else
+                            NonEmpty[A](l, b, c)
+                    case Unbounded() =>
+                        if(l.forall(x => c(v,x)))
+                            NonEmpty[A](v :: l, b, c)
+                        else
+                            NonEmpty[A](l, b, c)
+                }
+        }
 
-  def head: Option[A] =
-    this match {
-      case Empty(_)       => None
-      case NonEmpty(l, _) => l.headOption
-    }
+    def empty: Archive[A] =
+        this match {
+            case Empty(_, _)       => this
+            case NonEmpty(_, b, c) => Empty(b, c)
+        }
 
-  def size: Int =
-    this match {
-      case Empty(_)       => 0
-      case NonEmpty(l, _) => l.size
-    }
+    def isEmpty: Boolean =
+        this match {
+            case Empty(_, _)       => true
+            case NonEmpty(_, _, _) => false
+        }
 
-  def toList: List[A] =
-    this match {
-      case Empty(_)       => List.empty[A]
-      case NonEmpty(l, _) => l
-    }
+    def head: Option[A] =
+        this match {
+            case Empty(_, _)       => None
+            case NonEmpty(l, _, _) => l.headOption
+        }
+
+    def size: Int =
+        this match {
+            case Empty(_, _)       => 0
+            case NonEmpty(l, _, _) => l.size
+        }
 }
 
 object Archive {
 
-  private final case class Empty[A](b: ArchiveBound) extends Archive[A]
-  private final case class NonEmpty[A](l: List[A], b: ArchiveBound) extends Archive[A]
+    private final case class Empty[A](b: ArchiveBound, insertPolicy: (A, A) => Boolean) extends Archive[A]
+    private final case class NonEmpty[A](l: List[A], b: ArchiveBound, insertPolicy: (A, A) => Boolean) extends Archive[A]
 
-  def bounded[A](limit: Int Refined Positive): Archive[A] = Empty[A](Bounded(limit))
-  def unbounded[A]: Archive[A] = Empty[A](Unbounded())
+    def bounded[A](limit: Int Refined Positive, insertPolicy: (A, A) => Boolean, deletePolicy: List[A] => A): Archive[A] =
+        Empty[A](Bounded(limit, deletePolicy), insertPolicy)
 
-  def boundedNonEmpty[A](seeds: NonEmptyList[A], limit: Int Refined Positive): Archive[A] = {
-    val emptyArchive: Archive[A] = bounded(limit)
-    seeds.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
-  }
+    def unbounded[A](condition: (A, A) => Boolean): Archive[A] =
+        Empty[A](Unbounded(), condition)
 
-  def unboundedNonEmpty[A](seeds: NonEmptyList[A]): Archive[A] = {
-    val emptyArchive: Archive[A] = unbounded
-    seeds.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
-  }
+    def boundedNonEmpty[A](seeds: NonEmptyList[A], limit: Int Refined Positive, insertPolicy: (A, A) => Boolean, deletePolicy: List[A] => A): Archive[A] = {
+        val emptyArchive: Archive[A] = bounded(limit, insertPolicy, deletePolicy)
+        seeds.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
+    }
+
+    def unboundedNonEmpty[A](seeds: NonEmptyList[A], insertPolicy: (A, A) => Boolean): Archive[A] = {
+        val emptyArchive: Archive[A] = unbounded(insertPolicy)
+        seeds.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
+    }
+
 }
