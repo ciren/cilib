@@ -12,8 +12,6 @@ import spire.implicits._
 import spire.math.Interval
 
 import cilib.ga._
-import cilib.io.PrettyPrinter
-import PrettyPrinter._
 import Lenses._
 
 object GAExample extends SafeApp {
@@ -69,9 +67,6 @@ object GAExample extends SafeApp {
             .map(_.take(20).toNel.getOrElse(sys.error("asdas"))))
 
   // Our IO[Unit] that runs at the end of the world
-  override val runc: IO[Unit] = {
-      val x = exec.Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime)
-      x
-      putStrLn(.toString)
-  }
+  override val runc: IO[Unit] =
+    putStrLn(exec.Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime).toString)
 }

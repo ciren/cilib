@@ -34,7 +34,7 @@ object GBestPSO extends SafeApp {
 
     // Our IO[Unit] that runs the algorithm, at the end of the world
     override val runc: IO[Unit] = {
-        val process = Runner.foldStep(
+        val t = Runner.foldStep(
             env,
             RNG.fromTime,
             swarm,
@@ -44,7 +44,7 @@ object GBestPSO extends SafeApp {
                 RVar.pure(x)
         )
 
-        val result = process.take(1000).runLast.unsafePerformSync match {
+        val result = t.take(1000).runLast.unsafePerformSync match {
             case Some(x) => PrettyPrinter(x).render(1000)
             case None => "Error"
         }
