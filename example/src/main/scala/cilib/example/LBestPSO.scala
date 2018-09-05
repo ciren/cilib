@@ -35,27 +35,26 @@ object LBestPSO extends SafeApp {
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
   val iter = Iteration.sync(lbestPSO)
 
-    val problemStream = Runner.staticProblem("spherical", env.eval)
+  val problemStream = Runner.staticProblem("spherical", env.eval)
 
+  override val runc: IO[Unit] = {
 
-    override val runc: IO[Unit] = {
+    val process = Runner.foldStep(
+      env,
+      RNG.fromTime,
+      swarm,
+      Runner.staticAlgorithm("lbestPSO", iter),
+      problemStream,
+      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) =>
+        RVar.pure(x)
+    )
 
-      val process = Runner.foldStep(
-          env,
-          RNG.fromTime,
-          swarm,
-          Runner.staticAlgorithm("lbestPSO", iter),
-          problemStream,
-          (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) =>
-              RVar.pure(x)
-      )
+    val result = process.take(1000).runLast.unsafePerformSync match {
+      case Some(x) => PrettyPrinter(x).render(1000)
+      case None    => "Error"
+    }
 
-      val result = process.take(1000).runLast.unsafePerformSync match {
-          case Some(x) => PrettyPrinter(x).render(1000)
-          case None => "Error"
-      }
-
-      putStrLn(result)
+    putStrLn(result)
   }
 
 }
