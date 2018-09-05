@@ -59,13 +59,13 @@ object PrettyPrinter {
             Doc.paragraph("Solution: ") + Doc.paragraph(feasibleOptic.headOption(x).getOrElse("Infeasible").toString)
     })
 
-    implicit val stdEntityEcodeDoc = createEncoder[Entity[Mem[Double], Double]](x =>
+    implicit val particleEcodeDoc = createEncoder[Entity[Mem[Double], Double]](x =>
         Doc.paragraph("Entity") + Doc.line +
             positionEncodeDoc.toDoc(x.pos) + Doc.line +
             memEncoder.toDoc(x.state) + Doc.line
     )
 
-    implicit val nelStdEntityEcodeDoc = createEncoder[NonEmptyList[Entity[Mem[Double], Double]]](x =>
+    implicit val nelParticleEcodeDoc = createEncoder[NonEmptyList[Entity[Mem[Double], Double]]](x =>
         Doc.intercalate(Doc.line, x.zipWithIndex.toList map {
             case (entity: Entity[Mem[Double], Double], index: Int) =>
                 Doc.paragraph(s"Entity ${index + 1}") + Doc.line +
@@ -74,13 +74,35 @@ object PrettyPrinter {
         })
     )
 
-    implicit val progressEcodeDoc = createEncoder[Progress[NonEmptyList[Entity[Mem[Double], Double]]]](x =>
+    implicit val progressParticleEcodeDoc = createEncoder[Progress[NonEmptyList[Entity[Mem[Double], Double]]]](x =>
         Doc.paragraph(s"Algorithm: ${x.algorithm}") + Doc.line +
             Doc.paragraph(s"Problem: ${x.problem}") + Doc.line +
             Doc.paragraph(s"Seed Value: ${x.seed}") + Doc.line +
             Doc.paragraph(s"Iterations: ${x.iteration}") + Doc.line +
             Doc.paragraph(s"Environment: ${x.env}") + Doc.line + Doc.line +
-            nelStdEntityEcodeDoc.toDoc(x.value)
+            nelParticleEcodeDoc.toDoc(x.value)
+    )
+
+    implicit val individualEcodeDoc = createEncoder[Entity[Unit, Double]](x =>
+        Doc.paragraph("Entity") + Doc.line +
+            positionEncodeDoc.toDoc(x.pos) + Doc.line
+    )
+
+    implicit val nelIndividualEcodeDoc = createEncoder[NonEmptyList[Entity[Unit, Double]]](x =>
+        Doc.intercalate(Doc.line, x.zipWithIndex.toList map {
+            case (entity: Entity[Unit, Double], index: Int) =>
+                Doc.paragraph(s"Entity ${index + 1}") + Doc.line +
+                    positionEncodeDoc.toDoc(entity.pos) + Doc.line
+        })
+    )
+
+    implicit val progressIndividualEcodeDoc = createEncoder[Progress[NonEmptyList[Entity[Unit, Double]]]](x =>
+        Doc.paragraph(s"Algorithm: ${x.algorithm}") + Doc.line +
+            Doc.paragraph(s"Problem: ${x.problem}") + Doc.line +
+            Doc.paragraph(s"Seed Value: ${x.seed}") + Doc.line +
+            Doc.paragraph(s"Iterations: ${x.iteration}") + Doc.line +
+            Doc.paragraph(s"Environment: ${x.env}") + Doc.line + Doc.line +
+            nelIndividualEcodeDoc.toDoc(x.value)
     )
 
 }
