@@ -4,9 +4,9 @@ package example
 import cilib.pso._
 import cilib.pso.Defaults._
 import cilib.exec._
-
+import cilib.io.PrettyPrinter
+import PrettyPrinter._
 import eu.timepit.refined.auto._
-
 import scalaz._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
@@ -44,6 +44,11 @@ object GBestPSO extends SafeApp {
                 RVar.pure(x)
         )
 
-        putStrLn(t.take(1000).runLast.unsafePerformSync.toString)
+        val result = t.take(1000).runLast.unsafePerformSync match {
+            case Some(x) => PrettyPrinter(x).render(1000)
+            case None => "Error"
+        }
+
+        putStrLn(result)
     }
 }
