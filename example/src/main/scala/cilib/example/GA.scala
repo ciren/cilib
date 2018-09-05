@@ -5,14 +5,14 @@ import scalaz._
 import Scalaz._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
-
 import eu.timepit.refined.auto._
-
 import spire.implicits._
 import spire.math.Interval
-
 import cilib.ga._
+import cilib.io.PrettyPrinter
+import PrettyPrinter._
 import Lenses._
+import cilib.exec.Runner
 
 object GAExample extends SafeApp {
   type Ind = Individual[Unit]
@@ -64,9 +64,27 @@ object GAExample extends SafeApp {
         r =>
           Step
             .withCompare(o => r.sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o)))
-            .map(_.take(20).toNel.getOrElse(sys.error("asdas"))))
+              .map(_.take(20).toNel.getOrElse(sys.error("asdas"))))
 
-  // Our IO[Unit] that runs at the end of the world
-  override val runc: IO[Unit] =
-    putStrLn(exec.Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime).toString)
+    val problemStream = Runner.staticProblem("spherical", env.eval)
+
+    // Our IO[Unit] that runs at the end of the world
+  override val runc: IO[Unit] = {
+      val process = Runner.foldStep(
+          env,
+          RNG.fromTime,
+          swarm,
+          Runner.staticAlgorithm("GA", cullingGA),
+          problemStream,
+          (x: NonEmptyList[Ind], _: Eval[NonEmptyList, Double]) =>
+              RVar.pure(x)
+      )
+
+      val result = process.take(1000).runLast.unsafePerformSync match {
+          case Some(x) => PrettyPrinter(x).render(1000)
+          case None => "Error"
+      }
+
+      putStrLn(result)
+  }
 }
