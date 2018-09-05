@@ -64,27 +64,26 @@ object GAExample extends SafeApp {
         r =>
           Step
             .withCompare(o => r.sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o)))
-              .map(_.take(20).toNel.getOrElse(sys.error("asdas"))))
+            .map(_.take(20).toNel.getOrElse(sys.error("asdas"))))
 
-    val problemStream = Runner.staticProblem("spherical", env.eval)
+  val problemStream = Runner.staticProblem("spherical", env.eval)
 
-    // Our IO[Unit] that runs at the end of the world
+  // Our IO[Unit] that runs at the end of the world
   override val runc: IO[Unit] = {
-      val process = Runner.foldStep(
-          env,
-          RNG.fromTime,
-          swarm,
-          Runner.staticAlgorithm("GA", cullingGA),
-          problemStream,
-          (x: NonEmptyList[Ind], _: Eval[NonEmptyList, Double]) =>
-              RVar.pure(x)
-      )
+    val process = Runner.foldStep(
+      env,
+      RNG.fromTime,
+      swarm,
+      Runner.staticAlgorithm("GA", cullingGA),
+      problemStream,
+      (x: NonEmptyList[Ind], _: Eval[NonEmptyList, Double]) => RVar.pure(x)
+    )
 
-      val result = process.take(1000).runLast.unsafePerformSync match {
-          case Some(x) => PrettyPrinter(x).render(1000)
-          case None => "Error"
-      }
+    val result = process.take(1000).runLast.unsafePerformSync match {
+      case Some(x) => PrettyPrinter(x).render(1000)
+      case None    => "Error"
+    }
 
-      putStrLn(result)
+    putStrLn(result)
   }
 }
