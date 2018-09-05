@@ -2,16 +2,16 @@ package cilib
 package example
 
 import eu.timepit.refined.auto._
-
 import scalaz._
 import scalaz.effect._
 import scalaz.effect.IO.putStrLn
 import spire.implicits._
 import spire.math.Interval
-
 import cilib.pso._
 import cilib.pso.Defaults._
 import cilib.exec._
+import cilib.io.PrettyPrinter
+import PrettyPrinter._
 
 object LBestPSO extends SafeApp {
   val bounds = Interval(-5.12, 5.12) ^ 30
@@ -35,7 +35,27 @@ object LBestPSO extends SafeApp {
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
   val iter = Iteration.sync(lbestPSO)
 
-  override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime).toString)
+    val problemStream = Runner.staticProblem("spherical", env.eval)
+
+
+    override val runc: IO[Unit] = {
+
+      val process = Runner.foldStep(
+          env,
+          RNG.fromTime,
+          swarm,
+          Runner.staticAlgorithm("lbestPSO", iter),
+          problemStream,
+          (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) =>
+              RVar.pure(x)
+      )
+
+      val result = process.take(1000).runLast.unsafePerformSync match {
+          case Some(x) => PrettyPrinter(x).render(1000)
+          case None => "Error"
+      }
+
+      putStrLn(result)
+  }
 
 }
