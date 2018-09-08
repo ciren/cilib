@@ -6,8 +6,7 @@ import scalaz.Scalaz._
 import scalaz._
 
 sealed trait ArchiveBound
-final case class Bounded[A](limit: Int Refined Positive, deletePolicy: List[A] => A)
-    extends ArchiveBound
+final case class Bounded[A](limit: Int Refined Positive, deletePolicy: List[A] => A) extends ArchiveBound
 final case class Unbounded() extends ArchiveBound
 
 sealed abstract class Archive[A] {
@@ -25,7 +24,7 @@ sealed abstract class Archive[A] {
       case NonEmpty(_, b, _) => b
     }
 
-  def condition: (A, A) => Boolean =
+  def insertCondition: (A, A) => Boolean =
     this match {
       case Empty(_, c)       => c
       case NonEmpty(_, _, c) => c
@@ -39,13 +38,14 @@ sealed abstract class Archive[A] {
           case Bounded(limit, deletePolicy) =>
             if (l.size < limit.value && l.forall(x => c(v, x)))
               NonEmpty[A](v :: l, b, c)
-            else if (l.size >= limit.value && l.forall(x => c(v, x))) {
-              val selected = deletePolicy(l)
+            else if (l.size == limit.value && l.forall(x => c(v, x))){
+              val selected = deletePolicy(l) // Intellij complains here? "Expected List[nothing] actual List[Any]"
               NonEmpty[A](v :: l.filterNot(x => x.equals(selected)), b, c)
-            } else
+            }
+            else
               NonEmpty[A](l, b, c)
           case Unbounded() =>
-            if (l.forall(x => c(v, x)))
+            if(l.forall(x => c(v,x)))
               NonEmpty[A](v :: l, b, c)
             else
               NonEmpty[A](l, b, c)
@@ -64,12 +64,6 @@ sealed abstract class Archive[A] {
       case NonEmpty(_, _, _) => false
     }
 
-  def head: Option[A] =
-    this match {
-      case Empty(_, _)       => None
-      case NonEmpty(l, _, _) => l.headOption
-    }
-
   def size: Int =
     this match {
       case Empty(_, _)       => 0
@@ -79,23 +73,16 @@ sealed abstract class Archive[A] {
 
 object Archive {
 
-  private final case class Empty[A](b: ArchiveBound, insertPolicy: (A, A) => Boolean)
-      extends Archive[A]
-  private final case class NonEmpty[A](l: List[A], b: ArchiveBound, insertPolicy: (A, A) => Boolean)
-      extends Archive[A]
+  private final case class Empty[A](b: ArchiveBound, insertPolicy: (A, A) => Boolean) extends Archive[A]
+  private final case class NonEmpty[A](l: List[A], b: ArchiveBound, insertPolicy: (A, A) => Boolean) extends Archive[A]
 
-  def bounded[A](limit: Int Refined Positive,
-                 insertPolicy: (A, A) => Boolean,
-                 deletePolicy: List[A] => A): Archive[A] =
+  def bounded[A](limit: Int Refined Positive, insertPolicy: (A, A) => Boolean, deletePolicy: List[A] => A): Archive[A] =
     Empty[A](Bounded(limit, deletePolicy), insertPolicy)
 
-  def unbounded[A](condition: (A, A) => Boolean): Archive[A] =
-    Empty[A](Unbounded(), condition)
+  def unbounded[A](insertPolicy: (A, A) => Boolean): Archive[A] =
+    Empty[A](Unbounded(), insertPolicy)
 
-  def boundedNonEmpty[A](seeds: NonEmptyList[A],
-                         limit: Int Refined Positive,
-                         insertPolicy: (A, A) => Boolean,
-                         deletePolicy: List[A] => A): Archive[A] = {
+  def boundedNonEmpty[A](seeds: NonEmptyList[A], limit: Int Refined Positive, insertPolicy: (A, A) => Boolean, deletePolicy: List[A] => A): Archive[A] = {
     val emptyArchive: Archive[A] = bounded(limit, insertPolicy, deletePolicy)
     seeds.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
   }
@@ -104,5 +91,4 @@ object Archive {
     val emptyArchive: Archive[A] = unbounded(insertPolicy)
     seeds.foldLeft(emptyArchive)((archive, seed) => archive.insert(seed))
   }
-
 }
