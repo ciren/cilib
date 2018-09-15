@@ -19,8 +19,8 @@ object RandomSearchGA extends SafeApp {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(cmp = Comparison.dominance(Min),
-                eval =
-                  Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
+                eval = Eval.unconstrained((xs: NonEmptyList[Double]) =>
+                  Feasible(cilib.benchmarks.Benchmarks.spherical(xs))))
 
   val randomSelection = (l: NonEmptyList[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
   val distribution = (position: Double) =>
