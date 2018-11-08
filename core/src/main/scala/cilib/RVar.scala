@@ -174,12 +174,30 @@ object RVar extends RVarInstances {
           .traverse(x => Dist.uniformInt(Interval(0, x)))
 
       backsaw
-        .map(_.foldLeft(List.empty[A])((a, c) =>
-          F.index(xs, c) match {
-            case Some(i) => a :+ i
-            case None    => sys.error("Shouldn't be possible")
-        }))
-        .map(_.some)
+        .map(l => {
+          def dropIndex(target: Int, l: List[A]): List[A] = {
+            def innerDropIndex(count: Int, current: List[A]): List[A] =
+              current match {
+                case Nil => Nil
+                case x :: xs =>
+                  if (count == target) xs else x :: innerDropIndex(count + 1, xs)
+              }
+
+            innerDropIndex(0, l)
+          }
+
+          def go(indexes: List[Int], current: List[A]): List[A] =
+            indexes match {
+              case index :: rest =>
+                current.lift(index) match {
+                  case Some(element) => element :: go(rest, dropIndex(index, current))
+                  case None          => List.empty[A]
+                }
+              case _ => List.empty[A]
+            }
+
+          go(l, xs.toList).some
+        })
     }
 
 }

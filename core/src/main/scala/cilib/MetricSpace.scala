@@ -1,7 +1,7 @@
 package cilib
 
 import scalaz.{Order => _, _}
-import scalaz.syntax.foldable._
+import Scalaz._
 
 import spire.math.{abs, max}
 import spire.implicits._
@@ -37,23 +37,29 @@ trait MetricSpace[A, B] { self =>
 object MetricSpace {
   def levenshtein[B](implicit B: Integral[B]): MetricSpace[String, B] =
     new MetricSpace[String, B] {
+      type Memo = Map[(Int, Int), Int]
 
       def dist(x: String, y: String): B = {
-        def f(i: Int, j: Int): State[Map[(Int, Int), Int], Int] =
+        def f(i: Int, j: Int): State[Memo, Int] =
           (i, j) match {
             case (i, 0) => State(s => (s, i))
             case (0, j) => State(s => (s, j))
             case (i, j) =>
-              for {
-                a <- f(i - 1, j)
-                b <- f(i, j - 1)
-                c <- f(i - 1, j - 1)
-              } yield
-                List(
-                  a + 1,
-                  b + 1,
-                  c + (if (x(i - 1) == y(j - 1)) 0 else 1)
-                ).min
+              State(memo =>
+                memo.get((i, j)) match {
+                  case Some(value) => (memo, value)
+                  case None =>
+                    (for {
+                      a <- f(i - 1, j)
+                      b <- f(i, j - 1)
+                      c <- f(i - 1, j - 1)
+                    } yield
+                      NonEmptyList(
+                        a + 1,
+                        b + 1,
+                        c + (if (x(i - 1) == y(j - 1)) 0 else 1)
+                      ).minimum1).run(memo)
+              })
           }
 
         B.fromInt(f(x.length, y.length).eval(Map.empty))
