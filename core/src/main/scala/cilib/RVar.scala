@@ -304,6 +304,29 @@ object Dist {
       (a + b) * theta
     }
   }
+  
+  def triangular(a: Double, b: Double, mean: Double): RVar[Double] =
+  {
+    val meanP =2/(b-a)
+    stdUniform.map{
+      u=>
+        if (u<0) 0
+        else if(0 < u && u < meanP) Math.sqrt(Math.abs(u*(b-a)*(mean-a)))+a
+        else if(meanP < u && u <= 1) b-Math.sqrt(Math.abs((1-u)*(b-a)*(mean-a)))
+        else 0
+    }
+  }
+
+  def nonUniformLinearlyDecreasing(interval: Interval[Double]): RVar[Double]=
+  {
+    val min = interval.lowerValue
+    val max = interval.upperValue
+    val firstProbability = 2/(max-min)
+    val m = (1+(firstProbability*min)-(firstProbability*max))/
+      ((Math.pow(max,2)/2)-(min*max)-(Math.pow(min,2)/2)+Math.pow(min,2))
+    val c = firstProbability - (m*min)
+    stdUniform.map{x=>(-c+Math.sqrt(Math.pow(c,2)-2*m*((min*(-(m/2)-c))-x)))/m}
+  }
 
   def exponential(l: Double): RVar[Double] =
     stdUniform.map { math.log(_) / l }
