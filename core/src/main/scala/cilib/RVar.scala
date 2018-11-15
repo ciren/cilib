@@ -315,10 +315,10 @@ object Dist {
       else 0
     }
 
-  def nonUniformLinearlyDecreasing(interval: Interval[Double]): RVar[Double] =
+  def nonUniformLinearlyDecreasing(i: Interval[Double]): RVar[Double] =
     stdUniform.map { x =>
-      val min = interval.lowerValue
-      val max = interval.upperValue
+      val min = i.lowerValue
+      val max = i.upperValue
       val firstProbability = 2 / (max - min)
       val m = (1 + (firstProbability * min) - (firstProbability * max)) /
         ((Math.pow(max, 2) / 2) - (min * max) - (Math.pow(min, 2) / 2) + Math.pow(min, 2))
