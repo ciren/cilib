@@ -223,59 +223,18 @@ lazy val core = project
 
 lazy val docs = project
   .in(file("docs"))
-  .enablePlugins(GhpagesPlugin,
-    MdocPlugin,
-    DocusaurusPlugin,
-//                 ParadoxSitePlugin,
-//                 ParadoxMaterialThemePlugin,
-                 ScalaUnidocPlugin)
-//  .settings(ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox))
   .settings(moduleName := "cilib-docs")
   .settings(cilibSettings)
   .settings(noPublishSettings)
   .settings(docSettings)
   .dependsOn(core, example, exec, pso, moo, ga)
+  .enablePlugins(
+    MdocPlugin,
+    DocusaurusPlugin,
+    ScalaUnidocPlugin)
+
 
 lazy val docSettings = Seq(
-//  fork in tut := true,
-  // tutSourceDirectory := sourceDirectory.value / "main" / "tut",
-  // scalacOptions in Tut ~= (_.filterNot(Set("-Ywarn-unused:imports", "-Ywarn-dead-code"))),
-  git.remoteRepo := "git@github.com:cirg-up/cilib.git",
-  ghpagesNoJekyll := true,
-  excludeFilter in ghpagesCleanSite :=
-    new FileFilter {
-      def accept(f: File) =
-        (ghpagesRepository.value / "CNAME").getCanonicalPath == f.getCanonicalPath
-    },
-  siteSubdirName in SiteScaladoc := "api",
-  unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
-  addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
-  // siteStageDirectory := target.value / "site-stage",
-  // sourceDirectory in paradox in Paradox := siteStageDirectory.value,
-  // sourceDirectory in paradox := siteStageDirectory.value,
-  // // https://github.com/lightbend/paradox/issues/139
-  // sourceDirectory in Paradox in paradoxTheme := sourceDirectory.value / "main" / "paradox" / "_template",
-  // paradoxMaterialTheme in Paradox ~= {
-  //   _.withFavicon("img/favicon.png")
-  //     .withLogo("img/cilib_logo_transparent.png")
-  //     .withRepository(uri("https://github.com/cirg-up/cilib"))
-  // },
-  // copySiteToStage := {
-  //   IO.copyFile(sourceFile = sourceDirectory.value / "main" / "paradox" / "index.md",
-  //               targetFile = siteStageDirectory.value / "index.md",
-  //               preserveLastModified = true)
-  //   IO.copyDirectory(source = sourceDirectory.value / "main" / "paradox" / "img",
-  //                    target = siteStageDirectory.value / "img",
-  //                    overwrite = false,
-  //                    preserveLastModified = true)
-  //   IO.copyDirectory(source = tutTargetDirectory.value,
-  //                    target = siteStageDirectory.value,
-  //                    overwrite = false,
-  //                    preserveLastModified = true)
-  //   IO.write(file = siteStageDirectory.value / "CNAME", content = "cilib.net")
-  // },
-  // copySiteToStage := copySiteToStage.dependsOn(tutQuick).value,
-  // makeSite := makeSite.dependsOn(copySiteToStage).value
 )
 
 lazy val credentialSettings = Seq(

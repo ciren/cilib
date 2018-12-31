@@ -1,3 +1,7 @@
+---
+title: GBest PSO
+---
+
 # Global Best PSO (GBestPSO)
 
 The `GBestPSO` is the canonical version of the PSO. It is popular, not
@@ -25,7 +29,7 @@ of problem, upon which we will be executing the `GBestPSO`.
 
 As the very first step, we need to get the needed imports in scope:
 
-```tut:silent
+```scala mdoc:silent
 import cilib._
 import cilib.pso._
 import cilib.exec._
@@ -52,7 +56,7 @@ Let's define the two "particle attractors" which we need in the velocity update
 equation. Because these two values will attract or guide the particle in the search
 space, we refer to them as `Guide` instances:
 
-```tut
+```scala mdoc
 val cognitive = Guide.pbest[Mem[Double],Double]
 val social    = Guide.gbest[Mem[Double]]
 ```
@@ -66,7 +70,7 @@ cater for a `HasMemory` instance which exists for the `Mem[Double]` type.
 Now we can define the algorithm itself, providing some constants that are
 known to provide convergent behaviour within the PSO:
 
-```tut
+```scala mdoc
 val gbestPSO = pso.Defaults.gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 val iter = Iteration.sync(gbestPSO)
 ```
@@ -81,7 +85,7 @@ problem definition from the [benchmarks sister
 project](https://github.com/cirg-up/benchmarks). We will also be
 minimizing this problem and defining the bounds of the problem space.
 
-```tut
+```scala mdoc
 val env =
   Environment(
     cmp = Comparison.dominance(Min),
@@ -103,7 +107,7 @@ algorithm instance. The collection requires the problem bounds and
 also defines how the entity instances will be initialized, once random
 positions are generated for the given problem space
 
-```tut
+```scala mdoc
 val swarm = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 ```
 
@@ -112,7 +116,7 @@ the algorithm. We define this value and then repeatedly run the algorithm
 on the entity collection, stopping after 1000 iterations of the algorithm
 have been performed
 
-```tut
+```scala mdoc
 val rng = RNG.fromTime // Seed the RNG with the current time of the computer
 
 val result = Runner.repeat(1000, iter, swarm).run(env).run(rng)

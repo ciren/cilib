@@ -1,4 +1,4 @@
-```tut:invisible
+```scala mdoc:invisible
 import cilib._
 import scalaz._
 import Scalaz._
@@ -36,7 +36,7 @@ common to request several random numbers. `RVar` provides several functions,
 with `ints` and `doubles` being the most common for random variable
 creation:
 
-```tut
+```scala mdoc
 val ints = RVar.ints(5)
 val doubles = RVar.doubles(5)
 ```
@@ -53,14 +53,14 @@ especially if the results are to be published.
 
 Let's create a `RNG` instance using both methods:
 
-```tut
+```scala mdoc
 val rng = RNG.init(1234L)
 val fromTimeYOLO = RNG.fromTime
 ```
 
 Now, let's run both `doubles` and `ints` with the generator:
 
-```tut
+```scala mdoc
 val r1 = ints.run(rng)
 doubles.run(rng)
 val r2 = ints.run(rng)
@@ -77,7 +77,7 @@ some random value from the source does not implicitly mutate the PRNG. In
 order to keep selecting from the PRNG stream, the next state of the PRNG
 should be passed into subsequent computations, when needed:
 
-```tut
+```scala mdoc
 val (rng2, x) = ints.run(rng)
 
 val (rng3, y) = ints.run(rng2)
@@ -91,7 +91,7 @@ thereby preventing accidental errors due to incorrect usage of PRNG state.
 Furthermore, the monad instance for `RVar` allows for cleaner syntax through
 the use of a `for`-comprehension as provided by Scala:
 
-```tut
+```scala mdoc
 val composition = for {
   a <- RVar.next[Int] // Get a single Int
   b <- RVar.next[Double] // Get a single Double, using the next state of the PRNG
@@ -106,7 +106,7 @@ useful algorithms which operate within the `RVar` computation. Please refer
 to the [scaladoc](http://cirg-up.github.io/cilib/api/cilib/RVar$.html) for
 more combinators, but some of the more commonly used are illustrated below:
 
-```tut
+```scala mdoc
 val sampleList = NonEmptyList(6,4,5,2,1,3)
 
 RVar.shuffle(sampleList).run(rng)
@@ -126,7 +126,7 @@ standard distributions are also defined, include:
 
 The interface for the distributions is simply a resulting `RVar`
 
-```tut
+```scala mdoc
 // Use a derived function from monad to repeat an action 'n' times
 Dist.stdNormal.replicateM(5).run(rng)
 ```

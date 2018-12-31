@@ -1,4 +1,4 @@
-```tut:invisible
+```scala mdoc:invisible
 import cilib._
 import cilib.pso._
 import cilib.pso.PSO._
@@ -52,7 +52,7 @@ included within the `Step`. The type for a PSO is then
 
 and the algorithm definition is:
 
-```tut
+```scala mdoc
 def pso[S](w: Double, c1: Double, c2: Double,
   cognitive: Guide[S,Double], social: Guide[S,Double]
 )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]
