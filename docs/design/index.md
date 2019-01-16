@@ -1,15 +1,3 @@
-@@@ index
-
-- [Overview](overview.md)
-- [Lenses](lenses.md)
-- [Position](position.md)
-- [Entity](entity.md)
-- [RVar](rvar.md)
-- [Step](step.md)
-- [Step with State](step_with_state.md)
-
-@@@
-
 # Design
 
 CIlib is software library which aids in the experimentation and
