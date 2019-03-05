@@ -10,7 +10,7 @@ object StepTest extends Spec("Step") {
   val rng = RNG.fromTime
   val env = Environment(
     cmp = Comparison.quality(Min),
-    eval = Eval.unconstrained((l: NonEmptyList[Int]) => l.list.foldLeft(0.0)(_ + _)))
+    eval = Eval.unconstrained((l: NonEmptyList[Int]) => Feasible(l.list.foldLeft(0.0)(_ + _))))
 
   implicit def stepEqual = scalaz.Equal[Int].contramap((_: Step[Int,Int]).run(env).run(rng)._2.fold(l => 0, r => r))
   implicit def stepSEqual = scalaz.Equal[Int].contramap((_: StepS[Int,Int,Int]).run.apply(3).run(env).run(rng)._2.fold(l => 0, r => r._2))

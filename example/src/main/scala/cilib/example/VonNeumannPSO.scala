@@ -18,8 +18,8 @@ object VonNeumannPSO extends SafeApp {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(cmp = Comparison.dominance(Min),
-                eval =
-                  Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
+                eval = Eval.unconstrained((xs: NonEmptyList[Double]) =>
+                  Feasible(cilib.benchmarks.Benchmarks.spherical(xs))))
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]

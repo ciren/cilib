@@ -29,22 +29,19 @@ object FileOutput extends SafeApp {
   // Define the benchmarks
   val absolute = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained(Benchmarks.absoluteValue[NonEmptyList, Double])
-  )
+    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.absoluteValue(xs))))
 
   val ackley = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained(Benchmarks.ackley[NonEmptyList, Double])
-  )
+    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.ackley(xs))))
+
   val quadric = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained(Benchmarks.quadric[NonEmptyList, Double])
-  )
+    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.quadric(xs))))
 
   val spherical = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained(Benchmarks.spherical[NonEmptyList, Double])
-  )
+    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.spherical(xs))))
 
   // Define the problem streams
   val absoluteStream = Runner.staticProblem("absolute", absolute.eval)

@@ -18,8 +18,8 @@ object NMPCPSO extends SafeApp {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(cmp = Comparison.quality(Min),
-                eval =
-                  Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
+                eval = Eval.unconstrained((xs: NonEmptyList[Double]) =>
+                  Feasible(cilib.benchmarks.Benchmarks.spherical(xs))))
 
   val guide = Guide.nmpc[Mem[Double]](0.5)
   val nmpcPSO = nmpc(guide)
