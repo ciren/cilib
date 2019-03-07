@@ -306,6 +306,19 @@ lazy val example = project
       )
     ))
 
+lazy val work = project
+  .dependsOn(core, de, exec, ga, io, moo, pso)
+  .settings(
+    cilibSettings ++ noPublishSettings ++ Seq(
+      fork in run := true,
+      connectInput in run := true,
+      moduleName := "cilib-work",
+      libraryDependencies ++= Seq(
+        "net.cilib" %% "benchmarks" % "0.1.1",
+        "org.scalaz" %% "scalaz-effect" % scalazVersion
+      )
+    ))
+
 lazy val exec = project
   .dependsOn(core)
   .settings(cilibSettings ++ Seq(
