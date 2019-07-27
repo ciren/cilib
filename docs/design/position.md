@@ -59,7 +59,7 @@ Interval(-5.12,5.12)^30
 A `Position` may now be constructed, as we know what the bounds of the search
 space are
 
-```scale mdoc
+```scala mdoc
 Position.createPosition(Interval(-5.12,5.12)^30)
 ```
 
@@ -76,23 +76,29 @@ note of the return value for the different cases of `Position`. In order
 to evaluate the quality of a `Position` an `Eval` instance is required.
 
 ```scala mdoc
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x*x).suml)
+val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml)
 
-val (_, (a, b)) = // a is a Point and b is a Solution
+// a is a Point and b is a Solution
+val (_, (a, b)) =
   (for {
     a <- Position.createPosition(Interval(-5.12,5.12)^3)
-    b <- Position.createPosition(Interval(-5.12,5.12)^3).flatMap(p => Position.eval(e, p))
+    b <- Position.createPosition(Interval(-5.12,5.12)^3).flatMap(p => Position.eval(e.eval, p))
   } yield (a, b)).run(RNG.init(1234L))
 
--a // Unary syntax to negate a Position
+// Unary syntax to negate a Position
+-a
 
-a + b // Add Point and Solution
+// Add Point and Solution
+a + b
 
-a + a // Add Point and Point
+// Add Point and Point
+a + a
 
-b + b // Add Solution and Solution
+// Add Solution and Solution
+b + b
 
-a - b // Subtract Solution from Point
+// Subtract Solution from Point
+a - b
 
 // a * b does not compile. Vector multiplication makes little sense.
 // If the objective was to use pairwise multiplication, there is another
@@ -100,7 +106,8 @@ a - b // Subtract Solution from Point
 // via the `Algebra` object.
 Algebra.pointwise(a, b)
 
-3.0 *: a // Scalar multiplication
+// Scalar multiplication
+3.0 *: a
 ```
 
 Whenever a `Position` is moved to a "new point" within the search space,
