@@ -1,7 +1,6 @@
 with import <nixpkgs> {};
 
-stdenv.mkDerivation {
-  name = "java8-env";
+mkShell {
   buildInputs = [
     jdk8
     sbt
