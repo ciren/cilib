@@ -4,7 +4,8 @@
             "getting-started"
         ],
         "Community Tutorial": [
-            "community-tutorial/introduction"
+            "community-tutorial/introduction",
+            "community-tutorial/rvar/rvar-intro"
         ]
     }
 }

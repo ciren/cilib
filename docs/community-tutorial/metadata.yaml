@@ -30,8 +30,6 @@ pages:
   - intro/conventions.md
   - intro/acknowledgements.md
 
-  - parts/part1.md
-
   - setting-up/index.md
   - setting-up/ide.md
   - setting-up/terminal.md
@@ -41,8 +39,6 @@ pages:
   - library-dependencies/modules.md
   - library-dependencies/test.md
   - library-dependencies/summary.md
-
-  - parts/part2.md
 
   - rvar/index.md
   - rvar/basics.md
@@ -93,19 +89,19 @@ pages:
   - entity/summary.md
 
   - step/index.md
-  - step/environment.md  
-  - step/class.md  
-  - step/object.md  
-  - step/summary.md  
+  - step/environment.md
+  - step/class.md
+  - step/object.md
+  - step/summary.md
 
-  - stepS/index.md 
-  - stepS/class.md  
-  - stepS/object.md  
-  - stepS/summary.md  
+  - stepS/index.md
+  - stepS/class.md
+  - stepS/object.md
+  - stepS/summary.md
 
-  - runner/index.md 
-  - runner/what-is-runner.md   
-  - runner/GAexample.md 
+  - runner/index.md
+  - runner/what-is-runner.md
+  - runner/GAexample.md
   - runner/summary.md
 
 #  - io/index.md
@@ -119,8 +115,6 @@ pages:
   - selection/summary.md
 
   - moving-forward/index.md
-  
-  - parts/part3.md
 
   - benchmarks/index.md
 
@@ -140,8 +134,6 @@ pages:
 #  - moo/index.md
 
 # - eda/index.md
-  
-  - parts/part4.md
 
   - solutions.md
 

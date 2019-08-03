@@ -80,15 +80,6 @@
       "community-tutorial/ga/index": {
         "title": "community-tutorial/ga/index"
       },
-      "community-tutorial/intro/about": {
-        "title": "community-tutorial/intro/about"
-      },
-      "community-tutorial/intro/acknowledgements": {
-        "title": "community-tutorial/intro/acknowledgements"
-      },
-      "community-tutorial/intro/conventions": {
-        "title": "community-tutorial/intro/conventions"
-      },
       "community-tutorial/introduction": {
         "title": "Introduction"
       },
@@ -224,8 +215,8 @@
       "community-tutorial/rvar/exercises": {
         "title": "community-tutorial/rvar/exercises"
       },
-      "community-tutorial/rvar/index": {
-        "title": "community-tutorial/rvar/index"
+      "community-tutorial/rvar/rvar-intro": {
+        "title": "RVar"
       },
       "community-tutorial/rvar/object": {
         "title": "community-tutorial/rvar/object"
@@ -309,43 +300,7 @@
         "title": "design/step"
       },
       "getting-started": {
-        "title": "Getting Started"
-      },
-      "installation": {
-        "title": "Installation"
-      },
-      "target/mdoc/design/entity": {
-        "title": "target/mdoc/design/entity"
-      },
-      "target/mdoc/design/index": {
-        "title": "target/mdoc/design/index"
-      },
-      "target/mdoc/design/lenses": {
-        "title": "target/mdoc/design/lenses"
-      },
-      "target/mdoc/design/overview": {
-        "title": "target/mdoc/design/overview"
-      },
-      "target/mdoc/design/position": {
-        "title": "target/mdoc/design/position"
-      },
-      "target/mdoc/design/rvar": {
-        "title": "target/mdoc/design/rvar"
-      },
-      "target/mdoc/design/step_with_state": {
-        "title": "target/mdoc/design/step_with_state"
-      },
-      "target/mdoc/design/step": {
-        "title": "target/mdoc/design/step"
-      },
-      "target/mdoc/intro": {
-        "title": "Getting Started"
-      },
-      "target/mdoc/installation": {
-        "title": "Installation"
-      },
-      "target/mdoc/usage/gbestpso": {
-        "title": "GBest PSO"
+        "title": "Getting started"
       },
       "usage/gbestpso": {
         "title": "GBest PSO"
