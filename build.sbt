@@ -222,8 +222,13 @@ lazy val core = project
     ))
 
 lazy val docs = project
-  .in(file("docs"))
-  .settings(moduleName := "cilib-docs")
+  .in(file("."))
+  .settings(
+    moduleName := "cilib-docs",
+    mdocVariables := Map(
+      "CILIB_VERSION" -> "2.0"
+    )
+  )
   .settings(cilibSettings)
   .settings(noPublishSettings)
   .settings(docSettings)
