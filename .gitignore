@@ -13,3 +13,7 @@ local.*
 .idea
 *.csv
 *.sc
+
+out/
+node_modules
+build
