@@ -2,20 +2,22 @@
 id: introduction
 title: Introduction
 ---
-# About This Book
 
-This book is aimed at walking you through the different components of
-CILib (Computational Intelligence Library). CILib is written in Scala,
-if you don't have any experience with Scala I would recommend first
-learning the language and getting a good idea of what Scala is and how
-it works. To do this I would recommend Essential Scala and Scala With
-Cats by the team over at [Underscore][link-underscore].
+## About this tutorial
 
-Along with theory explanations of what certain components do, the book
-will also include code to demonstrate an example of use. In a way,
-this book will also serve as documentation by example for CILib.
+This tutorial is aimed at walking you through the different components
+of CILib (Computational Intelligence Library). CILib is written in
+Scala, if you don't have any experience with Scala I would recommend
+first learning the language and getting a good idea of what Scala is
+and how it works. To do this I would recommend Essential Scala and
+Scala With Cats by the team over at [Underscore][link-underscore].
 
-During this book we will be covering four major sections:
+Along with theory explanations of what certain components do, the
+tutorial will also include code to demonstrate an example of use. In a
+way, this tutorial will also serve as documentation by example for
+CILib.
+
+Within this tutorial we will be covering four major sections:
 
 - Setting up CILib
 - Learning the core components
@@ -25,6 +27,11 @@ During this book we will be covering four major sections:
 As we cover each section you will begin to learn how components work
 and where to use them.  After all this, you will be more than ready to
 start implementing your work using CILib.
+
+:::note All code sippets are verified
+Throughout the tutorial you will see a lot of theory along side practical examples represented through blocks of code.
+These blocks of code are verified during the documentation processing and will always be up to date with the referenced version of CIlib.
+:::
 
 ## What is CILib?
 
@@ -68,102 +75,100 @@ following:
 Trying to maintain a modular set of functionalities, CILib consists of
 several sub-projects:
 
-- core - Contains type class definitions together with required data
+- `core` - Contains type class definitions together with required data
   structures.
-- exec - Simplistic execution code allowing for experimental
+- `exec` - Simplistic execution code allowing for experimental
   execution.
-- de - Data structures and logic related to Differential Evolution.
-- docs - Sources for the website.
-- ga - Data structures and logic related to Genetic Algorithms.
-- eda
-- io - For CSV and parquet encoding
-- moo - Type classes, instances and data structures for
+- `de` - Data structures and logic related to Differential Evolution.
+- `docs` - Sources for the website.
+- `ga` - Data structures and logic related to Genetic Algorithms.
+- `eda`
+- `io` - For CSV and parquet encoding
+- `moo` - Type classes, instances and data structures for
   Multi-Objective Optimization.
-- pso - Data structures and logic related to Particle Swarm
+- `pso` - Data structures and logic related to Particle Swarm
   Optimization.
 
 There is also an examples sub project which offers full imputation of
 algorithms as an example of how CILib is used.
 
-### Support
-If you have any feedback or questions, please contact is in #CILib on
-FreeNode IRC or come chat to us in the project's Gitter channel;
-alternatively, feel free to open an issue.
+## Support
+If you have any feedback or questions, please come and chat to us in
+the project's Gitter channel; alternatively, feel free to open an
+issue.
 
-Another book is also in development that will be a guide to developing
-for CILib. Mostly covering how to set up the developing environment as
-well as offer some insight it to "behind the scenes" of how things
-work.
+<!-- Another book is also in development that will be a guide to developing -->
+<!-- for CILib. Mostly covering how to set up the developing environment as -->
+<!-- well as offer some insight it to "behind the scenes" of how things -->
+<!-- work. -->
 
-Additional dependencies on community projects include the following:
+<!-- Additional dependencies on community projects include the following: -->
 
-- [Scalaz][Scalaz-link] for functional typeclasses
-- [Spire][Spire-link] for mathematical typeclasses
-- [Monocle][Monocle-link] for optics
-- [Shapeless][Shapeless-link]
-- [Refined][Refined-link]
-
-
-## Acknowledgements
-
-I would like to thank everyone who has contributed towards CILib.
-With a special thanks to Prof. Andries Engelbrecht and Gary Pamparà.
+<!-- - [Scalaz][Scalaz-link] for functional typeclasses -->
+<!-- - [Spire][Spire-link] for mathematical typeclasses -->
+<!-- - [Monocle][Monocle-link] for optics -->
+<!-- - [Shapeless][Shapeless-link] -->
+<!-- - [Refined][Refined-link] -->
 
 
-## Conventions Used in This Book
+<!-- ## Acknowledgements -->
 
-Throughout the book you will see a lot of theory along side practical
-examples represented through blocks of code.
+<!-- I would like to thank everyone who has contributed towards CILib. -->
+<!-- With a special thanks to Prof. Andries Engelbrecht and Gary Pamparà. -->
 
-### Typographical Conventions
 
-- New terms and definitions will be represented in a **bold font**.
-- Phrases will be represented by *itilics*.
+<!-- ## Conventions used in the tutorial -->
 
-After the initial introduction they will be written in normal font.
 
-- Program code, filenames, and file contents, are written in
-  `monospace font`.
-- References to external resources are written as
-  [hyperlinks][link-cilib].
-- References to API documentation are written using a combination of
-  hyperlinks and monospace font, for example:
-  [`scala.Option`][scala.Option].
+<!-- ### Typographical Conventions -->
 
-Note that we do not distinguish between singular and plural forms.
-For example, might write `String` or `Strings` to refer to
-`java.util.String`.
+<!-- - New terms and definitions will be represented in a **bold font**. -->
+<!-- - Phrases will be represented by *itilics*. -->
 
-### Source Code
+<!-- After the initial introduction they will be written in normal font. -->
 
-You will come across two different types of code blocks. The first
-being a standard code block as follows.
+<!-- - Program code, filenames, and file contents, are written in -->
+<!--   `monospace font`. -->
+<!-- - References to external resources are written as -->
+<!--   [hyperlinks][link-cilib]. -->
+<!-- - References to API documentation are written using a combination of -->
+<!--   hyperlinks and monospace font, for example: -->
+<!--   [`scala.Option`][scala.Option]. -->
 
-```tut:book:silent
-val number = 21 // My number
-println(s"My favorite number is $number") // My message
-```
+<!-- Note that we do not distinguish between singular and plural forms. -->
+<!-- For example, might write `String` or `Strings` to refer to -->
+<!-- `java.util.String`. -->
 
-The second type of code block uses [tut][link-tut] to ensure it
-compiles. You can see the result of the compilation as a comment.
+<!-- ### Source Code -->
 
-```tut:book
-"cilib".toUpperCase
-```
+<!-- You will come across two different types of code blocks. The first -->
+<!-- being a standard code block as follows. -->
 
-### Callout Boxes
+<!-- ```tut:book:silent -->
+<!-- val number = 21 // My number -->
+<!-- println(s"My favorite number is $number") // My message -->
+<!-- ``` -->
 
-We use two types of *callout box* to highlight particular content:
+<!-- The second type of code block uses [tut][link-tut] to ensure it -->
+<!-- compiles. You can see the result of the compilation as a comment. -->
 
-:::note
-Tip callouts indicate handy summaries, recipes, or best practices.
-:::
+<!-- ```tut:book -->
+<!-- "cilib".toUpperCase -->
+<!-- ``` -->
 
-:::warning
-Advanced callouts provide additional information
-on corner cases or underlying mechanisms.
-:::
+<!-- ### Callout Boxes -->
 
-:::caution
-Information and insight provided from CILib docs project, written by [Gary][link-gary].
-:::
+<!-- We use two types of *callout box* to highlight particular content: -->
+
+<!-- :::note -->
+<!-- Tip callouts indicate handy summaries, recipes, or best practices. -->
+<!-- ::: -->
+
+<!-- :::warning -->
+<!-- Advanced callouts provide additional information -->
+<!-- on corner cases or underlying mechanisms. -->
+<!-- ::: -->
+
+<!-- :::caution -->
+<!-- Information and insight provided from CILib docs project, written by [Gary][link-gary]. -->
+<!-- ::: -->
