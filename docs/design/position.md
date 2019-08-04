@@ -76,7 +76,7 @@ note of the return value for the different cases of `Position`. In order
 to evaluate the quality of a `Position` an `Eval` instance is required.
 
 ```scala mdoc
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml)
+val e = Eval.unconstrained[NonEmptyList,Double](pos => Feasible(pos.map(x => x * x).suml))
 
 // a is a Point and b is a Solution
 val (_, (a, b)) =

@@ -88,7 +88,7 @@ val rng = RNG.init(12)
 
 For `eval` we will need to supply a `Position`, which we will create, as well as a list of `Intervals`.
 This method will an `RVar` of type `Solution` (another `Position`type).
-```tut:book:invisible
+```scala
 import cilib._
 import spire.implicits.{eu => _, _}
 import spire.math._
@@ -97,13 +97,13 @@ import Scalaz._
 
 val rng = RNG.init(12)
 ```
-```tut:book:silent
-val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
+```scala
+val e = Eval.unconstrained[NonEmptyList,Double](vec => Feasible(vec.map(x => x * x).suml)).eval
 val list = NonEmptyList(5.0, 4)
 val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
 val point = cilib.Point(list, intervals)
 ```
-```tut:book
+```scala
 Position.eval(e, point).run(rng)
 ```
 

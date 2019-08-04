@@ -1,21 +1,7 @@
-language: scala
-
-sudo: false
-
-matrix:
-  include:
-  - env: SBT_VERSION="1.1.4" COMMAND="clean test scalafmtCheck"
-    jdk: oraclejdk8
-    scala: 2.11.12
-  - env: SBT_VERSION="1.1.4" COMMAND="clean test scalafmtCheck"
-    jdk: oraclejdk8
-    scala: 2.12.6
-  - env: SBT_VERSION="1.1.4" COMMAND="clean test scalafmtCheck docs/makeSite"
-    jdk: oraclejdk9
-    scala: 2.12.6
+language: nix
 
 script:
-  - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" $COMMAND
+  - nix-shell --run 'sbt "++2.12.8" clean text scalafmtCheck docusaurusCreateSite'
 
 before_install:
   - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
@@ -40,15 +26,15 @@ deploy:
     script: ./project/deploy.sh
     skip_cleanup: true
     on:
-      jdk: oraclejdk9
-      scala: 2.12.6
+      jdk: openjdk11
+      scala: 2.12.8
       branch: master
   - provider: script
     script: ./project/deploy.sh
     skip_cleanup: true
     on:
-      jdk: oraclejdk9
-      scala: 2.12.6
+      jdk: oraclejdk11
+      scala: 2.12.8
       tags: true
 
 notifications:
