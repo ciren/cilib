@@ -9,10 +9,12 @@ This tutorial is aimed at walking you through the different components of CILib 
 CILib is written in Scala and familiarity with the language is highly recommended.
 Scala is a language for the JVM that allows for the expression and usage of more advanced type system capabilities.
 The type system of Scala is more adbvanced than that of Java/Kotlin/Clojure etc.
-[Essential Scala](1) and [Advanced Scala With Cats](2) are freely available, online resources.
+[Essential Scala](1) and [Advanced Scala With Cats](2) are freely available, online Scala resources.
 
-Along with theory explanations of what certain components do, the tutorial will also include code to demonstrate an example of use.
-In a way, this tutorial will also serve as documentation by example for CILib.
+:::note Compiler verified code samples
+Throughout the tutorial you will see a lot of theory along side practical examples represented through blocks of code.
+These blocks of code are verified during the documentation processing and will always be up to date with the referenced version of CIlib.
+:::
 
 Within this tutorial we will be covering four major sections:
 
@@ -23,11 +25,6 @@ Within this tutorial we will be covering four major sections:
 
 As we cover each section you will begin to learn how components work and where to use them.
 After all this, you will be more than ready to start implementing your work using CILib.
-
-:::note All code sippets are verified
-Throughout the tutorial you will see a lot of theory along side practical examples represented through blocks of code.
-These blocks of code are verified during the documentation processing and will always be up to date with the referenced version of CIlib.
-:::
 
 ## What is CILib?
 
