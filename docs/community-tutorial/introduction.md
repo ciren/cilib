@@ -8,7 +8,7 @@ title: Introduction
 This tutorial is aimed at walking you through the different components of CILib (Computational Intelligence Library).
 CILib is written in Scala and familiarity with the language is highly recommended.
 Scala is a language for the JVM that allows for the expression and usage of more advanced type system capabilities.
-The type system of Scala is more adbvanced than that of Java/Kotlin/Clojure etc.
+The type system of Scala is more advanced than the type systems available in Java/Kotlin/Clojure etc.
 [Essential Scala](1) and [Advanced Scala With Cats](2) are freely available, online Scala resources.
 
 :::note Compiler verified code samples
@@ -34,24 +34,28 @@ The project originally was called PSOlib as it focused on the PSO algorithm, but
 
 ### Principled design
 
-It is very important to ensure that the library code is pure - thereby reducing complexity. This has many advantages but, most importantly, it allows for the controlling of side-effects which is a primary concern, especially when randomness is involved.
+Pure functions operate only the passed in function parameters and return a value.
+Given the same set of function parameters, the same result from the function is expected and is known as _referential transparency_.
+It is very important to ensure that the library code is pure: it reduces complexity.
+Due to pure functions only returning values, it allows for the controlling of effects.
+Effects are actions that a program perfroms to achieve a goal.
+One of the primary effects managed by CIlib is the effect of randomness applied to other values.
 As a consequence of this, and other aspects, CILib makes an active effort to address the following:
 
 - **Correctness**: All algorithmic components should be correct and operate as intened, doing nothing more.
-  Peer-review is hugely valuable in this regard, providing confidence that the implementations are correct and sound.
+  Peer-review is hugely valuable, providing confidence that the implementations are correct and sound.
 - **Type safety**: The use of types is a fantastic way to ensure that a program cannot represent invalid states.
   This removes a huge set of potential errors and ensures greater confidence, as the compiler is always double-checking the code.
-- **Reproducibility**: Within scientific research, being able to reproduce the work of another researcher is important.
-  It's also a fundamental part of the scientific method.
-  With complexities such as randomness, this becomes much more difficult and is generally extremely cumbersome.
-  CILib must allow for the perfect replication of experimental work.
+- **Reproducibility**: The abiltity to reproduce the work of another researcher is a fundamental part of the scientific method.
+  With effects such as randomness applied to algorithms, reproducing results becomes much, much more difficult.
+  It is, therefore, required that CILib be able to provide the perfect replication of experimental work.
 
-With all this in mind, we can think of CILib as a platform that allows us to build a project by combining a number of components that are reinforced by type safety to ensure correctness and can be easily reproduced.
+With all this in mind, we can think of CILib as a platform that allows us to build a project by combining a number of components that are reinforced by type safety to ensure correctness, whilst allowing for easily reproduced results.
 
 
 ## Help and support
 
-If you have any feedback or questions, please come and chat to us in the project's [Gitter channel](4); alternatively, feel free to [open an issue](5).
+If you have any feedback or questions, please come and chat to us in the project [Gitter channel](4); alternatively, feel free to [open an issue](5).
 
 
 [1]: https://underscore.io/training/courses/essential-scala/

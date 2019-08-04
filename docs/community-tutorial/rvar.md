@@ -49,8 +49,9 @@ RNG.split((r: RNG) //Generates a tuple of two `RNGs` based on the original's, r'
 
 Now that we know what `RNG` is all about, let's create an instance for our example.
 
-```tut:book
+```scala mdoc
 import cilib._
+
 val rng = RNG.fromTime
 ```
 
@@ -64,7 +65,7 @@ RVar.doubles(n: Int) //Generates a list of size n where each element is a *gener
 RVar.ints(n: Int) //Generates a list of size n where each element is a *generator placeholders* of type `Int`.
 ```
 
-```tut:book
+```scala mdoc
 val doubles = RVar.doubles(3)
 val ints = RVar.ints(3)
 ```
@@ -76,7 +77,7 @@ It's important to know that our `RVar` variables currently **do not** contain an
 We need to pass our `RNG` to the `RVars` to generate our random values.
 This happens at run time. We can achieve this by using
 
-```tut:book
+```scala mdoc
 val doublesResult = doubles.run(rng)
 val intsResult = ints.run(rng)
 
@@ -85,9 +86,10 @@ intsResult._2 // Use ._2 to get the actual list of numbers
 As you can see we have generated random values.
 Since we now understand how `RVar` works, we can move on to using some of the other functions.
 
-<div class="callout callout-info">
-The important point to note is that running the computation again with the same PRNG will give us the exact same numbers. That is, the original state of the PRNG will result in the same obtained results no matter where or when we run it.
-</div>
+:::note
+The important point to note is that running the computation again with the same PRNG will give us the exact same numbers.
+That is, the original state of the PRNG will result in the same obtained results no matter where or when we run it.
+:::
 
 ## RVar Class
 
@@ -120,22 +122,15 @@ Alright, let's get started.
 We have seen `run` before in our introductory example.
 It returns the a `tuple` containing the `RNG` used as well as the resulting random value/s of type A.
 
-<div class="callout callout-info">
-It should be noted that when we call `run`, or any method that uses `run`, on the same `RVar` with the same `RNG` it will produce the same result.
+:::note
+Invoking `run`, or any method that uses `run`, on the same `RVar` with the same `RNG` it will always produce the same result.
+:::
 
-```tut:book:invisible
-import cilib._
-```
-```tut:book:silent
-val rng = RNG.fromTime
-val doubles = RVar.doubles(2)
-```
-```tut:book
+```scala mdoc
 val doubleResult = doubles.run(rng)._2
 val doubleResult2 = doubles.run(rng)._2
 doubleResult == doubleResult2
 ```
-</div>
 
 ### exec
 
@@ -145,7 +140,7 @@ doubleResult == doubleResult2
 Note that the `RNG` returned is not our original, but rather a new `RNG` that represents the next state of the original after being used.
 If we were to use the returned `RNG` on the same `RVar` it would result in new random numbers.
 
-```tut:book
+```scala mdoc
 val (newRNG, x) = doubles.run(rng)
 doubles.run(newRNG)
 newRNG == rng
@@ -161,7 +156,7 @@ newRNG == rng
 When we use `map`, we are simply changing the values in the context (RVar).
 An example of such a use would be to multiply each number by a factor.
 
-```tut:book
+```scala mdoc
 doubles.eval(rng)
 doubles.map(x => x map(_ * 0.2)).eval(rng)
 ```
@@ -174,7 +169,7 @@ When we use `flatMap`, we are changing the values and the context.
 Lets say we had a `RVar` of type `List[Double]` and we wanted a new `RVar` that contained a `List` with elements
 from the original as well as each element multiplied by 0.2.
 
-```tut:book
+```scala mdoc
 doubles.eval(rng)
 doubles.flatMap(x => RVar.point(x.flatMap(el => List(el, el * 0.2)))).eval(rng)
 ```
@@ -214,11 +209,7 @@ We will be testing all these methods using `eval` with a `RNG` on the instances 
 
 Given a `RNG` and type `A` apply will return an `RVar` of that type.
 
-```tut:book:invisible
-import cilib._
-val rng = RNG.fromTime
-```
-```tut:book
+```scala mdoc
 RVar(rng => (rng, 2)).eval(rng)
 ```
 
@@ -226,7 +217,7 @@ RVar(rng => (rng, 2)).eval(rng)
 
 `point` performs `apply`. The benefit is that we need not worry about supplying a `RNG`.
 
-```tut:book
+```scala mdoc
 RVar.point(4).eval(rng)
 ```
 
@@ -235,12 +226,13 @@ RVar.point(4).eval(rng)
 This is a really cool method as it allows us to access the next number from the PRNG stream.
 Furthermore, the monad instance for RVar allows for cleaner syntax through the use of a for-comprehension.
 
-```tut:book
-val composition = for {
-  a <- RVar.next[Int] // Get a single Int
-  b <- RVar.next[Double] // Get a single Double, using the next state of the PRNG
-  c <- RVar.next[Boolean] // Get a Boolean, again passing the PRNG state
-} yield if (c) a*b else b
+```scala mdoc
+val composition =
+  for {
+    a <- RVar.next[Int] // Get a single Int
+    b <- RVar.next[Double] // Get a single Double, using the next state of the PRNG
+    c <- RVar.next[Boolean] // Get a Boolean, again passing the PRNG state
+  } yield if (c) a*b else b
 
 composition.run(rng)
 ```
@@ -259,12 +251,13 @@ RVar.ints(n: Int) //Generates a list of size n where each element is a *generato
 
 These two methods perform the exact same function and will produce the same result.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import scalaz._
+import _root_.eu.timepit.refined.auto._
 ```
-```tut:book
-RVar.choices(4, NonEmptyList(4, 3, 2, 56, 78)).run.eval(rng)
-RVar.sample(4, NonEmptyList(4, 3, 2, 56, 78)).run.eval(rng)
+```scala mdoc
+RVar.choices(4, NonEmptyList(4, 3, 2, 56, 78)).eval(rng)
+RVar.sample(4, NonEmptyList(4, 3, 2, 56, 78)).eval(rng)
 ```
 
 It makes use of an `OptionT`.
@@ -275,7 +268,7 @@ perhaps in a GA or DE.
 
 Shuffle does exactly what you would expect it to do, shuffle a list.
 
-```tut:book
+```scala mdoc
 RVar.shuffle(NonEmptyList (73, 5, 2, 3, 19, 28)).eval(rng)
 ```
 
@@ -332,22 +325,18 @@ levy(l: Double, s: Double): RVar[Double]
 As you can see there is quite a lot for us to choose from.
 I wont be able to cover them all, but let's look at a few.
 
-```tut:book:invisible
-import cilib._
-val rng = RNG.fromTime
-```
-```tut:book
+```scala mdoc
 Dist.stdNormal.run(rng)
 ```
 
 Using the functions is pretty straight forward, as are the methods, however, some methods make use of `Interval[A]` which you might be be unfamiliar with.
 If that's the case, don't to worry, here is how you would do it.
 
-```tut:book:silent
+```scala mdoc:silent
 import spire.implicits._
 import spire.math.Interval
 ```
-```tut:book
+```scala mdoc
 val interval = Interval(-1.25, 2.75)
 Dist.uniform(interval).run(rng)
 ```
@@ -355,11 +344,11 @@ Dist.uniform(interval).run(rng)
 But what if we needed a list of the random numbers from the distribution?
 We can use `replicateM(n: Int)` to repeat the action n amount of times.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import scalaz._
 import Scalaz._
 ```
-```tut:book
+```scala mdoc
 Dist.stdNormal.replicateM(5).run(rng)
 ```
 
@@ -374,10 +363,10 @@ where the `List[Double]` is of size n.
 
 <div class="solution">
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 ```
-```tut:book:silent
+```scala mdoc:silent
 def genList(n: Int): RVar[List[Double]] = RVar.doubles(n)
 ```
 </div>
@@ -388,10 +377,7 @@ which represent the lower and upper bounds of numbers we want to generate.
 
 <div class="solution">
 
-```tut:book:invisible
-val rng = RNG.fromTime
-```
-```tut:book:silent
+```scala mdoc:silent
 import scalaz._
 import Scalaz._
 import spire.implicits._
@@ -402,7 +388,7 @@ def genList(n: Int, lower: Double, upper: Double): RVar[List[Double]] = {
     Dist.uniform(interval).replicateM(n)
 }
 ```
-```tut:book
+```scala mdoc
 genList(5, 0.2, 0.5).run(rng)
 ```
 </div>
@@ -414,11 +400,14 @@ The type of the returned value should be `RVar[List[Double]]`.
 
 <div class="solution">
 
-```tut:book:silent
-def select(randomList: NonEmptyList[Double]): RVar[List[Double]] = {
-    RVar.sample(3, randomList).getOrElse(List(0.0))
-        .flatMap(x => RVar.point(x.flatMap(el => List(el, el * 0.15))))
-}
+```scala mdoc:silent
+def select(randomList: NonEmptyList[Double]): RVar[List[Double]] =
+  for {
+    sample <- RVar.sample(3, randomList)
+  } yield sample match {
+    case None => List(0.0)
+    case Some(list) => list.map(element => element * 0.15)
+  }
 ```
 </div>
 
@@ -430,7 +419,7 @@ This list should be returned.
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 import scala.collection.mutable.ListBuffer
 def getMax(iterations: Int): List[Double] = {
     var rng = RNG.fromTime
@@ -453,13 +442,13 @@ The `List ` shoould be of size 5.
 
 <div class="solution">
 
-```tut:book:silent
-val composition = for {
+```scala
+val solution = for {
     value <- Dist.uniform(Interval(20.0, 75.0))
     check <- RVar.next[Boolean]
 } yield if (check) value else -1.0
 
-composition.replicateM(5)
+solution.replicateM(5)
 ```
 </div>
 
