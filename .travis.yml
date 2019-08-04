@@ -1,8 +1,7 @@
 language: nix
 
 script:
-  - export SBT_OPTS="-Xmx2G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xss2M  -Duser.timezone=GMT"
-  - nix-shell --run 'sbt "++2.12.8" clean test docusaurusCreateSite'
+  - nix-shell --run 'SBT_OPTS="-Xmx2G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xss2M  -Duser.timezone=GMT" sbt "++2.12.8" clean test docusaurusCreateSite'
 #  - nix-shell --run 'sbt "++2.12.8" clean test scalafmtCheck docusaurusCreateSite'
 
 before_install:
