@@ -16,6 +16,7 @@ val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
 lazy val commonSettings = Seq(
   organization := "net.cilib",
   autoAPIMappings := true,
+  scalaVersion := "2.12.8",
   scalacOptions ++= Seq(
     "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
     "-encoding", "utf-8",                // Specify character encoding used by source files.
@@ -103,7 +104,7 @@ lazy val commonSettings = Seq(
         if (last.getObjectId.getName == current.getName) tags.lift(tags.size - 2).map(_.getName)
         else Some(last.getName)
       })
-    
+
     name.getOrElse("NO_TAG").replace("refs/tags/v", "")
   },
   mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)
