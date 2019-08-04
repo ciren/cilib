@@ -91,17 +91,20 @@ lazy val commonSettings = Seq(
     import org.eclipse.jgit._
     import org.eclipse.jgit.api._
     import org.eclipse.jgit.lib.Constants
+    import scala.collection.JavaConverters._
 
     val git = Git.open(new java.io.File("."))
-    val tags = git.tagList.call()
+    val tags = git.tagList.call().asScala
     val current = git.getRepository.resolve(Constants.HEAD)
 
-    val lastTag = tags.get(tags.size - 1)
+    val lastTag = tags.lift(tags.size - 1)
     val name =
-      if (lastTag.getObjectId.getName == current.getName) tags.get(tags.size - 2).getName
-      else lastTag.getName
-
-    name.replace("refs/tags/v", "")
+      lastTag.flatMap(last => {
+        if (last.getObjectId.getName == current.getName) tags.lift(tags.size - 2).map(_.getName)
+        else Some(last.getName)
+      })
+    
+    name.getOrElse("NO_TAG").replace("refs/tags/v", "")
   },
   mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)
 )

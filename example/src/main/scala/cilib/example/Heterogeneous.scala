@@ -102,8 +102,8 @@ object HPSO extends SafeApp {
   val bounds = Interval(-5.12, 5.12) ^ 2
   val env =
     Environment(cmp = Comparison.quality(Min),
-                eval =
-                  Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
+                eval = Eval.unconstrained((xs: NonEmptyList[Double]) =>
+                  Feasible(cilib.benchmarks.Benchmarks.spherical(xs))))
 
   val population =
     StepS

@@ -17,8 +17,8 @@ object UNDXPSO extends SafeApp {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(cmp = Comparison.dominance(Min),
-                eval =
-                  Eval.unconstrained(cilib.benchmarks.Benchmarks.spherical[NonEmptyList, Double]))
+                eval = Eval.unconstrained((xs: NonEmptyList[Double]) =>
+                  Feasible(cilib.benchmarks.Benchmarks.spherical(xs))))
 
   val guide = Guide.undx[Mem[Double]](1.0, 0.1)
   val undxPSO = crossoverPSO(guide)

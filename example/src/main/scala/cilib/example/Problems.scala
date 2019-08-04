@@ -148,7 +148,7 @@ object Problems {
   def peakEval(peaks: NonEmptyList[PeakCone]): Eval[NonEmptyList, Double] =
     Eval.unconstrained((a: NonEmptyList[Double]) => {
       val x = peaks.map(_.eval(a)).list.toList.max // FIXME
-      val r = if (x == Double.NaN) 0.0 else x
+      val r = if (x == Double.NaN) Infeasible(0.0) else Feasible(x)
 
       r
     })
