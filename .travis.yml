@@ -1,7 +1,8 @@
 language: nix
 
 script:
-  - nix-shell --run 'sbt "++2.12.8" clean test scalafmtCheck docusaurusCreateSite'
+  - nix-shell --run 'sbt "++2.12.8" clean test docusaurusCreateSite'
+#  - nix-shell --run 'sbt "++2.12.8" clean test scalafmtCheck docusaurusCreateSite'
 
 before_install:
   - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
