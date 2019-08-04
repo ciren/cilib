@@ -1,6 +1,5 @@
 data
 target
-.ensime*
 private.sbt
 .settings
 .classpath
@@ -14,6 +13,8 @@ local.*
 *.csv
 *.sc
 
+# Documentation eebsite related excludes
 out/
 node_modules
 build
+i18n

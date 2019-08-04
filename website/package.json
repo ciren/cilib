@@ -9,7 +9,7 @@
     "rename-version": "docusaurus-rename-version"
   },
   "devDependencies": {
-    "docusaurus": "^1.6.2"
+    "docusaurus": "^1.12.0"
   },
   "dependencies": {
     "remarkable-admonitions": "^0.2.1",

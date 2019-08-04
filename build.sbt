@@ -156,8 +156,16 @@ lazy val cilibSettings =
 
 lazy val cilib = project
   .in(file("."))
-  .enablePlugins(GitVersioning, ReleasePlugin)
+  .enablePlugins(
+    GitVersioning,
+    ReleasePlugin,
+    MdocPlugin,
+    DocusaurusPlugin,
+    ScalaUnidocPlugin)
   .settings(credentialSettings ++ noPublishSettings ++ Seq(
+    mdocVariables := Map(
+      "CILIB_VERSION" -> "2.0"
+    ),
     git.useGitDescribe := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -167,8 +175,9 @@ lazy val cilib = project
       releaseStepCommand("sonatypeReleaseAll")
     )
   ))
-  .aggregate(core, de, docs, eda, example, exec, ga, moo, pso, tests)
-  .dependsOn(core, de, docs, eda, example, exec, ga, moo, pso, tests)
+  .aggregate(core, de, /*docs,*/ eda, example, exec, ga, moo, pso, tests)
+  .dependsOn(core, de, /*docs,*/ eda, example, exec, ga, moo, pso, tests)
+
 
 lazy val core = project
   .settings(
@@ -221,26 +230,20 @@ lazy val core = project
       )
     ))
 
-lazy val docs = project
-  .in(file("."))
-  .settings(
-    moduleName := "cilib-docs",
-    mdocVariables := Map(
-      "CILIB_VERSION" -> "2.0"
-    )
-  )
-  .settings(cilibSettings)
-  .settings(noPublishSettings)
-  .settings(docSettings)
-  .dependsOn(core, example, exec, pso, moo, ga)
-  .enablePlugins(
-    MdocPlugin,
-    DocusaurusPlugin,
-    ScalaUnidocPlugin)
+// lazy val docs = project
+//   .in(file("."))
+//   .settings(
+//     moduleName := "cilib-docs",
+
+//   )
+//   .settings(cilibSettings)
+//   .settings(noPublishSettings)
+//   .settings(docSettings)
+//   .dependsOn(core, example, exec, pso, moo, ga)
 
 
-lazy val docSettings = Seq(
-)
+// lazy val docSettings = Seq(
+// )
 
 lazy val credentialSettings = Seq(
   credentials ++= (for {
