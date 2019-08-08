@@ -46,7 +46,7 @@ However, ``distanceNeighbours`` and ``tournament`` are a bit unique so we will e
 
 ### Example 1 - Tournament Selection
 
-```scala mdoc:silent
+```scala :silent
 import cilib._
 import scalaz._
 import Scalaz._
@@ -59,7 +59,7 @@ val intervals = NonEmptyList(Interval(-5.0, 5.0), Interval(10.0, 15.0))
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x*x).suml).eval
 val solutions = Position.createPositions(intervals, 9).eval(rng).map(p => Position.eval(e, p).eval(rng))
 ```
-```scala mdoc
+```scala
 Selection.tournament(3, solutions).apply(Comparison.dominance(Max)).eval(rng).get
 ```
 
@@ -68,7 +68,7 @@ We then passed the solutions to the tournament selection along with an `Int` tha
 
 ### Example 2 - Distance Neighbours Selection
 
-```scala mdoc:silent
+```scala :silent
 import cilib._
 import scalaz._
 import Scalaz._
@@ -81,7 +81,7 @@ val d = NonEmptyList(7.0, 8.0)
 val e = NonEmptyList(9.0, 10.0)
 val collection = NonEmptyList(a, b, c, d, e)
 ```
-```scala mdoc
+```scala
 val ringDistance = Selection.distanceNeighbours[NonEmptyList,Double](MetricSpace.euclidean)(3)
 
 ringDistance(collection, a)

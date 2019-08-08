@@ -127,7 +127,7 @@ To understand `Pools` we need to first see how `PoolItems` work.
 The `PoolItem` object allows us to create `PoolItems` which assign a score to some item.
 The following code will demonstrate this.
 
-```scala mdoc:silent
+```scala :silent
 import cilib._
 import cilib.pso._
 import spire.implicits.{eu => _, _}
@@ -136,7 +136,7 @@ import spire.math.Interval
 val interval = Interval(-5.12,5.12)^1
 val rng = RNG.init(12)
 ```
-```scala mdoc
+```scala
 val particle = Position.createPosition(interval).map(p => Entity(Mem(p, p.zeroed), p)).eval(rng)
 
 val poolitem = PoolItem.apply(particle, 1.25)
@@ -144,7 +144,7 @@ val poolitem = PoolItem.apply(particle, 1.25)
 
 Now that we have created a `PoolItem` we are able use the class methods.
 
-```scala mdoc
+```scala
 poolitem.score // Will yield the score
 poolitem.reward(0.54) // Will Modify the score
 poolitem.change(particle) // Change the item
@@ -158,11 +158,11 @@ In these examples, for simplicity purposes, we will be using `Double` as our typ
 Let's say we needed to create a pool where each item within the pool had the same score.
 To do this we would use `mkPool`.
 
-```scala mdoc:silent
+```scala :silent
 import scalaz._
 import Scalaz._
 ```
-```scala mdoc
+```scala
 val doubles = RVar.doubles(5).eval(rng).toNel.get
 
 val pool1 = Pool.mkPool(0.85, doubles)
@@ -171,25 +171,25 @@ val pool1 = Pool.mkPool(0.85, doubles)
 Now each item in the pool has a score of `0.85`.
 Similarly we could use `mkEvenPool` which will give each item a score based on the amount of items in the pool.
 
-```scala mdoc
+```scala
 val pool2 = Pool.mkEvenPool(doubles)
 ```
 
 Or `mkZeroPool` which will give each item a score of 0.
 
-```scala mdoc
+```scala
 val pool2 = Pool.mkEvenPool(doubles)
 ```
 
 The `mkPoolListScore` when provided with a `Pool` will turn the score of each item into a `List`.
 
-```scala mdoc
+```scala
 Pool.mkPoolListScore(pool1)
 ```
 
 We can also update a `Pool's` items by using `mkFromOldPool`.
 
-```scala mdoc
+```scala
 val newDoubles = RVar.doubles(5).eval(RNG.init(12)).toNel.get
 Pool.mkFromOldPool(pool1, newDoubles)
 ```

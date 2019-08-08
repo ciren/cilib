@@ -37,12 +37,12 @@ An unconstrained evaluation applies a function that takes a monad and produces a
 Every solution is feasible since there are not constraints.
 </div>
 
-```scala mdoc:invisible
+```scala :invisible
 import cilib._
 import scalaz._
 import Scalaz._
 ```
-```scala mdoc
+```scala
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml)
 ```
 
@@ -55,10 +55,10 @@ Will return a function that produces an `Objective`, either `Single` or `Multi` 
 This function is wrapped in an `RVar`. So in oder to *extract* the function from within the `RVar` we can use `run`.
 Finally, we may use our function with other given list.
 
-```scala mdoc:silent
+```scala :silent
 val l = NonEmptyList(20.0, 4.0, 5.0)
 ```
-```scala mdoc
+```scala
 e.eval
 e.eval.run(RNG.fromTime)
 e.eval.run(RNG.fromTime)._2
@@ -80,15 +80,15 @@ An unconstrained evaluation applies a function that takes a monad and produces a
 The feasibility of every solution is determined by the constraints.
 </div>
 
-```scala mdoc:invisible
+```scala :invisible
 import cilib._
 import scalaz._
 import Scalaz._
 ```
-```scala mdoc:silent
+```scala :silent
 val lesThanCons = LessThan(ConstraintFunction((l: NonEmptyList[Double]) => l.suml), 12.0)
 ```
-```scala mdoc
+```scala
 val e = Eval.constrained[NonEmptyList,Double](_.map(x => x * x).suml, List(lesThanCons))
 ```
 ### eval
@@ -97,16 +97,16 @@ Performs the same function as an unconstrained.
 However, our result may either be feasible or infeasible.
 If it is infeasible, you will notice that the result contains a violation count as well a `List` of the violated `Constraints`.
 
-```scala mdoc:silent
+```scala :silent
 var l = NonEmptyList(20.0, 4.0, 5.0)
 ```
-```scala mdoc
+```scala
 e.eval.run(RNG.fromTime)._2.apply(l)
 ```
-```scala mdoc:silent
+```scala :silent
 l = NonEmptyList(1.0, 4.0, 5.0)
 ```
-```scala mdoc
+```scala
 e.eval.run(RNG.fromTime)._2.apply(l)
 ```
 
@@ -134,12 +134,12 @@ However, there are some constraints.
 Our fitness function will add the first three numbers, and divide the result by the fourth.
 Pretty simple. So far we have..
 
-```scala mdoc:invisible
+```scala :invisible
 import cilib._
 import scalaz._
 import Scalaz._
 ```
-```scala mdoc:silent
+```scala :silent
 def fitness (values: NonEmptyList[Double]) : Double = {
     var result = values.index(0).getOrElse(0.0)
     result += values.index(1).getOrElse(0.0)
@@ -161,7 +161,7 @@ any `Constraints` that were violated.
 Because of all the class types being used we are able to use pattern matching in order to control our
 program logic.
 
-```scala mdoc:silent
+```scala :silent
 def getSolution (fit: Fit) : Double = {
     fit match {
         case Feasible(v) => v
@@ -182,16 +182,16 @@ As you can see, we are using -1.0 to indicate an infeasible solution.
 
 Now we can put everything together and test our code.
 
-```scala mdoc:invisible
+```scala :invisible
 import spire.implicits._
 import spire.math.Interval
 ```
-```scala mdoc:silent
+```scala :silent
 val rng = RNG.init(12L)
 val interval = Interval(0.0, 50.0)
 val l = Dist.uniform(interval).replicateM(4).eval(rng).toNel.getOrElse(NonEmptyList(0.0))
 ```
-```scala mdoc
+```scala
 evalObjective(e.eval.run(rng)._2(l))
 ```
 `.toNel.getOrElse(NonEmptyList(0.0))` is converting the returned `List[Double]` from our `RVar` evaluation to `NonEmptyList[Double]`.
