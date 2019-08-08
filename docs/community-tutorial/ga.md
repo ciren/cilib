@@ -1,4 +1,7 @@
-# GA
+---
+id: ga
+title: GA
+---
 
 The genetic algorithm library offers two things:
 

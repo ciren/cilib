@@ -1,4 +1,7 @@
-# Fitness
+---
+id: fit
+title: Fitness
+---
 
 After the last chapter you're now somewhat familiar with `Feasible` and `Infeasible`.
 `CILib` offers this and more for dealing with the fitness of solutions.

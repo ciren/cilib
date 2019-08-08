@@ -1,4 +1,7 @@
-# Entity
+---
+id: entity
+title: Entity
+---
 
 By now you should have enough some experience with `Entity`.
 If not, refer to the "A Quick Look at Entity" section in the `Lenses` chapter.

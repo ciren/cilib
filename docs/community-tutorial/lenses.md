@@ -1,4 +1,7 @@
-# Lenses
+---
+id: lenses
+title: Lenses
+---
 
 Great! You just learnt about creating positions in a search space.
 But you might be asking yourself "How can we modify our set positions to explore the search space?"

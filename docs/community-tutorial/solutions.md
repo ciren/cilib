@@ -1,4 +1,4 @@
-\appendix
-
-<div class="solutions">
-</div>
+---
+id: solutions
+title: Solutions
+---

@@ -1,4 +1,7 @@
-# Step
+---
+id: step
+title: Step
+---
 
 What is this mysterious data type called `Step`? Well, it actually
 represents a *step* in an algorithm. Nothing mysterious at all. How

@@ -1,4 +1,7 @@
-# Benchmarks
+---
+id: benchmarks
+title: Benchmarks
+---
 
 Often in computational intelligence we will need to test algorithms on
 standard problems. It should be noted that CIRG contains a library of

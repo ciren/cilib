@@ -1,8 +1,7 @@
 ---
 id: constraint
+title: Constraints
 ---
-
-# Constraint
 
 As we begin to explore more of the core concepts of CILib we start to see how they are utilized by other concepts.
 With this in mind, you might see types specific to CILib you haven't come across yet.

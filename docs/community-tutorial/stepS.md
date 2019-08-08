@@ -1,4 +1,7 @@
-# StepS
+---
+id: steps
+title: StepS
+---
 
 At this point, we now understand what `Step` is.
 `StepS` is very similar but now we are creating a step with a state.

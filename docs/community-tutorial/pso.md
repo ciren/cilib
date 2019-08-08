@@ -1,4 +1,7 @@
-# PSO
+---
+id: pso
+title: PSO
+---
 
 The particle swarm optimization library of CILib is one of the most extensive libraries.
 While offering numerous pso components and algorithms it's best to begin with the basics of the library and then progressively work from there.

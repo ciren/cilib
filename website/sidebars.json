@@ -5,8 +5,7 @@
         ],
         "Community Tutorial": [
             "community-tutorial/introduction",
-            "community-tutorial/setting-up/index",
-            "community-tutorial/dependencies",
+            "community-tutorial/tut-getting-started",
             "community-tutorial/rvar",
             "community-tutorial/constraint",
             "community-tutorial/objective",

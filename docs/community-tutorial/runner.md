@@ -1,3 +1,8 @@
+---
+id: runner
+title: Runner
+---
+
 # Runner and Our First Algorithm
 
 In this chapter we are going to create our very own Genetic Algorithm.

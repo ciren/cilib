@@ -1,4 +1,7 @@
-# DE
+---
+id: de
+title: DE
+---
 
 In this chapter we will be exploring the differential evolution package of CILib.
 What's great about algorithms in CILib is their flexibility.

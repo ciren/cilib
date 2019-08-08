@@ -1,4 +1,7 @@
-# Eval
+---
+id: eval
+title: Eval
+---
 
 In the last chapter we saw how to test if a set of numbers satisfies a `Constraint` or a violates `Constraints`.
 We now are going to look at how to unconstrained or constrained evaluations in CILib.

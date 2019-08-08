@@ -1,4 +1,7 @@
-# Metric Space
+---
+id: metric-space
+title: Metric Space
+---
 
 In this chapter we will start off with a brief explanation of "what are metric spaces".
 After which we explore CILib's implementations of certain metric spaces.

@@ -1,7 +1,9 @@
-# Position
+---
+id: position
+title: Position
+---
 
-<div class="callout callout-danger">
-
+:::caution
 Candidate solution vectors within a search space are the basic pieces of information that computational algorithms maintain and,
 includes feature vectors that represent training patterns in a neural network.
 Within population based algorithms, a collection of algorithm participants are employed in a search of the problem space.
@@ -9,8 +11,7 @@ Each represents a possible solution to the problem at hand, and may be in one of
 
 1. It may be a "point" in the search space where no other information about the point is known, except for the value of the multi-dimensional vector representing the position within the search space
 2. It may be a possible "solution", where the position in the multi-dimensional search space is known but, an additional value representing the "quality" of the vector is also maintained. This "quality" is referred to as the fitness of the candidate solution.
-
-</div>
+:::
 
 The above explanation was provided by [Gary Pamparà][link-gary] on the [CILib docs project][cilib-docs].
 Up until now we have primarily been generating random candidate solutions and evaluating them.
@@ -38,7 +39,7 @@ Remember that a `Solution` is `Point` with a fitness evaluation.
 And of course, we are provided with a companion object.
 Unlike other chapters we are first going to explore the companion object before we go any further.
 
-<div class="callout callout-warning">
+:::note
 This is the first chapter were you are going to be using [Refined][Refined-link].
 The following imports should be sufficient
 
@@ -52,7 +53,7 @@ import eu.timepit.refined.auto._
 import spire.implicits.{eu => _, _}
 import spire.math.Interval
 ```
-</div>
+:::
 
 
 ## Position Companion Object

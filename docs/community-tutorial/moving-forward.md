@@ -1,4 +1,7 @@
-# Moving forward
+---
+id: moving-forward
+title: Moving forward
+---
 
 What an adventure!
 From the humble beginnings of `RVar` too creating a GA consisting of various CILib components.

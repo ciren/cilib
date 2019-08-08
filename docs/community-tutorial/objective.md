@@ -1,4 +1,7 @@
-# Objective
+---
+id: objective
+title: Objective
+---
 
 Computational intelligence research requires an objective.
 Either it's a single objective or a collection of objectives.
