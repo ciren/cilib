@@ -61,12 +61,12 @@ Now `Entity` is great for PSO algorithms because it is able to hold a state.
 For genetic algorithms, however, you do not need a state.
 Thus we could pass a `Unit` for the state to create an individual.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import spire.implicits.{eu => _, _}
 import spire.math._
 ```
-```tut:book:silent
+```scala mdoc:silent
 val interval = Interval(-5.12,5.12)^3
 val individual = Position.createPosition(interval).map(p => Entity((), p))
 ```

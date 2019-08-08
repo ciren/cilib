@@ -12,14 +12,14 @@ Step instances to create a larger computation.
 In the last chapter we learnt how to create `Entities`, but what about
 evaluating them? This wil be our first introduction to `Step`.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import spire.implicits._
 import spire.math._
 import scalaz._
 import Scalaz._
 ```
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val bounds = Interval(-5.12,5.12)^2
 
@@ -31,7 +31,7 @@ val env = Environment(
 val particle = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed), p)).eval(rng)
 def explore (position: Position[Double]): Position[Double] = position.map(x => x * 0.73)
 ```
-```tut:book
+```scala mdoc
 val myStep = Step.eval(explore)(particle)
 ```
 
@@ -57,7 +57,7 @@ final case class Environment[A](
 
 An example of creating an `Environment` would be the following...
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import scalaz._
 import Scalaz._
@@ -65,7 +65,7 @@ import spire.math.Interval
 import spire.implicits.{eu => _, _}
 
 ```
-```tut:book
+```scala mdoc
 val env = Environment(
     cmp = Comparison.dominance(Min),
     eval =  Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
@@ -99,7 +99,7 @@ chapter, `myStep`.
 
 Here we changing the context of the `Step`.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import spire.implicits._
 import spire.math._
@@ -118,7 +118,7 @@ val particle = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed),
 def explore (position: Position[Double]): Position[Double] = position.map(x => x * 0.73)
 val myStep = Step.eval(explore)(particle)
 ```
-```tut:book
+```scala mdoc
 myStep.map(entity => Lenses._position.get(entity)).run(env).eval(rng)
 ```
 
@@ -137,7 +137,7 @@ will differ from our original `Step[A, B]`. What will happen here is
 that we adding an extra *step*.
 
 
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 def explore (position: Position[Double]): Position[Double] = position.map(x => x * 0.73)
 val particle = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed), p)).eval(rng)
@@ -145,7 +145,7 @@ val myStep = Step.eval(explore)(particle)
 
 def negate (position: Position[Double]): Position[Double] = position.map(x => x * -1)
 ```
-```tut:book
+```scala mdoc
 myStep.flatMap(entity => Step.eval(negate)(particle)).run(env).eval(rng)
 ```
 
@@ -155,7 +155,7 @@ real world purpose but it demonstrates how we may chain `Steps`
 together to form an algorithm. This is easily achieved by using for
 comprehensions. For example, take a look at the following method.
 
-```tut:book
+```scala mdoc
 def algorithm(entity: Entity[Mem[Double], Double]) = (for {
     step1 <- Step.eval(explore)(entity)
     step2 <- Step.eval(negate)(entity)
@@ -202,7 +202,7 @@ val env = Environment(
 
 Returns an instance of `Step` based on the given parameter.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import spire.implicits._
 import spire.math._
@@ -215,10 +215,10 @@ val env = Environment(
     eval = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
 )
 ```
-```tut:book:silent
+```scala mdoc:silent
 val particle = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed), p)).eval(rng)
 ```
-```tut:book
+```scala mdoc
 Step.point(particle)
 ```
 
@@ -226,10 +226,10 @@ Step.point(particle)
 
 Creates `Step` contained in `RVar`.
 
-```tut:book:silent
+```scala mdoc:silent
 val particle = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed), p))
 ```
-```tut:book
+```scala mdoc
 Step.pointR(particle).run(env).eval(rng)
 ```
 
@@ -238,14 +238,14 @@ Step.pointR(particle).run(env).eval(rng)
 `eval` is used for evaluating `Entities`. This function produces a
 `Step` which may be `run` using a function, `Environment => RVar[A]`.
 
-```tut:book
+```scala mdoc
 val particle = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed), p)).eval(rng)
 def explore (position: Position[Double]): Position[Double] = position.map(x => x * 0.73)
 
 Step.eval(explore)(particle)
 ```
 
-```tut:book:silent
+```scala mdoc:silent
 Step.eval(explore)(particle).run(env).run(rng)
 ```
 
@@ -259,7 +259,7 @@ An example of use would be comparing the current position of an
 `Entity` with its best, and then returning a new `Entity` based on
 the comparison.
 
-```tut:book:silent
+```scala mdoc:silent
 import monocle._, Monocle._
 
 val particle = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed), p)).eval(rng)
@@ -271,7 +271,7 @@ def updatePBest[S](p: Entity[S,Double])(implicit M: HasMemory[S,Double]): Step[D
 }
 ```
 
-```tut:book
+```scala mdoc
 updatePBest(particle).run(env).eval(rng)
 ```
 
@@ -280,7 +280,7 @@ updatePBest(particle).run(env).eval(rng)
 An example of use would be determining which un-evaluated
 `RVar[Entity]s` is fitter.
 
-```tut:book:silent
+```scala mdoc:silent
 def better[S,A](a: Entity[S,A], b: Entity[S,A]): Step[A,Boolean] =
     Step.withCompareR(comp => RVar.point(Comparison.fitter(a.pos, b.pos).apply(comp)))
 
@@ -288,8 +288,8 @@ val particle1 = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed)
 val particle2 = Position.createPosition(bounds).map(p => Entity(Mem(p, p.zeroed), p)).eval(RNG.fromTime)
 ```
 
-```tut:book
-better(particle1, particle2).run(env).eval(rng)
+```scala mdoc
+Betterk(particle1, particle2).run(env).eval(rng)
 ```
 
 ### evalF
@@ -303,19 +303,17 @@ method.
 
 Hey, that wasn't as scary as we thought it would be.
 
-<div class="callout callout-info">
+:::note
 `Step` is nothing more than a data structure that hides the details of a
   monad transformer which represents the algorithmic parts which my be applied to a given problem `Environment`.
-</div>
+:::
 
 We also learnt some valuable skills in this chapter such as:
 
-<div class="callout callout-info">
-
+:::note
 - We can use for comprehensions to chain together steps of an algorithm.
 - How to can compare two `Entities` in a step.
-
-</div>
+:::
 
 But what if I told you `Step` has a sibling?
 *gasp*.

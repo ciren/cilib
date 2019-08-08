@@ -1,6 +1,3 @@
-addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
-
-
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.5.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0")
@@ -14,8 +11,6 @@ addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.2")
 //addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.2")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "1.3.1")
-
-//addSbtPlugin("com.dwijnand" % "sbt-travisci" % "1.1.1")
 
 addSbtPlugin("io.get-coursier" % "sbt-coursier" % "2.0.0-RC2-1")
 

@@ -31,10 +31,10 @@ Adjusted (original: Infeasible, adjust: Double)
 And the purpose of this is to allow for pattern matching so that we may control the flow of logic.
 For example
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 ```
-```tut:book:silent
+```scala mdoc:silent
 def control (fit: Fit) : Double = {
     fit match {
         case Feasible(v) => v
@@ -50,7 +50,7 @@ def control (fit: Fit) : Double = {
 A data type to represent a feasible solution.
 </div>
 
-```tut:book
+```scala mdoc
 val f = Feasible.apply(5)
 Feasible.unapply(f)
 
@@ -71,10 +71,10 @@ adjust the solution using the given parameter function.
 Adjusted indactes we have adjusted an `Infeasible` solution. It contains the `Infeasible` we had to adjust and the new adjusted value.
 </div>
 
-```tut:book:invisible
+```scala mdoc:invisible
 import scalaz._
 ```
-```tut:book
+```scala mdoc
 val badSolution = Infeasible(45.0, 1)
 badSolution.adjust(x => x * 0.73)
 ```
@@ -114,12 +114,12 @@ However, for this case and if you intend to use your own data types, we will
 need to define the implicits ourselves.
 We will be using `NonEmptyList`.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import scalaz._
 import Scalaz._
 ```
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12L)
 val cons = cilib.Equal(ConstraintFunction((l: NonEmptyList[Double]) => l.index(0).getOrElse(0.0)), 4.0)
 val e = Eval.constrained[NonEmptyList,Double]((l: NonEmptyList[Double]) => l.suml, List(cons))
@@ -136,13 +136,13 @@ With that out of the way we may begin exploring the `Comparison` methods.
 
 `dominance` creates an instance of a `Comparison` type, based on the supplied `Opt`, that we may use.
 
-```tut:book:silent
+```scala mdoc:silent
 val test1 = NonEmptyList(4.0, 5.0, 6.0)
 val test2 = NonEmptyList(4.0, 2.0, 33.0)
 
 val comparison = Comparison.dominance(Max)
 ```
-```tut:book
+```scala mdoc
 comparison.apply(test1, test2)
 ```
 
@@ -161,7 +161,7 @@ Does the same thing as `dominance`, just a different name.
 With this we can produce a function, that will work in a similar way to `dominance`.
 All we need to do is supply a `Comparison` instance.
 
-```tut:book
+```scala mdoc
 Comparison.compare(test1, test2)
 Comparison.compare(test1, test2).apply(comparison)
 ```
@@ -171,7 +171,7 @@ Comparison.compare(test1, test2).apply(comparison)
 Works in a similar fashion to `compare` but returns a function of `Comparison => Boolean`.
 The function determines if the first parameter is fitter than the second.
 
-```tut:book
+```scala mdoc
 Comparison.fitter(test2, test1).apply(comparison)
 Comparison.fitter(test1, test2).apply(comparison)
 ```
@@ -209,7 +209,7 @@ You need to calculate the best custom bow and arrow for this problem, no AI is r
 
 You are given the following code to start with
 
-```tut:book:silent
+```scala mdoc:silent
 import cilib._
 import scalaz._
 import Scalaz._
@@ -243,7 +243,7 @@ These must return a `NonEmptyList[Double]` with the format `Distance, Damage, Bo
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 def generateValuesBasedOn(bowType: Double, arrowType: Double) : NonEmptyList[Double] = {
     val bowCost = getBowCost(bowType)
     val arrowCost = getArrowCost(arrowType)
@@ -269,7 +269,7 @@ Implement a fitness method, `fitness (l: NonEmptyList[Double]): Double`, to be u
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 def fitness (l: NonEmptyList[Double]): Double = {
     val distanceRating = (l.index(0).getOrElse(0.0) / 38.0) - 1.0
     val damageRating = (l.index(1).getOrElse(0.0) / 520.0) - 1.0
@@ -283,7 +283,7 @@ Create the two `Constraints` from the information given, these will be used to g
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 val distanceConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(0).getOrElse(0)) , 38)
 val damageConstraint = GreaterThanEqual(ConstraintFunction((l: NonEmptyList[Double]) => l.index(1).getOrElse(0)), 520)
 ```
@@ -294,7 +294,7 @@ Using the `fitness` method and `Constraints` that were created in the previous q
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 val e = Eval.constrained[NonEmptyList, Double](fitness(_), List(damageConstraint, distanceConstraint))
 ```
 </div>
@@ -313,7 +313,7 @@ getViolations (objective: Objective[Double]): List[Constraint[Double]]
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 def getSolution (fit: Fit): Double = {
     fit match {
         case Feasible(v) => v
@@ -347,7 +347,7 @@ Based on the given `values` list make the appropriate changes keeping the `viola
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 def adjust (values: NonEmptyList[Double], violations: List[Constraint[Double]]): NonEmptyList[Double] = {
     val distanceConsViolated = violations.contains(distanceConstraint)
     val damageConsViolated = violations.contains(damageConstraint)
@@ -378,7 +378,7 @@ Implement a method called `getCustomWeapon` which will return a the details of t
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 def getCustomWeapon : NonEmptyList[Double] = {
     var list = generateValues
     var objective = e.eval.run(rng)._2(list)
@@ -394,7 +394,7 @@ def getCustomWeapon : NonEmptyList[Double] = {
     list
 }
 ```
-```tut:book
+```scala mdoc
 getCustomWeapon
 ```
 </div>
@@ -407,7 +407,7 @@ Change the fitness method to return the amount of damage as the fitness score (a
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 def fitness (l: NonEmptyList[Double]): Double = l.index(1).get
 ```
 </div>
@@ -418,7 +418,7 @@ Return the one that does the highest amount of damage.
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 implicit def i = new Fitness[NonEmptyList, Double] {
     def fitness(l: NonEmptyList[Double]) = Option.apply(e.eval.run(rng)._2(l))
 }
@@ -432,7 +432,7 @@ def highestDamageWeapon(weapons: Int): NonEmptyList[Double] ={
     result
 }
 ```
-```tut:book
+```scala mdoc
 highestDamageWeapon(5)
 ```
 </div>

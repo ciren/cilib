@@ -105,7 +105,7 @@ an `Enity` with a state of type `Unit` since GA's do not need a state.
 
 We will be using the following `imports` for our GA.
 
-```tut:book:silent
+```scala mdoc:silent
 import cilib._
 import cilib.ga._
 import scalaz._
@@ -121,7 +121,7 @@ For our problem we are going to attempt to find the greatest area
 produced by a 2 dimensional rectangle. The sides can range from 0.1
 to 12.
 
-```tut:book
+```scala mdoc
 val bounds = Interval(0.1, 12.0)^2
 
 val env = Environment(
@@ -230,10 +230,10 @@ empty list.
 
 <div class="solution">
 
-```tut:book:silent
+```scala mdoc:silent
 type Ind = Individual[Unit]
 ```
-```tut:book
+```scala mdoc
 val randomSelection: NonEmptyList[Ind] => RVar[List[Ind]] =
     (l: NonEmptyList[Ind]) => RVar.sample(2, l).getOrElse(List.empty[Ind])
 ```
@@ -252,10 +252,7 @@ empty list.
 
 <div class="solution">
 
-```tut:book:silent
-type Ind = Individual[Unit]
-```
-```tut:book
+```scala mdoc
 val randomSelection: NonEmptyList[Ind] => RVar[List[Ind]] =
     (l: NonEmptyList[Ind]) => RVar.sample(2, l).getOrElse(List.empty[Ind])
 ```
@@ -271,7 +268,7 @@ two new `Individuals` from a one point cross over. Else we should
 output an error.
 
 <div class="solution">
-```tut:book
+```scala mdoc
 def onePoint(xs: List[Ind]): RVar[List[Ind]] =
     xs match {
         case a :: b :: _ =>
@@ -300,7 +297,7 @@ it's return type. Also some helpful hints are to think about using
 sequencing through points ot a list.
 
 <div class="solution">
-```tut:book
+```scala mdoc
 def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] =
     xs.traverse(x => {
         Lenses._position.modifyF((p: Position[Double]) => p.traverse(z => for {
@@ -329,8 +326,7 @@ that takes a collection of `Individuals` and returns a `Step`.
 We have the `myGA` function, but not the collection. So let's go ahead and
 create that. Keep in mind that we are dealing with `Individuals`
 
-```tut:book:invisible
-```tut:book
+```scala mdoc
 val swarm = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
 ```
 

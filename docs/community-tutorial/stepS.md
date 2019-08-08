@@ -55,24 +55,24 @@ for comprehension ability of of `Step`. Tada! `StepS` to save the
 day. In this situation, our factor will be our state. First, the
 basics.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import scalaz._
 import Scalaz._
 import spire.implicits._
 import spire.math.Interval
+import _root_.eu.timepit.refined.auto._
 ```
-```tut:book:silent
+```scala mdoc:silent
 val bounds = Interval(-5.12,5.12)^2
 
 val env = Environment(
     cmp = Comparison.dominance(Min),
-    eval = Eval.unconstrained[NonEmptyList,Double](_.map(x => x *
-        x).suml).eval
+    eval = Eval.unconstrained[NonEmptyList,Double](p => Feasible(_.map(x => x * x).suml)).eval
 )
 val rng = RNG.init(12)
 ```
-```tut:book
+```scala mdoc
 // Our Position
 val position = Position.createPosition(bounds).eval(rng)
 ```
@@ -80,7 +80,7 @@ val position = Position.createPosition(bounds).eval(rng)
 And then here is our function that we will be using to get an updated
 `Position` and state.
 
-```tut:book
+```scala mdoc
 def explore (position: Position[Double], factor: Double): (Position[Double], Double) =
     (position.map(x => x * factor), 0.73 * factor)
 ```
@@ -88,7 +88,7 @@ def explore (position: Position[Double], factor: Double): (Position[Double], Dou
 Now, putting it all together to make a `StepS`. Pay close attention
 to the resulting types.
 
-```tut:book
+```scala mdoc
 val myStepS = StepS(StateT[Step[Double, ?], Position[Double], Double](x => Step.point(explore(x, 0.96))))
 val step = myStepS.run(position) // Supply an initial value
 val rvar = step.run(env)
@@ -105,7 +105,7 @@ using `zoom` with a `_position` lense we are able to pass an `Entity`.
 This creates a `StepS` that offers the same functionality as our
 original but allows us to pass in a different data type.
 
-```tut:book
+```scala mdoc
 val particle = Position.createPosition(bounds).map(p => Entity((), p)).eval(rng)
 myStepS.zoom(Lenses._position[Unit, Double]).run(particle).run(env).eval(rng)
 ```
@@ -114,7 +114,7 @@ myStepS.zoom(Lenses._position[Unit, Double]).run(particle).run(env).eval(rng)
 
 Using the `map` method we are able to modify the state value.
 
-```tut:book
+```scala mdoc
 myStepS.map(x => 4.0 * x).run(position).run(env).eval(rng)
 ```
 
@@ -123,11 +123,11 @@ myStepS.map(x => 4.0 * x).run(position).run(env).eval(rng)
 Similarly, using the `flatMap` method we are able to modify the state
 as well as the value at hand by chaining together `StepS`s.
 
-```tut:book:silent
+```scala mdoc:silent
 def negate (position: Position[Double]): (Position[Double], Double) = (position.map(x => x * -1), -1.0)
 val myStepS2 = StepS(StateT[Step[Double, ?], Position[Double], Double](x => Step.point(negate(x))))
 ```
-```tut:book:silent
+```scala mdoc:silent
 myStepS.flatMap(x => myStepS2).run(position).run(env).eval(rng)
 ```
 
@@ -170,15 +170,7 @@ implicit def stepSMonadState[A,S]: MonadState[StepS[A,S,?], S]
 This method allows us to transform a `scalaz` lense into a `monocle`
 lenses that we may use.
 
-```tut:book:invisible
-import cilib._
-import scalaz._
-import Scalaz._
-import eu.timepit.refined.auto._
-import spire.implicits.{eu => _, _}
-import spire.math.Interval
-```
-```tut:book
+```scala mdoc
 StepS.lensIso.get(scalaz.Lens.firstLens[Unit, Double])
 ```
 
@@ -193,16 +185,7 @@ Creating a `StepS` based on an `RVar` computation. It is important to
 remember that the initial value for `run` is a state value, the second
 type parameter. In this case `Double`.
 
-```tut:book:invisible
-val bounds = Interval(-5.12,5.12)^2
-
-val env = Environment(
-    cmp = Comparison.dominance(Min),
-    eval = Eval.unconstrained[NonEmptyList,Double](_.map(x => x *
-        x).suml).eval
-)
-```
-```tut:book
+```scala mdoc
 StepS.pointR[Double, Double, NonEmptyList[Entity[Unit,Double]]](Position.createCollection(x => Entity((), x))(bounds, 3))
 ```
 

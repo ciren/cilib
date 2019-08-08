@@ -43,7 +43,7 @@ Unlike other chapters we are first going to explore the companion object before 
 This is the first chapter were you are going to be using [Refined][Refined-link].
 The following imports should be sufficient
 
-```tut:book:silent
+```scala mdoc:silent
 import cilib._
 import scalaz._
 import Scalaz._
@@ -78,10 +78,10 @@ And due to `Position's` class definition we will be able to transform our `Posit
 
 As we explore the object will be making use of the following code:
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 ```
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 ```
 
@@ -117,14 +117,14 @@ Each `Interval` in the list represents a dimension.
 The `Intervals` do not need to be the same, meaning we can have different `Intervals` for different dimensions.
 The use of `NonEmptyLists` ensure that we will, at minimum, we have one dimension.
 
-```tut:book
+```scala mdoc
 Position.createPosition(intervals).run(rng)
 ```
 
 CILib also adds some syntax has been added to the `Interval` data constructor to allow for repetition in a more convenient way.
 Allowing us to create multi dimensional positions with ease.
 
-```tut:book
+```scala mdoc
 Position.createPosition(Interval(-5.12,5.12)^5)
 ```
 
@@ -135,11 +135,11 @@ We created a 5 dimensional search space where each dimension ranges from -5.12 t
 Like `createPosition`, but will result in a `RVar` of a list of `Positions`.
 Where n is the size of the parameter.
 
-```tut:book:silent
+```scala mdoc:silent
 import eu.timepit.refined.auto._
 val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
 ```
-```tut:book
+```scala mdoc
 val pos = Position.createPositions(intervals, 2)
 ```
 
@@ -148,10 +148,10 @@ val pos = Position.createPositions(intervals, 2)
 Like `createPositions`, but will result in a `RVar` of a list of `A`.
 We are able to have a result of `List[A]` because the method allows us to pass our own function as a parameter.
 
-```tut:book:silent
+```scala mdoc:silent
 import eu.timepit.refined.auto._
 ```
-```tut:book
+```scala mdoc
 Position.createCollection(x => x)(intervals, 2).run(rng)
 Position.createCollection(x => x.map(_ * 2))(intervals, 2).run(rng)
 ```
@@ -189,14 +189,14 @@ Now you might recognize some, if not most, of these functions from your own expe
 And since this book is not only a guide of CILib but also to serve as documentation, we will quickly check out these methods.
 
 We will be using the following code to test the methods.
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import spire.implicits._
 import spire.math._
 import scalaz._
 import Scalaz._
 ```
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
 val intervals = NonEmptyList(Interval(0.0, 4.0), Interval(8.0, 9.0))
@@ -207,7 +207,7 @@ val myPos = Position.createPosition(intervals).eval(rng)
 
 Returns the actual position.
 
-```tut:book
+```scala mdoc
 myPos.pos
 ```
 
@@ -215,7 +215,7 @@ myPos.pos
 
 Returns the boundary.
 
-```tut:book
+```scala mdoc
 myPos.boundary
 ```
 
@@ -223,7 +223,7 @@ myPos.boundary
 
 Combines the values of two `Positions` instances in to one instance.
 
-```tut:book
+```scala mdoc
 val otherPos = Position.createPosition(intervals).eval(RNG.fromTime)
 myPos.zip(otherPos)
 ```
@@ -232,7 +232,7 @@ myPos.zip(otherPos)
 
 Returns n amount of points from the `Position`.
 
-```tut:book
+```scala mdoc
 myPos.take(1)
 ```
 
@@ -240,7 +240,7 @@ myPos.take(1)
 
 Does the same as take.
 
-```tut:book
+```scala mdoc
 myPos.drop(1)
 ```
 
@@ -257,13 +257,13 @@ Will convert a `Position` into a `Point` type.
 
 ### map
 
-```tut:book
+```scala mdoc
 myPos.map(x => x * 0.2)
 ```
 
 ### flatMap
 
-```tut:book
+```scala mdoc
 myPos.flatMap(x => cilib.Point(NonEmptyList(x * 2), myPos.boundary))
 ```
 
@@ -277,7 +277,7 @@ The list would be:
 - 6, -8
 - 6, 18
 
-```tut:book
+```scala mdoc
 myPos.traverse(x => NonEmptyList(x * -1, x * 2))
 ```
 
@@ -285,7 +285,7 @@ myPos.traverse(x => NonEmptyList(x * -1, x * 2))
 
 Applies a condition to each element.
 
-```tut:book
+```scala mdoc
 myPos.forall(x => x > 1)
 ```
 
@@ -295,7 +295,7 @@ myPos.forall(x => x > 1)
 `Positions` also may be used with normal vector operations.
 This allows for simpler usage as it mirrors the mathematics defined in literature more closely.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import spire.implicits._
 import spire.math._
@@ -303,14 +303,14 @@ import scalaz._
 import Scalaz._
 ```
 
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(1234L)
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x*x).suml).eval
 val a = Position.createPosition(Interval(-5.12,5.12)^3).eval(rng)
 val b = Position.createPosition(Interval(-5.12,5.12)^3).flatMap(p => Position.eval(e, p)).eval(rng)
 ```
 
-```tut:book
+```scala mdoc
 a + b // Add Point and Solution
 a + a // Add Point and Point
 b + b // Add Solution and Solution
@@ -323,7 +323,7 @@ CILib makes creating search spaces incredibly easy.
 And with this we can start making our programs simpler while adding more functionality.
 For example, in the previous chapter you were asked to create a program to solve for a cost effective solution for building a bow and arrow. With search spaces it could look something like this...
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import scalaz._
 import Scalaz._
@@ -333,7 +333,7 @@ import eu.timepit.refined.auto._
 import spire.implicits.{eu => _, _}
 import spire.math.Interval
 ```
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
 
@@ -349,12 +349,12 @@ val result = for {
      evaluated <- positions.traverse(p => Position.eval(e, p)) // We need to "traverse" the collection so that we apply the given function to all values within the RVar sub-program
 } yield evaluated
 ```
-```tut:book
+```scala mdoc
 result.eval(rng)
 ```
 
-<div class="callout callout-info">
+:::info
 `Position` allows us points in a search space.
 These points can then be evaluated which will yield a solution.
 A solution is a point with a fitness evaluation.
-</div>
+:::

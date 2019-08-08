@@ -133,12 +133,12 @@ We may make muse of:
 The following code is used to create an `Entity` which we will use to explore the class lenses.
 Take note of the evaluated `Entity` and its contents.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib._
 import spire.implicits.{eu => _, _}
 import spire.math._
 ```
-```tut:book:silent
+```scala mdoc:silent
 
 val interval = Interval(-5.12,5.12)^3
 
@@ -146,7 +146,7 @@ val particle = Position.createPosition(interval).map(p => Entity(Mem(p, p.zeroed
 
 val rng = RNG.init(12)
 ```
-```tut:book
+```scala mdoc
 particle.eval(rng)
 ```
 
@@ -156,10 +156,10 @@ particle.eval(rng)
 By importing CILib we are including the implicits that are defined `HasMemory`.
 This allows us to use it in a function were given an `Entity` we may retrieve its best `Position`.
 
-```tut:book:silent
+```scala mdoc:silent
 def foo[S](x: Entity[S,Double])(implicit mem: HasMemory[S,Double]) = mem._memory.get(x.state)
 ```
-```tut:book
+```scala mdoc
 particle.map(p => foo(p)).eval(rng)
 ```
 `_memory` is the `Lens` we are using.
@@ -169,10 +169,10 @@ particle.map(p => foo(p)).eval(rng)
 `HasVelocity` is works the exact same as `HasMemory`.
 The only difference is that it returns the velocity of an `Entity's` state.
 
-```tut:book:silent
+```scala mdoc:silent
 def foo[S](x: Entity[S,Double])(implicit mem: HasVelocity[S,Double]) = mem._velocity.get(x.state)
 ```
-```tut:book
+```scala mdoc
 particle.map(p => foo(p)).eval(rng)
 ```
 
@@ -222,7 +222,7 @@ _feasible: Prism[Fit,Double]
 
 Will provide a `Lens` that we may use to *zoom* in on the state of an `Entity`.
 
-```tut:book:invisible
+```scala mdoc:invisible
 import cilib.{Lenses, _}
 import spire.implicits.{eu => _, _}
 
@@ -230,12 +230,12 @@ import scalaz._
 import Scalaz._
 import spire.math._
 ```
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val interval = Interval(-5.12,5.12)^3
 val particle = Position.createPosition(interval).map(p => Entity(Mem(p, p.zeroed), p))
 ```
-```tut:book
+```scala mdoc
 val p = particle.eval(rng)
 Lenses._state.get(p)
 ```
@@ -244,7 +244,7 @@ Lenses._state.get(p)
 
 Will provide a `Lens` that we may use to *zoom* in on the position of an `Entity`.
 
-```tut:book
+```scala mdoc
 Lenses._position.get(p)
 ```
 
@@ -253,10 +253,10 @@ Lenses._position.get(p)
 Returns the actual position within a `Position` instance.
 As of now you have to declare the type being used in the lense.
 
-```tut:book:silent
+```scala mdoc:silent
 val x = cilib.Point[Int](NonEmptyList(2, 4), NonEmptyList(Interval(-5.12, 5.12)))
 ```
-```tut:book
+```scala mdoc
 Lenses._vector[Int].get(x)
 ```
 
@@ -268,13 +268,13 @@ Will provide a `Prism`.
 If the `Position` is a `Solution` is will be returned in `Some`.
 Else it's a `Point` and `None` will be returned.
 
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val interval = Interval(-5.12,5.12)^3
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
 val pos = Position.eval(e, Position.createPosition(interval).eval(rng)).eval(rng)
 ```
-```tut:book
+```scala mdoc
 val solution = Lenses._solutionPrism.getOption(pos).get
 ```
 
@@ -282,14 +282,14 @@ val solution = Lenses._solutionPrism.getOption(pos).get
 
 Provides a `Lens` that *zooms* in on the `Objective` of a `Solution`
 
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val interval = Interval(-5.12,5.12)^3
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
 val pos = Position.eval(e, Position.createPosition(interval).eval(rng)).eval(rng)
 val solution = Lenses._solutionPrism.getOption(pos).get
 ```
-```tut:book
+```scala mdoc
 val objective = Lenses._objectiveLens.get(solution)
 ```
 
@@ -299,7 +299,7 @@ Provides a `Prism`.
 If the `Object` is a `Single` is will be returned in `Some`.
 Else it's a `Multi` and `None` will be returned.
 
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val interval = Interval(-5.12,5.12)^3
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
@@ -307,7 +307,7 @@ val pos = Position.eval(e, Position.createPosition(interval).eval(rng)).eval(rng
 val solution = Lenses._solutionPrism.getOption(pos).get
 val objective = Lenses._objectiveLens.get(solution)
 ```
-```tut:book
+```scala mdoc
 val single = Lenses._singleObjective.getOption(objective).get
 ```
 
@@ -320,7 +320,7 @@ Works like `_singleObjective` but in favour of the `Multi` type.
 
 Provides a `Lens` that *zooms* in on the `Fit` of a `Objective`
 
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val interval = Interval(-5.12,5.12)^3
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
@@ -329,7 +329,7 @@ val solution = Lenses._solutionPrism.getOption(pos).get
 val objective = Lenses._objectiveLens.get(solution)
 val single = Lenses._singleObjective.getOption(objective).get
 ```
-```tut:book
+```scala mdoc
 val fit = Lenses._singleFit.get(single)
 ```
 
@@ -339,13 +339,13 @@ Will provide a `Prism`.
 If the `Position` is a `Solution` its fitness (`Fit`) will be returned in `Some`.
 Else it's a `Point` and `None` will be returned.
 
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val interval = Interval(-5.12,5.12)^3
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
 val pos = Position.eval(e, Position.createPosition(interval).eval(rng)).eval(rng)
 ```
-```tut:book
+```scala mdoc
 Lenses._singleFitness.getOption(pos)
 ```
 
@@ -355,7 +355,7 @@ Will provide a `Prism`.
 If the `Fit` is a `Feasible` its fitness will be returned in `Some`.
 Else it's a `Infeasible` and `None` will be returned.
 
-```tut:book:silent
+```scala mdoc:silent
 val rng = RNG.init(12)
 val interval = Interval(-5.12,5.12)^3
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml).eval
@@ -365,7 +365,7 @@ val objective = Lenses._objectiveLens.get(solution)
 val single = Lenses._singleObjective.getOption(objective).get
 val fit = Lenses._singleFit.get(single)
 ```
-```tut:book
+```scala mdoc
 Lenses._feasible.getOption(fit)
 ```
 

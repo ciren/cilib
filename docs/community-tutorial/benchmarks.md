@@ -15,7 +15,7 @@ added to your sbt.build.
 The following snippets of code will demonstrate how to include
 benchmarks in your program as an example use.
 
-```tut:book:silent
+```scala mdoc:silent
 import cilib._
 import cilib.benchmarks._ // Import for benchmarks
 import scalaz._
