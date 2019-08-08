@@ -55,18 +55,6 @@ lazy val commonSettings = Seq(
     "-Ywarn-nullary-unit",               // Warn when nullary methods return Unit.
     "-Ywarn-numeric-widen",              // Warn when numerics are widened.
     "-Ywarn-value-discard"               // Warn when non-Unit expression results are unused.
-  ) ++ (
-    if (scalaVersion.value.startsWith("2.11")) Seq()
-    else Seq(
-      "-Xlint:constant",                   // Evaluation of a constant arithmetic expression results in an error.
-      "-Ywarn-extra-implicit",             // Warn when more than one implicit parameter section is defined.
-      "-Ywarn-unused:implicits",           // Warn if an implicit parameter is unused.
-      "-Ywarn-unused:imports",             // Warn if an import selector is not referenced.
-      "-Ywarn-unused:locals",              // Warn if a local definition is unused.
-      "-Ywarn-unused:params",              // Warn if a value parameter is unused.
-      "-Ywarn-unused:patvars",             // Warn if a variable bound in a pattern is unused.
-      "-Ywarn-unused:privates",            // Warn if a private member is unused.
-    )
   ),
   scalacOptions in (Compile, console) ~= (_.filterNot(Set(
     "-Ywarn-unused:imports",
@@ -77,7 +65,8 @@ lazy val commonSettings = Seq(
     "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
-    compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.7" cross CrossVersion.binary)
+    compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3" cross CrossVersion.binary),
+    compilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "scm:git:git@github.com:cirg-up/cilib.git")),
@@ -166,7 +155,7 @@ lazy val cilib = project
     MdocPlugin,
     DocusaurusPlugin,
     ScalaUnidocPlugin)
-  .settings(credentialSettings ++ noPublishSettings ++ Seq(
+  .settings(commonSettings ++ credentialSettings ++ noPublishSettings ++ Seq(
     mdocVariables := Map(
       "CILIB_VERSION" -> "2.0"
     ),
@@ -179,8 +168,8 @@ lazy val cilib = project
       releaseStepCommand("sonatypeReleaseAll")
     )
   ))
-  .aggregate(core, de, /*docs,*/ eda, example, exec, ga, moo, pso, tests)
-  .dependsOn(core, de, /*docs,*/ eda, example, exec, ga, moo, pso, tests)
+  .aggregate(core, de, eda, example, exec, ga, moo, pso, tests)
+  .dependsOn(core, de, eda, example, exec, ga, moo, pso, tests)
 
 
 lazy val core = project
