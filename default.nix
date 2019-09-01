@@ -15,6 +15,9 @@ let
     openjdk11
     sbt
     nodejs-11_x  # Needed for the website and documentation
+    #node2nix
+    #yarn
+    #yarn2nix
   ];
 
 in
