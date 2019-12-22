@@ -1,6 +1,6 @@
 # CIlib - Computational Intelligence Library
 
-![](https://github.com/ciren/cilib/workflows/Continuous%20integration%20workflow/badge.svg)
+![](https://github.com/ciren/cilib/workflows/build/badge.svg)
 [![Join the chat at https://gitter.im/cirg-up/cilib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cirg-up/cilib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Maven Central](https://img.shields.io/maven-central/v/net.cilib/cilib-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/net.cilib/cilib-core_2.12)
 [![Javadocs](https://javadoc.io/badge/net.cilib/cilib-core_2.12.svg)](https://javadoc.io/doc/net.cilib/cilib-core_2.12)
