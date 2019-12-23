@@ -10,7 +10,7 @@ addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.2")
 
 //addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.2")
 
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "1.3.1")
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.0.3")
 
 addSbtPlugin("io.get-coursier" % "sbt-coursier" % "2.0.0-RC2-1")
 

@@ -45,7 +45,9 @@ by comparing it with 12, our second parameter.
 All we have to do is supply a function that will that takes a `NonEmptyList` and produces a result.
 
 <div class="callout callout-info">
+
 `ConstraintFunctions` are used to produce a result that we may use to compare with in our constraint.
+
 </div>
 
 ```scala mdoc:silent
@@ -70,7 +72,9 @@ Hold on to this because we are going to put it into action in the next section.
 ## Constraint Companion Object
 
 <div class="callout callout-info">
+
 The `Constraint` object allows us to use our defined constraints against `NonEmptyLists`.
+
 </div>
 
 Through the object we are able to make use og the following methods
@@ -135,16 +139,19 @@ Constraint.violationMagnitude(0.1, 0.9, List(sumLessThanCons, firstNumberCons), 
 Define a `Constraint` to ensure that the head of a list is between 5 and 10.
 
 <div class="solution">
+
 ```scala mdoc:invisible
 import cilib._
 import scalaz._
 import Scalaz._
 import spire.implicits._
 ```
+
 ```scala mdoc:silent
 import spire.math.Interval
 InInterval(ConstraintFunction((l: NonEmptyList[Double]) => l.head), Interval(5, 10))
 ```
+
 </div>
 
 ### Question 2
@@ -154,6 +161,7 @@ whether the list meets the constraint you defined in the previous question.
 You need to check each element in the list.
 
 <div class="solution">
+
 ```scala mdoc:silent
 val cons = InInterval(ConstraintFunction((l: NonEmptyList[Double]) => l.head), Interval(5, 10))
 def checkList(l: List[Double]): Boolean = {
@@ -165,6 +173,7 @@ def checkList(l: List[Double]): Boolean = {
     }
 }
 ```
+
 </div>
 
 ## Summary
@@ -173,10 +182,12 @@ We now know how to implement constraints on our lists.
 In the next chapter we will see how `Constraints` are used further in CILib.
 
 <div class="callout callout-info">
+
 All `Constraint` classes make use of two parameters
 
 - The constraint function that will compute a result
 - An expected or appropriate value to compare against the result
 
 This defines a constraint context that can used on `NonEmptyLists` through the companion object.
+
 </div>

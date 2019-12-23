@@ -13,7 +13,7 @@ local.*
 *.csv
 *.sc
 
-# Documentation eebsite related excludes
+# Documentation website related excludes
 out/
 node_modules
 build

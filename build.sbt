@@ -159,6 +159,7 @@ lazy val cilib = project
     mdocVariables := Map(
       "CILIB_VERSION" -> "2.0"
     ),
+    mdocOut := new java.io.File("./website/docs/mdoc"),
     //git.useGitDescribe := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,

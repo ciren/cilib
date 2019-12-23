@@ -233,10 +233,12 @@ empty list.
 ```scala :silent
 type Ind = Individual[Unit]
 ```
+
 ```scala
 val randomSelection: NonEmptyList[Ind] => RVar[List[Ind]] =
     (l: NonEmptyList[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty[Ind]))
 ```
+
 </div>
 
 ### Selection Method
@@ -256,6 +258,7 @@ empty list.
 val randomSelection: NonEmptyList[Ind] => RVar[List[Ind]] =
     (l: NonEmptyList[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty[Ind]))
 ```
+
 </div>
 
 ### Crossover Method
@@ -268,6 +271,7 @@ two new `Individuals` from a one point cross over. Else we should
 output an error.
 
 <div class="solution">
+
 ```scala
 def onePoint(xs: List[Ind]): RVar[List[Ind]] =
     xs match {
@@ -280,6 +284,7 @@ def onePoint(xs: List[Ind]): RVar[List[Ind]] =
         case _ => sys.error("Incorrect number of parents")
     }
 ```
+
 </div>
 
 ### Mutation Method
@@ -297,6 +302,7 @@ it's return type. Also some helpful hints are to think about using
 sequencing through points ot a list.
 
 <div class="solution">
+
 ```scala
 def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] =
     xs.traverse(x => {
@@ -307,6 +313,7 @@ def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] =
         ))(x)
     })
 ```
+
 </div>
 
 ### My GA
