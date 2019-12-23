@@ -1,5 +1,5 @@
 ---
-id: tut-getting-started
+id: setting-up
 title: Getting started
 ---
 

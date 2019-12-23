@@ -11,10 +11,9 @@ Scala is a language for the JVM that allows for the expression and usage of more
 The type system of Scala is more advanced than the type systems available in Java/Kotlin/Clojure etc.
 [Essential Scala](1) and [Advanced Scala With Cats](2) are freely available, online Scala resources.
 
-:::note Compiler verified code samples
-Throughout the tutorial you will see a lot of theory along side practical examples represented through blocks of code.
-These blocks of code are verified during the documentation processing and will always be up to date with the referenced version of CIlib.
-:::
+> ##### Compiler verified code samples
+> Throughout the tutorial you will see a lot of theory along side practical examples represented through blocks of code.
+> These blocks of code are verified during the documentation processing and will always be up to date with the referenced version of CIlib.
 
 Within this tutorial we will be covering four major sections:
 
