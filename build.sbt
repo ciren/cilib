@@ -75,9 +75,9 @@ lazy val commonSettings = Seq(
     |import Scalaz._
     |import cilib._
     |import spire.implicits._
-    |""".stripMargin,
+    |""".stripMargin
   // MiMa related
-  previousArtifactVersion := { // Can this be done nicer/safer?
+  /*previousArtifactVersion := { // Can this be done nicer/safer?
     import org.eclipse.jgit._
     import org.eclipse.jgit.api._
     import org.eclipse.jgit.lib.Constants
@@ -96,7 +96,7 @@ lazy val commonSettings = Seq(
 
     name.getOrElse("NO_TAG").replace("refs/tags/v", "")
   },
-  mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)
+  mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)*/
 )
 
 lazy val noPublishSettings = Seq(
@@ -150,7 +150,7 @@ lazy val cilibSettings =
 lazy val cilib = project
   .in(file("."))
   .enablePlugins(
-    GitVersioning,
+    //GitVersioning,
     ReleasePlugin,
     MdocPlugin,
     DocusaurusPlugin,
@@ -159,7 +159,7 @@ lazy val cilib = project
     mdocVariables := Map(
       "CILIB_VERSION" -> "2.0"
     ),
-    git.useGitDescribe := true,
+    //git.useGitDescribe := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
 //      runClean,
