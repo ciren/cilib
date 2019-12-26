@@ -10,8 +10,6 @@ val scalacheckVersion = "1.14.0"
 val avro4sVersion = "1.8.3"
 
 //val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
-//val siteStageDirectory = SettingKey[File]("site-stage-directory")
-//val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
 
 lazy val websiteWatch = taskKey[Unit]("Watch website files and reload")
 lazy val buildWebsite = taskKey[Unit]("Build website")
