@@ -13,7 +13,6 @@ val avro4sVersion = "1.8.3"
 //val siteStageDirectory = SettingKey[File]("site-stage-directory")
 //val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
 
-lazy val startYarn = taskKey[scala.sys.process.Process]("asds")
 lazy val websiteWatch = taskKey[Unit]("Watch websoite files")
 
 lazy val commonSettings = Seq(
@@ -155,7 +154,6 @@ lazy val cilib = project
   .enablePlugins(
     //GitVersioning,
     ReleasePlugin,
-    DocusaurusPlugin,
     ScalaUnidocPlugin)
   .settings(commonSettings ++ credentialSettings ++ noPublishSettings ++ Seq(
     //git.useGitDescribe := true,
@@ -222,27 +220,42 @@ lazy val core = project
       )
     ))
 
+val mdocVariableMap =
+  Map(
+    "CILIB_VERSION" -> "2.0"
+  )
+val mdocInFile = new java.io.File("docs")
+val mdocOutFile = new java.io.File("website/docs/mdoc")
+val mdocArgs = List("--include", "**/*.md", "--no-livereload")
+
 lazy val docs = project
   .in(file("docs"))
   .enablePlugins(MdocPlugin)
   .settings(
     moduleName := "cilib-docs",
     connectInput in run := true,
-    mdocIn := new java.io.File("docs"),
-    mdocOut := new java.io.File("website/docs/mdoc"),
-    mdocExtraArguments := Seq("--include", "**/*.md", "--watch", "--no-livereload"),
-    mdocVariables := Map(
-      "CILIB_VERSION" -> "2.0"
-    ),
-    startYarn := {
+    mdocIn := mdocInFile,
+    mdocOut := mdocOutFile,
+    mdocExtraArguments := mdocArgs,
+    mdocVariables := mdocVariableMap,
+    websiteWatch := {
       import scala.sys.process._
-      Process(Seq("yarn", "start"), new java.io.File("website")).run
-    },
-    websiteWatch := (Def.taskDyn {
-      val pid = startYarn.value
 
-      (mdoc in Compile).toTask("") andFinally { pid.destroy() }
-    }).value
+      val yarnProcess = Process(Seq("yarn", "start"), new java.io.File("website")).run
+      val classpath = (Compile / dependencyClasspath).value
+
+      // build arguments for mdoc
+      val settings = _root_.mdoc.MainSettings()
+        .withSiteVariables(mdocVariableMap)
+        .withArgs(mdocArgs :+ "--watch")
+        .withIn(mdocInFile.asPath)
+        .withOut(mdocOutFile.asPath)
+        .withClasspath(classpath.map(_.data).mkString(":"))
+      // generate out/readme.md from working directory
+      val exitCode = _root_.mdoc.Main.process(settings)
+
+      yarnProcess.destroy()
+    }
   )
   .settings(cilibSettings)
   .settings(noPublishSettings)
