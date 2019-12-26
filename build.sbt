@@ -152,14 +152,9 @@ lazy val cilib = project
   .enablePlugins(
     //GitVersioning,
     ReleasePlugin,
-    MdocPlugin,
     DocusaurusPlugin,
     ScalaUnidocPlugin)
   .settings(commonSettings ++ credentialSettings ++ noPublishSettings ++ Seq(
-    mdocVariables := Map(
-      "CILIB_VERSION" -> "2.0"
-    ),
-    mdocOut := new java.io.File("./website/docs/mdoc"),
     //git.useGitDescribe := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -169,8 +164,8 @@ lazy val cilib = project
       releaseStepCommand("sonatypeReleaseAll")
     )
   ))
-  .aggregate(core, de, eda, example, exec, ga, moo, pso, tests)
-  .dependsOn(core, de, eda, example, exec, ga, moo, pso, tests)
+  .aggregate(core, de, docs, eda, example, exec, ga, moo, pso, tests)
+  .dependsOn(core, de, docs, eda, example, exec, ga, moo, pso, tests)
 
 
 lazy val core = project
@@ -224,20 +219,22 @@ lazy val core = project
       )
     ))
 
-// lazy val docs = project
-//   .in(file("."))
-//   .settings(
-//     moduleName := "cilib-docs",
+lazy val docs = project
+  .in(file("docs"))
+  .enablePlugins(MdocPlugin)
+  .settings(
+    moduleName := "cilib-docs",
+    mdocVariables := Map(
+      "CILIB_VERSION" -> "2.0"
+    ),
+    mdocIn := new java.io.File("docs"),
+    mdocOut := new java.io.File("website/docs/mdoc"),
+    mdocExtraArguments := Seq("--include", "**/*.md")
+  )
+  .settings(cilibSettings)
+  .settings(noPublishSettings)
+  .dependsOn(core, example, exec, pso, moo, ga)
 
-//   )
-//   .settings(cilibSettings)
-//   .settings(noPublishSettings)
-//   .settings(docSettings)
-//   .dependsOn(core, example, exec, pso, moo, ga)
-
-
-// lazy val docSettings = Seq(
-// )
 
 lazy val credentialSettings = Seq(
   credentials ++= (for {
