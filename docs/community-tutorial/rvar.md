@@ -3,18 +3,20 @@ id: rvar
 title: RVar
 ---
 
-`RVar` (random value) is the backbone of CILib.
-Being a monad instance it allows for a large amount of composition, but more importantly it allows for the tracking of randomness within the `RVar` computation.
-This tracking is of the utmost importance within computational intelligence algorithms, as randomness needs to be controlled in a manner that facilitates repetition.
-In other words, even if a computation uses randomness, given the same inputs, the same results are expected.
+`RVar` (random value) is the backbone data structure of CILib.
+The monad instance for `RVar` allows for composition, but more importantly enables tracking the effect of applying randomness to the computed value (which the `RVar` represents).
+Tracking the effect of randomness is very important, particularly within Computational Intelligence algorithms, in order to allow for the duplication of computational process.
+In other words, even if a computation uses randomness, given the same inputs, the same output will be obtained.
+This `purity` allows allows a stochastic process (one which involves randomness) to be represented as a purely deterministic computation.
 
-<div class="callout callout-info">
-An instance of `RVar` represents a computation that, when executed, results in a value with randomness applied.
-</div>
-
-Let's first try to understand what **RVar** is and then we can use it in practical examples.
+> ##### RVar
+>
+> An instance of `RVar` represents a computation that, when executed, results in a value with randomness applied.
 
 ## The Basics of RVar
+
+FIXME: Stopped editing here -> continue from here
+
 
 Let’s get to know RVar by going over an example.
 In general, we can say that there are three parts to using RVar:

@@ -3,28 +3,6 @@ id: introduction
 title: Introduction
 ---
 
-## About this tutorial
-
-This tutorial is aimed at walking you through the different components of CILib (Computational Intelligence Library).
-CILib is written in Scala and familiarity with the language is highly recommended.
-Scala is a language for the JVM that allows for the expression and usage of more advanced type system capabilities.
-The type system of Scala is more advanced than the type systems available in Java/Kotlin/Clojure etc.
-[Essential Scala](1) and [Advanced Scala With Cats](2) are freely available, online Scala resources.
-
-> ##### Compiler verified code samples
-> Throughout the tutorial you will see a lot of theory along side practical examples represented through blocks of code.
-> These blocks of code are verified during the documentation processing and will always be up to date with the referenced version of CIlib.
-
-Within this tutorial we will be covering four major sections:
-
-- Setting up CILib
-- Learning the core components
-- Learning about algorithm implementations
-- Working through some examples
-
-As we cover each section you will begin to learn how components work and where to use them.
-After all this, you will be more than ready to start implementing your work using CILib.
-
 ## What is CILib?
 
 CILib is software library which aids in the experimentation and research of Computational Intelligence algorithms.
