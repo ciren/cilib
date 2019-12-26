@@ -9,9 +9,12 @@ val monocleVersion    = "1.5.0"
 val scalacheckVersion = "1.14.0"
 val avro4sVersion = "1.8.3"
 
-val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
-val siteStageDirectory = SettingKey[File]("site-stage-directory")
-val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
+//val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
+//val siteStageDirectory = SettingKey[File]("site-stage-directory")
+//val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
+
+lazy val startYarn = taskKey[scala.sys.process.Process]("asds")
+lazy val websiteWatch = taskKey[Unit]("Watch websoite files")
 
 lazy val commonSettings = Seq(
   organization := "net.cilib",
@@ -181,7 +184,7 @@ lazy val core = project
         "eu.timepit" %% "refined" % "0.9.2"
       ),
       wartremoverErrors in (Compile, compile) ++= Seq(
-//        Wart.Any,
+        //Wart.Any,
         Wart.AnyVal,
         Wart.ArrayEquals,
         Wart.AsInstanceOf,
@@ -199,7 +202,7 @@ lazy val core = project
         Wart.LeakingSealed,
         Wart.MutableDataStructures,
         Wart.NonUnitStatements,
-//        Wart.Nothing,
+        //Wart.Nothing,
         Wart.Null,
         Wart.Option2Iterable,
         Wart.OptionPartial,
@@ -207,7 +210,7 @@ lazy val core = project
         Wart.Product,
         Wart.PublicInference,
         Wart.Return,
-//        Wart.Recursion,
+        //Wart.Recursion,
         Wart.Serializable,
         Wart.StringPlusAny,
         Wart.Throw,
@@ -224,12 +227,22 @@ lazy val docs = project
   .enablePlugins(MdocPlugin)
   .settings(
     moduleName := "cilib-docs",
+    connectInput in run := true,
+    mdocIn := new java.io.File("docs"),
+    mdocOut := new java.io.File("website/docs/mdoc"),
+    mdocExtraArguments := Seq("--include", "**/*.md", "--watch", "--no-livereload"),
     mdocVariables := Map(
       "CILIB_VERSION" -> "2.0"
     ),
-    mdocIn := new java.io.File("docs"),
-    mdocOut := new java.io.File("website/docs/mdoc"),
-    mdocExtraArguments := Seq("--include", "**/*.md")
+    startYarn := {
+      import scala.sys.process._
+      Process(Seq("yarn", "start"), new java.io.File("website")).run
+    },
+    websiteWatch := (Def.taskDyn {
+      val pid = startYarn.value
+
+      (mdoc in Compile).toTask("") andFinally { pid.destroy() }
+    }).value
   )
   .settings(cilibSettings)
   .settings(noPublishSettings)
