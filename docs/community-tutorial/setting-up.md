@@ -39,3 +39,14 @@ The benefits obtained using this style far outweigh any overhead, and is therefo
 > ##### Compiler verified code samples
 > Throughout the tutorial you will see a lot of theory along side practical examples represented through blocks of code.
 > These blocks of code are verified during the documentation processing and will always be up to date with the referenced version of CIlib.
+
+
+## Some knowledge requirements
+
+The code samples that follow will be referencing various functional programmming abstractions.
+Firstly, let's just just state outright that these concepts are not scary, contrary the general misinformation that exists within the programming world.
+We'll be using structures (such as Functor, Applicative and Monad) which allow us to be very expressive by clearly restricting what we can and cannot do with a given structure.
+Furthermore, these structures also predefine behaviour that is very useful and enables better composition.
+
+We won't be focusing on this too much and it's not really all that important to use CIlib.
+If you do, however, struggle with to follow the examples, please feel free to contact the developers online in order to aid you in understanding and to provide some references to resources that are helpful.

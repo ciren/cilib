@@ -24,6 +24,18 @@
   --ifm-code-font-size: 95%;
   --ifm-blockquote-color: #ecf4f9;
   --ifm-blockquote-color-dark: #cbddea;
+
+  --ifm-code-padding-vertical: 0.1rem;
+  --ifm-code-padding-horizontal: 0.2rem;
+}
+
+code {
+  background-color: var(--ifm-color-emphasis-300);
+  border-radius: 0.2rem;
+}
+
+a code {
+  color: inherit;
 }
 
 .docusaurus-highlight-code-line {
