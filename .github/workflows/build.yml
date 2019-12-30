@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 1
       - uses: cachix/install-nix-action@v6
-      - run: nix-shell --run 'sbt test docs/mdoc'
+      - run: nix-shell --run 'sbt test && sbt docs/mdoc'
 
   ghpages-deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 1
       - uses: cachix/install-nix-action@v6
-      - run: sbt docs/buildWebsite
+      - run: nix-shell --run 'sbt docs/buildWebsite'
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v2
