@@ -225,18 +225,13 @@ val mdocVariableMap =
   )
 val mdocInFile = new java.io.File("docs")
 val mdocOutFile = new java.io.File("website/docs")
-val mdocArgs = List("--include", "**/*.md", "--no-livereload")
+val mdocArgs = List("--no-livereload")
 
 lazy val docs = project
   .in(file("docs"))
-  .enablePlugins(MdocPlugin)
   .settings(
     moduleName := "cilib-docs",
     connectInput in run := true,
-    mdocIn := mdocInFile,
-    mdocOut := mdocOutFile,
-    mdocExtraArguments := mdocArgs,
-    mdocVariables := mdocVariableMap,
     buildWebsite := {
       import scala.sys.process._
 
@@ -247,7 +242,6 @@ lazy val docs = project
       val settings = _root_.mdoc.MainSettings()
         .withSiteVariables(mdocVariableMap)
         .withArgs(mdocArgs)
-        .withIn(mdocInFile.asPath)
         .withOut(mdocOutFile.asPath)
         .withClasspath(classpath.map(_.data).mkString(":"))
 
@@ -267,10 +261,10 @@ lazy val docs = project
       val settings = _root_.mdoc.MainSettings()
         .withSiteVariables(mdocVariableMap)
         .withArgs(mdocArgs :+ "--watch")
-        .withIn(mdocInFile.asPath)
         .withOut(mdocOutFile.asPath)
         .withClasspath(classpath.map(_.data).mkString(":"))
-      // generate out/readme.md from working directory
+
+      // process the mdoc files to the correct location
       val exitCode = _root_.mdoc.Main.process(settings)
 
       yarnProcess.destroy()
