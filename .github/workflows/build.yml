@@ -1,4 +1,5 @@
-name: build
+name: CI
+
 on:
   pull_request:
   push:
@@ -7,27 +8,23 @@ on:
 
 jobs:
   build:
-    name: Build and test
+    name: Build, test and publish gh-pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
+
       - uses: cachix/install-nix-action@v6
+
       - run: nix-shell --run 'sbt test && sbt docs/mdoc'
 
-  ghpages-deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@1
-        with:
-          fetch-depth: 1
-      - uses: cachix/install-nix-action@v6
-      - run: nix-shell --run 'sbt docs/buildWebsite'
+      - name: Build website
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: nix-shell --run 'sbt docs/buildWebsite'
 
-      - name: Deploy to gh-pages
+      - name: Publish gh-pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
