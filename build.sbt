@@ -9,8 +9,12 @@ val monocleVersion    = "1.5.0"
 val scalacheckVersion = "1.14.0"
 val avro4sVersion = "1.8.3"
 
+// Library requreid for the SBT build itself
+libraryDependencies += "org.scalameta" %% "mdoc" % "2.1.0"
+
 //val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
 
+lazy val mdoc = taskKey[Unit]("Process the mdoc files")
 lazy val websiteWatch = taskKey[Unit]("Watch website files and reload")
 lazy val buildWebsite = taskKey[Unit]("Build website")
 
@@ -225,16 +229,28 @@ val mdocVariableMap =
   )
 val mdocInFile = new java.io.File("docs")
 val mdocOutFile = new java.io.File("website/docs")
-val mdocArgs = List("--no-livereload")
+val mdocArgs = List("--no-livereload", "--exclude", "target")
 
 lazy val docs = project
   .in(file("docs"))
-  .enablePlugins(MdocPlugin)
   .settings(
     moduleName := "cilib-docs",
     connectInput in run := true,
-    mdocExtraArguments := mdocArgs,
-    mdocVariables := mdocVariableMap,
+    mdoc := {
+      val classpath = (Compile / dependencyClasspath).value
+
+      // build arguments for mdoc
+      val settings = _root_.mdoc.MainSettings()
+        .withSiteVariables(mdocVariableMap)
+        .withArgs(mdocArgs)
+        .withOut(new java.io.File("target/mdoc").asPath)
+        .withClasspath(classpath.map(_.data).mkString(":"))
+
+      // process the mdoc files to the correct location
+      val exitCode = _root_.mdoc.Main.process(settings)
+
+      if (exitCode != 0) sys.exit(exitCode)
+    },
     buildWebsite := {
       import scala.sys.process._
 
@@ -268,7 +284,7 @@ lazy val docs = project
         .withClasspath(classpath.map(_.data).mkString(":"))
 
       // process the mdoc files to the correct location
-      val exitCode = _root_.mdoc.Main.process(settings)
+      _root_.mdoc.Main.process(settings)
 
       yarnProcess.destroy()
     }
