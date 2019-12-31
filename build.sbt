@@ -224,7 +224,7 @@ val mdocVariableMap =
     "CILIB_VERSION" -> "2.0"
   )
 val mdocInFile = new java.io.File("docs")
-val mdocOutFile = new java.io.File("website/docs/mdoc")
+val mdocOutFile = new java.io.File("website/docs")
 val mdocArgs = List("--include", "**/*.md", "--no-livereload")
 
 lazy val docs = project

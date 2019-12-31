@@ -22,7 +22,7 @@ As a consequence of this, and other aspects, CILib makes an active effort to add
 - **Correctness**: All algorithmic components should be correct and operate as intened, doing nothing more.
   Peer-review is hugely valuable, providing confidence that the implementations are correct and sound.
 - **Type safety**: The use of types is a fantastic way to ensure that a program cannot represent invalid states.
-  This removes a huge set of potential errors and ensures greater confidence, as the compiler is always double-checking the code.
+  This removes a huge set of potential errors and ensures greater confidence, as the compiler is always double-checking the code.q
 - **Reproducibility**: The abiltity to reproduce the work of another researcher is a fundamental part of the scientific method.
   With effects such as randomness applied to algorithms, reproducing results becomes much, much more difficult.
   It is, therefore, required that CILib be able to provide the perfect replication of experimental work.
@@ -38,5 +38,5 @@ If you have any feedback or questions, please come and chat to us in the project
 [1]: https://underscore.io/training/courses/essential-scala/
 [2]: https://underscore.io/training/courses/advanced-scala/
 [3]: https://underscore.io/
-[4]: https://gitter.im/cirg-up/cilib
-[5]: https://github.com/cirg-up/cilib/issues/new/choose
+[4]: https://gitter.im/ciren/cilib
+[5]: https://github.com/ciren/cilib/issues/new/choose

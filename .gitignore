@@ -18,3 +18,4 @@ out/
 node_modules
 build
 i18n
+/website/docs
