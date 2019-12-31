@@ -229,9 +229,12 @@ val mdocArgs = List("--no-livereload")
 
 lazy val docs = project
   .in(file("docs"))
+  .enablePlugins(MdocPlugin)
   .settings(
     moduleName := "cilib-docs",
     connectInput in run := true,
+    mdocExtraArguments := mdocArgs,
+    mdocVariables := mdocVariableMap,
     buildWebsite := {
       import scala.sys.process._
 
