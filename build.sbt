@@ -241,8 +241,20 @@ lazy val docs = project
       import scala.sys.process._
 
       // Generate the mdoc sources
-      mdoc.toTask("").value
+      val classpath = (Compile / dependencyClasspath).value
 
+      // build arguments for mdoc
+      val settings = _root_.mdoc.MainSettings()
+        .withSiteVariables(mdocVariableMap)
+        .withArgs(mdocArgs)
+        .withIn(mdocInFile.asPath)
+        .withOut(mdocOutFile.asPath)
+        .withClasspath(classpath.map(_.data).mkString(":"))
+
+      // process the mdoc files to the correct location
+      _root_.mdoc.Main.process(settings)
+
+      Process(Seq("yarn", "install"), new java.io.File("website")).!
       Process(Seq("yarn", "build"), new java.io.File("website")).!
     },
     websiteWatch := {
