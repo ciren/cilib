@@ -21,7 +21,7 @@ module.exports = {
       //   src: 'img/logo.svg',
       // },
       links: [
-        {to: 'docs/doc1', label: 'Docs', position: 'right'},
+        {to: 'docs/introduction', label: 'Docs', position: 'right'},
         {to: 'blog', label: 'Blog', position: 'right'},
         {
           href: 'https://github.com/ciren/cilib',

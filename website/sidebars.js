@@ -9,7 +9,6 @@ module.exports = {
     docs: {
         //Docusaurus: ['doc1', 'doc2', 'doc3'],
         Tutorial: [
-            'mdoc/community-tutorial/introduction',
             'mdoc/community-tutorial/setting-up',
             'mdoc/community-tutorial/rvar',
             // 'mdoc/community-tutorial/constraint',
