@@ -9,13 +9,15 @@ val monocleVersion    = "1.5.0"
 val scalacheckVersion = "1.14.0"
 val avro4sVersion = "1.8.3"
 
-val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
-val siteStageDirectory = SettingKey[File]("site-stage-directory")
-val copySiteToStage = TaskKey[Unit]("copy-site-to-stage")
+//val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
+
+lazy val websiteWatch = taskKey[Unit]("Watch website files and reload")
+lazy val buildWebsite = taskKey[Unit]("Build website")
 
 lazy val commonSettings = Seq(
   organization := "net.cilib",
   autoAPIMappings := true,
+  scalaVersion := "2.12.8",
   scalacOptions ++= Seq(
     "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
     "-encoding", "utf-8",                // Specify character encoding used by source files.
@@ -54,18 +56,6 @@ lazy val commonSettings = Seq(
     "-Ywarn-nullary-unit",               // Warn when nullary methods return Unit.
     "-Ywarn-numeric-widen",              // Warn when numerics are widened.
     "-Ywarn-value-discard"               // Warn when non-Unit expression results are unused.
-  ) ++ (
-    if (scalaVersion.value.startsWith("2.11")) Seq()
-    else Seq(
-      "-Xlint:constant",                   // Evaluation of a constant arithmetic expression results in an error.
-      "-Ywarn-extra-implicit",             // Warn when more than one implicit parameter section is defined.
-      "-Ywarn-unused:implicits",           // Warn if an implicit parameter is unused.
-      "-Ywarn-unused:imports",             // Warn if an import selector is not referenced.
-      "-Ywarn-unused:locals",              // Warn if a local definition is unused.
-      "-Ywarn-unused:params",              // Warn if a value parameter is unused.
-      "-Ywarn-unused:patvars",             // Warn if a variable bound in a pattern is unused.
-      "-Ywarn-unused:privates",            // Warn if a private member is unused.
-    )
   ),
   scalacOptions in (Compile, console) ~= (_.filterNot(Set(
     "-Ywarn-unused:imports",
@@ -76,7 +66,8 @@ lazy val commonSettings = Seq(
     "bintray/non" at "http://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
-    compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.7" cross CrossVersion.binary)
+    compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3" cross CrossVersion.binary),
+    compilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/cirg-up/cilib"),
     "scm:git:git@github.com:cirg-up/cilib.git")),
@@ -85,9 +76,9 @@ lazy val commonSettings = Seq(
     |import Scalaz._
     |import cilib._
     |import spire.implicits._
-    |""".stripMargin,
+    |""".stripMargin
   // MiMa related
-  previousArtifactVersion := { // Can this be done nicer/safer?
+  /*previousArtifactVersion := { // Can this be done nicer/safer?
     import org.eclipse.jgit._
     import org.eclipse.jgit.api._
     import org.eclipse.jgit.lib.Constants
@@ -103,10 +94,10 @@ lazy val commonSettings = Seq(
         if (last.getObjectId.getName == current.getName) tags.lift(tags.size - 2).map(_.getName)
         else Some(last.getName)
       })
-    
+
     name.getOrElse("NO_TAG").replace("refs/tags/v", "")
   },
-  mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)
+  mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)*/
 )
 
 lazy val noPublishSettings = Seq(
@@ -159,9 +150,12 @@ lazy val cilibSettings =
 
 lazy val cilib = project
   .in(file("."))
-  .enablePlugins(GitVersioning, ReleasePlugin)
-  .settings(credentialSettings ++ noPublishSettings ++ Seq(
-    git.useGitDescribe := true,
+  .enablePlugins(
+    //GitVersioning,
+    ReleasePlugin,
+    ScalaUnidocPlugin)
+  .settings(commonSettings ++ credentialSettings ++ noPublishSettings ++ Seq(
+    //git.useGitDescribe := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
 //      runClean,
@@ -172,6 +166,7 @@ lazy val cilib = project
   ))
   .aggregate(core, de, docs, eda, example, exec, ga, moo, pso, tests)
   .dependsOn(core, de, docs, eda, example, exec, ga, moo, pso, tests)
+
 
 lazy val core = project
   .settings(
@@ -186,7 +181,7 @@ lazy val core = project
         "eu.timepit" %% "refined" % "0.9.2"
       ),
       wartremoverErrors in (Compile, compile) ++= Seq(
-//        Wart.Any,
+        //Wart.Any,
         Wart.AnyVal,
         Wart.ArrayEquals,
         Wart.AsInstanceOf,
@@ -204,7 +199,7 @@ lazy val core = project
         Wart.LeakingSealed,
         Wart.MutableDataStructures,
         Wart.NonUnitStatements,
-//        Wart.Nothing,
+        //Wart.Nothing,
         Wart.Null,
         Wart.Option2Iterable,
         Wart.OptionPartial,
@@ -212,7 +207,7 @@ lazy val core = project
         Wart.Product,
         Wart.PublicInference,
         Wart.Return,
-//        Wart.Recursion,
+        //Wart.Recursion,
         Wart.Serializable,
         Wart.StringPlusAny,
         Wart.Throw,
@@ -224,61 +219,55 @@ lazy val core = project
       )
     ))
 
+val mdocVariableMap =
+  Map(
+    "CILIB_VERSION" -> "2.0"
+  )
+val mdocInFile = new java.io.File("docs")
+val mdocOutFile = new java.io.File("website/docs/mdoc")
+val mdocArgs = List("--include", "**/*.md", "--no-livereload")
+
 lazy val docs = project
   .in(file("docs"))
-  .enablePlugins(GhpagesPlugin,
-                 TutPlugin,
-                 ParadoxSitePlugin,
-                 ParadoxMaterialThemePlugin,
-                 ScalaUnidocPlugin)
-  .settings(ParadoxMaterialThemePlugin.paradoxMaterialThemeSettings(Paradox))
-  .settings(moduleName := "cilib-docs")
+  .enablePlugins(MdocPlugin)
+  .settings(
+    moduleName := "cilib-docs",
+    connectInput in run := true,
+    mdocIn := mdocInFile,
+    mdocOut := mdocOutFile,
+    mdocExtraArguments := mdocArgs,
+    mdocVariables := mdocVariableMap,
+    buildWebsite := {
+      import scala.sys.process._
+
+      // Generate the mdoc sources
+      mdoc.toTask("").value
+
+      Process(Seq("yarn", "build"), new java.io.File("website")).!
+    },
+    websiteWatch := {
+      import scala.sys.process._
+
+      val yarnProcess = Process(Seq("yarn", "start"), new java.io.File("website")).run
+      val classpath = (Compile / dependencyClasspath).value
+
+      // build arguments for mdoc
+      val settings = _root_.mdoc.MainSettings()
+        .withSiteVariables(mdocVariableMap)
+        .withArgs(mdocArgs :+ "--watch")
+        .withIn(mdocInFile.asPath)
+        .withOut(mdocOutFile.asPath)
+        .withClasspath(classpath.map(_.data).mkString(":"))
+      // generate out/readme.md from working directory
+      val exitCode = _root_.mdoc.Main.process(settings)
+
+      yarnProcess.destroy()
+    }
+  )
   .settings(cilibSettings)
   .settings(noPublishSettings)
-  .settings(docSettings)
   .dependsOn(core, example, exec, pso, moo, ga)
 
-lazy val docSettings = Seq(
-  fork in tut := true,
-  tutSourceDirectory := sourceDirectory.value / "main" / "tut",
-  scalacOptions in Tut ~= (_.filterNot(Set("-Ywarn-unused:imports", "-Ywarn-dead-code"))),
-  git.remoteRepo := "git@github.com:cirg-up/cilib.git",
-  ghpagesNoJekyll := true,
-  excludeFilter in ghpagesCleanSite :=
-    new FileFilter {
-      def accept(f: File) =
-        (ghpagesRepository.value / "CNAME").getCanonicalPath == f.getCanonicalPath
-    },
-  siteSubdirName in SiteScaladoc := "api",
-  unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(example),
-  addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in SiteScaladoc),
-  siteStageDirectory := target.value / "site-stage",
-  sourceDirectory in paradox in Paradox := siteStageDirectory.value,
-  sourceDirectory in paradox := siteStageDirectory.value,
-  // https://github.com/lightbend/paradox/issues/139
-  sourceDirectory in Paradox in paradoxTheme := sourceDirectory.value / "main" / "paradox" / "_template",
-  paradoxMaterialTheme in Paradox ~= {
-    _.withFavicon("img/favicon.png")
-      .withLogo("img/cilib_logo_transparent.png")
-      .withRepository(uri("https://github.com/cirg-up/cilib"))
-  },
-  copySiteToStage := {
-    IO.copyFile(sourceFile = sourceDirectory.value / "main" / "paradox" / "index.md",
-                targetFile = siteStageDirectory.value / "index.md",
-                preserveLastModified = true)
-    IO.copyDirectory(source = sourceDirectory.value / "main" / "paradox" / "img",
-                     target = siteStageDirectory.value / "img",
-                     overwrite = false,
-                     preserveLastModified = true)
-    IO.copyDirectory(source = tutTargetDirectory.value,
-                     target = siteStageDirectory.value,
-                     overwrite = false,
-                     preserveLastModified = true)
-    IO.write(file = siteStageDirectory.value / "CNAME", content = "cilib.net")
-  },
-  copySiteToStage := copySiteToStage.dependsOn(tutQuick).value,
-  makeSite := makeSite.dependsOn(copySiteToStage).value
-)
 
 lazy val credentialSettings = Seq(
   credentials ++= (for {

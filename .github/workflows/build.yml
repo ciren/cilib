@@ -13,9 +13,25 @@ jobs:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
+      - uses: cachix/install-nix-action@v6
+      - run: nix-shell --run 'sbt test && sbt docs/mdoc'
+
+  ghpages-deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@1
         with:
-          java-version: 1.8
-      - name: Run tests
-        run: sbt test
+          fetch-depth: 1
+      - uses: cachix/install-nix-action@v6
+      - run: nix-shell --run 'sbt docs/buildWebsite'
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./website/build
+        with:
+          forceOrphan: true
