@@ -225,7 +225,7 @@ lazy val core = project
 
 val mdocVariableMap =
   Map(
-    "CILIB_VERSION" -> "2.0"
+    "CILIB_VERSION" -> "2.0.1"
   )
 val mdocInFile = new java.io.File("docs")
 val mdocOutFile = new java.io.File("website/docs")

@@ -3,6 +3,7 @@ id: objective
 title: Objective
 ---
 
+<!--
 Computational intelligence research requires an objective.
 Either it's a single objective or a collection of objectives.
 CILib offers just this.
@@ -33,3 +34,4 @@ That's it.
 If the purpose of `Objective` is still a bit unclear
 then don't worry as we are going to be seeing it used a lot in examples in the coming chapters.
 Often we'll see `Objectives` returned and we will need to figure out what we do with the information for each case.
+-->
