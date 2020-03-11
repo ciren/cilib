@@ -1,7 +1,7 @@
 package cilib
 
+import scalaz.Scalaz._
 import scalaz.{Lens => _, _}
-import Scalaz._
 
 /**
   A `Step` is a type that models a single step / operation within a CI Algorithm.
@@ -84,6 +84,11 @@ object Step {
 
   def eval[S, A](f: Position[A] => Position[A])(entity: Entity[S, A]): Step[A, Entity[S, A]] =
     evalP(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
+
+  def evalNel[A](xs: NonEmptyList[A]): Step[A, Objective[A]] =
+    Cont { env =>
+      env.eval.eval.map(f => f(xs).right[Exception])
+    }
 
   def evalP[A](pos: Position[A]): Step[A, Position[A]] =
     Cont { env =>
