@@ -85,14 +85,14 @@ object Step {
   def eval[S, A](f: Position[A] => Position[A])(entity: Entity[S, A]): Step[A, Entity[S, A]] =
     evalP(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
 
-  def evalNel[A](xs: NonEmptyList[A]): Step[A, Objective[A]] =
-    Cont { env =>
-      env.eval.eval.map(f => f(xs).right[Exception])
-    }
-
   def evalP[A](pos: Position[A]): Step[A, Position[A]] =
     Cont { env =>
       Position.eval(env.eval.eval, pos).map(_.right[Exception])
+    }
+
+  def evalNel[A](xs: NonEmptyList[A]): Step[A, Objective[A]] =
+    Cont { env =>
+      env.eval.eval.map(f => f(xs).right[Exception])
     }
 
   implicit def stepMonad[A]: Monad[Step[A, ?]] =
