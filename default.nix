@@ -1,5 +1,5 @@
 let
-  pinnedVersion = "19.03";
+  pinnedVersion = "20.03";
 
   pkgs =
    import (builtins.fetchTarball {
@@ -8,14 +8,14 @@ let
      # URL for nixpks releases on GitHub
      url = "https://github.com/NixOS/nixpkgs/archive/${pinnedVersion}.tar.gz";
      # Hash obtained using `nix-prefetch-url --unpack <url>`
-     sha256 = "0q2m2qhyga9yq29yz90ywgjbn9hdahs7i8wwlq7b55rdbyiwa5dy";
+     sha256 = "0182ys095dfx02vl2a20j1hz92dx3mfgz2a6fhn31bqlp1wa8hlq";
    }) {};
 
   buildInputs = with pkgs; [
     openjdk11
     sbt
-    nodejs-11_x  # Needed for the website and documentation
     yarn
+    nodejs
     #node2nix
     #yarn2nix
   ];
