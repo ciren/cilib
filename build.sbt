@@ -2,12 +2,12 @@ import sbt._
 import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
-val scalazVersion     = "7.2.25"
+val scalazVersion       = "7.2.25"
 val scalazStreamVersion = "0.8.6a"
-val spireVersion      = "0.13.0"
-val monocleVersion    = "1.5.0"
-val scalacheckVersion = "1.14.0"
-val avro4sVersion = "1.8.3"
+val spireVersion        = "0.13.0"
+val monocleVersion      = "1.5.0"
+val scalacheckVersion   = "1.14.0"
+val avro4sVersion       = "3.1.0"
 
 // Library requreid for the SBT build itself
 libraryDependencies += "org.scalameta" %% "mdoc" % "2.1.0"
