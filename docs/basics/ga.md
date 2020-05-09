@@ -3,6 +3,7 @@ id: ga
 title: GA
 ---
 
+<!--
 The genetic algorithm library offers two things:
 
 * A specialized `Entity` type
@@ -46,3 +47,4 @@ mutation: List[Individual[S]] => RVar[List[Individual[S]]] //Function used to mu
 It's worth mentioning that all algorithms will have the same return type.
 This is so that they may be plugged into an iterator and subsequently an `Runner`.
 But for documentation purposes it will be stated at every algorithm.
+-->

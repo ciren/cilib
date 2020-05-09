@@ -1,10 +1,3 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 module.exports = {
   title: 'CIlib',
   tagline: 'Predictable and Pure Evolutionary and Swarm Intelligence',
@@ -21,8 +14,8 @@ module.exports = {
       //   src: 'img/logo.svg',
       // },
       links: [
-        {to: 'docs/doc1', label: 'Docs', position: 'right'},
-        {to: 'blog', label: 'Blog', position: 'right'},
+        {to: 'docs/introduction/getting-started', label: 'Docs', position: 'right'},
+        //{to: 'blog', label: 'Blog', position: 'right'},
         {
           href: 'https://github.com/ciren/cilib',
           label: 'GitHub',
@@ -38,26 +31,26 @@ module.exports = {
           items: [
             {
               label: 'Docs',
-              to: 'docs/doc1',
+              to: 'docs/introduction/getting-started',
             },
           ],
         },
         {
           title: 'Community',
           items: [
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
+            // {
+            //   label: 'Discord',
+            //   href: 'https://discordapp.com/invite/docusaurus',
+            // },
           ],
         },
         {
           title: 'Social',
           items: [
-            {
-              label: 'Blog',
-              to: 'blog',
-            },
+            // {
+            //   label: 'Blog',
+            //   to: 'blog',
+            // },
           ],
         },
       ],
@@ -66,7 +59,7 @@ module.exports = {
       //   src: '',
       //   href: '',
       // },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} CIlib authors`,
     },
   },
   presets: [

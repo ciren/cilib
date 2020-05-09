@@ -25,14 +25,12 @@ jobs:
 
       - name: Publish gh-pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: peaceiris/actions-gh-pages@v2
+        run: |
+          wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2/entrypoint.sh
+          bash ./entrypoint.sh
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: ./website/build
           SCRIPT_MODE: true
-        with:
-          forceOrphan: true
-        run: |
-          wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2/entrypoint.sh
-          bash ./entrypoint.sh
+          INPUT_FORCEORPHAN: true

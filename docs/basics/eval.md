@@ -3,6 +3,7 @@ id: eval
 title: Eval
 ---
 
+<!--
 In the last chapter we saw how to test if a set of numbers satisfies a `Constraint` or a violates `Constraints`.
 We now are going to look at how to unconstrained or constrained evaluations in CILib.
 `Eval` useful in the sense that it provides a platform to determine whether a set of values are a feasible or
@@ -217,3 +218,4 @@ what the flow of the program logic.
 </div>
 
 In the following chapter we will look at the concept that we briefly touched upon, `Fit`.
+-->

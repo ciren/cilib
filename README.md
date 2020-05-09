@@ -1,7 +1,8 @@
 # CIlib - Computational Intelligence Library
 
 ![](https://github.com/ciren/cilib/workflows/build/badge.svg)
-[![Join the chat at https://gitter.im/cirg-up/cilib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cirg-up/cilib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/cilib)
+[![Join the chat at https://gitter.im/ciren/cilib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ciren/cilib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Maven Central](https://img.shields.io/maven-central/v/net.cilib/cilib-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/net.cilib/cilib-core_2.12)
 [![Javadocs](https://javadoc.io/badge/net.cilib/cilib-core_2.12.svg)](https://javadoc.io/doc/net.cilib/cilib-core_2.12)
 
@@ -29,4 +30,4 @@ intelligence algorithms and uses several typeclasses such as `Functor` and
   a look in the `example` directory
 * If you run into trouble, please open an issue
 * Come join in the discussion in `#cilib` on `FreeNode`, or join
-  the [Gitter channel](https://gitter.im/cirg-up/cilib)
+  the [Gitter channel](https://gitter.im/ciren/cilib)

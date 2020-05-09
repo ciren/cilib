@@ -8,7 +8,6 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.2")
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.1")
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.2")
 
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.0.3")
 //addSbtPlugin("io.get-coursier" % "sbt-coursier" % "2.0.0-RC2-1")
 //addSbtPlugin("com.lucidchart" % "sbt-scalafmt-coursier" % "1.15")
 

@@ -3,6 +3,9 @@ id: position
 title: Position
 ---
 
+Content currently being developed
+
+<!--
 :::caution
 Candidate solution vectors within a search space are the basic pieces of information that computational algorithms maintain and,
 includes feature vectors that represent training patterns in a neural network.
@@ -358,3 +361,4 @@ result.eval(rng)
 These points can then be evaluated which will yield a solution.
 A solution is a point with a fitness evaluation.
 :::
+-->
