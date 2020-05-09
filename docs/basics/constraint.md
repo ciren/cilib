@@ -3,6 +3,7 @@ id: constraint
 title: Constraints
 ---
 
+<!--
 As we begin to explore more of the core concepts of CILib we start to see how they are utilized by other concepts.
 With this in mind, you might see types specific to CILib you haven't come across yet.
 Dont worry, these will be explained in their appropriate sections later in the book.
@@ -191,3 +192,4 @@ All `Constraint` classes make use of two parameters
 This defines a constraint context that can used on `NonEmptyLists` through the companion object.
 
 </div>
+-->

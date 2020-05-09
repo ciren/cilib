@@ -103,7 +103,7 @@ composition.run(rng)
 
 From this definition of how randomness is managed, we can derive several
 useful algorithms which operate within the `RVar` computation. Please refer
-to the [scaladoc](http://cirg-up.github.io/cilib/api/cilib/RVar$.html) for
+to the [scaladoc](http://ciren.github.io/cilib/api/cilib/RVar$.html) for
 more combinators, but some of the more commonly used are illustrated below:
 
 ```scala mdoc

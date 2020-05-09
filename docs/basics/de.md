@@ -3,6 +3,7 @@ id: de
 title: DE
 ---
 
+<!--
 In this chapter we will be exploring the differential evolution package of CILib.
 What's great about algorithms in CILib is their flexibility.
 The DE show cases this wonderfully.
@@ -137,3 +138,4 @@ def currentToBest[S, A: Numeric: Equal](
     y: Int Refined Positive,
     z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]])
 ```
+-->

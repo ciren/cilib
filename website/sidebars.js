@@ -1,35 +1,44 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 module.exports = {
-    docs: {
-        //Docusaurus: ['doc1', 'doc2', 'doc3'],
-        Tutorial: [
-            'mdoc/community-tutorial/introduction',
-            'mdoc/community-tutorial/setting-up',
-            'mdoc/community-tutorial/rvar',
-            // 'mdoc/community-tutorial/constraint',
-            // 'mdoc/community-tutorial/objective',
-            // 'mdoc/community-tutorial/eval',
-            // 'mdoc/community-tutorial/fit',
-            // 'mdoc/community-tutorial/position',
-            // 'mdoc/community-tutorial/lenses',
-            // 'mdoc/community-tutorial/entity',
-            // 'mdoc/community-tutorial/step',
-            // 'mdoc/community-tutorial/step-with-state',
-            // 'mdoc/community-tutorial/runner',
-            // 'mdoc/community-tutorial/metric-space',
-            // 'mdoc/community-tutorial/selection',
-            // 'mdoc/community-tutorial/benchmarks',
-            // 'mdoc/community-tutorial/ga',
-            // 'mdoc/community-tutorial/pso',
-            // 'mdoc/community-tutorial/de',
-            // 'mdoc/community-tutorial/solutions',
-            // 'mdoc/community-tutorial/links'
-        ],
-    },
+    docs: [
+        { type: 'category',
+          label: 'Introduction',
+          items: [
+              'introduction/getting-started',
+              'introduction/installation',
+              'introduction/motivation',
+              'introduction/three-requirements',
+              'introduction/related-work'
+          ]
+        },
+        { type: 'category',
+          label: 'Basic Tutorial',
+          items: [
+              'basics/basic-tutorial',
+              'basics/rvar',
+              'basics/step',
+              'basics/step-with-state',
+              'basics/position',
+              'basics/entity',
+              'basics/lenses',
+              'basics/fit',
+              'basics/constraint',
+              'basics/objective',
+              'basics/eval',
+              // 'basics/runner',
+              // 'basics/metric-space',
+              // 'basics/selection',
+              // 'basics/benchmarks',
+              // 'basics/solutions',
+              // 'basics/links'
+          ]
+        },
+        { type: 'category',
+          label: 'Basic Algorithm Tutorial',
+          items: [
+              'basics/ga',
+              'basics/pso',
+              'basics/de',
+          ]
+        }
+    ],
 };

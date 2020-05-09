@@ -3,6 +3,7 @@ id: lenses
 title: Lenses
 ---
 
+<!--
 Great! You just learnt about creating positions in a search space.
 But you might be asking yourself "How can we modify our set positions to explore the search space?"
 And this is exactly what we intend to learn in the coming chapter.
@@ -387,3 +388,4 @@ In the next chapter we will test our newly acquired skills as we begin to put ev
 <div class="callout callout-info">
 Optics in CILib use `Lens` and `Prism` that allow us *zoom* in on instances to retrieve information or create new instances.
 </div>
+-->

@@ -3,6 +3,9 @@ id: step-with-state
 title: StepS
 ---
 
+Content currently under development
+
+<!--
 At this point, we now understand what `Step` is.
 `StepS` is very similar but now we are creating a step with a state.
 
@@ -217,3 +220,4 @@ The type of the initial state value is determined by the second type parameter o
 </div>
 
 In the next chapter we will gain some practical experience with `Step` as well as a bit of `StepS`
+-->

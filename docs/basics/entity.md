@@ -3,6 +3,7 @@ id: entity
 title: Entity
 ---
 
+<!--
 By now you should have enough some experience with `Entity`.
 If not, refer to the "A Quick Look at Entity" section in the `Lenses` chapter.
 Thus we can say the following about `Entity`.
@@ -124,3 +125,4 @@ That being
 
 Now, if you are asking "What are those?"
 Fear not as we find out in the next chapter of "A Guide to CILib"!
+-->
