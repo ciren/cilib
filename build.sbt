@@ -63,7 +63,7 @@ lazy val commonSettings = Seq(
   ))),
   resolvers ++= Seq(
     Resolver.sonatypeRepo("releases"),
-    "bintray/non" at "http://dl.bintray.com/non/maven"
+    "bintray/non" at "https://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
     compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3" cross CrossVersion.binary),
