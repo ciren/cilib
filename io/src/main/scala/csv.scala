@@ -2,6 +2,8 @@ package cilib
 package io
 
 import cilib.exec.{ Env, Change, Unchanged }
+import scalaz._
+import Scalaz._
 
 @annotation.implicitNotFound("""
 EncodeCsv derivation error for type: ${A}
@@ -16,7 +18,6 @@ trait EncodeCsv[A] {
 }
 
 object EncodeCsv {
-  import scalaz.Foldable
   import shapeless._
 
   final def createEncoder[A](f: A => List[String]) = new EncodeCsv[A] {
@@ -30,10 +31,13 @@ object EncodeCsv {
   implicit val longEncodeCsv = createEncoder[Long](x => List(x.toString))
   implicit val floatEncodeCsv = createEncoder[Float](x => List(x.toString))
   implicit val doubleEncodeCsv = createEncoder[Double](x => List(x.toString))
-  implicit val stringEncodeCsv = createEncoder[String](List(_))
+  implicit val stringEncodeCsv = createEncoder[String](x => List(x))
 
-  implicit def foldableEncodeCsv[F[_], A](implicit F: Foldable[F], A: EncodeCsv[A]) =
+  def foldableEncodeCsv[F[_], A](implicit F: Foldable[F], A: EncodeCsv[A]) =
     createEncoder[F[A]](l => List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
+
+  implicit def listEncodeCsv[A:EncodeCsv] = foldableEncodeCsv[List, A]
+  implicit def nonEmptyListEncodeCsv[A:EncodeCsv] = foldableEncodeCsv[NonEmptyList, A]
 
   implicit val envEncodeCsv =
     createEncoder[Env](_ match {
@@ -97,6 +101,11 @@ object ColumnNameEncoder {
   implicit val doubleColumnNameEncoder = createEncoder((_: Double) => List.empty)
   implicit val stringColumnNameEncoder = createEncoder((_: String) => List.empty)
   implicit val envEncodeCsv = createEncoder((e: Env) => List.empty)
+
+  implicit def listColumnNameEncoder[A:ColumnNameEncoder] =
+    createEncoder((_: List[A]) => List.empty)
+  implicit def nonEmptyListColumnNameEncoder[A:ColumnNameEncoder] =
+    createEncoder((_: NonEmptyList[A]) => List.empty)
 
   implicit val hnilColumnNameEncoder: ColumnNameEncoder[HNil] =
     createEncoder(_ => List.empty)
