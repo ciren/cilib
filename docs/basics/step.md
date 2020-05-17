@@ -3,7 +3,30 @@ id: step
 title: Step
 ---
 
-Content currently under development
+:::caution
+Work in progress
+:::
+
+Within an algorithm there are discrete actions that are run in order to achieve the intention of the algorithm.
+Consider some pseudo-code for an algorithm.
+The pseudo-code provides the intetions for an action but does not specify the explicit implementation of the action either.
+Common examples of such discrete actions include:
+
+* Sample a random number and compare against a threshold value to create a branch in logic
+* Enclose a set of actions within a looping action
+* Update an algorithm specific variable
+
+Although these examples are quite generic in their intention the important concept to appreciate is that these discrete actions form the individual _steps_ of an algorithm.
+Within the context of optimization algorithms, any _step_ within an algorithm could use or does make use of randomness, the target optimization scheme (either minimization or maximization) and the problem which the algorithm is currently optimizing.
+The optimization problem is usually provided as a single function which evaluates the candidate solutions from the optimization algorithm to determine how well problem itself is solved by the candidate solution.
+
+Taking all these factors into account we create a new data structure that extends or build on the foundation of `RVar`.
+The new structure is simply referred to as `Step`.
+`Step` represents a function from the current algorithm environment to a value within `RVar`.
+The environment is a set of values (namely the `Opt`imization scheme and the optimization `Eval`uation function) that remain fixed for the duration of the algorithm execution, or at least for a single atomic algorithm iteration.
+
+
+
 
 <!--
 What is this mysterious data type called `Step`? Well, it actually
