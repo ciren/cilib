@@ -2,7 +2,7 @@
 id: fit
 title: Fitness
 ---
-
+<!--
 After the last chapter you're now somewhat familiar with `Feasible` and `Infeasible`.
 `CILib` offers this and more for dealing with the fitness of solutions.
 These concepts will be the main focus of this chapter,
@@ -453,3 +453,4 @@ They key take away points from this chapter are that
 - Using the optimization scheme, we can begin to compare solutions (preferably `Feasible`).
 
 </div>
+-->

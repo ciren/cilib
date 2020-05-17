@@ -2,15 +2,19 @@ import sbt._
 import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
-val scalazVersion     = "7.2.25"
+val scalazVersion       = "7.2.25"
 val scalazStreamVersion = "0.8.6a"
-val spireVersion      = "0.13.0"
-val monocleVersion    = "1.5.0"
-val scalacheckVersion = "1.14.0"
-val avro4sVersion = "1.8.3"
+val spireVersion        = "0.13.0"
+val monocleVersion      = "1.5.0"
+val scalacheckVersion   = "1.14.0"
+val avro4sVersion       = "3.1.0"
+
+// Library requreid for the SBT build itself
+libraryDependencies += "org.scalameta" %% "mdoc" % "2.1.0"
 
 //val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
 
+lazy val mdoc = taskKey[Unit]("Process the mdoc files")
 lazy val websiteWatch = taskKey[Unit]("Watch website files and reload")
 lazy val buildWebsite = taskKey[Unit]("Build website")
 
@@ -63,7 +67,7 @@ lazy val commonSettings = Seq(
   ))),
   resolvers ++= Seq(
     Resolver.sonatypeRepo("releases"),
-    "bintray/non" at "http://dl.bintray.com/non/maven"
+    "bintray/non" at "https://dl.bintray.com/non/maven"
   ),
   libraryDependencies ++= Seq(
     compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3" cross CrossVersion.binary),
@@ -221,22 +225,32 @@ lazy val core = project
 
 val mdocVariableMap =
   Map(
-    "CILIB_VERSION" -> "2.0"
+    "CILIB_VERSION" -> "2.0.1"
   )
 val mdocInFile = new java.io.File("docs")
-val mdocOutFile = new java.io.File("website/docs/mdoc")
-val mdocArgs = List("--include", "**/*.md", "--no-livereload")
+val mdocOutFile = new java.io.File("website/docs")
+val mdocArgs = List("--no-livereload", "--exclude", "target")
 
 lazy val docs = project
   .in(file("docs"))
-  .enablePlugins(MdocPlugin)
   .settings(
     moduleName := "cilib-docs",
     connectInput in run := true,
-    mdocIn := mdocInFile,
-    mdocOut := mdocOutFile,
-    mdocExtraArguments := mdocArgs,
-    mdocVariables := mdocVariableMap,
+    mdoc := {
+      val classpath = (Compile / dependencyClasspath).value
+
+      // build arguments for mdoc
+      val settings = _root_.mdoc.MainSettings()
+        .withSiteVariables(mdocVariableMap)
+        .withArgs(mdocArgs)
+        .withOut(new java.io.File("target/mdoc").asPath)
+        .withClasspath(classpath.map(_.data).mkString(":"))
+
+      // process the mdoc files to the correct location
+      val exitCode = _root_.mdoc.Main.process(settings)
+
+      if (exitCode != 0) sys.exit(exitCode)
+    },
     buildWebsite := {
       import scala.sys.process._
 
@@ -247,7 +261,6 @@ lazy val docs = project
       val settings = _root_.mdoc.MainSettings()
         .withSiteVariables(mdocVariableMap)
         .withArgs(mdocArgs)
-        .withIn(mdocInFile.asPath)
         .withOut(mdocOutFile.asPath)
         .withClasspath(classpath.map(_.data).mkString(":"))
 
@@ -267,11 +280,11 @@ lazy val docs = project
       val settings = _root_.mdoc.MainSettings()
         .withSiteVariables(mdocVariableMap)
         .withArgs(mdocArgs :+ "--watch")
-        .withIn(mdocInFile.asPath)
         .withOut(mdocOutFile.asPath)
         .withClasspath(classpath.map(_.data).mkString(":"))
-      // generate out/readme.md from working directory
-      val exitCode = _root_.mdoc.Main.process(settings)
+
+      // process the mdoc files to the correct location
+      _root_.mdoc.Main.process(settings)
 
       yarnProcess.destroy()
     }
