@@ -147,16 +147,13 @@ object Runner {
     env.tee(alg)(go(1, rng2, current, initialConfig, initialState))
   }
 
-  import com.sksamuel.avro4s._
-
-  def measure[A, S, B](f: A => B)(implicit B: SchemaFor[B]): Process1[Progress[A], Measurement[B]] =
+  def measure[A, S, B](f: A => B): Process1[Progress[A], Measurement[B]] =
     process1.lift {
       case Progress(algorithm, problem, seed, iteration, env, value) =>
         Measurement(algorithm, problem, iteration, env, seed, f(value))
     }
 
-  def measureWithState[A, S, B](f: (S, A) => B)(
-      implicit B: SchemaFor[B]): Process1[Progress[(S, A)], Measurement[B]] =
+  def measureWithState[A, S, B](f: (S, A) => B): Process1[Progress[(S, A)], Measurement[B]] =
     process1.lift {
       case Progress(algorithm, problem, seed, iteration, env, (state, value)) =>
         Measurement(algorithm, problem, iteration, env, seed, f(state, value))

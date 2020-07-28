@@ -7,7 +7,7 @@ val scalazStreamVersion = "0.8.6a"
 val spireVersion        = "0.13.0"
 val monocleVersion      = "1.5.0"
 val scalacheckVersion   = "1.14.0"
-val avro4sVersion       = "3.1.0"
+val parquet4sVersion    = "1.3.1"
 
 // Library requreid for the SBT build itself
 libraryDependencies += "org.scalameta" %% "mdoc" % "2.1.0"
@@ -330,7 +330,7 @@ lazy val exec = project
     libraryDependencies ++= Seq(
       "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
       "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion,
-      "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion
+      "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion
     )
   ))
 
@@ -370,8 +370,7 @@ lazy val io = project
       moduleName := "cilib-io",
       libraryDependencies ++= Seq(
         "com.chuusai" %% "shapeless" % "2.3.2",
-        "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion,
-        "org.apache.parquet" % "parquet-avro" % "1.9.0",
+        "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion,
         "org.apache.hadoop" % "hadoop-client" % "2.7.3",
         "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
       )

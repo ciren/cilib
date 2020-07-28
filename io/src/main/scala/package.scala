@@ -6,6 +6,7 @@ import scalaz.stream._
 import scalaz.concurrent.Task
 
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
+import com.github.mjakubowski84.parquet4s._
 
 package object io extends io.Avro4sInstances {
   import cilib.exec._
@@ -83,57 +84,27 @@ package object io extends io.Avro4sInstances {
   }
 
 
-  import org.apache.hadoop.conf.Configuration
-  import org.apache.hadoop.fs.Path
-  import com.sksamuel.avro4s._
-  import org.apache.parquet.avro._
-  import org.apache.avro.generic.GenericRecord
+  def writeParquet[F[_]:Foldable, A: ParquetRecordEncoder : ParquetSchemaResolver](file: java.io.File, data: F[A])(implicit encoder: ParquetRecordEncoder[Measurement[A]], schema: ParquetSchemaResolver[Measurement[A]]): Unit = {
+    val options = ParquetWriter.Options(compressionCodecName = CompressionCodecName.SNAPPY,
+      pageSize = 4 * 1024 * 1024,
+      rowGroupSize = 16 * 1024 * 1024
+    )
 
-  def writeParquet[F[_]: Foldable, A: SchemaFor:Encoder](file: java.io.File, data: F[A]): Unit = {
-    val testConf = new Configuration
-    val schema = AvroSchema[A]
-
-    val encoder = Encoder[A]
-    val path = new Path(file.getAbsolutePath)
-
-    val writer = AvroParquetWriter
-      // Why does the Encoder instance in avro4s lose type information????? AnyRef is a HORRIBLE type
-      .builder[AnyRef](path)
-      .withSchema(schema)
-      .withCompressionCodec(CompressionCodecName.SNAPPY)
-      .withConf(testConf)
-      .withPageSize(4 * 1024 * 1024) // For compression
-      .withRowGroupSize(16 * 1024 * 1024) // For write buffering (Page size)
-      .build()
-
-    Foldable[F].toList(data).foreach(item => writer.write(encoder.encode(item, schema, DefaultFieldMapper)))
-
-    writer.close()
+    ParquetWriter.writeAndClose(file.getAbsolutePath, data.toList, options)
   }
 
-  def parquetSink[A:Encoder:SchemaFor](file: java.io.File): Sink[Task, Measurement[A]] = {
-    val testConf = new Configuration
-    val schema = AvroSchema[Measurement[A]]
-    val path = new Path(file.getAbsolutePath)
-    val writer = AvroParquetWriter
-      // Why does the Encoder instance in avro4s lose type information????? AnyRef is a HORRIBLE type
-      .builder[AnyRef](path)
-      .withSchema(schema)
-      .withCompressionCodec(CompressionCodecName.SNAPPY)
-      .withConf(testConf)
-      .withPageSize(4 * 1024 * 1024) // For compression
-      .withRowGroupSize(16 * 1024 * 1024) // For write buffering (Page size)
-      .build()
 
-    val encoder = Encoder[Measurement[A]]
+  def parquetSink[A: ParquetRecordEncoder : ParquetSchemaResolver](file: java.io.File)(implicit encoder: ParquetRecordEncoder[Measurement[A]], schema: ParquetSchemaResolver[Measurement[A]]): Sink[Task, Measurement[A]] = {
+    val options = ParquetWriter.Options(compressionCodecName = CompressionCodecName.SNAPPY,
+      pageSize = 4 * 1024 * 1024,
+      rowGroupSize = 16 * 1024 * 1024
+    )
+    val writer = ParquetWriter.writer[Measurement[A]](file.getAbsolutePath, options)
     val complete = Process.eval_(Task.delay(writer.close))
 
-    sink
-      .lift { (input: Measurement[A]) =>
-        val record = encoder.encode(input, schema, DefaultFieldMapper)
-        Task.delay(writer.write(record))
-      }
+    sink.lift { (input: Measurement[A]) => Task.delay(writer.write(input)) }
       .onComplete(complete)
   }
+
 
 }
