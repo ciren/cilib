@@ -8,7 +8,7 @@ import scalaz.concurrent.Task
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import com.github.mjakubowski84.parquet4s._
 
-package object io extends io.Avro4sInstances {
+package object io {
   import cilib.exec._
   import EncodeCsv._
 
