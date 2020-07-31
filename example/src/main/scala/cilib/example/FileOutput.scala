@@ -3,14 +3,13 @@ package example
 import java.io.File
 
 import eu.timepit.refined.auto._
-import scalaz.Scalaz._
-import scalaz._
-import scalaz.concurrent.Task
-import scalaz.effect.IO.putStrLn
-import scalaz.effect._
-import scalaz.stream._
+import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math.Interval
+import zio._
+import zio.blocking.Blocking
+import zio.console._
+import zio.stream._
 
 import cilib.benchmarks.Benchmarks
 import cilib.exec.Runner._
@@ -19,7 +18,7 @@ import cilib.io._
 import cilib.pso.Defaults._
 import cilib.pso._
 
-object FileOutput extends SafeApp {
+object FileOutput extends zio.App {
 
   // An example showing how to compare multiple algorithms across multiple
   // benchmarks and save the results to a a file (either csv or parquet).
@@ -87,16 +86,17 @@ object FileOutput extends SafeApp {
   // In this example our environments do not change.
   val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) => RVar.pure(x)
 
-  def simulation(env: Environment[Double], stream: Process[Task, Problem[Double]]) =
+  def simulation(env: Environment[Double], stream: Stream[Nothing, Problem[Double]]) =
     List(Runner.staticAlgorithm("GBestPSO", gbestIter), Runner.staticAlgorithm("LBestPSO", lbestIter))
       .map(alg => Runner.foldStep(env, rng, swarm, alg, stream, onChange))
 
-  val simulations = List.concat(
-    simulation(absolute, absoluteStream),
-    simulation(ackley, ackleyStream),
-    simulation(quadric, quadricStream),
-    simulation(spherical, sphericalStream)
-  )
+  val simulations: List[Stream[Exception, Progress[NonEmptyList[Entity[Mem[Double], Double]]]]] =
+    List.concat(
+      simulation(absolute, absoluteStream),
+      simulation(ackley, ackleyStream),
+      simulation(quadric, quadricStream),
+      simulation(spherical, sphericalStream)
+    )
 
   sealed abstract class Choice {
     def filename =
@@ -110,33 +110,32 @@ object FileOutput extends SafeApp {
   final case object Parquet extends Choice
   final case object Invalid extends Choice
 
-  def writeResults(choice: Choice): Process[Task, Unit] = {
-    val measured: Process[Task, Process[Task, Measurement[Results]]] =
-      Process.emitAll(simulations.map(_.take(1000).pipe(performanceMeasure)))
+  def writeResults(choice: Choice): ZIO[Blocking, Throwable, Unit] = {
+    val measured: List[ZStream[Any, Exception, Measurement[Results]]] =
+      simulations.map(_.take(1000).map(performanceMeasure))
 
-    merge
-      .mergeN(4)(measured)
-      .to(choice match {
-        case CSV     => csvHeaderSink(new File(choice.filename))
+    ZStream
+      .mergeAll(4)(measured: _*)
+      .run(choice match {
+        case CSV     => csvSink(new File(choice.filename))
         case Parquet => parquetSink(new File(choice.filename))
-        case _       => Process.fail(new Exception("Unsupported value. Please select a valid choice."))
+        case _       => ZSink.fail(new Exception("Unsupported value. Please select a valid choice."))
       })
   }
 
-  override val runc: IO[Unit] =
+  def run(args: List[String]) =
+    myAppLogic.exitCode
+
+  val myAppLogic =
     for {
-      _ <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
-      choice <- IO.readLn.map(s =>
-                 \/.fromTryCatchNonFatal(s.toInt) match {
-                   case \/-(1) => Parquet: Choice
-                   case \/-(2) => CSV: Choice
-                   case _      => Invalid: Choice
-                 }
-               )
-      _ <- putStrLn(s"Executing ${simulations.size} simulations.")
-      _ <- IO {
-            writeResults(choice).run.unsafePerformSync
-          }
+      _      <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
+      result <- getStrLn
+      choice <- ZIO.succeed(\/.fromTryCatchNonFatal(result.toInt) match {
+                 case \/-(1) => Parquet
+                 case \/-(2) => CSV
+                 case _      => Invalid
+               })
+      _ <- writeResults(choice)
       _ <- putStrLn("Complete.")
     } yield ()
 

@@ -9,8 +9,7 @@ val monocleVersion      = "1.5.0"
 val scalacheckVersion   = "1.14.0"
 val parquet4sVersion    = "1.3.1"
 
-val scalaz           = "org.scalaz" %% "scalaz-core"       % scalazVersion
-val scalazConcurrent = "org.scalaz" %% "scalaz-concurrent" % scalazVersion
+val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
 
 // Library requreid for the SBT build itself
 libraryDependencies += "org.scalameta" %% "mdoc" % "2.1.0"
@@ -328,8 +327,8 @@ lazy val exec = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      scalazConcurrent,
-      "org.scalaz.stream"        %% "scalaz-stream"  % scalazStreamVersion,
+      "dev.zio"                  %% "zio"            % "1.0.0-RC21-2",
+      "dev.zio"                  %% "zio-streams"    % "1.0.0-RC21-2",
       "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion
     )
   )
@@ -390,7 +389,8 @@ lazy val io = project
       "com.chuusai"              %% "shapeless"      % "2.3.2",
       "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion,
       "org.apache.hadoop"        % "hadoop-client"   % "2.7.3",
-      "org.scalaz.stream"        %% "scalaz-stream"  % scalazStreamVersion
+      "dev.zio"                  %% "zio"            % "1.0.0-RC21-2",
+      "dev.zio"                  %% "zio-streams"    % "1.0.0-RC21-2"
     )
   )
   .enablePlugins(BuildInfoPlugin)

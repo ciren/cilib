@@ -3,8 +3,9 @@ package cilib
 import com.github.mjakubowski84.parquet4s._
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import scalaz._, Scalaz._
-import scalaz.concurrent.Task
-import scalaz.stream._
+import zio._
+import zio.blocking.Blocking
+import zio.stream._
 
 package object io {
   import cilib.exec._
@@ -52,30 +53,56 @@ package object io {
     }
   }
 
-  def csvSink[A: EncodeCsv](file: java.io.File)(implicit A: EncodeCsv[Measurement[A]]): Sink[Task, Measurement[A]] = {
-    val fileWriter = new java.io.PrintWriter(file)
+  def csvSink[A: EncodeCsv](
+    file: java.io.File
+  )(implicit A: EncodeCsv[Measurement[A]]): ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] = {
+    val managedChannel = ZManaged.make(
+      blocking.effectBlockingInterrupt {
+        new java.io.PrintWriter(file)
+      }
+    )(chan => blocking.effectBlocking(chan.close()).orDie)
 
-    sink.lift { (input: Measurement[A]) =>
-      val encoded = A.encode(input)
-      Task.delay(fileWriter.println(encoded.mkString(",")))
-    }.onComplete(Process.eval_(Task.delay(fileWriter.close())))
+    val writer: ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] =
+      ZSink.managed(managedChannel) { chan =>
+        ZSink.foreach[Blocking, Throwable, Measurement[A]](measurement =>
+          blocking.effectBlockingInterrupt {
+            chan.println(A.encode(measurement).mkString(","))
+          }
+        )
+      }
+
+    writer
   }
 
   def csvHeaderSink[A: EncodeCsv](
     file: java.io.File
-  )(implicit A: EncodeCsv[Measurement[A]], N: ColumnNameEncoder[Measurement[A]]): Sink[Task, Measurement[A]] = {
-    val fileWriter    = new java.io.PrintWriter(file)
-    var headerWritten = false
+  )(
+    implicit A: EncodeCsv[Measurement[A]],
+    N: ColumnNameEncoder[Measurement[A]]
+  ): ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] = {
+    val managedChannel = ZManaged.make(
+      blocking.effectBlockingInterrupt {
+        new java.io.PrintWriter(file)
+      }
+    )(chan => blocking.effectBlocking(chan.close()).orDie)
 
-    sink.lift { (input: Measurement[A]) =>
-      if (!headerWritten) {
-        fileWriter.println(N.encode(input).mkString(","))
-        headerWritten = true
+    val writer: ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] =
+      ZSink.managed(managedChannel) { chan =>
+        var headerWritten = false
+
+        ZSink.foreach[Blocking, Throwable, Measurement[A]](measurement =>
+          blocking.effectBlockingInterrupt {
+            if (!headerWritten) {
+              chan.println(N.encode(measurement).mkString(","))
+              headerWritten = true
+            }
+
+            chan.println(A.encode(measurement).mkString(","))
+          }
+        )
       }
 
-      val encoded = A.encode(input)
-      Task.delay(fileWriter.println(encoded.mkString(",")))
-    }.onComplete(Process.eval_(Task.delay(fileWriter.close())))
+    writer
   }
 
   def writeParquet[F[_]: Foldable, A: ParquetRecordEncoder: ParquetSchemaResolver](
@@ -94,18 +121,29 @@ package object io {
   def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File)(
     implicit encoder: ParquetRecordEncoder[Measurement[A]],
     schema: ParquetSchemaResolver[Measurement[A]]
-  ): Sink[Task, Measurement[A]] = {
+  ): ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] = {
     val options = ParquetWriter.Options(
       compressionCodecName = CompressionCodecName.SNAPPY,
       pageSize = 4 * 1024 * 1024,
       rowGroupSize = 16 * 1024 * 1024
     )
-    val writer   = ParquetWriter.writer[Measurement[A]](file.getAbsolutePath, options)
-    val complete = Process.eval_(Task.delay(writer.close))
 
-    sink.lift { (input: Measurement[A]) =>
-      Task.delay(writer.write(input))
-    }.onComplete(complete)
+    val managedChannel = ZManaged.make(
+      blocking.effectBlockingInterrupt {
+        ParquetWriter.writer[Measurement[A]](file.getAbsolutePath, options)
+      }
+    )(chan => blocking.effectBlocking(chan.close()).orDie)
+
+    val writer: ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] =
+      ZSink.managed(managedChannel) { chan =>
+        ZSink.foreach[Blocking, Throwable, Measurement[A]](measurement =>
+          blocking.effectBlockingInterrupt {
+            chan.write(measurement)
+          }
+        )
+      }
+
+    writer
   }
 
 }

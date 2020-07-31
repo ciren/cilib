@@ -3,8 +3,6 @@ package example
 
 import eu.timepit.refined.auto._
 import scalaz._
-import scalaz.effect.IO.putStrLn
-import scalaz.effect._
 import spire.implicits._
 import spire.math.Interval
 
@@ -12,7 +10,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 
-object GBestPSO extends SafeApp {
+object GBestPSO extends zio.App {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(
@@ -32,8 +30,11 @@ object GBestPSO extends SafeApp {
 
   val problemStream = Runner.staticProblem("spherical", env.eval)
 
+  def run(args: List[String]) =
+    runner.exitCode
+
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  override val runc: IO[Unit] = {
+  val runner = {
     val t = Runner.foldStep(
       env,
       RNG.fromTime,
@@ -43,6 +44,8 @@ object GBestPSO extends SafeApp {
       (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) => RVar.pure(x)
     )
 
-    putStrLn(t.take(1000).runLast.unsafePerformSync.toString)
+    t.take(1000)
+      .runLast
+      .fold(eh => println(eh.toString), ah => println(ah.toString))
   }
 }
