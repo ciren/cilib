@@ -135,7 +135,9 @@ lazy val root = project
     BuildHelper.welcomeMessage
   )
   .aggregate(
-    core
+    core,
+    pso,
+    tests
   )
 
 // lazy val cilib = project
@@ -154,14 +156,12 @@ lazy val root = project
 //       releaseStepCommand("sonatypeReleaseAll")
 //     )
 //   ))
-//   .aggregate(core, de, docs, eda, example, exec, ga, moo, pso, tests)
-//   .dependsOn(core, de, docs, eda, example, exec, ga, moo, pso, tests)
 
 lazy val core = project
   .in(file("core"))
   .settings(BuildHelper.stdSettings("core"))
   //.settings(crossProjectSettings
-  .settings(BuildHelper.buildInfoSettings("core"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
       scalaz,
@@ -172,18 +172,6 @@ lazy val core = project
   )
   .enablePlugins(BuildInfoPlugin)
 
-// lazy val core = project
-//   .settings(
-//     cilibSettings ++ Seq(
-//       moduleName := "cilib-core",
-//       libraryDependencies ++= Seq(
-//         scalaz,
-//         scalazConcurrent,
-//         "org.spire-math" %% "spire" % spireVersion,
-//         "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
-//         "com.chuusai" %% "shapeless" % "2.3.3",
-//         "eu.timepit" %% "refined" % "0.9.2"
-//       ),
 //       wartremoverErrors in (Compile, compile) ++= Seq(
 //         //Wart.Any,
 //         Wart.AnyVal,
@@ -345,9 +333,12 @@ lazy val core = project
 //     )
 //   ) ++ cilibSettings)
 
-// lazy val pso = project
-//   .dependsOn(core)
-//   .settings(Seq(moduleName := "cilib-pso") ++ cilibSettings)
+lazy val pso = project
+  .in(file("pso"))
+  .dependsOn(core)
+  .settings(BuildHelper.stdSettings("pso"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .enablePlugins(BuildInfoPlugin)
 
 // lazy val ga = project
 //   .dependsOn(core)
@@ -357,18 +348,22 @@ lazy val core = project
 //   .dependsOn(core)
 //   .settings(Seq(moduleName := "cilib-de") ++ cilibSettings)
 
-// lazy val tests = project
-//   .dependsOn(core, pso, ga, moo)
-//   .settings(
-//     cilibSettings ++ noPublishSettings ++ Seq(
-//       moduleName := "cilib-tests",
-//       fork in test := true,
-//       javaOptions in test += "-Xmx1G",
-//       libraryDependencies ++= Seq(
-//         "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
-//         "org.scalaz" %% "scalaz-scalacheck-binding" % (scalazVersion + "-scalacheck-1.14") % "test"
-//       )
-//     ))
+lazy val tests = project
+  .in(file("tests"))
+  .dependsOn(core)
+  .dependsOn(pso)
+  //  .dependsOn(core, pso, ga, moo)
+  .settings(BuildHelper.stdSettings("tests"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .settings(skip in publish := true)
+  .settings(javaOptions in test += "-Xmx1G")
+  .settings(
+    libraryDependencies ++= Seq(
+      "org.scalacheck" %% "scalacheck"                % scalacheckVersion                    % "test",
+      "org.scalaz"     %% "scalaz-scalacheck-binding" % (scalazVersion + "-scalacheck-1.14") % "test"
+    )
+  )
+  .enablePlugins(BuildInfoPlugin)
 
 // lazy val io = project
 //   .dependsOn(core, exec)

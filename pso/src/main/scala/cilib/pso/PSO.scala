@@ -13,20 +13,20 @@ object PSO {
   import Lenses._
   // Constrain this better - Not numeric. Operation for vector addition
   def stdPosition[S, A](
-      c: Particle[S, A],
-      v: Position[A]
+    c: Particle[S, A],
+    v: Position[A]
   )(implicit A: Module[Position[A], A]): Step[A, Particle[S, A]] =
     Step.pure(_position.modify((_: Position[A]) + v)(c))
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists
   def stdVelocity[S](
-      entity: Particle[S, Double],
-      social: Position[Double],
-      cognitive: Position[Double],
-      w: Double,
-      c1: Double,
-      c2: Double
+    entity: Particle[S, Double],
+    social: Position[Double],
+    cognitive: Position[Double],
+    w: Double,
+    c1: Double,
+    c2: Double
   )(implicit V: HasVelocity[S, Double]): Step[Double, Position[Double]] =
     Step.liftR(for {
       cog <- (cognitive - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
@@ -37,31 +37,31 @@ object PSO {
   def evalParticle[S](entity: Particle[S, Double]) =
     Step.eval[S, Double](x => x)(entity)
 
-  def updatePBest[S](p: Particle[S, Double])(
-      implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
+  def updatePBest[S](p: Particle[S, Double])(implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
     val pbestL = M._memory
     Step
       .withCompare(Comparison.compare(p.pos, p.state.applyLens(pbestL).get))
       .map(x => Entity(p.state.applyLens(pbestL).set(x), p.pos))
   }
 
-  def updatePBestBounds[S](p: Particle[S, Double])(
-      implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
-    val b = Foldable1[NonEmptyList].foldLeft(p.pos.pos.zip(p.pos.boundary), true)((a, c) =>
-      a && (c._2.contains(c._1)))
+  def updatePBestBounds[S](
+    p: Particle[S, Double]
+  )(implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
+    val b = Foldable1[NonEmptyList].foldLeft(p.pos.pos.zip(p.pos.boundary), true)((a, c) => a && (c._2.contains(c._1)))
 
     if (b) updatePBest(p) else Step.pure(p)
   }
 
   def updateVelocity[S](p: Particle[S, Double], v: Position[Double])(
-      implicit V: HasVelocity[S, Double]): Step[Double, Particle[S, Double]] =
+    implicit V: HasVelocity[S, Double]
+  ): Step[Double, Particle[S, Double]] =
     Step.liftR(RVar.pure(Entity(p.state.applyLens(V._velocity).set(v), p.pos)))
 
   def singleComponentVelocity[S](
-      entity: Particle[S, Double],
-      component: Position[Double],
-      w: Double,
-      c: Double
+    entity: Particle[S, Double],
+    component: Position[Double],
+    w: Double,
+    c: Double
   )(implicit V: HasVelocity[S, Double]): Step[Double, Position[Double]] =
     Step.liftR(for {
       comp <- (component - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
@@ -73,23 +73,23 @@ object PSO {
     GCParams(p = 1.0, successes = 0, failures = 0, e_s = 15, e_f = 5)
 
   def gcVelocity[S](
-      entity: Particle[S, Double],
-      nbest: Position[Double],
-      w: Double,
-      s: GCParams
+    entity: Particle[S, Double],
+    nbest: Position[Double],
+    w: Double,
+    s: GCParams
   )(implicit V: HasVelocity[S, Double]): Step[Double, Position[Double]] =
     Step.liftR(
       nbest
         .traverse(_ => Dist.stdUniform.map(x => s.p * (1 - 2 * x)))
-        .map(a => -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a))
+        .map(a => -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a)
+    )
 
-  def barebones[S](p: Particle[S, Double], global: Position[Double])(
-      implicit M: HasMemory[S, Double]) =
+  def barebones[S](p: Particle[S, Double], global: Position[Double])(implicit M: HasMemory[S, Double]) =
     Step.liftR {
-      val pbest = M._memory.get(p.state)
+      val pbest  = M._memory.get(p.state)
       val zipped = pbest.zip(global)
       val sigmas = zipped.map { case (x, y) => math.abs(x - y) }
-      val means = zipped.map { case (x, y)  => (x + y) / 2.0 }
+      val means  = zipped.map { case (x, y) => (x + y) / 2.0 }
 
       (means.zip(sigmas)).traverse(x => Dist.gaussian(x._1, x._2))
     }
@@ -136,9 +136,9 @@ object PSO {
 
   // This is relative to the origin
   def quantum(
-      x: Position[Double], // passed in only to get the length of the vector
-      r: RVar[Double], // magnitude of the radius for the hypersphere
-      dist: (Double, Double) => RVar[Double] // Distribution used
+    x: Position[Double],                   // passed in only to get the length of the vector
+    r: RVar[Double],                       // magnitude of the radius for the hypersphere
+    dist: (Double, Double) => RVar[Double] // Distribution used
   ): Step[Double, Position[Double]] =
     Step.liftR {
       for {
@@ -146,11 +146,11 @@ object PSO {
         //_ = println("r_i: " + r_i)
         originSum = math.sqrt(r_i.pos.foldLeft(0.0)((a, c) => a + c * c))
         //_ = println("originSum: " + originSum)
-        scale <- r.flatMap(a => {
-          /*println("r: " + a); */
-          val g = dist(0.0, a); /*println("g: " + g);*/
-          g
-        }) // Use the provided distribution to scale the cloud radius
+        scale <- r.flatMap { a =>
+                  /*println("r: " + a); */
+                  val g = dist(0.0, a); /*println("g: " + g);*/
+                  g
+                } // Use the provided distribution to scale the cloud radius
       } yield {
         //println("scale: " + scale)
         val z = (scale / originSum) *: r_i
@@ -160,36 +160,36 @@ object PSO {
       }
     }
 
-  def acceleration[S](collection: NonEmptyList[Particle[S, Double]],
-                      x: Particle[S, Double],
-                      distance: (Position[Double], Position[Double]) => Double,
-                      rp: Double,
-                      rc: Double)(implicit C: HasCharge[S]): Step[Double, Position[Double]] = {
+  def acceleration[S](
+    collection: NonEmptyList[Particle[S, Double]],
+    x: Particle[S, Double],
+    distance: (Position[Double], Position[Double]) => Double,
+    rp: Double,
+    rc: Double
+  )(implicit C: HasCharge[S]): Step[Double, Position[Double]] = {
     def charge(x: Particle[S, Double]) =
       C._charge.get(x.state)
 
-    Step.pure(collection.list
-      .filter(z => charge(z) > 0.0)
-      .foldLeft(x.pos.zeroed) { (p1, p2) =>
-        {
+    Step.pure(
+      collection.list
+        .filter(z => charge(z) > 0.0)
+        .foldLeft(x.pos.zeroed) { (p1, p2) =>
           val d = distance(x.pos, p2.pos)
           if (d > rp || (x eq p2)) p1
           else
             (charge(x) * charge(p2) / (d * (if (d < rc) (rc * rc) else (d * d)))) *: (x.pos - p2.pos) + p1
         }
-      })
+    )
   }
 
   // Naming?
-  def replace[S](entity: Particle[S, Double],
-                 p: Position[Double]): Step[Double, Particle[S, Double]] =
+  def replace[S](entity: Particle[S, Double], p: Position[Double]): Step[Double, Particle[S, Double]] =
     Step.pure(entity.applyLens(_position).set(p))
 
   def better[S, A](a: Particle[S, A], b: Particle[S, A]): Step[A, Boolean] =
     Comparison.fittest(a, b).map(_ eq a)
 
-  def createParticle[S](f: Position[Double] => Particle[S, Double])(
-      pos: Position[Double]): Particle[S, Double] =
+  def createParticle[S](f: Position[Double] => Particle[S, Double])(pos: Position[Double]): Particle[S, Double] =
     f(pos)
 }
 

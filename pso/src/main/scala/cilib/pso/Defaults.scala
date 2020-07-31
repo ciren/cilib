@@ -1,7 +1,7 @@
 package cilib
 package pso
 
-import _root_.scala.Predef.{any2stringadd => _}
+import _root_.scala.Predef.{ any2stringadd => _ }
 import PSO._
 import scalaz._
 import spire.implicits._
@@ -21,60 +21,66 @@ object Defaults {
   //   } yield updated
 
   def gbest[S](
-      w: Double,
-      c1: Double,
-      c2: Double,
-      cognitive: Guide[S, Double],
-      social: Guide[S, Double]
-  )(implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): NonEmptyList[
-    Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+    w: Double,
+    c1: Double,
+    c2: Double,
+    cognitive: Guide[S, Double],
+    social: Guide[S, Double]
+  )(
+    implicit M: HasMemory[S, Double],
+    V: HasVelocity[S, Double]
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
     collection =>
       x =>
         for {
-          cog <- cognitive(collection, x)
-          soc <- social(collection, x)
-          v <- stdVelocity(x, soc, cog, w, c1, c2)
-          p <- stdPosition(x, v)
-          p2 <- evalParticle(p)
-          p3 <- updateVelocity(p2, v)
+          cog     <- cognitive(collection, x)
+          soc     <- social(collection, x)
+          v       <- stdVelocity(x, soc, cog, w, c1, c2)
+          p       <- stdPosition(x, v)
+          p2      <- evalParticle(p)
+          p3      <- updateVelocity(p2, v)
           updated <- updatePBest(p3)
         } yield updated
 
   def cognitive[S](
-      w: Double,
-      c1: Double,
-      cognitive: Guide[S, Double]
-  )(implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): NonEmptyList[
-    Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+    w: Double,
+    c1: Double,
+    cognitive: Guide[S, Double]
+  )(
+    implicit M: HasMemory[S, Double],
+    V: HasVelocity[S, Double]
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
     collection =>
       x => {
         for {
-          cog <- cognitive(collection, x)
-          v <- singleComponentVelocity(x, cog, w, c1)
-          p <- stdPosition(x, v)
-          p2 <- evalParticle(p)
-          p3 <- updateVelocity(p2, v)
+          cog     <- cognitive(collection, x)
+          v       <- singleComponentVelocity(x, cog, w, c1)
+          p       <- stdPosition(x, v)
+          p2      <- evalParticle(p)
+          p3      <- updateVelocity(p2, v)
           updated <- updatePBest(p3)
         } yield updated
-    }
+      }
 
   def social[S](
-      w: Double,
-      c1: Double,
-      social: Guide[S, Double]
-  )(implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): NonEmptyList[
-    Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+    w: Double,
+    c1: Double,
+    social: Guide[S, Double]
+  )(
+    implicit M: HasMemory[S, Double],
+    V: HasVelocity[S, Double]
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
     collection =>
       x => {
         for {
-          soc <- social(collection, x)
-          v <- singleComponentVelocity(x, soc, w, c1)
-          p <- stdPosition(x, v)
-          p2 <- evalParticle(p)
-          p3 <- updateVelocity(p2, v)
+          soc     <- social(collection, x)
+          v       <- singleComponentVelocity(x, soc, w, c1)
+          p       <- stdPosition(x, v)
+          p2      <- evalParticle(p)
+          p3      <- updateVelocity(p2, v)
           updated <- updatePBest(p3)
         } yield updated
-    }
+      }
 
   // This is only defined for the gbest topology because the "method" described in Edwin's
   // paper for alternate topologies _does not_ make sense. I can only assume that there is
@@ -83,95 +89,97 @@ object Defaults {
   // into something else is not elegant and does not have a solid reasoning
   // attached to it.
   def gcpso[S](w: Double, c1: Double, c2: Double, cognitive: Guide[S, Double])(
-      implicit M: HasMemory[S, Double],
-      V: HasVelocity[S, Double],
-      S: MonadState[StepS[Double, GCParams, ?], GCParams])
-    : NonEmptyList[Particle[S, Double]] => Particle[S, Double] => StepS[Double,
-                                                                        GCParams,
-                                                                        Particle[S, Double]] =
+    implicit M: HasMemory[S, Double],
+    V: HasVelocity[S, Double],
+    S: MonadState[StepS[Double, GCParams, ?], GCParams]
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => StepS[Double, GCParams, Particle[S, Double]] =
     collection =>
       x => {
         val g = Guide.gbest[S]
         for {
-          gbest <- StepS.pointS(g(collection, x))
-          cog <- StepS.pointS(cognitive(collection, x))
+          gbest  <- StepS.pointS(g(collection, x))
+          cog    <- StepS.pointS(cognitive(collection, x))
           isBest <- StepS.pointS(Step.pure[Double, Boolean](x.pos eq gbest)) // Yes, we do want reference equality
-          s <- S.get
+          s      <- S.get
           v <- StepS.pointS(
-            if (isBest) gcVelocity(x, gbest, w, s)
-            else stdVelocity(x, gbest, cog, w, c1, c2))
-          p <- StepS.pointS(stdPosition(x, v))
-          p2 <- StepS.pointS(evalParticle(p))
-          p3 <- StepS.pointS(updateVelocity(p2, v))
+                if (isBest) gcVelocity(x, gbest, w, s)
+                else stdVelocity(x, gbest, cog, w, c1, c2)
+              )
+          p       <- StepS.pointS(stdPosition(x, v))
+          p2      <- StepS.pointS(evalParticle(p))
+          p3      <- StepS.pointS(updateVelocity(p2, v))
           updated <- StepS.pointS(updatePBest(p3))
           failure <- StepS.pointS(
-            Step.withCompare[Double, Boolean](
-              Comparison.compare(x.pos, updated.pos).andThen(_ eq x.pos)))
+                      Step.withCompare[Double, Boolean](Comparison.compare(x.pos, updated.pos).andThen(_ eq x.pos))
+                    )
           _ <- S.modify(params =>
-            if (isBest) {
-              params.copy(
-                p =
-                  if (params.successes > params.e_s) 2.0 * params.p
-                  else if (params.failures > params.e_f) 0.5 * params.p
-                  else params.p,
-                failures = if (failure) params.failures + 1 else 0,
-                successes = if (!failure) params.successes + 1 else 0
+                if (isBest) {
+                  params.copy(
+                    p =
+                      if (params.successes > params.e_s) 2.0 * params.p
+                      else if (params.failures > params.e_f) 0.5 * params.p
+                      else params.p,
+                    failures = if (failure) params.failures + 1 else 0,
+                    successes = if (!failure) params.successes + 1 else 0
+                  )
+                } else params
               )
-            } else params)
         } yield updated
-    }
+      }
 
   def charged[S: HasCharge](
-      w: Double,
-      c1: Double,
-      c2: Double,
-      cognitive: Guide[S, Double],
-      social: Guide[S, Double],
-      distance: (Position[Double], Position[Double]) => Double,
-      rp: Double,
-      rc: Double
-  )(implicit M: HasMemory[S, Double], V: HasVelocity[S, Double]): NonEmptyList[
-    Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+    w: Double,
+    c1: Double,
+    c2: Double,
+    cognitive: Guide[S, Double],
+    social: Guide[S, Double],
+    distance: (Position[Double], Position[Double]) => Double,
+    rp: Double,
+    rc: Double
+  )(
+    implicit M: HasMemory[S, Double],
+    V: HasVelocity[S, Double]
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
     collection =>
       x =>
         for {
-          cog <- cognitive(collection, x)
-          soc <- social(collection, x)
-          accel <- acceleration(collection, x, distance, rp, rc)
-          v <- stdVelocity(x, soc, cog, w, c1, c2)
-          p <- stdPosition(x, v + accel)
-          p2 <- evalParticle(p)
-          p3 <- updateVelocity(p2, v)
+          cog     <- cognitive(collection, x)
+          soc     <- social(collection, x)
+          accel   <- acceleration(collection, x, distance, rp, rc)
+          v       <- stdVelocity(x, soc, cog, w, c1, c2)
+          p       <- stdPosition(x, v + accel)
+          p2      <- evalParticle(p)
+          p3      <- updateVelocity(p2, v)
           updated <- updatePBest(p3)
         } yield updated
 
   def nmpc[S](
-      guide: Guide[S, Double]
-  )(implicit M: HasMemory[S, Double])
-    : NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double,
-                                                                       Particle[S, Double]] =
+    guide: Guide[S, Double]
+  )(
+    implicit M: HasMemory[S, Double]
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
     collection =>
       x =>
         for {
-          p <- evalParticle(x)
-          p1 <- updatePBestBounds(p)
-          co <- guide(collection, p1)
-          p2 <- replace(p1, co)
-          p3 <- evalParticle(p2)
+          p        <- evalParticle(x)
+          p1       <- updatePBestBounds(p)
+          co       <- guide(collection, p1)
+          p2       <- replace(p1, co)
+          p3       <- evalParticle(p2)
           isBetter <- better(p1, p3)
         } yield if (isBetter) p1 else p3
 
   def crossoverPSO[S](
-      guide: Guide[S, Double]
-  )(implicit M: HasMemory[S, Double])
-    : NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double,
-                                                                       Particle[S, Double]] =
+    guide: Guide[S, Double]
+  )(
+    implicit M: HasMemory[S, Double]
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
     collection =>
       x =>
         for {
-          p <- evalParticle(x)
-          p1 <- updatePBestBounds(p)
-          g <- guide(collection, p1)
+          p       <- evalParticle(x)
+          p1      <- updatePBestBounds(p)
+          g       <- guide(collection, p1)
           updated <- replace(p1, g)
         } yield updated
 
