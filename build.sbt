@@ -137,6 +137,7 @@ lazy val root = project
   .aggregate(
     core,
     pso,
+    eda,
     ga,
     de,
     tests
@@ -294,13 +295,12 @@ lazy val core = project
 //   pgpPassphrase := Option(System.getenv("PGP_PASS")).map(_.toArray)
 // )
 
-// lazy val eda = project
-//   .dependsOn(core)
-//   .settings(Seq(
-//     moduleName := "cilib-eda",
-//     libraryDependencies ++= Seq(
-//       scalaz
-//     )) ++ cilibSettings)
+lazy val eda = project
+  .in(file("eda"))
+  .dependsOn(core)
+  .settings(BuildHelper.stdSettings("eda"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .enablePlugins(BuildInfoPlugin)
 
 // lazy val example = project
 //   .dependsOn(core, de, exec, ga, io, moo, pso)
