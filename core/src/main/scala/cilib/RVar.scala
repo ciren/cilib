@@ -1,16 +1,14 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _, _}
-import scalaz._
 import Scalaz._
-import scalaz.Free._
-
-import eu.timepit.refined.auto._
+import _root_.scala.Predef.{any2stringadd => _, _}
 import eu.timepit.refined.api._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
-
-import spire.math._
+import scalaz.Free._
+import scalaz._
 import spire.implicits._
+import spire.math._
 
 sealed abstract class RVar[A] {
   def trampolined(s: RNG): Trampoline[(RNG, A)]
@@ -90,8 +88,8 @@ object RVar extends RVarInstances {
     Dist
       .uniformInt(Interval(0, xs.size - 1))
       .map(i => {
-        import monocle._
         import Monocle._
+        import monocle._
 
         xs.list.applyOptional(index(i)).getOption.getOrElse(xs.head)
       })

@@ -1,8 +1,8 @@
 package cilib
 
-import scalaz._
-import scalaz.Ordering._
 import Scalaz._
+import scalaz.Ordering._
+import scalaz._
 
 sealed abstract class Fit {
   def fold[Z](penalty: Adjusted => Z, valid: Feasible => Z, infeasible: Infeasible => Z): Z =

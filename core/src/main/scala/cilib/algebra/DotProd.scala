@@ -1,9 +1,8 @@
 package cilib
 package algebra
 
-import scalaz._
 import Scalaz._
-
+import scalaz._
 import spire.algebra._
 import spire.implicits._
 

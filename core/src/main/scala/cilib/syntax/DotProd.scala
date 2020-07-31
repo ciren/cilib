@@ -2,17 +2,16 @@ package cilib
 package syntax
 
 import scalaz.{Foldable1, Functor, NonEmptyList}
-import spire.implicits._
 import spire.algebra._
 
 import cilib.algebra._
 
 object dotprod {
-  implicit class DotProdSyntax[F[_], A](val x: F[A]) extends AnyVal {
+  implicit class DotProdSyntax[F[_], A](private val x: F[A]) extends AnyVal {
     def ∙(a: F[A])(implicit D: DotProd[F, A]): Double = D.dot(x, a)
   }
 
-  implicit class AlgebraSyntax[F[_], A](val x: F[A]) extends AnyVal {
+  implicit class AlgebraSyntax[F[_], A](private val x: F[A]) extends AnyVal {
     def normalize(implicit M: Module[F[A], Double], D: DotProd[F, A]): F[A] = Algebra.normalize(x)
 
     def magnitude(implicit D: DotProd[F, A]): Double = Algebra.magnitude(x)

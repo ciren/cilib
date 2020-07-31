@@ -1,11 +1,9 @@
 package cilib
 
-import scalaz._
 import Scalaz._
-
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
-
+import scalaz._
 import spire.algebra.{Module, Rng}
 import spire.math._
 
@@ -109,7 +107,7 @@ object Position {
         a.zip(b).map(x => x._1 * x._2)
     }
 
-  implicit class PositionVectorOps[A](val x: Position[A]) extends AnyVal {
+  implicit class PositionVectorOps[A](private val x: Position[A]) extends AnyVal {
     def zeroed(implicit A: Rng[A]): Position[A] =
       x.map(_ => A.zero)
 

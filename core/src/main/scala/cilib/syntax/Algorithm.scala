@@ -4,7 +4,7 @@ package syntax
 import scalaz.NonEmptyList
 
 object algorithm {
-  final implicit class ToAlgorithmOps[A, B, C](val self: NonEmptyList[B] => B => Step[A, C])
+  final implicit class ToAlgorithmOps[A, B, C](private val self: NonEmptyList[B] => B => Step[A, C])
       extends AnyVal {
     def map[D](g: C => D): NonEmptyList[B] => B => Step[A, D] =
       xs => x => self(xs)(x).map(g)
@@ -16,7 +16,7 @@ object algorithm {
       xs => x => StepS.pointS(self(xs)(x))
   }
 
-  implicit class ToAlgorithmSOps[A, B, C, S](val self: NonEmptyList[B] => B => StepS[A, S, C])
+  implicit class ToAlgorithmSOps[A, B, C, S](private val self: NonEmptyList[B] => B => StepS[A, S, C])
       extends AnyVal {
     def map[D](g: C => D): NonEmptyList[B] => B => StepS[A, S, D] =
       xs => x => self(xs)(x).map(g)

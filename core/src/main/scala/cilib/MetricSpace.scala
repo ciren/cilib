@@ -1,12 +1,11 @@
 package cilib
 
-import scalaz.{Order => _, _}
 import Scalaz._
-
-import spire.math.{abs, max}
-import spire.implicits._
+import scalaz.{Order => _, _}
 import spire.algebra.{Semigroup => _, _}
+import spire.implicits._
 import spire.math._
+import spire.math.{abs, max}
 
 /**
   A MetricSpace is a set together with a notion of distance between elements.

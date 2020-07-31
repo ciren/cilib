@@ -1,7 +1,7 @@
 package cilib
 
-import scalaz._
 import Scalaz._
+import scalaz._
 
 /**
   * An `Iteration` is an atomic action that applies a given "algorithm" for each

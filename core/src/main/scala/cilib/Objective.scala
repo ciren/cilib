@@ -1,7 +1,7 @@
 package cilib
 
-import scalaz._
 import Scalaz._
+import scalaz._
 
 /**
   An `Objective` represents the result of an evaluation.

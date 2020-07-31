@@ -1,14 +1,13 @@
 package cilib
 
-import cilib.algebra._
-import cilib.syntax.dotprod._
-import cilib.Position._
-
-import scalaz._
 import Scalaz._
-
+import scalaz._
 import spire.implicits._
 import spire.math.sqrt
+
+import cilib.Position._
+import cilib.algebra._
+import cilib.syntax.dotprod._
 
 object Crossover {
 

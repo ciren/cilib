@@ -2,9 +2,9 @@ package cilib
 
 import scalaz.{Maybe, NonEmptyList}
 import spire.algebra.Eq
+import spire.implicits._
 import spire.math._
 import spire.math.interval._
-import spire.implicits._
 
 final class ViolationCount(val count: Int) extends AnyVal
 object ViolationCount {

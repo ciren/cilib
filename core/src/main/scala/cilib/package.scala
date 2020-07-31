@@ -48,7 +48,7 @@ package object cilib extends EvalInstances {
         v.map(scalar.times(r, _))
     }
 
-  implicit class IntervalOps[A](val interval: Interval[A]) extends AnyVal {
+  implicit class IntervalOps[A](private val interval: Interval[A]) extends AnyVal {
     def ^(n: Int): NonEmptyList[Interval[A]] =
       NonEmptyList.nel(interval, IList.fill(n - 1)(interval))
 

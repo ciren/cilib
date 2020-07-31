@@ -1,7 +1,7 @@
 package cilib
 
-import scalaz._
 import Scalaz._
+import scalaz._
 import spire.math.Interval
 
 object Boundary {
