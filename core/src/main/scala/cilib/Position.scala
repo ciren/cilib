@@ -4,7 +4,7 @@ import Scalaz._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
 import scalaz._
-import spire.algebra.{Module, Rng}
+import spire.algebra.{ Module, Rng }
 import spire.math._
 
 sealed abstract class Position[A] {
@@ -60,11 +60,8 @@ sealed abstract class Position[A] {
 }
 
 object Position {
-  private final case class Point[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]])
-      extends Position[A]
-  private final case class Solution[A](x: NonEmptyList[A],
-                                       b: NonEmptyList[Interval[Double]],
-                                       o: Objective[A])
+  private final case class Point[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
+  private final case class Solution[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]], o: Objective[A])
       extends Position[A]
 
   implicit def positionInstances: Bind[Position] with Traverse1[Position] with Align[Position] =
@@ -75,12 +72,10 @@ object Position {
       override def bind[A, B](fa: Position[A])(f: A => Position[B]): Position[B] =
         fa.flatMap(f)
 
-      override def traverseImpl[G[_]: Applicative, A, B](fa: Position[A])(
-          f: A => G[B]): G[Position[B]] =
+      override def traverseImpl[G[_]: Applicative, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
         fa.traverse(f)
 
-      override def traverse1Impl[G[_], A, B](fa: Position[A])(f: A => G[B])(
-          implicit A: Apply[G]): G[Position[B]] =
+      override def traverse1Impl[G[_], A, B](fa: Position[A])(f: A => G[B])(implicit A: Apply[G]): G[Position[B]] =
         fa.traverse1(f)
 
       def alignWith[A, B, C](f: A \&/ B => C) =
@@ -166,10 +161,10 @@ object Position {
   def eval[F[_], A](e: RVar[NonEmptyList[A] => Objective[A]], pos: Position[A]): RVar[Position[A]] =
     pos match {
       case Point(x, b) =>
-        e.map(f => {
+        e.map { f =>
           val s: Objective[A] = f.apply(x)
           Solution(x, b, s)
-        })
+        }
 
       case x @ Solution(_, _, _) =>
         RVar.pure(x)
@@ -181,15 +176,16 @@ object Position {
   def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
     domain.traverse(Dist.uniform).map(x => Position(x, domain))
 
-  def createPositions(domain: NonEmptyList[Interval[Double]],
-                      n: Int Refined Positive): RVar[NonEmptyList[Position[Double]]] =
+  def createPositions(
+    domain: NonEmptyList[Interval[Double]],
+    n: Int Refined Positive
+  ): RVar[NonEmptyList[Position[Double]]] =
     createPosition(domain)
       .replicateM(n.value)
-      .map(_.toNel.getOrElse(
-        sys.error("Impossible -> refinement requires n to be positive, i.e. n > 0")))
+      .map(_.toNel.getOrElse(sys.error("Impossible -> refinement requires n to be positive, i.e. n > 0")))
 
-  def createCollection[A](f: Position[Double] => A)(
-      domain: NonEmptyList[Interval[Double]],
-      n: Int Refined Positive): RVar[NonEmptyList[A]] =
+  def createCollection[A](
+    f: Position[Double] => A
+  )(domain: NonEmptyList[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyList[A]] =
     createPositions(domain, n).map(_.map(f))
 }

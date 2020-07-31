@@ -6,8 +6,7 @@ import monocle.std.option._
 
 final case class Mem[A](b: Position[A], v: Position[A])
 
-@annotation.implicitNotFound(
-  "A HasMemory instance cannot be found for the provided state type ${S}")
+@annotation.implicitNotFound("A HasMemory instance cannot be found for the provided state type ${S}")
 trait HasMemory[S, A] {
   def _memory: Lens[S, Position[A]]
 }
@@ -41,7 +40,7 @@ trait HasPBestStagnation[A] {
 }
 
 object Lenses {
-  import scalaz.{Lens => _, Optional => _, _}
+  import scalaz.{ Lens => _, Optional => _, _ }
 
   // Base Entity lenses
   def _state[S, A]: Lens[Entity[S, A], S] =
@@ -51,11 +50,11 @@ object Lenses {
     Lens[Entity[S, A], Position[A]](_.pos)(c => e => e.copy(pos = c))
 
   def _vector[A: scalaz.Equal]: Lens[Position[A], NonEmptyList[A]] =
-    Lens[Position[A], NonEmptyList[A]](_.pos)(
-      c =>
-        e =>
-          if (scalaz.Equal[NonEmptyList[A]].equal(e.pos, c)) e
-          else Position(c, e.boundary))
+    Lens[Position[A], NonEmptyList[A]](_.pos)(c =>
+      e =>
+        if (scalaz.Equal[NonEmptyList[A]].equal(e.pos, c)) e
+        else Position(c, e.boundary)
+    )
 
   def _objective[A]: Getter[Position[A], Option[Objective[A]]] =
     Getter(_.objective)

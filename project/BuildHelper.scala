@@ -9,20 +9,20 @@ object BuildHelper {
   private val stdOptions = Seq(
     "-deprecation", // Emit warning and location for usages of deprecated APIs.
     "-encoding",
-    "utf-8", // Specify character encoding used by source files.
+    "utf-8",         // Specify character encoding used by source files.
     "-explaintypes", // Explain type errors in more detail.
-    "-feature", // Emit warning and location for usages of features that should be imported explicitly.
-    "-unchecked" // Enable additional warnings where generated code depends on assumptions.
+    "-feature",      // Emit warning and location for usages of features that should be imported explicitly.
+    "-unchecked"     // Enable additional warnings where generated code depends on assumptions.
   )
 
   private val std2xOptions = Seq(
-    "-language:higherKinds", // Allow higher-kinded types
+    "-language:higherKinds",  // Allow higher-kinded types
     "-language:existentials", // Existential types (besides wildcard types) can be written and inferred
     "-explaintypes",
     "-Yrangepos",
     "-Xlint:_,-missing-interpolator,-type-parameter-shadow",
     "-Ywarn-numeric-widen", // Warn when numerics are widened.
-    "-Ywarn-value-discard" // Warn when non-Unit expression results are unused
+    "-Ywarn-value-discard"  // Warn when non-Unit expression results are unused
   ) ++ customOptions
 
   private def optimizerOptions(optimize: Boolean) =
@@ -69,10 +69,10 @@ object BuildHelper {
           "-Ywarn-unused:imports",
           "-Ypartial-unification",
           "-Yno-adapted-args",
-          "-Ywarn-inaccessible", // Warn about inaccessible types in method signatures.
-          "-Ywarn-infer-any", // Warn when a type argument is inferred to be `Any`.
+          "-Ywarn-inaccessible",     // Warn about inaccessible types in method signatures.
+          "-Ywarn-infer-any",        // Warn when a type argument is inferred to be `Any`.
           "-Ywarn-nullary-override", // Warn when non-nullary `def f()' overrides nullary `def f'.
-          "-Ywarn-nullary-unit", // Warn when nullary methods return Unit.
+          "-Ywarn-nullary-unit",     // Warn when nullary methods return Unit.
           "-Ywarn-unused:params,-implicits",
           "-Xfuture",
           "-Xsource:2.13",
@@ -83,10 +83,10 @@ object BuildHelper {
         Seq(
           "-Ypartial-unification",
           "-Yno-adapted-args",
-          "-Ywarn-inaccessible", // Warn about inaccessible types in method signatures.
-          "-Ywarn-infer-any", // Warn when a type argument is inferred to be `Any`.
+          "-Ywarn-inaccessible",     // Warn about inaccessible types in method signatures.
+          "-Ywarn-infer-any",        // Warn when a type argument is inferred to be `Any`.
           "-Ywarn-nullary-override", // Warn when non-nullary `def f()' overrides nullary `def f'.
-          "-Ywarn-nullary-unit", // Warn when nullary methods return Unit.
+          "-Ywarn-nullary-unit",     // Warn when nullary methods return Unit.
           "-Xexperimental",
           "-Ywarn-unused-import",
           "-Xfuture",
@@ -129,8 +129,8 @@ object BuildHelper {
         "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full,
         compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.4.4" cross CrossVersion.full),
         compilerPlugin(scalafixSemanticdb),
-        compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3" cross CrossVersion.binary),
-        compilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
+        compilerPlugin("org.typelevel" %% "kind-projector"     % "0.10.3" cross CrossVersion.binary),
+        compilerPlugin("com.olegpy"    %% "better-monadic-for" % "0.3.1")
       )
     }
   )
@@ -140,7 +140,7 @@ object BuildHelper {
 
     def header(text: String): String = s"${Console.RED}$text${Console.RESET}"
 
-    def item(text: String): String = s"${Console.GREEN}> ${Console.CYAN}$text${Console.RESET}"
+    def item(text: String): String    = s"${Console.GREEN}> ${Console.CYAN}$text${Console.RESET}"
     def subItem(text: String): String = s"  ${Console.YELLOW}> ${Console.CYAN}$text${Console.RESET}"
 
     s"""|${header("  ____ ___ ____      _   _")}
@@ -155,11 +155,11 @@ object BuildHelper {
         |${item("fix")} - Fixes sources files using scalafix
         |${item("fmt")} - Formats source files using scalafmt
       """.stripMargin
-        // |${item("~compileJVM")} - Compiles all JVM modules (file-watch enabled)
-        // |${item("testJVM")} - Runs all JVM tests
-        // |${item("testJS")} - Runs all ScalaJS tests
-        // |${item("testOnly *.YourSpec -- -t \"YourLabel\"")} - Only runs tests with matching term e.g.
-        // |${subItem("coreTestsJVM/testOnly *.ZIOSpec -- -t \"happy-path\"")}
-        // |${item("docs/docusaurusCreateSite")} - Generates the ZIO microsite
+    // |${item("~compileJVM")} - Compiles all JVM modules (file-watch enabled)
+    // |${item("testJVM")} - Runs all JVM tests
+    // |${item("testJS")} - Runs all ScalaJS tests
+    // |${item("testOnly *.YourSpec -- -t \"YourLabel\"")} - Only runs tests with matching term e.g.
+    // |${subItem("coreTestsJVM/testOnly *.ZIOSpec -- -t \"happy-path\"")}
+    // |${item("docs/docusaurusCreateSite")} - Generates the ZIO microsite
   }
 }

@@ -1,6 +1,6 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _}
+import _root_.scala.Predef.{ any2stringadd => _ }
 
 sealed trait RNG {
   val seed: Long
@@ -9,15 +9,15 @@ sealed trait RNG {
 
 private final class CMWC(val seed: Long, carry: Long, index: Int, state: Vector[Long]) extends RNG {
   val multiplier = 18782L //1030770L
-  val r = 4096L
+  val r          = 4096L
 
   def next(bits: Int) = {
     val t: Long = multiplier * state(index) + carry
     // carry = t / b (done in an unsigned way)
     val div32: Long = t >>> 32 // div32 = t / (b+1)
-    val newCarry = div32 + (if ((t & 0xFFFFFFFFL) >= 0xFFFFFFFFL - div32) 1L else 0L)
+    val newCarry    = div32 + (if ((t & 0xFFFFFFFFL) >= 0xFFFFFFFFL - div32) 1L else 0L)
     // seeds[n] = (b-1)-t%b (done in an unsigned way)
-    val result = 0xFFFFFFFEL - (t & 0xFFFFFFFFL) - (newCarry - div32 << 32) - newCarry & 0xFFFFFFFFL
+    val result  = 0xFFFFFFFEL - (t & 0xFFFFFFFFL) - (newCarry - div32 << 32) - newCarry & 0xFFFFFFFFL
     val updated = state.updated(index, result)
 
     (new CMWC(seed, newCarry, (index + 1 & r - 1).toInt, updated), (result >>> 32 - bits).toInt)
@@ -31,7 +31,7 @@ object RNG {
     init(System.currentTimeMillis)
 
   def init(seed: Long): RNG = {
-    val seedGen = initLCG(seed)
+    val seedGen      = initLCG(seed)
     val seedGenState = RVar.next[Int].map(_ & 0xFFFFFFFFL).replicateM(4097).run(seedGen)._2
 
     new CMWC(seed, seedGenState(4096), 4095, seedGenState.take(4096).toVector)

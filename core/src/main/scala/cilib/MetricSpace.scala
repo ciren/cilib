@@ -1,11 +1,11 @@
 package cilib
 
 import Scalaz._
-import scalaz.{Order => _, _}
-import spire.algebra.{Semigroup => _, _}
+import scalaz.{ Order => _, _ }
+import spire.algebra.{ Semigroup => _, _ }
 import spire.implicits._
 import spire.math._
-import spire.math.{abs, max}
+import spire.math.{ abs, max }
 
 /**
   A MetricSpace is a set together with a notion of distance between elements.
@@ -17,7 +17,7 @@ import spire.math.{abs, max}
   1.  triangle inequality: forall x y z. dist x z <= dist x y + dist y z
 
   See the Wikipedia article on metric spaces for more details.
-  */
+ */
 trait MetricSpace[A, B] { self =>
   def dist(x: A, y: A): B
 
@@ -52,13 +52,13 @@ object MetricSpace {
                       a <- f(i - 1, j)
                       b <- f(i, j - 1)
                       c <- f(i - 1, j - 1)
-                    } yield
-                      NonEmptyList(
-                        a + 1,
-                        b + 1,
-                        c + (if (x(i - 1) == y(j - 1)) 0 else 1)
-                      ).minimum1).run(memo)
-              })
+                    } yield NonEmptyList(
+                      a + 1,
+                      b + 1,
+                      c + (if (x(i - 1) == y(j - 1)) 0 else 1)
+                    ).minimum1).run(memo)
+                }
+              )
           }
 
         B.fromInt(f(x.length, y.length).eval(Map.empty))
@@ -71,7 +71,8 @@ object MetricSpace {
     }
 
   def minkowski[F[_]: Foldable, A: Signed: Field, B](
-      alpha: Int)(implicit A: Fractional[A], ev: Field[B]): MetricSpace[F[A], B] =
+    alpha: Int
+  )(implicit A: Fractional[A], ev: Field[B]): MetricSpace[F[A], B] =
     new MetricSpace[F[A], B] {
       def dist(x: F[A], y: F[A]) =
         ev.fromDouble(
@@ -80,15 +81,14 @@ object MetricSpace {
             .map { case (ai, bi) => abs(ai - bi) ** alpha }
             .foldLeft(0.0) { (ai, bi) =>
               (ai + A.toDouble(bi)) ** (1.0 / alpha)
-            })
+            }
+        )
     }
 
-  def manhattan[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field]
-    : MetricSpace[F[A], B] =
+  def manhattan[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field]: MetricSpace[F[A], B] =
     minkowski[F, A, B](1)
 
-  def euclidean[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field]
-    : MetricSpace[F[A], B] =
+  def euclidean[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field]: MetricSpace[F[A], B] =
     minkowski[F, A, B](2)
 
   def chebyshev[F[_]: Foldable, A: Order: Signed](implicit ev: Ring[A]): MetricSpace[F[A], A] =
@@ -108,8 +108,7 @@ object MetricSpace {
         x.toList.zip(y.toList).filter { case (ai, bi) => ai != bi }.size
     }
 
-  @deprecated("This method has been deprecated, use pure instead, it is technically better",
-              "2.0.2")
+  @deprecated("This method has been deprecated, use pure instead, it is technically better", "2.0.2")
   def point[A, B](a: B): MetricSpace[A, B] =
     pure(a)
 
