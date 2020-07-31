@@ -3,16 +3,15 @@ package example
 
 import eu.timepit.refined.auto._
 import scalaz._, Scalaz._
-import scalaz.effect.IO._
-import scalaz.effect._
 import spire.implicits._
 import spire.math._
+import zio.console._
 
 import cilib.de._
 import cilib.exec._
 import cilib.pso._
 
-object Mixed extends SafeApp {
+object Mixed extends zio.App {
 
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
@@ -49,6 +48,6 @@ object Mixed extends SafeApp {
 
   val alg = Iteration.sync(combinedAlg)
 
-  override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, alg, swarm).run(env).run(RNG.fromTime).toString)
+  def run(args: List[String]) =
+    putStrLn(Runner.repeat(1000, alg, swarm).run(env).run(RNG.fromTime).toString).exitCode
 }

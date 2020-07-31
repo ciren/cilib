@@ -4,16 +4,15 @@ package example
 import eu.timepit.refined.auto._
 import scalaz.NonEmptyList
 import scalaz._
-import scalaz.effect.IO.putStrLn
-import scalaz.effect._
 import spire.implicits._
 import spire.math.Interval
+import zio.console._
 
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 
-object GCPSO extends SafeApp {
+object GCPSO extends zio.App {
 
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
@@ -41,7 +40,7 @@ object GCPSO extends SafeApp {
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  override val runc: IO[Unit] = {
+  def run(args: List[String]) = {
     val algParams = PSO.defaultGCParams
 
     val result =
@@ -51,7 +50,7 @@ object GCPSO extends SafeApp {
         .run(env)
         .run(RNG.fromTime)
 
-    putStrLn(result.toString)
+    putStrLn(result.toString).exitCode
   }
 
 }

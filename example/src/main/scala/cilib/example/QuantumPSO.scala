@@ -3,11 +3,10 @@ package example
 
 //import scalaz._
 //import Scalaz._
-import scalaz.effect._
 
 //import cilib.pso._
 
-object QuantumPSO extends SafeApp {
+object QuantumPSO {
   /* import PSO._
   import Lenses._
   import spire.implicits._

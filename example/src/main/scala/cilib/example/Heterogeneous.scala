@@ -5,18 +5,17 @@ import eu.timepit.refined.auto._
 import pso.Heterogeneous._
 import pso.PSO.{ defaultGCParams, GCParams }
 import pso._
-import scalaz.effect.IO.putStrLn
-import scalaz.effect._
 import scalaz.std.stream._
 import scalaz.syntax.foldable._
 import scalaz.{ Lens => _, _ }
 import spire.implicits._
 import spire.math.Interval
+import zio.console._
 
 import cilib.syntax.algorithm._
 import cilib.syntax.step._
 
-object HPSO extends SafeApp {
+object HPSO extends zio.App {
 
   type BehaviourPool = Pool[Behaviour[PState, Double, Params]]
   type Entity        = User[Particle[PState, Double], Behaviour[PState, Double, Params]]
@@ -144,12 +143,9 @@ object HPSO extends SafeApp {
     .run(env)
     .run(RNG.fromTime)
 
-  override val runc: IO[Unit] =
-    finalResult._2 match {
-      case -\/(error) =>
-        throw error
-      case \/-(value) =>
-        putStrLn(behaviourProfile(value._1._1, value._2).toString)
-    }
-
+  def run(args: List[String]) =
+    zio.ZIO
+      .fromEither(finalResult._2.toEither)
+      .flatMap(value => putStrLn(behaviourProfile(value._1._1, value._2).toString))
+      .exitCode
 }

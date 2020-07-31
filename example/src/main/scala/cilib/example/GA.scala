@@ -4,14 +4,13 @@ package example
 import Lenses._
 import eu.timepit.refined.auto._
 import scalaz._, Scalaz._
-import scalaz.effect.IO.putStrLn
-import scalaz.effect._
 import spire.implicits._
 import spire.math.Interval
+import zio.console._
 
 import cilib.ga._
 
-object GAExample extends SafeApp {
+object GAExample extends zio.App {
   type Ind = Individual[Unit]
 
   val bounds = Interval(-5.12, 5.12) ^ 30
@@ -67,6 +66,6 @@ object GAExample extends SafeApp {
       )
 
   // Our IO[Unit] that runs at the end of the world
-  override val runc: IO[Unit] =
-    putStrLn(exec.Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime).toString)
+  def run(args: List[String]) =
+    putStrLn(exec.Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime).toString).exitCode
 }

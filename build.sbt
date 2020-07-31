@@ -313,7 +313,7 @@ lazy val example = project
   .settings(connectInput in run := true)
   .settings(
     libraryDependencies ++= Seq(
-      "net.cilib"  %% "benchmarks"    % "0.1.1"
+      "net.cilib" %% "benchmarks" % "0.1.1"
     )
   )
   .enablePlugins(BuildInfoPlugin)

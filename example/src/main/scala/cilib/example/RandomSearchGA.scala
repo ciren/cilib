@@ -3,15 +3,14 @@ package example
 
 import eu.timepit.refined.auto._
 import scalaz._, Scalaz._
-import scalaz.effect.IO.putStrLn
-import scalaz.effect._
 import spire.implicits._
 import spire.math.Interval
+import zio.console._
 
 import cilib.exec._
 import cilib.ga._
 
-object RandomSearchGA extends SafeApp {
+object RandomSearchGA extends zio.App {
   type Ind = Individual[Unit]
 
   val bounds = Interval(-5.12, 5.12) ^ 30
@@ -37,6 +36,6 @@ object RandomSearchGA extends SafeApp {
           .map(_.take(20).toNel.getOrElse(sys.error("Impossible -> List is empty?")))
       )
 
-  override val runc: IO[Unit] =
-    putStrLn(Runner.repeat(1000, myGA, swarm).run(env).run(RNG.fromTime).toString)
+  def run(args: List[String]) =
+    putStrLn(Runner.repeat(1000, myGA, swarm).run(env).run(RNG.fromTime).toString).exitCode
 }
