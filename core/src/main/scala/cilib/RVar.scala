@@ -1,11 +1,11 @@
 package cilib
 
-import Scalaz._
 import _root_.scala.Predef.{ any2stringadd => _, _ }
 import eu.timepit.refined.api._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
 import scalaz.Free._
+import scalaz.Scalaz._
 import scalaz._
 import spire.implicits._
 import spire.math._
@@ -87,8 +87,7 @@ object RVar extends RVarInstances {
     Dist
       .uniformInt(Interval(0, xs.size - 1))
       .map { i =>
-        import Monocle._
-        import monocle._
+        import monocle.Monocle._
 
         xs.list.applyOptional(index(i)).getOption.getOrElse(xs.head)
       }
@@ -359,8 +358,6 @@ object Dist {
   private val ZIGNOR_R = 3.442619855899      // Start of the right tail
   private val ZIGNOR_V = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
   private val (blocks, ratios) = {
-    import Scalaz._
-
     val f = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
     val blocks =
       (ZIGNOR_V / f) #::

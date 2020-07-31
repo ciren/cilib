@@ -1,8 +1,8 @@
 package cilib
 
-import Scalaz._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
+import scalaz.Scalaz._
 import scalaz._
 import spire.algebra.{ Module, Rng }
 import spire.math._

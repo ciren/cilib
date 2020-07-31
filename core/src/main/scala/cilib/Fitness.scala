@@ -1,7 +1,7 @@
 package cilib
 
-import Scalaz._
 import scalaz.Ordering._
+import scalaz.Scalaz._
 import scalaz._
 
 sealed abstract class Fit {

@@ -1,6 +1,6 @@
 package cilib
 
-import Scalaz._
+import scalaz.Scalaz._
 import scalaz._
 import spire.math.Interval
 

@@ -1,8 +1,8 @@
 package cilib
 
-import Scalaz._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
+import scalaz.Scalaz._
 import scalaz.{ Ordering => _, _ }
 
 object Selection {

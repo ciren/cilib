@@ -1,6 +1,6 @@
 package cilib
 
-import Scalaz._
+import scalaz.Scalaz._
 import scalaz.{ Order => _, _ }
 import spire.algebra.{ Semigroup => _, _ }
 import spire.implicits._
