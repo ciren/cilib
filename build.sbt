@@ -137,6 +137,8 @@ lazy val root = project
   .aggregate(
     core,
     pso,
+    ga,
+    de,
     tests
   )
 
@@ -340,19 +342,24 @@ lazy val pso = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .enablePlugins(BuildInfoPlugin)
 
-// lazy val ga = project
-//   .dependsOn(core)
-//   .settings(Seq(moduleName := "cilib-ga") ++ cilibSettings)
+lazy val ga = project
+  .in(file("ga"))
+  .dependsOn(core)
+  .settings(BuildHelper.stdSettings("ga"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .enablePlugins(BuildInfoPlugin)
 
-// lazy val de = project
-//   .dependsOn(core)
-//   .settings(Seq(moduleName := "cilib-de") ++ cilibSettings)
+lazy val de = project
+  .in(file("de"))
+  .dependsOn(core)
+  .settings(BuildHelper.stdSettings("de"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .enablePlugins(BuildInfoPlugin)
 
 lazy val tests = project
   .in(file("tests"))
   .dependsOn(core)
   .dependsOn(pso)
-  //  .dependsOn(core, pso, ga, moo)
   .settings(BuildHelper.stdSettings("tests"))
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(skip in publish := true)

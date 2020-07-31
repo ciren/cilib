@@ -1,13 +1,12 @@
 package cilib
 
-import scalaz.NonEmptyList
-import org.scalacheck._
-import org.scalacheck.Prop._
-import org.scalacheck.Gen._
 import org.scalacheck.Arbitrary._
-
-import spire.math.Interval
+import org.scalacheck.Gen._
+import org.scalacheck.Prop._
+import org.scalacheck._
+import scalaz.NonEmptyList
 import spire.implicits._
+import spire.math.Interval
 
 object BoundaryTest extends Spec("Boundary enforcement") {
 

@@ -1,11 +1,9 @@
 package cilib
 package pso
 
-import monocle._, Monocle._
 import Position._
-import scalaz._
-import Scalaz._
-
+import monocle._, Monocle._
+import scalaz._, Scalaz._
 import spire.algebra._
 import spire.implicits._
 

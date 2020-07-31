@@ -1,13 +1,10 @@
 package cilib
 
-import org.scalacheck._
 import org.scalacheck.Prop._
-
-import spire.implicits._
-
-import scalaz._
-import Scalaz._
+import org.scalacheck._
+import scalaz._, Scalaz._
 import scalaz.scalacheck.ScalazArbitrary._
+import spire.implicits._
 
 object SelectionTests extends Properties("Selection") {
 

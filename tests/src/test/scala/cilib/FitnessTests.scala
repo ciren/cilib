@@ -1,15 +1,13 @@
 package cilib
 
-import spire.implicits._
-
-import scalaz._
-import scalaz.Ordering._
-import scalaz.scalacheck.ScalazArbitrary._
-
-import org.scalacheck._
-import org.scalacheck.Prop._
-import org.scalacheck.Gen._
 import org.scalacheck.Arbitrary._
+import org.scalacheck.Gen._
+import org.scalacheck.Prop._
+import org.scalacheck._
+import scalaz.Ordering._
+import scalaz._
+import scalaz.scalacheck.ScalazArbitrary._
+import spire.implicits._
 
 object FitnessTest extends Properties("Fitness") {
 

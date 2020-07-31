@@ -1,8 +1,8 @@
 package cilib
 package pso
 
-import _root_.scala.Predef.{ any2stringadd => _ }
 import PSO._
+import _root_.scala.Predef.{ any2stringadd => _ }
 import scalaz._
 import spire.implicits._
 

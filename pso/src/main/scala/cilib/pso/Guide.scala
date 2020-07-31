@@ -1,9 +1,9 @@
 package cilib
 package pso
 
+import eu.timepit.refined.auto._
 import scalaz.NonEmptyList
 import scalaz.Scalaz._
-import eu.timepit.refined.auto._
 
 // A Guide is a selection followed by a comparison, wrapped up in a Step
 object Guide {

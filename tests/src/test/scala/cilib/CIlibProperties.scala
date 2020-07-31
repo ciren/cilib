@@ -1,10 +1,9 @@
 package cilib
 
-import org.scalacheck._
 import org.scalacheck.Prop._
-
-import spire.implicits._
+import org.scalacheck._
 import spire.algebra._
+import spire.implicits._
 import spire.math._
 
 import cilib.algebra._

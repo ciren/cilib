@@ -1,8 +1,8 @@
 package cilib
 
-import scalaz._, Scalaz._
 import org.scalacheck.Gen
 import org.scalacheck.Prop._
+import scalaz._, Scalaz._
 
 object GeneratorTest extends Spec("Distribution") {
 

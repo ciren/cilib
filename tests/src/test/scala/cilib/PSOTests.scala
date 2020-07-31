@@ -1,16 +1,15 @@
 package cilib
 
+import org.scalacheck.Arbitrary._
+import org.scalacheck.Gen
+import org.scalacheck.Gen._
+import org.scalacheck.Prop._
+import org.scalacheck._
 import scalaz._
 import scalaz.std.list._
 import scalaz.std.option._
 import scalaz.syntax.std.list._
 import scalaz.syntax.traverse._
-import org.scalacheck._
-import org.scalacheck.Prop._
-import org.scalacheck.Gen
-import org.scalacheck.Gen._
-import org.scalacheck.Arbitrary._
-
 import spire.implicits._
 
 object PSOTests extends Properties("QPSO") {

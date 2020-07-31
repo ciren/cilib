@@ -1,10 +1,9 @@
 package cilib
 
-import scalaz._
-import scalaz.std.anyVal._
 import org.scalacheck._
-
+import scalaz._
 import scalaz.scalacheck.ScalazProperties._
+import scalaz.std.anyVal._
 
 object StepTest extends Spec("Step") {
   val rng = RNG.fromTime

@@ -1,16 +1,12 @@
 package cilib
 
-import scalaz._
-import Scalaz._
-
-import org.scalacheck._
-import org.scalacheck.Prop._
-
 import eu.timepit.refined._
 import eu.timepit.refined.numeric.Positive
-
-import scalaz.scalacheck.ScalazProperties._
+import org.scalacheck.Prop._
+import org.scalacheck._
+import scalaz._, Scalaz._
 import scalaz.scalacheck.ScalazArbitrary._
+import scalaz.scalacheck.ScalazProperties._
 
 // Should we look at using Discipline or scalaz's way of testing? I'm not sure...
 object RVarTests extends Spec("RVar") {

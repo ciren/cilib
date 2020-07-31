@@ -2,10 +2,8 @@ package cilib
 
 import CIlibProperties._
 import org.scalacheck._
-
-import scalaz.{ IList, NonEmptyList }
 import scalaz.std.list._
-
+import scalaz.{ IList, NonEmptyList }
 import spire.implicits._
 import spire.math.Interval
 
