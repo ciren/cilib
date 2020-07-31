@@ -169,7 +169,7 @@ lazy val core = project
       scalaz,
       "org.spire-math"             %% "spire"        % spireVersion,
       "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
-      "eu.timepit"                 %% "refined"      % "0.9.2"
+      "eu.timepit"                 %% "refined"      % "0.9.15"
     )
   )
   .enablePlugins(BuildInfoPlugin)
