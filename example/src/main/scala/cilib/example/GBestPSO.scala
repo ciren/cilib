@@ -1,29 +1,29 @@
 package cilib
 package example
 
-import cilib.pso._
-import cilib.pso.Defaults._
-import cilib.exec._
-
 import eu.timepit.refined.auto._
-
 import scalaz._
-import scalaz.effect._
 import scalaz.effect.IO.putStrLn
+import scalaz.effect._
 import spire.implicits._
 import spire.math.Interval
+
+import cilib.exec._
+import cilib.pso.Defaults._
+import cilib.pso._
 
 object GBestPSO extends SafeApp {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
-    Environment(cmp = Comparison.dominance(Min),
-                eval = Eval.unconstrained((xs: NonEmptyList[Double]) =>
-                  Feasible(cilib.benchmarks.Benchmarks.spherical(xs))))
+    Environment(
+      cmp = Comparison.dominance(Min),
+      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+    )
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]
-  val social = Guide.gbest[Mem[Double]]
-  val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
+  val social    = Guide.gbest[Mem[Double]]
+  val gbestPSO  = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
   // RVar
   val swarm =
@@ -40,8 +40,7 @@ object GBestPSO extends SafeApp {
       swarm,
       Runner.staticAlgorithm("gbestPSO", iter),
       problemStream,
-      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) =>
-        RVar.pure(x)
+      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) => RVar.pure(x)
     )
 
     putStrLn(t.take(1000).runLast.unsafePerformSync.toString)

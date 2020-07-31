@@ -79,11 +79,6 @@ lazy val buildWebsite = taskKey[Unit]("Build website")
 //   mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)*/
 // )
 
-// lazy val noPublishSettings = Seq(
-//   skip in publish := true,
-//   mimaPreviousArtifacts := Set()
-// )
-
 // lazy val publishSettings = Seq(
 //   organizationHomepage := Some(url("https://github.com/cirg-up")),
 //   homepage := Some(url("https://cilib.net")),
@@ -140,7 +135,11 @@ lazy val root = project
     eda,
     ga,
     de,
-    tests
+    tests,
+    example,
+    exec,
+    io,
+    moo
   )
 
 // lazy val cilib = project
@@ -302,38 +301,46 @@ lazy val eda = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .enablePlugins(BuildInfoPlugin)
 
-// lazy val example = project
-//   .dependsOn(core, de, exec, ga, io, moo, pso)
-//   .settings(
-//     cilibSettings ++ noPublishSettings ++ Seq(
-//       fork in run := true,
-//       connectInput in run := true,
-//       moduleName := "cilib-example",
-//       libraryDependencies ++= Seq(
-//         "net.cilib" %% "benchmarks" % "0.1.1",
-//         "org.scalaz" %% "scalaz-effect" % scalazVersion
-//       )
-//     ))
+lazy val example = project
+  .in(file("example"))
+  .dependsOn(core)
+  .dependsOn(pso)
+  .dependsOn(ga)
+  .dependsOn(exec)
+  .dependsOn(io)
+  .dependsOn(de)
+  .settings(BuildHelper.stdSettings("example"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .settings(fork in run := true)
+  .settings(connectInput in run := true)
+  .settings(
+    libraryDependencies ++= Seq(
+      "net.cilib"  %% "benchmarks"    % "0.1.1",
+      "org.scalaz" %% "scalaz-effect" % scalazVersion
+    )
+  )
+  .enablePlugins(BuildInfoPlugin)
 
-// lazy val exec = project
-//   .dependsOn(core)
-//   .settings(cilibSettings ++ Seq(
-//     moduleName := "cilib-exec",
-//     libraryDependencies ++= Seq(
-//       scalazConcurrent,
-//       "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion,
-//       "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion
-//     )
-//   ))
+lazy val exec = project
+  .in(file("exec"))
+  .dependsOn(core)
+  .settings(BuildHelper.stdSettings("exec"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .settings(
+    libraryDependencies ++= Seq(
+      scalazConcurrent,
+      "org.scalaz.stream"        %% "scalaz-stream"  % scalazStreamVersion,
+      "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion
+    )
+  )
+  .enablePlugins(BuildInfoPlugin)
 
-// lazy val moo = project
-//   .dependsOn(core)
-//   .settings(Seq(
-//     moduleName := "cilib-moo",
-//     libraryDependencies ++= Seq(
-//       scalaz
-//     )
-//   ) ++ cilibSettings)
+lazy val moo = project
+  .in(file("moo"))
+  .dependsOn(core)
+  .settings(BuildHelper.stdSettings("moo"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .enablePlugins(BuildInfoPlugin)
 
 lazy val pso = project
   .in(file("pso"))
@@ -372,17 +379,20 @@ lazy val tests = project
   )
   .enablePlugins(BuildInfoPlugin)
 
-// lazy val io = project
-//   .dependsOn(core, exec)
-//   .settings(
-//     cilibSettings ++ noPublishSettings ++ Seq(
-//       moduleName := "cilib-io",
-//       libraryDependencies ++= Seq(
-//         "com.chuusai" %% "shapeless" % "2.3.2",
-//         "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion,
-//         "org.apache.hadoop" % "hadoop-client" % "2.7.3",
-//         "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
-//       )
-//     ))
+lazy val io = project
+  .in(file("io"))
+  .dependsOn(core)
+  .dependsOn(exec)
+  .settings(BuildHelper.stdSettings("io"))
+  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.chuusai"              %% "shapeless"      % "2.3.2",
+      "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion,
+      "org.apache.hadoop"        % "hadoop-client"   % "2.7.3",
+      "org.scalaz.stream"        %% "scalaz-stream"  % scalazStreamVersion
+    )
+  )
+  .enablePlugins(BuildInfoPlugin)
 
 scalafixDependencies in ThisBuild += "com.nequissimus" %% "sort-imports" % "0.5.0"

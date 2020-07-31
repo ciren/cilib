@@ -1,46 +1,47 @@
 package cilib
 package exec
 
-import scalaz._
-import Scalaz._
-
-import scalaz.stream._
-import scalaz.concurrent.Task
-
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.collection._
+import scalaz._, Scalaz._
+import scalaz.concurrent.Task
+import scalaz.stream._
 
 final case class Algorithm[A](name: String Refined NonEmpty, value: A)
 final case class Problem[A](name: String Refined NonEmpty, env: Env, eval: Eval[NonEmptyList, A])
-final case class Progress[A] private (algorithm: String,
-                                      problem: String,
-                                      seed: Long,
-                                      iteration: Int,
-                                      env: Env,
-                                      value: A)
+final case class Progress[A] private (
+  algorithm: String,
+  problem: String,
+  seed: Long,
+  iteration: Int,
+  env: Env,
+  value: A
+)
 
 object Runner {
 
   trait Iteration
 
   def repeat[M[_]: Monad, F[_], A](n: Int, alg: Kleisli[M, F[A], F[A]], collection: RVar[F[A]])(
-      implicit M: MonadStep[M]): M[F[A]] =
+    implicit M: MonadStep[M]
+  ): M[F[A]] =
     M.liftR(collection)
       .flatMap(coll =>
         (1 to n).toStream.foldLeftM[M, F[A]](coll) { (a, _) =>
           alg.run(a)
-      })
+        }
+      )
 
-  def staticAlgorithm[M[_]: Monad, F[_], A](name: String Refined NonEmpty,
-                                            a: Kleisli[M, F[A], F[A]]) =
+  def staticAlgorithm[M[_]: Monad, F[_], A](name: String Refined NonEmpty, a: Kleisli[M, F[A], F[A]]) =
     Process.constant(Algorithm(name, a))
 
   def algorithm[M[_]: Monad, F[_]: Foldable1, A, B](
-      name: String Refined NonEmpty,
-      config: A,
-      f: A => Kleisli[M, F[B], F[B]],
-      updater: (A, Int @@ Iteration) => A): Process[Nothing, Algorithm[Kleisli[M, F[B], F[B]]]] = {
+    name: String Refined NonEmpty,
+    config: A,
+    f: A => Kleisli[M, F[B], F[B]],
+    updater: (A, Int @@ Iteration) => A
+  ): Process[Nothing, Algorithm[Kleisli[M, F[B], F[B]]]] = {
 
     def go(current: A, iteration: Int): Process[Nothing, Algorithm[Kleisli[M, F[B], F[B]]]] = {
       val next = f(current)
@@ -53,16 +54,14 @@ object Runner {
   }
 
   def staticProblem[S, A](
-      name: String Refined NonEmpty,
-      eval: Eval[NonEmptyList, A]
+    name: String Refined NonEmpty,
+    eval: Eval[NonEmptyList, A]
   ): Process[Task, Problem[A]] =
     Process.constant(Problem(name, Unchanged, eval))
 
-  def problem[S, A](name: String Refined NonEmpty,
-                    state: RVar[S],
-                    next: S => RVar[(S, Eval[NonEmptyList, A])])(
-      env: Stream[Env],
-      rng: RNG
+  def problem[S, A](name: String Refined NonEmpty, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyList, A])])(
+    env: Stream[Env],
+    rng: RNG
   ): Process[Task, Problem[A]] = {
     def go(s: S, c: Eval[NonEmptyList, A], e: Stream[Env], r: RNG): Process[Task, Problem[A]] =
       e match {
@@ -83,15 +82,16 @@ object Runner {
   }
 
   /**
-    *  Interpreter for algorithm execution
-    */
+   *  Interpreter for algorithm execution
+   */
   def foldStep[F[_], A, B](
-      initialConfig: Environment[A],
-      rng: RNG,
-      collection: RVar[F[B]],
-      alg: Process[Task, Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]],
-      env: Process[Task, Problem[A]],
-      onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]): Process[Task, Progress[F[B]]] = {
+    initialConfig: Environment[A],
+    rng: RNG,
+    collection: RVar[F[B]],
+    alg: Process[Task, Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]],
+    env: Process[Task, Problem[A]],
+    onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]
+  ): Process[Task, Progress[F[B]]] = {
 
     // Convert to a StepS with Unit as the state parameter
     val a: Process[Task, Algorithm[Kleisli[StepS[A, Unit, ?], F[B], F[B]]]] =
@@ -102,16 +102,22 @@ object Runner {
   }
 
   def foldStepS[F[_], S, A, B](
-      initialConfig: Environment[A],
-      initialState: S,
-      rng: RNG,
-      collection: RVar[F[B]],
-      alg: Process[Task, Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]],
-      env: Process[Task, Problem[A]],
-      onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]): Process[Task, Progress[(S, F[B])]] = {
+    initialConfig: Environment[A],
+    initialState: S,
+    rng: RNG,
+    collection: RVar[F[B]],
+    alg: Process[Task, Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]],
+    env: Process[Task, Problem[A]],
+    onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]
+  ): Process[Task, Progress[(S, F[B])]] = {
 
-    def go(iteration: Int, r: RNG, current: F[B], config: Environment[A], state: S)
-      : Tee[Problem[A], Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]], Progress[(S, F[B])]] =
+    def go(
+      iteration: Int,
+      r: RNG,
+      current: F[B],
+      config: Environment[A],
+      state: S
+    ): Tee[Problem[A], Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]], Progress[(S, F[B])]] =
       Process.awaitL[Problem[A]].awaitOption.flatMap {
         case None => Process.halt
         case Some(Problem(problem, e, eval)) =>

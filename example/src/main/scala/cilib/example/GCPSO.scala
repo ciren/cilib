@@ -1,40 +1,40 @@
 package cilib
 package example
 
-import cilib.pso._
-import cilib.pso.Defaults._
-import cilib.exec._
-
 import eu.timepit.refined.auto._
-
 import scalaz.NonEmptyList
-import scalaz.effect._
+import scalaz._
 import scalaz.effect.IO.putStrLn
+import scalaz.effect._
 import spire.implicits._
 import spire.math.Interval
 
-import scalaz._
+import cilib.exec._
+import cilib.pso.Defaults._
+import cilib.pso._
 
 object GCPSO extends SafeApp {
 
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
-    Environment(cmp = Comparison.dominance(Min),
-                eval = Eval.unconstrained((xs: NonEmptyList[Double]) =>
-                  Feasible(cilib.benchmarks.Benchmarks.spherical(xs))))
+    Environment(
+      cmp = Comparison.dominance(Min),
+      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+    )
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]
-  val social = Guide.gbest[Mem[Double]]
+  val social    = Guide.gbest[Mem[Double]]
   val gcPSO: NonEmptyList[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[
     Double,
     PSO.GCParams,
-    Particle[Mem[Double], Double]] =
+    Particle[Mem[Double], Double]
+  ] =
     gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
-  val iter: Kleisli[StepS[Double, PSO.GCParams, ?],
-                    NonEmptyList[Particle[Mem[Double], Double]],
-                    NonEmptyList[Particle[Mem[Double], Double]]] =
+  val iter: Kleisli[StepS[Double, PSO.GCParams, ?], NonEmptyList[Particle[Mem[Double], Double]], NonEmptyList[
+    Particle[Mem[Double], Double]
+  ]] =
     Iteration.syncS(gcPSO)
 
   val swarm =

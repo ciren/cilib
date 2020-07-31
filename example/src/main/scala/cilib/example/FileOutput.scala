@@ -2,12 +2,6 @@ package cilib
 package example
 import java.io.File
 
-import cilib.benchmarks.Benchmarks
-import cilib.exec.Runner._
-import cilib.exec._
-import cilib.io._
-import cilib.pso.Defaults._
-import cilib.pso._
 import eu.timepit.refined.auto._
 import scalaz.Scalaz._
 import scalaz._
@@ -18,39 +12,50 @@ import scalaz.stream._
 import spire.implicits._
 import spire.math.Interval
 
+import cilib.benchmarks.Benchmarks
+import cilib.exec.Runner._
+import cilib.exec._
+import cilib.io._
+import cilib.pso.Defaults._
+import cilib.pso._
+
 object FileOutput extends SafeApp {
 
   // An example showing how to compare multiple algorithms across multiple
   // benchmarks and save the results to a a file (either csv or parquet).
 
   val bounds = Interval(-5.12, 5.12) ^ 30
-  val rng = RNG.init(12L)
+  val rng    = RNG.init(12L)
 
   // Define the benchmarks
   val absolute = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.absoluteValue(xs))))
+    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.absoluteValue(xs)))
+  )
 
   val ackley = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.ackley(xs))))
+    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.ackley(xs)))
+  )
 
   val quadric = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.quadric(xs))))
+    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.quadric(xs)))
+  )
 
   val spherical = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.spherical(xs))))
+    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.spherical(xs)))
+  )
 
   // Define the problem streams
-  val absoluteStream = Runner.staticProblem("absolute", absolute.eval)
-  val ackleyStream = Runner.staticProblem("ackley", ackley.eval)
+  val absoluteStream  = Runner.staticProblem("absolute", absolute.eval)
+  val ackleyStream    = Runner.staticProblem("ackley", ackley.eval)
   val sphericalStream = Runner.staticProblem("spherical", spherical.eval)
-  val quadricStream = Runner.staticProblem("quadric", quadric.eval)
+  val quadricStream   = Runner.staticProblem("quadric", quadric.eval)
 
   // Define the guides for our PSO algorithms
-  val cognitive = Guide.pbest[Mem[Double], Double]
+  val cognitive  = Guide.pbest[Mem[Double], Double]
   val gbestGuide = Guide.gbest[Mem[Double]]
   val lbestGuide = Guide.lbest[Mem[Double]](3)
 
@@ -71,21 +76,19 @@ object FileOutput extends SafeApp {
 
   // A performance measure that we apply to the collection at the end of each iteration.
   def performanceMeasure =
-    measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results](collection => {
+    measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results] { collection =>
       val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
       val fitnessValues =
         collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
       Results(fitnessValues.minimum1, fitnessValues.suml / fitnessValues.size)
-    })
+    }
 
   // A simple RVar.pure function that is called when the the environment changes
   // In this example our environments do not change.
-  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) =>
-    RVar.pure(x)
+  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) => RVar.pure(x)
 
   def simulation(env: Environment[Double], stream: Process[Task, Problem[Double]]) =
-    List(Runner.staticAlgorithm("GBestPSO", gbestIter),
-         Runner.staticAlgorithm("LBestPSO", lbestIter))
+    List(Runner.staticAlgorithm("GBestPSO", gbestIter), Runner.staticAlgorithm("LBestPSO", lbestIter))
       .map(alg => Runner.foldStep(env, rng, swarm, alg, stream, onChange))
 
   val simulations = List.concat(
@@ -103,7 +106,7 @@ object FileOutput extends SafeApp {
         case Invalid => throw new Exception("Invalid choice")
       }
   }
-  final case object CSV extends Choice
+  final case object CSV     extends Choice
   final case object Parquet extends Choice
   final case object Invalid extends Choice
 
@@ -124,15 +127,16 @@ object FileOutput extends SafeApp {
     for {
       _ <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
       choice <- IO.readLn.map(s =>
-        \/.fromTryCatchNonFatal(s.toInt) match {
-          case \/-(1) => Parquet: Choice
-          case \/-(2) => CSV: Choice
-          case _      => Invalid: Choice
-      })
+                 \/.fromTryCatchNonFatal(s.toInt) match {
+                   case \/-(1) => Parquet: Choice
+                   case \/-(2) => CSV: Choice
+                   case _      => Invalid: Choice
+                 }
+               )
       _ <- putStrLn(s"Executing ${simulations.size} simulations.")
       _ <- IO {
-        writeResults(choice).run.unsafePerformSync
-      }
+            writeResults(choice).run.unsafePerformSync
+          }
       _ <- putStrLn("Complete.")
     } yield ()
 
