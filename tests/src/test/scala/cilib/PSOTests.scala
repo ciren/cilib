@@ -28,7 +28,7 @@ object PSOTests extends Properties("QPSO") {
       bounds <- Gen.listOfN(2, arbitrary[spire.math.Interval[Double]])
       pos    <- Gen.const(bounds.traverse(b => Gen.choose(b.lowerValue, b.upperValue).sample))
     } yield Position(
-      pos.flatMap(_.toNel).getOrElse(sys.error("Error generating NonEmptyList[Double]")),
+      pos.flatMap(_.toNel.toOption).getOrElse(sys.error("Error generating NonEmptyList[Double]")),
       bounds.toNel.getOrElse(sys.error("Error generating NonEmptyList[Interval[Double]]"))
     )
 

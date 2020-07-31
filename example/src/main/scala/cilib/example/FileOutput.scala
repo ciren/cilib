@@ -130,7 +130,7 @@ object FileOutput extends zio.App {
     for {
       _      <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
       result <- getStrLn
-      choice <- ZIO.succeed(\/.fromTryCatchNonFatal(result.toInt) match {
+      choice <- ZIO.succeed(\/.attempt(result.toInt)(_.getMessage) match {
                  case \/-(1) => Parquet
                  case \/-(2) => CSV
                  case _      => Invalid

@@ -5,8 +5,7 @@ import eu.timepit.refined.api._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
 import scalaz.Free._
-import scalaz.Scalaz._
-import scalaz._
+import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math._
 
@@ -47,9 +46,9 @@ sealed abstract class RVarInstances extends RVarInstances0 {
       def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
         fa.map(f)
 
-      def tailrecM[A, B](f: A => RVar[A \/ B])(a: A): RVar[B] =
+      def tailrecM[A, B](a: A)(f: A => RVar[A \/ B]): RVar[B] =
         f(a).flatMap {
-          case -\/(a0) => tailrecM(f)(a0)
+          case -\/(a0) => tailrecM(a0)(f)
           case \/-(b)  => RVar.pure(b)
         }
     }
@@ -78,10 +77,10 @@ object RVar extends RVarInstances {
     e.gen
 
   def ints(n: Int): RVar[List[Int]] =
-    next[Int](Generator.IntGen).replicateM(n)
+    next[Int](Generator.IntGen).replicateM(n).map(_.toList)
 
   def doubles(n: Int): RVar[List[Double]] =
-    next[Double](Generator.DoubleGen).replicateM(n)
+    next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
   def choose[A](xs: NonEmptyList[A]): RVar[A] =
     Dist
@@ -263,7 +262,7 @@ object Dist {
 
   def gamma(k: Double, theta: Double): RVar[Double] = {
     val n        = k.toInt
-    val gammaInt = stdUniform.replicateM(n).map(_.foldMap(x => -math.log(x)))
+    val gammaInt = stdUniform.replicateM(n).map(_.toList.foldMap(x => -math.log(x)))
     val gammaFrac = {
       val delta = k - n
 
@@ -282,12 +281,11 @@ object Dist {
         }
 
       a.flatMap(a0 =>
-        BindRec[RVar].tailrecM { (x: (Double, Double)) =>
+        BindRec[RVar].tailrecM(a0) { (x: (Double, Double)) =>
           val (zeta, eta) = x
-
           if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) a.map(_.left[Double])
           else RVar.pure(zeta.right[(Double, Double)])
-        }(a0)
+        }
       )
 
       // def inner: RVar[Double] =
@@ -358,6 +356,8 @@ object Dist {
   private val ZIGNOR_R = 3.442619855899      // Start of the right tail
   private val ZIGNOR_V = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
   private val (blocks, ratios) = {
+    import scalaz.std.stream._
+
     val f = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
     val blocks =
       (ZIGNOR_V / f) #::

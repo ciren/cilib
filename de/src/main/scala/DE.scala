@@ -50,7 +50,7 @@ object DE {
     val pairs: Step[A, List[Position[A]]] =
       filtered.flatMap(x =>
         x.toNel match {
-          case Some(l) =>
+          case Maybe.Just(l) =>
             Step.liftR(
               RVar
                 .shuffle(l)
@@ -59,7 +59,7 @@ object DE {
                     .map(z => z._1.pos - z._2.pos)
                 )
             )
-          case None =>
+          case Maybe.Empty() =>
             Step.pure(List.empty)
         }
       )
@@ -100,7 +100,7 @@ object DE {
     for {
       start    <- Dist.uniformInt(spire.math.Interval(0, length - 1))
       circular = Stream.continually((0 to length).toStream).flatten
-      randoms  <- Dist.stdUniform.replicateM(length)
+      randoms  <- Dist.stdUniform.replicateM(length).map(_.toList)
     } yield {
       val paired   = circular.drop(start).take(length).toList.zip(randoms)
       val adjacent = paired.head :: paired.tail.takeWhile(t => t._2 < p_r)

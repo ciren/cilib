@@ -2,12 +2,11 @@ import sbt._
 import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
-val scalazVersion       = "7.2.25"
-val scalazStreamVersion = "0.8.6a"
-val spireVersion        = "0.13.0"
-val monocleVersion      = "1.5.0"
-val scalacheckVersion   = "1.14.0"
-val parquet4sVersion    = "1.3.1"
+val scalazVersion     = "7.3.2"
+val spireVersion      = "0.13.0"
+val monocleVersion    = "1.5.0"
+val scalacheckVersion = "1.14.0"
+val parquet4sVersion  = "1.3.1"
 
 val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
 
@@ -372,8 +371,8 @@ lazy val tests = project
   .settings(javaOptions in test += "-Xmx1G")
   .settings(
     libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck"                % scalacheckVersion                    % "test",
-      "org.scalaz"     %% "scalaz-scalacheck-binding" % (scalazVersion + "-scalacheck-1.14") % "test"
+      "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
+      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
     )
   )
   .enablePlugins(BuildInfoPlugin)

@@ -32,13 +32,13 @@ object RNG {
 
   def init(seed: Long): RNG = {
     val seedGen      = initLCG(seed)
-    val seedGenState = RVar.next[Int].map(_ & 0xFFFFFFFFL).replicateM(4097).run(seedGen)._2
+    val seedGenState = RVar.next[Int].map(_ & 0xFFFFFFFFL).replicateM(4097).run(seedGen)._2.toVector
 
-    new CMWC(seed, seedGenState(4096), 4095, seedGenState.take(4096).toVector)
+    new CMWC(seed, seedGenState(4096), 4095, seedGenState.take(4096))
   }
 
   def initN(n: Int, seed: Long): List[RNG] =
-    RVar.next[Long].replicateM(n).map(_.map(init)).run(initLCG(seed))._2
+    RVar.next[Long].replicateM(n).map(_.map(init)).run(initLCG(seed))._2.toList
 
   private final class LCG(val seed: Long) extends RNG {
     def next(bits: Int): (RNG, Int) = {

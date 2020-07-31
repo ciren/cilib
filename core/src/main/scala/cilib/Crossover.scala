@@ -1,7 +1,6 @@
 package cilib
 
-import scalaz.Scalaz._
-import scalaz._
+import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math.sqrt
 
@@ -17,7 +16,7 @@ object Crossover {
 
       for {
         coef <- Dist.stdUniform.replicateM(4)
-        s    = coef.sum
+        s    = coef.suml
         scaled = coef
           .map(norm(_, s))
           .toNel

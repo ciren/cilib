@@ -99,7 +99,7 @@ object Step {
     }
 }
 
-final case class StepS[A, S, B](run: StateT[Step[A, ?], S, B]) {
+final case class StepS[A, S, B](run: StateT[S, Step[A, ?], B]) {
   def map[C](f: B => C): StepS[A, S, C] =
     StepS(run.map(f))
 
@@ -120,7 +120,7 @@ object StepS {
   implicit def stepSMonad[A, S]: Monad[StepS[A, S, ?]] =
     new Monad[StepS[A, S, ?]] {
       def point[B](a: => B): StepS[A, S, B] =
-        StepS(StateT[Step[A, ?], S, B]((s: S) => Step.pure((s, a))))
+        StepS(StateT[S, Step[A, ?], B]((s: S) => Step.pure((s, a))))
 
       def bind[B, C](fa: StepS[A, S, B])(f: B => StepS[A, S, C]): StepS[A, S, C] =
         fa.flatMap(f)
@@ -138,7 +138,7 @@ object StepS {
       def get: StepS[A, S, S] =
         StepS(M.get)
 
-      def init = StepS(M.get)
+      override def init = StepS(M.get)
 
       def put(s: S) =
         StepS(M.put(s))
@@ -149,10 +149,10 @@ object StepS {
     liftR(a)
 
   def liftR[A, S, B](a: RVar[B]): StepS[A, S, B] =
-    StepS(StateT[Step[A, ?], S, B]((s: S) => Step.liftR(a).map((s, _))))
+    StepS(StateT[S, Step[A, ?], B]((s: S) => Step.liftR(a).map((s, _))))
 
   def pointS[A, S, B](a: Step[A, B]): StepS[A, S, B] =
-    StepS(StateT[Step[A, ?], S, B]((s: S) => a.map((s, _))))
+    StepS(StateT[S, Step[A, ?], B]((s: S) => a.map((s, _))))
 
   def liftK[A, S, B](a: Comparison => B): StepS[A, S, B] =
     pointS(Step.withCompare(a))
