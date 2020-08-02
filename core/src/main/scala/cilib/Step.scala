@@ -61,16 +61,8 @@ object Step {
   def failString[A, B](reason: String): Step[A, B] =
     Halt(reason, None)
 
-  @deprecated("This method has been deprecated, use pure instead, it is technically more accurate", "2.0.2")
-  def point[A, B](b: B): Step[A, B] =
-    pure(b)
-
   def pure[A, B](b: B): Step[A, B] =
     Cont(_ => RVar.pure(b.right[Exception]))
-
-  @deprecated("This method has been deprecated, use liftR instead, it is technically more accurate", "2.0.2")
-  def pointR[A, B](a: RVar[B]): Step[A, B] =
-    liftR(a)
 
   def liftR[A, B](a: RVar[B]): Step[A, B] =
     Cont(_ => a.map(_.right[Exception]))
@@ -143,10 +135,6 @@ object StepS {
       def put(s: S) =
         StepS(M.put(s))
     }
-
-  @deprecated("This method has been deprecated, use liftR instead, it is technically more accurate", "2.0.2")
-  def pointR[A, S, B](a: RVar[B]): StepS[A, S, B] =
-    liftR(a)
 
   def liftR[A, S, B](a: RVar[B]): StepS[A, S, B] =
     StepS(StateT[S, Step[A, ?], B]((s: S) => Step.liftR(a).map((s, _))))

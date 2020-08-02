@@ -108,10 +108,6 @@ object MetricSpace {
         x.toList.zip(y.toList).filter { case (ai, bi) => ai != bi }.size
     }
 
-  @deprecated("This method has been deprecated, use pure instead, it is technically better", "2.0.2")
-  def point[A, B](a: B): MetricSpace[A, B] =
-    pure(a)
-
   def pure[A, B](a: B): MetricSpace[A, B] =
     new MetricSpace[A, B] {
       def dist(x: A, y: A) = a

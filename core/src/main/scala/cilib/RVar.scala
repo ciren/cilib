@@ -74,10 +74,6 @@ object RVar extends RVarInstances {
       def trampolined(s: RNG) = Trampoline.suspend(f(s))
     }
 
-  @deprecated("This method has been deprecated, use pure instead, it is technically better", "2.0.2")
-  def point[A](a: => A): RVar[A] =
-    pure(a)
-
   def pure[A](a: => A): RVar[A] =
     apply(r => (r, a))
 
