@@ -16,7 +16,7 @@ object CIlibProperties {
         D.dot(a, b) == D.dot(b, a)
       }
 
-    def distributive[F[_], A](implicit D: DotProd[F, A], arb: Arbitrary[F[A]], M: Module[F[A], A]) =
+    def distributive[F[_], A](implicit D: DotProd[F, A], arb: Arbitrary[F[A]], M: LeftModule[F[A], A]) =
       forAll { (a: F[A], b: F[A], c: F[A]) =>
         D.dot(a, b + c) == D.dot(a, b) + D.dot(a, c)
       }
@@ -25,7 +25,7 @@ object CIlibProperties {
       implicit D: DotProd[F, A],
       arb: Arbitrary[F[A]],
       arb2: Arbitrary[A],
-      M: Module[F[A], A],
+      M: LeftModule[F[A], A],
       N: Numeric[A]
     ) =
       forAll { (a: F[A], b: F[A], c: F[A], r: A) =>
@@ -38,7 +38,7 @@ object CIlibProperties {
       D: DotProd[F, A],
       arb: Arbitrary[F[A]],
       c: Arbitrary[A],
-      M: Module[F[A], A]
+      M: LeftModule[F[A], A]
     ) =
       forAll { (a: F[A], b: F[A], c1: A, c2: A) =>
         (N.toInt(N.times(c1, c2)) <= 1000000 && N.toInt(N.times(c1, c2)) >= -1000000) ==>

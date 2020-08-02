@@ -1,19 +1,14 @@
 import sbt._
 import sbt.Keys._
-import sbtrelease.ReleaseStateTransformations._
+//import sbtrelease.ReleaseStateTransformations._
 
 val scalazVersion     = "7.3.2"
-val spireVersion      = "0.13.0"
-val monocleVersion    = "1.5.0"
-val scalacheckVersion = "1.14.0"
+val spireVersion      = "0.16.2"
+val monocleVersion    = "2.0.4"
 val parquet4sVersion  = "1.3.1"
+val scalacheckVersion = "1.14.3"
 
 val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
-
-// Library requreid for the SBT build itself
-libraryDependencies += "org.scalameta" %% "mdoc" % "2.1.0"
-
-//val previousArtifactVersion = SettingKey[String]("previous-tagged-version")
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -165,7 +160,7 @@ lazy val core = project
   .settings(
     libraryDependencies ++= Seq(
       scalaz,
-      "org.spire-math"             %% "spire"        % spireVersion,
+      "org.typelevel"              %% "spire"        % spireVersion,
       "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
       "eu.timepit"                 %% "refined"      % "0.9.15"
     )

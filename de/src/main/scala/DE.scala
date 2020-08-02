@@ -4,8 +4,7 @@ package de
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
-import scalaz.Scalaz._
-import scalaz._
+import scalaz._, Scalaz._
 import spire.algebra._
 import spire.implicits.{ eu => _, _ }
 import spire.math._
@@ -30,7 +29,7 @@ object DE {
           fittest            <- Comparison.fittest(evaluated, evaluatedOffspring)
         } yield fittest
 
-  def basicMutation[S, A: Rng: Equal](
+  def basicMutation[S, A: Ring: Equal](
     p_m: A,
     selection: NonEmptyList[Individual[S, A]] => Step[A, (Individual[S, A], Position[A])],
     y: Int Refined Positive,
@@ -55,8 +54,9 @@ object DE {
               RVar
                 .shuffle(l)
                 .map(a =>
-                  createPairs(List.empty[(Individual[S, A], Individual[S, A])], a.toList.take(2 * y))
-                    .map(z => z._1.pos - z._2.pos)
+                  createPairs(List.empty[(Individual[S, A], Individual[S, A])], a.toList.take(2 * y)).map {
+                    case (z1, z2) => z1.pos - z2.pos
+                  }
                 )
             )
           case Maybe.Empty() =>

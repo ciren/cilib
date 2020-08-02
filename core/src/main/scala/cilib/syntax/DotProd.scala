@@ -12,7 +12,7 @@ object dotprod {
   }
 
   implicit class AlgebraSyntax[F[_], A](private val x: F[A]) extends AnyVal {
-    def normalize(implicit M: Module[F[A], Double], D: DotProd[F, A]): F[A] = Algebra.normalize(x)
+    def normalize(implicit M: LeftModule[F[A], Double], D: DotProd[F, A]): F[A] = Algebra.normalize(x)
 
     def magnitude(implicit D: DotProd[F, A]): Double = Algebra.magnitude(x)
 
@@ -22,7 +22,7 @@ object dotprod {
       F3: Field[A],
       A: NRoot[A],
       D: DotProd[F, A],
-      M: Module[F[A], Double]
+      M: LeftModule[F[A], Double]
     ): NonEmptyList[F[A]] =
       Algebra.orthonormalize(NonEmptyList(x))
   }

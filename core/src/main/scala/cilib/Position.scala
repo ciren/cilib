@@ -4,7 +4,8 @@ import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
 import scalaz.Scalaz._
 import scalaz._
-import spire.algebra.{ Module, Rng }
+import spire.algebra.{ LeftModule, Ring }
+import spire.implicits._
 import spire.math._
 
 sealed abstract class Position[A] {
@@ -102,23 +103,46 @@ object Position {
         a.zip(b).map(x => x._1 * x._2)
     }
 
+  implicit def positionModule[A](implicit sc: Ring[A]): LeftModule[Position[A], A] =
+    new LeftModule[Position[A], A] {
+      def scalar: Ring[A] = sc
+
+      def negate(x: Position[A]) = x.map(scalar.negate)
+      def zero                   = Position(NonEmptyList(scalar.zero), NonEmptyList(spire.math.Interval(0.0, 0.0)))
+
+      def plus(x: Position[A], y: Position[A]) = {
+        import scalaz.syntax.align._
+        x.align(y)
+          .map(
+            _.fold(
+              s = x => x,
+              t = x => x,
+              q = scalar.plus(_, _)
+            )
+          )
+      }
+
+      def timesl(r: A, v: Position[A]): Position[A] =
+        v.map(scalar.times(r, _))
+    }
+
   implicit class PositionVectorOps[A](private val x: Position[A]) extends AnyVal {
-    def zeroed(implicit A: Rng[A]): Position[A] =
+    def zeroed(implicit A: Ring[A]): Position[A] =
       x.map(_ => A.zero)
 
-    def +(other: Position[A])(implicit M: Module[Position[A], A]): Position[A] =
+    def +(other: Position[A])(implicit M: LeftModule[Position[A], A]): Position[A] =
       M.plus(x, other)
 
-    def -(other: Position[A])(implicit M: Module[Position[A], A]): Position[A] =
+    def -(other: Position[A])(implicit M: LeftModule[Position[A], A]): Position[A] =
       M.minus(x, other)
 
-    def *:(scalar: A)(implicit M: Module[Position[A], A]): Position[A] =
+    def *:(scalar: A)(implicit M: LeftModule[Position[A], A]): Position[A] =
       M.timesl(scalar, x)
 
-    def unary_-(implicit M: Module[Position[A], A]): Position[A] =
+    def unary_-(implicit M: LeftModule[Position[A], A]): Position[A] =
       M.negate(x)
 
-    def isZero(implicit R: Rng[A]): Boolean = {
+    def isZero(implicit R: Ring[A]): Boolean = {
       @annotation.tailrec
       def test(xs: IList[A]): Boolean =
         xs match {

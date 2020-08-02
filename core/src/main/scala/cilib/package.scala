@@ -2,7 +2,6 @@ import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
 import scalaz._
-import spire.algebra.{ Monoid => _, _ }
 import spire.math.Interval
 import spire.math.interval.{ Bound, ValueBound }
 
@@ -23,31 +22,6 @@ package object cilib extends EvalInstances {
     def zero                            = 0.0
     def append(a: Double, b: => Double) = a + b
   }
-
-  implicit def PositionModule[A](implicit sc: Rng[A]): Module[Position[A], A] =
-    new Module[Position[A], A] {
-      import spire.implicits._
-
-      implicit def scalar: Rng[A] = sc
-
-      def negate(x: Position[A]) = x.map(scalar.negate)
-      def zero                   = Position(NonEmptyList(scalar.zero), NonEmptyList(spire.math.Interval(0.0, 0.0)))
-
-      def plus(x: Position[A], y: Position[A]) = {
-        import scalaz.syntax.align._
-        x.align(y)
-          .map(
-            _.fold(
-              s = x => x,
-              t = x => x,
-              q = scalar.plus(_, _)
-            )
-          )
-      }
-
-      def timesl(r: A, v: Position[A]): Position[A] =
-        v.map(scalar.times(r, _))
-    }
 
   implicit class IntervalOps[A](private val interval: Interval[A]) extends AnyVal {
     def ^(n: Int): NonEmptyList[Interval[A]] =

@@ -2,6 +2,7 @@ package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _ }
 import scalaz._, Scalaz._
+import spire.implicits._
 
 object Problems {
 

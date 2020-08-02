@@ -1,7 +1,6 @@
 package cilib
 
 import monocle._
-import monocle.std.disjunction._
 import monocle.std.option._
 
 final case class Mem[A](b: Position[A], v: Position[A])
@@ -75,5 +74,18 @@ object Lenses {
       case Feasible(x) => Some(x)
       case _           => None
     })(x => Feasible(x))
+
+  // Helpers that were removed when monocle moved over to cats
+  final def left[A, B]: Prism[A \/ B, A] =
+    Prism[A \/ B, A] {
+      case -\/(a) => Some(a)
+      case \/-(_) => None //\/.left(\/.right(b))
+    }(\/.left)
+
+  final def right[A, B]: Prism[A \/ B, B] =
+    Prism[A \/ B, B] {
+      case -\/(_) => None
+      case \/-(b) => Some(b) //\/.left(\/.right(b))
+    }(\/.right)
 
 }

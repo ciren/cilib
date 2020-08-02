@@ -13,7 +13,7 @@ object PSO {
   def stdPosition[S, A](
     c: Particle[S, A],
     v: Position[A]
-  )(implicit A: Module[Position[A], A]): Step[A, Particle[S, A]] =
+  )(implicit A: LeftModule[Position[A], A]): Step[A, Particle[S, A]] =
     Step.pure(_position.modify((_: Position[A]) + v)(c))
 
   // Dist \/ Double (scalar value)

@@ -26,7 +26,15 @@ sealed abstract class RVar[A] {
     )
 }
 
-sealed abstract class RVarInstances0 {
+sealed abstract class RVarInstances1 {
+  implicit val rvarCatsFunctor: cats.Functor[RVar] =
+    new cats.Functor[RVar] {
+      def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
+        fa.map(f)
+    }
+}
+
+sealed abstract class RVarInstances0 extends RVarInstances1 {
   implicit val rvarMonad: Monad[RVar] =
     new Monad[RVar] {
       def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
@@ -88,7 +96,7 @@ object RVar extends RVarInstances {
       .map { i =>
         import monocle.Monocle._
 
-        xs.list.applyOptional(index(i)).getOption.getOrElse(xs.head)
+        xs.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
       }
 
   // implementation of Oleg Kiselgov's perfect shuffle:

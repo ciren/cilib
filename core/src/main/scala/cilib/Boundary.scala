@@ -2,6 +2,7 @@ package cilib
 
 import scalaz.Scalaz._
 import scalaz._
+import spire.implicits._
 import spire.math.Interval
 
 object Boundary {
