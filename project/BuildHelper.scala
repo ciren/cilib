@@ -28,8 +28,7 @@ object BuildHelper {
   private def optimizerOptions(optimize: Boolean) =
     if (optimize)
       Seq(
-        "-opt:l:inline",
-        "-opt-inline-from:zio.internal.**"
+        "-opt:l:inline"
       )
     else Seq.empty
 
@@ -154,12 +153,9 @@ object BuildHelper {
         |${item("prepare")} - Prepares sources by applying both scalafix and scalafmt
         |${item("fix")} - Fixes sources files using scalafix
         |${item("fmt")} - Formats source files using scalafmt
+        |${item("~compile")} - Compiles all modules (file-watch enabled)
+        |${item("test")} - Runs all tests
+        |${item("docs/docusaurusCreateSite")} - Generates the website
       """.stripMargin
-    // |${item("~compileJVM")} - Compiles all JVM modules (file-watch enabled)
-    // |${item("testJVM")} - Runs all JVM tests
-    // |${item("testJS")} - Runs all ScalaJS tests
-    // |${item("testOnly *.YourSpec -- -t \"YourLabel\"")} - Only runs tests with matching term e.g.
-    // |${subItem("coreTestsJVM/testOnly *.ZIOSpec -- -t \"happy-path\"")}
-    // |${item("docs/docusaurusCreateSite")} - Generates the ZIO microsite
   }
 }

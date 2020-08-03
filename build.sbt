@@ -1,6 +1,5 @@
 import sbt._
 import sbt.Keys._
-//import sbtrelease.ReleaseStateTransformations._
 
 val scalazVersion     = "7.3.2"
 val spireVersion      = "0.16.2"
@@ -45,28 +44,6 @@ addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
 //     |import cilib._
 //     |import spire.implicits._
 //     |""".stripMargin
-//   // MiMa related
-//   /*previousArtifactVersion := { // Can this be done nicer/safer?
-//     import org.eclipse.jgit._
-//     import org.eclipse.jgit.api._
-//     import org.eclipse.jgit.lib.Constants
-//     import scala.collection.JavaConverters._
-
-//     val git = Git.open(new java.io.File("."))
-//     val tags = git.tagList.call().asScala
-//     val current = git.getRepository.resolve(Constants.HEAD)
-
-//     val lastTag = tags.lift(tags.size - 1)
-//     val name =
-//       lastTag.flatMap(last => {
-//         if (last.getObjectId.getName == current.getName) tags.lift(tags.size - 2).map(_.getName)
-//         else Some(last.getName)
-//       })
-
-//     name.getOrElse("NO_TAG").replace("refs/tags/v", "")
-//   },
-//   mimaPreviousArtifacts := Set(organization.value %% moduleName.value % previousArtifactVersion.value)*/
-// )
 
 // lazy val publishSettings = Seq(
 //   organizationHomepage := Some(url("https://github.com/cirg-up")),
@@ -127,23 +104,6 @@ lazy val root = project
     docs
   )
 
-// lazy val cilib = project
-//   .in(file("."))
-//   .enablePlugins(
-//     //GitVersioning,
-//     ReleasePlugin,
-//     ScalaUnidocPlugin)
-//   .settings(commonSettings ++ credentialSettings ++ noPublishSettings ++ Seq(
-//     //git.useGitDescribe := true,
-//     releaseProcess := Seq[ReleaseStep](
-//       checkSnapshotDependencies,
-// //      runClean,
-// //      runTest,
-//       releaseStepCommand("publishSigned"),
-//       releaseStepCommand("sonatypeReleaseAll")
-//     )
-//   ))
-
 lazy val core = project
   .in(file("core"))
   .settings(BuildHelper.stdSettings("core"))
@@ -198,76 +158,6 @@ lazy val core = project
 //       )
 //     ))
 
-// val mdocVariableMap =
-//   Map(
-//     "CILIB_VERSION" -> "2.0.1"
-//   )
-// val mdocInFile = new java.io.File("docs")
-// val mdocOutFile = new java.io.File("website/docs")
-// val mdocArgs = List("--no-livereload", "--exclude", "target")
-
-// lazy val docs = project
-//   .in(file("docs"))
-//   .settings(
-//     moduleName := "cilib-docs",
-//     connectInput in run := true,
-//     mdoc := {
-//       val classpath = (Compile / dependencyClasspath).value
-
-//       // build arguments for mdoc
-//       val settings = _root_.mdoc.MainSettings()
-//         .withSiteVariables(mdocVariableMap)
-//         .withArgs(mdocArgs)
-//         .withOut(new java.io.File("target/mdoc").asPath)
-//         .withClasspath(classpath.map(_.data).mkString(":"))
-
-//       // process the mdoc files to the correct location
-//       val exitCode = _root_.mdoc.Main.process(settings)
-
-//       if (exitCode != 0) sys.exit(exitCode)
-//     },
-//     buildWebsite := {
-//       import scala.sys.process._
-
-//       // Generate the mdoc sources
-//       val classpath = (Compile / dependencyClasspath).value
-
-//       // build arguments for mdoc
-//       val settings = _root_.mdoc.MainSettings()
-//         .withSiteVariables(mdocVariableMap)
-//         .withArgs(mdocArgs)
-//         .withOut(mdocOutFile.asPath)
-//         .withClasspath(classpath.map(_.data).mkString(":"))
-
-//       // process the mdoc files to the correct location
-//       _root_.mdoc.Main.process(settings)
-
-//       Process(Seq("yarn", "install"), new java.io.File("website")).!
-//       Process(Seq("yarn", "build"), new java.io.File("website")).!
-//     },
-//     websiteWatch := {
-//       import scala.sys.process._
-
-//       val yarnProcess = Process(Seq("yarn", "start"), new java.io.File("website")).run
-//       val classpath = (Compile / dependencyClasspath).value
-
-//       // build arguments for mdoc
-//       val settings = _root_.mdoc.MainSettings()
-//         .withSiteVariables(mdocVariableMap)
-//         .withArgs(mdocArgs :+ "--watch")
-//         .withOut(mdocOutFile.asPath)
-//         .withClasspath(classpath.map(_.data).mkString(":"))
-
-//       // process the mdoc files to the correct location
-//       _root_.mdoc.Main.process(settings)
-
-//       yarnProcess.destroy()
-//     }
-//   )
-//   .settings(cilibSettings)
-//   .settings(noPublishSettings)
-//   .dependsOn(core, example, exec, pso, moo, ga)
-//
 // lazy val credentialSettings = Seq(
 //   credentials ++= (for {
 //     username <- Option(System.getenv("SONATYPE_USERNAME"))
