@@ -39,9 +39,6 @@ addCommandAlias("prepare", "fix; fmt")
 addCommandAlias("fix", "all compile:scalafix test:scalafix")
 addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
 
-lazy val mdoc         = taskKey[Unit]("Process the mdoc files")
-lazy val websiteWatch = taskKey[Unit]("Watch website files and reload")
-lazy val buildWebsite = taskKey[Unit]("Build website")
 
 //   initialCommands in console := """
 //     |import scalaz._
@@ -110,11 +107,6 @@ lazy val buildWebsite = taskKey[Unit]("Build website")
 //   )
 // )
 
-// lazy val cilibSettings =
-//   commonSettings ++
-//     publishSettings ++
-//     credentialSettings
-
 lazy val root = project
   .in(file("."))
   .settings(
@@ -132,7 +124,8 @@ lazy val root = project
     example,
     exec,
     io,
-    moo
+    moo,
+    docs
   )
 
 // lazy val cilib = project
@@ -275,6 +268,7 @@ lazy val core = project
 //   .settings(cilibSettings)
 //   .settings(noPublishSettings)
 //   .dependsOn(core, example, exec, pso, moo, ga)
+//
 // lazy val credentialSettings = Seq(
 //   credentials ++= (for {
 //     username <- Option(System.getenv("SONATYPE_USERNAME"))
@@ -387,5 +381,13 @@ lazy val io = project
     )
   )
   .enablePlugins(BuildInfoPlugin)
+
+
+lazy val docs = project
+  .in(file("cilib-docs"))
+  .settings(mdocVariables := Map("CILIB_VERSION" -> version.value))
+  .dependsOn(core, pso, exec, io)
+  .enablePlugins(MdocPlugin, DocusaurusPlugin)
+
 
 scalafixDependencies in ThisBuild += "com.nequissimus" %% "sort-imports" % "0.5.0"

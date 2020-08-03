@@ -21,7 +21,7 @@ jobs:
 
       - name: Build website
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: nix-shell --run 'sbt docs/buildWebsite'
+        run: nix-shell --run 'sbt docs/docusaurusCreateSite'
 
       - name: Publish gh-pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
