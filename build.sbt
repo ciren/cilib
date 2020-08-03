@@ -15,7 +15,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 inThisBuild(
   List(
     organization := "ciren",
-    homepage := Some(url("https://zio.dev")),
+    homepage := Some(url("https://cilib,net")),
     licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     developers := List(
       Developer(
@@ -25,9 +25,9 @@ inThisBuild(
         url("http://gpampara.github.io")
       )
     ),
-    // pgpPassphrase := sys.env.get("PGP_PASSWORD").map(_.toArray),
-    // pgpPublicRing := file("/tmp/public.asc"),
-    // pgpSecretRing := file("/tmp/secret.asc"),
+    pgpPassphrase := sys.env.get("PGP_PASS").map(_.toArray),
+    pgpPublicRing := file("./project/local.pubring.asc"),
+    pgpSecretRing := file("./project/local.secring.asc"),
     scmInfo := Some(
       ScmInfo(url("https://github.com/ciren/cilib/"), "scm:git:git@github.com:ciren/cilib.git")
     )
@@ -38,7 +38,6 @@ addCommandAlias("build", "prepare; test")
 addCommandAlias("prepare", "fix; fmt")
 addCommandAlias("fix", "all compile:scalafix test:scalafix")
 addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
-
 
 //   initialCommands in console := """
 //     |import scalaz._
@@ -382,12 +381,11 @@ lazy val io = project
   )
   .enablePlugins(BuildInfoPlugin)
 
-
 lazy val docs = project
   .in(file("cilib-docs"))
   .settings(mdocVariables := Map("CILIB_VERSION" -> version.value))
+  .settings(skip in publish := true)
   .dependsOn(core, pso, exec, io)
   .enablePlugins(MdocPlugin, DocusaurusPlugin)
-
 
 scalafixDependencies in ThisBuild += "com.nequissimus" %% "sort-imports" % "0.5.0"
