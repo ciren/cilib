@@ -13,7 +13,7 @@ jobs:
       - uses: cachix/install-nix-action@v6
 
       - name: Lint check
-        run: nix-shell --run 'sbt -Dsbt.supershell=false ;fixCheck;fmtCheck'
+        run: nix-shell --run 'sbt -Dsbt.supershell=false ";fixCheck;fmtCheck"'
 
       - name: Publish ${{ github.ref }}
         run: nix-shell --run 'sbt -Dsbt.supershell=false ci-release'
