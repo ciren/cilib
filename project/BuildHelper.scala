@@ -125,11 +125,11 @@ object BuildHelper {
       //   Seq(("com.github.ghik" % "silencer-lib_2.13.1" % "1.6.0" % Provided).withDottyCompat(scalaVersion.value))
       // else
       Seq(
-        "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full,
-        compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.4.4" cross CrossVersion.full),
         compilerPlugin(scalafixSemanticdb),
-        compilerPlugin("org.typelevel" %% "kind-projector"     % "0.10.3" cross CrossVersion.binary),
-        compilerPlugin("com.olegpy"    %% "better-monadic-for" % "0.3.1")
+        "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full,
+        compilerPlugin("com.github.ghik" % "silencer-plugin"     % "1.4.4" cross CrossVersion.full),
+        compilerPlugin("org.typelevel"   % "kind-projector"      % "0.11.0" cross CrossVersion.full),
+        compilerPlugin("com.olegpy"      %% "better-monadic-for" % "0.3.1")
       )
     }
   )

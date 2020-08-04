@@ -2,7 +2,7 @@ import sbt._
 import sbt.Keys._
 
 val scalazVersion     = "7.3.2"
-val spireVersion      = "0.16.2"
+val spireVersion      = "0.17.0-RC1"
 val monocleVersion    = "2.0.4"
 val parquet4sVersion  = "1.3.1"
 val scalacheckVersion = "1.14.3"
@@ -36,7 +36,12 @@ inThisBuild(
 addCommandAlias("build", "prepare; test")
 addCommandAlias("prepare", "fix; fmt")
 addCommandAlias("fix", "all compile:scalafix test:scalafix")
+addCommandAlias(
+  "fixCheck",
+  "; compile:scalafix --check ; test:scalafix --check"
+)
 addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
+addCommandAlias("fmtCheck", "all root/scalafmtSbtCheck root/scalafmtCheckAll")
 
 //   initialCommands in console := """
 //     |import scalaz._
@@ -46,9 +51,6 @@ addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
 //     |""".stripMargin
 
 // lazy val publishSettings = Seq(
-//   organizationHomepage := Some(url("https://github.com/cirg-up")),
-//   homepage := Some(url("https://cilib.net")),
-//   licenses := Seq("Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")),
 //   autoAPIMappings := true,
 //   apiURL := Some(url("https://cilib.net/api/")),
 //   publishMavenStyle := true,
@@ -158,18 +160,6 @@ lazy val core = project
 //       )
 //     ))
 
-// lazy val credentialSettings = Seq(
-//   credentials ++= (for {
-//     username <- Option(System.getenv("SONATYPE_USERNAME"))
-//     password <- Option(System.getenv("SONATYPE_PASSWORD"))
-//   } yield
-//     Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq,
-//   sonatypeProfileName := "net.cilib",
-//   pgpPublicRing := file("./project/local.pubring.asc"),
-//   pgpSecretRing := file("./project/local.secring.asc"),
-//   pgpPassphrase := Option(System.getenv("PGP_PASS")).map(_.toArray)
-// )
-
 lazy val eda = project
   .in(file("eda"))
   .dependsOn(core)
@@ -262,7 +252,7 @@ lazy val io = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      "com.chuusai"              %% "shapeless"      % "2.3.2",
+      "com.chuusai"              %% "shapeless"      % "2.3.3",
       "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion,
       "org.apache.hadoop"        % "hadoop-client"   % "2.7.3",
       "dev.zio"                  %% "zio"            % "1.0.0-RC21-2",

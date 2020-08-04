@@ -16,6 +16,7 @@ let
     sbt
     yarn
     nodejs
+    gnupg
     #node2nix
     #yarn2nix
   ];
