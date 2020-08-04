@@ -29,7 +29,7 @@ object Runner {
   ): M[F[A]] =
     M.liftR(collection)
       .flatMap(coll =>
-        (1 to n).toStream.foldLeftM[M, F[A]](coll) { (a, _) =>
+        (1 to n).toList.foldLeftM[M, F[A]](coll) { (a, _) =>
           alg.run(a)
         }
       )

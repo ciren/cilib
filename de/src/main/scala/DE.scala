@@ -99,7 +99,7 @@ object DE {
     val length = parent.length
     for {
       start    <- Dist.uniformInt(spire.math.Interval(0, length - 1))
-      circular = Stream.continually((0 to length).toStream).flatten
+      circular = Iterator.continually((0 to length).toList).flatMap(x => x)
       randoms  <- Dist.stdUniform.replicateM(length).map(_.toList)
     } yield {
       val paired   = circular.drop(start).take(length).toList.zip(randoms)
