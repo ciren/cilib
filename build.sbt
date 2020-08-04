@@ -6,6 +6,7 @@ val spireVersion      = "0.17.0-RC1"
 val monocleVersion    = "2.0.4"
 val parquet4sVersion  = "1.3.1"
 val scalacheckVersion = "1.14.3"
+val zioVersion        = "1.0.0"
 
 val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
 
@@ -193,8 +194,8 @@ lazy val exec = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      "dev.zio"                  %% "zio"            % "1.0.0-RC21-2",
-      "dev.zio"                  %% "zio-streams"    % "1.0.0-RC21-2",
+      "dev.zio"                  %% "zio"            % zioVersion,
+      "dev.zio"                  %% "zio-streams"    % zioVersion,
       "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion
     )
   )
@@ -255,8 +256,8 @@ lazy val io = project
       "com.chuusai"              %% "shapeless"      % "2.3.3",
       "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion,
       "org.apache.hadoop"        % "hadoop-client"   % "2.7.3",
-      "dev.zio"                  %% "zio"            % "1.0.0-RC21-2",
-      "dev.zio"                  %% "zio-streams"    % "1.0.0-RC21-2"
+      "dev.zio"                  %% "zio"            % zioVersion,
+      "dev.zio"                  %% "zio-streams"    % zioVersion
     )
   )
   .enablePlugins(BuildInfoPlugin)
