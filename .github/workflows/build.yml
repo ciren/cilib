@@ -17,8 +17,8 @@ jobs:
       - name: Lint check
         run: nix-shell --run 'sbt -Dsbt.supershell=false ";fixCheck;fmtCheck"'
 
-        name: Test and generate docs
-      - run: nix-shell --run 'sbt -Dsbt.supershell=false test && sbt -Dsbt.sueprshell=false docs/mdoc'
+      - name: Test and generate docs
+        run: nix-shell --run 'sbt -Dsbt.supershell=false test && sbt -Dsbt.sueprshell=false docs/mdoc'
 
       - name: Build website
         run: nix-shell --run 'sbt docs/docusaurusCreateSite'
