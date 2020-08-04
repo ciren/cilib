@@ -326,7 +326,7 @@ object Dist {
   def laplace(b0: Double, b1: Double): RVar[Double] =
     stdUniform.map { x =>
       val rr = x - 0.5
-      b0 - b1 * (math.log(1 - 2 * rr.abs)) * rr.signum
+      b0 - b1 * (math.log(1 - 2 * rr.abs)) * rr.sign
     }
 
   def lognormal(mean: Double, dev: Double): RVar[Double] =
@@ -360,19 +360,18 @@ object Dist {
   private val ZIGNOR_R = 3.442619855899      // Start of the right tail
   private val ZIGNOR_V = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
   private val (blocks, ratios) = {
-    import scalaz.std.stream._
-
     val f = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
-    val blocks =
-      (ZIGNOR_V / f) #::
-        ZIGNOR_R #::
-        unfold((126, ZIGNOR_V / f, ZIGNOR_R)) { (a: (Int, Double, Double)) =>
+    val blocks = {
+      (ZIGNOR_V / f) ##::
+        ZIGNOR_R ##::
+        (EphemeralStream.unfold((126, ZIGNOR_V / f, ZIGNOR_R)) { (a: (Int, Double, Double)) =>
           val f = math.exp(-0.5 * a._3 * a._3)
           val v = math.sqrt(-2.0 * math.log(ZIGNOR_V / a._2 + f))
           if (a._1 == 0) none[(Double, (Int, Double, Double))] else (v, (a._1 - 1, a._3, v)).some
-        } :+ 0.0
+        } ++ EphemeralStream(0.0))
+    }.toList
 
-    (blocks.toList, blocks.apzip(_.drop(1)).map(a => a._1 / a._2).toList)
+    (blocks, blocks.apzip(_.drop(1)).map(a => a._1 / a._2))
   }
 
   def gaussian(mean: Double, dev: Double): RVar[Double] =

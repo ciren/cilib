@@ -1,8 +1,6 @@
 package cilib
 package exec
 
-import scala.collection.immutable.{ Stream => ScalaStream }
-
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.collection._
@@ -63,13 +61,12 @@ object Runner {
     Stream.repeat(Problem(name, Unchanged, eval))
 
   def problem[S, A](name: String Refined NonEmpty, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyList, A])])(
-    env: ScalaStream[Env],
+    env: EphemeralStream[Env],
     rng: RNG
   ): PureStream[Problem[A]] = {
-    def go(s: S, c: Eval[NonEmptyList, A], e: ScalaStream[Env], r: RNG): PureStream[Problem[A]] =
-      e match {
-        case ScalaStream.Empty => Stream.empty
-        case h #:: t =>
+    def go(s: S, c: Eval[NonEmptyList, A], e: EphemeralStream[Env], r: RNG): PureStream[Problem[A]] =
+      EphemeralStream.##::.unapply(e) match {
+        case Some((h, t)) =>
           h match {
             case Unchanged =>
               Stream.succeed(Problem(name, h, c)) ++ go(s, c, t, r)
@@ -78,6 +75,9 @@ object Runner {
               val (rng2, (s1, c1)) = next(s).run(r)
               Stream.succeed(Problem(name, h, c1)) ++ go(s1, c1, t, rng2)
           }
+
+        case None =>
+          Stream.empty
       }
 
     val (rng2, (s2, e)) = state.flatMap(next).run(rng)
