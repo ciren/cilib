@@ -1,6 +1,6 @@
 # CIlib - Computational Intelligence Library
 
-![](https://github.com/ciren/cilib/workflows/build/badge.svg)
+![CI](https://github.com/ciren/cilib/workflows/CI/badge.svg?branch=master&event=push)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/cilib)
 [![Join the chat at https://gitter.im/ciren/cilib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ciren/cilib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Maven Central](https://img.shields.io/maven-central/v/net.cilib/cilib-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/net.cilib/cilib-core_2.12)
