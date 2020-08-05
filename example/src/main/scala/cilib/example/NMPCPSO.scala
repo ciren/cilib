@@ -2,7 +2,6 @@ package cilib
 package example
 
 import eu.timepit.refined.auto._
-import scalaz._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
@@ -17,7 +16,7 @@ object NMPCPSO extends zio.App {
   val env =
     Environment(
       cmp = Comparison.quality(Min),
-      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
   val guide   = Guide.nmpc[Mem[Double]](0.5)

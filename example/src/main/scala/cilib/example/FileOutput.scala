@@ -11,7 +11,6 @@ import zio.blocking.Blocking
 import zio.console._
 import zio.stream._
 
-import cilib.benchmarks.Benchmarks
 import cilib.exec.Runner._
 import cilib.exec._
 import cilib.io._
@@ -26,25 +25,27 @@ object FileOutput extends zio.App {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val rng    = RNG.init(12L)
 
-  // Define the benchmarks
+  // Define the benchmarks. These functions are hardcoded, but it would be better to consider
+  // using https://github.com/ciren/benchmarks which is a far more extensive and
+  // complete set of benchmark functions and suites.
   val absolute = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.absoluteValue(xs)))
+    eval = Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible)
   )
 
   val ackley = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.ackley(xs)))
+    eval = Eval.unconstrained(ExampleHelper.ackley andThen Feasible)
   )
 
   val quadric = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.quadric(xs)))
+    eval = Eval.unconstrained(ExampleHelper.quadric andThen Feasible)
   )
 
   val spherical = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.spherical(xs)))
+    eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
   )
 
   // Define the problem streams

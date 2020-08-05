@@ -17,7 +17,7 @@ object Mixed extends zio.App {
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
   // Define the DE

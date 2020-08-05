@@ -17,7 +17,7 @@ object RandomSearchGA extends zio.App {
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
   val randomSelection = (l: NonEmptyList[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))

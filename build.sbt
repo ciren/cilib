@@ -25,9 +25,6 @@ inThisBuild(
         url("http://gpampara.github.io")
       )
     ),
-    pgpPassphrase := sys.env.get("PGP_PASS").map(_.toArray),
-    pgpPublicRing := file("./project/local.pubring.asc"),
-    pgpSecretRing := file("./project/local.secring.asc"),
     scmInfo := Some(
       ScmInfo(url("https://github.com/ciren/cilib/"), "scm:git:git@github.com:ciren/cilib.git")
     )
@@ -178,13 +175,9 @@ lazy val example = project
   .dependsOn(de)
   .settings(BuildHelper.stdSettings("example"))
   .settings(BuildHelper.buildInfoSettings("cilib"))
+  .settings(skip in publish := true)
   .settings(fork in run := true)
   .settings(connectInput in run := true)
-  .settings(
-    libraryDependencies ++= Seq(
-      "net.cilib" %% "benchmarks" % "0.1.1"
-    )
-  )
   .enablePlugins(BuildInfoPlugin)
 
 lazy val exec = project

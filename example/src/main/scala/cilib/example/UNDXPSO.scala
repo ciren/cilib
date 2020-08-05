@@ -2,7 +2,6 @@ package cilib
 package example
 
 import eu.timepit.refined.auto._
-import scalaz._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
@@ -16,7 +15,7 @@ object UNDXPSO extends zio.App {
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
   val guide   = Guide.undx[Mem[Double]](1.0, 0.1)

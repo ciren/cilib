@@ -15,7 +15,7 @@ object TimeVaryingGBestPSO extends zio.App {
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
   // To define one or more parameters for an algorithm, we need a few pieces:

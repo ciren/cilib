@@ -2,7 +2,6 @@ package cilib
 package example
 
 import eu.timepit.refined.auto._
-import scalaz._
 import spire.implicits._
 import spire.math.Interval
 import zio._
@@ -17,7 +16,7 @@ object VonNeumannPSO extends zio.App {
   val env =
     Environment(
       cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
   // Define a normal GBest PSO and run it for a single iteration

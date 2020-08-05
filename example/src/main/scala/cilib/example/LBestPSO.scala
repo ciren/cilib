@@ -2,7 +2,6 @@ package cilib
 package example
 
 import eu.timepit.refined.auto._
-import scalaz._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
@@ -16,7 +15,7 @@ object LBestPSO extends zio.App {
   val env =
     Environment(
       cmp = Comparison.quality(Min),
-      eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(cilib.benchmarks.Benchmarks.spherical(xs)))
+      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
   // LBest is a network topology where every Paricle 'x' has (n/2) neighbours
