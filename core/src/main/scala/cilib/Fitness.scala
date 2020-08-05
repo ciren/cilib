@@ -1,8 +1,8 @@
 package cilib
 
-import scalaz._
 import scalaz.Ordering._
-import Scalaz._
+import scalaz.Scalaz._
+import scalaz._
 
 sealed abstract class Fit {
   def fold[Z](penalty: Adjusted => Z, valid: Feasible => Z, infeasible: Infeasible => Z): Z =
@@ -20,12 +20,10 @@ sealed abstract class Fit {
     }
 }
 
-final case class Feasible(v: Double) extends Fit
-final case class Infeasible(v: Double) extends Fit
-final case class Adjusted private[cilib] (original: Feasible \/ Infeasible, adjust: Double)
-    extends Fit
-@annotation.implicitNotFound(
-  "No instance of Fitness[${F},${A},${B}] is available in current scope.")
+final case class Feasible(v: Double)                                                        extends Fit
+final case class Infeasible(v: Double)                                                      extends Fit
+final case class Adjusted private[cilib] (original: Feasible \/ Infeasible, adjust: Double) extends Fit
+@annotation.implicitNotFound("No instance of Fitness[${F},${A},${B}] is available in current scope.")
 trait Fitness[F[_], A, B] {
   def fitness(a: F[A]): Option[Objective[B]]
 }
@@ -60,11 +58,7 @@ object Comparison {
         else opt.I.order(xv, yv)
     }
 
-  def multiFitCompare(opt: Opt,
-                      xs: List[Fit],
-                      ys: List[Fit],
-                      xsv: => Int,
-                      ysv: => Int): scalaz.Ordering = {
+  def multiFitCompare(opt: Opt, xs: List[Fit], ys: List[Fit], xsv: => Int, ysv: => Int): scalaz.Ordering = {
     val z = xs.zip(ys)
     val x2 = z.forall {
       case (a, b) =>

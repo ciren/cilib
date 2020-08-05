@@ -1,7 +1,8 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _}
+import _root_.scala.Predef.{ any2stringadd => _ }
 import scalaz._, Scalaz._
+import spire.implicits._
 
 object Problems {
 
@@ -17,22 +18,24 @@ object Problems {
       maxHeight = 70.0
     )
 
-  def initPeaks(n: Int,
-                domain: NonEmptyList[spire.math.Interval[Double]],
-                minWidth: Double,
-                maxWidth: Double,
-                minHeight: Double,
-                maxHeight: Double): RVar[NonEmptyList[PeakCone]] =
+  def initPeaks(
+    n: Int,
+    domain: NonEmptyList[spire.math.Interval[Double]],
+    minWidth: Double,
+    maxWidth: Double,
+    minHeight: Double,
+    maxHeight: Double
+  ): RVar[NonEmptyList[PeakCone]] =
     // TODO: Change the parameters for the min and max height and width
     domain
       .traverse(x => Dist.uniform(x))
-      .flatMap(x => {
+      .flatMap { x =>
         val height = Dist.stdUniform.map(x => (maxHeight - minHeight) * x + minHeight)
-        val width = Dist.stdUniform.map(x => (maxWidth - minWidth) * x + minWidth)
+        val width  = Dist.stdUniform.map(x => (maxWidth - minWidth) * x + minWidth)
         (height |@| width) { (h, w) =>
           PeakCone(h, w, x, x.map(_ => 1.0), domain, minWidth, maxWidth, minHeight, maxHeight)
         }
-      })
+      }
       .replicateM(n)
       .map(_.toNel.getOrElse(sys.error("List cannot be empty")))
 
@@ -45,37 +48,37 @@ object Problems {
    The provided function `f` applies the _kind_ of peak update
    */
   def modifyPeaks(
-      peaks: NonEmptyList[PeakCone],
-      movement: PeakMovement,
-      changeSeverity: Double = 10.0,
-      hSeverity: Double = 7.0,
-      wSeverity: Double = 1.0,
-      lambda: Double = 1.0 // Random environemnt when lambda is 0.0
+    peaks: NonEmptyList[PeakCone],
+    movement: PeakMovement,
+    changeSeverity: Double = 10.0,
+    hSeverity: Double = 7.0,
+    wSeverity: Double = 1.0,
+    lambda: Double = 1.0 // Random environemnt when lambda is 0.0
   ): RVar[NonEmptyList[PeakCone]] =
     movement match {
       case Random =>
-        peaks.traverse(p => {
-          val r: RVar[NonEmptyList[Double]] = p.shift.traverse(_ => Dist.stdNormal)
+        peaks.traverse { p =>
+          val r: RVar[NonEmptyList[Double]]     = p.shift.traverse(_ => Dist.stdNormal)
           val term1: RVar[NonEmptyList[Double]] = r.map(_.map(_ * (1.0 - lambda) * changeSeverity))
           val linComb: RVar[NonEmptyList[Double]] =
-            term1.map(t1 => {
+            term1.map { t1 =>
               val term2: NonEmptyList[Double] = p.shift.map(_ * lambda)
 
               t1.zip(term2).map { case (a, b) => a + b }
-            })
+            }
 
           val length: RVar[Double] =
-            r.map(_r => {
+            r.map { _r =>
               _r.zip(p.shift).foldLeft(0.0) { case (z, (a, b)) => z + ((a + b) * (a + b)) }
-            })
+            }
 
           val stepSize = length.map(l => changeSeverity / l)
 
           for {
-            lin <- linComb
+            lin    <- linComb
             scalar <- stepSize
-            s1 <- Dist.stdNormal
-            s2 <- Dist.stdNormal
+            s1     <- Dist.stdNormal
+            s2     <- Dist.stdNormal
           } yield {
             val shift = lin.map(_ * scalar)
             val (newPos, newShift) =
@@ -98,7 +101,7 @@ object Problems {
 
             val newHeight = {
               val change = s1 * hSeverity
-              val temp = p.height + change
+              val temp   = p.height + change
 
               if (temp < p.minHeight) 2.0 * p.minHeight - p.height - change
               else if (temp > p.maxHeight) 2.0 * p.maxHeight - p.height - change
@@ -107,7 +110,7 @@ object Problems {
 
             val newWidth = {
               val change = s2 * wSeverity
-              val temp = p.width + change
+              val temp   = p.width + change
 
               if (temp < p.minWidth) 2.0 * p.minWidth - p.width - change
               else if (temp > p.maxWidth) 2.0 * p.maxWidth - p.width - change
@@ -121,23 +124,23 @@ object Problems {
               width = newWidth
             )
           }
-        })
+        }
     }
 
   case class PeakCone(
-      height: Double,
-      width: Double,
-      location: NonEmptyList[Double],
-      shift: NonEmptyList[Double],
-      domain: NonEmptyList[spire.math.Interval[Double]],
-      minWidth: Double,
-      maxWidth: Double,
-      minHeight: Double,
-      maxHeight: Double
+    height: Double,
+    width: Double,
+    location: NonEmptyList[Double],
+    shift: NonEmptyList[Double],
+    domain: NonEmptyList[spire.math.Interval[Double]],
+    minWidth: Double,
+    maxWidth: Double,
+    minHeight: Double,
+    maxHeight: Double
   ) {
     def eval(x: NonEmptyList[Double]) = {
       val sum = x.zip(location).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _)
-      val c = math.sqrt(sum)
+      val c   = math.sqrt(sum)
 
       val z = math.max(0, height - width * c)
 
@@ -146,12 +149,12 @@ object Problems {
   }
 
   def peakEval(peaks: NonEmptyList[PeakCone]): Eval[NonEmptyList, Double] =
-    Eval.unconstrained((a: NonEmptyList[Double]) => {
+    Eval.unconstrained { (a: NonEmptyList[Double]) =>
       val x = peaks.map(_.eval(a)).list.toList.max // FIXME
       val r = if (x == Double.NaN) Infeasible(0.0) else Feasible(x)
 
       r
-    })
+    }
   //  def printForPlot: Seq[(Double, Double, Double)] = {
 //     import spire.implicits._
 

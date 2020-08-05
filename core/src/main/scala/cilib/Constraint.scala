@@ -1,10 +1,10 @@
 package cilib
 
-import scalaz.{Maybe, NonEmptyList}
+import scalaz.{ Maybe, NonEmptyList }
 import spire.algebra.Eq
+import spire.implicits._
 import spire.math._
 import spire.math.interval._
-import spire.implicits._
 
 final class ViolationCount(val count: Int) extends AnyVal
 object ViolationCount {
@@ -36,13 +36,12 @@ final case class ConstraintFunction[A](f: NonEmptyList[A] => Double) {
 }
 
 sealed abstract class Constraint[A]
-final case class LessThan[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
-final case class LessThanEqual[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
-final case class Equal[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
-final case class InInterval[A](f: ConstraintFunction[A], interval: Interval[Double])
-    extends Constraint[A]
-final case class GreaterThan[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
-final case class GreaterThanEqual[A](f: ConstraintFunction[A], v: Double) extends Constraint[A]
+final case class LessThan[A](f: ConstraintFunction[A], v: Double)                    extends Constraint[A]
+final case class LessThanEqual[A](f: ConstraintFunction[A], v: Double)               extends Constraint[A]
+final case class Equal[A](f: ConstraintFunction[A], v: Double)                       extends Constraint[A]
+final case class InInterval[A](f: ConstraintFunction[A], interval: Interval[Double]) extends Constraint[A]
+final case class GreaterThan[A](f: ConstraintFunction[A], v: Double)                 extends Constraint[A]
+final case class GreaterThanEqual[A](f: ConstraintFunction[A], v: Double)            extends Constraint[A]
 
 object Constraint {
 
@@ -50,10 +49,7 @@ object Constraint {
 //    M.map(ma)(_.constrainBy(cs))
   private val ev = Eq[Double]
 
-  def violationMagnitude[A](beta: Double,
-                            eta: Double,
-                            constraints: List[Constraint[A]],
-                            cs: NonEmptyList[A]): Double =
+  def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint[A]], cs: NonEmptyList[A]): Double =
     constraints
       .map(_ match {
         case LessThan(f, v) =>

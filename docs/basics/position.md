@@ -3,7 +3,34 @@ id: position
 title: Position
 ---
 
-Content currently being developed
+:::caution
+Work in progress
+:::
+
+The vectors within a population-based optimization algorithm (such as evolutionary and swarm-intelligence algorithms) represent the possible solutions to the current optimization problem.
+These "candidate solutions" are locations within the problem search space which the optimization problem is currently evaluating.
+Because the candidate solutions change over time as the optimization proceeds with the problme solution search, the candidate solutions may exist in one of two posible states:
+
+1. A candidate solution may be a "point" within the search space. For this location within multi-dimensional vector space, no other information is known.
+2. The candidate solution's location within the multi-dimensional vector space is known, but also the "quality" of the candidate solution has been deteremined.
+   The quality of the candidate solution is determined by evaluating the optimization problem with the candidate solution as input.
+
+The data structure `Position` represents the above description of candidate solutions, and has 2 possible states which cannot be extended:
+
+1. `Point` - a candidate solution that maintains the location within the problem search space
+2. `Solution` - canidate solutions that maintain both the location within the problem search space and the evaluaiton result of the location by the optimization problem
+
+`Position` values implement a *closed* algebra of operations.
+This operations (such as addition and multiplication) are the same operations that are expected to exist when workting with vectors.
+Notably, when the resulting `Position` value from an operation is a new location within the problem search space, the `Position` will be a `Point` value.
+Similarly, re-evaluating a `Solution` value will not actually re-evaulate the candidate solution, as the candidate solution is an immutable value and the already evaluated value can be used as is.
+
+
+## Creating Positions
+
+Creating a `Position` value results in an opaque value - it is not a given that the value will be either a `Point` or a `Solution`.
+
+
 
 <!--
 :::caution

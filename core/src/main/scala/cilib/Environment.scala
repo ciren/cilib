@@ -1,7 +1,7 @@
 package cilib
 
-import scalaz.NonEmptyList
 import monocle._
+import scalaz.NonEmptyList
 
 final class Environment[A] private (val cmp: Comparison, val eval: Eval[NonEmptyList, A])
 

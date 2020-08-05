@@ -42,21 +42,18 @@ sealed abstract class Eval[F[_], A] {
 
 object Eval {
   private final case class Unconstrained[F[_], A](run: F[A] => Fit, F: Input[F]) extends Eval[F, A]
-  private final case class Constrained[F[_], A](run: F[A] => Fit,
-                                                cs: List[Constraint[A]],
-                                                F: Input[F])
+  private final case class Constrained[F[_], A](run: F[A] => Fit, cs: List[Constraint[A]], F: Input[F])
       extends Eval[F, A]
 
   def unconstrained[F[_], A](f: F[A] => Fit)(implicit F: Input[F]): Eval[F, A] =
     Unconstrained(f, F)
 
-  def constrained[F[_], A](f: F[A] => Fit, cs: List[Constraint[A]])(
-      implicit F: Input[F]): Eval[F, A] =
+  def constrained[F[_], A](f: F[A] => Fit, cs: List[Constraint[A]])(implicit F: Input[F]): Eval[F, A] =
     Constrained(f, cs, F)
 }
 
 trait EvalInstances {
-  import scalaz.{ICons, NonEmptyList}
+  import scalaz.{ ICons, NonEmptyList }
 
   implicit val nelInput: Input[NonEmptyList] = new Input[NonEmptyList] {
     def toInput[A](a: NonEmptyList[A]): NonEmptyList[A] = a

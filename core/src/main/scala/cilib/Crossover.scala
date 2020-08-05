@@ -1,14 +1,12 @@
 package cilib
 
-import cilib.algebra._
-import cilib.syntax.dotprod._
-import cilib.Position._
-
-import scalaz._
-import Scalaz._
-
+import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math.sqrt
+
+import cilib.Position._
+import cilib.algebra._
+import cilib.syntax.dotprod._
 
 object Crossover {
 
@@ -18,7 +16,7 @@ object Crossover {
 
       for {
         coef <- Dist.stdUniform.replicateM(4)
-        s = coef.sum
+        s    = coef.suml
         scaled = coef
           .map(norm(_, s))
           .toNel
@@ -30,7 +28,7 @@ object Crossover {
   def pcx(sigma1: Double, sigma2: Double): Crossover[Double] =
     parents => {
       val mean = Algebra.meanVector(parents)
-      val k = parents.size
+      val k    = parents.size
 
       val initEta = NonEmptyList(parents.last - mean)
       val (dd, e_eta) = parents.init.foldLeft((0.0, initEta)) { (a, b) =>
@@ -60,12 +58,11 @@ object Crossover {
 
   def undx(sigma1: Double, sigma2: Double): Crossover[Double] =
     parents => {
-      val n = parents.head.pos.length
+      val n      = parents.head.pos.length
       val bounds = parents.head.boundary
 
       // calculate mean of parents except main parents
-      val g = Algebra.meanVector(
-        parents.init.toNel.getOrElse(sys.error("UNDX requires at least 3 parents")))
+      val g = Algebra.meanVector(parents.init.toNel.getOrElse(sys.error("UNDX requires at least 3 parents")))
 
       // basis vectors defined by parents
       val initZeta = List[Position[Double]]()
@@ -75,7 +72,7 @@ object Crossover {
         if (d.isZero) z
         else {
           val dbar = d.magnitude
-          val e = Algebra.orthogonalize(d, z)
+          val e    = Algebra.orthogonalize(d, z)
 
           if (e.isZero) z
           else z :+ (dbar *: e.normalize)
@@ -88,15 +85,15 @@ object Crossover {
       val initEta = NonEmptyList(parents.last - g)
       positiveInt(n - zeta.length) { value =>
         val reta = Position.createPositions(bounds, value) //n - zeta.length)
-        val eta = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
+        val eta  = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
 
         // construct the offspring
         for {
-          s1 <- Dist.gaussian(0.0, sigma1)
-          s2 <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
+          s1    <- Dist.gaussian(0.0, sigma1)
+          s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
           e_eta <- eta
         } yield {
-          val vars = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
+          val vars      = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
           val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
 
           NonEmptyList(offspring)

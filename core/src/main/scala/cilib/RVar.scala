@@ -1,35 +1,40 @@
 package cilib
 
-import _root_.scala.Predef.{any2stringadd => _, _}
-import scalaz._
-import Scalaz._
-import scalaz.Free._
-
-import eu.timepit.refined.auto._
+import _root_.scala.Predef.{ any2stringadd => _, _ }
 import eu.timepit.refined.api._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
-
-import spire.math._
+import scalaz.Free._
+import scalaz._, Scalaz._
 import spire.implicits._
+import spire.math._
 
 sealed abstract class RVar[A] {
   def trampolined(s: RNG): Trampoline[(RNG, A)]
 
   def run(initial: RNG): (RNG, A) = trampolined(initial).run
-  def exec(s: RNG): RNG = run(s)._1
-  def eval(s: RNG): A = run(s)._2
+  def exec(s: RNG): RNG           = run(s)._1
+  def eval(s: RNG): A             = run(s)._2
 
   def map[B](f: A => B): RVar[B] =
     RVar.trampolined(rng => trampolined(rng).map(a => (a._1, f(a._2))))
 
   def flatMap[B](f: A => RVar[B]): RVar[B] =
-    RVar.trampolined(
-      rng =>
-        trampolined(rng)
-          .flatMap((a: (RNG, A)) => f(a._2).trampolined(a._1)))
+    RVar.trampolined(rng =>
+      trampolined(rng)
+        .flatMap((a: (RNG, A)) => f(a._2).trampolined(a._1))
+    )
 }
 
-sealed abstract class RVarInstances0 {
+sealed abstract class RVarInstances1 {
+  implicit val rvarCatsFunctor: cats.Functor[RVar] =
+    new cats.Functor[RVar] {
+      def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
+        fa.map(f)
+    }
+}
+
+sealed abstract class RVarInstances0 extends RVarInstances1 {
   implicit val rvarMonad: Monad[RVar] =
     new Monad[RVar] {
       def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
@@ -49,9 +54,9 @@ sealed abstract class RVarInstances extends RVarInstances0 {
       def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
         fa.map(f)
 
-      def tailrecM[A, B](f: A => RVar[A \/ B])(a: A): RVar[B] =
+      def tailrecM[A, B](a: A)(f: A => RVar[A \/ B]): RVar[B] =
         f(a).flatMap {
-          case -\/(a0) => tailrecM(f)(a0)
+          case -\/(a0) => tailrecM(a0)(f)
           case \/-(b)  => RVar.pure(b)
         }
     }
@@ -69,11 +74,6 @@ object RVar extends RVarInstances {
       def trampolined(s: RNG) = Trampoline.suspend(f(s))
     }
 
-  @deprecated("This method has been deprecated, use pure instead, it is technically better",
-              "2.0.2")
-  def point[A](a: => A): RVar[A] =
-    pure(a)
-
   def pure[A](a: => A): RVar[A] =
     apply(r => (r, a))
 
@@ -81,27 +81,26 @@ object RVar extends RVarInstances {
     e.gen
 
   def ints(n: Int): RVar[List[Int]] =
-    next[Int](Generator.IntGen).replicateM(n)
+    next[Int](Generator.IntGen).replicateM(n).map(_.toList)
 
   def doubles(n: Int): RVar[List[Double]] =
-    next[Double](Generator.DoubleGen).replicateM(n)
+    next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
   def choose[A](xs: NonEmptyList[A]): RVar[A] =
     Dist
       .uniformInt(Interval(0, xs.size - 1))
-      .map(i => {
-        import monocle._
-        import Monocle._
+      .map { i =>
+        import monocle.Monocle._
 
-        xs.list.applyOptional(index(i)).getOption.getOrElse(xs.head)
-      })
+        xs.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
+      }
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
   def shuffle[A](xs: NonEmptyList[A]): RVar[NonEmptyList[A]] = {
     sealed trait BinTree
     final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
-    final case class Leaf(element: A) extends BinTree
+    final case class Leaf(element: A)                            extends BinTree
 
     def buildTree(zs: NonEmptyList[A]): BinTree =
       growLevel(zs.toList.map(Leaf(_): BinTree))
@@ -155,17 +154,16 @@ object RVar extends RVarInstances {
         case _                     => sys.error("impossible")
       }
 
-    rseq(xs.length).map(
-      r =>
-        local(buildTree(xs), r).toNel
-          .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty")))
+    rseq(xs.length).map(r =>
+      local(buildTree(xs), r).toNel
+        .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
+    )
   }
 
   def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]): RVar[Option[List[A]]] =
     choices(n, xs)
 
-  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(
-      implicit F: Foldable[F]): RVar[Option[List[A]]] =
+  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(implicit F: Foldable[F]): RVar[Option[List[A]]] =
     if (xs.length < n) RVar.pure(None)
     else {
       val length = F.length(xs)
@@ -173,31 +171,30 @@ object RVar extends RVarInstances {
         (length - 1 to length - n by -1).toList
           .traverse(x => Dist.uniformInt(Interval(0, x)))
 
-      backsaw
-        .map(l => {
-          def dropIndex(target: Int, l: List[A]): List[A] = {
-            def innerDropIndex(count: Int, current: List[A]): List[A] =
-              current match {
-                case Nil => Nil
-                case x :: xs =>
-                  if (count == target) xs else x :: innerDropIndex(count + 1, xs)
-              }
-
-            innerDropIndex(0, l)
-          }
-
-          def go(indexes: List[Int], current: List[A]): List[A] =
-            indexes match {
-              case index :: rest =>
-                current.lift(index) match {
-                  case Some(element) => element :: go(rest, dropIndex(index, current))
-                  case None          => List.empty[A]
-                }
-              case _ => List.empty[A]
+      backsaw.map { l =>
+        def dropIndex(target: Int, l: List[A]): List[A] = {
+          def innerDropIndex(count: Int, current: List[A]): List[A] =
+            current match {
+              case Nil => Nil
+              case x :: xs =>
+                if (count == target) xs else x :: innerDropIndex(count + 1, xs)
             }
 
-          go(l, xs.toList).some
-        })
+          innerDropIndex(0, l)
+        }
+
+        def go(indexes: List[Int], current: List[A]): List[A] =
+          indexes match {
+            case index :: rest =>
+              current.lift(index) match {
+                case Some(element) => element :: go(rest, dropIndex(index, current))
+                case None          => List.empty[A]
+              }
+            case _ => List.empty[A]
+          }
+
+        go(l, xs.toList).some
+      }
     }
 
 }
@@ -239,23 +236,23 @@ object Dist {
   import RVar._
   import scalaz.std.AllInstances._
 
-  val stdUniform: RVar[Double] = next[Double]
-  val stdNormal: RVar[Double] = gaussian(0.0, 1.0)
-  val stdCauchy: RVar[Double] = cauchy(0.0, 1.0)
+  val stdUniform: RVar[Double]     = next[Double]
+  val stdNormal: RVar[Double]      = gaussian(0.0, 1.0)
+  val stdCauchy: RVar[Double]      = cauchy(0.0, 1.0)
   val stdExponential: RVar[Double] = exponential(1.0)
-  val stdGamma: RVar[Double] = gamma(2, 2.0)
-  val stdLaplace: RVar[Double] = laplace(0.0, 1.0)
-  val stdLognormal: RVar[Double] = lognormal(0.0, 1.0)
+  val stdGamma: RVar[Double]       = gamma(2, 2.0)
+  val stdLaplace: RVar[Double]     = laplace(0.0, 1.0)
+  val stdLognormal: RVar[Double]   = lognormal(0.0, 1.0)
 
   /** Generate a discrete uniform value in [from, to]. Note that the upper bound is *inclusive* */
   def uniformInt(i: Interval[Int]): RVar[Int] =
-    next[Int].map(x => {
+    next[Int].map { x =>
       val (from, to) = (i.lowerValue, i.upperValue)
-      val (ll, hh) = if (to < from) (to, from) else (from, to)
-      val diff = hh.toLong - ll.toLong
+      val (ll, hh)   = if (to < from) (to, from) else (from, to)
+      val diff       = hh.toLong - ll.toLong
       if (diff == 0) ll
       else (ll.toLong + (math.abs(x.toLong) % (diff + 1))).toInt
-    })
+    }
 
   def uniform(i: Interval[Double]): RVar[Double] =
     stdUniform.map { x =>
@@ -268,8 +265,8 @@ object Dist {
     }
 
   def gamma(k: Double, theta: Double): RVar[Double] = {
-    val n = k.toInt
-    val gammaInt = stdUniform.replicateM(n).map(_.foldMap(x => -math.log(x)))
+    val n        = k.toInt
+    val gammaInt = stdUniform.replicateM(n).map(_.toList.foldMap(x => -math.log(x)))
     val gammaFrac = {
       val delta = k - n
 
@@ -278,22 +275,22 @@ object Dist {
           val v0 = math.E / (math.E + delta)
           if (u1 <= v0) {
             val zeta = math.pow(u2, 1.0 / delta)
-            val eta = u3 * math.pow(zeta, delta - 1)
+            val eta  = u3 * math.pow(zeta, delta - 1)
             (zeta, eta)
           } else {
             val zeta = 1 - math.log(u2)
-            val eta = u3 * math.exp(-zeta)
+            val eta  = u3 * math.exp(-zeta)
             (zeta, eta)
           }
         }
 
       a.flatMap(a0 =>
-        BindRec[RVar].tailrecM((x: (Double, Double)) => {
+        BindRec[RVar].tailrecM(a0) { (x: (Double, Double)) =>
           val (zeta, eta) = x
-
           if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) a.map(_.left[Double])
           else RVar.pure(zeta.right[(Double, Double)])
-        })(a0))
+        }
+      )
 
       // def inner: RVar[Double] =
       //   for {
@@ -329,7 +326,7 @@ object Dist {
   def laplace(b0: Double, b1: Double): RVar[Double] =
     stdUniform.map { x =>
       val rr = x - 0.5
-      b0 - b1 * (math.log(1 - 2 * rr.abs)) * rr.signum
+      b0 - b1 * (math.log(1 - 2 * rr.abs)) * rr.sign
     }
 
   def lognormal(mean: Double, dev: Double): RVar[Double] =
@@ -338,10 +335,10 @@ object Dist {
   def dirichlet(alphas: List[Double]): RVar[List[Double]] =
     alphas
       .traverse(gamma(_, 1))
-      .map(ys => {
+      .map { ys =>
         val sum = ys.sum
         ys.map(_ / sum)
-      })
+      }
 
   def weibull(shape: Double, scale: Double): RVar[Double] =
     stdUniform.map { x =>
@@ -360,49 +357,46 @@ object Dist {
   }
 
   //private val ZIGNOR_C = 128                 // Number of blocks
-  private val ZIGNOR_R = 3.442619855899 // Start of the right tail
+  private val ZIGNOR_R = 3.442619855899      // Start of the right tail
   private val ZIGNOR_V = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
   private val (blocks, ratios) = {
-    import Scalaz._
-
     val f = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
-    val blocks =
-      (ZIGNOR_V / f) #::
-        ZIGNOR_R #::
-        unfold((126, ZIGNOR_V / f, ZIGNOR_R)) { (a: (Int, Double, Double)) =>
-        {
+    val blocks = {
+      (ZIGNOR_V / f) ##::
+        ZIGNOR_R ##::
+        (EphemeralStream.unfold((126, ZIGNOR_V / f, ZIGNOR_R)) { (a: (Int, Double, Double)) =>
           val f = math.exp(-0.5 * a._3 * a._3)
           val v = math.sqrt(-2.0 * math.log(ZIGNOR_V / a._2 + f))
           if (a._1 == 0) none[(Double, (Int, Double, Double))] else (v, (a._1 - 1, a._3, v)).some
-        }
-      } :+ 0.0
+        } ++ EphemeralStream(0.0))
+    }.toList
 
-    (blocks.toList, blocks.apzip(_.drop(1)).map(a => a._1 / a._2).toList)
+    (blocks, blocks.apzip(_.drop(1)).map(a => a._1 / a._2))
   }
 
   def gaussian(mean: Double, dev: Double): RVar[Double] =
     for {
       u <- stdUniform.map(2.0 * _ - 1)
-      i <- next[Int].map(a => ((a & 0xffffffffL) % 127).toInt)
+      i <- next[Int].map(a => ((a & 0xFFFFFFFFL) % 127).toInt)
       r <- if (math.abs(u) < ratios(i)) RVar.pure(u * blocks(i))
-      else if (i == 0) DRandNormalTail(ZIGNOR_R, u < 0)
-      else {
-        val x = u * blocks(i)
-        val f0 = math.exp(-0.5 * (blocks(i) * blocks(i) - x * x))
-        val f1 = math.exp(-0.5 * (blocks(i + 1) * blocks(i + 1) - x * x))
-        stdUniform
-          .map(a => f1 + a * (f0 - f1) < 1.0)
-          .ifM(
-            ifTrue = RVar.pure(x),
-            ifFalse = gaussian(mean, dev)
-          )
-      }
+          else if (i == 0) DRandNormalTail(ZIGNOR_R, u < 0)
+          else {
+            val x  = u * blocks(i)
+            val f0 = math.exp(-0.5 * (blocks(i) * blocks(i) - x * x))
+            val f1 = math.exp(-0.5 * (blocks(i + 1) * blocks(i + 1) - x * x))
+            stdUniform
+              .map(a => f1 + a * (f0 - f1) < 1.0)
+              .ifM(
+                ifTrue = RVar.pure(x),
+                ifFalse = gaussian(mean, dev)
+              )
+          }
     } yield mean + dev * r
 
   private def invErf(x: Double) = {
-    val a = 0.147
+    val a      = 0.147
     val halfPi = 2.0 / (math.Pi * a)
-    val xcomp = 1.0 - (x * x)
+    val xcomp  = 1.0 - (x * x)
 
     val t1 = halfPi + (math.log(xcomp) / 2.0)
     val t2 = math.log(xcomp) / a

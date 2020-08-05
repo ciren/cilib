@@ -1,20 +1,19 @@
 package cilib
 package eda
 
-import scalaz._
-import Scalaz._
+import scalaz._, Scalaz._
 
 object EDA {
 
   def eda[M, S, A](
-      sample: (M, Entity[S, A]) => RVar[Entity[S, A]],
-      selection: NonEmptyList[Entity[S, A]] => RVar[NonEmptyList[Entity[S, A]]],
-      generateModel: NonEmptyList[Entity[S, A]] => RVar[M]
+    sample: (M, Entity[S, A]) => RVar[Entity[S, A]],
+    //selection: NonEmptyList[Entity[S, A]] => RVar[NonEmptyList[Entity[S, A]]],
+    generateModel: NonEmptyList[Entity[S, A]] => RVar[M]
   ): NonEmptyList[Entity[S, A]] => Step[A, NonEmptyList[Entity[S, A]]] =
     collection =>
       for {
-        selected <- Step.liftR(selection(collection))
-        newModel <- Step.liftR(generateModel(collection))
+        //selected <- Step.liftR(selection(collection))
+        newModel  <- Step.liftR(generateModel(collection))
         generated <- Step.liftR(collection.traverse(x => sample(newModel, x)))
         evaluated <- generated.traverse(x => Step.eval((v: Position[A]) => v)(x))
       } yield evaluated

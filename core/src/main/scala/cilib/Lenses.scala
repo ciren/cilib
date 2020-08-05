@@ -1,13 +1,11 @@
 package cilib
 
 import monocle._
-import monocle.std.disjunction._
 import monocle.std.option._
 
 final case class Mem[A](b: Position[A], v: Position[A])
 
-@annotation.implicitNotFound(
-  "A HasMemory instance cannot be found for the provided state type ${S}")
+@annotation.implicitNotFound("A HasMemory instance cannot be found for the provided state type ${S}")
 trait HasMemory[S, A] {
   def _memory: Lens[S, Position[A]]
 }
@@ -41,7 +39,7 @@ trait HasPBestStagnation[A] {
 }
 
 object Lenses {
-  import scalaz.{Lens => _, Optional => _, _}
+  import scalaz.{ Lens => _, Optional => _, _ }
 
   // Base Entity lenses
   def _state[S, A]: Lens[Entity[S, A], S] =
@@ -51,11 +49,11 @@ object Lenses {
     Lens[Entity[S, A], Position[A]](_.pos)(c => e => e.copy(pos = c))
 
   def _vector[A: scalaz.Equal]: Lens[Position[A], NonEmptyList[A]] =
-    Lens[Position[A], NonEmptyList[A]](_.pos)(
-      c =>
-        e =>
-          if (scalaz.Equal[NonEmptyList[A]].equal(e.pos, c)) e
-          else Position(c, e.boundary))
+    Lens[Position[A], NonEmptyList[A]](_.pos)(c =>
+      e =>
+        if (scalaz.Equal[NonEmptyList[A]].equal(e.pos, c)) e
+        else Position(c, e.boundary)
+    )
 
   def _objective[A]: Getter[Position[A], Option[Objective[A]]] =
     Getter(_.objective)
@@ -76,5 +74,18 @@ object Lenses {
       case Feasible(x) => Some(x)
       case _           => None
     })(x => Feasible(x))
+
+  // Helpers that were removed when monocle moved over to cats
+  final def left[A, B]: Prism[A \/ B, A] =
+    Prism[A \/ B, A] {
+      case -\/(a) => Some(a)
+      case \/-(_) => None //\/.left(\/.right(b))
+    }(\/.left)
+
+  final def right[A, B]: Prism[A \/ B, B] =
+    Prism[A \/ B, B] {
+      case -\/(_) => None
+      case \/-(b) => Some(b) //\/.left(\/.right(b))
+    }(\/.right)
 
 }

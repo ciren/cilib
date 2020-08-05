@@ -36,8 +36,6 @@ import cilib.exec._
 
 import eu.timepit.refined.auto._
 
-import scalaz.effect._
-import scalaz.effect.IO.putStrLn
 import spire.implicits._
 import spire.math.Interval
 

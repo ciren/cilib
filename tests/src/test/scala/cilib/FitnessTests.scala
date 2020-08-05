@@ -1,15 +1,13 @@
 package cilib
 
-import spire.implicits._
-
-import scalaz._
-import scalaz.Ordering._
-import scalaz.scalacheck.ScalazArbitrary._
-
-import org.scalacheck._
-import org.scalacheck.Prop._
-import org.scalacheck.Gen._
 import org.scalacheck.Arbitrary._
+import org.scalacheck.Gen._
+import org.scalacheck.Prop._
+import org.scalacheck._
+import scalaz.Ordering._
+import scalaz._
+import scalaz.scalacheck.ScalazArbitrary._
+import spire.implicits._
 
 object FitnessTest extends Properties("Fitness") {
 
@@ -27,31 +25,31 @@ object FitnessTest extends Properties("Fitness") {
 
   def simpleViolationGen: Gen[Constraint[Int]] =
     for {
-      value <- Gen.choose(-100.0, 100.0)
+      value    <- Gen.choose(-100.0, 100.0)
       function = ConstraintFunction((_: NonEmptyList[Int]) => 0.0)
       constraint <- Gen.oneOf(
-        LessThan(function, value),
-        LessThanEqual(function, value),
-        Equal(function, value),
-        GreaterThan(function, value),
-        GreaterThanEqual(function, value),
-        InInterval(function, spire.math.Interval(-5.12, 5.12))
-      )
+                     LessThan(function, value),
+                     LessThanEqual(function, value),
+                     Equal(function, value),
+                     GreaterThan(function, value),
+                     GreaterThanEqual(function, value),
+                     InInterval(function, spire.math.Interval(-5.12, 5.12))
+                   )
     } yield constraint
 
   def singleObjectiveGen: Gen[Objective[Int] @@ Single] =
     for {
-      violationCount <- Gen.choose(1,5)
-      violations <- Gen.listOfN(violationCount, simpleViolationGen)
+      violationCount <- Gen.choose(1, 5)
+      violations     <- Gen.listOfN(violationCount, simpleViolationGen)
       obj <- Gen.oneOf(
-        genFeasibleFitness.map(f => Tag[Objective[Int], Single](Objective.single(f, List.empty[Constraint[Int]]))),
-        genPenaltyFitness.map(f => Tag[Objective[Int], Single](Objective.single(f, violations))),
-        genInfeasibleFitenss.map(f => Tag[Objective[Int], Single](Objective.single(f, violations)))
-      )
+              genFeasibleFitness
+                .map(f => Tag[Objective[Int], Single](Objective.single(f, List.empty[Constraint[Int]]))),
+              genPenaltyFitness.map(f => Tag[Objective[Int], Single](Objective.single(f, violations))),
+              genInfeasibleFitenss.map(f => Tag[Objective[Int], Single](Objective.single(f, violations)))
+            )
     } yield obj
 
   implicit def arbSingleObjective = Arbitrary { singleObjectiveGen }
-
 
   def multiObjectiveGen: Gen[Objective[Int] @@ Multi] =
     for {
@@ -83,43 +81,43 @@ object FitnessTest extends Properties("Fitness") {
           case _ => x
         }
       case (None, None) => x
-      case (None, _) => y
-      case (_, None) => x
+      case (None, _)    => y
+      case (_, None)    => x
     }
 
   val min = better(Min) _
   val max = better(Max) _
 
-  property("single objective min") =
-    forAll { (x: Option[Objective[Int] @@ Single], y: Option[Objective[Int] @@ Single]) =>
+  property("single objective min") = forAll {
+    (x: Option[Objective[Int] @@ Single], y: Option[Objective[Int] @@ Single]) =>
       val a = x.map(Tag.unwrap)
       val b = y.map(Tag.unwrap)
 
       Comparison.quality(Min)(a, b) == min(a, b)
-    }
+  }
 
-  property("single objective max") =
-    forAll { (x: Option[Objective[Int] @@ Single], y: Option[Objective[Int] @@ Single]) =>
+  property("single objective max") = forAll {
+    (x: Option[Objective[Int] @@ Single], y: Option[Objective[Int] @@ Single]) =>
       val a = x.map(Tag.unwrap)
       val b = y.map(Tag.unwrap)
 
       Comparison.quality(Max)(a, b) == max(a, b)
-    }
+  }
 
-  property("multi objective dominance min") =
-    forAll { (x: Option[Objective[Int] @@ Multi], y: Option[Objective[Int] @@ Multi]) =>
+  property("multi objective dominance min") = forAll {
+    (x: Option[Objective[Int] @@ Multi], y: Option[Objective[Int] @@ Multi]) =>
       val a = x.map(Tag.unwrap)
       val b = y.map(Tag.unwrap)
 
       Comparison.quality(Min)(a, b) == min(a, b)
-    }
+  }
 
-  property("multi objective dominance max") =
-    forAll { (x: Option[Objective[Int] @@ Multi], y: Option[Objective[Int] @@ Multi]) =>
+  property("multi objective dominance max") = forAll {
+    (x: Option[Objective[Int] @@ Multi], y: Option[Objective[Int] @@ Multi]) =>
       val a = x.map(Tag.unwrap)
       val b = y.map(Tag.unwrap)
 
       Comparison.quality(Max)(a, b) == max(a, b)
-    }
+  }
 
 }

@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    #branches: [master]
+    tags: ["*"]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cachix/install-nix-action@v6
+
+      - name: Lint check
+        run: nix-shell --run 'sbt -Dsbt.supershell=false ";fixCheck;fmtCheck"'
+
+      - name: Publish ${{ github.ref }}
+        run: nix-shell --run 'sbt -Dsbt.supershell=false ci-release'
+        env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+
+      - name: Build website
+        run: nix-shell --run 'sbt docs/docusaurusCreateSite'
+
+      - name: Publish gh-pages
+        run: |
+          wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2/entrypoint.sh
+          bash ./entrypoint.sh
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./website/build
+          SCRIPT_MODE: true
+          INPUT_FORCEORPHAN: true

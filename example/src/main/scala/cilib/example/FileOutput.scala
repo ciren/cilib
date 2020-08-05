@@ -2,55 +2,60 @@ package cilib
 package example
 import java.io.File
 
-import cilib.benchmarks.Benchmarks
+import eu.timepit.refined.auto._
+import scalaz._, Scalaz._
+import spire.implicits._
+import spire.math.Interval
+import zio._
+import zio.blocking.Blocking
+import zio.console._
+import zio.stream._
+
 import cilib.exec.Runner._
 import cilib.exec._
 import cilib.io._
 import cilib.pso.Defaults._
 import cilib.pso._
-import eu.timepit.refined.auto._
-import scalaz.Scalaz._
-import scalaz._
-import scalaz.concurrent.Task
-import scalaz.effect.IO.putStrLn
-import scalaz.effect._
-import scalaz.stream._
-import spire.implicits._
-import spire.math.Interval
 
-object FileOutput extends SafeApp {
+object FileOutput extends zio.App {
 
   // An example showing how to compare multiple algorithms across multiple
   // benchmarks and save the results to a a file (either csv or parquet).
 
   val bounds = Interval(-5.12, 5.12) ^ 30
-  val rng = RNG.init(12L)
+  val rng    = RNG.init(12L)
 
-  // Define the benchmarks
+  // Define the benchmarks. These functions are hardcoded, but it would be better to consider
+  // using https://github.com/ciren/benchmarks which is a far more extensive and
+  // complete set of benchmark functions and suites.
   val absolute = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.absoluteValue(xs))))
+    eval = Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible)
+  )
 
   val ackley = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.ackley(xs))))
+    eval = Eval.unconstrained(ExampleHelper.ackley andThen Feasible)
+  )
 
   val quadric = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.quadric(xs))))
+    eval = Eval.unconstrained(ExampleHelper.quadric andThen Feasible)
+  )
 
   val spherical = Environment(
     cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained((xs: NonEmptyList[Double]) => Feasible(Benchmarks.spherical(xs))))
+    eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  )
 
   // Define the problem streams
-  val absoluteStream = Runner.staticProblem("absolute", absolute.eval)
-  val ackleyStream = Runner.staticProblem("ackley", ackley.eval)
+  val absoluteStream  = Runner.staticProblem("absolute", absolute.eval)
+  val ackleyStream    = Runner.staticProblem("ackley", ackley.eval)
   val sphericalStream = Runner.staticProblem("spherical", spherical.eval)
-  val quadricStream = Runner.staticProblem("quadric", quadric.eval)
+  val quadricStream   = Runner.staticProblem("quadric", quadric.eval)
 
   // Define the guides for our PSO algorithms
-  val cognitive = Guide.pbest[Mem[Double], Double]
+  val cognitive  = Guide.pbest[Mem[Double], Double]
   val gbestGuide = Guide.gbest[Mem[Double]]
   val lbestGuide = Guide.lbest[Mem[Double]](3)
 
@@ -71,29 +76,28 @@ object FileOutput extends SafeApp {
 
   // A performance measure that we apply to the collection at the end of each iteration.
   def performanceMeasure =
-    measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results](collection => {
+    measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results] { collection =>
       val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
       val fitnessValues =
         collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
       Results(fitnessValues.minimum1, fitnessValues.suml / fitnessValues.size)
-    })
+    }
 
   // A simple RVar.pure function that is called when the the environment changes
   // In this example our environments do not change.
-  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) =>
-    RVar.pure(x)
+  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) => RVar.pure(x)
 
-  def simulation(env: Environment[Double], stream: Process[Task, Problem[Double]]) =
-    List(Runner.staticAlgorithm("GBestPSO", gbestIter),
-         Runner.staticAlgorithm("LBestPSO", lbestIter))
+  def simulation(env: Environment[Double], stream: Stream[Nothing, Problem[Double]]) =
+    List(Runner.staticAlgorithm("GBestPSO", gbestIter), Runner.staticAlgorithm("LBestPSO", lbestIter))
       .map(alg => Runner.foldStep(env, rng, swarm, alg, stream, onChange))
 
-  val simulations = List.concat(
-    simulation(absolute, absoluteStream),
-    simulation(ackley, ackleyStream),
-    simulation(quadric, quadricStream),
-    simulation(spherical, sphericalStream)
-  )
+  val simulations: List[Stream[Exception, Progress[NonEmptyList[Entity[Mem[Double], Double]]]]] =
+    List.concat(
+      simulation(absolute, absoluteStream),
+      simulation(ackley, ackleyStream),
+      simulation(quadric, quadricStream),
+      simulation(spherical, sphericalStream)
+    )
 
   sealed abstract class Choice {
     def filename =
@@ -103,36 +107,36 @@ object FileOutput extends SafeApp {
         case Invalid => throw new Exception("Invalid choice")
       }
   }
-  final case object CSV extends Choice
+  final case object CSV     extends Choice
   final case object Parquet extends Choice
   final case object Invalid extends Choice
 
-  def writeResults(choice: Choice): Process[Task, Unit] = {
-    val measured: Process[Task, Process[Task, Measurement[Results]]] =
-      Process.emitAll(simulations.map(_.take(1000).pipe(performanceMeasure)))
+  def writeResults(choice: Choice): ZIO[Blocking, Throwable, Unit] = {
+    val measured: List[ZStream[Any, Exception, Measurement[Results]]] =
+      simulations.map(_.take(1000).map(performanceMeasure))
 
-    merge
-      .mergeN(4)(measured)
-      .to(choice match {
-        case CSV     => csvHeaderSink(new File(choice.filename))
+    ZStream
+      .mergeAll(4)(measured: _*)
+      .run(choice match {
+        case CSV     => csvSink(new File(choice.filename))
         case Parquet => parquetSink(new File(choice.filename))
-        case _       => Process.fail(new Exception("Unsupported value. Please select a valid choice."))
+        case _       => ZSink.fail(new Exception("Unsupported value. Please select a valid choice."))
       })
   }
 
-  override val runc: IO[Unit] =
+  def run(args: List[String]) =
+    myAppLogic.exitCode
+
+  val myAppLogic =
     for {
-      _ <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
-      choice <- IO.readLn.map(s =>
-        \/.fromTryCatchNonFatal(s.toInt) match {
-          case \/-(1) => Parquet: Choice
-          case \/-(2) => CSV: Choice
-          case _      => Invalid: Choice
-      })
-      _ <- putStrLn(s"Executing ${simulations.size} simulations.")
-      _ <- IO {
-        writeResults(choice).run.unsafePerformSync
-      }
+      _      <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
+      result <- getStrLn
+      choice <- ZIO.succeed(\/.attempt(result.toInt)(_.getMessage) match {
+                 case \/-(1) => Parquet
+                 case \/-(2) => CSV
+                 case _      => Invalid
+               })
+      _ <- writeResults(choice)
       _ <- putStrLn("Complete.")
     } yield ()
 

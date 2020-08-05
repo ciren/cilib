@@ -1,7 +1,7 @@
 package cilib
 
+import scalaz.Scalaz._
 import scalaz._
-import Scalaz._
 
 /**
   An `Objective` represents the result of an evaluation.
@@ -10,7 +10,7 @@ import Scalaz._
   the fitness and the violation count of an objective function evaluation.
 
   `Multi` duplicates the evaluation for multiple potential objective functions.
-  */
+ */
 sealed abstract class Objective[A] {
   import Objective._
 
@@ -36,7 +36,7 @@ sealed abstract class Objective[A] {
 
 object Objective {
   private final case class Single[A](f: Fit, v: List[Constraint[A]]) extends Objective[A]
-  private final case class Multi[A](x: NonEmptyList[Objective[A]]) extends Objective[A]
+  private final case class Multi[A](x: NonEmptyList[Objective[A]])   extends Objective[A]
 
   def single[A](f: Fit, violations: List[Constraint[A]]): Objective[A] =
     Single(f, violations)

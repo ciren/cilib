@@ -1,7 +1,6 @@
 package cilib
 
-import scalaz._
-import Scalaz._
+import scalaz._, Scalaz._
 
 final class MultiEval[F[_], A](objectives: NonEmptyList[Eval[F, A]]) {
 

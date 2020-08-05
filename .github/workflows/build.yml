@@ -8,29 +8,17 @@ on:
 
 jobs:
   build:
-    name: Build, test and publish gh-pages
+    name: Build and run tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
-
       - uses: cachix/install-nix-action@v6
 
-      - run: nix-shell --run 'sbt -Dsbt.supershell=false test && sbt -Dsbt.sueprshell=false docs/mdoc'
+      - name: Lint check
+        run: nix-shell --run 'sbt -Dsbt.supershell=false ";fixCheck;fmtCheck"'
 
-      - name: Build website
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: nix-shell --run 'sbt docs/buildWebsite'
+      - name: Test
+        run: nix-shell --run 'sbt -Dsbt.supershell=false test'
 
-      - name: Publish gh-pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: |
-          wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2/entrypoint.sh
-          bash ./entrypoint.sh
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./website/build
-          SCRIPT_MODE: true
-          INPUT_FORCEORPHAN: true
+      - name: Generate docs and build website
+        run: nix-shell --run 'sbt docs/docusaurusCreateSite'
