@@ -41,7 +41,7 @@ A `NonEmptyList` is a list that is guaranteed to have at least one
 contained element.
 
 A search space is determined by a list of `Interval` instances (provided
-by [spire]()), one for each dimension. The `Interval` need not be the same
+by spire), one for each dimension. The `Interval` need not be the same
 for each dimension and differing `Interval`s may be placed together in a
 `NonEmptyList` to define the problem search space. As it is rather common
 to define a search space where an interval repeats `n` times, some syntax

@@ -15,7 +15,7 @@ results in a value with randomness applied. `RVar` is one of the most
 important structures in CIlib and is therefore discussed first in order to
 understand how the data structure works.
 
-`RVar` has a [monad]() instance and therefore allows a for a large amount
+`RVar` has a monad instance and therefore allows a for a large amount
 of composition, but more importantly allows for the tracking of randomness
 within the `RVar` computation. This tracking is of the utmost importance
 within computational intelligence algorithms, as randomness needs to be

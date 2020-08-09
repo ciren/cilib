@@ -12,7 +12,7 @@ This basic tutorial is aimed at walking you through the different parts of CILib
 CILib is written in Scala and familiarity with the language is recommended.
 Scala is a JVM language which allows for the expression and usage of more advanced type system capabilities, which Java, nor the other JVM languages are able to provide.
 
-[Essential Scala](1) and [Advanced Scala With Cats](2) are freely available, online Scala resources.
+[Essential Scala](https://underscore.io/training/courses/essential-scala/) and [Advanced Scala With Cats](https://underscore.io/training/courses/advanced-scala/) are freely available, online Scala resources.
 It should be noted that these resources recommend practices that are not always followed within CIlib.
 The core focus in CIlib development is to *always* prefer a functional approach for implementation and avoid the use of object-orientation as much as possible.
 The benefits obtained through this style of code far outweigh any perceived overhead!

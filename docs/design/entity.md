@@ -52,7 +52,7 @@ exists with a single value (expressed as ``()``), which is uninteresting.
 Some functions use `Entity` instances, but
 constrain the usage based on the shape of the `S` type parameter within the
 `Entity[S,A]`. As mentioned within the discussion of
-[lenses and optics](), a typeclass `HasMemory` is defined to allow a state
+lenses and optics (TODO: ADD A LINK HERE), a typeclass `HasMemory` is defined to allow a state
 to contain information about some kind of memory for an `Entity`. A data
 structure that provides this memory for a Particle is `Mem[A]`, and is simply
 the case class:

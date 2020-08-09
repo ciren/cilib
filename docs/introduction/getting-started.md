@@ -35,11 +35,4 @@ The library was created through a combined effort by several researchers.
 
 ## Help and discussion
 
-If you have any feedback or questions, please come and chat to us in the project [Gitter channel](4); alternatively, feel free to [open an issue](5).
-
-
-[1]: https://underscore.io/training/courses/essential-scala/
-[2]: https://underscore.io/training/courses/advanced-scala/
-[3]: https://underscore.io/
-[4]: https://gitter.im/ciren/cilib
-[5]: https://github.com/ciren/cilib/issues/new/choose
+If you have any feedback or questions, please come and chat to us in the project [Gitter channel](https://gitter.im/ciren/cilib); alternatively, feel free to [open an issue](https://github.com/ciren/cilib/issues/new/choose).

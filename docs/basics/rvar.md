@@ -35,7 +35,7 @@ These functions allow for the creation of basic types with applied randomness an
 Other values are built up using these base instances quite easily.
 Additionally, functions that operate on the types mentioned above are available.
 These operations are common operations which would be tedious for the user to maintain and have been included as part of the library.
-It is recommended to look at the [documentation for `RVar`]() to become familiar with the available combinator functions.
+It is recommended to look at the documentation for `RVar` to become familiar with the available combinator functions.
 
 ## Some example usage
 

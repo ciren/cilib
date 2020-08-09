@@ -1,11 +1,11 @@
 module.exports = {
   title: "CIlib",
-  tagline: "Predictable and Pure Evolutionary and Swarm Intelligence",
-  url: "https://cilib.net",
+  tagline: "Reproducible, Pure and Type-sage Evolutionary Computation and Swarm Intelligence",
+  url: "https://cilib.net/",
   baseUrl: "/",
   favicon: "img/favicon.ico",
-  organizationName: "ciren", // Usually your GitHub org/user name.
-  projectName: "cilib", // Usually your repo name.
+  organizationName: "ciren",
+  projectName: "cilib",
   themeConfig: {
     navbar: {
       title: "CIlib",
@@ -13,7 +13,7 @@ module.exports = {
       //   alt: 'My Site Logo',
       //   src: 'img/logo.svg',
       // },
-      links: [
+      items: [
         {
           to: "docs/introduction/getting-started",
           label: "Docs",
@@ -66,19 +66,24 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} CIlib authors`
     },
     prism: {
-      defaultLanguage: "scala"
-    }
+      additionalLanguages: ['scala', 'protobuf'],
+      theme: require('prism-react-renderer/themes/nightOwlLight'),
+      darkTheme: require('prism-react-renderer/themes/dracula')
+    },
   },
   presets: [
     [
       "@docusaurus/preset-classic",
       {
         docs: {
-          sidebarPath: require.resolve("./sidebars.js")
+          homePageId: 'getting-started',
+          path: "../cilib-docs/target/mdoc",
+          sidebarPath: require.resolve("./sidebars.js"),
+          routeBasePath: 'docs',
         },
-        theme: {
-          customCss: require.resolve("./src/css/custom.css")
-        }
+        // theme: {
+        //   customCss: require.resolve("./src/css/custom.css")
+        // }
       }
     ]
   ]
