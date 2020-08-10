@@ -92,7 +92,7 @@ metricSpaceProfunctor: Profunctor[MetricSpace]
 
 metricSpaceSemiGroup[A,B](implicit B: Semigroup[B]): Semigroup[MetricSpace[A,B]]
 
-metricSpaceMonad[A]: Monad[MetricSpace[A,?]]
+metricSpaceMonad[A]: Monad[MetricSpace[A,*]]
 ```
 
 ## Summary

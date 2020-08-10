@@ -91,13 +91,13 @@ object Runner {
     initialConfig: Environment[A],
     rng: RNG,
     collection: RVar[F[B]],
-    alg: PureStream[Algorithm[Kleisli[Step[A, ?], F[B], F[B]]]],
+    alg: PureStream[Algorithm[Kleisli[Step[A, *], F[B], F[B]]]],
     env: PureStream[Problem[A]],
     onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]
   ): Stream[Exception, Progress[F[B]]] = {
 
     // Convert to a StepS with Unit as the state parameter
-    val a: PureStream[Algorithm[Kleisli[StepS[A, Unit, ?], F[B], F[B]]]] =
+    val a: PureStream[Algorithm[Kleisli[StepS[A, Unit, *], F[B], F[B]]]] =
       alg.map(x => x.copy(value = Kleisli((a: F[B]) => StepS.pointS(x.value.run(a)))))
 
     foldStepS(initialConfig, (), rng, collection, a, env, onChange)
@@ -109,7 +109,7 @@ object Runner {
     initialState: S,
     rng: RNG,
     collection: RVar[F[B]],
-    alg: PureStream[Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]],
+    alg: PureStream[Algorithm[Kleisli[StepS[A, S, *], F[B], F[B]]]],
     env: PureStream[Problem[A]],
     onChange: (F[B], Eval[NonEmptyList, A]) => RVar[F[B]]
   ): Stream[Exception, Progress[(S, F[B])]] = {
@@ -120,11 +120,11 @@ object Runner {
       current: F[B],
       config: Environment[A],
       state: S
-    ): PureStream[Progress[(S, F[B])]] = //Tee[Problem[A], Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]], Progress[(S, F[B])]] =
+    ): PureStream[Progress[(S, F[B])]] = //Tee[Problem[A], Algorithm[Kleisli[StepS[A, S, *], F[B], F[B]]], Progress[(S, F[B])]] =
       Process.awaitL[Problem[A]].awaitOption.flatMap {
         case None => Process.halt
         case Some(Problem(problem, e, eval)) =>
-          Process.awaitR[Algorithm[Kleisli[StepS[A, S, ?], F[B], F[B]]]].awaitOption.flatMap {
+          Process.awaitR[Algorithm[Kleisli[StepS[A, S, *], F[B], F[B]]]].awaitOption.flatMap {
             case None => Process.halt
             case Some(algorithm) =>
 

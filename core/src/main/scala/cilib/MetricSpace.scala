@@ -133,8 +133,8 @@ object MetricSpace {
         }
     }
 
-  implicit def metricSpaceMonad[A]: Monad[MetricSpace[A, ?]] =
-    new Monad[MetricSpace[A, ?]] {
+  implicit def metricSpaceMonad[A]: Monad[MetricSpace[A, *]] =
+    new Monad[MetricSpace[A, *]] {
       def point[B](a: => B): MetricSpace[A, B] =
         MetricSpace.pure[A, B](a)
 

@@ -24,7 +24,7 @@ Now since we haven't come across any `StepS` instances before this, we will firs
 
 ## StepS Class
 
-`final case class StepS[A,S,B](run: StateT[Step[A,?],S,B])`
+`final case class StepS[A,S,B](run: StateT[Step[A,*],S,B])`
 
 As you can see the class header bares some resemblance to that of
 `Step`. Here, however, the parameter `run` is a state transformer,
@@ -92,7 +92,7 @@ Now, putting it all together to make a `StepS`. Pay close attention
 to the resulting types.
 
 ```scala
-val myStepS = StepS(StateT[Step[Double, ?], Position[Double], Double](x => Step.point(explore(x, 0.96))))
+val myStepS = StepS(StateT[Step[Double, *], Position[Double], Double](x => Step.point(explore(x, 0.96))))
 val step = myStepS.run(position) // Supply an initial value
 val rvar = step.run(env)
 val result = rvar.eval(rng)
@@ -128,7 +128,7 @@ as well as the value at hand by chaining together `StepS`s.
 
 ```scala :silent
 def negate (position: Position[Double]): (Position[Double], Double) = (position.map(x => x * -1), -1.0)
-val myStepS2 = StepS(StateT[Step[Double, ?], Position[Double], Double](x => Step.point(negate(x))))
+val myStepS2 = StepS(StateT[Step[Double, *], Position[Double], Double](x => Step.point(negate(x))))
 ```
 ```scala :silent
 myStepS.flatMap(x => myStepS2).run(position).run(env).eval(rng)
@@ -163,9 +163,9 @@ Not only does it offer us `StepS` creation methods, there are two
 implicits that you should be mindful about.
 
 ```scala
-implicit def stepSMonad[A,S]: Monad[StepS[A,S,?]]
+implicit def stepSMonad[A,S]: Monad[StepS[A,S,*]]
 
-implicit def stepSMonadState[A,S]: MonadState[StepS[A,S,?], S]
+implicit def stepSMonadState[A,S]: MonadState[StepS[A,S,*], S]
 ```
 
 ### lensIso

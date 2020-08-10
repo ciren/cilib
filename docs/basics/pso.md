@@ -243,7 +243,7 @@ updateStagnation[S, A](p: Entity[S,A])(implicit M: HasMemory[S,A], S: HasPBestSt
 Creates a population with behaviours.
 
 ```scala
-assignRandom[A, B, C](implicit M: MonadState[StepS[C,Pool[B],?], Pool[B]]): NonEmptyList[A] => StepS[C,Pool[B],NonEmptyList[User[A, B]]]
+assignRandom[A, B, C](implicit M: MonadState[StepS[C,Pool[B],*], Pool[B]]): NonEmptyList[A] => StepS[C,Pool[B],NonEmptyList[User[A, B]]]
 ```
 
 #### pbestStagnated
@@ -279,7 +279,7 @@ useBehaviour[S, A, B]: NonEmptyList[HEntityB[S, A, B]] => HEntityB[S, A, B] => S
 #### incrementOne
 
 ```scala
-incrementOne[S, A, B](implicit M: MonadState[StepS[A,Pool[Behaviour[S,A,B]],?],Pool[Behaviour[S,A,B]]]): HEntityB[S, A, B] => HEntityB[S, A, B] => StepS[A,Pool[Behaviour[S,A,B]],Pool[Behaviour[S,A,B]]]
+incrementOne[S, A, B](implicit M: MonadState[StepS[A,Pool[Behaviour[S,A,B]],*],Pool[Behaviour[S,A,B]]]): HEntityB[S, A, B] => HEntityB[S, A, B] => StepS[A,Pool[Behaviour[S,A,B]],Pool[Behaviour[S,A,B]]]
 ```
 
 #### updateStagnation

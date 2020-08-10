@@ -99,6 +99,6 @@ object MetricSpaceTest extends Spec("MetricSpace") {
     triangle(chebyshev, x, y, z)
   }
 
-  //checkAll("MetricSpace", monad.laws[MetricSpace[Int,?]])
+  //checkAll("MetricSpace", monad.laws[MetricSpace[Int,*]])
 
 }

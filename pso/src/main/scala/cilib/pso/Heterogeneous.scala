@@ -110,7 +110,7 @@ object Heterogeneous {
 
   // Create population with behaviours
   def assignRandom[A, B, C](
-    implicit M: MonadState[StepS[C, Pool[B], ?], Pool[B]]
+    implicit M: MonadState[StepS[C, Pool[B], *], Pool[B]]
   ): NonEmptyList[A] => StepS[C, Pool[B], NonEmptyList[User[A, B]]] =
     xs =>
       for {
@@ -133,7 +133,7 @@ object Heterogeneous {
   def poolSelectRandom[A, B, C]: NonEmptyList[User[A, B]] => User[A, B] => StepS[C, Pool[B], User[A, B]] =
     _ =>
       x => {
-        val M = MonadState[StepS[C, Pool[B], ?], Pool[B]]
+        val M = MonadState[StepS[C, Pool[B], *], Pool[B]]
         for {
           pool <- M.get
           user <- StepS.liftR(RVar.shuffle(pool).map { l =>
@@ -145,7 +145,7 @@ object Heterogeneous {
   def poolSelectTournament[A, B, C](k: Int): NonEmptyList[User[A, B]] => User[A, B] => StepS[C, Pool[B], User[A, B]] =
     _ =>
       x => {
-        val M = MonadState[StepS[C, Pool[B], ?], Pool[B]]
+        val M = MonadState[StepS[C, Pool[B], *], Pool[B]]
         for {
           pool <- M.get
           user <- StepS.liftR(RVar.shuffle(pool).map(_.toList.take(k)).map { bs =>
@@ -165,7 +165,7 @@ object Heterogeneous {
 
   // Update pool
   def incrementOne[S, A, B](
-    implicit M: MonadState[StepS[A, Pool[Behaviour[S, A, B]], ?], Pool[Behaviour[S, A, B]]]
+    implicit M: MonadState[StepS[A, Pool[Behaviour[S, A, B]], *], Pool[Behaviour[S, A, B]]]
   ): HEntityB[S, A, B] => HEntityB[S, A, B] => StepS[A, Pool[Behaviour[S, A, B]], Pool[Behaviour[S, A, B]]] =
     oldP =>
       newP =>
@@ -184,7 +184,7 @@ object Heterogeneous {
 
   def nullPoolUpdate[S, A, B]
     : HEntityB[S, A, B] => HEntityB[S, A, B] => StepS[A, Pool[Behaviour[S, A, B]], Pool[Behaviour[S, A, B]]] =
-    _ => _ => MonadState[StepS[A, Pool[Behaviour[S, A, B]], ?], Pool[Behaviour[S, A, B]]].get
+    _ => _ => MonadState[StepS[A, Pool[Behaviour[S, A, B]], *], Pool[Behaviour[S, A, B]]].get
 
   // Algorithms
   def genericHPSO[S, A, B](
@@ -203,7 +203,7 @@ object Heterogeneous {
     collection =>
       x => {
         val S =
-          MonadState[StepS[A, (Pool[Behaviour[S, A, B]], B), ?], (Pool[Behaviour[S, A, B]], B)]
+          MonadState[StepS[A, (Pool[Behaviour[S, A, B]], B), *], (Pool[Behaviour[S, A, B]], B)]
         val pool   = first[(Pool[Behaviour[S, A, B]], B), Pool[Behaviour[S, A, B]]]
         val params = second[(Pool[Behaviour[S, A, B]], B), B]
 
@@ -212,7 +212,7 @@ object Heterogeneous {
                  .ifM(ifTrue = selector(collection)(x).zoom(pool), ifFalse = S.pure(x))
           p2   <- useBehaviour(collection)(p1).zoom(params)
           newP <- updater(x)(p2).zoom(pool)
-          _ <- MonadState[StepS[A, Pool[Behaviour[S, A, B]], ?], Pool[Behaviour[S, A, B]]]
+          _ <- MonadState[StepS[A, Pool[Behaviour[S, A, B]], *], Pool[Behaviour[S, A, B]]]
                 .put(newP)
                 .zoom(pool)
         } yield p2

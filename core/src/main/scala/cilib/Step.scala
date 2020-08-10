@@ -81,8 +81,8 @@ object Step {
       Position.eval(env.eval.eval, pos).map(_.right[Exception])
     }
 
-  implicit def stepMonad[A]: Monad[Step[A, ?]] =
-    new Monad[Step[A, ?]] {
+  implicit def stepMonad[A]: Monad[Step[A, *]] =
+    new Monad[Step[A, *]] {
       def point[B](a: => B): Step[A, B] =
         Step.pure(a)
 
@@ -91,7 +91,7 @@ object Step {
     }
 }
 
-final case class StepS[A, S, B](run: StateT[S, Step[A, ?], B]) {
+final case class StepS[A, S, B](run: StateT[S, Step[A, *], B]) {
   def map[C](f: B => C): StepS[A, S, C] =
     StepS(run.map(f))
 
@@ -109,18 +109,18 @@ object StepS {
       monocle.Lens[A, B](s.get)(b => a => s.set(a, b))
     )((m: monocle.Lens[A, B]) => scalaz.Lens.lensu[A, B]((a, b) => m.set(b)(a), m.get(_)))
 
-  implicit def stepSMonad[A, S]: Monad[StepS[A, S, ?]] =
-    new Monad[StepS[A, S, ?]] {
+  implicit def stepSMonad[A, S]: Monad[StepS[A, S, *]] =
+    new Monad[StepS[A, S, *]] {
       def point[B](a: => B): StepS[A, S, B] =
-        StepS(StateT[S, Step[A, ?], B]((s: S) => Step.pure((s, a))))
+        StepS(StateT[S, Step[A, *], B]((s: S) => Step.pure((s, a))))
 
       def bind[B, C](fa: StepS[A, S, B])(f: B => StepS[A, S, C]): StepS[A, S, C] =
         fa.flatMap(f)
     }
 
-  implicit def stepSMonadState[A, S]: MonadState[StepS[A, S, ?], S] =
-    new MonadState[StepS[A, S, ?], S] {
-      private val M = StateT.stateTMonadState[S, Step[A, ?]]
+  implicit def stepSMonadState[A, S]: MonadState[StepS[A, S, *], S] =
+    new MonadState[StepS[A, S, *], S] {
+      private val M = StateT.stateTMonadState[S, Step[A, *]]
 
       def point[B](a: => B) = StepS(M.pure(a))
 
@@ -137,14 +137,14 @@ object StepS {
     }
 
   def liftR[A, S, B](a: RVar[B]): StepS[A, S, B] =
-    StepS(StateT[S, Step[A, ?], B]((s: S) => Step.liftR(a).map((s, _))))
+    StepS(StateT[S, Step[A, *], B]((s: S) => Step.liftR(a).map((s, _))))
 
   def pointS[A, S, B](a: Step[A, B]): StepS[A, S, B] =
-    StepS(StateT[S, Step[A, ?], B]((s: S) => a.map((s, _))))
+    StepS(StateT[S, Step[A, *], B]((s: S) => a.map((s, _))))
 
   def liftK[A, S, B](a: Comparison => B): StepS[A, S, B] =
     pointS(Step.withCompare(a))
 
   def liftS[A, S, B](a: State[S, B]): StepS[A, S, B] =
-    StepS(a.lift[Step[A, ?]])
+    StepS(a.lift[Step[A, *]])
 }

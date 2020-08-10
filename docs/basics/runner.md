@@ -44,9 +44,9 @@ Pretty cool, hey?
 These are the discussed methods.
 
 ```scala
-repeat[F[_],A,B](n: Int, alg: Kleisli[Step[A,?],F[B],F[B]], collection: RVar[F[B]]): Step[A,F[B]]
+repeat[F[_],A,B](n: Int, alg: Kleisli[Step[A,*],F[B],F[B]], collection: RVar[F[B]]): Step[A,F[B]]
 
-repeatS[F[_],A,S,B](n: Int, alg: Kleisli[StepS[A,S,?],F[B],F[B]], collection: RVar[F[B]]): StepS[A,S,F[B]]
+repeatS[F[_],A,S,B](n: Int, alg: Kleisli[StepS[A,S,*],F[B],F[B]], collection: RVar[F[B]]): StepS[A,S,F[B]]
 ```
 
 "Woah, that looks intimidating".
@@ -74,13 +74,13 @@ They are made public so that if you ever wanted to perhaps make your own iterato
 The following methods use the *raw* and generic methods to create something we are a bit more familiar with.
 
 ```scala
-def sync[A,B,C](f: NonEmptyList[B] => B => Step[A,C]) = sync_[Step[A,?],B,C](f)
+def sync[A,B,C](f: NonEmptyList[B] => B => Step[A,C]) = sync_[Step[A,*],B,C](f)
 
-def syncS[A,S,B,C](f: NonEmptyList[B] => B => StepS[A,S,C]) = sync_[StepS[A,S,?], B,C](f)
+def syncS[A,S,B,C](f: NonEmptyList[B] => B => StepS[A,S,C]) = sync_[StepS[A,S,*], B,C](f)
 
-def async[A,B](f: NonEmptyList[B] => B => Step[A,B]) = async_[Step[A,?], B](f)
+def async[A,B](f: NonEmptyList[B] => B => Step[A,B]) = async_[Step[A,*], B](f)
 
-def asyncS[A,S,B](f: NonEmptyList[B] => B => StepS[A,S,B]) = async_[StepS[A,S,?], B](f)
+def asyncS[A,S,B](f: NonEmptyList[B] => B => StepS[A,S,B]) = async_[StepS[A,S,*], B](f)
 ```
 
 As we saw with runner we are given methods to handle both `Step` and `StepS` based algorithms.

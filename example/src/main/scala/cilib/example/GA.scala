@@ -55,7 +55,7 @@ object GAExample extends zio.App {
 
   val swarm = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
 
-  val cullingGA: Kleisli[Step[Double, ?], NonEmptyList[Ind], NonEmptyList[Ind]] =
+  val cullingGA: Kleisli[Step[Double, *], NonEmptyList[Ind], NonEmptyList[Ind]] =
     Iteration
       .sync(ga)
       .map(_.suml)

@@ -87,7 +87,7 @@ And the companion object offers us a few methods.
 ```scala
 implicit def entityEqual[S,A:scalaz.Equal]: scalaz.Equal[Entity[S,A]]
 
-implicit def entityFitness[S,A]: Fitness[Entity[S,?],A]
+implicit def entityFitness[S,A]: Fitness[Entity[S,*],A]
 ```
 
 ### entityEqual

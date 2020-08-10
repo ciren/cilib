@@ -117,7 +117,7 @@ object HPSO extends zio.App {
 
   val algorithm = (l: NonEmptyList[Entity]) => {
     import StepS._
-    implicit val SP = StateT.stateTMonadState[BehaviourPool, Step[Double, ?]]
+    implicit val SP = StateT.stateTMonadState[BehaviourPool, Step[Double, *]]
     val poolLens    = scalaz.Lens.firstLens[BehaviourPool, Params]
 
     Range

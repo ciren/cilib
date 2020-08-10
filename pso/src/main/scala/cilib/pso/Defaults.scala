@@ -91,7 +91,7 @@ object Defaults {
   def gcpso[S](w: Double, c1: Double, c2: Double, cognitive: Guide[S, Double])(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double],
-    S: MonadState[StepS[Double, GCParams, ?], GCParams]
+    S: MonadState[StepS[Double, GCParams, *], GCParams]
   ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => StepS[Double, GCParams, Particle[S, Double]] =
     collection =>
       x => {

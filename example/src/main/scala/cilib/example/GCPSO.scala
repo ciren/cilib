@@ -31,7 +31,7 @@ object GCPSO extends zio.App {
   ] =
     gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
-  val iter: Kleisli[StepS[Double, PSO.GCParams, ?], NonEmptyList[Particle[Mem[Double], Double]], NonEmptyList[
+  val iter: Kleisli[StepS[Double, PSO.GCParams, *], NonEmptyList[Particle[Mem[Double], Double]], NonEmptyList[
     Particle[Mem[Double], Double]
   ]] =
     Iteration.syncS(gcPSO)

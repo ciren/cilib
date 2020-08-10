@@ -33,8 +33,8 @@ object StepTest extends Spec("Step") {
   }
 
   checkAll("Step", equal.laws[Step[Int, Int]])
-  checkAll("Step", monad.laws[Step[Int, ?]])
+  checkAll("Step", monad.laws[Step[Int, *]])
 
   checkAll("StepS", equal.laws[StepS[Int, Int, Int]])
-  checkAll("StepS", monad.laws[StepS[Int, Int, ?]])
+  checkAll("StepS", monad.laws[StepS[Int, Int, *]])
 }
