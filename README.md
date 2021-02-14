@@ -1,8 +1,6 @@
 # CIlib - Computational Intelligence Library
 
 ![CI](https://github.com/ciren/cilib/workflows/CI/badge.svg?branch=master&event=push)
-[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/cilib)
-[![Join the chat at https://gitter.im/ciren/cilib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ciren/cilib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Maven Central](https://img.shields.io/maven-central/v/net.cilib/cilib-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/net.cilib/cilib-core_2.12)
 [![Javadocs](https://javadoc.io/badge/net.cilib/cilib-core_2.12.svg)](https://javadoc.io/doc/net.cilib/cilib-core_2.12)
 
@@ -24,10 +22,12 @@ intelligence algorithms and uses several typeclasses such as `Functor` and
 
 ## Documentation and Support
 
-* Have a look a the [website](https://cilib.net)
-* [scaladoc](https://cilib.net/api/cilib)
-* The source code of the project also contains several examples, have
-  a look in the `example` directory
-* If you run into trouble, please open an issue
-* Come join in the discussion in `#cilib` on `FreeNode`, or join
-  the [Gitter channel](https://gitter.im/ciren/cilib)
+Feel free to have a look at the [website](https://cilib.net). Please note that some pages are still being written, but contributions are always welcome.
+
+For help, discussion about best practices, or any other conversation that would benefit from being searchable:
+
+[Discuss CIlib on GitHub](https://github.com/ciren/cilib/discussions)
+
+For some casual chit-chat with others:
+
+[Join the Gitter channel](https://gitter.im/ciren/cilib)
