@@ -7,6 +7,8 @@ import spire.math.interval.{ Bound, ValueBound }
 
 package object cilib extends EvalInstances {
 
+  type RVar[+A] = zio.prelude.State[RNG, A]
+
   //type Eval[A] = RVar[NonEmptyList[A] => Objective[A]]
 
   // Should expand into a typeclass? Getter?
@@ -47,5 +49,14 @@ package object cilib extends EvalInstances {
   /** Positive integers are the set of inegers that are greater than 0 */
   def positiveInt[A](n: Int)(f: Int Refined Positive => A): A =
     refine(n)((x: Int Refined Positive) => f(x))
+
+
+
+  implicit final class RichRVarOps[+A](rvar: RVar[A]) {
+    import zio.prelude._
+
+    def replicateM(n: Int) =
+      ForEach[List].forEach(List.fill(n)(rvar))(identity)
+  }
 
 }

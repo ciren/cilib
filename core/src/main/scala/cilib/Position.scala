@@ -197,8 +197,13 @@ object Position {
   def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)
 
-  def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
-    domain.traverse(Dist.uniform).map(x => Position(x, domain))
+  def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] = {
+    val zioNEL = zio.prelude.NonEmptyList.fromIterable(domain.head, domain.tail.toList)
+    val rvarZioNEL = zio.prelude.ForEach[zio.prelude.NonEmptyList].forEach(zioNEL)(Dist.uniform)
+
+    rvarZioNEL.map(znel => Position(scalaz.NonEmptyList.fromSeq(znel.head, znel.tail), domain))
+    //domain.traverse(Dist.uniform).map(x => Position(x, domain))
+  }
 
   def createPositions(
     domain: NonEmptyList[Interval[Double]],

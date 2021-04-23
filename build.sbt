@@ -11,6 +11,7 @@ val zioVersion        = "1.0.6"
 val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
 val zio = "dev.zio" %% "zio" % zioVersion
 val zioStreams = "dev.zio" %% "zio-streams" % zioVersion
+val zioPrelude = "dev.zio" %% "zio-prelude" % "1.0.0-RC3"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -114,6 +115,8 @@ lazy val core = project
   .settings(
     libraryDependencies ++= Seq(
       scalaz,
+      zio,
+      zioPrelude,
       "org.typelevel"              %% "spire"        % spireVersion,
       "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
       "eu.timepit"                 %% "refined"      % "0.9.15"

@@ -43,7 +43,7 @@ object Dist {
       val delta = k - n
 
       val a: RVar[(Double, Double)] =
-        (stdUniform |@| stdUniform |@| stdUniform) { (u1, u2, u3) =>
+        zio.prelude.fx.ZPure.mapN(stdUniform, stdUniform, stdUniform) { (u1, u2, u3) =>
           val v0 = math.E / (math.E + delta)
           if (u1 <= v0) {
             val zeta = math.pow(u2, 1.0 / delta)
@@ -56,13 +56,15 @@ object Dist {
           }
         }
 
-      a.flatMap(a0 =>
-        BindRec[RVar].tailrecM(a0) { (x: (Double, Double)) =>
-          val (zeta, eta) = x
-          if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) a.map(_.left[Double])
-          else RVar.pure(zeta.right[(Double, Double)])
-        }
-      )
+      a.repeatUntil { case (zeta, eta) => eta > math.pow(zeta, delta - 1) * math.exp(-zeta) }.map(_._1)
+
+      // a.flatMap(a0 =>
+      //   BindRec[RVar].tailrecM(a0) { (x: (Double, Double)) =>
+      //     val (zeta, eta) = x
+      //     if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) a.map(_.left[Double])
+      //     else RVar.pure(zeta.right[(Double, Double)])
+      //   }
+      //)
 
       // def inner: RVar[Double] =
       //   for {
@@ -87,7 +89,7 @@ object Dist {
       // inner
     }
 
-    (gammaInt |@| gammaFrac) { (a, b) =>
+    zio.prelude.fx.ZPure.mapN(gammaInt, gammaFrac) { (a, b) =>
       (a + b) * theta
     }
   }
@@ -105,8 +107,7 @@ object Dist {
     stdNormal.map(x => math.exp(mean + dev * x))
 
   def dirichlet(alphas: List[Double]): RVar[List[Double]] =
-    alphas
-      .traverse(gamma(_, 1))
+    zio.prelude.ForEach[List].forEach(alphas)(gamma(_, 1))
       .map { ys =>
         val sum = ys.sum
         ys.map(_ / sum)
@@ -117,14 +118,13 @@ object Dist {
       scale * math.pow(-math.log(1 - x), 1 / shape)
     }
 
-  import scalaz.syntax.monad._
 
   private def DRandNormalTail(min: Double, ineg: Boolean): RVar[Double] = {
-    def sample =
-      (stdUniform.map(x => math.log(x) / min) |@| stdUniform.map(math.log(_))) { Tuple2.apply }
+    def sample: RVar[(Double, Double)] =
+      stdUniform.map(x => math.log(x) / min).zip(stdUniform.map(math.log(_)))
 
     sample
-      .iterateUntil(v => -2.0 * v._2 >= v._1 * v._1)
+      .repeatUntil { case (v1, v2) => -2.0 * v2 >= v1 * v1 }
       .map(x => if (ineg) x._1 - min else min - x._1)
   }
 
@@ -156,12 +156,10 @@ object Dist {
             val x  = u * blocks(i)
             val f0 = math.exp(-0.5 * (blocks(i) * blocks(i) - x * x))
             val f1 = math.exp(-0.5 * (blocks(i + 1) * blocks(i + 1) - x * x))
-            stdUniform
-              .map(a => f1 + a * (f0 - f1) < 1.0)
-              .ifM(
-                ifTrue = RVar.pure(x),
-                ifFalse = gaussian(mean, dev)
-              )
+            stdUniform.flatMap(a =>
+              if (f1 + a * (f0 - f1) < 1.0) RVar.pure(x)
+              else gaussian(mean, dev)
+            )
           }
     } yield mean + dev * r
 
