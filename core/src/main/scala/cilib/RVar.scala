@@ -78,85 +78,86 @@ object RVar { //extends RVarInstances {
   def next[A](implicit e: Generator[A]): RVar[A] =
     e.gen
 
-//   def ints(n: Int): RVar[List[Int]] =
-//     next[Int](Generator.IntGen).replicateM(n).map(_.toList)
+  def ints(n: Int): RVar[List[Int]] =
+    next[Int](Generator.IntGen).replicateM(n).map(_.toList)
 
-//   def doubles(n: Int): RVar[List[Double]] =
-//     next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
+  def doubles(n: Int): RVar[List[Double]] =
+    next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
-//   def choose[A](xs: NonEmptyList[A]): RVar[A] =
-//     Dist
-//       .uniformInt(Interval(0, xs.size - 1))
-//       .map { i =>
-//         import monocle.Monocle._
+  def choose[A](xs: scalaz.NonEmptyList[A]): RVar[A] =
+    Dist
+      .uniformInt(Interval(0, xs.size - 1))
+      .map { i =>
+        import monocle.Monocle._
 
-//         xs.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
-//       }
+        xs.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
+      }
 
-//   // implementation of Oleg Kiselgov's perfect shuffle:
-//   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
-//   def shuffle[A](xs: NonEmptyList[A]): RVar[NonEmptyList[A]] = {
-//     sealed trait BinTree
-//     final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
-//     final case class Leaf(element: A)                            extends BinTree
+  // implementation of Oleg Kiselgov's perfect shuffle:
+  // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
+  def shuffle[A](xs: scalaz.NonEmptyList[A]): RVar[scalaz.NonEmptyList[A]] = {
+    sealed trait BinTree
+    final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
+    final case class Leaf(element: A)                            extends BinTree
 
-//     def buildTree(zs: NonEmptyList[A]): BinTree =
-//       growLevel(zs.toList.map(Leaf(_): BinTree))
+    def buildTree(zs: scalaz.NonEmptyList[A]): BinTree =
+      growLevel(zs.toList.map(Leaf(_): BinTree))
 
-//     def growLevel(zs: List[BinTree]): BinTree =
-//       zs match {
-//         case x :: Nil => x
-//         case l        => growLevel(inner(l))
-//       }
+    def growLevel(zs: List[BinTree]): BinTree =
+      zs match {
+        case x :: Nil => x
+        case l        => growLevel(inner(l))
+      }
 
-//     def inner(zs: List[BinTree]): List[BinTree] = {
-//       @annotation.tailrec
-//       def go(acc: List[BinTree], rs: List[BinTree]): List[BinTree] =
-//         rs match {
-//           case Nil              => acc
-//           case x :: Nil         => acc :+ x
-//           case e1 :: e2 :: rest => go(acc :+ join(e1, e2), rest)
-//         }
+    def inner(zs: List[BinTree]): List[BinTree] = {
+      @annotation.tailrec
+      def go(acc: List[BinTree], rs: List[BinTree]): List[BinTree] =
+        rs match {
+          case Nil              => acc
+          case x :: Nil         => acc :+ x
+          case e1 :: e2 :: rest => go(acc :+ join(e1, e2), rest)
+        }
 
-//       go(List.empty, zs)
-//     }
+      go(List.empty, zs)
+    }
 
-//     def join(e1: BinTree, e2: BinTree): BinTree =
-//       (e1, e2) match {
-//         case (l @ Leaf(_), r @ Leaf(_))                 => Node(2, l, r)
-//         case (l @ Node(ct, _, _), r @ Leaf(_))          => Node(ct + 1, l, r)
-//         case (l @ Leaf(_), r @ Node(ct, _, _))          => Node(ct + 1, l, r)
-//         case (l @ Node(ctl, _, _), r @ Node(ctr, _, _)) => Node(ctl + ctr, l, r)
-//       }
+    def join(e1: BinTree, e2: BinTree): BinTree =
+      (e1, e2) match {
+        case (l @ Leaf(_), r @ Leaf(_))                 => Node(2, l, r)
+        case (l @ Node(ct, _, _), r @ Leaf(_))          => Node(ct + 1, l, r)
+        case (l @ Leaf(_), r @ Node(ct, _, _))          => Node(ct + 1, l, r)
+        case (l @ Node(ctl, _, _), r @ Node(ctr, _, _)) => Node(ctl + ctr, l, r)
+      }
 
-//     def rseq(n: Int): RVar[List[Int]] =
-//       (n - 1 to 1 by -1).toList
-//         .traverse(x => Dist.uniformInt(Interval(0, x)))
+    def rseq(n: Int): RVar[List[Int]] = {
+      val list = (n - 1 to 1 by -1).toList
+      ForEach[List].forEach(list)(x => Dist.uniformInt(Interval(0, x)))
+    }
 
-//     def extractTree(target: Int, tree: BinTree, next: BinTree => List[A]): List[A] =
-//       (target, tree, next) match {
-//         case (0, Node(_, Leaf(e), r), k)           => e :: k(r)
-//         case (1, Node(2, l @ Leaf(_), Leaf(r)), k) => r :: k(l)
-//         case (n, Node(c, l @ Leaf(_), r), k) =>
-//           extractTree(n - 1, r, new_r => k(Node(c - 1, l, new_r)))
-//         case (n, Node(n1, l, Leaf(e)), k) if n + 1 == n1 => e :: k(l)
-//         case (n, Node(c, l @ Node(c1, _, _), r), k) =>
-//           if (n < c1) extractTree(n, l, new_l => k(Node(c - 1, new_l, r)))
-//           else extractTree(n - c1, r, new_r => k(Node(c - 1, l, new_r)))
-//       }
+    def extractTree(target: Int, tree: BinTree, next: BinTree => List[A]): List[A] =
+      (target, tree, next) match {
+        case (0, Node(_, Leaf(e), r), k)           => e :: k(r)
+        case (1, Node(2, l @ Leaf(_), Leaf(r)), k) => r :: k(l)
+        case (n, Node(c, l @ Leaf(_), r), k) =>
+          extractTree(n - 1, r, new_r => k(Node(c - 1, l, new_r)))
+        case (n, Node(n1, l, Leaf(e)), k) if n + 1 == n1 => e :: k(l)
+        case (n, Node(c, l @ Node(c1, _, _), r), k) =>
+          if (n < c1) extractTree(n, l, new_l => k(Node(c - 1, new_l, r)))
+          else extractTree(n - c1, r, new_r => k(Node(c - 1, l, new_r)))
+      }
 
-//     def local(t: BinTree, rs: List[Int]): List[A] =
-//       (t, rs) match {
-//         case (Leaf(e), Nil)        => List(e)
-//         case (tree, ri :: rothers) => extractTree(ri, tree, (t: BinTree) => local(t, rothers))
-//         case _                     => sys.error("impossible")
-//       }
+    def local(t: BinTree, rs: List[Int]): List[A] =
+      (t, rs) match {
+        case (Leaf(e), Nil)        => List(e)
+        case (tree, ri :: rothers) => extractTree(ri, tree, (t: BinTree) => local(t, rothers))
+        case _                     => sys.error("impossible")
+      }
 
-//     rseq(xs.length).map(r =>
-//       local(buildTree(xs), r).toNel
-//         .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
-//     )
-//   }
+    rseq(xs.length).map(r =>
+      local(buildTree(xs), r).toNel
+        .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
+    )
+  }
 
   def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]): RVar[Option[List[A]]] =
     choices(n, xs)

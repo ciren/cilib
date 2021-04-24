@@ -8,6 +8,7 @@ import scalaz._, Scalaz._
 import spire.algebra._
 import spire.implicits.{ eu => _, _ }
 import spire.math._
+import zio.prelude.ForEach
 
 object DE {
 
@@ -84,13 +85,16 @@ object DE {
   ): RVar[NonEmptyList[Boolean]] =
     Dist
       .uniformInt(spire.math.Interval(0, parent.length - 1))
-      .flatMap(j =>
-        parent.toNel.zipWithIndex.traverse {
+      .flatMap(j => {
+        val scalazNel = parent.toNel.zipWithIndex
+        val zioNel = zio.prelude.NonEmptyList(scalazNel.head, scalazNel.tail.toList)
+
+        ForEach[zio.prelude.NonEmptyList].forEach(zioNel) {
           case (_, i) =>
             if (i == j) RVar.pure(true)
             else Dist.stdUniform.map(_ < p_r)
-        }
-      )
+        }.map(nel => scalaz.NonEmptyList.fromSeq(nel.head, nel.tail))
+      })
 
   def exp[F[_]: Foldable1, A](
     p_r: Double,
