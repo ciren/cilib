@@ -8,7 +8,6 @@ import spire.implicits._
 
 trait DotProd[F[_], A] {
   def dot(a: F[A], b: F[A]): Double
-  def ∙(a: F[A], b: F[A]): Double = dot(a, b)
 
   def normsqr(a: F[A]): Double = dot(a, a)
   def norm(a: F[A]): Double    = math.sqrt(normsqr(a))

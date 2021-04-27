@@ -59,4 +59,10 @@ package object cilib extends EvalInstances {
       ForEach[List].forEach(List.fill(n)(rvar))(identity)
   }
 
+  def preludeNel2Scalaz[A](zioNel: zio.prelude.NonEmptyList[A]) =
+    scalaz.NonEmptyList.fromSeq(zioNel.head, zioNel.tail)
+
+  def scalazNel2Prelude[A](scalazNel: scalaz.NonEmptyList[A]): zio.prelude.NonEmptyList[A] =
+    zio.prelude.NonEmptyList.fromIterable(scalazNel.head, scalazNel.tail.toList)
+
 }

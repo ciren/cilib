@@ -117,19 +117,19 @@ object BuildHelper {
 
   def stdSettings(prjName: String) = Seq(
     name := prjName,
-    crossScalaVersions := Seq("2.12.10", "2.13.1"),
-    scalaVersion in ThisBuild := crossScalaVersions.value.head,
+    crossScalaVersions := Seq("2.12.13", "2.13.5"),
+    ThisBuild / scalaVersion := crossScalaVersions.value.head,
     scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
       // if (isDotty.value)
       //   Seq(("com.github.ghik" % "silencer-lib_2.13.1" % "1.6.0" % Provided).withDottyCompat(scalaVersion.value))
       // else
       Seq(
-        compilerPlugin(scalafixSemanticdb),
-        "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full,
-        compilerPlugin("com.github.ghik" % "silencer-plugin"     % "1.4.4" cross CrossVersion.full),
-        compilerPlugin("org.typelevel"   % "kind-projector"      % "0.11.0" cross CrossVersion.full),
-        compilerPlugin("com.olegpy"      %% "better-monadic-for" % "0.3.1")
+        //compilerPlugin(scalafixSemanticdb),
+        "com.github.ghik" % "silencer-lib" % "1.7.3" % Provided cross CrossVersion.full,
+        compilerPlugin("com.github.ghik" % "silencer-plugin"     % "1.7.3" cross CrossVersion.full),
+        compilerPlugin("org.typelevel"   % "kind-projector"      % "0.11.3" cross CrossVersion.full),
+        // compilerPlugin("com.olegpy"      %% "better-monadic-for" % "0.3.1")
       )
     }
   )

@@ -89,8 +89,8 @@ addCommandAlias("fmtCheck", "all root/scalafmtSbtCheck root/scalafmtCheckAll")
 lazy val root = project
   .in(file("."))
   .settings(
-    skip in publish := true,
-    console := (console in Compile in core).value,
+    publish / skip := true,
+    console := (core / Compile / console).value,
     BuildHelper.welcomeMessage
   )
   .aggregate(
@@ -180,9 +180,9 @@ lazy val example = project
   .dependsOn(de)
   .settings(BuildHelper.stdSettings("example"))
   .settings(BuildHelper.buildInfoSettings("cilib"))
-  .settings(skip in publish := true)
-  .settings(fork in run := true)
-  .settings(connectInput in run := true)
+  .settings(publish / skip := true)
+  .settings(run / fork := true)
+  .settings(run / connectInput := true)
   .enablePlugins(BuildInfoPlugin)
 
 lazy val exec = project
@@ -233,8 +233,8 @@ lazy val tests = project
   .dependsOn(pso)
   .settings(BuildHelper.stdSettings("tests"))
   .settings(BuildHelper.buildInfoSettings("cilib"))
-  .settings(skip in publish := true)
-  .settings(javaOptions in test += "-Xmx1G")
+  .settings(publish / skip := true)
+  .settings(test / javaOptions += "-Xmx1G")
   .settings(
     libraryDependencies ++= Seq(
       "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
@@ -263,8 +263,8 @@ lazy val io = project
 lazy val docs = project
   .in(file("cilib-docs"))
   .settings(mdocVariables := Map("CILIB_VERSION" -> version.value))
-  .settings(skip in publish := true)
+  .settings(publish / skip := true)
   .dependsOn(core, pso, exec, io)
   .enablePlugins(MdocPlugin, DocusaurusPlugin)
 
-scalafixDependencies in ThisBuild += "com.nequissimus" %% "sort-imports" % "0.5.0"
+ThisBuild / scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0"

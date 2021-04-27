@@ -86,14 +86,13 @@ object DE {
     Dist
       .uniformInt(spire.math.Interval(0, parent.length - 1))
       .flatMap(j => {
-        val scalazNel = parent.toNel.zipWithIndex
-        val zioNel = zio.prelude.NonEmptyList(scalazNel.head, scalazNel.tail.toList)
+        val zioNel = scalazNel2Prelude(parent.toNel.zipWithIndex)
 
         ForEach[zio.prelude.NonEmptyList].forEach(zioNel) {
           case (_, i) =>
             if (i == j) RVar.pure(true)
             else Dist.stdUniform.map(_ < p_r)
-        }.map(nel => scalaz.NonEmptyList.fromSeq(nel.head, nel.tail))
+        }.map(preludeNel2Scalaz)
       })
 
   def exp[F[_]: Foldable1, A](
