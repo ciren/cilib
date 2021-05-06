@@ -39,6 +39,9 @@ package object cilib extends EvalInstances {
   implicit def intervalEqual[A]: scalaz.Equal[Interval[A]] =
     scalaz.Equal.equalA[Interval[A]]
 
+  implicit def intervalEqualZio[A]: zio.prelude.Equal[Interval[A]] =
+    zio.prelude.Equal.make((l, r) => l == r)
+
   /* Refinement definitions */
   def refine[A, B, C](a: A)(f: A Refined B => C)(implicit ev: eu.timepit.refined.api.Validate[A, B]): C =
     refineV[B](a) match {
@@ -55,7 +58,7 @@ package object cilib extends EvalInstances {
   implicit final class RichRVarOps[+A](rvar: RVar[A]) {
     import zio.prelude._
 
-    def replicateM(n: Int) =
+    def replicateM(n: Int): RVar[List[A]] =
       ForEach[List].forEach(List.fill(n)(rvar))(identity)
   }
 

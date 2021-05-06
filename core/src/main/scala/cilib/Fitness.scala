@@ -1,8 +1,6 @@
 package cilib
 
-import scalaz.Ordering._
-import scalaz.Scalaz._
-import scalaz._
+import zio.prelude._
 
 sealed abstract class Fit {
   def fold[Z](penalty: Adjusted => Z, valid: Feasible => Z, infeasible: Infeasible => Z): Z =
@@ -15,14 +13,14 @@ sealed abstract class Fit {
   def adjust(f: Double => Double): Fit =
     this match {
       case Adjusted(_, _)    => this
-      case x @ Feasible(v)   => Adjusted(\/.left(x), f(v))
-      case x @ Infeasible(v) => Adjusted(\/.right(x), f(v))
+      case x @ Feasible(v)   => Adjusted(Left(x), f(v))
+      case x @ Infeasible(v) => Adjusted(Right(x), f(v))
     }
 }
 
 final case class Feasible(v: Double)                                                        extends Fit
 final case class Infeasible(v: Double)                                                      extends Fit
-final case class Adjusted private[cilib] (original: Feasible \/ Infeasible, adjust: Double) extends Fit
+final case class Adjusted private[cilib] (original: Either[Feasible, Infeasible], adjust: Double) extends Fit
 @annotation.implicitNotFound("No instance of Fitness[${F},${A},${B}] is available in current scope.")
 trait Fitness[F[_], A, B] {
   def fitness(a: F[A]): Option[Objective[B]]
@@ -43,34 +41,34 @@ object Comparison {
   def fittest[F[_], A, B](a: F[A], b: F[A])(implicit F: Fitness[F, A, B]): Step[A, F[A]] =
     Step.withCompare(comp => if (fitter(a, b).apply(comp)) a else b)
 
-  def fitCompare(opt: Opt, x: Fit, y: Fit, xv: => Int, yv: => Int): scalaz.Ordering =
+    def fitCompare(opt: Opt, x: Fit, y: Fit, xv: => Int, yv: => Int): Ordering =
     (x, y) match {
-      case (Adjusted(_, a), Adjusted(_, b)) => opt.D.order(a, b)
-      case (Adjusted(_, a), Feasible(b))    => opt.D.order(a, b)
-      case (Adjusted(_, _), Infeasible(_))  => GT
-      case (Feasible(a), Adjusted(_, b))    => opt.D.order(a, b)
-      case (Feasible(a), Feasible(b))       => opt.D.order(a, b)
-      case (Feasible(_), Infeasible(_))     => GT
-      case (Infeasible(_), Adjusted(_, _))  => LT
-      case (Infeasible(_), Feasible(_))     => LT
+      case (Adjusted(_, a), Adjusted(_, b)) => opt.D.compare(a, b)
+      case (Adjusted(_, a), Feasible(b))    => opt.D.compare(a, b)
+      case (Adjusted(_, _), Infeasible(_))  => Ordering.GreaterThan
+      case (Feasible(a), Adjusted(_, b))    => opt.D.compare(a, b)
+      case (Feasible(a), Feasible(b))       => opt.D.compare(a, b)
+      case (Feasible(_), Infeasible(_))     => Ordering.GreaterThan
+      case (Infeasible(_), Adjusted(_, _))  => Ordering.LessThan
+      case (Infeasible(_), Feasible(_))     => Ordering.LessThan
       case (Infeasible(a), Infeasible(b)) =>
-        if (xv == yv) opt.D.order(a, b)
-        else opt.I.order(xv, yv)
+        if (xv == yv) opt.D.compare(a, b)
+        else opt.I.compare(xv, yv)
     }
 
-  def multiFitCompare(opt: Opt, xs: List[Fit], ys: List[Fit], xsv: => Int, ysv: => Int): scalaz.Ordering = {
+  def multiFitCompare(opt: Opt, xs: List[Fit], ys: List[Fit], xsv: => Int, ysv: => Int): Ordering = {
     val z = xs.zip(ys)
     val x2 = z.forall {
       case (a, b) =>
         val r = fitCompare(opt, a, b, xsv, ysv)
-        r == GT || r == EQ
+        r == Ordering.GreaterThan || r == Ordering.Equals
     }
     val y2 = z.exists {
       case (a, b) =>
-        fitCompare(opt, a, b, xsv, ysv) == GT
+        fitCompare(opt, a, b, xsv, ysv) == Ordering.GreaterThan
     }
 
-    if (x2 && y2) GT else if (x2) EQ else LT
+    if (x2 && y2) Ordering.GreaterThan else if (x2) Ordering.Equals else Ordering.LessThan
   }
 
   def dominance(opt: Opt): Comparison = new Comparison(opt) {
@@ -78,11 +76,11 @@ object Comparison {
       (F.fitness(a), F.fitness(b)) match {
         case (Some(f1), Some(f2)) =>
           (f1.fitness, f2.fitness) match {
-            case (-\/(x), -\/(y)) =>
-              if (fitCompare(opt, x, y, f1.violationCount, f2.violationCount) === GT) a else b
-            case (\/-(x), \/-(y)) =>
+            case (Left(x), Left(y)) =>
+              if (fitCompare(opt, x, y, f1.violationCount, f2.violationCount) === Ordering.GreaterThan) a else b
+            case (Right(x), Right(y)) =>
               val r = multiFitCompare(opt, x, y, f1.violationCount, f2.violationCount)
-              if (r != LT) a else b
+              if (r != Ordering.LessThan) a else b
             case _ => a
           }
         case (None, None) => a
@@ -97,15 +95,15 @@ object Comparison {
 }
 
 sealed abstract class Opt {
-  val I: Order[Int] = Order[Int].reverseOrder
+  val I: Ord[Int] = Ord[Int].reverse
 
-  def D: Order[Double]
+  def D: Ord[Double]
 }
 
 final case object Min extends Opt {
-  val D = Order[Double].reverseOrder
+  val D = Ord[Double].reverse
 }
 
 final case object Max extends Opt {
-  val D = Order[Double]
+  val D = Ord[Double]
 }

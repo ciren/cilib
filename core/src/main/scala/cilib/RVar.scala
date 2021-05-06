@@ -38,36 +38,36 @@ functions such as MonadState[RVar].modify and MonadState[RVar].puts)
 //     }
 // }
 
-// sealed abstract class RVarInstances0 extends RVarInstances1 {
-//   implicit val rvarMonad: Monad[RVar] =
-//     new Monad[RVar] {
-//       def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-//         a.flatMap(f)
+sealed abstract class RVarInstances0 /* extends RVarInstances1*/ {
+  implicit val rvarMonad: scalaz.Monad[RVar] =
+    new scalaz.Monad[RVar] {
+      def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
+        a.flatMap(f)
 
-//       def point[A](a: => A) =
-//         RVar.pure(a)
-//     }
-// }
+      def point[A](a: => A) =
+        RVar.pure(a)
+    }
+}
 
-// sealed abstract class RVarInstances extends RVarInstances0 {
-//   implicit val rvarBindRec: BindRec[RVar] =
-//     new BindRec[RVar] {
-//       def bind[A, B](fa: RVar[A])(f: A => RVar[B]): RVar[B] =
-//         fa.flatMap(f)
+sealed abstract class RVarInstances extends RVarInstances0 {
+  // implicit val rvarBindRec: BindRec[RVar] =
+  //   new BindRec[RVar] {
+  //     def bind[A, B](fa: RVar[A])(f: A => RVar[B]): RVar[B] =
+  //       fa.flatMap(f)
 
-//       def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
-//         fa.map(f)
+  //     def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
+  //       fa.map(f)
 
-//       def tailrecM[A, B](a: A)(f: A => RVar[A \/ B]): RVar[B] =
-//         f(a).flatMap {
-//           case -\/(a0) => tailrecM(a0)(f)
-//           case \/-(b)  => RVar.pure(b)
-//         }
-//     }
-// }
+  //     def tailrecM[A, B](a: A)(f: A => RVar[A \/ B]): RVar[B] =
+  //       f(a).flatMap {
+  //         case -\/(a0) => tailrecM(a0)(f)
+  //         case \/-(b)  => RVar.pure(b)
+  //       }
+  //   }
+}
 
 
-object RVar { //extends RVarInstances {
+object RVar extends RVarInstances {
 
   def apply[A](f: RNG => (RNG, A)): RVar[A] =
     zio.prelude.fx.ZPure.modify(f)
@@ -90,7 +90,7 @@ object RVar { //extends RVarInstances {
       .map { i =>
         import monocle.Monocle._
 
-        xs.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
+        xs.list.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
       }
 
   // implementation of Oleg Kiselgov's perfect shuffle:
@@ -101,7 +101,7 @@ object RVar { //extends RVarInstances {
     final case class Leaf(element: A)                            extends BinTree
 
     def buildTree(zs: scalaz.NonEmptyList[A]): BinTree =
-      growLevel(zs.toList.map(Leaf(_): BinTree))
+      growLevel(zs.list.toList.map(Leaf(_): BinTree))
 
     def growLevel(zs: List[BinTree]): BinTree =
       zs match {
@@ -144,6 +144,8 @@ object RVar { //extends RVarInstances {
         case (n, Node(c, l @ Node(c1, _, _), r), k) =>
           if (n < c1) extractTree(n, l, new_l => k(Node(c - 1, new_l, r)))
           else extractTree(n - c1, r, new_r => k(Node(c - 1, l, new_r)))
+        case _ =>
+          sys.error("???")
       }
 
     def local(t: BinTree, rs: List[Int]): List[A] =
@@ -153,7 +155,7 @@ object RVar { //extends RVarInstances {
         case _                     => sys.error("impossible")
       }
 
-    rseq(xs.length).map(r =>
+    rseq(xs.list.length).map(r =>
       local(buildTree(xs), r).toNel
         .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
     )

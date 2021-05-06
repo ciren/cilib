@@ -4,6 +4,8 @@ import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math.Interval
 
+import _root_.eu.timepit.refined.auto._
+
 object Dist {
   import RVar._
   import scalaz.std.AllInstances._

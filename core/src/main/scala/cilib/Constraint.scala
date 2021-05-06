@@ -1,6 +1,7 @@
 package cilib
 
-import scalaz.{ Maybe, NonEmptyList }
+//import scalaz.{ Maybe, NonEmptyList }
+import zio.prelude._
 import spire.algebra.Eq
 import spire.implicits._
 import spire.math._
@@ -8,9 +9,9 @@ import spire.math.interval._
 
 final class ViolationCount(val count: Int) extends AnyVal
 object ViolationCount {
-  def apply(i: Int): Maybe[ViolationCount] =
-    if (i >= 0) Maybe.Just(new ViolationCount(i))
-    else Maybe.Empty()
+  def apply(i: Int): Option[ViolationCount] =
+    if (i >= 0) Some(new ViolationCount(i))
+    else None
 
   val zero: ViolationCount = new ViolationCount(0)
 

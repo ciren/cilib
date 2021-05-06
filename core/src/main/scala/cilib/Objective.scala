@@ -23,13 +23,13 @@ sealed abstract class Objective[A] {
   def violationCount: Int =
     violations.length
 
-  def fitness: Fit \/ List[Fit] = // Should this be tail-recursive?
+  def fitness: Either[Fit, List[Fit]] = // Should this be tail-recursive?
     this match {
-      case Single(f, _) => \/.left(f)
+      case Single(f, _) => Left(f)
       case Multi(xs) =>
-        \/.right(xs.toList.flatMap(_.fitness match {
-          case -\/(f)  => List(f)
-          case \/-(fs) => fs
+        Right(xs.toList.flatMap(_.fitness match {
+          case Left(f)  => List(f)
+          case Right(fs) => fs
         }))
     }
 }

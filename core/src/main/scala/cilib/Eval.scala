@@ -1,6 +1,6 @@
 package cilib
 
-import scalaz.NonEmptyList
+import zio.prelude.NonEmptyList
 
 trait Input[F[_]] {
   def toInput[A](a: NonEmptyList[A]): F[A]
@@ -53,7 +53,6 @@ object Eval {
 }
 
 trait EvalInstances {
-  import scalaz.{ ICons, NonEmptyList }
 
   implicit val nelInput: Input[NonEmptyList] = new Input[NonEmptyList] {
     def toInput[A](a: NonEmptyList[A]): NonEmptyList[A] = a
@@ -62,9 +61,9 @@ trait EvalInstances {
   implicit val pairInput: Input[Lambda[x => (x, x)]] =
     new Input[Lambda[x => (x, x)]] {
       def toInput[A](a: NonEmptyList[A]): (A, A) =
-        a.list match {
-          case ICons(a, ICons(b, _)) => (a, b)
-          case _                     => sys.error("error producing a pair")
+        a.toList match {
+          case a :: b :: _ => (a, b)
+          case _           => sys.error("error producing a pair")
         }
     }
 }
