@@ -146,12 +146,8 @@ object StepS {
       })
     } yield x
 
-
-  // def pointS[A, S, B](a: Step[A, B]): StepS[A, S, B] =
-  //   StepS(StateT[S, Step[A, *], B]((s: S) => a.map((s, _))))
-
-  // def liftK[A, S, B](a: Comparison => B): StepS[A, S, B] =
-  //   pointS(Step.withCompare(a))
+  def liftK[S, A](a: Comparison => A)(implicit ev: Exception <:< Nothing): StepS[S, A] =
+    liftStep(Step.withCompare(a))
 
   // def liftS[A, S, B](a: State[S, B]): StepS[A, S, B] =
   //   StepS(a.lift[Step[A, *]])

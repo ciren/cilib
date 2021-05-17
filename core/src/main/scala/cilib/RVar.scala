@@ -4,7 +4,6 @@ import _root_.scala.Predef.{ any2stringadd => _, _ }
 import eu.timepit.refined.api._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
-import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math._
 
@@ -38,18 +37,18 @@ functions such as MonadState[RVar].modify and MonadState[RVar].puts)
 //     }
 // }
 
-sealed abstract class RVarInstances0 /* extends RVarInstances1*/ {
-  implicit val rvarMonad: scalaz.Monad[RVar] =
-    new scalaz.Monad[RVar] {
-      def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-        a.flatMap(f)
+//sealed abstract class RVarInstances0 /* extends RVarInstances1*/ {
+  // implicit val rvarMonad: scalaz.Monad[RVar] =
+  //   new scalaz.Monad[RVar] {
+  //     def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
+  //       a.flatMap(f)
 
-      def point[A](a: => A) =
-        RVar.pure(a)
-    }
-}
+  //     def point[A](a: => A) =
+  //       RVar.pure(a)
+  //   }
+//}
 
-sealed abstract class RVarInstances extends RVarInstances0 {
+//sealed abstract class RVarInstances extends RVarInstances0 {
   // implicit val rvarBindRec: BindRec[RVar] =
   //   new BindRec[RVar] {
   //     def bind[A, B](fa: RVar[A])(f: A => RVar[B]): RVar[B] =
@@ -64,10 +63,10 @@ sealed abstract class RVarInstances extends RVarInstances0 {
   //         case \/-(b)  => RVar.pure(b)
   //       }
   //   }
-}
+//}
 
 
-object RVar extends RVarInstances {
+object RVar {// extends RVarInstances {
 
   def apply[A](f: RNG => (RNG, A)): RVar[A] =
     zio.prelude.fx.ZPure.modify(f)
@@ -84,24 +83,24 @@ object RVar extends RVarInstances {
   def doubles(n: Int): RVar[List[Double]] =
     next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
-  def choose[A](xs: scalaz.NonEmptyList[A]): RVar[A] =
+  def choose[A](xs: NonEmptyList[A]): RVar[A] =
     Dist
       .uniformInt(Interval(0, xs.size - 1))
       .map { i =>
         import monocle.Monocle._
 
-        xs.list.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
+        xs.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
       }
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
-  def shuffle[A](xs: scalaz.NonEmptyList[A]): RVar[scalaz.NonEmptyList[A]] = {
+  def shuffle[A](xs: NonEmptyList[A]): RVar[NonEmptyList[A]] = {
     sealed trait BinTree
     final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
     final case class Leaf(element: A)                            extends BinTree
 
-    def buildTree(zs: scalaz.NonEmptyList[A]): BinTree =
-      growLevel(zs.list.toList.map(Leaf(_): BinTree))
+    def buildTree(zs: NonEmptyList[A]): BinTree =
+      growLevel(zs.toList.map(Leaf(_): BinTree))
 
     def growLevel(zs: List[BinTree]): BinTree =
       zs match {
@@ -155,19 +154,19 @@ object RVar extends RVarInstances {
         case _                     => sys.error("impossible")
       }
 
-    rseq(xs.list.length).map(r =>
-      local(buildTree(xs), r).toNel
+    rseq(xs.length).map(r =>
+      NonEmptyList.fromIterableOption(local(buildTree(xs), r))
         .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
     )
   }
 
-  def sample[F[_]: Foldable, A](n: Int Refined Positive, xs: F[A]): RVar[Option[List[A]]] =
+  def sample[F[+_]: ForEach, A](n: Int Refined Positive, xs: F[A]): RVar[Option[List[A]]] =
     choices(n, xs)
 
-  def choices[F[_], A](n: Int Refined Positive, xs: F[A])(implicit F: Foldable[F]): RVar[Option[List[A]]] =
-    if (xs.length < n) RVar.pure(None)
+  def choices[F[+_], A](n: Int Refined Positive, xs: F[A])(implicit F: ForEach[F]): RVar[Option[List[A]]] =
+    if (F.size(xs) < n) RVar.pure(None)
     else {
-      val length = F.length(xs)
+      val length = F.size(xs)
       val backsaw: RVar[List[Int]] = {
         val l = length - 1 to length - n by -1
         ForEach[List].forEach(l.toList)(x => Dist.uniformInt(Interval(0, x)))
@@ -195,7 +194,7 @@ object RVar extends RVarInstances {
             case _ => List.empty[A]
           }
 
-        go(l, xs.toList).some
+        Some(go(l, F.toList(xs)))
       }
     }
 
