@@ -19,8 +19,8 @@ sealed abstract class Position[A] {
   def zip[B](other: Position[B]): Position[(A, B)] =
     Point(pos.zip(other.pos), boundary)
 
-  // def traverse[G[_]: Applicative, B](f: A => G[B]): G[Position[B]] =
-  //   pos.traverse(f).map(Point(_, boundary))
+  def traverse[G[+_]: IdentityBoth: Covariant, B](f: A => G[B]): G[Position[B]] =
+    ForEach[NonEmptyList].forEach(pos)(f).map(Point(_, boundary))
 
   def take(n: Int): List[A] =
     pos.take(n)

@@ -129,6 +129,11 @@ object StepS {
   //     def put(s: S) =
   //       StepS(M.put(s))
   //   }
+  def getState[S]: zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), Environment, Exception, S] =
+    zio.prelude.fx.ZPure.get.map(_._2)
+
+  def modifyState[S](f: S => S): StepS[S, Unit] =
+    zio.prelude.fx.ZPure.modify((s: (RNG, S)) => ((s._1, f(s._2)), ()))
 
   def liftR[S, A](a: RVar[A]): StepS[S, A] =
     zio.prelude.fx.ZPure.modify((s: (RNG, S)) => {
