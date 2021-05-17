@@ -56,12 +56,12 @@ object Lenses {
         else Position(c, e.boundary)
     )
 
-  def _objective[A]: Getter[Position[A], Option[Objective[A]]] =
+  def _objective[A]: Getter[Position[A], Option[Objective]] =
     Getter(_.objective)
 
   def _fitness[A]: Fold[Position[A], Either[Fit, List[Fit]]] =
     _objective[A]
-      .composePrism(some[Objective[A]])
+      .composePrism(some[Objective])
       .composeGetter(Getter(_.fitness))
 
   def _singleFitness[A]: Fold[Position[A], Fit] =

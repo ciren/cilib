@@ -7,7 +7,9 @@ import spire.math.interval.{ Bound, ValueBound }
 
 package object cilib extends EvalInstances {
 
-  type RVar[+A] = zio.prelude.State[RNG, A]
+  type RVar[+A]     = zio.prelude.State[RNG, A] /// zio.prelude.fx.ZPure[Nothing, S, S, Any, Nothing, A]
+  type Step[+A]     = zio.prelude.fx.ZPure[Nothing, RNG, RNG, Environment, Exception, A]
+  type StepS[S, +A] = zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), Environment, Exception, A]
 
   //type Eval[A] = RVar[NonEmptyList[A] => Objective[A]]
 

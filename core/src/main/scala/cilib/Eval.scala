@@ -6,49 +6,62 @@ trait Input[F[_]] {
   def toInput[A](a: NonEmptyList[A]): F[A]
 }
 
-sealed abstract class Eval[F[_], A] {
-  import Eval._
-
-  val F: Input[F]
-
-  def run: F[A] => Fit
-
-  lazy val eval: RVar[NonEmptyList[A] => Objective[A]] =
-    RVar.pure { (fa: NonEmptyList[A]) =>
-      this match {
-        case Unconstrained(f, _) => Objective.single(f(F.toInput(fa)), List.empty)
-        case Constrained(f, cs, _) =>
-          cs.filter(c => !Constraint.satisfies(c, fa)) match {
-            case Nil => Objective.single(f(F.toInput(fa)), List.empty)
-            case xs =>
-              val result =
-                f(F.toInput(fa)) match {
-                  case Feasible(v)       => Infeasible(v)
-                  case Adjusted(_, a)    => Infeasible(a)
-                  case i @ Infeasible(_) => i
-                }
-
-              Objective.single(result, xs)
-          }
-      }
+sealed abstract class Eval[F[_]] {
+  def eval =
+    this match {
+      case a@ Eval.Unconstrained(_, _) => a.eval2
+      case b@Eval.Constrained(_, _, _) => b.eval2
     }
 
-  def constrain(cs: List[Constraint[A]]): Eval[F, A] =
-    Constrained(run, cs, F)
 
-  def unconstrain: Eval[F, A] =
-    Unconstrained(run, F)
+  def constrain(cs: List[Constraint]): Eval[F]
+
+  def unconstrain: Eval[F]
+
 }
 
 object Eval {
-  private final case class Unconstrained[F[_], A](run: F[A] => Fit, F: Input[F]) extends Eval[F, A]
-  private final case class Constrained[F[_], A](run: F[A] => Fit, cs: List[Constraint[A]], F: Input[F])
-      extends Eval[F, A]
+  private final case class Unconstrained[F[_], A](f: F[A] => Fit, F: Input[F]) extends Eval[F] {
+    def eval2: RVar[NonEmptyList[A] => Objective] =
+      RVar.pure { (fa: NonEmptyList[A]) =>
+        Objective.single(f(F.toInput(fa)), List.empty)
+      }
 
-  def unconstrained[F[_], A](f: F[A] => Fit)(implicit F: Input[F]): Eval[F, A] =
+    def constrain(cs: List[Constraint]): Eval[F] =
+      Eval.Constrained(f, cs, F)
+
+    def unconstrain: Eval[F] =
+      Eval.Unconstrained(f, F)
+  }
+
+  private final case class Constrained[F[_], A](run: F[A] => Fit, cs: List[Constraint], F: Input[F]) extends Eval[F] {
+    def eval2: RVar[NonEmptyList[A] => Objective] =
+      RVar.pure { (fa: NonEmptyList[A]) =>
+        cs.filter(c => !Constraint.satisfies(c, fa)) match {
+          case Nil => Objective.single(run(F.toInput(fa)), List.empty)
+          case xs =>
+            val result =
+              run(F.toInput(fa)) match {
+                case Feasible(v)       => Infeasible(v)
+                case Adjusted(_, a)    => Infeasible(a)
+                case i @ Infeasible(_) => i
+              }
+
+            Objective.single[A](result, xs)
+        }
+      }
+
+    def constrain(cs: List[Constraint]): Eval[F] =
+      Eval.Constrained(run, cs, F)
+
+    def unconstrain: Eval[F] =
+      Eval.Unconstrained(run, F)
+  }
+
+  def unconstrained[F[_], A](f: F[A] => Fit)(implicit F: Input[F]): Eval[F] =
     Unconstrained(f, F)
 
-  def constrained[F[_], A](f: F[A] => Fit, cs: List[Constraint[A]])(implicit F: Input[F]): Eval[F, A] =
+  def constrained[F[_], A](f: F[A] => Fit, cs: List[Constraint])(implicit F: Input[F]): Eval[F] =
     Constrained(f, cs, F)
 }
 

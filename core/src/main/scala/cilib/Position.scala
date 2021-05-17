@@ -40,7 +40,7 @@ sealed abstract class Position[A] {
       case Solution(x, b, _) => Point(x, b)
     }
 
-  def objective: Option[Objective[A]] =
+  def objective: Option[Objective] =
     this match {
       case Point(_, _)       => None
       case Solution(_, _, o) => Some(o)
@@ -58,7 +58,7 @@ sealed abstract class Position[A] {
 
 object Position {
   private final case class Point[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
-  private final case class Solution[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]], o: Objective[A])
+  private final case class Solution[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]], o: Objective)
       extends Position[A]
 
   implicit def positionEqual[A: zio.prelude.Equal]: zio.prelude.Equal[Position[A]] =
@@ -140,11 +140,11 @@ object Position {
         a.objective
     }
 
-  def eval[F[_], A](e: RVar[NonEmptyList[A] => Objective[A]], pos: Position[A]): RVar[Position[A]] =
+  def eval[A](e: Eval[NonEmptyList], pos: Position[A]): RVar[Position[A]] =
     pos match {
       case Point(x, b) =>
-        e.map { f =>
-          val s: Objective[A] = f.apply(x)
+        e.eval.map { f =>
+          val s: Objective = f.apply(x)
           Solution(x, b, s)
         }
 

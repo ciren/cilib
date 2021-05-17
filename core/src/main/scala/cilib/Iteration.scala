@@ -1,7 +1,6 @@
 package cilib
 
-import scalaz.Scalaz._
-import scalaz._
+import zio.prelude._
 
 /**
  * An `Iteration` is an atomic action that applies a given "algorithm" for each
@@ -18,7 +17,7 @@ import scalaz._
  * NB: Should consider trying to define this based on the Free monad?
  */
 sealed trait Iteration[M[_], A] {
-  def run(l: NonEmptyList[A])(implicit M: Monad[M]): ListT[M, A]
+  def run(l: NonEmptyList[A]): M[List[A]]
 }
 
 object Iteration {
@@ -27,37 +26,33 @@ object Iteration {
   //def sync_[M[_]:Applicative,A,B:Monoid](f: List[A] => A => M[B]): Kleisli[M,List[A],List[B]] =
   //Kleisli.kleisli((l: List[A]) => l traverseU f(l))//Functor[M].map(l traverseU f(l))(x => x))
 
-  def sync_[M[_]: Applicative, A, B](f: NonEmptyList[A] => A => M[B]): Kleisli[M, NonEmptyList[A], NonEmptyList[B]] = //List[A] => M[List[B]] =
-//    (l: List[A]) => Functor[M].map(l traverseU f(l))(_.suml)
-    Kleisli.kleisli((l: NonEmptyList[A]) => l.traverse(f(l)))
+  def sync_[M[+_]: Covariant : IdentityBoth, A, B](f: NonEmptyList[A] => A => M[B]): NonEmptyList[A] => M[NonEmptyList[B]] =
+    (l: NonEmptyList[A]) => ForEach[NonEmptyList].forEach(l)(f(l))
 
-  def sync[A, B, C](f: NonEmptyList[B] => B => Step[A, C]): Kleisli[Step[A, *], NonEmptyList[B], NonEmptyList[C]] =
-    sync_[Step[A, *], B, C](f)
+  def sync[A, B](f: NonEmptyList[A] => A => Step[B]): NonEmptyList[A] => Step[NonEmptyList[B]] =
+    sync_[zio.prelude.fx.ZPure[Nothing, RNG, RNG, Environment, Exception, +*], A, B](f)
 
-  def syncS[A, S, B, C](
-    f: NonEmptyList[B] => B => StepS[A, S, C]
-  ): Kleisli[StepS[A, S, *], NonEmptyList[B], NonEmptyList[C]] =
-    sync_[StepS[A, S, *], B, C](f)
+  def syncS[S, A, B](f: NonEmptyList[A] => A => StepS[S, B]):  NonEmptyList[A] => StepS[S, NonEmptyList[B]] =
+    sync_[StepS[S, +*], A, B](f)
 
-  def async_[M[_]: Monad, A](f: NonEmptyList[A] => A => M[A]): Kleisli[M, NonEmptyList[A], NonEmptyList[A]] =
-    Kleisli.kleisli { (l: NonEmptyList[A]) =>
-      val list = l.toList
-      val intermediate: M[List[A]] = list.foldLeftM[M, List[A]](List.empty) { (a, c) =>
-        val p1: List[A] = a
-        val p2: List[A] = list.drop(p1.length)
-        val nel         = (p1 ++ p2).toNel.getOrElse(sys.error("asdasd"))
-        Functor[M].map(f(nel).apply(c))(x => a <+> List(x))
-      }
+  def async_[M[+_]: Covariant : IdentityBoth : IdentityFlatten, A](f: NonEmptyList[A] => A => M[A]): NonEmptyList[A] => M[NonEmptyList[A]] =
+    (l: NonEmptyList[A]) => {
+      val intermediate: M[List[A]] =
+        ForEach[NonEmptyList].foldLeftM(l)(List.empty[A]) { (a, c) =>
+          val p1: List[A] = a
+          val p2: List[A] = l.drop(p1.length)
+          val nel         = NonEmptyList.fromIterableOption(p1 ++ p2).getOrElse(sys.error("asdasd"))
 
-      intermediate.map(_.toNel.getOrElse(sys.error("")))
+          f(nel).apply(c).map(x => a ++ List(x))
+        }
+
+      intermediate.map(x => NonEmptyList.fromIterableOption(x).getOrElse(sys.error("")))
     }
 
-  def async[A, B](f: NonEmptyList[B] => B => Step[A, B]): Kleisli[Step[A, *], NonEmptyList[B], NonEmptyList[B]] =
-    async_[Step[A, *], B](f)
+  def async[A](f: NonEmptyList[A] => A => Step[A]): NonEmptyList[A] => Step[NonEmptyList[A]] =
+    async_[Step[+*], A](f)
 
-  def asyncS[A, S, B](
-    f: NonEmptyList[B] => B => StepS[A, S, B]
-  ): Kleisli[StepS[A, S, *], NonEmptyList[B], NonEmptyList[B]] =
-    async_[StepS[A, S, *], B](f)
+  def asyncS[S, A](f: NonEmptyList[A] => A => StepS[S, A]): NonEmptyList[A] => StepS[S, NonEmptyList[A]] =
+    async_[zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), Environment, Exception, +*], A](f)
 
 }

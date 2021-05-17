@@ -31,18 +31,18 @@ object ViolationCount {
     }
 }
 
-final case class ConstraintFunction[A](f: NonEmptyList[A] => Double) {
-  def apply(a: NonEmptyList[A]): Double =
+final case class ConstraintFunction(f: NonEmptyList[_] => Double) {
+  def apply[A](a: NonEmptyList[A]): Double =
     f(a)
 }
 
-sealed abstract class Constraint[A]
-final case class LessThan[A](f: ConstraintFunction[A], v: Double)                    extends Constraint[A]
-final case class LessThanEqual[A](f: ConstraintFunction[A], v: Double)               extends Constraint[A]
-final case class Equal[A](f: ConstraintFunction[A], v: Double)                       extends Constraint[A]
-final case class InInterval[A](f: ConstraintFunction[A], interval: Interval[Double]) extends Constraint[A]
-final case class GreaterThan[A](f: ConstraintFunction[A], v: Double)                 extends Constraint[A]
-final case class GreaterThanEqual[A](f: ConstraintFunction[A], v: Double)            extends Constraint[A]
+sealed abstract class Constraint
+final case class LessThan[A](f: ConstraintFunction, v: Double)                    extends Constraint
+final case class LessThanEqual[A](f: ConstraintFunction, v: Double)               extends Constraint
+final case class Equal[A](f: ConstraintFunction, v: Double)                       extends Constraint
+final case class InInterval[A](f: ConstraintFunction, interval: Interval[Double]) extends Constraint
+final case class GreaterThan[A](f: ConstraintFunction, v: Double)                 extends Constraint
+final case class GreaterThanEqual[A](f: ConstraintFunction, v: Double)            extends Constraint
 
 object Constraint {
 
@@ -50,7 +50,7 @@ object Constraint {
 //    M.map(ma)(_.constrainBy(cs))
   private val ev = Eq[Double]
 
-  def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint[A]], cs: NonEmptyList[A]): Double =
+  def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint], cs: NonEmptyList[A]): Double =
     constraints
       .map(_ match {
         case LessThan(f, v) =>
@@ -106,11 +106,11 @@ object Constraint {
       })
       .sum
 
-  def violationCount[A](constraints: List[Constraint[A]], cs: NonEmptyList[A]): ViolationCount =
+  def violationCount[A](constraints: List[Constraint], cs: NonEmptyList[A]): ViolationCount =
     ViolationCount(constraints.map(satisfies(_, cs)).filterNot(x => x).length)
       .getOrElse(ViolationCount.zero)
 
-  def satisfies[A](constraint: Constraint[A], cs: NonEmptyList[A]): Boolean =
+  def satisfies[A](constraint: Constraint, cs: NonEmptyList[A]): Boolean =
     constraint match {
       case LessThan(f, v)      => f(cs) < v
       case LessThanEqual(f, v) => f(cs) <= v
