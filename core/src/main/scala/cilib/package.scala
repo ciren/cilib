@@ -14,12 +14,12 @@ package object cilib extends EvalInstances {
   //type Eval[A] = RVar[NonEmptyList[A] => Objective[A]]
 
   // Should expand into a typeclass? Getter?
-  type Selection[A]          = NonEmptyList[A] => List[A]
-  type IndexSelection[A]     = (NonEmptyList[A], A) => List[A]
-  type RandSelection[A]      = NonEmptyList[A] => RVar[List[A]]
-  type RandIndexSelection[A] = (NonEmptyList[A], A) => RVar[List[A]]
+  type Selection[A]          = zio.prelude.NonEmptyList[A] => List[A]
+  type IndexSelection[A]     = (zio.prelude.NonEmptyList[A], A) => List[A]
+  type RandSelection[A]      = zio.prelude.NonEmptyList[A] => RVar[List[A]]
+  type RandIndexSelection[A] = (zio.prelude.NonEmptyList[A], A) => RVar[List[A]]
 
-  type Crossover[A] = NonEmptyList[Position[A]] => RVar[NonEmptyList[Position[A]]]
+  type Crossover[A] = zio.prelude.NonEmptyList[Position[A]] => RVar[zio.prelude.NonEmptyList[Position[A]]]
 
   // Find a better home for this - should this even exist? it is unlawful
   implicit object DoubleMonoid extends Monoid[Double] {

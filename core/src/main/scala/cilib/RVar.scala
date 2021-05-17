@@ -66,7 +66,7 @@ functions such as MonadState[RVar].modify and MonadState[RVar].puts)
 //}
 
 
-object RVar {// extends RVarInstances {
+object RVar {
 
   def apply[A](f: RNG => (RNG, A)): RVar[A] =
     zio.prelude.fx.ZPure.modify(f)
@@ -197,7 +197,6 @@ object RVar {// extends RVarInstances {
         Some(go(l, F.toList(xs)))
       }
     }
-
 }
 
 sealed trait Generator[A] {
