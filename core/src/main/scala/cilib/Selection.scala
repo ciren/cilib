@@ -6,17 +6,6 @@ import zio.prelude._
 
 object Selection {
 
-  // private implicit class RicherEphemeralStream[A](private val s: EphemeralStream[A]) extends AnyVal {
-  //   def drop(n: Int): EphemeralStream[A] = {
-  //     @annotation.tailrec
-  //     def go(count: Int, c: Option[EphemeralStream[A]]): EphemeralStream[A] =
-  //       if (count > 0) go(count - 1, c.flatMap(_.tailOption))
-  //       else c.cata(x => x, EphemeralStream())
-
-  //     go(n, Option(s))
-  //   }
-  // }
-
   def indexNeighbours[A](n: Int): (NonEmptyList[A], A) => List[A] =
     (list: NonEmptyList[A], x: A) => {
       val size = list.size
