@@ -86,11 +86,7 @@ object RVar {
   def choose[A](xs: NonEmptyList[A]): RVar[A] =
     Dist
       .uniformInt(Interval(0, xs.size - 1))
-      .map { i =>
-        import monocle.Monocle._
-
-        xs.toList.applyOptional(index(i)).getOption.getOrElse(xs.head)
-      }
+      .map(i => xs.lift(i).getOrElse(xs.head))
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt

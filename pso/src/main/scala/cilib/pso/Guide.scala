@@ -2,8 +2,7 @@ package cilib
 package pso
 
 import eu.timepit.refined.auto._
-import scalaz.NonEmptyList
-import scalaz.Scalaz._
+import zio.prelude.NonEmptyList
 
 // A Guide is a selection followed by a comparison, wrapped up in a Step
 object Guide {
@@ -52,13 +51,13 @@ object Guide {
   def nmpc[S](prob: Double): Guide[S, Double] =
     (collection, x) =>
       Step.liftR {
-        val col       = collection.list.filter(_ ne x)
+        val col       = collection.filter(_ ne x)
         val chosen    = RVar.sample(3, col)
         val crossover = Crossover.nmpc
 
         for {
           chos     <- chosen
-          parents  = chos.map(c => NonEmptyList.nel(x.pos, c.map(_.pos).toIList))
+          parents  = chos.map(c => NonEmptyList.fromIterable(x.pos, c.map(_.pos)))
           children <- parents.map(crossover).getOrElse(RVar.pure(NonEmptyList(x.pos)))
           probs    <- x.pos.traverse(_ => Dist.stdUniform)
         } yield {

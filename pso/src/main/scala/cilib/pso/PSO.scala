@@ -3,9 +3,9 @@ package pso
 
 import Position._
 import monocle._, Monocle._
-import scalaz._, Scalaz._
 import spire.algebra._
 import spire.implicits._
+import zio.prelude.{ Comparison => _, _ }
 
 object PSO {
   import Lenses._
@@ -13,7 +13,7 @@ object PSO {
   def stdPosition[S, A](
     c: Particle[S, A],
     v: Position[A]
-  )(implicit A: LeftModule[Position[A], A]): Step[A, Particle[S, A]] =
+  )(implicit A: LeftModule[Position[A], A]): Step[Particle[S, A]] =
     Step.pure(_position.modify((_: Position[A]) + v)(c))
 
   // Dist \/ Double (scalar value)
@@ -25,7 +25,7 @@ object PSO {
     w: Double,
     c1: Double,
     c2: Double
-  )(implicit V: HasVelocity[S, Double]): Step[Double, Position[Double]] =
+  )(implicit V: HasVelocity[S, Double]): Step[Position[Double]] =
     Step.liftR(for {
       cog <- (cognitive - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
       soc <- (social - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
@@ -35,7 +35,7 @@ object PSO {
   def evalParticle[S](entity: Particle[S, Double]) =
     Step.eval[S, Double](x => x)(entity)
 
-  def updatePBest[S](p: Particle[S, Double])(implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
+  def updatePBest[S](p: Particle[S, Double])(implicit M: HasMemory[S, Double]): Step[Particle[S, Double]] = {
     val pbestL = M._memory
     Step
       .withCompare(Comparison.compare(p.pos, p.state.applyLens(pbestL).get))
@@ -44,15 +44,15 @@ object PSO {
 
   def updatePBestBounds[S](
     p: Particle[S, Double]
-  )(implicit M: HasMemory[S, Double]): Step[Double, Particle[S, Double]] = {
-    val b = Foldable1[NonEmptyList].foldLeft(p.pos.pos.zip(p.pos.boundary), true)((a, c) => a && (c._2.contains(c._1)))
+  )(implicit M: HasMemory[S, Double]): Step[Particle[S, Double]] = {
+    val b = ForEach[NonEmptyList].foldLeft(p.pos.pos.zip(p.pos.boundary))(true)((a, c) => a && (c._2.contains(c._1)))
 
     if (b) updatePBest(p) else Step.pure(p)
   }
 
   def updateVelocity[S](p: Particle[S, Double], v: Position[Double])(
     implicit V: HasVelocity[S, Double]
-  ): Step[Double, Particle[S, Double]] =
+  ): Step[Particle[S, Double]] =
     Step.liftR(RVar.pure(Entity(p.state.applyLens(V._velocity).set(v), p.pos)))
 
   def singleComponentVelocity[S](
@@ -60,7 +60,7 @@ object PSO {
     component: Position[Double],
     w: Double,
     c: Double
-  )(implicit V: HasVelocity[S, Double]): Step[Double, Position[Double]] =
+  )(implicit V: HasVelocity[S, Double]): Step[Position[Double]] =
     Step.liftR(for {
       comp <- (component - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
     } yield (w *: V._velocity.get(entity.state)) + (c *: comp))
@@ -75,7 +75,7 @@ object PSO {
     nbest: Position[Double],
     w: Double,
     s: GCParams
-  )(implicit V: HasVelocity[S, Double]): Step[Double, Position[Double]] =
+  )(implicit V: HasVelocity[S, Double]): Step[Position[Double]] =
     Step.liftR(
       nbest
         .traverse(_ => Dist.stdUniform.map(x => s.p * (1 - 2 * x)))
@@ -137,7 +137,7 @@ object PSO {
     x: Position[Double],                   // passed in only to get the length of the vector
     r: RVar[Double],                       // magnitude of the radius for the hypersphere
     dist: (Double, Double) => RVar[Double] // Distribution used
-  ): Step[Double, Position[Double]] =
+  ): Step[Position[Double]] =
     Step.liftR {
       for {
         r_i <- x.traverse(_ => Dist.stdUniform) //(0.0, 1.0))
@@ -164,12 +164,12 @@ object PSO {
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
     rc: Double
-  )(implicit C: HasCharge[S]): Step[Double, Position[Double]] = {
+  )(implicit C: HasCharge[S]): Step[Position[Double]] = {
     def charge(x: Particle[S, Double]) =
       C._charge.get(x.state)
 
     Step.pure(
-      collection.list
+      collection
         .filter(z => charge(z) > 0.0)
         .foldLeft(x.pos.zeroed) { (p1, p2) =>
           val d = distance(x.pos, p2.pos)
@@ -181,10 +181,10 @@ object PSO {
   }
 
   // Naming?
-  def replace[S](entity: Particle[S, Double], p: Position[Double]): Step[Double, Particle[S, Double]] =
+  def replace[S](entity: Particle[S, Double], p: Position[Double]): Step[Particle[S, Double]] =
     Step.pure(entity.applyLens(_position).set(p))
 
-  def better[S, A](a: Particle[S, A], b: Particle[S, A]): Step[A, Boolean] =
+  def better[S, A](a: Particle[S, A], b: Particle[S, A]): Step[Boolean] =
     Comparison.fittest(a, b).map(_ eq a)
 
   def createParticle[S](f: Position[Double] => Particle[S, Double])(pos: Position[Double]): Particle[S, Double] =
