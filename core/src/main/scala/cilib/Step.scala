@@ -76,7 +76,7 @@ object Step {
     } yield a
 
   def eval[S, A](f: Position[A] => Position[A])(entity: Entity[S, A]): Step[Entity[S, A]] =
-    evalP(f(entity.pos)).map(p => Lenses._position.set(p)(entity))
+    evalP(f(entity.pos)).map(p => Lenses._position.set(entity, p))
 
   def evalP[A](pos: Position[A]): Step[Position[A]] =
     for {

@@ -2,19 +2,19 @@ package cilib
 package pso
 
 import Position._
-import monocle._, Monocle._
 import spire.algebra._
 import spire.implicits._
 import zio.prelude.{ Comparison => _, _ }
 
 object PSO {
   import Lenses._
+
   // Constrain this better - Not numeric. Operation for vector addition
   def stdPosition[S, A](
     c: Particle[S, A],
     v: Position[A]
   )(implicit A: LeftModule[Position[A], A]): Step[Particle[S, A]] =
-    Step.pure(_position.modify((_: Position[A]) + v)(c))
+    Step.pure(_position.modify(c, _ + v))
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists
@@ -35,12 +35,10 @@ object PSO {
   def evalParticle[S](entity: Particle[S, Double]) =
     Step.eval[S, Double](x => x)(entity)
 
-  def updatePBest[S](p: Particle[S, Double])(implicit M: HasMemory[S, Double]): Step[Particle[S, Double]] = {
-    val pbestL = M._memory
+  def updatePBest[S](p: Particle[S, Double])(implicit M: HasMemory[S, Double]): Step[Particle[S, Double]] =
     Step
-      .withCompare(Comparison.compare(p.pos, p.state.applyLens(pbestL).get))
-      .map(x => Entity(p.state.applyLens(pbestL).set(x), p.pos))
-  }
+      .withCompare(Comparison.compare(p.pos, M._memory.get(p.state)))
+      .map(x => Entity(M._memory.set(p.state, x), p.pos))
 
   def updatePBestBounds[S](
     p: Particle[S, Double]
@@ -53,7 +51,7 @@ object PSO {
   def updateVelocity[S](p: Particle[S, Double], v: Position[Double])(
     implicit V: HasVelocity[S, Double]
   ): Step[Particle[S, Double]] =
-    Step.liftR(RVar.pure(Entity(p.state.applyLens(V._velocity).set(v), p.pos)))
+    Step.liftR(RVar.pure(Entity(V._velocity.set(p.state, v), p.pos)))
 
   def singleComponentVelocity[S](
     entity: Particle[S, Double],
@@ -182,7 +180,7 @@ object PSO {
 
   // Naming?
   def replace[S](entity: Particle[S, Double], p: Position[Double]): Step[Particle[S, Double]] =
-    Step.pure(entity.applyLens(_position).set(p))
+    Step.pure(_position.set(entity, p))
 
   def better[S, A](a: Particle[S, A], b: Particle[S, A]): Step[Boolean] =
     Comparison.fittest(a, b).map(_ eq a)

@@ -3,7 +3,6 @@ import sbt.Keys._
 
 val scalazVersion     = "7.3.2"
 val spireVersion      = "0.17.0-RC1"
-val monocleVersion    = "2.0.4"
 val parquet4sVersion  = "1.3.1"
 val scalacheckVersion = "1.14.3"
 val zioVersion        = "1.0.6"
@@ -118,7 +117,6 @@ lazy val core = project
       zio,
       zioPrelude,
       "org.typelevel"              %% "spire"        % spireVersion,
-      "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
       "eu.timepit"                 %% "refined"      % "0.9.15"
     )
   )
