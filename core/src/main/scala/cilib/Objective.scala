@@ -1,7 +1,6 @@
 package cilib
 
-import scalaz.Scalaz._
-import scalaz._
+import zio.prelude._
 
 /**
   An `Objective` represents the result of an evaluation.
