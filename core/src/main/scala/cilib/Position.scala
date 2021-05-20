@@ -7,7 +7,7 @@ import spire.implicits._
 import spire.math._
 import zio.prelude._
 
-sealed abstract class Position[A] {
+sealed abstract class Position[+A] {
   import Position._
 
   def map[B](f: A => B): Position[B] =
@@ -20,7 +20,7 @@ sealed abstract class Position[A] {
     Point(pos.zip(other.pos), boundary)
 
   def traverse[G[+_]: IdentityBoth: Covariant, B](f: A => G[B]): G[Position[B]] =
-    ForEach[NonEmptyList].forEach(pos)(f).map(Point(_, boundary))
+    this.forEach(f)
 
   def take(n: Int): List[A] =
     pos.take(n)
@@ -65,6 +65,18 @@ object Position {
     zio.prelude.Equal.make[Position[A]]((l, r) => {
       l.pos === r.pos && l.boundary === r.boundary
     })
+
+  implicit val positionForEach: ForEach[Position] =
+    new ForEach[Position] {
+      def forEach[G[+_]: IdentityBoth: Covariant, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
+        ForEach[NonEmptyList].forEach(fa.pos)(f).map(Point(_, fa.boundary))
+    }
+
+  implicit val positionNonEmptyForEach: NonEmptyForEach[Position] =
+    new NonEmptyForEach[Position] {
+      def forEach1[G[+_]: AssociativeBoth: Covariant, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
+        NonEmptyForEach[NonEmptyList].forEach1(fa.pos)(f).map(Point(_, fa.boundary))
+    }
 
   implicit def positionDotProd[A](implicit A: Numeric[A]): algebra.DotProd[Position, A] =
     new algebra.DotProd[Position, A] {
@@ -156,9 +168,8 @@ object Position {
     Point(xs, b)
 
   def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] = {
-    val rvarZioNEL = zio.prelude.ForEach[zio.prelude.NonEmptyList].forEach(domain)(Dist.uniform)
-
-    rvarZioNEL.map(znel => Position(znel, domain))
+    ForEach[NonEmptyList].forEach(domain)(Dist.uniform)
+      .map(znel => Position(znel, domain))
     //domain.traverse(Dist.uniform).map(x => Position(x, domain))
   }
 

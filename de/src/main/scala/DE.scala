@@ -4,21 +4,20 @@ package de
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
-import scalaz._, Scalaz._
 import spire.algebra._
 import spire.implicits.{ eu => _, _ }
 import spire.math._
-import zio.prelude.ForEach
+import zio.prelude.{ Comparison => _, _ }
 
 object DE {
 
   def de[S, A: Numeric: Equal](
     p_r: Double,
     p_m: Double,
-    targetSelection: NonEmptyList[Individual[S, A]] => Step[A, (Individual[S, A], Position[A])],
+    targetSelection: NonEmptyList[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
     y: Int Refined Positive,
     z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]] // Double check this shape
-  ): NonEmptyList[Individual[S, A]] => Individual[S, A] => Step[A, Individual[S, A]] =
+  ): NonEmptyList[Individual[S, A]] => Individual[S, A] => Step[Individual[S, A]] =
     collection =>
       x =>
         for {
@@ -32,11 +31,11 @@ object DE {
 
   def basicMutation[S, A: Ring: Equal](
     p_m: A,
-    selection: NonEmptyList[Individual[S, A]] => Step[A, (Individual[S, A], Position[A])],
+    selection: NonEmptyList[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
     y: Int Refined Positive,
     collection: NonEmptyList[Individual[S, A]],
     x: Individual[S, A]
-  ): Step[A, Position[A]] = {
+  ): Step[Position[A]] = {
 
     def createPairs[Z](acc: List[(Z, Z)], xs: List[Z]): List[(Z, Z)] =
       xs match {
@@ -45,12 +44,12 @@ object DE {
         case _             => sys.error("ugg")
       }
 
-    val target: Step[A, (Individual[S, A], Position[A])] = selection(collection)
-    val filtered                                         = target.map(t => collection.list.filterNot(a => a === t._1 || a === x))
-    val pairs: Step[A, List[Position[A]]] =
+    val target: Step[(Individual[S, A], Position[A])] = selection(collection)
+    val filtered                                      = target.map(t => collection.filterNot(a => a === t._1 || a === x))
+    val pairs: Step[List[Position[A]]] =
       filtered.flatMap(x =>
-        x.toNel match {
-          case Maybe.Just(l) =>
+        NonEmptyList.fromIterableOption(x) match {
+          case Some(l) =>
             Step.liftR(
               RVar
                 .shuffle(l)
@@ -60,7 +59,7 @@ object DE {
                   }
                 )
             )
-          case Maybe.Empty() =>
+          case None =>
             Step.pure(List.empty)
         }
       )
@@ -79,27 +78,27 @@ object DE {
       }
     })
 
-  def bin[F[_]: Foldable1, A](
+  def bin[F[+_], A](
     p_r: Double,
     parent: F[A]
-  ): RVar[NonEmptyList[Boolean]] =
+  )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyList[Boolean]] =
     Dist
-      .uniformInt(spire.math.Interval(0, parent.length - 1))
+      .uniformInt(spire.math.Interval(0, F.size(parent) - 1))
       .flatMap(j => {
-        val zioNel = scalazNel2Prelude(parent.toNel.zipWithIndex)
-
-        ForEach[zio.prelude.NonEmptyList].forEach(zioNel) {
+        F.zipWithIndex(parent).forEach1 {
           case (_, i) =>
             if (i == j) RVar.pure(true)
             else Dist.stdUniform.map(_ < p_r)
-        }.map(preludeNel2Scalaz)
+        }
       })
+      .map(_.toNonEmptyList)
 
-  def exp[F[_]: Foldable1, A](
+
+  def exp[F[+_], A](
     p_r: Double,
     parent: F[A]
-  ): RVar[NonEmptyList[Boolean]] = {
-    val length = parent.length
+  )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyList[Boolean]] = {
+    val length = F.size(parent)
     for {
       start    <- Dist.uniformInt(spire.math.Interval(0, length - 1))
       circular = Iterator.continually((0 to length).toList).flatMap(x => x)
@@ -108,23 +107,19 @@ object DE {
       val paired   = circular.drop(start).take(length).toList.zip(randoms)
       val adjacent = paired.head :: paired.tail.takeWhile(t => t._2 < p_r)
 
-      (0 to length)
-        .foldRight(List.empty[Boolean])((c, a) =>
-          adjacent.find(_._1 == c) match {
-            case None    => false :: a
-            case Some(_) => true :: a
-          }
-        )
-        .toNel
+      val options = (0 to length)
+        .foldRight(List.empty[Boolean])((c, a) => adjacent.find(_._1 == c).isDefined :: a)
+
+      NonEmptyList.fromIterableOption(options)
         .getOrElse(sys.error("Impossible -> there has to be at least 1 element"))
     }
   }
 
   // Selections
-  def randSelection[S, A](collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
+  def randSelection[S, A](collection: NonEmptyList[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     Step.liftR(RVar.choose(collection).map(x => (x, x.pos)))
 
-  def bestSelection[S, A](collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
+  def bestSelection[S, A](collection: NonEmptyList[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     collection.tail
       .foldLeftM(collection.head) {
         case (acc, curr) =>
@@ -134,7 +129,7 @@ object DE {
 
   def randToBestSelection[S, A: Numeric](
     gamma: Double
-  )(collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
+  )(collection: NonEmptyList[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     for {
       best <- bestSelection(collection)
       rand <- randSelection(collection)
@@ -148,7 +143,7 @@ object DE {
 
   def currentToBestSelection[S, A: Numeric](
     p_m: Double
-  )(collection: NonEmptyList[Entity[S, A]]): Step[A, (Entity[S, A], Position[A])] =
+  )(collection: NonEmptyList[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     for {
       best <- bestSelection(collection)
       rand <- randSelection(collection)
