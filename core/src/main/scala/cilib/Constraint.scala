@@ -1,6 +1,5 @@
 package cilib
 
-//import scalaz.{ Maybe, NonEmptyList }
 import zio.prelude._
 import spire.algebra.Eq
 import spire.implicits._
@@ -15,19 +14,18 @@ object ViolationCount {
 
   val zero: ViolationCount = new ViolationCount(0)
 
-  import scalaz.Order
-  import scalaz.std.anyVal._
-  implicit val violationOrder: Order[ViolationCount] = new Order[ViolationCount] {
-    def order(x: ViolationCount, y: ViolationCount) =
-      Order[Int].order(x.count, y.count)
+  implicit val violationOrd: Ord[ViolationCount] = new Ord[ViolationCount] {
+    def checkCompare(x: ViolationCount, y: ViolationCount) =
+      Ord[Int].compare(x.count, y.count)
   }
 
-  import scalaz._
-  implicit def violationMonoid[A]: Monoid[ViolationCount] =
-    new Monoid[ViolationCount] {
-      def zero = ViolationCount.zero
-      def append(f1: ViolationCount, f2: => ViolationCount) =
-        ViolationCount(f1.count + f2.count).getOrElse(zero)
+  implicit val violationAssociative: Identity[ViolationCount] =
+    new Identity[ViolationCount] {
+      def combine(l: => ViolationCount, r: => ViolationCount): ViolationCount =
+        ViolationCount(l.count + r.count).getOrElse(zero)
+
+      def identity: ViolationCount =
+        ViolationCount.zero
     }
 }
 

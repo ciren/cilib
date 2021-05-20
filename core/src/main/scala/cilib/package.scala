@@ -1,9 +1,11 @@
 import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
-import scalaz._
+
 import spire.math.Interval
 import spire.math.interval.{ Bound, ValueBound }
+
+import zio.prelude.NonEmptyList
 
 package object cilib extends EvalInstances {
 
@@ -21,15 +23,9 @@ package object cilib extends EvalInstances {
 
   type Crossover[A] = zio.prelude.NonEmptyList[Position[A]] => RVar[zio.prelude.NonEmptyList[Position[A]]]
 
-  // Find a better home for this - should this even exist? it is unlawful
-  implicit object DoubleMonoid extends Monoid[Double] {
-    def zero                            = 0.0
-    def append(a: Double, b: => Double) = a + b
-  }
-
   implicit class IntervalOps[A](private val interval: Interval[A]) extends AnyVal {
     def ^(n: Int): NonEmptyList[Interval[A]] =
-      NonEmptyList.nel(interval, IList.fill(n - 1)(interval))
+      NonEmptyList.fromIterable(interval, List.fill(n - 1)(interval))
 
     private def getValue(b: Bound[A]) =
       ValueBound.unapply(b).getOrElse(sys.error("Empty and Unbounded bounds are not supported"))
@@ -37,9 +33,6 @@ package object cilib extends EvalInstances {
     def lowerValue: A = getValue(interval.lowerBound)
     def upperValue: A = getValue(interval.upperBound)
   }
-
-  implicit def intervalEqual[A]: scalaz.Equal[Interval[A]] =
-    scalaz.Equal.equalA[Interval[A]]
 
   implicit def intervalEqualZio[A]: zio.prelude.Equal[Interval[A]] =
     zio.prelude.Equal.make((l, r) => l == r)
@@ -56,18 +49,11 @@ package object cilib extends EvalInstances {
     refine(n)((x: Int Refined Positive) => f(x))
 
 
-
   implicit final class RichRVarOps[+A](rvar: RVar[A]) {
     import zio.prelude._
 
     def replicateM(n: Int): RVar[List[A]] =
       ForEach[List].forEach(List.fill(n)(rvar))(identity)
   }
-
-  def preludeNel2Scalaz[A](zioNel: zio.prelude.NonEmptyList[A]) =
-    scalaz.NonEmptyList.fromSeq(zioNel.head, zioNel.tail)
-
-  def scalazNel2Prelude[A](scalazNel: scalaz.NonEmptyList[A]): zio.prelude.NonEmptyList[A] =
-    zio.prelude.NonEmptyList.fromIterable(scalazNel.head, scalazNel.tail.toList)
 
 }
