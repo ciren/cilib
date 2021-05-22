@@ -2,7 +2,7 @@ package cilib
 
 import zio.prelude.NonEmptyList
 
-final class Environment private (val cmp: Comparison, val eval: Eval[NonEmptyList])
+final case class Environment private (val cmp: Comparison, val eval: Eval[NonEmptyList])
 
 object Environment {
 
