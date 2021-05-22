@@ -24,8 +24,6 @@ object Runner {
   object IterationCount extends Newtype[Int]
   type IterationCount = IterationCount.Type
 
-  final case class Kleisli[F[_], -A, B](run: A => F[B])
-
   /**
     * Define a stream of algorithm where the algorithm remains unchanged.
     *
@@ -105,7 +103,6 @@ object Runner {
           case Change =>
             val (rng2, (s1, c1)) = next(state).run(r)
             ((s1, c1, rng2), Problem(name, e, c1))
-
         }
       }
 
@@ -124,7 +121,7 @@ object Runner {
     alg: UStream[Algorithm[Kleisli[Step[*], F[B], F[B]]]],
     env: UStream[Problem],
     onChange: (F[B], Eval[NonEmptyList]) => RVar[F[B]]
-  )(implicit ev: Any <:< Environment, ev1: Exception <:< Nothing): Stream[Exception, Progress[F[B]]] = {
+  ): Stream[Exception, Progress[F[B]]] = {
 
     // Convert to a StepS with Unit as the state parameter
     val a: UStream[Algorithm[Kleisli[StepS[Unit, *], F[B], F[B]]]] =
@@ -142,7 +139,7 @@ object Runner {
     alg: UStream[Algorithm[Kleisli[StepS[S, *], F[B], F[B]]]],
     env: UStream[Problem],
     onChange: (F[B], Eval[NonEmptyList]) => RVar[F[B]]
-  )(implicit ev: Any <:< Environment, ev1: Exception <:< Nothing): Stream[Exception, Progress[(S, F[B])]] = {
+  ): Stream[Exception, Progress[(S, F[B])]] = {
 
     val (rng2, current) = collection.run(rng) // the collection of entities
 

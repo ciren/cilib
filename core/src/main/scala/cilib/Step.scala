@@ -141,18 +141,22 @@ object StepS {
       ((rng2, s._2), b)
     })
 
-  def liftStep[S, A](a: Step[A])(implicit ev: Exception <:< Nothing): zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), Environment, Exception, A] =
+  def liftStep[S, A](a: Step[A]): StepS[S, A] =
     for {
       env <- zio.prelude.fx.ZPure.environment[(RNG, S), Environment]
       x <- zio.prelude.fx.ZPure.modify((s: (RNG, S)) => {
-        val (rng2, result) = a.provide(env).run(s._1)
+        val (_, either) = a.provide(env).runAll(s._1)
 
-        ((rng2, s._2), result)
+        either match {
+          case Left(_) => sys.error("Unable to lift Step into StepS")
+          case Right((rng2, result)) => ((rng2, s._2), result)
+        }
+
       })
     } yield x
 
-  def liftK[S, A](a: Comparison => A)(implicit ev: Exception <:< Nothing): StepS[S, A] =
-    liftStep(Step.withCompare(a))
+  // def liftK[S, A](a: Comparison => A)(implicit ev: Exception <:< Nothing): StepS[S, A] =
+  //   liftStep(Step.withCompare(a))
 
   // def liftS[A, S, B](a: State[S, B]): StepS[A, S, B] =
   //   StepS(a.lift[Step[A, *]])
