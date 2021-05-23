@@ -1,6 +1,6 @@
 package cilib
 package example
-
+/*
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
@@ -42,3 +42,4 @@ object VonNeumannPSO extends zio.App {
   // }
 
 }
+ */

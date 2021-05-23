@@ -235,8 +235,8 @@ lazy val tests = project
   .settings(test / javaOptions += "-Xmx1G")
   .settings(
     libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
-      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
+      "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test"
+      //"org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
     )
   )
   .enablePlugins(BuildInfoPlugin)

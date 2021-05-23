@@ -102,16 +102,14 @@ object Position {
       def zero                   = Position(NonEmptyList(scalar.zero), NonEmptyList(spire.math.Interval(0.0, 0.0)))
 
       def plus(x: Position[A], y: Position[A]) = {
-        ???
-        // import scalaz.syntax.align._
-        // x.align(y)
-        //   .map(
-        //     _.fold(
-        //       s = x => x,
-        //       t = x => x,
-        //       q = scalar.plus(_, _)
-        //     )
-        //   )
+        val combined =
+          align(x.pos, y.pos).map(_ match {
+            case These.Left(l) => l
+            case These.Right(r) => r
+            case These.Both(l, r) => scalar.plus(l, r)
+          })
+
+        Point(combined, x.boundary)
       }
 
       def timesl(r: A, v: Position[A]): Position[A] =

@@ -1,12 +1,13 @@
 package cilib
 package example
 
+/*
 import Lenses._
 import eu.timepit.refined.auto._
-import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
+import zio.prelude.{ Comparison => _, _ }
 
 import cilib.ga._
 
@@ -29,14 +30,14 @@ object GAExample extends zio.App {
           List(
             a.pos.take(p) ++ b.pos.drop(p),
             b.pos.take(p) ++ a.pos.drop(p)
-          ).traverse(_.toNel.map(x => Entity((), Position(x, a.pos.boundary))))
+          ).forEach(x => NonEmptyList.fromIterableOption(x).map(x => Entity((), Position(x, a.pos.boundary))))
             .getOrElse(List.empty[Ind])
         )
       case _ => sys.error("Incorrect number of parents")
     }
 
   def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] =
-    xs.traverse { x =>
+    xs.forEach { x =>
       _position.modifyF((p: Position[Double]) =>
         p.traverse(z =>
           for {
@@ -69,3 +70,4 @@ object GAExample extends zio.App {
   def run(args: List[String]) =
     putStrLn(exec.Runner.repeat(1000, cullingGA, swarm).run(env).run(RNG.fromTime).toString).exitCode
 }
+ */

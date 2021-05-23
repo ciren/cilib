@@ -1,6 +1,7 @@
 package cilib
 package example
 
+/*
 import eu.timepit.refined.auto._
 import scalaz.NonEmptyList
 import scalaz._
@@ -54,3 +55,4 @@ object GCPSO extends zio.App {
   }
 
 }
+ */

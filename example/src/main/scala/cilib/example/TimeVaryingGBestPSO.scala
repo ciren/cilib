@@ -1,6 +1,6 @@
 package cilib
 package example
-
+/*
 import eu.timepit.refined.auto._
 import scalaz._
 import spire.implicits._
@@ -80,3 +80,4 @@ object TimeVaryingGBestPSO extends zio.App {
       )
   }
 }
+ */

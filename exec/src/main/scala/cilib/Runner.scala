@@ -184,18 +184,13 @@ object Runner {
       Measurement(algorithm, problem, iteration, env, seed, f(state, value))
   }
 
-  /*
 
-  def repeat[M[_]: Monad, F[_], A](n: Int, alg: Kleisli[M, F[A], F[A]], collection: RVar[F[A]])(
-    implicit M: MonadStep[M]
-  ): M[F[A]] =
-    M.liftR(collection)
-      .flatMap(coll =>
-        (1 to n).toList.foldLeftM[M, F[A]](coll) { (a, _) =>
-          alg.run(a)
-        }
-      )
+  def repeat[M[+_]: IdentityFlatten: Covariant, F[+_], A](n: Int, alg: F[A] => M[F[A]], collection: RVar[F[A]])(implicit M: MonadStep[M]): M[F[A]] = {
+    M.liftR(collection).flatMap(coll =>
+      (1 to n).toList.foldLeftM(coll) { (a, _) =>
+        alg.apply(a)
+      }
+    )
+  }
 
-
- */
 }

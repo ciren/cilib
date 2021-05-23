@@ -1,6 +1,6 @@
 package cilib
 package example
-
+/*
 import eu.timepit.refined.auto._
 import scalaz._, Scalaz._
 import spire.implicits._
@@ -39,3 +39,4 @@ object RandomSearchGA extends zio.App {
   def run(args: List[String]) =
     putStrLn(Runner.repeat(1000, myGA, swarm).run(env).run(RNG.fromTime).toString).exitCode
 }
+ */

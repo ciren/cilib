@@ -1,6 +1,6 @@
 package cilib
 package example
-
+/*
 import eu.timepit.refined.auto._
 import scalaz._, Scalaz._
 import spire.implicits._
@@ -51,3 +51,4 @@ object Mixed extends zio.App {
   def run(args: List[String]) =
     putStrLn(Runner.repeat(1000, alg, swarm).run(env).run(RNG.fromTime).toString).exitCode
 }
+ */

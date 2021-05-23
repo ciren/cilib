@@ -1,6 +1,6 @@
 package cilib
 package example
-
+/*
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
@@ -30,3 +30,4 @@ object NMPCPSO extends zio.App {
     putStrLn(Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime).toString).exitCode
 
 }
+ */

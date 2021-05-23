@@ -14,7 +14,7 @@ object Selection {
           case None    => 0
           case Some((_, i)) => (i - (n / 2) + size) % size
         }
-      lazy val c: Stream[A] = list.toStream ++ c
+      lazy val c: Stream[A] = Stream(list: _*) #::: c
 
       c.drop(point).take(n).toList
     }
