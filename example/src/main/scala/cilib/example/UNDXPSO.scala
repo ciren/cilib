@@ -1,6 +1,6 @@
 package cilib
 package example
-/*
+
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
@@ -29,7 +29,6 @@ object UNDXPSO extends zio.App {
     program.exitCode
 
   val program =
-    putStrLn(Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime).toString)
+    putStrLn(Runner.repeat(1000, iter, swarm).provide(env).runAll(RNG.fromTime).toString)
 
 }
- */

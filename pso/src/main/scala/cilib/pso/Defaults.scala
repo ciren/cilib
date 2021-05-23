@@ -2,7 +2,6 @@ package cilib
 package pso
 
 import PSO._
-import _root_.scala.Predef.{ any2stringadd => _, _ }
 import zio.prelude.NonEmptyList
 import spire.implicits._
 
@@ -90,8 +89,7 @@ object Defaults {
   // attached to it.
   def gcpso[S](w: Double, c1: Double, c2: Double, cognitive: Guide[S, Double])(
     implicit M: HasMemory[S, Double],
-    V: HasVelocity[S, Double],
-    ev: Exception <:< Nothing
+    V: HasVelocity[S, Double]
     //S: MonadState[StepS[GCParams, *], GCParams]
   ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => StepS[GCParams, Particle[S, Double]] =
     collection =>
