@@ -1,10 +1,10 @@
 package cilib
 package example
-/*
+
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
-import zio._
+import zio.console._
 
 import cilib.exec._
 import cilib.pso.Defaults._
@@ -30,16 +30,6 @@ object VonNeumannPSO extends zio.App {
   val iter = Iteration.sync(gbestPSO)
 
   def run(args: List[String]) =
-    ZIO.fromEither(Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime)._2.toEither).exitCode
-
-  // result._2 match {
-  //   case -\/(error) =>
-  //     throw error
-
-  //   case \/-(value) =>
-  //     val positions = value.map(x => Lenses._position.get(x))
-  //     putStrLn(positions.toString)
-  // }
+    putStrLn(Runner.repeat(1000, iter, swarm).provide(env).runAll(RNG.fromTime).toString).exitCode
 
 }
- */
