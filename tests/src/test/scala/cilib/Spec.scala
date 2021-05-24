@@ -1,4 +1,4 @@
-package cilib
+/*package cilib
 
 import org.scalacheck._
 
@@ -18,3 +18,4 @@ abstract class Spec(name: String) extends Properties(name) {
     ()
   }
 }
+ */

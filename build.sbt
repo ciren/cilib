@@ -5,12 +5,13 @@ val scalazVersion     = "7.3.2"
 val spireVersion      = "0.17.0-RC1"
 val parquet4sVersion  = "1.3.1"
 val scalacheckVersion = "1.14.3"
-val zioVersion        = "1.0.6"
 
 val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
-val zio = "dev.zio" %% "zio" % zioVersion
-val zioStreams = "dev.zio" %% "zio-streams" % zioVersion
+val zio = "dev.zio" %% "zio" % Version.zio
+val zioStreams = "dev.zio" %% "zio-streams" % Version.zio
 val zioPrelude = "dev.zio" %% "zio-prelude" % "1.0.0-RC3"
+val zioTest    = "dev.zio" %% "zio-test"     % Version.zio % "test"
+val zioTestSbt = "dev.zio" %% "zio-test-sbt" % Version.zio % "test"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -233,6 +234,7 @@ lazy val tests = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(publish / skip := true)
   .settings(test / javaOptions += "-Xmx1G")
+  .settings(testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")))
   .settings(
     libraryDependencies ++= Seq(
       "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test"

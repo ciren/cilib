@@ -1,4 +1,4 @@
-package cilib
+/*package cilib
 
 import org.scalacheck.Gen
 import org.scalacheck.Prop._
@@ -50,3 +50,4 @@ object GeneratorTest extends Spec("Distribution") {
   }
 
 }
+ */

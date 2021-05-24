@@ -1,4 +1,4 @@
-package cilib
+/*package cilib
 
 import eu.timepit.refined._
 import eu.timepit.refined.numeric.Positive
@@ -63,3 +63,4 @@ object RVarTests extends Spec("RVar") {
     }
   }
 }
+ */

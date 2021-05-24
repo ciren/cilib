@@ -1,63 +1,70 @@
 package cilib
 
-import org.scalacheck.Arbitrary._
-import org.scalacheck.Gen._
-import org.scalacheck.Prop._
-import org.scalacheck._
-import scalaz.NonEmptyList
 import spire.implicits._
 import spire.math.Interval
 
-object BoundaryTest extends Spec("Boundary enforcement") {
+import zio.test._
+import zio.prelude._
 
-  val doubleGen = Gen.choose(-1000000.0, 1000000.0)
+object BoundarySpec extends DefaultRunnableSpec {
 
-  val intervalGen: Gen[Interval[Double]] =
+   val intervalGen =
     for {
-      a <- doubleGen
-      b <- doubleGen suchThat (_ > a)
+      a <- Gen.anyDouble
+      b <- Gen.anyDouble
+      if b > a
     } yield Interval(a, b)
 
-  implicit def arbInterval = Arbitrary { intervalGen }
 
   val intervalPairGen =
     for {
       b     <- intervalGen
-      a     <- Gen.choose(b.lowerValue, b.upperValue)
-      scale <- Gen.choose(1, 50)
+      a     <- Gen.elements(b.lowerValue, b.upperValue)
+      scale <- Gen.elements(1, 50)
     } yield (a * scale, b)
 
-  property("absorb") = forAll { (a: Double, b: Interval[Double]) =>
-    val p = Position(NonEmptyList(a), NonEmptyList(b))
-    val enforced =
-      Boundary.enforce(p, Boundary.absorb[Double]).value
 
-    enforced.list.toList.forall(b.contains)
-  }
+  override def spec: ZSpec[Environment, Failure] = suite("Boundary enforcement")(
+    testM("absorb") {
+      check(Gen.anyDouble, intervalGen) { case (double, interval) =>
+        val p = Position(NonEmptyList(double), NonEmptyList(interval))
+        val enforced =
+          Id.unwrap(Boundary.enforce(p, Boundary.absorb[Double]))
 
-  property("random") = forAll { (a: Double, b: Interval[Double], rng: Long) =>
-    val p = Position(NonEmptyList(a), NonEmptyList(b))
-    val enforced =
-      Boundary
-        .enforce(p, Boundary.random[Double])
-        .eval(RNG.init(rng))
+        assert(enforced.toList.forall(interval.contains))(Assertion.isTrue)
+      }
+    },
 
-    enforced.list.toList.forall(b.contains)
-  }
+    testM("random") {
+      check(Gen.anyDouble, intervalGen, Gen.anyLong) { case (a, b, seed) =>
+        val p = Position(NonEmptyList(a), NonEmptyList(b))
+        val enforced =
+          Boundary
+            .enforce(p, Boundary.random[Double])
+            .runResult(RNG.init(seed))
 
-  property("reflect") = forAll(intervalPairGen) { (x: (Double, Interval[Double])) =>
-    val p = Position(NonEmptyList(x._1), NonEmptyList(x._2))
-    val enforced =
-      Boundary.enforce(p, Boundary.reflect[Double]).value
+        assert(enforced.toList.forall(b.contains))(Assertion.isTrue)
+      }
+    },
 
-    enforced.list.toList.forall(x._2.contains)
-  }
+    testM("reflect") {
+      check(intervalPairGen) { case ((double, interval)) =>
+        val p = Position(NonEmptyList(double), NonEmptyList(interval))
+        val enforced =
+          Id.unwrap(Boundary.enforce(p, Boundary.reflect[Double]))
 
-  property("toroidal") = forAll { (a: Double, b: Interval[Double]) =>
-    val p = Position(NonEmptyList(a), NonEmptyList(b))
-    val enforced =
-      Boundary.enforce(p, Boundary.toroidal[Double]).value
+        assert(enforced.toList.forall(interval.contains))(Assertion.isTrue)
+      }
+    },
 
-    enforced.list.toList.forall(b.contains)
-  }
+    testM("toroidal") {
+      check(Gen.anyDouble, intervalGen) { case (double, interval) =>
+        val p = Position(NonEmptyList(double), NonEmptyList(interval))
+        val enforced =
+          Id.unwrap(Boundary.enforce(p, Boundary.toroidal[Double]))
+
+        assert(enforced.toList.forall(interval.contains))(Assertion.isTrue)
+      }
+    }
+  )
 }

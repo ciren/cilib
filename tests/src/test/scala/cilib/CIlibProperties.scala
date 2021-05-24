@@ -1,4 +1,4 @@
-package cilib
+/*package cilib
 
 import org.scalacheck.Prop._
 import org.scalacheck._
@@ -47,3 +47,4 @@ object CIlibProperties {
 
   }
 }
+ */
