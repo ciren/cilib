@@ -119,7 +119,9 @@ object BuildHelper {
     name := prjName,
     crossScalaVersions := Seq("2.12.13", "2.13.5"),
     ThisBuild / scalaVersion := crossScalaVersions.value.head,
+    testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
     scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
+    Compile / console / scalacOptions ~= { _.filterNot(Set("-Xfatal-warnings")) },
     libraryDependencies ++= {
       // if (isDotty.value)
       //   Seq(("com.github.ghik" % "silencer-lib_2.13.1" % "1.6.0" % Provided).withDottyCompat(scalaVersion.value))

@@ -10,8 +10,8 @@ val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
 val zio = "dev.zio" %% "zio" % Version.zio
 val zioStreams = "dev.zio" %% "zio-streams" % Version.zio
 val zioPrelude = "dev.zio" %% "zio-prelude" % "1.0.0-RC3"
-val zioTest    = "dev.zio" %% "zio-test"     % Version.zio % "test"
-val zioTestSbt = "dev.zio" %% "zio-test-sbt" % Version.zio % "test"
+val zioTest    = "dev.zio" %% "zio-test"     % Version.zio % Test
+val zioTestSbt = "dev.zio" %% "zio-test-sbt" % Version.zio % Test
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -43,13 +43,6 @@ addCommandAlias(
 )
 addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
 addCommandAlias("fmtCheck", "all root/scalafmtSbtCheck root/scalafmtCheckAll")
-
-//   initialCommands in console := """
-//     |import scalaz._
-//     |import Scalaz._
-//     |import cilib._
-//     |import spire.implicits._
-//     |""".stripMargin
 
 // lazy val publishSettings = Seq(
 //   autoAPIMappings := true,
@@ -234,13 +227,8 @@ lazy val tests = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(publish / skip := true)
   .settings(test / javaOptions += "-Xmx1G")
-  .settings(testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")))
-  .settings(
-    libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test"
-      //"org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
-    )
-  )
+  .settings(run / fork := true)
+  .settings(libraryDependencies ++= Seq(zioTest, zioTestSbt))
   .enablePlugins(BuildInfoPlugin)
 
 lazy val io = project
