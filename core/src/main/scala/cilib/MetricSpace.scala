@@ -1,11 +1,10 @@
 package cilib
 
-import scalaz.Scalaz._
-import scalaz.{ Order => _, _ }
 import spire.algebra.{ Semigroup => _, _ }
 import spire.implicits._
 import spire.math._
 import spire.math.{ abs, max }
+import zio.prelude._
 
 /**
   A MetricSpace is a set together with a notion of distance between elements.
@@ -41,10 +40,10 @@ object MetricSpace {
       def dist(x: String, y: String): B = {
         def f(i: Int, j: Int): State[Memo, Int] =
           (i, j) match {
-            case (i, 0) => State(s => (s, i))
-            case (0, j) => State(s => (s, j))
+            case (i, 0) => zio.prelude.fx.ZPure.succeed(i)
+            case (0, j) => zio.prelude.fx.ZPure.succeed(j)
             case (i, j) =>
-              State(memo =>
+              zio.prelude.fx.ZPure.modify(memo =>
                 memo.get((i, j)) match {
                   case Some(value) => (memo, value)
                   case None =>
@@ -56,12 +55,12 @@ object MetricSpace {
                       a + 1,
                       b + 1,
                       c + (if (x(i - 1) == y(j - 1)) 0 else 1)
-                    ).minimum1).run(memo)
+                    ).min).run(memo)
                 }
               )
           }
 
-        B.fromInt(f(x.length, y.length).eval(Map.empty))
+        B.fromInt(f(x.length, y.length).runResult(Map.empty))
       }
     }
 
@@ -70,14 +69,14 @@ object MetricSpace {
       def dist(x: A, y: A) = B.fromInt(if (A.equal(x, y)) 0 else 1)
     }
 
-  def minkowski[F[_]: Foldable, A: Signed: Field, B](
+  def minkowski[F[+_], A: Signed: Field, B](
     alpha: Int
-  )(implicit A: Fractional[A], ev: Field[B]): MetricSpace[F[A], B] =
+  )(implicit F: ForEach[F], A: Fractional[A], ev: Field[B]): MetricSpace[F[A], B] =
     new MetricSpace[F[A], B] {
       def dist(x: F[A], y: F[A]) =
         ev.fromDouble(
-          x.toList
-            .zip(y.toList)
+          F.toList(x)
+            .zip(F.toList(y))
             .map { case (ai, bi) => abs(ai - bi) ** alpha }
             .foldLeft(0.0) { (ai, bi) =>
               (ai + A.toDouble(bi)) ** (1.0 / alpha)
@@ -85,27 +84,27 @@ object MetricSpace {
         )
     }
 
-  def manhattan[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field]: MetricSpace[F[A], B] =
+  def manhattan[F[+_]: ForEach, A: Signed: Field: Fractional, B: Fractional: Field]: MetricSpace[F[A], B] =
     minkowski[F, A, B](1)
 
-  def euclidean[F[_]: Foldable, A: Signed: Field: Fractional, B: Fractional: Field]: MetricSpace[F[A], B] =
+  def euclidean[F[+_]: ForEach, A: Signed: Field: Fractional, B: Fractional: Field]: MetricSpace[F[A], B] =
     minkowski[F, A, B](2)
 
-  def chebyshev[F[_]: Foldable, A: Order: Signed](implicit ev: Ring[A]): MetricSpace[F[A], A] =
+  def chebyshev[F[+_], A: Order: Signed](implicit ev: Ring[A], F: ForEach[F]): MetricSpace[F[A], A] =
     new MetricSpace[F[A], A] {
       def dist(x: F[A], y: F[A]) =
-        x.toList
-          .zip(y.toList)
+        F.toList(x)
+          .zip(F.toList(y))
           .map { case (ai, bi) => abs(ai - bi) }
           .foldLeft(ev.zero) { (ai, bi) =>
             max(ai, bi)
           }
     }
 
-  def hamming[F[_]: Foldable, A]: MetricSpace[F[A], Int] =
+  def hamming[F[+_], A](implicit F: ForEach[F]): MetricSpace[F[A], Int] =
     new MetricSpace[F[A], Int] {
       def dist(x: F[A], y: F[A]) =
-        x.toList.zip(y.toList).filter { case (ai, bi) => ai != bi }.size
+        F.toList(x).zip(F.toList(y)).filter { case (ai, bi) => ai != bi }.size
     }
 
   def pure[A, B](a: B): MetricSpace[A, B] =
@@ -113,32 +112,21 @@ object MetricSpace {
       def dist(x: A, y: A) = a
     }
 
-  implicit def metricSpaceProfunctor: Profunctor[MetricSpace] =
-    new Profunctor[MetricSpace] {
-      def mapfst[A, B, C](fab: MetricSpace[A, B])(f: C => A): MetricSpace[C, B] =
-        new MetricSpace[C, B] {
-          def dist(x: C, y: C): B =
-            fab.dist(f(x), f(y))
-        }
 
-      def mapsnd[A, B, C](fab: MetricSpace[A, B])(f: B => C): MetricSpace[A, C] =
-        fab.map(f)
-    }
-
-  implicit def metricSpaceSemiGroup[A, B](implicit B: Semigroup[B]): Semigroup[MetricSpace[A, B]] =
-    new Semigroup[MetricSpace[A, B]] {
-      def append(f1: MetricSpace[A, B], f2: => MetricSpace[A, B]) =
+  implicit def MetricSpaceAssociative[A, B](implicit B: Associative[B]): Associative[MetricSpace[A, B]] =
+    new Associative[MetricSpace[A, B]] {
+      def combine(l: => MetricSpace[A,B], r: => MetricSpace[A,B]): MetricSpace[A,B] =
         new MetricSpace[A, B] {
-          def dist(x: A, y: A) = B.append(f1.dist(x, y), f2.dist(x, y))
+          def dist(x: A, y: A) = B.combine(l.dist(x, y), r.dist(x, y))
         }
     }
 
-  implicit def metricSpaceMonad[A]: Monad[MetricSpace[A, *]] =
-    new Monad[MetricSpace[A, *]] {
-      def point[B](a: => B): MetricSpace[A, B] =
-        MetricSpace.pure[A, B](a)
-
-      def bind[B, C](fa: MetricSpace[A, B])(f: B => MetricSpace[A, C]): MetricSpace[A, C] =
-        fa.flatMap(f)
-    }
+  // implicit def metricSpaceMonad[A]: Monad[MetricSpace[A, *]] =
+  //   new Monad[MetricSpace[A, *]] {
+  //     def point[B](a: => B): MetricSpace[A, B] =
+  //       MetricSpace.pure[A, B](a)
+  //
+  //     def bind[B, C](fa: MetricSpace[A, B])(f: B => MetricSpace[A, C]): MetricSpace[A, C] =
+  //       fa.flatMap(f)
+  //   }
 }

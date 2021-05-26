@@ -12,8 +12,6 @@ object DotProdTest extends DefaultRunnableSpec {
   val interval           = Interval(-10.0, 10.0)
   def boundary(dim: Int) = interval ^ dim
 
-  val dimGen = Gen.anyInt.map(_ >= 1)
-
   def nelGen(dim: Int) =
     for {
       head <- Gen.int(-10, 10)
