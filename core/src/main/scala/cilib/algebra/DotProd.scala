@@ -3,7 +3,6 @@ package algebra
 
 import spire.algebra._
 import spire.implicits._
-
 import zio.prelude._
 
 trait DotProd[F[_], A] {
@@ -63,7 +62,7 @@ object Algebra {
     if (D.dot(other, other) == F2.zero) F.map((_: Any) => F2.zero)(other)
     else (D.dot(x, other) / D.dot(other, other)) *: other
 
-  def orthonormalize[F[+_]: Covariant : ForEach, A: NRoot](
+  def orthonormalize[F[+_]: Covariant: ForEach, A: NRoot](
     vs: NonEmptyList[F[A]]
   )(implicit D: DotProd[F, A], M: LeftModule[F[A], Double], A: Field[A]): NonEmptyList[F[A]] = {
     val bases = vs.foldLeft(NonEmptyList(vs.head)) { (ob, v) =>

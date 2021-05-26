@@ -1,8 +1,8 @@
 package cilib
 package syntax
 
-import zio.prelude._
 import spire.algebra._
+import zio.prelude._
 
 import cilib.algebra._
 

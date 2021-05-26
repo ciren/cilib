@@ -41,8 +41,6 @@ trait HasPBestStagnation[A] {
   def _pbestStagnation: Lens[A, Int]
 }
 
-
-
 // Below is a very bare implementation of functional references. This
 // implementation exists because the additional dependencies pulled in
 // by monocle is just too much (i.e. cats is an indirect dependency
@@ -55,7 +53,6 @@ case class Lens[A, B](
   def modify(a: A, f: B => B) =
     set(a, f(get(a)))
 }
-
 
 object Lenses {
   import zio.prelude._

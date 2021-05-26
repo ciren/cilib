@@ -2,8 +2,8 @@ package cilib
 package pso
 
 import PSO._
-import zio.prelude.NonEmptyList
 import spire.implicits._
+import zio.prelude.NonEmptyList
 
 object Defaults {
 

@@ -8,8 +8,8 @@ import spire.math.Interval
 import zio._
 import zio.blocking.Blocking
 import zio.console._
-import zio.stream._
 import zio.prelude.{ Comparison => _, _ }
+import zio.stream._
 
 import cilib.exec.Runner._
 import cilib.exec._
@@ -77,13 +77,18 @@ object FileOutput extends zio.App {
   // A performance measure that we apply to the collection at the end of each iteration.
   def performanceMeasure =
     measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results] { collection =>
-      val fitnessValues = collection.map(x => x.pos.objective.flatMap(_.fitness match {
-        case Left(f) => f match {
-          case Feasible(v) => Some(v)
-          case _ => None
-        }
-        case _ => None
-      }).getOrElse(Double.PositiveInfinity))
+      val fitnessValues = collection.map(x =>
+        x.pos.objective
+          .flatMap(_.fitness match {
+            case Left(f) =>
+              f match {
+                case Feasible(v) => Some(v)
+                case _           => None
+              }
+            case _ => None
+          })
+          .getOrElse(Double.PositiveInfinity)
+      )
 
       //val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
       // val fitnessValues =
@@ -142,10 +147,10 @@ object FileOutput extends zio.App {
       result <- getStrLn
       choice <- ZIO.fromTry(scala.util.Try(result.toInt))
       _ <- writeResults(choice match {
-        case 1 => Parquet
-        case 2 => CSV
-        case _ => Invalid
-      })
+            case 1 => Parquet
+            case 2 => CSV
+            case _ => Invalid
+          })
       _ <- putStrLn("Complete.")
     } yield ()
 

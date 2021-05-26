@@ -112,10 +112,9 @@ object MetricSpace {
       def dist(x: A, y: A) = a
     }
 
-
   implicit def MetricSpaceAssociative[A, B](implicit B: Associative[B]): Associative[MetricSpace[A, B]] =
     new Associative[MetricSpace[A, B]] {
-      def combine(l: => MetricSpace[A,B], r: => MetricSpace[A,B]): MetricSpace[A,B] =
+      def combine(l: => MetricSpace[A, B], r: => MetricSpace[A, B]): MetricSpace[A, B] =
         new MetricSpace[A, B] {
           def dist(x: A, y: A) = B.combine(l.dist(x, y), r.dist(x, y))
         }

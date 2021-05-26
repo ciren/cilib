@@ -6,7 +6,7 @@ import zio.test._
 
 object MetricSpaceTest extends DefaultRunnableSpec {
 
-  val doubleGen = Gen.double(-1000000.0, 1000000.0)
+  val doubleGen     = Gen.double(-1000000.0, 1000000.0)
   val doubleListGen = Gen.listOf(doubleGen)
 
   val listTuple2 = Gen.sized { size =>
@@ -23,8 +23,6 @@ object MetricSpaceTest extends DefaultRunnableSpec {
       z <- Gen.listOfN(size)(doubleGen)
     } yield (x, y, z)
   }
-
-
 
   val euclidean = MetricSpace.euclidean[List, Double, Double]
   val manhattan = MetricSpace.manhattan[List, Double, Double]
@@ -45,60 +43,60 @@ object MetricSpaceTest extends DefaultRunnableSpec {
   def triangle[A, B](m: MetricSpace[A, B], a: A, b: A, c: A)(implicit F: Field[B], O: Order[B]) =
     O.lteqv(m.dist(a, c), m.dist(a, b) + m.dist(b, c))
 
-
   override def spec: ZSpec[Environment, Failure] = suite("metric space")(
     testM("non-negativity") {
-      check(listTuple2) { case (x, y) =>
-        nonnegative(euclidean, x, y) &&
-        nonnegative(manhattan, x, y) &&
-        nonnegative(chebyshev, x, y)
+      check(listTuple2) {
+        case (x, y) =>
+          nonnegative(euclidean, x, y) &&
+            nonnegative(manhattan, x, y) &&
+            nonnegative(chebyshev, x, y)
       }
     },
-
     testM("hamming metric space") {
-      check(doubleListGen, doubleListGen) { case (x, y) =>
-        nonnegative(hamming, x, y) &&
-        symmetry(hamming, x, y) &&
-        assert(hamming.dist(x, x))(Assertion.equalTo(0))
+      check(doubleListGen, doubleListGen) {
+        case (x, y) =>
+          nonnegative(hamming, x, y) &&
+            symmetry(hamming, x, y) &&
+            assert(hamming.dist(x, x))(Assertion.equalTo(0))
       }
     },
-
     testM("identity of indiscernibles") {
-      check(doubleListGen) { case l =>
-        indisc(euclidean, l) &&
-        indisc(manhattan, l) &&
-        indisc(chebyshev, l)
+      check(doubleListGen) {
+        case l =>
+          indisc(euclidean, l) &&
+            indisc(manhattan, l) &&
+            indisc(chebyshev, l)
       }
     },
-
     testM("identity") {
-      check(listTuple2) { case (x, _) =>
-        assert(euclidean.dist(x, x))(Assertion.equalTo(0.0)) &&
-        assert(manhattan.dist(x, x))(Assertion.equalTo(0.0)) &&
-        assert(chebyshev.dist(x, x))(Assertion.equalTo(0.0))
+      check(listTuple2) {
+        case (x, _) =>
+          assert(euclidean.dist(x, x))(Assertion.equalTo(0.0)) &&
+            assert(manhattan.dist(x, x))(Assertion.equalTo(0.0)) &&
+            assert(chebyshev.dist(x, x))(Assertion.equalTo(0.0))
 
         // TODO: Another test to verify
 //    hamming.dist(x, x) === 0 &&
         // (x =!= y) ==> (euclidean.dist(x, y) =!= 0.0) &&
-    //     (x =!= y) ==> (manhattan.dist(x, y) =!= 0.0) &&
-    //     (x =!= y) ==> (chebyshev.dist(x, y) =!= 0.0) //&&
-    // (x =!= y) ==> (hamming.dist(x, y) =!= 0)
+        //     (x =!= y) ==> (manhattan.dist(x, y) =!= 0.0) &&
+        //     (x =!= y) ==> (chebyshev.dist(x, y) =!= 0.0) //&&
+        // (x =!= y) ==> (hamming.dist(x, y) =!= 0)
       }
     },
-
     testM("symmetry") {
-      check(listTuple2) { case (x, y) =>
-        symmetry(euclidean, x, y) &&
-        symmetry(manhattan, x, y) &&
-        symmetry(chebyshev, x, y)
+      check(listTuple2) {
+        case (x, y) =>
+          symmetry(euclidean, x, y) &&
+            symmetry(manhattan, x, y) &&
+            symmetry(chebyshev, x, y)
       }
     },
-
     testM("triangle-inequality") {
-      check(listTuple3) { case (x, y, z) =>
-        assert(triangle(euclidean, x, y, z))(Assertion.isTrue) &&
-        assert(triangle(manhattan, x, y, z))(Assertion.isTrue) &&
-        assert(triangle(chebyshev, x, y, z))(Assertion.isTrue)
+      check(listTuple3) {
+        case (x, y, z) =>
+          assert(triangle(euclidean, x, y, z))(Assertion.isTrue) &&
+            assert(triangle(manhattan, x, y, z))(Assertion.isTrue) &&
+            assert(triangle(chebyshev, x, y, z))(Assertion.isTrue)
       }
     }
   )

@@ -23,19 +23,19 @@ object DotProdTest extends DefaultRunnableSpec {
   val D = implicitly[DotProd[Position, Int]]
   val N = implicitly[Numeric[Int]]
 
-  override def spec: ZSpec[Environment,Failure] = suite("dot product")(
+  override def spec: ZSpec[Environment, Failure] = suite("dot product")(
     testM("commutativity") {
-      check(positionGen(10), positionGen(10)) { case (a,b) =>
-        assert(D.dot(a, b) == D.dot(b, a))(Assertion.isTrue)
+      check(positionGen(10), positionGen(10)) {
+        case (a, b) =>
+          assert(D.dot(a, b) == D.dot(b, a))(Assertion.isTrue)
       }
     },
-
     testM("distributive") {
-      check(positionGen(10), positionGen(10), positionGen(10)) { case (a, b, c) =>
-        assert(D.dot(a, b + c) == D.dot(a, b) + D.dot(a, c))(Assertion.isTrue)
+      check(positionGen(10), positionGen(10), positionGen(10)) {
+        case (a, b, c) =>
+          assert(D.dot(a, b + c) == D.dot(a, b) + D.dot(a, c))(Assertion.isTrue)
       }
     },
-
     testM("bilinear") {
       check(positionGen(10), positionGen(10), positionGen(10), Gen.int(-10000, 10000)) {
         case (a, b, c, r) =>
@@ -44,7 +44,6 @@ object DotProdTest extends DefaultRunnableSpec {
           assert(result)(Assertion.isTrue)
       }
     },
-
     testM("scalar multiplication") {
       check(positionGen(10), positionGen(10), Gen.int(-1000, 1000), Gen.int(-1000, 1000)) {
         case (a, b, c1, c2) =>

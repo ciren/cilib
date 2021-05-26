@@ -26,16 +26,20 @@ object Iteration {
   //def sync_[M[_]:Applicative,A,B:Monoid](f: List[A] => A => M[B]): Kleisli[M,List[A],List[B]] =
   //Kleisli.kleisli((l: List[A]) => l traverseU f(l))//Functor[M].map(l traverseU f(l))(x => x))
 
-  def sync_[M[+_]: Covariant : IdentityBoth, A, B](f: NonEmptyList[A] => A => M[B]): NonEmptyList[A] => M[NonEmptyList[B]] =
+  def sync_[M[+_]: Covariant: IdentityBoth, A, B](
+    f: NonEmptyList[A] => A => M[B]
+  ): NonEmptyList[A] => M[NonEmptyList[B]] =
     (l: NonEmptyList[A]) => ForEach[NonEmptyList].forEach(l)(f(l))
 
   def sync[A, B](f: NonEmptyList[A] => A => Step[B]): NonEmptyList[A] => Step[NonEmptyList[B]] =
     sync_[zio.prelude.fx.ZPure[Nothing, RNG, RNG, Environment, Exception, +*], A, B](f)
 
-  def syncS[S, A, B](f: NonEmptyList[A] => A => StepS[S, B]):  NonEmptyList[A] => StepS[S, NonEmptyList[B]] =
+  def syncS[S, A, B](f: NonEmptyList[A] => A => StepS[S, B]): NonEmptyList[A] => StepS[S, NonEmptyList[B]] =
     sync_[StepS[S, +*], A, B](f)
 
-  def async_[M[+_]: Covariant : IdentityBoth : IdentityFlatten, A](f: NonEmptyList[A] => A => M[A]): NonEmptyList[A] => M[NonEmptyList[A]] =
+  def async_[M[+_]: Covariant: IdentityBoth: IdentityFlatten, A](
+    f: NonEmptyList[A] => A => M[A]
+  ): NonEmptyList[A] => M[NonEmptyList[A]] =
     (l: NonEmptyList[A]) => {
       val intermediate: M[List[A]] =
         ForEach[NonEmptyList].foldLeftM(l)(List.empty[A]) { (a, c) =>

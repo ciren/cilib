@@ -1,8 +1,8 @@
 package cilib
 
 import spire.implicits._
-import zio.test._
 import zio.prelude._
+import zio.test._
 
 object SelectionTests extends DefaultRunnableSpec {
 
@@ -12,17 +12,18 @@ object SelectionTests extends DefaultRunnableSpec {
   val ringDistance = Selection.distanceNeighbours[NonEmptyList, Double](MetricSpace.euclidean)(3)
 
   def nelGen(dim: Int) =
-    Gen.listOfN(dim)(Gen.int(-10, 10))
+    Gen
+      .listOfN(dim)(Gen.int(-10, 10))
       .map(x => NonEmptyList.fromIterableOption(x).get)
 
-
-  override def spec: ZSpec[Environment,Failure] = suite("selection")(
+  override def spec: ZSpec[Environment, Failure] = suite("selection")(
     testM("star") {
-      check(nelGen(10)) { case (a) =>
-        val selection = star(a, a.head)
+      check(nelGen(10)) {
+        case (a) =>
+          val selection = star(a, a.head)
 
-        assert(selection.length == a.length)(Assertion.isTrue) &&
-        assert(selection)(Assertion.hasSubset(a))
+          assert(selection.length == a.length)(Assertion.isTrue) &&
+          assert(selection)(Assertion.hasSubset(a))
       }
     },
     test("star units") {
@@ -31,12 +32,12 @@ object SelectionTests extends DefaultRunnableSpec {
       assert(star(NonEmptyList(1, 2, 3), 1))(Assertion.equalTo(List(1, 2, 3))) &&
       assert(star(NonEmptyList(1, 2, 3, 4, 5), 3))(Assertion.equalTo(List(1, 2, 3, 4, 5)))
     },
-
     testM("indexNeighbours") {
-      check(nelGen(10)) { case (a) =>
-        val selection = ring(a, a.head)
+      check(nelGen(10)) {
+        case (a) =>
+          val selection = ring(a, a.head)
 
-        assert(selection.length)(Assertion.equalTo(3))
+          assert(selection.length)(Assertion.equalTo(3))
         //assert(selection)(Assertion.hasSubset(a))
         //assert(selection)(Assertion.contains(a.head))
       }
@@ -48,13 +49,13 @@ object SelectionTests extends DefaultRunnableSpec {
       assert(ring(NonEmptyList(1, 2, 3, 4, 5), 3))(Assertion.equalTo(List(2, 3, 4))) &&
       assert(ring(NonEmptyList(1, 2, 3, 4, 5), 5))(Assertion.equalTo(List(4, 5, 1)))
     },
-
     testM("wheel") {
-      check(nelGen(10)) { case a =>
-        val wheelHead = wheel(a, a.head)
+      check(nelGen(10)) {
+        case a =>
+          val wheelHead = wheel(a, a.head)
 
-        assert(wheelHead.length)(Assertion.equalTo(a.length)) &&
-        assert(wheelHead)(Assertion.hasSubset(a)) // && assert(wheel(a, a.last))(Assertion.hasSubset(a))
+          assert(wheelHead.length)(Assertion.equalTo(a.length)) &&
+          assert(wheelHead)(Assertion.hasSubset(a)) // && assert(wheel(a, a.last))(Assertion.hasSubset(a))
       }
     },
     test("wheel units") {
@@ -64,7 +65,6 @@ object SelectionTests extends DefaultRunnableSpec {
       assert(wheel(NonEmptyList(1, 2, 3, 4, 5), 3))(Assertion.equalTo(List(1, 3))) &&
       assert(wheel(NonEmptyList(1, 2, 3, 4, 5), 5))(Assertion.equalTo(List(1, 5)))
     },
-
     // TODO: Fix this test and generator
     // testM("distance neighbours") {
     //   check(nelGen(10)) { case a =>

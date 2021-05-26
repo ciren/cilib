@@ -1,10 +1,8 @@
 import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
-
 import spire.math.Interval
 import spire.math.interval.{ Bound, ValueBound }
-
 import zio.prelude.NonEmptyList
 import zio.prelude.These
 
@@ -49,7 +47,6 @@ package object cilib extends EvalInstances {
   def positiveInt[A](n: Int)(f: Int Refined Positive => A): A =
     refine(n)((x: Int Refined Positive) => f(x))
 
-
   implicit final class RichRVarOps[+A](rvar: RVar[A]) {
     import zio.prelude._
 
@@ -57,12 +54,11 @@ package object cilib extends EvalInstances {
       ForEach[List].forEach(List.fill(n)(rvar))(identity)
   }
 
-
   def align[A, B](a: NonEmptyList[A], b: NonEmptyList[B]): NonEmptyList[These[A, B]] = {
     def loop(list1: List[A], list2: List[B]): List[These[A, B]] =
       (list1, list2) match {
-        case (Nil, _) => list2.map(These.Right(_))
-        case (_, Nil) => list1.map(These.Left(_))
+        case (Nil, _)             => list2.map(These.Right(_))
+        case (_, Nil)             => list1.map(These.Left(_))
         case (ah :: at, bh :: bt) => These.Both(ah, bh) :: loop(at, bt)
       }
 

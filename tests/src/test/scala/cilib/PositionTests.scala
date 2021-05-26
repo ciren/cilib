@@ -4,12 +4,11 @@ import scala.Predef.{ any2stringadd => _, assert => _ }
 
 import spire.implicits._
 import spire.math.{ sqrt, Interval }
+import zio.prelude._
+import zio.test._
 
 import cilib.algebra._
 import cilib.syntax.dotprod._
-
-import zio.test._
-import zio.prelude._
 
 object PositionTests extends DefaultRunnableSpec {
 
@@ -50,79 +49,78 @@ object PositionTests extends DefaultRunnableSpec {
   // implicit val arbPositionTuple  = Arbitrary { positionTuple }
   // implicit val arbPositionDouble = Arbitrary { Gen.oneOf(zero, one, two) }
 
-  override def spec: ZSpec[Environment,Failure] = suite("Position")(
-
+  override def spec: ZSpec[Environment, Failure] = suite("Position")(
     testM("addition") {
-      check(positionGen, positionGen, positionGen) { case (a, b, c) =>
-        assert(a + b)(Assertion.equalTo(b + a)) &&
-        assert((a + b) + c)(Assertion.equalTo(a + (b + c))) &&
-        assert(a + a.zeroed)(Assertion.equalTo(a)) &&
-        assert(a + (-a))(Assertion.equalTo(a.zeroed))
+      check(positionGen, positionGen, positionGen) {
+        case (a, b, c) =>
+          assert(a + b)(Assertion.equalTo(b + a)) &&
+            assert((a + b) + c)(Assertion.equalTo(a + (b + c))) &&
+            assert(a + a.zeroed)(Assertion.equalTo(a)) &&
+            assert(a + (-a))(Assertion.equalTo(a.zeroed))
       }
     },
-
     testM("subtraction") {
-      check(positionGen) { case a =>
-        assert(a - a.zeroed)(Assertion.equalTo(a)) &&
-        assert(a - a)(Assertion.equalTo(a.zeroed)) &&
-        assert(a - (-a))(Assertion.equalTo(a + a))
+      check(positionGen) {
+        case a =>
+          assert(a - a.zeroed)(Assertion.equalTo(a)) &&
+            assert(a - a)(Assertion.equalTo(a.zeroed)) &&
+            assert(a - (-a))(Assertion.equalTo(a + a))
       }
     },
-
     testM("scalar multiplication") {
-      check(positionGen, positionGen, Gen.anyInt, Gen.anyInt) { case (a, b, n, m) =>
-        assert((n *: a).boundary)(Assertion.equalTo(a.boundary)) &&
-        assert(1 *: a)(Assertion.equalTo(a)) &&
-        assert(2 *: a)(Assertion.equalTo(a + a)) &&
-        assert(2.0 *: zero)(Assertion.equalTo(zero)) &&
-        assert(0 *: a)(Assertion.equalTo(a.zeroed)) &&
-        assert(-1 *: a)(Assertion.equalTo(-a)) &&
-        assert((n + m) *: a)(Assertion.equalTo((n *: a) + (m *: a))) &&
-        assert(n *: (a + b))(Assertion.equalTo((n *: a) + (n *: b)))
+      check(positionGen, positionGen, Gen.anyInt, Gen.anyInt) {
+        case (a, b, n, m) =>
+          assert((n *: a).boundary)(Assertion.equalTo(a.boundary)) &&
+            assert(1 *: a)(Assertion.equalTo(a)) &&
+            assert(2 *: a)(Assertion.equalTo(a + a)) &&
+            assert(2.0 *: zero)(Assertion.equalTo(zero)) &&
+            assert(0 *: a)(Assertion.equalTo(a.zeroed)) &&
+            assert(-1 *: a)(Assertion.equalTo(-a)) &&
+            assert((n + m) *: a)(Assertion.equalTo((n *: a) + (m *: a))) &&
+            assert(n *: (a + b))(Assertion.equalTo((n *: a) + (n *: b)))
       }
     },
-
     testM("negation") {
-      check(positionGen) { case a =>
-        assert(-a)(Assertion.not(Assertion.equalTo(a))) &&
-        assert(-a)(Assertion.equalTo(a.map(_ * -1))) &&
-        assert(a + (-a))(Assertion.equalTo(a.zeroed))
+      check(positionGen) {
+        case a =>
+          assert(-a)(Assertion.not(Assertion.equalTo(a))) &&
+            assert(-a)(Assertion.equalTo(a.map(_ * -1))) &&
+            assert(a + (-a))(Assertion.equalTo(a.zeroed))
       }
     },
-
     testM("is zero") {
-      check(positionGen) { case a =>
-        assert(a.zeroed.sum)(Assertion.equalTo(0)) &&
-        assert(zero.sum)(Assertion.equalTo(0.0)) &&
-        assert(one.sum)(Assertion.not(Assertion.equalTo(0.0)))
+      check(positionGen) {
+        case a =>
+          assert(a.zeroed.sum)(Assertion.equalTo(0)) &&
+            assert(zero.sum)(Assertion.equalTo(0.0)) &&
+            assert(one.sum)(Assertion.not(Assertion.equalTo(0.0)))
       }
     },
-
     testM("dot product") {
-      check(positionGen, positionGen, positionGen) { case (a, b, c) =>
-        assert(a ∙ b)(Assertion.equalTo(b ∙ a)) &&
-        assert(a ∙ (b + c))(Assertion.equalTo((a ∙ b) + (a ∙ c))) &&
-        assert(a ∙ ((2 *: b) + c))(Assertion.equalTo(2 * (a ∙ b) + (a ∙ c))) &&
-        assert((2 *: a) ∙ (3 *: b))(Assertion.equalTo(2 * 3 * (a ∙ b)))
+      check(positionGen, positionGen, positionGen) {
+        case (a, b, c) =>
+          assert(a ∙ b)(Assertion.equalTo(b ∙ a)) &&
+            assert(a ∙ (b + c))(Assertion.equalTo((a ∙ b) + (a ∙ c))) &&
+            assert(a ∙ ((2 *: b) + c))(Assertion.equalTo(2 * (a ∙ b) + (a ∙ c))) &&
+            assert((2 *: a) ∙ (3 *: b))(Assertion.equalTo(2 * 3 * (a ∙ b)))
       }
     },
-
     testM("magnitude") {
-      check(positionGen) { case a =>
-        assert(a.magnitude)(Assertion.isGreaterThanEqualTo(0.0)) &&
-        assert(zero.magnitude)(Assertion.equalTo(0.0)) &&
-        assert(one.magnitude)(Assertion.equalTo(sqrt(3.0)))
+      check(positionGen) {
+        case a =>
+          assert(a.magnitude)(Assertion.isGreaterThanEqualTo(0.0)) &&
+            assert(zero.magnitude)(Assertion.equalTo(0.0)) &&
+            assert(one.magnitude)(Assertion.equalTo(sqrt(3.0)))
       }
     },
-
     testM("normalize") {
-      check(positionGen.map(_.map(_.toDouble))) { case a =>
-        assert(a.normalize.magnitude)(Assertion.approximatelyEquals(1.0, 0.0001)) &&
-        //assert(a.normalize.pos.toIterable)(Assertion.forall(Assertion.isLessThanEqualTo(0.0))) &&
-        assert(zero.normalize.magnitude)(Assertion.approximatelyEquals(0.0, 0.0001))
+      check(positionGen.map(_.map(_.toDouble))) {
+        case a =>
+          assert(a.normalize.magnitude)(Assertion.approximatelyEquals(1.0, 0.0001)) &&
+            //assert(a.normalize.pos.toIterable)(Assertion.forall(Assertion.isLessThanEqualTo(0.0))) &&
+            assert(zero.normalize.magnitude)(Assertion.approximatelyEquals(0.0, 0.0001))
       }
     },
-
     test("mean") {
       val ps   = NonEmptyList(zero, one, two)
       val mean = Algebra.meanVector(ps)
@@ -131,7 +129,6 @@ object PositionTests extends DefaultRunnableSpec {
       assert(ps.forall(_.boundary === mean.boundary))(Assertion.isTrue) &&
       assert(ps.forall(_.pos.length === mean.pos.length))(Assertion.isTrue)
     },
-
     test("orthonormalize") {
       val ps   = NonEmptyList(zero, one, two)
       val orth = Algebra.orthonormalize(ps)

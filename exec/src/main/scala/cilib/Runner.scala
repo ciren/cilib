@@ -3,10 +3,9 @@ package exec
 
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.collection._
-
-import zio.stream._
 import zio._
 import zio.prelude._
+import zio.stream._
 
 final case class Algorithm[A](name: String Refined NonEmpty, value: A)
 final case class Problem(name: String Refined NonEmpty, env: Env, eval: Eval[NonEmptyList])
@@ -25,25 +24,27 @@ object Runner {
   type IterationCount = IterationCount.Type
 
   /**
-    * Define a stream of algorithm where the algorithm remains unchanged.
-    *
-    * @param name Identifier for the algorithm
-    * @param a Kleilsi representation of the algorithm instance
-    * @return
-    */
-  def staticAlgorithm[M[+_]: IdentityFlatten: Covariant, F[_], A](name: String Refined NonEmpty, a: Kleisli[M, F[A], F[A]]) =
+   * Define a stream of algorithm where the algorithm remains unchanged.
+   *
+   * @param name Identifier for the algorithm
+   * @param a Kleilsi representation of the algorithm instance
+   * @return
+   */
+  def staticAlgorithm[M[+_]: IdentityFlatten: Covariant, F[_], A](
+    name: String Refined NonEmpty,
+    a: Kleisli[M, F[A], F[A]]
+  ) =
     Stream.repeat(Algorithm(name, a))
 
-
   /**
-    *
-    *
-    * @param name
-    * @param config
-    * @param f
-    * @param updater
-    * @return
-    */
+   *
+   *
+   * @param name
+   * @param config
+   * @param f
+   * @param updater
+   * @return
+   */
   def algorithm[M[+_]: IdentityFlatten: Covariant, F[+_]: NonEmptyForEach, A, B](
     name: String Refined NonEmpty,
     config: A,
@@ -61,31 +62,29 @@ object Runner {
     go(config, 1)
   }
 
-
   /**
-    *
-    *
-    * @param name
-    * @param eval
-    * @return
-    */
+   *
+   *
+   * @param name
+   * @param eval
+   * @return
+   */
   def staticProblem[S, A](
     name: String Refined NonEmpty,
     eval: Eval[NonEmptyList]
   ): UStream[Problem] =
     Stream.repeat(Problem(name, Unchanged, eval))
 
-
   /**
-    *
-    *
-    * @param name
-    * @param state
-    * @param next
-    * @param env
-    * @param rng
-    * @return
-    */
+   *
+   *
+   * @param name
+   * @param state
+   * @param next
+   * @param env
+   * @param rng
+   * @return
+   */
   def problem[S, A](name: String Refined NonEmpty, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyList])])(
     env: UStream[Env],
     rng: RNG
@@ -109,9 +108,7 @@ object Runner {
     env.mapAccum((s2, e, rng2))(go2)
   }
 
-
-
-    /**
+  /**
    *  Interpreter for algorithm execution
    */
   def foldStep[F[_], A, B](
@@ -164,7 +161,7 @@ object Runner {
             }
 
           result match {
-	    case Left(error) => sys.error(error.toString())
+            case Left(error) => sys.error(error.toString())
             case Right(((r2, newState), value)) =>
               val progress =
                 Progress(algorithm.name.value, problem.value, r2.seed, iteration, e, (newState, value))
@@ -184,13 +181,14 @@ object Runner {
       Measurement(algorithm, problem, iteration, env, seed, f(state, value))
   }
 
-
-  def repeat[M[+_]: IdentityFlatten: Covariant, F[+_], A](n: Int, alg: F[A] => M[F[A]], collection: RVar[F[A]])(implicit M: MonadStep[M]): M[F[A]] = {
-    M.liftR(collection).flatMap(coll =>
-      (1 to n).toList.foldLeftM(coll) { (a, _) =>
-        alg.apply(a)
-      }
-    )
-  }
+  def repeat[M[+_]: IdentityFlatten: Covariant, F[+_], A](n: Int, alg: F[A] => M[F[A]], collection: RVar[F[A]])(
+    implicit M: MonadStep[M]
+  ): M[F[A]] =
+    M.liftR(collection)
+      .flatMap(coll =>
+        (1 to n).toList.foldLeftM(coll) { (a, _) =>
+          alg.apply(a)
+        }
+      )
 
 }

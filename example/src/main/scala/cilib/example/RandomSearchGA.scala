@@ -28,12 +28,16 @@ object RandomSearchGA extends zio.App {
   val swarm = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
   val myGA: NonEmptyList[Ind] => Step[NonEmptyList[Ind]] =
     (collection: NonEmptyList[Ind]) => {
-      Iteration.sync(ga).apply(collection)
+      Iteration
+        .sync(ga)
+        .apply(collection)
         .map(_.toList.flatten)
         .flatMap(r =>
           Step
             .withCompare(o => r.sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o)))
-            .map(offspring => NonEmptyList.fromIterableOption(offspring.take(20)).getOrElse(sys.error("Impossible -> List is empty?")))
+            .map(offspring =>
+              NonEmptyList.fromIterableOption(offspring.take(20)).getOrElse(sys.error("Impossible -> List is empty?"))
+            )
         )
     }
 

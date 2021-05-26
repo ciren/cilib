@@ -11,7 +11,7 @@ object Selection {
       val size = list.size
       val point =
         list.zipWithIndex.find(_._1 == x) match {
-          case None    => 0
+          case None         => 0
           case Some((_, i)) => (i - (n / 2) + size) % size
         }
       lazy val c: Stream[A] = Stream(list: _*) #::: c
@@ -38,7 +38,14 @@ object Selection {
       val result = for {
         r <- row
         c <- col
-        north <- list.find(_._2 == indexInto((r - 1 + nRows) % nRows - (if (c >= colsInRow(r - 1 + nRows) % nRows) 1 else 0), c)).map(_._1)
+        north <- list
+                  .find(
+                    _._2 == indexInto(
+                      (r - 1 + nRows) % nRows - (if (c >= colsInRow(r - 1 + nRows) % nRows) 1 else 0),
+                      c
+                    )
+                  )
+                  .map(_._1)
         south <- list.find(_._2 == indexInto(if (c >= colsInRow(r + 1) % nRows) 0 else (r + 1) % nRows, c)).map(_._1)
         east  <- list.find(_._2 == indexInto(r, (c + 1) % colsInRow(r))).map(_._1)
         west  <- list.find(_._2 == indexInto(r, (c - 1 + colsInRow(r)) % colsInRow(r))).map(_._1)

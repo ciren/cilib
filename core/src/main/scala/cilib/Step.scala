@@ -72,7 +72,7 @@ object Step {
   def withCompareR[A](f: Comparison => RVar[A]): Step[A] =
     for {
       env <- zio.prelude.fx.ZPure.environment[RNG, Environment]
-      a <- liftR(f(env.cmp))
+      a   <- liftR(f(env.cmp))
     } yield a
 
   def eval[S, A](f: Position[A] => Position[A])(entity: Entity[S, A]): Step[Entity[S, A]] =
@@ -81,7 +81,7 @@ object Step {
   def evalP[A](pos: Position[A]): Step[Position[A]] =
     for {
       env <- zio.prelude.fx.ZPure.environment[RNG, Environment]
-      a <- liftR(Position.eval[A](env.eval, pos))
+      a   <- liftR(Position.eval[A](env.eval, pos))
     } yield a
 }
 
@@ -136,23 +136,23 @@ object StepS {
     zio.prelude.fx.ZPure.modify((s: (RNG, S)) => ((s._1, f(s._2)), ()))
 
   def liftR[S, A](a: RVar[A]): StepS[S, A] =
-    zio.prelude.fx.ZPure.modify((s: (RNG, S)) => {
+    zio.prelude.fx.ZPure.modify { (s: (RNG, S)) =>
       val (rng2, b) = a.run(s._1)
       ((rng2, s._2), b)
-    })
+    }
 
   def liftStep[S, A](a: Step[A]): StepS[S, A] =
     for {
       env <- zio.prelude.fx.ZPure.environment[(RNG, S), Environment]
-      x <- zio.prelude.fx.ZPure.modify((s: (RNG, S)) => {
-        val (_, either) = a.provide(env).runAll(s._1)
+      x <- zio.prelude.fx.ZPure.modify { (s: (RNG, S)) =>
+            val (_, either) = a.provide(env).runAll(s._1)
 
-        either match {
-          case Left(_) => sys.error("Unable to lift Step into StepS")
-          case Right((rng2, result)) => ((rng2, s._2), result)
-        }
+            either match {
+              case Left(_)               => sys.error("Unable to lift Step into StepS")
+              case Right((rng2, result)) => ((rng2, s._2), result)
+            }
 
-      })
+          }
     } yield x
 
   // def liftK[S, A](a: Comparison => A)(implicit ev: Exception <:< Nothing): StepS[S, A] =

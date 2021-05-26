@@ -1,6 +1,5 @@
 package cilib
 
-
 object Hypothesis {
 
   // def chiSquared(bins: Int, critical: Double, sample: Vector[Double]) = {

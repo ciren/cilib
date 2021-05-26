@@ -6,12 +6,12 @@ val spireVersion      = "0.17.0-RC1"
 val parquet4sVersion  = "1.3.1"
 val scalacheckVersion = "1.14.3"
 
-val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
-val zio = "dev.zio" %% "zio" % Version.zio
-val zioStreams = "dev.zio" %% "zio-streams" % Version.zio
-val zioPrelude = "dev.zio" %% "zio-prelude" % "1.0.0-RC3"
-val zioTest    = "dev.zio" %% "zio-test"     % Version.zio % Test
-val zioTestSbt = "dev.zio" %% "zio-test-sbt" % Version.zio % Test
+val scalaz     = "org.scalaz" %% "scalaz-core"  % scalazVersion
+val zio        = "dev.zio"    %% "zio"          % Version.zio
+val zioStreams = "dev.zio"    %% "zio-streams"  % Version.zio
+val zioPrelude = "dev.zio"    %% "zio-prelude"  % "1.0.0-RC3"
+val zioTest    = "dev.zio"    %% "zio-test"     % Version.zio % Test
+val zioTestSbt = "dev.zio"    %% "zio-test-sbt" % Version.zio % Test
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -110,8 +110,8 @@ lazy val core = project
       scalaz,
       zio,
       zioPrelude,
-      "org.typelevel"              %% "spire"        % spireVersion,
-      "eu.timepit"                 %% "refined"      % "0.9.15"
+      "org.typelevel" %% "spire"   % spireVersion,
+      "eu.timepit"    %% "refined" % "0.9.15"
     )
   )
   .enablePlugins(BuildInfoPlugin)

@@ -1,9 +1,8 @@
 package cilib
 
+import _root_.eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
-
-import _root_.eu.timepit.refined.auto._
 
 object Dist {
   import RVar._
@@ -107,24 +106,21 @@ object Dist {
     stdNormal.map(x => math.exp(mean + dev * x))
 
   def dirichlet(alphas: List[Double]): RVar[List[Double]] =
-    zio.prelude.ForEach[List].forEach(alphas)(gamma(_, 1))
-      .map { ys =>
-        val sum = ys.sum
-        ys.map(_ / sum)
-      }
+    zio.prelude.ForEach[List].forEach(alphas)(gamma(_, 1)).map { ys =>
+      val sum = ys.sum
+      ys.map(_ / sum)
+    }
 
   def weibull(shape: Double, scale: Double): RVar[Double] =
     stdUniform.map { x =>
       scale * math.pow(-math.log(1 - x), 1 / shape)
     }
 
-
   private def DRandNormalTail(min: Double, ineg: Boolean): RVar[Double] = {
     def sample: RVar[(Double, Double)] =
       stdUniform.map(x => math.log(x) / min).zip(stdUniform.map(math.log(_)))
 
-    sample
-      .repeatUntil { case (v1, v2) => -2.0 * v2 >= v1 * v1 }
+    sample.repeatUntil { case (v1, v2) => -2.0 * v2 >= v1 * v1 }
       .map(x => if (ineg) x._1 - min else min - x._1)
   }
 
@@ -138,7 +134,7 @@ object Dist {
         case Some((a, r)) => a #:: unfold(r)(f)
       }
 
-    val f = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
+    val f           = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
     val unfoldStart = (126, ZIGNOR_V / f, ZIGNOR_R)
     val blocks: Stream[Double] = {
       Stream(ZIGNOR_V / f, ZIGNOR_R) ++

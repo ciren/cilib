@@ -2,16 +2,19 @@ package cilib
 
 import spire.implicits._
 import spire.math.Interval
-import zio.prelude._
 import zio.prelude.NonEmptyList._
+import zio.prelude._
 
 object Boundary {
 
   final case class Enforce[F[_], A](f: (A, Interval[Double]) => F[A])
   final case class EnforceTo[F[_], A](f: (A, Interval[Double], A) => F[A])
 
-  def enforce[F[+_]: IdentityBoth : Covariant, A: spire.math.Numeric](x: Position[A], f: Enforce[F, A]): F[NonEmptyList[A]] = {
-    val F = implicitly[Covariant[F]]
+  def enforce[F[+_]: IdentityBoth: Covariant, A: spire.math.Numeric](
+    x: Position[A],
+    f: Enforce[F, A]
+  ): F[NonEmptyList[A]] = {
+    val F                            = implicitly[Covariant[F]]
     val combined: NonEmptyList[F[A]] = x.pos.zipWith(x.boundary)(f.f)
 
     combined.reduceMapRight(F.map(single))((f, fas) => f.zipWith(fas)(cons))
@@ -20,9 +23,10 @@ object Boundary {
   def enforceTo[F[+_], A: spire.math.Numeric, B](x: Position[A], z: Position[A], f: EnforceTo[F, A])(
     implicit F: Covariant[F] with IdentityBoth[F]
   ): F[NonEmptyList[A]] =
-    x.pos.zip(x.boundary).zipWith(z.pos) { case ((a,b), c) => f.f(a,b,c) }
+    x.pos
+      .zip(x.boundary)
+      .zipWith(z.pos) { case ((a, b), c) => f.f(a, b, c) }
       .reduceMapRight(F.map(single))((f, fas) => f.zipWith(fas)(cons))
-
 
   def clamp[A](implicit N: spire.math.Numeric[A]): Enforce[Id, A] =
     absorb

@@ -84,15 +84,14 @@ object DE {
   )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyList[Boolean]] =
     Dist
       .uniformInt(spire.math.Interval(0, F.size(parent) - 1))
-      .flatMap(j => {
+      .flatMap { j =>
         F.zipWithIndex(parent).forEach1 {
           case (_, i) =>
             if (i == j) RVar.pure(true)
             else Dist.stdUniform.map(_ < p_r)
         }
-      })
+      }
       .map(_.toNonEmptyList)
-
 
   def exp[F[+_], A](
     p_r: Double,
@@ -110,7 +109,8 @@ object DE {
       val options = (0 to length)
         .foldRight(List.empty[Boolean])((c, a) => adjacent.find(_._1 == c).isDefined :: a)
 
-      NonEmptyList.fromIterableOption(options)
+      NonEmptyList
+        .fromIterableOption(options)
         .getOrElse(sys.error("Impossible -> there has to be at least 1 element"))
     }
   }

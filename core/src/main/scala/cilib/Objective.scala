@@ -27,7 +27,7 @@ sealed abstract class Objective {
       case Single(f, _) => Left(f)
       case Multi(xs) =>
         Right(xs.toList.flatMap(_.fitness match {
-          case Left(f)  => List(f)
+          case Left(f)   => List(f)
           case Right(fs) => fs
         }))
     }
@@ -35,7 +35,7 @@ sealed abstract class Objective {
 
 object Objective {
   private final case class Single[A](f: Fit, v: List[Constraint]) extends Objective
-  private final case class Multi[A](x: NonEmptyList[Objective]) extends Objective
+  private final case class Multi[A](x: NonEmptyList[Objective])   extends Objective
 
   def single[A](f: Fit, violations: List[Constraint]): Objective =
     Single(f, violations)

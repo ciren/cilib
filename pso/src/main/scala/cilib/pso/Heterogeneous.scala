@@ -67,10 +67,10 @@ object Pool {
   // Create new behaviours with same scores as old behaviours
   def mkFromOldPool[A](oldP: Pool[A], xs: NonEmptyList[A]) =
     ???
-    // oldP.zip(xs).map {
-    //   case (x, y) =>
-    //     x.change(y)
-    // }
+  // oldP.zip(xs).map {
+  //   case (x, y) =>
+  //     x.change(y)
+  // }
 
   // Give entities updated behaviours
   def updateUserBehaviours[A, B](oldP: Pool[B], newP: Pool[B])(xs: NonEmptyList[User[A, B]]) = {

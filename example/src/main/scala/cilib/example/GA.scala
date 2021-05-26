@@ -5,7 +5,6 @@ import Lenses._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
-
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
@@ -42,12 +41,12 @@ object GAExample extends zio.App {
 
   def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] =
     xs.forEach { x =>
-      val newPos = x.pos.forEach(z => {
+      val newPos = x.pos.forEach { z =>
         for {
           za <- Dist.stdUniform.map(_ < p_m)
           zb <- if (za) Dist.stdNormal.flatMap(Dist.gaussian(0, _)).map(_ * z) else RVar.pure(z)
         } yield zb
-      })
+      }
 
       newPos.map(p => _position.set(x, p))
     }
@@ -66,12 +65,18 @@ object GAExample extends zio.App {
    */
   val cullingGA: NonEmptyList[Ind] => Step[NonEmptyList[Ind]] =
     (collection: NonEmptyList[Ind]) => {
-      Iteration.sync(ga).apply(collection)
+      Iteration
+        .sync(ga)
+        .apply(collection)
         .map(_.toList.flatten)
         .flatMap(offspring =>
           Step
-            .withCompare(o => (collection.toList ++ offspring).sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o)))
-            .map(offspring => NonEmptyList.fromIterableOption(offspring.take(populationSize)).getOrElse(sys.error("asdas")))
+            .withCompare(o =>
+              (collection.toList ++ offspring).sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o))
+            )
+            .map(offspring =>
+              NonEmptyList.fromIterableOption(offspring.take(populationSize)).getOrElse(sys.error("asdas"))
+            )
         )
     }
 

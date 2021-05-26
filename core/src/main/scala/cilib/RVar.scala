@@ -1,13 +1,12 @@
 package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _, _ }
+import _root_.zio.prelude._
 import eu.timepit.refined.api._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric.Positive
 import spire.implicits._
 import spire.math._
-
-import _root_.zio.prelude._
 
 /**
 RVar is essentially a newtype wrapper of the a State monad with the
@@ -38,33 +37,32 @@ functions such as MonadState[RVar].modify and MonadState[RVar].puts)
 // }
 
 //sealed abstract class RVarInstances0 /* extends RVarInstances1*/ {
-  // implicit val rvarMonad: scalaz.Monad[RVar] =
-  //   new scalaz.Monad[RVar] {
-  //     def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-  //       a.flatMap(f)
+// implicit val rvarMonad: scalaz.Monad[RVar] =
+//   new scalaz.Monad[RVar] {
+//     def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
+//       a.flatMap(f)
 
-  //     def point[A](a: => A) =
-  //       RVar.pure(a)
-  //   }
+//     def point[A](a: => A) =
+//       RVar.pure(a)
+//   }
 //}
 
 //sealed abstract class RVarInstances extends RVarInstances0 {
-  // implicit val rvarBindRec: BindRec[RVar] =
-  //   new BindRec[RVar] {
-  //     def bind[A, B](fa: RVar[A])(f: A => RVar[B]): RVar[B] =
-  //       fa.flatMap(f)
+// implicit val rvarBindRec: BindRec[RVar] =
+//   new BindRec[RVar] {
+//     def bind[A, B](fa: RVar[A])(f: A => RVar[B]): RVar[B] =
+//       fa.flatMap(f)
 
-  //     def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
-  //       fa.map(f)
+//     def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
+//       fa.map(f)
 
-  //     def tailrecM[A, B](a: A)(f: A => RVar[A \/ B]): RVar[B] =
-  //       f(a).flatMap {
-  //         case -\/(a0) => tailrecM(a0)(f)
-  //         case \/-(b)  => RVar.pure(b)
-  //       }
-  //   }
+//     def tailrecM[A, B](a: A)(f: A => RVar[A \/ B]): RVar[B] =
+//       f(a).flatMap {
+//         case -\/(a0) => tailrecM(a0)(f)
+//         case \/-(b)  => RVar.pure(b)
+//       }
+//   }
 //}
-
 
 object RVar {
 
@@ -151,7 +149,8 @@ object RVar {
       }
 
     rseq(xs.length).map(r =>
-      NonEmptyList.fromIterableOption(local(buildTree(xs), r))
+      NonEmptyList
+        .fromIterableOption(local(buildTree(xs), r))
         .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
     )
   }

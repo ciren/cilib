@@ -37,18 +37,17 @@ object GeneratorTest extends DefaultRunnableSpec {
     }
   }
 
-  override def spec: ZSpec[Environment,Failure] = suite("Distribution")(
-
+  override def spec: ZSpec[Environment, Failure] = suite("Distribution")(
     // Perform a hypothesis test using the Anderson-Darling test for normality
     testM("stdNormal") {
-      check(gaussianRandom) { case a =>
-        val n  = a.size
-        val a2 = -n - S(a, cdf_gauss)
+      check(gaussianRandom) {
+        case a =>
+          val n  = a.size
+          val a2 = -n - S(a, cdf_gauss)
 
-        assert(a2)(Assertion.isLessThan(2.492)) // 5% significance  -- 3.857
+          assert(a2)(Assertion.isLessThan(2.492)) // 5% significance  -- 3.857
       }
     }
-
   )
 
 }

@@ -1,10 +1,10 @@
 package cilib
 
-import zio.prelude._
 import spire.algebra.Eq
 import spire.implicits._
 import spire.math._
 import spire.math.interval._
+import zio.prelude._
 
 final class ViolationCount(val count: Int) extends AnyVal
 object ViolationCount {

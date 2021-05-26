@@ -62,9 +62,9 @@ object Position {
       extends Position[A]
 
   implicit def positionEqual[A: zio.prelude.Equal]: zio.prelude.Equal[Position[A]] =
-    zio.prelude.Equal.make[Position[A]]((l, r) => {
+    zio.prelude.Equal.make[Position[A]] { (l, r) =>
       l.pos === r.pos && l.boundary === r.boundary
-    })
+    }
 
   implicit val positionForEach: ForEach[Position] =
     new ForEach[Position] {
@@ -104,8 +104,8 @@ object Position {
       def plus(x: Position[A], y: Position[A]) = {
         val combined =
           align(x.pos, y.pos).map(_ match {
-            case These.Left(l) => l
-            case These.Right(r) => r
+            case These.Left(l)    => l
+            case These.Right(r)   => r
             case These.Both(l, r) => scalar.plus(l, r)
           })
 
@@ -165,11 +165,11 @@ object Position {
   def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
     Point(xs, b)
 
-  def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] = {
-    ForEach[NonEmptyList].forEach(domain)(Dist.uniform)
+  def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
+    ForEach[NonEmptyList]
+      .forEach(domain)(Dist.uniform)
       .map(znel => Position(znel, domain))
-    //domain.traverse(Dist.uniform).map(x => Position(x, domain))
-  }
+  //domain.traverse(Dist.uniform).map(x => Position(x, domain))
 
   def createPositions(
     domain: NonEmptyList[Interval[Double]],
@@ -177,7 +177,11 @@ object Position {
   ): RVar[NonEmptyList[Position[Double]]] =
     createPosition(domain)
       .replicateM(n.value)
-      .map(list => NonEmptyList.fromIterableOption(list).getOrElse(sys.error("Impossible -> refinement requires n to be positive, i.e. n > 0")))
+      .map(list =>
+        NonEmptyList
+          .fromIterableOption(list)
+          .getOrElse(sys.error("Impossible -> refinement requires n to be positive, i.e. n > 0"))
+      )
 
   def createCollection[A](
     f: Position[Double] => A

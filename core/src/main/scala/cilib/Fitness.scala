@@ -18,11 +18,9 @@ sealed abstract class Fit {
     }
 }
 
-final case class Feasible(v: Double)                                                        extends Fit
-final case class Infeasible(v: Double)                                                      extends Fit
+final case class Feasible(v: Double)                                                              extends Fit
+final case class Infeasible(v: Double)                                                            extends Fit
 final case class Adjusted private[cilib] (original: Either[Feasible, Infeasible], adjust: Double) extends Fit
-
-
 @annotation.implicitNotFound("No instance of Fitness[${F},${A},${B}] is available in current scope.")
 trait Fitness[F[_], A, B] {
   def fitness(a: F[A]): Option[Objective]
@@ -43,7 +41,7 @@ object Comparison {
   def fittest[F[_], A, B](a: F[A], b: F[A])(implicit F: Fitness[F, A, B]): Step[F[A]] =
     Step.withCompare(comp => if (fitter(a, b).apply(comp)) a else b)
 
-    def fitCompare(opt: Opt, x: Fit, y: Fit, xv: => Int, yv: => Int): Ordering =
+  def fitCompare(opt: Opt, x: Fit, y: Fit, xv: => Int, yv: => Int): Ordering =
     (x, y) match {
       case (Adjusted(_, a), Adjusted(_, b)) => opt.D.compare(a, b)
       case (Adjusted(_, a), Feasible(b))    => opt.D.compare(a, b)

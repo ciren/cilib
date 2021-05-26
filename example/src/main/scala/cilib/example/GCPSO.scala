@@ -23,7 +23,10 @@ object GCPSO extends zio.App {
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]
   val social    = Guide.gbest[Mem[Double]]
-  val gcPSO: NonEmptyList[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[PSO.GCParams, Particle[Mem[Double], Double]] =
+  val gcPSO: NonEmptyList[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[
+    PSO.GCParams,
+    Particle[Mem[Double], Double]
+  ] =
     gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
   val iter = Iteration.syncS(gcPSO)

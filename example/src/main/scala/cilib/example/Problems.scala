@@ -1,8 +1,8 @@
 package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _ }
-import zio.prelude._
 import spire.implicits._
+import zio.prelude._
 
 object Problems {
 
@@ -32,7 +32,9 @@ object Problems {
       .flatMap { x =>
         val height = Dist.stdUniform.map(x => (maxHeight - minHeight) * x + minHeight)
         val width  = Dist.stdUniform.map(x => (maxWidth - minWidth) * x + minWidth)
-        height.zipWith(width)((h,w) => PeakCone(h, w, x, x.map(_ => 1.0), domain, minWidth, maxWidth, minHeight, maxHeight))
+        height.zipWith(width)((h, w) =>
+          PeakCone(h, w, x, x.map(_ => 1.0), domain, minWidth, maxWidth, minHeight, maxHeight)
+        )
       }
       .replicateM(n)
       .map(x => NonEmptyList.fromIterableOption(x).getOrElse(sys.error("List cannot be empty")))

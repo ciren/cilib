@@ -127,13 +127,15 @@ object BuildHelper {
       //   Seq(("com.github.ghik" % "silencer-lib_2.13.1" % "1.6.0" % Provided).withDottyCompat(scalaVersion.value))
       // else
       Seq(
-        //compilerPlugin(scalafixSemanticdb),
         "com.github.ghik" % "silencer-lib" % "1.7.3" % Provided cross CrossVersion.full,
-        compilerPlugin("com.github.ghik" % "silencer-plugin"     % "1.7.3" cross CrossVersion.full),
-        compilerPlugin("org.typelevel"   % "kind-projector"      % "0.11.3" cross CrossVersion.full),
+        compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.3" cross CrossVersion.full),
+        compilerPlugin("org.typelevel"   % "kind-projector"  % "0.11.3" cross CrossVersion.full)
         // compilerPlugin("com.olegpy"      %% "better-monadic-for" % "0.3.1")
       )
-    }
+    },
+    semanticdbEnabled := scalaVersion.value != "3.0", // enable SemanticDB
+    semanticdbOptions += "-P:semanticdb:synthetics:on",
+    semanticdbVersion := scalafixSemanticdb.revision // use Scalafix compatible version
   )
 
   def welcomeMessage = onLoadMessage := {

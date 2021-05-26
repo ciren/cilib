@@ -9,10 +9,9 @@ trait Input[F[_]] {
 sealed abstract class Eval[F[_]] {
   def eval =
     this match {
-      case a@ Eval.Unconstrained(_, _) => a.eval2
-      case b@Eval.Constrained(_, _, _) => b.eval2
+      case a @ Eval.Unconstrained(_, _)  => a.eval2
+      case b @ Eval.Constrained(_, _, _) => b.eval2
     }
-
 
   def constrain(cs: List[Constraint]): Eval[F]
 
