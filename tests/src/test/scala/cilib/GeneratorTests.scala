@@ -1,15 +1,11 @@
-/*package cilib
+package cilib
 
-import org.scalacheck.Gen
-import org.scalacheck.Prop._
-import scalaz._, Scalaz._
+import zio.test._
 
-object GeneratorTest extends Spec("Distribution") {
+object GeneratorTest extends DefaultRunnableSpec {
 
   def sizedGen(r: RVar[Double]) =
-    Gen.sized { _ =>
-      r.replicateM(250).run(RNG.fromTime)._2.toVector
-    }
+    Gen.const(r.replicateM(250).run(RNG.fromTime)._2.toVector)
 
   val gaussianRandom =
     sizedGen(Dist.stdNormal)
@@ -41,13 +37,18 @@ object GeneratorTest extends Spec("Distribution") {
     }
   }
 
-  // Perform a hypothesis test using the Anderson-Darling test for normality
-  property("stdNormal") = forAll(gaussianRandom) { (a: Vector[Double]) =>
-    val n  = a.size
-    val a2 = -n - S(a, cdf_gauss)
+  override def spec: ZSpec[Environment,Failure] = suite("Distribution")(
 
-    a2 < 2.492 // 5% significance  -- 3.857
-  }
+    // Perform a hypothesis test using the Anderson-Darling test for normality
+    testM("stdNormal") {
+      check(gaussianRandom) { case a =>
+        val n  = a.size
+        val a2 = -n - S(a, cdf_gauss)
+
+        assert(a2)(Assertion.isLessThan(2.492)) // 5% significance  -- 3.857
+      }
+    }
+
+  )
 
 }
- */
