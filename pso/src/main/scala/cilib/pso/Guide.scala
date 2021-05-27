@@ -45,7 +45,10 @@ object Guide {
   def vonNeumann[S](implicit M: HasMemory[S, Double]) =
     nbest(Selection.latticeNeighbours[Particle[S, Double]])
 
-  def crossover[S](parentAttractors: NonEmptyList[Position[Double]], op: NonEmptyList[Position[Double]] => RVar[NonEmptyList[Position[Double]]]): Guide[S, Double] =
+  def crossover[S](
+    parentAttractors: NonEmptyList[Position[Double]],
+    op: NonEmptyList[Position[Double]] => RVar[NonEmptyList[Position[Double]]]
+  ): Guide[S, Double] =
     (_, _) => Step.liftR(op(parentAttractors).map(_.head))
 
   def nmpc[S](prob: Double): Guide[S, Double] =

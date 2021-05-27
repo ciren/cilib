@@ -1,15 +1,13 @@
 package cilib
 
+import _root_.eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.sqrt
-
 import zio.prelude._
 
 import cilib.Position._
 import cilib.algebra._
 import cilib.syntax.dotprod._
-
-import _root_.eu.timepit.refined.auto._
 
 object Crossover {
 
@@ -17,14 +15,16 @@ object Crossover {
     def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
 
     Dist.stdUniform.replicateM(4).map { coef =>
-      val s: Double = coef.sum
+      val s: Double                    = coef.sum
       val scaled: NonEmptyList[Double] = NonEmptyList.fromIterableOption(coef.map(x => norm(x, s))).get
 
       parents.zip(scaled).map(t => t._2 *: t._1)
     }
   }
 
-  def pcx(sigma1: Double, sigma2: Double)(parents: NonEmptyList[Position[Double]]): RVar[NonEmptyList[Position[Double]]] = {
+  def pcx(sigma1: Double, sigma2: Double)(
+    parents: NonEmptyList[Position[Double]]
+  ): RVar[NonEmptyList[Position[Double]]] = {
 
     val mean = Algebra.meanVector(parents)
     val k    = parents.size
@@ -55,12 +55,16 @@ object Crossover {
     }
   }
 
-  def undx(sigma1: Double, sigma2: Double)(parents: NonEmptyList[Position[Double]]): RVar[NonEmptyList[Position[Double]]] = {
+  def undx(sigma1: Double, sigma2: Double)(
+    parents: NonEmptyList[Position[Double]]
+  ): RVar[NonEmptyList[Position[Double]]] = {
     val n      = parents.head.pos.length
     val bounds = parents.head.boundary
 
     // calculate mean of parents except main parents
-    val g = Algebra.meanVector(NonEmptyList.fromIterableOption(parents.init).getOrElse(sys.error("UNDX requires at least 3 parents")))
+    val g = Algebra.meanVector(
+      NonEmptyList.fromIterableOption(parents.init).getOrElse(sys.error("UNDX requires at least 3 parents"))
+    )
 
     // basis vectors defined by parents
     val initZeta = List[Position[Double]]()
@@ -97,6 +101,6 @@ object Crossover {
         NonEmptyList(offspring)
       }
     }
- }
+  }
 
 }
