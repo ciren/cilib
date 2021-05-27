@@ -3,8 +3,7 @@ import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric._
 import spire.math.Interval
 import spire.math.interval.{ Bound, ValueBound }
-import zio.prelude.NonEmptyList
-import zio.prelude.These
+import zio.prelude._
 
 package object cilib extends EvalInstances {
 
@@ -12,15 +11,11 @@ package object cilib extends EvalInstances {
   type Step[+A]     = zio.prelude.fx.ZPure[Nothing, RNG, RNG, Environment, Exception, A]
   type StepS[S, +A] = zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), Environment, Exception, A]
 
-  //type Eval[A] = RVar[NonEmptyList[A] => Objective[A]]
-
   // Should expand into a typeclass? Getter?
-  type Selection[A]          = zio.prelude.NonEmptyList[A] => List[A]
-  type IndexSelection[A]     = (zio.prelude.NonEmptyList[A], A) => List[A]
-  type RandSelection[A]      = zio.prelude.NonEmptyList[A] => RVar[List[A]]
-  type RandIndexSelection[A] = (zio.prelude.NonEmptyList[A], A) => RVar[List[A]]
-
-  type Crossover[A] = zio.prelude.NonEmptyList[Position[A]] => RVar[zio.prelude.NonEmptyList[Position[A]]]
+  type Selection[A]          = NonEmptyList[A] => List[A]
+  type IndexSelection[A]     = (NonEmptyList[A], A) => List[A]
+  type RandSelection[A]      = NonEmptyList[A] => RVar[List[A]]
+  type RandIndexSelection[A] = (NonEmptyList[A], A) => RVar[List[A]]
 
   implicit class IntervalOps[A](private val interval: Interval[A]) extends AnyVal {
     def ^(n: Int): NonEmptyList[Interval[A]] =

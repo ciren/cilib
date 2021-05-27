@@ -132,10 +132,11 @@ object BuildHelper {
         compilerPlugin("org.typelevel"   % "kind-projector"  % "0.11.3" cross CrossVersion.full)
         // compilerPlugin("com.olegpy"      %% "better-monadic-for" % "0.3.1")
       )
-    },
-    semanticdbEnabled := scalaVersion.value != "3.0", // enable SemanticDB
-    semanticdbOptions += "-P:semanticdb:synthetics:on",
-    semanticdbVersion := scalafixSemanticdb.revision // use Scalafix compatible version
+    }
+    // semanticdbEnabled := scalaVersion.value != "3.0", // enable SemanticDB
+    // semanticdbOptions += "-P:semanticdb:synthetics:on",
+    // semanticdbVersion := scalafixSemanticdb.revision // use Scalafix compatible version
+
   )
 
   def welcomeMessage = onLoadMessage := {
