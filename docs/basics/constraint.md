@@ -51,19 +51,26 @@ All we have to do is supply a function that will that takes a `NonEmptyList` and
 
 </div>
 
-```scala mdoc:silent
+```scala
+
+mdoc:silent
 import cilib._
 import scalaz._
 import Scalaz._
 val sumCF = ConstraintFunction((l: NonEmptyList[Double]) => l.suml)
 ```
-```scala mdoc
+```scala
+
+mdoc
 sumCF(NonEmptyList(2.0, 4.0, 7.5))
 ```
 
 ### Constraint Example
 
-```scala mdoc
+```scala
+
+mdoc
+
 LessThan(sumCF, 12.0)
 ```
 
@@ -93,17 +100,24 @@ violationMagnitude[A,B:Fractional](beta: Double, eta: Double, constraints: List[
 Given a `NonEmptyList`, it will be checked using the given `Constraint` and a `Boolean` will be returned to indicate if
 the list meets the constraints.
 
-```scala mdoc:invisible
+```scala
+
+mdoc:invisible
 import cilib._
-import scalaz._
-import Scalaz._
+import zio.prelude._
 ```
-```scala mdoc:silent
+```scala
+
+mdoc:silent
+
 import spire.implicits._
 
 val sumLessThanCons = LessThan(sumCF, 12.0)
 ```
-```scala mdoc
+```scala
+
+mdoc
+
 Constraint.satisfies(sumLessThanCons, NonEmptyList(2.0, 3.0, 4.0))
 Constraint.satisfies(sumLessThanCons, NonEmptyList(9.0, 10.0, 11.0))
 ```
@@ -113,7 +127,9 @@ Constraint.satisfies(sumLessThanCons, NonEmptyList(9.0, 10.0, 11.0))
 A `NonEmptyList` will be checked against a `List` of `Constraints`.
 An `Int` is returned representing the number of `Constraints` the list violated.
 
-```scala mdoc:silent
+```scala
+
+mdoc:silent
 import spire.implicits._
 import spire.algebra.Eq
 
@@ -121,7 +137,10 @@ import spire.algebra.Eq
 val firstNumberCons = cilib.Equal(ConstraintFunction((l: NonEmptyList[Double]) => l.head), 4.0)
 ```
 
-```scala mdoc
+```scala
+
+mdoc
+
 Constraint.violationCount(List(sumLessThanCons, firstNumberCons), NonEmptyList(19.0, 37.23, 12.0))
 Constraint.violationCount(List(sumLessThanCons, firstNumberCons), NonEmptyList(4.0, 3.0, 2.0))
 Constraint.violationCount(List(sumLessThanCons, firstNumberCons), NonEmptyList(4.0, 3.0, 2.0)).count
@@ -131,7 +150,9 @@ Constraint.violationCount(List(sumLessThanCons, firstNumberCons), NonEmptyList(4
 
 Determines the magnitude of the number of violated constraints.
 
-```scala mdoc
+```scala
+
+mdoc
 Constraint.violationMagnitude(0.1, 0.9, List(sumLessThanCons, firstNumberCons), NonEmptyList(19.0, 37.23, 12.0))
 ```
 ## Exercises
@@ -141,14 +162,17 @@ Define a `Constraint` to ensure that the head of a list is between 5 and 10.
 
 <div class="solution">
 
-```scala mdoc:invisible
+```scala
+
+mdoc:invisible
 import cilib._
-import scalaz._
-import Scalaz._
+import zio.prelude._
 import spire.implicits._
 ```
 
-```scala mdoc:silent
+```scala
+
+mdoc:silent
 import spire.math.Interval
 InInterval(ConstraintFunction((l: NonEmptyList[Double]) => l.head), Interval(5, 10))
 ```
@@ -163,7 +187,9 @@ You need to check each element in the list.
 
 <div class="solution">
 
-```scala mdoc:silent
+```scala
+
+mdoc:silent
 val cons = InInterval(ConstraintFunction((l: NonEmptyList[Double]) => l.head), Interval(5, 10))
 def checkList(l: List[Double]): Boolean = {
     if (l.size == 0) {

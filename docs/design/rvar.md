@@ -1,11 +1,11 @@
 ```scala mdoc:invisible
 import cilib._
-import scalaz._
-import Scalaz._
 
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
 import eu.timepit.refined.auto._
+
+import zio.prelude._
 ```
 
 # RVar
@@ -109,8 +109,8 @@ more combinators, but some of the more commonly used are illustrated below:
 ```scala mdoc
 val sampleList = NonEmptyList(6,4,5,2,1,3)
 
-RVar.shuffle(sampleList).run(rng)
-RVar.sample(3, sampleList).run(rng)
+RVar.shuffle(sampleList).runAll(rng)
+RVar.sample(3, sampleList).runAll(rng)
 ```
 
 Building on `RVar`, we can easily define probability distributions from
