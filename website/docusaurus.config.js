@@ -9,10 +9,10 @@ module.exports = {
   themeConfig: {
     navbar: {
       title: "CIlib",
-      // logo: {
-      //   alt: 'My Site Logo',
-      //   src: 'img/logo.svg',
-      // },
+      logo: {
+        alt: 'My Site Logo',
+        src: 'img/logo.svg',
+      },
       items: [
         {
           to: "docs/introduction/getting-started",
@@ -76,10 +76,10 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          homePageId: 'getting-started',
+          //homePageId: 'getting-started',
           path: "../cilib-docs/target/mdoc",
           sidebarPath: require.resolve("./sidebars.js"),
-          routeBasePath: 'docs',
+//          routeBasePath: 'docs',
         },
         // theme: {
         //   customCss: require.resolve("./src/css/custom.css")
