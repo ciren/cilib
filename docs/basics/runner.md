@@ -108,8 +108,6 @@ We will be using the following `imports` for our GA.
 ```scala :silent
 import cilib._
 import cilib.ga._
-import scalaz._
-import Scalaz._
 import eu.timepit.refined.auto._
 import spire.implicits.{eu => _, _}
 import spire.math.Interval

@@ -47,8 +47,8 @@ to be executed.
 The library is built with composition in mind. This allows the same
 pieces of logic to be reused in a variety of ways, preventing
 duplication and most importantly, allowing for simpler
-experimentation.  Creating larger pieces of logic from smaller pieces
-is a very desirable property to have.
+experimentation. Creating larger pieces of logic from smaller pieces
+is a desirable property to have.
 
 #### Type-safety
 
@@ -57,30 +57,30 @@ immutability. Using immutable structures and pure functions prevents
 a whole series of errors, which is just too valuable to ignore.
 
 Furthermore, where possible, as many errors will be reported to the
-user during compile time. Although this may seem very inconvenient,
-the benefits far out-weigh the perceived disadvantages. One of the
-main ideas with the design and implementation of the library is that
-if the code compiles, it will execute. This does not mean that there
-will be no errors - that's a foolish thing to say - but what it does
-mean is that any problems will be logic errors and not related to the
+user during compile time. Although this may seem inconvenient, the
+benefits far out-weigh the perceived disadvantages. One of the main
+ideas with the design and implementation of the library is that if the
+code compiles, it will execute. This does not mean that there will be
+no errors - that's a foolish thing to say - but what it does mean is
+that any problems will be logic errors and not related to the
 structure of the resulting algorithm and problem definitions.
 
 #### Explicit focus on algorithms
 
-It's very tempting to expand a software project to eventually support
+It's tempting to expand a software project to eventually support
 everything, but it is not the correct way nor a good idea. To this
 end, CIlib will provide the user with the tools needed to execute
-algorithms and perform measurements on the results of the
-algorithms. These results can then be written to different file
-formats (CSV or Parquet). Once the results have been obtained, it is
-recommended that the user then use these data files within existing
-analysis frameworks. Many such tools already exist (R / Spark / Pandas
-/ etc) and the file formats supported by CIlib can be read by these
-packages without much effort. It should be noted that parquet is the
-preferred format, not only because the resulting file is smaller than
-that of a CSV, but because the format contains metadata about the data
-columns it maintains, and that this metadata can be used within the
-analysis tools.
+algorithms and perform measurements on the results of the algorithms.
+These results can then be written to different file formats (CSV or
+Parquet). Once the results have been obtained, it is recommended that
+the user then use these data files within existing analysis
+frameworks. Many such tools already exist (R / Spark / Pandas / etc)
+and the file formats supported by CIlib can be read by these packages
+without much effort. It should be noted that parquet is the preferred
+format, not only because the resulting file is smaller than that of a
+CSV, but because the format contains metadata about the data columns
+it maintains, and that this metadata can be used within the analysis
+tools.
 
 The format of this data is also defined based on a data structure that
 the user provides.

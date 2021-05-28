@@ -26,8 +26,5 @@ For all usage samples, the following imports are required within the REPL
 session, but will be ignored to favor discussion:
 
 ```scala
-import scalaz._
-import Scalaz._
-
 import cilib._
 ```

@@ -75,8 +75,6 @@ The following imports should be sufficient
 
 ```scala :silent
 import cilib._
-import scalaz._
-import Scalaz._
 
 import eu.timepit.refined.auto._
 
@@ -123,8 +121,6 @@ This method will an `RVar` of type `Solution` (another `Position`type).
 import cilib._
 import spire.implicits.{eu => _, _}
 import spire.math._
-import scalaz._
-import Scalaz._
 
 val rng = RNG.init(12)
 ```
@@ -223,8 +219,6 @@ We will be using the following code to test the methods.
 import cilib._
 import spire.implicits._
 import spire.math._
-import scalaz._
-import Scalaz._
 ```
 ```scala :silent
 val rng = RNG.init(12)
@@ -329,8 +323,6 @@ This allows for simpler usage as it mirrors the mathematics defined in literatur
 import cilib._
 import spire.implicits._
 import spire.math._
-import scalaz._
-import Scalaz._
 ```
 
 ```scala :silent
@@ -355,8 +347,6 @@ For example, in the previous chapter you were asked to create a program to solve
 
 ```scala :invisible
 import cilib._
-import scalaz._
-import Scalaz._
 
 import eu.timepit.refined.auto._
 

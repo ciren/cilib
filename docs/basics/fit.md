@@ -71,9 +71,6 @@ adjust the solution using the given parameter function.
 Adjusted indactes we have adjusted an `Infeasible` solution. It contains the `Infeasible` we had to adjust and the new adjusted value.
 </div>
 
-```scala :invisible
-import scalaz._
-```
 ```scala
 val badSolution = Infeasible(45.0, 1)
 badSolution.adjust(x => x * 0.73)
@@ -116,8 +113,6 @@ We will be using `NonEmptyList`.
 
 ```scala :invisible
 import cilib._
-import scalaz._
-import Scalaz._
 ```
 ```scala :silent
 val rng = RNG.init(12L)
@@ -211,8 +206,6 @@ You are given the following code to start with
 
 ```scala :silent
 import cilib._
-import scalaz._
-import Scalaz._
 import spire.implicits._
 import spire.math.Interval
 

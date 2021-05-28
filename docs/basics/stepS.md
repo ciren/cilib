@@ -60,8 +60,6 @@ basics.
 
 ```scala
 import cilib._
-import scalaz._
-import Scalaz._
 import spire.implicits._
 import spire.math.Interval
 import _root_.eu.timepit.refined.auto._

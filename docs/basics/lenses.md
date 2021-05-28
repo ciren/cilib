@@ -202,7 +202,7 @@ _state[S,A]
 
 _position[S,A]
 
-_vector[A:scalaz.Equal]
+//_vector[A:scalaz.Equal]
 
 _solutionPrism[A]: Prism[Position[A],Solution[A]]
 
@@ -227,8 +227,6 @@ Will provide a `Lens` that we may use to *zoom* in on the state of an `Entity`.
 import cilib.{Lenses, _}
 import spire.implicits.{eu => _, _}
 
-import scalaz._
-import Scalaz._
 import spire.math._
 ```
 ```scala :silent

@@ -2,9 +2,9 @@ package cilib
 package pso
 
 //import monocle._, Monocle._
-import scalaz.{ Lens => _, _ }, Scalaz._
 //import spire.implicits._
 
+/*
 sealed abstract class PoolItem[A] {
 
   import PoolItem._
@@ -247,3 +247,4 @@ object Heterogeneous {
   //   )
 
 }
+ */

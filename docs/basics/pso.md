@@ -159,10 +159,6 @@ In these examples, for simplicity purposes, we will be using `Double` as our typ
 Let's say we needed to create a pool where each item within the pool had the same score.
 To do this we would use `mkPool`.
 
-```scala :silent
-import scalaz._
-import Scalaz._
-```
 ```scala
 val doubles = RVar.doubles(5).eval(rng).toNel.get
 

@@ -25,7 +25,6 @@ private final class CMWC(val seed: Long, carry: Long, index: Int, state: Vector[
 }
 
 object RNG {
-  import scalaz._, Scalaz._
 
   def fromTime: RNG =
     init(System.currentTimeMillis)

@@ -42,8 +42,6 @@ evaluating them? This wil be our first introduction to `Step`.
 import cilib._
 import spire.implicits._
 import spire.math._
-import scalaz._
-import Scalaz._
 ```
 ```scala :silent
 val rng = RNG.init(12)
@@ -85,8 +83,6 @@ An example of creating an `Environment` would be the following...
 
 ```scala :invisible
 import cilib._
-import scalaz._
-import Scalaz._
 import spire.math.Interval
 import spire.implicits.{eu => _, _}
 
@@ -129,8 +125,6 @@ Here we changing the context of the `Step`.
 import cilib._
 import spire.implicits._
 import spire.math._
-import scalaz._
-import Scalaz._
 
 val bounds = Interval(-5.12,5.12)^2
 
@@ -232,8 +226,7 @@ Returns an instance of `Step` based on the given parameter.
 import cilib._
 import spire.implicits._
 import spire.math._
-import scalaz._
-import Scalaz._
+
 val rng = RNG.init(12)
 val bounds = Interval(-5.12,5.12)^2
 val env = Environment(

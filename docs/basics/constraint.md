@@ -55,8 +55,6 @@ All we have to do is supply a function that will that takes a `NonEmptyList` and
 
 mdoc:silent
 import cilib._
-import scalaz._
-import Scalaz._
 val sumCF = ConstraintFunction((l: NonEmptyList[Double]) => l.suml)
 ```
 ```scala

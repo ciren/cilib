@@ -41,8 +41,6 @@ import spire.math.Interval
 
 import cilib.syntax.algorithm._
 
-import scalaz._
-import Scalaz._
 ```
 
 Next, we define the `GBestPSO` itself. The `GBestPSO` is defined to use a velocity

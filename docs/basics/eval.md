@@ -40,8 +40,6 @@ Every solution is feasible since there are not constraints.
 
 ```scala :invisible
 import cilib._
-import scalaz._
-import Scalaz._
 ```
 ```scala
 val e = Eval.unconstrained[NonEmptyList,Double](_.map(x => x * x).suml)
@@ -83,8 +81,6 @@ The feasibility of every solution is determined by the constraints.
 
 ```scala :invisible
 import cilib._
-import scalaz._
-import Scalaz._
 ```
 ```scala :silent
 val lesThanCons = LessThan(ConstraintFunction((l: NonEmptyList[Double]) => l.suml), 12.0)
@@ -137,8 +133,6 @@ Pretty simple. So far we have..
 
 ```scala :invisible
 import cilib._
-import scalaz._
-import Scalaz._
 ```
 ```scala :silent
 def fitness (values: NonEmptyList[Double]) : Double = {

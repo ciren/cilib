@@ -1,15 +1,9 @@
 import sbt._
 import sbt.Keys._
 
-val scalazVersion     = "7.3.2"
-val spireVersion      = "0.17.0-RC1"
-val parquet4sVersion  = "1.3.1"
-val scalacheckVersion = "1.14.3"
-
-val scalaz     = "org.scalaz" %% "scalaz-core"  % scalazVersion
 val zio        = "dev.zio"    %% "zio"          % Version.zio
 val zioStreams = "dev.zio"    %% "zio-streams"  % Version.zio
-val zioPrelude = "dev.zio"    %% "zio-prelude"  % "1.0.0-RC3"
+val zioPrelude = "dev.zio"    %% "zio-prelude"  % Version.zioPrelude
 val zioTest    = "dev.zio"    %% "zio-test"     % Version.zio % Test
 val zioTestSbt = "dev.zio"    %% "zio-test-sbt" % Version.zio % Test
 
@@ -107,10 +101,9 @@ lazy val core = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      scalaz,
       zio,
       zioPrelude,
-      "org.typelevel" %% "spire"   % spireVersion,
+      "org.typelevel" %% "spire"   % Version.spire,
       "eu.timepit"    %% "refined" % "0.9.15"
     )
   )
@@ -186,7 +179,7 @@ lazy val exec = project
     libraryDependencies ++= Seq(
       zio,
       zioStreams,
-      "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion
+      "com.github.mjakubowski84" %% "parquet4s-core" % Version.parquet4s
     )
   )
   .enablePlugins(BuildInfoPlugin)
@@ -240,7 +233,7 @@ lazy val io = project
   .settings(
     libraryDependencies ++= Seq(
       "com.chuusai"              %% "shapeless"      % "2.3.3",
-      "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion,
+      "com.github.mjakubowski84" %% "parquet4s-core" % Version.parquet4s,
       "org.apache.hadoop"        % "hadoop-client"   % "2.7.3",
       zio,
       zioStreams

@@ -182,7 +182,7 @@ object Defaults {
           updated <- replace(p1, g)
         } yield updated
 
-  /*import scalaz.syntax.applicative._
+  /*
 
   def quantumBehavedOriginal2004[S](
     social: Guide[S,Double],
