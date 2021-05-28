@@ -24,7 +24,7 @@
 [iso-link]: https://julien-truffaut.github.io/Monocle/optics/iso.html
 
 [metric-space-link]: https://en.wikipedia.org/wiki/Metric_space
-[gitter-link]: https://gitter.im/ciren/cilib
+[gitter-link]: https://gitter.im/cirg-up/cilib
 
 [ga-example-link]: https://github.com/ciren/cilib/blob/series/2.0.x/example/src/main/scala/cilib/example/GA.scala
 [Benchmarks]: https://github.com/ciren/benchmarks

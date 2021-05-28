@@ -20,7 +20,7 @@ book](https://github.com/ciren/cilib-tutorial/releases/latest)
 
 For more information, please consult the
 [scaladoc](https://cilib.net/api/cilib/index.html) and come join the
-community on [gitter.im](https://gitter.im/ciren/cilib)
+community on [gitter.im](https://gitter.im/cirg-up/cilib)
 
 #### Controlled Randomness
 
