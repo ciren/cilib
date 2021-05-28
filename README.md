@@ -30,4 +30,4 @@ For help, discussion about best practices, or any other conversation that would 
 
 For some casual chit-chat with others:
 
-[Join the Gitter channel](https://gitter.im/ciren/cilib)
+[Join the Gitter channel](https://gitter.im/cirg-up/cilib)
