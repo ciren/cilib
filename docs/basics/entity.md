@@ -10,8 +10,7 @@ Thus we can say the following about `Entity`.
 
 <div class="callout callout-info">
 
-An `Entity` is a simple structure that contains and manages two very
-specific things:
+An `Entity` is a simple structure that contains and manages two importnat things:
 
 - A `Position[A]` within the current search space of the problem
 - A "state" that contains all addition data required by the `Entity`
@@ -33,7 +32,7 @@ the participants are referred to as Particles, with Individuals being
 used in both Differential Evolution (DE) and Genetic Algorithms (GA).
 Many other examples can easily be identified in available literature.
 
-It is not practical to have several representations for a very similar
+It is not practical to have several representations for a similar
 concept used within these algorithms. Based on experimentation within CIlib,
 a common structure was identified that could be used to represent the
 participants for these metaphor-based population based algorithms. We
@@ -56,7 +55,7 @@ Where...
 
 A we discussed before, the state of an `Entity` can be anything.
 The result of this that there aren't any predefined functions to extract the state information from the `Entity`.
-But! We just learnt about `Optics` in the last chapter.
+We just learnt about `Optics` in the last chapter.
 Luckily CILib does have predefined `Optics` for where `S` is of type `Mem`.
 However, if were to choose your own custom type for the state parameter, you can (and it's recommend) define your own `Optics` for the type.
 
@@ -108,8 +107,7 @@ And to reiterate
 
 <div class="callout callout-info">
 
-An `Entity` is a simple structure that contains and manages two very
-specific things:
+An `Entity` is a simple structure that contains and manages two important things:
 
 - A `Position[A]` within the current search space of the problem
 - A "state" that contains all addition data required by the `Entity`
@@ -117,7 +115,7 @@ specific things:
 
 </div>
 
-But wait! We were introduced to two things we had not seen before.
+Wait a sec! We were introduced to two things we had not seen before.
 That being
 
 - `Step`

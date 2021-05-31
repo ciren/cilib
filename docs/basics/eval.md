@@ -194,7 +194,7 @@ evalObjective(e.eval.run(rng)._2(l))
 
 ## Summary
 
-In this chapter we got to explore the useful concept of `Eval` and how we would use it in a very basic example.
+In this chapter we got to explore the useful concept of `Eval` and how we would use it in a basic example.
 Seeing as there are no exercises for this chapter, I encourage you to modify the example or come up with your own use of `Eval`.
 This is so that you can solidify your understanding of `Eval` as will be making use of it in the coming chapters.
 

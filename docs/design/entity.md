@@ -14,14 +14,13 @@ the participants are referred to as Particles, with Individuals being
 used in both Differential Evolution (DE) and Genetic Algorithms (GA).
 Many other examples can easily be identified in available literature.
 
-It is not practical to have several representations for a very similar
+It is not practical to have several representations for a similar
 concept used within these algorithms. Based on experimentation within CIlib,
 a common structure was identified that could be used to represent the
 participants for these metaphor-based population based algorithms. We
 refer, collectively, to these algorithm participants as ``Entity`` instances.
 
-An ``Entity`` is a simple structure that contains and manages two very
-specific things:
+An ``Entity`` is a simple structure that contains and manages two specific things:
 
 * A ``Position[A]`` within the current search space of the problem
 * A "state" that contains all addition data required by the ``Entity``

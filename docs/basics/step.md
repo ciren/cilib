@@ -23,7 +23,7 @@ The optimization problem is usually provided as a single function which evaluate
 Taking all these factors into account we create a new data structure that extends or build on the foundation of `RVar`.
 The new structure is simply referred to as `Step`.
 `Step` represents a function from the current algorithm environment to a value within `RVar`.
-The environment is a set of values (namely the `Opt`imization scheme and the optimization `Eval`uation function) that remain fixed for the duration of the algorithm execution, or at least for a single atomic algorithm iteration.
+The environment is a set of values (namely the `Opt`imization scheme and the optimization `Eval`uation function) that remain fixed throughout the algorithm execution, or at least for a single atomic algorithm iteration.
 
 
 
@@ -71,7 +71,7 @@ algorithm.
 
 An environment is simply a *container* for the specifications of our
 problem. And as we can see from the class definition, it uses types
-we are very familiar with.
+we are already familiar with.
 
 ```
 final case class Environment[A](
@@ -97,7 +97,7 @@ val env = Environment(
 
 ## Step Class
 
-`Step` is has a very simple class definition. It takes a single
+`Step` is has a simple class definition. It takes a single
 parameter, that being a function of type `Environment[A] => RVar[B]`.
 We see this member function used we we call `run` of a `Step`.
 
@@ -334,7 +334,7 @@ We also learnt some valuable skills in this chapter such as:
 - How to can compare two `Entities` in a step.
 :::
 
-But what if I told you `Step` has a sibling?
+What if I told you `Step` has a sibling?
 *gasp*.
 In the next chapter we are going to look at `StepS` which represents a step with a state.
 -->

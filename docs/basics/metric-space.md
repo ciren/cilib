@@ -79,7 +79,7 @@ These are methods, just like any other methods, but have strict type parameters.
 So the code, `F[_]:Foldable`, simply means we require some sort of functor that is an extension of `Foldable`.
 If you are still a bit unsure, I recommend looking at the "Scala With Cats" book by the team over at [Underscore][link-underscore].
 
-Currently `MetricSpaces` are only used with regards to selection methods in CILib.
+Currently `MetricSpaces` are only used within the selection methods in CILib.
 However, how you choose to use them is entirely up to you.
 
 ### Implicits
@@ -97,6 +97,6 @@ metricSpaceMonad[A]: Monad[MetricSpace[A,*]]
 
 ## Summary
 
-This chapter was one of the shorter ones in this book, but by no means does it make it any less important.
+This chapter was one of the shorter ones in this book, but that does not make it any less important.
 Armed with this new theory knowledge we can start putting things putting metric spaces to work in the next chapter,
 where we will see how they are used through practical examples.

@@ -1,5 +1,30 @@
 # Revision history for CIlib
 
+## [2.1.0]
+
+This release replaces some of the internal library code with zio and
+zio-prelude libraries. The changes are not fundamental and have
+allowed for some simplifications to some of the types within the
+library.
+
+Notable changes include:
+
+- `zio`, `zio-stream` and `zio-prelude` are new dependencies,
+  replacing `scalaz` and `scalaz-stream`/`fs2`.
+- The dependency on monocle has been removed to reduce the size of
+  transitive dependencies.
+- `RVar`, `Step` and `StepS` data types have been simplified, with a
+  type parameter being removed from both `Step` and `StepS`.
+- Scala 2.11 is no longer supported.
+- Preparation for Scala 3.0.0 as a new compilation target (currently
+  blocked due to depenencies needing to upgrade frist e.g. spire)
+- The heterogeneous PSO has been removed in favour of a new, far
+  simpler implementation.
+- Data types now have variance annotations where relevant, allowing
+  for better error messages from the compiler and aids in the
+  simplification of types (e.g. the `Eval` instances).
+
+
 ## [2.0.0]
 
 This is the first release of CIlib 2.0, a library for computational
@@ -22,7 +47,7 @@ For more information, please consult the
 [scaladoc](https://cilib.net/api/cilib/index.html) and come join the
 community on [gitter.im](https://gitter.im/cirg-up/cilib)
 
-#### Controlled Randomness
+### Controlled Randomness
 
 Probably the most important aspect of the library is to control the
 effects of randomness within an algorithm and problem. Often, these
@@ -42,7 +67,7 @@ same results. Additionally, this tracking forces the user to provide
 the source of randomness, but only at the point where an algorithm is
 to be executed.
 
-#### Composition
+### Composition
 
 The library is built with composition in mind. This allows the same
 pieces of logic to be reused in a variety of ways, preventing
@@ -50,7 +75,7 @@ duplication and most importantly, allowing for simpler
 experimentation. Creating larger pieces of logic from smaller pieces
 is a desirable property to have.
 
-#### Type-safety
+### Type-safety
 
 The library is implemented in a purely functional way, favoring
 immutability. Using immutable structures and pure functions prevents
@@ -65,7 +90,7 @@ no errors - that's a foolish thing to say - but what it does mean is
 that any problems will be logic errors and not related to the
 structure of the resulting algorithm and problem definitions.
 
-#### Explicit focus on algorithms
+### Explicit focus on algorithms
 
 It's tempting to expand a software project to eventually support
 everything, but it is not the correct way nor a good idea. To this

@@ -7,7 +7,7 @@ Content currently under development
 
 <!--
 At this point, we now understand what `Step` is.
-`StepS` is very similar but now we are creating a step with a state.
+`StepS` is similar but now we are creating a step with a state.
 
 What is a state?
 Lets first at look functions to answer this.
@@ -37,7 +37,7 @@ def map[C](f: B => C): StepS[A,S,C]
 def flatMap[C](f: B => StepS[A,S,C]): StepS[A,S,C]
 ```
 
-But what also makes `StepS` unique is its `zoom` method.
+What also makes `StepS` unique is its `zoom` method.
 
 ```scala
 def zoom[S2](l: monocle.Lens[S2,S]): StepS[A,S2,B]

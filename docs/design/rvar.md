@@ -85,7 +85,7 @@ val (rng3, y) = ints.run(rng2)
 x != y
 ```
 
-This manual state passing for the PRNG is very cumbersome and as a result,
+This manual state passing for the PRNG is cumbersome and as a result,
 the monad instance of `RVar` provides this exact functionality to the user,
 thereby preventing accidental errors due to incorrect usage of PRNG state.
 Furthermore, the monad instance for `RVar` allows for cleaner syntax through

@@ -27,7 +27,7 @@ In order to define an experiment, there are a couple of things we need to
 get ready first. The most obvious should be that there needs to be some kind
 of problem, upon which we will be executing the `GBestPSO`.
 
-As the very first step, we need to get the needed imports in scope:
+As the first step, we need to get the needed imports in scope:
 
 ```scala mdoc:silent
 import cilib._
