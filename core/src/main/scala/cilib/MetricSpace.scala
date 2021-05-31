@@ -64,7 +64,7 @@ object MetricSpace {
       }
     }
 
-  def discrete[A, B](implicit A: Eq[A], B: Integral[B]): MetricSpace[A, B] =
+  def discrete[A, B](implicit A: zio.prelude.Equal[A], B: Integral[B]): MetricSpace[A, B] =
     new MetricSpace[A, B] {
       def dist(x: A, y: A) = B.fromInt(if (A.equal(x, y)) 0 else 1)
     }
