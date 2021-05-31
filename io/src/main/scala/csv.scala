@@ -1,6 +1,8 @@
 package cilib
 package io
 
+import zio.prelude._
+
 import cilib.exec.{ Change, Env, Unchanged }
 
 @annotation.implicitNotFound("""
@@ -31,7 +33,7 @@ object EncodeCsv {
   implicit val doubleEncodeCsv  = createEncoder[Double](x => List(x.toString))
   implicit val stringEncodeCsv  = createEncoder[String](x => List(x))
 
-  def foldableEncodeCsv[F[_], A](implicit F: ForEach[F], A: EncodeCsv[A]) =
+  def foldableEncodeCsv[F[+_], A](implicit F: ForEach[F], A: EncodeCsv[A]) =
     createEncoder[F[A]](l => List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
 
   implicit def listEncodeCsv[A: EncodeCsv]         = foldableEncodeCsv[List, A]

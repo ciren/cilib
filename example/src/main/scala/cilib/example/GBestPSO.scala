@@ -4,18 +4,19 @@ package example
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
-import zio.prelude.{ Comparison => _, _ }
+import zio.prelude._
 
 import cilib.exec._
-import cilib.pso.Defaults._
 import cilib.pso._
+import cilib.pso.Defaults._
 
-object GBestPSO extends zio.App {
+
+object GBestPSO {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(
-      cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+      cmp = cilib.Comparison.dominance(Min),
+      eval = Eval.unconstrained((x: NonEmptyList[Double]) => Feasible(ExampleHelper.spherical(x)))
     )
 
   // Define a normal GBest PSO and run it for a single iteration
@@ -30,7 +31,7 @@ object GBestPSO extends zio.App {
 
   val problemStream = Runner.staticProblem("spherical", env.eval)
 
-  def run(args: List[String]) =
+  def main(args: List[String]) =
     runner.exitCode
 
   // Our IO[Unit] that runs the algorithm, at the end of the world

@@ -117,20 +117,14 @@ object BuildHelper {
 
   def stdSettings(prjName: String) = Seq(
     name := prjName,
-    crossScalaVersions := Seq("2.12.13", "2.13.5", "3.0.0"),
+    crossScalaVersions := Seq("2.12.12", "2.13.5", "3.0.0"),
     ThisBuild / scalaVersion := crossScalaVersions.value.head,
     testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
     scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     Compile / console / scalacOptions ~= { _.filterNot(Set("-Xfatal-warnings")) },
     libraryDependencies ++= {
-      // if (scalaVersion.value == "3.0.0")
-      //   Seq(("com.github.ghik" % "silencer-lib_2.13.1" % "1.6.0" % Provided).withDottyCompat(scalaVersion.value))
-      // else
       Seq(
-        "com.github.ghik" % "silencer-lib" % "1.7.3" % Provided cross CrossVersion.full,
-        compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.3" cross CrossVersion.full),
         compilerPlugin("org.typelevel"   % "kind-projector"  % "0.11.3" cross CrossVersion.full)
-        // compilerPlugin("com.olegpy"      %% "better-monadic-for" % "0.3.1")
       )
     },
     semanticdbEnabled := true
