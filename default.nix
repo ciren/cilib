@@ -1,17 +1,22 @@
+{ pkgs ? null }:
 let
-  pinnedVersion = "20.03";
+  pinnedVersion = "20.09";
 
-  pkgs =
-   import (builtins.fetchTarball {
-     # Descriptive name to make the store path easier to identify
-     name = "nixos-tag-${pinnedVersion}";
-     # URL for nixpks releases on GitHub
-     url = "https://github.com/NixOS/nixpkgs/archive/${pinnedVersion}.tar.gz";
-     # Hash obtained using `nix-prefetch-url --unpack <url>`
-     sha256 = "0182ys095dfx02vl2a20j1hz92dx3mfgz2a6fhn31bqlp1wa8hlq";
-   }) {};
-
-  buildInputs = with pkgs; [
+  localPkgs =
+    if pkgs == null then
+      (import
+        (builtins.fetchTarball {
+          # Descriptive name to make the store path easier to identify
+          name = "nixos-tag-${pinnedVersion}";
+          # URL for nixpks releases on GitHub
+          url = "https://github.com/NixOS/nixpkgs/archive/${pinnedVersion}.tar.gz";
+          # Hash obtained using `nix-prefetch-url --unpack <url>`
+          sha256 = "1wg61h4gndm3vcprdcg7rc4s1v3jkm5xd7lw8r2f67w502y94gcy";
+        })
+        { }) else pkgs;
+in
+rec {
+  buildInputs = with localPkgs; [
     openjdk11
     sbt
     yarn
@@ -20,11 +25,9 @@ let
     #yarn2nix
   ];
 
-in
-{
   shell =
-    pkgs.mkShell {
-      src = if pkgs.lib.inNixShell then null else pkgs.nix;
+    localPkgs.mkShell {
+      src = if localPkgs.lib.inNixShell then null else localPkgs.nix;
       inherit buildInputs;
     };
 }
