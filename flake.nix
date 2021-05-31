@@ -8,10 +8,18 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        cilib = import ./default.nix { pkgs = pkgs; };
       in
       {
-        devShell = pkgs.mkShell { buildInputs = cilib.buildInputs; };
+        devShell = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            openjdk11
+            sbt
+            yarn
+            nodejs
+            #node2nix
+            #yarn2nix
+          ];
+        };
       }
     );
 }
