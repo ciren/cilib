@@ -29,7 +29,9 @@ of problem, upon which we will be executing the `GBestPSO`.
 
 As the first step, we need to get the needed imports in scope:
 
-```scala mdoc:silent
+```scala
+
+mdoc:silent
 import cilib._
 import cilib.pso._
 import cilib.exec._
@@ -115,7 +117,7 @@ have been performed
 ```scala
 val rng = RNG.fromTime // Seed the RNG with the current time of the computer
 
-val result = Runner.repeat(1000, iter, swarm).run(env).run(rng)
+val result = Runner.repeat(1000, iter, swarm).provide(env).runAll(rng)
 
 result._2 match {
   case -\/(error) =>

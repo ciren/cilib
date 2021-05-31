@@ -36,12 +36,20 @@ module.exports = {
             {
               label: "Docs",
               to: "docs/introduction/getting-started"
+            },
+            {
+                label: "API",
+                to: "https://www.google.com"
             }
           ]
         },
         {
           title: "Community",
-          items: [
+            items: [
+                {
+                    label: "Gitter.im / Matrix",
+                    href: "https://gitter.im/cirg-up/cilib"
+                }
             // {
             //   label: 'Discord',
             //   href: 'https://discordapp.com/invite/docusaurus',

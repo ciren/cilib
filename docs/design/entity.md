@@ -1,4 +1,6 @@
-```scala mdoc:invisible
+```scala
+
+mdoc:invisible
 import cilib._
 import spire.math._
 import spire.implicits._
@@ -61,7 +63,9 @@ the case class:
 There already exists an instance of `HasMemory` defined for the `Mem`
 data structure. Let's have a look at some usage:
 
-```scala mdoc
+```scala
+
+mdoc
 // Lets create a function that expects the provided Entity to have
 // a memory within it's state parameter
 def foo[S](x: Entity[S,Double])(implicit mem: HasMemory[S,Double]) =
@@ -80,7 +84,9 @@ values, or we can simply `map` the function `foo` into the `RVar`, changing
 the result of the computation to a `RVar` which when executed will return the memory
 of the `Entity`.
 
-```scala mdoc
+```scala
+
+mdoc
 particle.map(p => foo(p)) // This works as expected: particles have a memory
 ```
 
@@ -88,7 +94,9 @@ Because `individual` does not have a memory defined, the following will fail.
 This failure is not only expected but required to ensure that incorrect usages
 are disallowed as soon as possible.
 
-```scala mdoc:fail
+```scala
+
+mdoc:fail
 individual.map(i => foo(i))
 ```
 
