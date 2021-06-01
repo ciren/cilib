@@ -171,7 +171,7 @@ object Runner {
       }
   }
 
-  def measure[A, S, B](f: A => B): Progress[A] => Measurement[B] = {
+  def measure[A, B](f: A => B): Progress[A] => Measurement[B] = {
     case Progress(algorithm, problem, seed, iteration, env, value) =>
       Measurement(algorithm, problem, iteration, env, seed, f(value))
   }

@@ -24,7 +24,9 @@ inThisBuild(
     ),
     scmInfo := Some(
       ScmInfo(url("https://github.com/ciren/cilib/"), "scm:git:git@github.com:ciren/cilib.git")
-    )
+    ),
+    scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0",
+    scalafixScalaBinaryVersion := scalaBinaryVersion.value
   )
 )
 
@@ -247,5 +249,3 @@ lazy val docs = project
   .settings(publish / skip := true)
   .dependsOn(core, pso, exec, io)
   .enablePlugins(MdocPlugin, DocusaurusPlugin)
-
-ThisBuild / scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0"

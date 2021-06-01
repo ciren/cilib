@@ -76,7 +76,7 @@ object FileOutput extends zio.App {
 
   // A performance measure that we apply to the collection at the end of each iteration.
   def performanceMeasure =
-    measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results] { collection =>
+    measure[NonEmptyList[Entity[Mem[Double], Double]], Results] { collection =>
       val fitnessValues = collection.map(x =>
         x.pos.objective
           .flatMap(_.fitness match {
