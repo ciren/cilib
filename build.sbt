@@ -26,7 +26,10 @@ inThisBuild(
       ScmInfo(url("https://github.com/ciren/cilib/"), "scm:git:git@github.com:ciren/cilib.git")
     ),
     scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0",
-    scalafixScalaBinaryVersion := scalaBinaryVersion.value
+    scalafixScalaBinaryVersion := scalaBinaryVersion.value,
+    semanticdbEnabled := true,                        // enable SemanticDB
+    semanticdbVersion := scalafixSemanticdb.revision, // only required for Scala 2.x
+    scalacOptions += "-Ywarn-unused-import"           // Scala 2.x only, required by `RemoveUnused`
   )
 )
 
