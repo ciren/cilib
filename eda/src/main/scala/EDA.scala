@@ -1,7 +1,7 @@
 package cilib
 package eda
 
-import scalaz._, Scalaz._
+import zio.prelude._
 
 object EDA {
 
@@ -9,20 +9,20 @@ object EDA {
     sample: (M, Entity[S, A]) => RVar[Entity[S, A]],
     //selection: NonEmptyList[Entity[S, A]] => RVar[NonEmptyList[Entity[S, A]]],
     generateModel: NonEmptyList[Entity[S, A]] => RVar[M]
-  ): NonEmptyList[Entity[S, A]] => Step[A, NonEmptyList[Entity[S, A]]] =
+  ): NonEmptyList[Entity[S, A]] => Step[NonEmptyList[Entity[S, A]]] =
     collection =>
       for {
         //selected <- Step.liftR(selection(collection))
         newModel  <- Step.liftR(generateModel(collection))
-        generated <- Step.liftR(collection.traverse(x => sample(newModel, x)))
-        evaluated <- generated.traverse(x => Step.eval((v: Position[A]) => v)(x))
+        generated <- Step.liftR(ForEach[NonEmptyList].forEach(collection)(x => sample(newModel, x)))
+        evaluated <- ForEach[NonEmptyList].forEach(generated)(x => Step.eval((v: Position[A]) => v)(x))
       } yield evaluated
 
   def UDMAc[A](xs: NonEmptyList[Position[Double]]): NonEmptyList[RVar[Double]] = {
-    val mean = xs.map(p => p.suml / p.length)
+    val mean = xs.map(p => p.sum / p.size)
     val mv: NonEmptyList[(Double, Double)] = xs.zip(mean).map {
       case (vec, mean) =>
-        (mean, vec.foldMap(x => (x - mean) * (x - mean)))
+        (mean, vec.map(x => (x - mean) * (x - mean)).sum)
     }
 
     mv.map {

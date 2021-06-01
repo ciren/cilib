@@ -9,10 +9,10 @@ module.exports = {
   themeConfig: {
     navbar: {
       title: "CIlib",
-      // logo: {
-      //   alt: 'My Site Logo',
-      //   src: 'img/logo.svg',
-      // },
+      logo: {
+        alt: 'My Site Logo',
+        src: 'img/logo.svg',
+      },
       items: [
         {
           to: "docs/introduction/getting-started",
@@ -36,12 +36,20 @@ module.exports = {
             {
               label: "Docs",
               to: "docs/introduction/getting-started"
+            },
+            {
+                label: "API",
+                to: "https://www.google.com"
             }
           ]
         },
         {
           title: "Community",
-          items: [
+            items: [
+                {
+                    label: "Gitter.im / Matrix",
+                    href: "https://gitter.im/cirg-up/cilib"
+                }
             // {
             //   label: 'Discord',
             //   href: 'https://discordapp.com/invite/docusaurus',
@@ -76,10 +84,10 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          homePageId: 'getting-started',
+          //homePageId: 'getting-started',
           path: "../cilib-docs/target/mdoc",
           sidebarPath: require.resolve("./sidebars.js"),
-          routeBasePath: 'docs',
+//          routeBasePath: 'docs',
         },
         // theme: {
         //   customCss: require.resolve("./src/css/custom.css")

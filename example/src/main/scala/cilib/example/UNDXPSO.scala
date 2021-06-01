@@ -29,6 +29,6 @@ object UNDXPSO extends zio.App {
     program.exitCode
 
   val program =
-    putStrLn(Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime).toString)
+    putStrLn(Runner.repeat(1000, iter, swarm).provide(env).runAll(RNG.fromTime).toString)
 
 }

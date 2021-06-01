@@ -13,7 +13,7 @@ import cilib._
 `RVar` (the contraction of *random variable*) is the backbone data structure of CILib.
 
 `RVar` allows for the sequenced composition of actions involving randomness, but more importantly tracks the effect of applying randomness to the computed value (which the `RVar` represents).
-Tracking the effect of randomness is very important, particularly within Computational Intelligence algorithms, in order to allow for the duplication of the computational process.
+Tracking the effect of randomness is important, particularly within Computational Intelligence algorithms, in order to allow for the duplication of the computational process.
 In other words, even if a computation uses randomness in order to calculate a value, the resulting value will always be the same provided that the provided inputs are unchanged.
 This **purity** (the same inputs producing the same output) allows allows a stochastic process (one which involves randomness) to be represented as a _purely deterministic_ and _declarative_ computation.
 The stochastic nature of the data structure is, however, only relevant when an `RVar` instance is evaluated to determine the computed value.
@@ -41,7 +41,7 @@ It is recommended to look at the documentation for `RVar` to become familiar wit
 
 To make the statements in the previous section a little more concrete, let's examine some usage examples.
 Assume that you need to create a list of random values.
-Now, because we are using a statically-typed language, we cannot mix and match different `RVar` instances without actually losing information about the list contents.
+Now, because we are using a statically typed language, we cannot mix and match different `RVar` instances without actually losing information about the list contents.
 
 Losing information implies that the type which may represent all the types within the list becomes more and more general.
 The more general the type becomes, less of the known specific information for the underlying type remains.
@@ -118,7 +118,7 @@ It is a tuple of two values, a `RNG` as well as a `List[Int]` of evaluated rando
 The `RNG` part of the result is the new state of the `RNG`, after the complete evaluation of the `RVar` computation.
 By returning the updated `RNG` state, the state may be threaded into a subsequent `RVar` computation.
 
-Provided the same `RNG` state is used and the same sequence of `RVar` instances are evaluated, the exact same solution is produced.
+Provided the same `RNG` state is used and the same sequence of `RVar` instances are evaluated, identical solution is produced.
 It might seem that such threading could be error prone.
 The `RNG` threading **is** error prone and also the reason why `RVar` is responsible for such threading, instead of the user.
 `RVar` is also a stack-safe computation, meaning that the composition of `RVar` instances will not result in a stack-overflow error which is common in highly recursive logic.

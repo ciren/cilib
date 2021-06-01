@@ -5,7 +5,7 @@ title: Lenses
 
 <!--
 Great! You just learnt about creating positions in a search space.
-But you might be asking yourself "How can we modify our set positions to explore the search space?"
+You might be asking yourself "How can we modify our set positions to explore the search space?"
 And this is exactly what we intend to learn in the coming chapter.
 Well, partly.
 This chapter is going to focus on `Lenses`, which are super awesome getters, setters and more!
@@ -20,7 +20,7 @@ Or they may shed light on an instance by *zooming* in and getting/returning data
 
 <div class="callout callout-danger">
 
-Lenses provide an API that is first and foremost, composition and lawful.
+Lenses provide an API that is allows for composition whilst being lawful.
 This means that the various optics are well behaved and rules exist that
 govern their usage. Furthermore, different optics may be composed together
 to create new optics that are the combination of the original optics. This
@@ -40,7 +40,7 @@ through the use of its implicit lookup mechanics.
 </div>
 
 Now that you understand the motivation for `Lenses` we can start to look at what CILib offers us.
-If you are still a bit unclear about optics then hopefully the following sections will clear that up as we go through some examples.
+If you are still a bit unclear about optics then the following sections will attempt to clear that up as we go through some examples.
 Just one last thing.
 You might have picked up that [Gary][link-gary] made reference to something called `Entity`.
 Fear not as this will be explained more in detail soon in this chapter and the next chapter, which is all about `Entity`.
@@ -68,7 +68,7 @@ method on all `case class`es called `copy`. In situations where there is a
 nesting of case classes, potentially several levels, the updating of a value
 on the lower levels results in a bubbling-up process whereby each previous
 layer needs to update the reference to the new data in the lower layer.
-Although this is not difficult to do, the result is very verbose and
+Although this is not difficult to do, the result is verbose and
 extremely cumbersome for the user. It would be nice if this "zooming"
 update process was abstracted behind a data structure that would hide and
 automate the tedious process.
@@ -89,7 +89,7 @@ The `Mem` class is represented with the following definition/constructor:
 
 - `Mem[A](b: Position[A], v: Position[A])`
 
-`Mem` ins't a complex data type at all but it is very important to CILib.
+`Mem` isn't a complex data type at all but it is important to CILib.
 We will now see why.
 
 ## A Quick Look at Entity
@@ -167,7 +167,7 @@ particle.map(p => foo(p)).eval(rng)
 
 ### HasVelocity
 
-`HasVelocity` is works the exact same as `HasMemory`.
+`HasVelocity` works the same as `HasMemory`.
 The only difference is that it returns the velocity of an `Entity's` state.
 
 ```scala :silent
@@ -183,7 +183,7 @@ particle.map(p => foo(p)).eval(rng)
 
 ### Conclusion
 
-Hopefully the `HasMemory` and `HasVelocity` examples cleared up any confusion you may have had about optics.
+The `HasMemory` and `HasVelocity` examples cleared up any confusion you may have had about optics.
 We created an `Entity`, called `particle`, and we saw its contents when we evaluated it.
 We then used a `Lens` to retrieve a part of the contents.
 We could have even used set, or any other method defined in the `Lens` type, to return a new modified result.
@@ -193,7 +193,7 @@ We could have even used set, or any other method defined in the `Lens` type, to 
 
 CILib offers a `Lense` object that contains a few optics that we can readily use.
 These optics are not just for `Entities` but also some CILib types we have seen before (yaaay!)
-With these optics, we are condensing some of the functions we created earlier in to a single line while at the same time adding more functionality (double yaaay!)
+With these optics, we are condensing some of the functions we created earlier in to a single line while adding more functionality (double yaaay!)
 
 All optics within the `Lense` object are prefixed with an underscore to signify that they are indeed an optic.
 
@@ -202,7 +202,7 @@ _state[S,A]
 
 _position[S,A]
 
-_vector[A:scalaz.Equal]
+//_vector[A:scalaz.Equal]
 
 _solutionPrism[A]: Prism[Position[A],Solution[A]]
 
@@ -227,8 +227,6 @@ Will provide a `Lens` that we may use to *zoom* in on the state of an `Entity`.
 import cilib.{Lenses, _}
 import spire.implicits.{eu => _, _}
 
-import scalaz._
-import Scalaz._
 import spire.math._
 ```
 ```scala :silent
@@ -375,7 +373,7 @@ Lenses._feasible.getOption(fit)
 
 How great are optics?
 They provide us with an easy interface with extracting information.
-But not only a for extracting (getting) we can also use other methods such as `set` or `modifyF` to return new instances.
+Not only a for extracting (getting) we can also use other methods such as `set` or `modifyF` to return new instances.
 
 Documentation for the optics types:
 

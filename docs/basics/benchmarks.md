@@ -18,7 +18,6 @@ benchmarks in your program as an example use.
 ```scala :silent
 import cilib._
 import cilib.benchmarks._ // Import for benchmarks
-import scalaz._
 import spire.implicits._
 import spire.math.Interval
 

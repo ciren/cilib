@@ -1,83 +1,70 @@
 package cilib
 
-import org.scalacheck.Arbitrary._
-import org.scalacheck.Gen._
-import org.scalacheck.Prop._
-import org.scalacheck._
-import scalaz.Ordering._
-import scalaz._
-import scalaz.scalacheck.ScalazArbitrary._
 import spire.implicits._
+import zio.prelude._
+import zio.test._
 
-object FitnessTest extends Properties("Fitness") {
+object FitnessTest extends DefaultRunnableSpec {
 
-  trait Single
-  trait Multi
+  object Single extends Newtype[Objective]
+  type Single = Single.Type
+  object Multi extends Newtype[Objective]
+  type Multi = Multi.Type
 
-  val genFeasibleFitness: Gen[Fit] =
-    Gen.choose(-1000, 1000).map(x => Feasible(x.toDouble))
+  val genFeasibleFitness =
+    Gen.double(-1000, 1000).map(Feasible(_))
 
-  val genInfeasibleFitenss: Gen[Fit] =
-    Gen.choose(-1000, 1000).map(x => Infeasible(x.toDouble))
+  val genInfeasibleFitenss =
+    Gen.double(-1000, 1000).map(Infeasible(_))
 
-  val genPenaltyFitness: Gen[Fit] =
+  val genPenaltyFitness =
     genInfeasibleFitenss.map(_.adjust(identity _))
 
-  def simpleViolationGen: Gen[Constraint[Int]] =
+  def simpleViolationGen =
     for {
-      value    <- Gen.choose(-100.0, 100.0)
-      function = ConstraintFunction((_: NonEmptyList[Int]) => 0.0)
+      value    <- Gen.double(-100.0, 100.0)
+      function = ConstraintFunction(_ => 0.0)
       constraint <- Gen.oneOf(
-                     LessThan(function, value),
-                     LessThanEqual(function, value),
-                     Equal(function, value),
-                     GreaterThan(function, value),
-                     GreaterThanEqual(function, value),
-                     InInterval(function, spire.math.Interval(-5.12, 5.12))
+                     Gen.const(LessThan(function, value)),
+                     Gen.const(LessThanEqual(function, value)),
+                     Gen.const(Equal(function, value)),
+                     Gen.const(GreaterThan(function, value)),
+                     Gen.const(GreaterThanEqual(function, value)),
+                     Gen.const(InInterval(function, spire.math.Interval(-5.12, 5.12)))
                    )
     } yield constraint
 
-  def singleObjectiveGen: Gen[Objective[Int] @@ Single] =
+  def singleObjectiveGen =
     for {
-      violationCount <- Gen.choose(1, 5)
-      violations     <- Gen.listOfN(violationCount, simpleViolationGen)
+      violationCount <- Gen.int(1, 5)
+      violations     <- Gen.listOfN(violationCount)(simpleViolationGen)
       obj <- Gen.oneOf(
-              genFeasibleFitness
-                .map(f => Tag[Objective[Int], Single](Objective.single(f, List.empty[Constraint[Int]]))),
-              genPenaltyFitness.map(f => Tag[Objective[Int], Single](Objective.single(f, violations))),
-              genInfeasibleFitenss.map(f => Tag[Objective[Int], Single](Objective.single(f, violations)))
+              genFeasibleFitness.map(f => Single(Objective.single(f, List.empty[Constraint]))),
+              genPenaltyFitness.map(f => Single(Objective.single(f, violations))),
+              genInfeasibleFitenss.map(f => Single(Objective.single(f, violations)))
             )
     } yield obj
 
-  implicit def arbSingleObjective = Arbitrary { singleObjectiveGen }
-
-  def multiObjectiveGen: Gen[Objective[Int] @@ Multi] =
+  def multiObjectiveGen =
     for {
-      nel <- arbitrary[NonEmptyList[Objective[Int] @@ Single]]
-    } yield Tag[Objective[Int], Multi](Objective.multi(nel.map(Tag.unwrap)))
+      nel <- Gen.listOfBounded(2, 10)(singleObjectiveGen)
+    } yield Multi(Objective.multi(NonEmptyList.fromIterableOption(nel).get.map(Single.unwrap)))
 
-  implicit def arbMultiObjective = Arbitrary { multiObjectiveGen }
-
-  implicit def idFitness: Fitness[Option, Objective[Int], Int] =
-    new Fitness[Option, Objective[Int], Int] {
-      def fitness(x: Option[Objective[Int]]): Option[Objective[Int]] =
+  implicit def idFitness: Fitness[Option, Objective, Int] =
+    new Fitness[Option, Objective, Int] {
+      def fitness(x: Option[Objective]): Option[Objective] =
         x
     }
 
-  implicit def idFitness3: Fitness[Objective, Int, Int] =
-    new Fitness[Objective, Int, Int] {
-      def fitness(x: Objective[Int]): Option[Objective[Int]] =
-        Some(x)
-    }
-
-  def better(opt: Opt)(x: Option[Objective[Int]], y: Option[Objective[Int]]): Option[Objective[Int]] =
+  def better(opt: Opt)(x: Option[Objective], y: Option[Objective]): Option[Objective] =
     (x, y) match {
       case (Some(a), Some(b)) =>
         (a.fitness, b.fitness) match {
-          case (-\/(f1), -\/(f2)) =>
-            if (Comparison.fitCompare(opt, f1, f2, a.violationCount, b.violationCount) == GT) x else y
-          case (\/-(f1), \/-(f2)) =>
-            if (Comparison.multiFitCompare(opt, f1, f2, a.violationCount, b.violationCount) == GT) x else y
+          case (Left(f1), Left(f2)) =>
+            if (Comparison.fitCompare(opt, f1, f2, a.violationCount, b.violationCount) == Ordering.GreaterThan) x else y
+          case (Right(f1), Right(f2)) =>
+            if (Comparison.multiFitCompare(opt, f1, f2, a.violationCount, b.violationCount) == Ordering.GreaterThan) x
+            else y
           case _ => x
         }
       case (None, None) => x
@@ -88,36 +75,43 @@ object FitnessTest extends Properties("Fitness") {
   val min = better(Min) _
   val max = better(Max) _
 
-  property("single objective min") = forAll {
-    (x: Option[Objective[Int] @@ Single], y: Option[Objective[Int] @@ Single]) =>
-      val a = x.map(Tag.unwrap)
-      val b = y.map(Tag.unwrap)
+  override def spec: ZSpec[Environment, Failure] = suite("Fitness")(
+    testM("single objective min") {
+      check(Gen.option(singleObjectiveGen), Gen.option(singleObjectiveGen)) {
+        case (x, y) =>
+          val a = x.map(Single.unwrap)
+          val b = y.map(Single.unwrap)
 
-      Comparison.quality(Min)(a, b) == min(a, b)
-  }
+          assert(Comparison.quality(Min)(a, b))(Assertion.equalTo(min(a, b)))
+      }
+    },
+    testM("single objective max") {
+      check(Gen.option(singleObjectiveGen), Gen.option(singleObjectiveGen)) {
+        case (x, y) =>
+          val a = x.map(Single.unwrap)
+          val b = y.map(Single.unwrap)
 
-  property("single objective max") = forAll {
-    (x: Option[Objective[Int] @@ Single], y: Option[Objective[Int] @@ Single]) =>
-      val a = x.map(Tag.unwrap)
-      val b = y.map(Tag.unwrap)
+          assert(Comparison.quality(Max)(a, b))(Assertion.equalTo(max(a, b)))
+      }
+    },
+    testM("multi objective dominance min") {
+      check(Gen.option(multiObjectiveGen), Gen.option(multiObjectiveGen)) {
+        case (x, y) =>
+          val a = x.map(Multi.unwrap)
+          val b = y.map(Multi.unwrap)
 
-      Comparison.quality(Max)(a, b) == max(a, b)
-  }
+          assert(Comparison.quality(Min)(a, b))(Assertion.equalTo(min(a, b)))
+      }
+    },
+    testM("multi objective dominance max") {
+      check(Gen.option(multiObjectiveGen), Gen.option(multiObjectiveGen)) {
+        case (x, y) =>
+          val a = x.map(Multi.unwrap)
+          val b = y.map(Multi.unwrap)
 
-  property("multi objective dominance min") = forAll {
-    (x: Option[Objective[Int] @@ Multi], y: Option[Objective[Int] @@ Multi]) =>
-      val a = x.map(Tag.unwrap)
-      val b = y.map(Tag.unwrap)
-
-      Comparison.quality(Min)(a, b) == min(a, b)
-  }
-
-  property("multi objective dominance max") = forAll {
-    (x: Option[Objective[Int] @@ Multi], y: Option[Objective[Int] @@ Multi]) =>
-      val a = x.map(Tag.unwrap)
-      val b = y.map(Tag.unwrap)
-
-      Comparison.quality(Max)(a, b) == max(a, b)
-  }
+          assert(Comparison.quality(Max)(a, b))(Assertion.equalTo(max(a, b)))
+      }
+    }
+  )
 
 }

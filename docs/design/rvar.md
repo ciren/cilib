@@ -1,11 +1,13 @@
-```scala mdoc:invisible
+```scala
+
+mdoc:invisible
 import cilib._
-import scalaz._
-import Scalaz._
 
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
 import eu.timepit.refined.auto._
+
+import zio.prelude._
 ```
 
 # RVar
@@ -36,7 +38,9 @@ common to request several random numbers. `RVar` provides several functions,
 with `ints` and `doubles` being the most common for random variable
 creation:
 
-```scala mdoc
+```scala
+
+mdoc
 val ints = RVar.ints(5)
 val doubles = RVar.doubles(5)
 ```
@@ -53,14 +57,18 @@ especially if the results are to be published.
 
 Let's create a `RNG` instance using both methods:
 
-```scala mdoc
+```scala
+
+mdoc
 val rng = RNG.init(1234L)
 val fromTimeYOLO = RNG.fromTime
 ```
 
 Now, let's run both `doubles` and `ints` with the generator:
 
-```scala mdoc
+```scala
+
+mdoc
 val r1 = ints.run(rng)
 doubles.run(rng)
 val r2 = ints.run(rng)
@@ -77,7 +85,9 @@ some random value from the source does not implicitly mutate the PRNG. In
 order to keep selecting from the PRNG stream, the next state of the PRNG
 should be passed into subsequent computations, when needed:
 
-```scala mdoc
+```scala
+
+mdoc
 val (rng2, x) = ints.run(rng)
 
 val (rng3, y) = ints.run(rng2)
@@ -85,13 +95,15 @@ val (rng3, y) = ints.run(rng2)
 x != y
 ```
 
-This manual state passing for the PRNG is very cumbersome and as a result,
+This manual state passing for the PRNG is cumbersome and as a result,
 the monad instance of `RVar` provides this exact functionality to the user,
 thereby preventing accidental errors due to incorrect usage of PRNG state.
 Furthermore, the monad instance for `RVar` allows for cleaner syntax through
 the use of a `for`-comprehension as provided by Scala:
 
-```scala mdoc
+```scala
+
+mdoc
 val composition = for {
   a <- RVar.next[Int] // Get a single Int
   b <- RVar.next[Double] // Get a single Double, using the next state of the PRNG
@@ -106,11 +118,13 @@ useful algorithms which operate within the `RVar` computation. Please refer
 to the [scaladoc](http://ciren.github.io/cilib/api/cilib/RVar$.html) for
 more combinators, but some of the more commonly used are illustrated below:
 
-```scala mdoc
+```scala
+
+mdoc
 val sampleList = NonEmptyList(6,4,5,2,1,3)
 
-RVar.shuffle(sampleList).run(rng)
-RVar.sample(3, sampleList).run(rng)
+RVar.shuffle(sampleList).runAll(rng)
+RVar.sample(3, sampleList).runAll(rng)
 ```
 
 Building on `RVar`, we can easily define probability distributions from
@@ -126,7 +140,9 @@ standard distributions are also defined, include:
 
 The interface for the distributions is simply a resulting `RVar`
 
-```scala mdoc
+```scala
+
+mdoc
 // Use a derived function from monad to repeat an action 'n' times
 Dist.stdNormal.replicateM(5).run(rng)
 ```

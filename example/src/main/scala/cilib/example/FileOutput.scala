@@ -3,12 +3,12 @@ package example
 import java.io.File
 
 import eu.timepit.refined.auto._
-import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math.Interval
 import zio._
 import zio.blocking.Blocking
 import zio.console._
+import zio.prelude.{ Comparison => _, _ }
 import zio.stream._
 
 import cilib.exec.Runner._
@@ -64,8 +64,8 @@ object FileOutput extends zio.App {
   val lbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, lbestGuide)
 
   // Define iterators for the algorithms
-  val gbestIter = Iteration.sync(gbestPSO)
-  val lbestIter = Iteration.sync(lbestPSO)
+  val gbestIter = Kleisli(Iteration.sync(gbestPSO))
+  val lbestIter = Kleisli(Iteration.sync(lbestPSO))
 
   // Define the initial swarm
   val swarm =
@@ -77,17 +77,31 @@ object FileOutput extends zio.App {
   // A performance measure that we apply to the collection at the end of each iteration.
   def performanceMeasure =
     measure[NonEmptyList[Entity[Mem[Double], Double]], Unit, Results] { collection =>
-      val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
-      val fitnessValues =
-        collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
-      Results(fitnessValues.minimum1, fitnessValues.suml / fitnessValues.size)
+      val fitnessValues = collection.map(x =>
+        x.pos.objective
+          .flatMap(_.fitness match {
+            case Left(f) =>
+              f match {
+                case Feasible(v) => Some(v)
+                case _           => None
+              }
+            case _ => None
+          })
+          .getOrElse(Double.PositiveInfinity)
+      )
+
+      //val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
+      // val fitnessValues =
+      //   collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
+
+      Results(fitnessValues.min, fitnessValues.reduceLeft(_ + _) / fitnessValues.size)
     }
 
   // A simple RVar.pure function that is called when the the environment changes
   // In this example our environments do not change.
-  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) => RVar.pure(x)
+  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList]) => RVar.pure(x)
 
-  def simulation(env: Environment[Double], stream: Stream[Nothing, Problem[Double]]) =
+  def simulation(env: Environment, stream: Stream[Nothing, Problem]) =
     List(Runner.staticAlgorithm("GBestPSO", gbestIter), Runner.staticAlgorithm("LBestPSO", lbestIter))
       .map(alg => Runner.foldStep(env, rng, swarm, alg, stream, onChange))
 
@@ -131,12 +145,12 @@ object FileOutput extends zio.App {
     for {
       _      <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
       result <- getStrLn
-      choice <- ZIO.succeed(\/.attempt(result.toInt)(_.getMessage) match {
-                 case \/-(1) => Parquet
-                 case \/-(2) => CSV
-                 case _      => Invalid
-               })
-      _ <- writeResults(choice)
+      choice <- ZIO.fromTry(scala.util.Try(result.toInt))
+      _ <- writeResults(choice match {
+            case 1 => Parquet
+            case 2 => CSV
+            case _ => Invalid
+          })
       _ <- putStrLn("Complete.")
     } yield ()
 

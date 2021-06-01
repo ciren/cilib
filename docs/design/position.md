@@ -3,8 +3,7 @@ import cilib._
 import cilib.algebra._
 import spire.implicits._
 import spire.math._
-import scalaz._
-import Scalaz._
+import zio.prelude._
 ```
 
 # Position
@@ -59,7 +58,9 @@ Interval(-5.12,5.12)^30
 A `Position` may now be constructed, as we know what the bounds of the search
 space are
 
-```scala mdoc
+```scala
+
+mdoc
 Position.createPosition(Interval(-5.12,5.12)^30)
 ```
 
@@ -75,14 +76,16 @@ Below are some examples of combining `Position` instances. Take careful
 note of the return value for the different cases of `Position`. In order
 to evaluate the quality of a `Position` an `Eval` instance is required.
 
-```scala mdoc
-val e = Eval.unconstrained[NonEmptyList,Double](pos => Feasible(pos.map(x => x * x).suml))
+```scala
+
+mdoc
+val e = Eval.unconstrained[NonEmptyList,Double](pos => Feasible(pos.map(x => x * x).sum))
 
 // a is a Point and b is a Solution
 val (_, (a, b)) =
   (for {
     a <- Position.createPosition(Interval(-5.12,5.12)^3)
-    b <- Position.createPosition(Interval(-5.12,5.12)^3).flatMap(p => Position.eval(e.eval, p))
+    b <- Position.createPosition(Interval(-5.12,5.12)^3).flatMap(p => Position.eval(e, p))
   } yield (a, b)).run(RNG.init(1234L))
 
 // Unary syntax to negate a Position

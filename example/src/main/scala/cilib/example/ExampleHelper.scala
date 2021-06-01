@@ -1,9 +1,9 @@
 package cilib
 package example
 
-import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math._
+import zio.prelude._
 
 // Define the benchmarks. These functions are hardcoded, but it would be better to consider
 // using https://github.com/ciren/benchmarks which is a far more extensive and
@@ -11,12 +11,12 @@ import spire.math._
 
 object ExampleHelper {
 
-  val absoluteValue = (xs: NonEmptyList[Double]) => xs.foldMap(math.abs)
+  val absoluteValue = (xs: NonEmptyList[Double]) => xs.map(math.abs).sum
 
   val ackley = (xs: NonEmptyList[Double]) => {
     val n      = xs.size
-    val sumcos = xs.foldMap(xi => cos(2 * pi * xi))
-    val sumsqr = xs.foldMap(_ ** 2)
+    val sumcos = xs.map(xi => cos(2 * pi * xi)).sum
+    val sumsqr = xs.map(_ ** 2).sum
 
     -20 * exp(-0.2 * sqrt(sumsqr / n)) - exp(sumcos / n) + 20 + e
   }
@@ -24,11 +24,11 @@ object ExampleHelper {
   val quadric = (xs: NonEmptyList[Double]) => {
     val list = xs.toList
 
-    (1 to xs.size).toList.foldMap { i =>
-      list.take(i).foldMap(xi => xi) ** 2
-    }
+    (1 to xs.size).toList.map { i =>
+      list.take(i).sum ** 2
+    }.sum
   }
 
-  val spherical = (xs: NonEmptyList[Double]) => xs.foldMap(x => x * x)
+  val spherical = (xs: NonEmptyList[Double]) => xs.map(x => x * x).sum
 
 }

@@ -1,47 +1,46 @@
 package cilib
 
-import scalaz.{ Maybe, NonEmptyList }
 import spire.algebra.Eq
 import spire.implicits._
 import spire.math._
 import spire.math.interval._
+import zio.prelude._
 
 final class ViolationCount(val count: Int) extends AnyVal
 object ViolationCount {
-  def apply(i: Int): Maybe[ViolationCount] =
-    if (i >= 0) Maybe.Just(new ViolationCount(i))
-    else Maybe.Empty()
+  def apply(i: Int): Option[ViolationCount] =
+    if (i >= 0) Some(new ViolationCount(i))
+    else None
 
   val zero: ViolationCount = new ViolationCount(0)
 
-  import scalaz.Order
-  import scalaz.std.anyVal._
-  implicit val violationOrder: Order[ViolationCount] = new Order[ViolationCount] {
-    def order(x: ViolationCount, y: ViolationCount) =
-      Order[Int].order(x.count, y.count)
+  implicit val violationOrd: Ord[ViolationCount] = new Ord[ViolationCount] {
+    def checkCompare(x: ViolationCount, y: ViolationCount) =
+      Ord[Int].compare(x.count, y.count)
   }
 
-  import scalaz._
-  implicit def violationMonoid[A]: Monoid[ViolationCount] =
-    new Monoid[ViolationCount] {
-      def zero = ViolationCount.zero
-      def append(f1: ViolationCount, f2: => ViolationCount) =
-        ViolationCount(f1.count + f2.count).getOrElse(zero)
+  implicit val violationAssociative: Identity[ViolationCount] =
+    new Identity[ViolationCount] {
+      def combine(l: => ViolationCount, r: => ViolationCount): ViolationCount =
+        ViolationCount(l.count + r.count).getOrElse(zero)
+
+      def identity: ViolationCount =
+        ViolationCount.zero
     }
 }
 
-final case class ConstraintFunction[A](f: NonEmptyList[A] => Double) {
-  def apply(a: NonEmptyList[A]): Double =
+final case class ConstraintFunction(f: NonEmptyList[_] => Double) {
+  def apply[A](a: NonEmptyList[A]): Double =
     f(a)
 }
 
-sealed abstract class Constraint[A]
-final case class LessThan[A](f: ConstraintFunction[A], v: Double)                    extends Constraint[A]
-final case class LessThanEqual[A](f: ConstraintFunction[A], v: Double)               extends Constraint[A]
-final case class Equal[A](f: ConstraintFunction[A], v: Double)                       extends Constraint[A]
-final case class InInterval[A](f: ConstraintFunction[A], interval: Interval[Double]) extends Constraint[A]
-final case class GreaterThan[A](f: ConstraintFunction[A], v: Double)                 extends Constraint[A]
-final case class GreaterThanEqual[A](f: ConstraintFunction[A], v: Double)            extends Constraint[A]
+sealed abstract class Constraint
+final case class LessThan[A](f: ConstraintFunction, v: Double)                    extends Constraint
+final case class LessThanEqual[A](f: ConstraintFunction, v: Double)               extends Constraint
+final case class Equal[A](f: ConstraintFunction, v: Double)                       extends Constraint
+final case class InInterval[A](f: ConstraintFunction, interval: Interval[Double]) extends Constraint
+final case class GreaterThan[A](f: ConstraintFunction, v: Double)                 extends Constraint
+final case class GreaterThanEqual[A](f: ConstraintFunction, v: Double)            extends Constraint
 
 object Constraint {
 
@@ -49,7 +48,7 @@ object Constraint {
 //    M.map(ma)(_.constrainBy(cs))
   private val ev = Eq[Double]
 
-  def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint[A]], cs: NonEmptyList[A]): Double =
+  def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint], cs: NonEmptyList[A]): Double =
     constraints
       .map(_ match {
         case LessThan(f, v) =>
@@ -105,11 +104,11 @@ object Constraint {
       })
       .sum
 
-  def violationCount[A](constraints: List[Constraint[A]], cs: NonEmptyList[A]): ViolationCount =
+  def violationCount[A](constraints: List[Constraint], cs: NonEmptyList[A]): ViolationCount =
     ViolationCount(constraints.map(satisfies(_, cs)).filterNot(x => x).length)
       .getOrElse(ViolationCount.zero)
 
-  def satisfies[A](constraint: Constraint[A], cs: NonEmptyList[A]): Boolean =
+  def satisfies[A](constraint: Constraint, cs: NonEmptyList[A]): Boolean =
     constraint match {
       case LessThan(f, v)      => f(cs) < v
       case LessThanEqual(f, v) => f(cs) <= v

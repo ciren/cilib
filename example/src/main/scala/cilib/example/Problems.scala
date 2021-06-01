@@ -1,8 +1,8 @@
 package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _ }
-import scalaz._, Scalaz._
 import spire.implicits._
+import zio.prelude._
 
 object Problems {
 
@@ -28,16 +28,16 @@ object Problems {
   ): RVar[NonEmptyList[PeakCone]] =
     // TODO: Change the parameters for the min and max height and width
     domain
-      .traverse(x => Dist.uniform(x))
+      .forEach(x => Dist.uniform(x))
       .flatMap { x =>
         val height = Dist.stdUniform.map(x => (maxHeight - minHeight) * x + minHeight)
         val width  = Dist.stdUniform.map(x => (maxWidth - minWidth) * x + minWidth)
-        (height |@| width) { (h, w) =>
+        height.zipWith(width)((h, w) =>
           PeakCone(h, w, x, x.map(_ => 1.0), domain, minWidth, maxWidth, minHeight, maxHeight)
-        }
+        )
       }
       .replicateM(n)
-      .map(_.toNel.getOrElse(sys.error("List cannot be empty")))
+      .map(x => NonEmptyList.fromIterableOption(x).getOrElse(sys.error("List cannot be empty")))
 
   sealed trait PeakMovement
   // final case object Linear extends PeakMovement
@@ -57,8 +57,8 @@ object Problems {
   ): RVar[NonEmptyList[PeakCone]] =
     movement match {
       case Random =>
-        peaks.traverse { p =>
-          val r: RVar[NonEmptyList[Double]]     = p.shift.traverse(_ => Dist.stdNormal)
+        peaks.forEach { p =>
+          val r: RVar[NonEmptyList[Double]]     = p.shift.forEach(_ => Dist.stdNormal)
           val term1: RVar[NonEmptyList[Double]] = r.map(_.map(_ * (1.0 - lambda) * changeSeverity))
           val linComb: RVar[NonEmptyList[Double]] =
             term1.map { t1 =>
@@ -81,7 +81,7 @@ object Problems {
             s2     <- Dist.stdNormal
           } yield {
             val shift = lin.map(_ * scalar)
-            val (newPos, newShift) =
+            val (newPos, newShift): (List[Double], List[Double]) =
               shift
                 .zip(p.location)
                 .zip(p.domain)
@@ -97,7 +97,7 @@ object Problems {
                       (2.0 * d.upperValue - p - s, -1.0 * s)
                     }
                 }
-                .unzip
+                .unzip(x => x)
 
             val newHeight = {
               val change = s1 * hSeverity
@@ -118,8 +118,8 @@ object Problems {
             }
 
             p.copy(
-              location = newPos,
-              shift = newShift,
+              location = NonEmptyList.fromIterableOption(newPos).getOrElse(sys.error("")),
+              shift = NonEmptyList.fromIterableOption(newShift).getOrElse(sys.error("")),
               height = newHeight,
               width = newWidth
             )
@@ -148,9 +148,9 @@ object Problems {
     }
   }
 
-  def peakEval(peaks: NonEmptyList[PeakCone]): Eval[NonEmptyList, Double] =
+  def peakEval(peaks: NonEmptyList[PeakCone]): Eval[NonEmptyList] =
     Eval.unconstrained { (a: NonEmptyList[Double]) =>
-      val x = peaks.map(_.eval(a)).list.toList.max // FIXME
+      val x = peaks.map(_.eval(a)).max
       val r = if (x == Double.NaN) Infeasible(0.0) else Feasible(x)
 
       r

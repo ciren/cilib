@@ -20,3 +20,8 @@ build
 i18n
 /website/docs
 cilib-docs
+/project/*
+.metals
+.bloop
+.bsp
+.direnv

@@ -1,15 +1,5 @@
 package cilib
 
-import monocle._
-import scalaz.NonEmptyList
+import zio.prelude.NonEmptyList
 
-final class Environment[A] private (val cmp: Comparison, val eval: Eval[NonEmptyList, A])
-
-object Environment {
-
-  def apply[A](cmp: Comparison, eval: Eval[NonEmptyList, A]): Environment[A] =
-    new Environment(cmp, eval)
-
-  def _eval[A]: Lens[Environment[A], Eval[NonEmptyList, A]] =
-    Lens[Environment[A], Eval[NonEmptyList, A]](_.eval)(b => a => new Environment(a.cmp, b))
-}
+final case class Environment(cmp: Comparison, eval: Eval[NonEmptyList])

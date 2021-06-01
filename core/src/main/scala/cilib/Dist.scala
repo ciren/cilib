@@ -1,12 +1,11 @@
 package cilib
 
-import scalaz._, Scalaz._
+import _root_.eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 
 object Dist {
   import RVar._
-  import scalaz.std.AllInstances._
 
   val stdUniform: RVar[Double]     = next[Double]
   val stdNormal: RVar[Double]      = gaussian(0.0, 1.0)
@@ -38,12 +37,12 @@ object Dist {
 
   def gamma(k: Double, theta: Double): RVar[Double] = {
     val n        = k.toInt
-    val gammaInt = stdUniform.replicateM(n).map(_.toList.foldMap(x => -math.log(x)))
+    val gammaInt = stdUniform.replicateM(n).map(_.map(x => -math.log(x)).sum)
     val gammaFrac = {
       val delta = k - n
 
       val a: RVar[(Double, Double)] =
-        (stdUniform |@| stdUniform |@| stdUniform) { (u1, u2, u3) =>
+        zio.prelude.fx.ZPure.mapN(stdUniform, stdUniform, stdUniform) { (u1, u2, u3) =>
           val v0 = math.E / (math.E + delta)
           if (u1 <= v0) {
             val zeta = math.pow(u2, 1.0 / delta)
@@ -56,13 +55,15 @@ object Dist {
           }
         }
 
-      a.flatMap(a0 =>
-        BindRec[RVar].tailrecM(a0) { (x: (Double, Double)) =>
-          val (zeta, eta) = x
-          if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) a.map(_.left[Double])
-          else RVar.pure(zeta.right[(Double, Double)])
-        }
-      )
+      a.repeatUntil { case (zeta, eta) => eta > math.pow(zeta, delta - 1) * math.exp(-zeta) }.map(_._1)
+
+      // a.flatMap(a0 =>
+      //   BindRec[RVar].tailrecM(a0) { (x: (Double, Double)) =>
+      //     val (zeta, eta) = x
+      //     if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) a.map(_.left[Double])
+      //     else RVar.pure(zeta.right[(Double, Double)])
+      //   }
+      //)
 
       // def inner: RVar[Double] =
       //   for {
@@ -87,7 +88,7 @@ object Dist {
       // inner
     }
 
-    (gammaInt |@| gammaFrac) { (a, b) =>
+    zio.prelude.fx.ZPure.mapN(gammaInt, gammaFrac) { (a, b) =>
       (a + b) * theta
     }
   }
@@ -105,45 +106,47 @@ object Dist {
     stdNormal.map(x => math.exp(mean + dev * x))
 
   def dirichlet(alphas: List[Double]): RVar[List[Double]] =
-    alphas
-      .traverse(gamma(_, 1))
-      .map { ys =>
-        val sum = ys.sum
-        ys.map(_ / sum)
-      }
+    zio.prelude.ForEach[List].forEach(alphas)(gamma(_, 1)).map { ys =>
+      val sum = ys.sum
+      ys.map(_ / sum)
+    }
 
   def weibull(shape: Double, scale: Double): RVar[Double] =
     stdUniform.map { x =>
       scale * math.pow(-math.log(1 - x), 1 / shape)
     }
 
-  import scalaz.syntax.monad._
-
   private def DRandNormalTail(min: Double, ineg: Boolean): RVar[Double] = {
-    def sample =
-      (stdUniform.map(x => math.log(x) / min) |@| stdUniform.map(math.log(_))) { Tuple2.apply }
+    def sample: RVar[(Double, Double)] =
+      stdUniform.map(x => math.log(x) / min).zip(stdUniform.map(math.log(_)))
 
-    sample
-      .iterateUntil(v => -2.0 * v._2 >= v._1 * v._1)
+    sample.repeatUntil { case (v1, v2) => -2.0 * v2 >= v1 * v1 }
       .map(x => if (ineg) x._1 - min else min - x._1)
   }
 
-  //private val ZIGNOR_C = 128                 // Number of blocks
+  //private val ZIGNOR_C = 128               // Number of blocks
   private val ZIGNOR_R = 3.442619855899      // Start of the right tail
   private val ZIGNOR_V = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
   private val (blocks, ratios) = {
-    val f = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
-    val blocks = {
-      (ZIGNOR_V / f) ##::
-        ZIGNOR_R ##::
-        (EphemeralStream.unfold((126, ZIGNOR_V / f, ZIGNOR_R)) { (a: (Int, Double, Double)) =>
+    def unfold[A, B](b: => B)(f: B => Option[(A, B)]): Stream[A] =
+      f(b) match {
+        case None         => Stream.empty[A]
+        case Some((a, r)) => a #:: unfold(r)(f)
+      }
+
+    val f           = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
+    val unfoldStart = (126, ZIGNOR_V / f, ZIGNOR_R)
+    val blocks: Stream[Double] = {
+      Stream(ZIGNOR_V / f, ZIGNOR_R) ++
+        (unfold(unfoldStart) { (a: (Int, Double, Double)) =>
           val f = math.exp(-0.5 * a._3 * a._3)
           val v = math.sqrt(-2.0 * math.log(ZIGNOR_V / a._2 + f))
-          if (a._1 == 0) none[(Double, (Int, Double, Double))] else (v, (a._1 - 1, a._3, v)).some
-        } ++ EphemeralStream(0.0))
-    }.toList
+          if (a._1 == 0) None else Some((v, (a._1 - 1, a._3, v)))
+        }) ++ Stream(0.0)
+    }
 
-    (blocks, blocks.apzip(_.drop(1)).map(a => a._1 / a._2))
+    (blocks, blocks.zip(blocks.drop(1)).map(a => a._1 / a._2))
+    //(blocks, ???)//blocks.zip apzip(_.drop(1)).map(a => a._1 / a._2))
   }
 
   def gaussian(mean: Double, dev: Double): RVar[Double] =
@@ -156,12 +159,10 @@ object Dist {
             val x  = u * blocks(i)
             val f0 = math.exp(-0.5 * (blocks(i) * blocks(i) - x * x))
             val f1 = math.exp(-0.5 * (blocks(i + 1) * blocks(i + 1) - x * x))
-            stdUniform
-              .map(a => f1 + a * (f0 - f1) < 1.0)
-              .ifM(
-                ifTrue = RVar.pure(x),
-                ifFalse = gaussian(mean, dev)
-              )
+            stdUniform.flatMap(a =>
+              if (f1 + a * (f0 - f1) < 1.0) RVar.pure(x)
+              else gaussian(mean, dev)
+            )
           }
     } yield mean + dev * r
 

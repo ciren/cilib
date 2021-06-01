@@ -2,64 +2,53 @@ package cilib
 
 import eu.timepit.refined._
 import eu.timepit.refined.numeric.Positive
-import org.scalacheck.Prop._
-import org.scalacheck._
-import scalaz._, Scalaz._
-import scalaz.scalacheck.ScalazArbitrary._
-import scalaz.scalacheck.ScalazProperties._
+import spire.implicits._
+import spire.math.Interval
+import zio.prelude._
+import zio.test._
 
-// Should we look at using Discipline or scalaz's way of testing? I'm not sure...
-object RVarTests extends Spec("RVar") {
+object RVarTests extends DefaultRunnableSpec {
 
   val rng = RNG.fromTime
 
-  implicit def rngEqual = scalaz.Equal[Int].contramap((_: RVar[Int]).run(rng)._2)
+  val interval           = Interval(-10.0, 10.0)
+  def boundary(dim: Int) = interval ^ dim
 
-  implicit def arbRVar: Arbitrary[RVar[Int]] = Arbitrary {
-    Arbitrary.arbitrary[Int].map(RVar.pure(_))
-  }
+  def nelGen(dim: Int) =
+    for {
+      head <- Gen.double(-10, 10)
+      tail <- Gen.listOfN(dim - 1)(Gen.double(-10, 10))
+    } yield NonEmptyList.fromIterable(head, tail)
 
-  implicit def arbRVarFunc: Arbitrary[RVar[Int => Int]] = Arbitrary {
-    Arbitrary.arbitrary[Int => Int].map(RVar.pure(_))
-  }
+  def positionGen = nelGen(10).map(Position(_, boundary(10)))
 
-  def distinctListOf[A: Arbitrary: scalaz.Order] =
-    distinctListOfGen(Arbitrary.arbitrary[A])
+  def spec: ZSpec[Environment, Failure] = suite("RVar")(
+    testM("shuffle") {
+      check(nelGen(10)) {
+        case xs =>
+          val shuffled = RVar.shuffle(xs).run(RNG.fromTime)._2
 
-  def distinctListOfGen[A](gen: Gen[A])(implicit E: scalaz.Order[A]): Gen[List[A]] = {
-    @annotation.tailrec
-    def go(discarded: Int, acc: List[A]): List[A] =
-      if (discarded >= 10) acc
-      else
-        gen.sample match {
-          case Some(x) if !acc.exists(a => E.equal(a, x)) =>
-            go(discarded, acc :+ x)
-          case _ => go(discarded + 1, acc)
-        }
+          assert(shuffled.length)(Assertion.equalTo(xs.length)) &&
+          assert(shuffled.sorted)(Assertion.equalTo(xs.sorted))
+      }
+    },
+    testM("sampling") {
+      check(Gen.int(1, 10), Gen.int(1, 20)) {
+        case (sampleSize, listSize) =>
+          refineV[Positive](sampleSize) match {
+            case Left(error) => sys.error(s"Cannot refine: $error")
+            case Right(value) =>
+              val elements = NonEmptyList.fromIterableOption((1 to listSize).toList).get
 
-    Gen.choose(0, 10).flatMap(_ => Gen.const(go(0, List.empty[A])))
-  }
+              val selected: List[Int] =
+                RVar.sample(value, elements).runResult(rng).getOrElse(List.empty)
 
-  checkAll(equal.laws[RVar[Int]])
-  checkAll(monad.laws[RVar])
-  checkAll(bindRec.laws[RVar])
-
-  property("shuffle") = forAll { (xs: NonEmptyList[Int]) =>
-    val shuffled = RVar.shuffle(xs).run(RNG.fromTime)._2
-    shuffled.length == xs.length && shuffled.sorted == xs.sorted
-  }
-
-  property("sampling") = forAll(Gen.choose(1, 10), distinctListOf[Int]) { (n: Int, xs: List[Int]) =>
-    refineV[Positive](n) match {
-      case Left(error) => false :| s"Cannot refine: $error"
-      case Right(value) =>
-        val selected: List[Int] =
-          // Using distinct here is safe as we are comparing Int values and not more complex data types
-          RVar.sample(value, xs).run(rng)._2.getOrElse(List.empty).distinct
-
-        if (xs.length < n) selected.isEmpty :| s"Resulting list [$selected] does not have length $n"
-        else
-          (selected.length == n) :| s"Error => $n, selected length: ${selected.length}, xs.length: ${xs.length}, xs: $xs\nselected: $selected"
+              if (elements.length < sampleSize) assert(selected)(Assertion.isEmpty)
+              else
+                assert(selected.length)(Assertion.isLessThanEqualTo(sampleSize)) &&
+                assert(selected.forall(s => elements.contains(s)))(Assertion.isTrue)
+          }
+      }
     }
-  }
+  )
 }

@@ -14,7 +14,7 @@ Scala is a JVM language which allows for the expression and usage of more advanc
 
 [Essential Scala](https://underscore.io/training/courses/essential-scala/) and [Advanced Scala With Cats](https://underscore.io/training/courses/advanced-scala/) are freely available, online Scala resources.
 It should be noted that these resources recommend practices that are not always followed within CIlib.
-The core focus in CIlib development is to *always* prefer a functional approach for implementation and avoid the use of object-orientation as much as possible.
+The core CIlib development focus is *always* to prefer a functional approach for implementation and avoid the use of object-orientation as much as possible.
 The benefits obtained through this style of code far outweigh any perceived overhead!
 
 > #### Compiler verified code samples
@@ -28,12 +28,12 @@ The code samples that follow will reference various functional programmming abst
 Firstly, let's state outright that these concepts are **not scary**, contrary the general misinformation that exists within the programming world.
 The abstractions may be unfamiliar to you, which is fair, but this is nothing more than an oppurtunity to learn general programming language theory which is true regardless of the programming language being used :smile:.
 
-Functional programming structures (such as Functor, Applicative and Monad) allow us to be very expressive by clearly restricting what we can and cannot be done with a given structure.
-Furthermore, these structures also predefine behaviour that is very useful and enables better composition.
+Functional programming structures (such as `Functor`, `Applicative` and `Monad`) allow us to be clear and expressive by restricting what can and cannot be done with a given structure.
+Furthermore, these structures also predefine behaviour that is useful and enables better composition.
 For example, knowing that a given structure has an instance of `Functor` available will immediately inform us that this structure, regardless of what it is, can accpet a transformation function to transform the internal values.
 
 We won't be focusing on this too much and it's not really all that important to use CIlib.
-If you do, however, struggle with to follow the examples, please feel free to contact the developers online in order to aid you in understanding and to provide some references to resources that are helpful.
+If you do, however, struggle with to follow the examples, please contact the developers online in order to aid you in understanding and to provide some references to resources that are helpful.
 Your questions may also result in updates to this tutorial, which you may also provide yourself by submitting a pull request :tada:.
 
 

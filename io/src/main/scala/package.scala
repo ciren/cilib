@@ -2,19 +2,19 @@ package cilib
 
 import com.github.mjakubowski84.parquet4s._
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
-import scalaz._, Scalaz._
 import zio._
 import zio.blocking.Blocking
+import zio.prelude._
 import zio.stream._
 
 package object io {
   import cilib.exec._
 
-  def writeCsvWithHeader[F[_], A](
+  def writeCsvWithHeader[F[+_], A: EncodeCsv](
     file: java.io.File,
     data: F[A]
-  )(implicit F: Foldable[F], N: ColumnNameEncoder[A], A: EncodeCsv[A]): Unit = {
-    val list = F.toList(data)
+  )(implicit F: ForEach[F], N: ColumnNameEncoder[A]): Unit = {
+    val list: List[A] = F.toList(data)
 
     list.headOption match {
       case None =>
@@ -34,8 +34,8 @@ package object io {
     }
   }
 
-  def writeCsv[F[_]: Foldable, A: EncodeCsv](file: java.io.File, data: F[A]): Unit = {
-    val list = Foldable[F].toList(data)
+  def writeCsv[F[+_], A: EncodeCsv](file: java.io.File, data: F[A])(implicit F: ForEach[F]): Unit = {
+    val list: List[A] = F.toList(data)
 
     list.headOption match {
       case None =>
@@ -105,17 +105,23 @@ package object io {
     writer
   }
 
-  def writeParquet[F[_]: Foldable, A: ParquetRecordEncoder: ParquetSchemaResolver](
+  def writeParquet[F[+_], A: ParquetRecordEncoder: ParquetSchemaResolver](
     file: java.io.File,
     data: F[A]
-  )(implicit encoder: ParquetRecordEncoder[Measurement[A]], schema: ParquetSchemaResolver[Measurement[A]]): Unit = {
+  )(
+    implicit F: ForEach[F],
+    encoder: ParquetRecordEncoder[Measurement[A]],
+    schema: ParquetSchemaResolver[Measurement[A]]
+  ): Unit = {
     val options = ParquetWriter.Options(
       compressionCodecName = CompressionCodecName.SNAPPY,
       pageSize = 4 * 1024 * 1024,
       rowGroupSize = 16 * 1024 * 1024
     )
 
-    ParquetWriter.writeAndClose(file.getAbsolutePath, data.toList, options)
+    val list: List[A] = F.toList(data)
+
+    ParquetWriter.writeAndClose(file.getAbsolutePath, list, options)
   }
 
   def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File)(

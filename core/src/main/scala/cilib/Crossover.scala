@@ -1,8 +1,9 @@
 package cilib
 
-import scalaz._, Scalaz._
+import _root_.eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.sqrt
+import zio.prelude._
 
 import cilib.Position._
 import cilib.algebra._
@@ -10,94 +11,96 @@ import cilib.syntax.dotprod._
 
 object Crossover {
 
-  val nmpc: Crossover[Double] =
-    parents => {
-      def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
+  def nmpc(parents: NonEmptyList[Position[Double]]): RVar[NonEmptyList[Position[Double]]] = {
+    def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
 
-      for {
-        coef <- Dist.stdUniform.replicateM(4)
-        s    = coef.suml
-        scaled = coef
-          .map(norm(_, s))
-          .toNel
-          .getOrElse(sys.error("Impossible - this is a safe usage as coef is always length 4"))
-        offspring = parents.zip(scaled).map(t => t._2 *: t._1).foldLeft1(_ + _)
-      } yield NonEmptyList(offspring)
+    Dist.stdUniform.replicateM(4).map { coef =>
+      val s: Double                    = coef.sum
+      val scaled: NonEmptyList[Double] = NonEmptyList.fromIterableOption(coef.map(x => norm(x, s))).get
+
+      parents.zip(scaled).map(t => t._2 *: t._1)
+    }
+  }
+
+  def pcx(sigma1: Double, sigma2: Double)(
+    parents: NonEmptyList[Position[Double]]
+  ): RVar[NonEmptyList[Position[Double]]] = {
+
+    val mean = Algebra.meanVector(parents)
+    val k    = parents.size
+
+    val initEta = NonEmptyList(parents.last - mean)
+    val (dd, e_eta) = parents.init.foldLeft((0.0, initEta)) { (a, b) =>
+      val d = b - mean
+
+      if (d.isZero) a
+      else {
+        val e = Algebra.orthogonalize(d, a._2.toList)
+
+        if (e.isZero) a
+        else (a._1 + e.magnitude, NonEmptyList.fromIterable(e.normalize, a._2))
+      }
     }
 
-  def pcx(sigma1: Double, sigma2: Double): Crossover[Double] =
-    parents => {
-      val mean = Algebra.meanVector(parents)
-      val k    = parents.size
+    val distance = if (k > 2) dd / (k - 1) else 0.0
 
-      val initEta = NonEmptyList(parents.last - mean)
-      val (dd, e_eta) = parents.init.foldLeft((0.0, initEta)) { (a, b) =>
-        val d = b - mean
+    for {
+      s1 <- Dist.gaussian(0.0, sigma1)
+      s2 <- Dist.gaussian(0.0, sigma2)
+    } yield {
+      val offspring = parents.last + (s1 *: e_eta.head)
+      NonEmptyList(e_eta.tail.foldLeft(offspring) { (c, e) =>
+        c + (s2 *: (distance *: e))
+      })
+    }
+  }
 
-        if (d.isZero) a
-        else {
-          val e = Algebra.orthogonalize(d, a._2.toList)
+  def undx(sigma1: Double, sigma2: Double)(
+    parents: NonEmptyList[Position[Double]]
+  ): RVar[NonEmptyList[Position[Double]]] = {
+    val n      = parents.head.pos.length
+    val bounds = parents.head.boundary
 
-          if (e.isZero) a
-          else (a._1 + e.magnitude, e.normalize <:: a._2)
-        }
+    // calculate mean of parents except main parents
+    val g = Algebra.meanVector(
+      NonEmptyList.fromIterableOption(parents.init).getOrElse(sys.error("UNDX requires at least 3 parents"))
+    )
+
+    // basis vectors defined by parents
+    val initZeta = List[Position[Double]]()
+    val zeta = parents.init.foldLeft(initZeta) { (z, p) =>
+      val d = p - g
+
+      if (d.isZero) z
+      else {
+        val dbar = d.magnitude
+        val e    = Algebra.orthogonalize(d, z)
+
+        if (e.isZero) z
+        else z :+ (dbar *: e.normalize)
       }
+    }
 
-      val distance = if (k > 2) dd / (k - 1) else 0.0
+    val dd = (parents.last - g).magnitude
 
+    // create the remaining basis vectors
+    val initEta = NonEmptyList(parents.last - g)
+    positiveInt(n - zeta.length) { value =>
+      val reta = Position.createPositions(bounds, value) //n - zeta.length)
+      val eta  = reta.map(r => Algebra.orthonormalize(initEta ++ r))
+
+      // construct the offspring
       for {
-        s1 <- Dist.gaussian(0.0, sigma1)
-        s2 <- Dist.gaussian(0.0, sigma2)
+        s1    <- Dist.gaussian(0.0, sigma1)
+        s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
+        e_eta <- eta
       } yield {
-        val offspring = parents.last + (s1 *: e_eta.head)
-        NonEmptyList(e_eta.tail.foldLeft(offspring) { (c, e) =>
-          c + (s2 *: (distance *: e))
-        })
+        val vars      = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
+        val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
+
+        NonEmptyList(offspring)
       }
     }
+  }
 
-  def undx(sigma1: Double, sigma2: Double): Crossover[Double] =
-    parents => {
-      val n      = parents.head.pos.length
-      val bounds = parents.head.boundary
-
-      // calculate mean of parents except main parents
-      val g = Algebra.meanVector(parents.init.toNel.getOrElse(sys.error("UNDX requires at least 3 parents")))
-
-      // basis vectors defined by parents
-      val initZeta = List[Position[Double]]()
-      val zeta = parents.init.foldLeft(initZeta) { (z, p) =>
-        val d = p - g
-
-        if (d.isZero) z
-        else {
-          val dbar = d.magnitude
-          val e    = Algebra.orthogonalize(d, z)
-
-          if (e.isZero) z
-          else z :+ (dbar *: e.normalize)
-        }
-      }
-
-      val dd = (parents.last - g).magnitude
-
-      // create the remaining basis vectors
-      val initEta = NonEmptyList(parents.last - g)
-      positiveInt(n - zeta.length) { value =>
-        val reta = Position.createPositions(bounds, value) //n - zeta.length)
-        val eta  = reta.map(r => Algebra.orthonormalize(initEta :::> r.toIList))
-
-        // construct the offspring
-        for {
-          s1    <- Dist.gaussian(0.0, sigma1)
-          s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
-          e_eta <- eta
-        } yield {
-          val vars      = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
-          val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
-
-          NonEmptyList(offspring)
-        }
-      }
-    }
 }

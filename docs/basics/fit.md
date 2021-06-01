@@ -5,7 +5,7 @@ title: Fitness
 <!--
 After the last chapter you're now somewhat familiar with `Feasible` and `Infeasible`.
 `CILib` offers this and more for dealing with the fitness of solutions.
-These concepts will be the main focus of this chapter,
+These concepts will be the focus of this chapter,
 as well as starting to put everything together of what we have learned thus far.
 
 We are going to cover the following
@@ -17,7 +17,7 @@ We are going to cover the following
 ## The Fit Type
 
 In the past we have seen `Feasible` and `Infeasible`.
-But, you might have noticed, there is a third type, `Adjusted`.
+You might have noticed, there is a third type, `Adjusted`.
 These types used to indicate information about a possible solution.
 
 ```scala
@@ -71,9 +71,6 @@ adjust the solution using the given parameter function.
 Adjusted indactes we have adjusted an `Infeasible` solution. It contains the `Infeasible` we had to adjust and the new adjusted value.
 </div>
 
-```scala :invisible
-import scalaz._
-```
 ```scala
 val badSolution = Infeasible(45.0, 1)
 badSolution.adjust(x => x * 0.73)
@@ -116,8 +113,6 @@ We will be using `NonEmptyList`.
 
 ```scala :invisible
 import cilib._
-import scalaz._
-import Scalaz._
 ```
 ```scala :silent
 val rng = RNG.init(12L)
@@ -211,8 +206,6 @@ You are given the following code to start with
 
 ```scala :silent
 import cilib._
-import scalaz._
-import Scalaz._
 import spire.implicits._
 import spire.math.Interval
 
@@ -300,7 +293,7 @@ val e = Eval.constrained[NonEmptyList, Double](fitness(_), List(damageConstraint
 </div>
 
 ### Question 5
-Now that we have created the evaluation we will need some methods to extract the information from the the `Objective` result.
+Now that we have created the evaluation we will need some methods to extract the information from the `Objective` result.
 Keeping this in mind, implement the following methods:
 
 ```scala
@@ -440,7 +433,7 @@ highestDamageWeapon(5)
 
 ## Summary
 
-We learnt about some amazing functionality of CILib with regards to fitness.
+We learned about some amazing functionality of CILib with respect to fitness.
 We got to test our knowledge of CILIb thus far by figuring out how to build a deadly custom bow and arrow.
 Its important to see how the various data types are starting to connect to one another.
 And with the data types defined for us, we only need to implement the finer details specific to our problem.

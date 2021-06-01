@@ -5,8 +5,8 @@ title: Runner
 
 # Runner and Our First Algorithm
 
-In this chapter we are going to create our very own Genetic Algorithm.
-But there are a few things we are going to have to discuss first before we jump into the creating a GA.
+In this chapter we are going to create our own Genetic Algorithm.
+There are a few things we are going to have to discuss first before we jump into the creating a GA.
 
 CILib offers a data type that we may use to run our algorithms.
 I say "may" because, if so choose, you create your own way of running the algorithms.
@@ -108,8 +108,6 @@ We will be using the following `imports` for our GA.
 ```scala :silent
 import cilib._
 import cilib.ga._
-import scalaz._
-import Scalaz._
 import eu.timepit.refined.auto._
 import spire.implicits.{eu => _, _}
 import spire.math.Interval
@@ -132,7 +130,7 @@ val env = Environment(
 
 ### The GA Algorithm
 
-The GA algorithm is the exact same one used in `cilib-ga`.
+The GA algorithm is the same as the implementation within `cilib-ga`.
 
 The reason we are intentionally defining it as opposed to importing it
 is so that we can see the inner workings and learn from it.

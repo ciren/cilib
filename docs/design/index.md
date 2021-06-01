@@ -9,7 +9,7 @@ were highlighted:
 
 ## Principled design
 
-It is very important to ensure that the library code is pure - thereby
+It is important to ensure that the library code is pure - thereby
 reducing complexity. This has many advantages but, most importantly, it
 allows for the controlling of side-effects which is a primary concern,
 especially when randomness is involved. As a consequence of this, and
@@ -47,5 +47,5 @@ several sub-projects:
 
 If you have any feedback or questions, please contact is in ``#cilib`` on
 ``FreeNode`` IRC or come chat to us in the project's
-[Gitter channel](https://gitter.im/ciren/cilib); alternatively, feel free
+[Gitter channel](https://gitter.im/cirg-up/cilib); alternatively, feel free
 to open an [issue](https://github.com/ciren/cilib/issues).

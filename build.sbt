@@ -1,14 +1,11 @@
 import sbt._
 import sbt.Keys._
 
-val scalazVersion     = "7.3.2"
-val spireVersion      = "0.17.0-RC1"
-val monocleVersion    = "2.0.4"
-val parquet4sVersion  = "1.3.1"
-val scalacheckVersion = "1.14.3"
-val zioVersion        = "1.0.0"
-
-val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
+val zio        = "dev.zio" %% "zio"          % Version.zio
+val zioStreams = "dev.zio" %% "zio-streams"  % Version.zio
+val zioPrelude = "dev.zio" %% "zio-prelude"  % Version.zioPrelude
+val zioTest    = "dev.zio" %% "zio-test"     % Version.zio % Test
+val zioTestSbt = "dev.zio" %% "zio-test-sbt" % Version.zio % Test
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -40,13 +37,6 @@ addCommandAlias(
 )
 addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
 addCommandAlias("fmtCheck", "all root/scalafmtSbtCheck root/scalafmtCheckAll")
-
-//   initialCommands in console := """
-//     |import scalaz._
-//     |import Scalaz._
-//     |import cilib._
-//     |import spire.implicits._
-//     |""".stripMargin
 
 // lazy val publishSettings = Seq(
 //   autoAPIMappings := true,
@@ -86,8 +76,8 @@ addCommandAlias("fmtCheck", "all root/scalafmtSbtCheck root/scalafmtCheckAll")
 lazy val root = project
   .in(file("."))
   .settings(
-    skip in publish := true,
-    console := (console in Compile in core).value,
+    publish / skip := true,
+    console := (core / Compile / console).value,
     BuildHelper.welcomeMessage
   )
   .aggregate(
@@ -111,10 +101,10 @@ lazy val core = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      scalaz,
-      "org.typelevel"              %% "spire"        % spireVersion,
-      "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
-      "eu.timepit"                 %% "refined"      % "0.9.15"
+      zio,
+      zioPrelude,
+      "org.typelevel" %% "spire"   % Version.spire,
+      "eu.timepit"    %% "refined" % "0.9.15"
     )
   )
   .enablePlugins(BuildInfoPlugin)
@@ -175,9 +165,9 @@ lazy val example = project
   .dependsOn(de)
   .settings(BuildHelper.stdSettings("example"))
   .settings(BuildHelper.buildInfoSettings("cilib"))
-  .settings(skip in publish := true)
-  .settings(fork in run := true)
-  .settings(connectInput in run := true)
+  .settings(publish / skip := true)
+  .settings(run / fork := true)
+  .settings(run / connectInput := true)
   .enablePlugins(BuildInfoPlugin)
 
 lazy val exec = project
@@ -187,9 +177,9 @@ lazy val exec = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      "dev.zio"                  %% "zio"            % zioVersion,
-      "dev.zio"                  %% "zio-streams"    % zioVersion,
-      "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion
+      zio,
+      zioStreams,
+      "com.github.mjakubowski84" %% "parquet4s-core" % Version.parquet4s
     )
   )
   .enablePlugins(BuildInfoPlugin)
@@ -228,14 +218,10 @@ lazy val tests = project
   .dependsOn(pso)
   .settings(BuildHelper.stdSettings("tests"))
   .settings(BuildHelper.buildInfoSettings("cilib"))
-  .settings(skip in publish := true)
-  .settings(javaOptions in test += "-Xmx1G")
-  .settings(
-    libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck"                % scalacheckVersion % "test",
-      "org.scalaz"     %% "scalaz-scalacheck-binding" % scalazVersion     % "test"
-    )
-  )
+  .settings(publish / skip := true)
+  .settings(test / javaOptions += "-Xmx1G")
+  .settings(run / fork := true)
+  .settings(libraryDependencies ++= Seq(zioTest, zioTestSbt))
   .enablePlugins(BuildInfoPlugin)
 
 lazy val io = project
@@ -247,10 +233,10 @@ lazy val io = project
   .settings(
     libraryDependencies ++= Seq(
       "com.chuusai"              %% "shapeless"      % "2.3.3",
-      "com.github.mjakubowski84" %% "parquet4s-core" % parquet4sVersion,
+      "com.github.mjakubowski84" %% "parquet4s-core" % Version.parquet4s,
       "org.apache.hadoop"        % "hadoop-client"   % "2.7.3",
-      "dev.zio"                  %% "zio"            % zioVersion,
-      "dev.zio"                  %% "zio-streams"    % zioVersion
+      zio,
+      zioStreams
     )
   )
   .enablePlugins(BuildInfoPlugin)
@@ -258,8 +244,8 @@ lazy val io = project
 lazy val docs = project
   .in(file("cilib-docs"))
   .settings(mdocVariables := Map("CILIB_VERSION" -> version.value))
-  .settings(skip in publish := true)
+  .settings(publish / skip := true)
   .dependsOn(core, pso, exec, io)
   .enablePlugins(MdocPlugin, DocusaurusPlugin)
 
-scalafixDependencies in ThisBuild += "com.nequissimus" %% "sort-imports" % "0.5.0"
+ThisBuild / scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0"

@@ -27,9 +27,11 @@ In order to define an experiment, there are a couple of things we need to
 get ready first. The most obvious should be that there needs to be some kind
 of problem, upon which we will be executing the `GBestPSO`.
 
-As the very first step, we need to get the needed imports in scope:
+As the first step, we need to get the needed imports in scope:
 
-```scala mdoc:silent
+```scala
+
+mdoc:silent
 import cilib._
 import cilib.pso._
 import cilib.exec._
@@ -41,8 +43,6 @@ import spire.math.Interval
 
 import cilib.syntax.algorithm._
 
-import scalaz._
-import Scalaz._
 ```
 
 Next, we define the `GBestPSO` itself. The `GBestPSO` is defined to use a velocity
@@ -117,7 +117,7 @@ have been performed
 ```scala
 val rng = RNG.fromTime // Seed the RNG with the current time of the computer
 
-val result = Runner.repeat(1000, iter, swarm).run(env).run(rng)
+val result = Runner.repeat(1000, iter, swarm).provide(env).runAll(rng)
 
 result._2 match {
   case -\/(error) =>

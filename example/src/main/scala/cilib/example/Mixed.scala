@@ -2,10 +2,10 @@ package cilib
 package example
 
 import eu.timepit.refined.auto._
-import scalaz._, Scalaz._
 import spire.implicits._
 import spire.math._
 import zio.console._
+import zio.prelude.{ Comparison => _, _ }
 
 import cilib.de._
 import cilib.exec._
@@ -34,7 +34,7 @@ object Mixed extends zio.App {
   val swarm =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
-  val combinedAlg: NonEmptyList[Entity[Mem[Double], Double]] => Entity[Mem[Double], Double] => Step[Double, Entity[Mem[
+  val combinedAlg: NonEmptyList[Entity[Mem[Double], Double]] => Entity[Mem[Double], Double] => Step[Entity[Mem[
     Double
   ], Double]] =
     collection =>
@@ -49,5 +49,5 @@ object Mixed extends zio.App {
   val alg = Iteration.sync(combinedAlg)
 
   def run(args: List[String]) =
-    putStrLn(Runner.repeat(1000, alg, swarm).run(env).run(RNG.fromTime).toString).exitCode
+    putStrLn(Runner.repeat(1000, alg, swarm).provide(env).runAll(RNG.fromTime).toString).exitCode
 }

@@ -1,8 +1,5 @@
 package cilib
 
-// import scalaz._
-// import scalaz.Scalaz._
-
 object Hypothesis {
 
   // def chiSquared(bins: Int, critical: Double, sample: Vector[Double]) = {
@@ -27,4 +24,5 @@ object Hypothesis {
 
   //   sum < 27.83 && sample.forall(x => x >= 0.0 && x < 1.0)
   // }
+
 }

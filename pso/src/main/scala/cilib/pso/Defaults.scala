@@ -2,9 +2,8 @@ package cilib
 package pso
 
 import PSO._
-import _root_.scala.Predef.{ any2stringadd => _ }
-import scalaz._
 import spire.implicits._
+import zio.prelude.NonEmptyList
 
 object Defaults {
 
@@ -29,7 +28,7 @@ object Defaults {
   )(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x =>
         for {
@@ -49,7 +48,7 @@ object Defaults {
   )(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x => {
         for {
@@ -69,7 +68,7 @@ object Defaults {
   )(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x => {
         for {
@@ -90,29 +89,29 @@ object Defaults {
   // attached to it.
   def gcpso[S](w: Double, c1: Double, c2: Double, cognitive: Guide[S, Double])(
     implicit M: HasMemory[S, Double],
-    V: HasVelocity[S, Double],
-    S: MonadState[StepS[Double, GCParams, *], GCParams]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => StepS[Double, GCParams, Particle[S, Double]] =
+    V: HasVelocity[S, Double]
+    //S: MonadState[StepS[GCParams, *], GCParams]
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => StepS[GCParams, Particle[S, Double]] =
     collection =>
       x => {
         val g = Guide.gbest[S]
         for {
-          gbest  <- StepS.pointS(g(collection, x))
-          cog    <- StepS.pointS(cognitive(collection, x))
-          isBest <- StepS.pointS(Step.pure[Double, Boolean](x.pos eq gbest)) // Yes, we do want reference equality
-          s      <- S.get
-          v <- StepS.pointS(
+          gbest  <- StepS.liftStep(g(collection, x))
+          cog    <- StepS.liftStep(cognitive(collection, x))
+          isBest <- StepS.liftStep(Step.pure[Boolean](x.pos eq gbest)) // Yes, we do want reference equality
+          s      <- StepS.getState[GCParams] //S.get
+          v <- StepS.liftStep(
                 if (isBest) gcVelocity(x, gbest, w, s)
                 else stdVelocity(x, gbest, cog, w, c1, c2)
               )
-          p       <- StepS.pointS(stdPosition(x, v))
-          p2      <- StepS.pointS(evalParticle(p))
-          p3      <- StepS.pointS(updateVelocity(p2, v))
-          updated <- StepS.pointS(updatePBest(p3))
-          failure <- StepS.pointS(
-                      Step.withCompare[Double, Boolean](Comparison.compare(x.pos, updated.pos).andThen(_ eq x.pos))
+          p       <- StepS.liftStep(stdPosition(x, v))
+          p2      <- StepS.liftStep(evalParticle(p))
+          p3      <- StepS.liftStep(updateVelocity(p2, v))
+          updated <- StepS.liftStep(updatePBest(p3))
+          failure <- StepS.liftStep(
+                      Step.withCompare[Boolean](Comparison.compare(x.pos, updated.pos).andThen(_ eq x.pos))
                     )
-          _ <- S.modify(params =>
+          _ <- StepS.modifyState((params: GCParams) =>
                 if (isBest) {
                   params.copy(
                     p =
@@ -139,7 +138,7 @@ object Defaults {
   )(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x =>
         for {
@@ -157,7 +156,7 @@ object Defaults {
     guide: Guide[S, Double]
   )(
     implicit M: HasMemory[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x =>
         for {
@@ -173,7 +172,7 @@ object Defaults {
     guide: Guide[S, Double]
   )(
     implicit M: HasMemory[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Double, Particle[S, Double]] =
+  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x =>
         for {
@@ -183,7 +182,7 @@ object Defaults {
           updated <- replace(p1, g)
         } yield updated
 
-  /*import scalaz.syntax.applicative._
+  /*
 
   def quantumBehavedOriginal2004[S](
     social: Guide[S,Double],

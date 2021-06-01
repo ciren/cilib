@@ -26,6 +26,6 @@ object PCXPSO extends zio.App {
   val iter = Iteration.sync(pcxPSO)
 
   def run(args: List[String]) =
-    putStrLn(Runner.repeat(1000, iter, swarm).run(env).run(RNG.fromTime).toString).exitCode
+    putStrLn(Runner.repeat(1000, iter, swarm).provide(env).runAll(RNG.fromTime).toString).exitCode
 
 }

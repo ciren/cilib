@@ -16,7 +16,7 @@ method on all `case class`es called `copy`. In situations where there is a
 nesting of case classes, potentially several levels, the updating of a value
 on the lower levels results in a bubbling-up process whereby each previous
 layer needs to update the reference to the new data in the lower layer.
-Although this is not difficult to do, the result is very verbose and
+Although this is not difficult to do, the result is verbose and
 extremely cumbersome for the user. It would be nice if this "zooming"
 update process was abstracted behind a data structure that would hide and
 automate the tedious process.
@@ -38,7 +38,7 @@ composed together and are collectively called "optics". Please refer to
 Monocle's documentation to learn more about lenses and optics. CIlib
 specific lens questions can be directed to the CIlib gitter room or IRC.
 
-Lenses provide an API that is first and foremost, composition and lawful.
+Lenses provide an API that is compositional whilst remaining lawful.
 This means that the various optics are well behaved and rules exist that
 govern their usage. Furthermore, different optics may be composed together
 to create new optics that are the combination of the original optics. This
@@ -55,7 +55,7 @@ a function that requires evidence in order to extract some other piece of
 information for a given type. The scala compiler provides the evidence
 through the use of its implicit lookup mechanics.
 This may seem quite like a mouthful, but let's have a look a few examples
-that will hopefully make the usage clearer.
+that will attempt to make the usage clearer.
 
 Based on the normally accepted usage of "classy lenses", the typeclasses
 that expose the lenses are generally prefixed with ``Has``. An example of

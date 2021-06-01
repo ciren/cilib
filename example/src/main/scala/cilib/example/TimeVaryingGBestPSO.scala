@@ -2,9 +2,9 @@ package cilib
 package example
 
 import eu.timepit.refined.auto._
-import scalaz._
 import spire.implicits._
 import spire.math.Interval
+import zio.prelude.{ Comparison => _, _ }
 
 import cilib.exec._
 import cilib.pso.Defaults._
@@ -28,8 +28,8 @@ object TimeVaryingGBestPSO extends zio.App {
 
   // 3. We need a function to create a new set of parameters, given the current set as input
   //    We need to define the maximum number of iterations as a stream effectively has no end
-  def updateParams(params: GBestParams, iterations: Int @@ Runner.IterationCount) = {
-    val i = Tag.unwrap(iterations)
+  def updateParams(params: GBestParams, iterations: Runner.IterationCount) = {
+    val i = Runner.IterationCount.unwrap(iterations)
     def linear(a: Double, b: Double) =
       a + (b - a) * (i.toDouble / 1000.0)
 
@@ -44,7 +44,7 @@ object TimeVaryingGBestPSO extends zio.App {
 
     val gbestPSO = gbest(params.inertia, params.c1, params.c2, cognitive, social)
 
-    Iteration.sync(gbestPSO)
+    Kleisli(Iteration.sync(gbestPSO))
   }
 
   // RVar
@@ -69,7 +69,7 @@ object TimeVaryingGBestPSO extends zio.App {
         updateParams
       ),
       problemStream,
-      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList, Double]) => RVar.pure(x)
+      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList]) => RVar.pure(x)
     )
 
     t.take(1000)

@@ -30,7 +30,7 @@ With the following formal definitions:
 ```scala
 indexNeighbours[A](n: Int): (NonEmptyList[A], A) => List[A]
 
-latticeNeighbours[A: scalaz.Equal]: (NonEmptyList[A], A) => List[A]
+//latticeNeighbours[A: scalaz.Equal]: (NonEmptyList[A], A) => List[A]
 
 distanceNeighbours[F[_]: Foldable, A: Order](distance: MetricSpace[F[A],A])(n: Int): (NonEmptyList[F[A]], F[A]) => List[F[A]]
 
@@ -48,8 +48,6 @@ However, ``distanceNeighbours`` and ``tournament`` are a bit unique so we will e
 
 ```scala :silent
 import cilib._
-import scalaz._
-import Scalaz._
 import eu.timepit.refined.auto._
 import spire.implicits.{eu => _, _}
 import spire.math.Interval
@@ -70,8 +68,6 @@ We then passed the solutions to the tournament selection along with an `Int` tha
 
 ```scala :silent
 import cilib._
-import scalaz._
-import Scalaz._
 import spire.implicits._
 
 val a = NonEmptyList(1.0, 2.0)

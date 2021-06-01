@@ -1,11 +1,12 @@
-```scala mdoc:invisible
+```scala
+
+mdoc:invisible
 import cilib._
 import cilib.pso._
 import cilib.pso.PSO._
-import scalaz._
-import Scalaz._
 import spire.algebra._
 import spire.implicits._
+import zio.prelude._
 ```
 
 # Step
@@ -52,11 +53,13 @@ included within the `Step`. The type for a PSO is then
 
 and the algorithm definition is:
 
-```scala mdoc
+```scala
+
+mdoc
 def pso[S](w: Double, c1: Double, c2: Double,
   cognitive: Guide[S,Double], social: Guide[S,Double]
 )(implicit M: HasMemory[S,Double], V: HasVelocity[S,Double]
-): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Double,Particle[S,Double]]  =
+): NonEmptyList[Particle[S,Double]] => Particle[S,Double] => Step[Particle[S,Double]]  =
   collection => x => for {
     cog     <- cognitive(collection, x)
     soc     <- social(collection, x)

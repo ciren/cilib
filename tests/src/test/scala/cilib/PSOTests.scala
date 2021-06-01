@@ -1,58 +1,50 @@
 package cilib
 
-import org.scalacheck.Arbitrary._
-import org.scalacheck.Gen
-import org.scalacheck.Gen._
-import org.scalacheck.Prop._
-import org.scalacheck._
-import scalaz._
-import scalaz.std.list._
-import scalaz.std.option._
-import scalaz.syntax.std.list._
-import scalaz.syntax.traverse._
 import spire.implicits._
+import spire.math.Interval
+import zio.prelude._
+import zio.test._
 
-object PSOTests extends Properties("QPSO") {
+object PSOTests extends DefaultRunnableSpec {
 
-  def genInterval: Gen[spire.math.Interval[Double]] =
+  val interval           = Interval(-10.0, 10.0)
+  def boundary(dim: Int) = interval ^ dim
+
+  def nelGen(dim: Int) =
     for {
-      lower <- Gen.choose(-10.0, 0.0)
-      upper <- Gen.choose(0.0, 10.0)
-    } yield spire.math.Interval(lower, upper)
+      head <- Gen.double(-10, 10)
+      tail <- Gen.listOfN(dim - 1)(Gen.double(-10, 10))
+    } yield NonEmptyList.fromIterable(head, tail)
 
-  implicit def arbInterval = Arbitrary { genInterval }
-  implicit def arbPosition = Arbitrary { genPosition }
+  def positionGen = nelGen(10).map(Position(_, boundary(10)))
 
-  def genPosition: Gen[Position[Double]] =
-    for {
-      bounds <- Gen.listOfN(2, arbitrary[spire.math.Interval[Double]])
-      pos    <- Gen.const(bounds.traverse(b => Gen.choose(b.lowerValue, b.upperValue).sample))
-    } yield Position(
-      pos.flatMap(_.toNel.toOption).getOrElse(sys.error("Error generating NonEmptyList[Double]")),
-      bounds.toNel.getOrElse(sys.error("Error generating NonEmptyList[Interval[Double]]"))
-    )
+  def spec: ZSpec[Environment, Failure] = suite("QPSO")(
+    testM("Uniform sampled cloud <= R") {
+      check(positionGen, Gen.anyLong) {
+        case (x, seed) =>
+          val p = Entity(Mem(x, x.zeroed), x)
+          val env = Environment(
+            cmp = Comparison.dominance(Min),
+            eval = Eval.unconstrained((_: NonEmptyList[Double]) => Feasible(0.0))
+          )
 
-  property("Uniform sampled cloud <= R") = forAll { (x: Position[Double], seed: Long) =>
-    val p = Entity(Mem(x, x.zeroed), x)
-    val env = Environment(
-      cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained((_: NonEmptyList[Double]) => Feasible(0.0))
-    )
+          val (_, result) =
+            cilib.pso.PSO
+              .quantum(p.pos, RVar.pure(10.0), (a, b) => Dist.uniform(spire.math.Interval(a, b)))
+              .provide(env)
+              .runAll(RNG.init(seed))
 
-    val (_, result) =
-      cilib.pso.PSO
-        .quantum(p.pos, RVar.pure(10.0), (a, b) => Dist.uniform(spire.math.Interval(a, b)))
-        .run(env)
-        .run(RNG.init(seed))
+          result match {
+            case Left(_) =>
+              sys.error("shouldn't happen")
 
-    result match {
-      case -\/(_) =>
-        false
+            case Right((_, value)) =>
+              val vectorLength = math.sqrt(value.pos.foldLeft(0.0)((a, c) => a + c * c))
 
-      case \/-(value) =>
-        val vectorLength = math.sqrt(value.pos.foldLeft(0.0)((a, c) => a + c * c))
-
-        vectorLength <= 10.0
+              assert(vectorLength)(Assertion.isLessThanEqualTo(10.0))
+          }
+      }
     }
-  }
+  )
+
 }
