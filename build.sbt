@@ -1,11 +1,11 @@
 import sbt._
 import sbt.Keys._
 
-val zio        = "dev.zio"    %% "zio"          % Version.zio
-val zioStreams = "dev.zio"    %% "zio-streams"  % Version.zio
-val zioPrelude = "dev.zio"    %% "zio-prelude"  % Version.zioPrelude
-val zioTest    = "dev.zio"    %% "zio-test"     % Version.zio % Test
-val zioTestSbt = "dev.zio"    %% "zio-test-sbt" % Version.zio % Test
+val zio        = "dev.zio" %% "zio"          % Version.zio
+val zioStreams = "dev.zio" %% "zio-streams"  % Version.zio
+val zioPrelude = "dev.zio" %% "zio-prelude"  % Version.zioPrelude
+val zioTest    = "dev.zio" %% "zio-test"     % Version.zio % Test
+val zioTestSbt = "dev.zio" %% "zio-test-sbt" % Version.zio % Test
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 

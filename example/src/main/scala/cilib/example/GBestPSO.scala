@@ -7,9 +7,8 @@ import spire.math.Interval
 import zio.prelude._
 
 import cilib.exec._
-import cilib.pso._
 import cilib.pso.Defaults._
-
+import cilib.pso._
 
 object GBestPSO {
   val bounds = Interval(-5.12, 5.12) ^ 30

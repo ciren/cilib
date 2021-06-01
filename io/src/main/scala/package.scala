@@ -3,8 +3,8 @@ package cilib
 import com.github.mjakubowski84.parquet4s._
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import zio._
-import zio.prelude._
 import zio.blocking.Blocking
+import zio.prelude._
 import zio.stream._
 
 package object io {
@@ -108,7 +108,11 @@ package object io {
   def writeParquet[F[+_], A: ParquetRecordEncoder: ParquetSchemaResolver](
     file: java.io.File,
     data: F[A]
-  )(implicit F: ForEach[F], encoder: ParquetRecordEncoder[Measurement[A]], schema: ParquetSchemaResolver[Measurement[A]]): Unit = {
+  )(
+    implicit F: ForEach[F],
+    encoder: ParquetRecordEncoder[Measurement[A]],
+    schema: ParquetSchemaResolver[Measurement[A]]
+  ): Unit = {
     val options = ParquetWriter.Options(
       compressionCodecName = CompressionCodecName.SNAPPY,
       pageSize = 4 * 1024 * 1024,

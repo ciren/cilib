@@ -124,7 +124,7 @@ object BuildHelper {
     Compile / console / scalacOptions ~= { _.filterNot(Set("-Xfatal-warnings")) },
     libraryDependencies ++= {
       Seq(
-        compilerPlugin("org.typelevel"   % "kind-projector"  % "0.11.3" cross CrossVersion.full)
+        compilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full)
       )
     },
     semanticdbEnabled := true
