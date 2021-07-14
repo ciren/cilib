@@ -102,7 +102,7 @@ lazy val root = project
 lazy val core = project
   .in(file("core"))
   .settings(BuildHelper.stdSettings("core"))
-  //.settings(crossProjectSettings
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(

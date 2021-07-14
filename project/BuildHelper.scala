@@ -96,24 +96,49 @@ object BuildHelper {
       case _ => Seq.empty
     }
 
-  // lazy val crossProjectSettings = Seq(
-  //   Compile / unmanagedSourceDirectories ++= {
-  //     val platform = crossProjectPlatform.value.identifier
-  //     val baseDir  = baseDirectory.value
-  //     val scalaVer = scalaVersion.value
-  //     val isDot    = isDotty.value
 
-  //     crossPlatformSources(scalaVer, platform, "main", baseDir, isDot)
-  //   },
-  //   Test / unmanagedSourceDirectories ++= {
-  //     val platform = crossProjectPlatform.value.identifier
-  //     val baseDir  = baseDirectory.value
-  //     val scalaVer = scalaVersion.value
-  //     val isDot    = isDotty.value
+  def platformSpecificSources(/*platform: String,*/ conf: String, baseDirectory: File)(versions: String*) = for {
+    platform <- List("shared")//, platform)
+    version  <- "scala" :: versions.toList.map("scala-" + _)
+    result    = baseDirectory.getParentFile / platform.toLowerCase / "src" / conf / version
+    if result.exists
+  } yield result
 
-  //     crossPlatformSources(scalaVer, platform, "test", baseDir, isDot)
-  //   }
-  // )
+  def crossPlatformSources(scalaVer: String, /*platform: String,*/ conf: String, baseDir: File) = {
+    val versions = CrossVersion.partialVersion(scalaVer) match {
+      case Some((2, 11)) =>
+        List("2.11", "2.11+", "2.11-2.12", "2.x")
+      case Some((2, 12)) =>
+        List("2.12", "2.11+", "2.12+", "2.11-2.12", "2.12-2.13", "2.x")
+      case Some((2, 13)) =>
+        List("2.13", "2.11+", "2.12+", "2.13+", "2.12-2.13", "2.x")
+      case Some((3, 0)) =>
+        List("dotty", "2.11+", "2.12+", "2.13+", "3.x")
+      case _ =>
+        List()
+    }
+    platformSpecificSources(/*platform,*/ conf, baseDir)(versions: _*)
+  }
+
+  lazy val crossProjectSettings = Seq(
+    Compile / unmanagedSourceDirectories ++= {
+      crossPlatformSources(
+        scalaVersion.value,
+        //crossProjectPlatform.value.identifier,
+        "main",
+        baseDirectory.value
+      )
+    },
+    Test / unmanagedSourceDirectories ++= {
+      crossPlatformSources(
+        scalaVersion.value,
+        //crossProjectPlatform.value.identifier,
+        "test",
+        baseDirectory.value
+      )
+    }
+  )
+
 
   def stdSettings(prjName: String) = Seq(
     name := prjName,
