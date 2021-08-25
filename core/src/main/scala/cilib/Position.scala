@@ -104,11 +104,6 @@ object Position {
       def plus(x: Position[A], y: Position[A]) = {
         val combined =
           x.pos.zipAllWith(y.pos.toChunk)(identity, identity)(scalar.plus(_, _))
-          // align(x.pos, y.pos).map(_ match {
-          //   case These.Left(l)    => l
-          //   case These.Right(r)   => r
-          //   case These.Both(l, r) => scalar.plus(l, r)
-          // })
 
         Point(combined, x.boundary)
       }
@@ -133,17 +128,8 @@ object Position {
     def unary_-(implicit M: LeftModule[Position[A], A]): Position[A] =
       M.negate(x)
 
-    def isZero(implicit R: Ring[A]): Boolean = {
+    def isZero(implicit R: Ring[A]): Boolean =
       x.forall(_ == R.zero)
-      // @annotation.tailrec
-    //   def test(xs: List[A]): Boolean =
-    //     xs match {
-    //       case Nil      => true
-    //       case x :: xss => if (x != R.zero) false else test(xss)
-    //     }
-
-    //   test(x.pos.toList)
-    }
   }
 
   implicit def positionFitness[A]: Fitness[Position, A, A] =
@@ -170,8 +156,7 @@ object Position {
   def createPosition[A](domain: NonEmptyVector[Interval[Double]]): RVar[Position[Double]] =
     ForEach[NonEmptyVector]
       .forEach(domain)(Dist.uniform)
-      .map(znel => Position(znel, domain))
-  //domain.traverse(Dist.uniform).map(x => Position(x, domain))
+      .map(z => Position(z, domain))
 
   def createPositions(
     domain: NonEmptyVector[Interval[Double]],
