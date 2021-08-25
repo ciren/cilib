@@ -24,21 +24,16 @@ inThisBuild(
     ),
     scmInfo := Some(
       ScmInfo(url("https://github.com/ciren/cilib/"), "scm:git:git@github.com:ciren/cilib.git")
-    ),
-    scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0",
-    scalafixScalaBinaryVersion := scalaBinaryVersion.value,
-    semanticdbEnabled := true,                        // enable SemanticDB
-    semanticdbVersion := scalafixSemanticdb.revision, // only required for Scala 2.x
-    scalacOptions += "-Ywarn-unused-import"           // Scala 2.x only, required by `RemoveUnused`
+    )
   )
 )
 
 addCommandAlias("build", "prepare; test")
 addCommandAlias("prepare", "fix; fmt")
-addCommandAlias("fix", "all compile:scalafix test:scalafix")
+addCommandAlias("fix", "all compile/scalafix test/scalafix")
 addCommandAlias(
   "fixCheck",
-  "; compile:scalafix --check ; test:scalafix --check"
+  "; compile/scalafix --check ; test/scalafix --check"
 )
 addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
 addCommandAlias("fmtCheck", "all root/scalafmtSbtCheck root/scalafmtCheckAll")
@@ -179,6 +174,7 @@ lazy val exec = project
   .in(file("exec"))
   .dependsOn(core)
   .settings(BuildHelper.stdSettings("exec"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(

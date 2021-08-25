@@ -151,13 +151,20 @@ object BuildHelper {
       Seq(
         compilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full)
       )
-    },
-    semanticdbEnabled := true
-  ) //  ++ (if (scalaVersion.value != "'3.0.0") Seq(
+    }
+  )
+  // ) ++ Seq(if (scalaVersion.value != "3.0.0") Seq(
+  //   scalafixScalaBinaryVersion := scalaBinaryVersion.value,
+  //   scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0",
   //   semanticdbEnabled := scalaVersion.value != "3.0.0", // enable SemanticDB
-  //   semanticdbOptions += "-P:semanticdb:synthetics:on",
-  //   semanticdbVersion := scalafixSemanticdb.revision // use Scalafix compatible version
-  // ) else Seq())
+  //   semanticdbVersion := scalafixSemanticdb.revision,   // only required for Scala 2.x
+  //   scalacOptions += "-Ywarn-unused-import"           // Scala 2.x only, required by `RemoveUnused`
+  // )
+  // //  ++ (if (scalaVersion.value != "'3.0.0") Seq(
+  // //   semanticdbEnabled := scalaVersion.value != "3.0.0", // enable SemanticDB
+  // //   semanticdbOptions += "-P:semanticdb:synthetics:on",
+  // //   semanticdbVersion := scalafixSemanticdb.revision // use Scalafix compatible version
+  //  else Seq())
 
   def welcomeMessage = onLoadMessage := {
     import scala.Console

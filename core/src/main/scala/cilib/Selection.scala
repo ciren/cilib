@@ -32,8 +32,8 @@ object Selection {
       @inline def indexInto(r: Int, c: Int) =
         r * sqSide + c
 
-      @inline val colsInRow =
-        (r: Int) => if (r == nRows - 1) np - r * sqSide else sqSide
+      @inline def colsInRow(r: Int) =
+        if (r == nRows - 1) np - r * sqSide else sqSide
 
       val result = for {
         r <- row
