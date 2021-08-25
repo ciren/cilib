@@ -10,7 +10,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 
-object GBestPSO {
+object GBestPSO extends zio.App {
   val bounds = Interval(-5.12, 5.12) ^ 30
   val env =
     Environment(
@@ -30,11 +30,8 @@ object GBestPSO {
 
   val problemStream = Runner.staticProblem("spherical", env.eval)
 
-  def main(args: List[String]) =
-    runner.exitCode
-
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  val runner = {
+  def run(args: List[String]) = {
     val t = Runner.foldStep(
       env,
       RNG.fromTime,
@@ -47,5 +44,6 @@ object GBestPSO {
     t.take(1000)
       .runLast
       .fold(eh => println(eh.toString), ah => println(ah.toString))
+      .exitCode
   }
 }
