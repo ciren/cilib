@@ -4,6 +4,7 @@ package algebra
 import spire.algebra._
 import spire.implicits._
 import zio.prelude._
+import zio.Chunk
 
 trait DotProd[F[_], A] {
   def dot(a: F[A], b: F[A]): Double
@@ -63,14 +64,14 @@ object Algebra {
     else (D.dot(x, other) / D.dot(other, other)) *: other
 
   def orthonormalize[F[+_]: Covariant: ForEach, A: NRoot](
-    vs: NonEmptyList[F[A]]
-  )(implicit D: DotProd[F, A], M: LeftModule[F[A], Double], A: Field[A]): NonEmptyList[F[A]] = {
-    val bases = vs.foldLeft(NonEmptyList(vs.head)) { (ob, v) =>
+    vs: NonEmptyVector[F[A]]
+  )(implicit D: DotProd[F, A], M: LeftModule[F[A], Double], A: Field[A]): NonEmptyVector[F[A]] = {
+    val bases = vs.foldLeft(NonEmptyVector(vs.head)) { (ob, v) =>
       val ui = ob.foldLeft(v) { (u, o) =>
         u - project(v, o)
       }
       if (ui.foldLeft(A.zero)(A.plus) == A.zero) ob
-      else ob ++ NonEmptyList(ui)
+      else ob ++ Chunk(ui)
     }
 
     bases.map(normalize(_))

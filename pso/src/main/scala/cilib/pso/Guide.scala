@@ -2,7 +2,6 @@ package cilib
 package pso
 
 import eu.timepit.refined.auto._
-import zio.prelude.NonEmptyList
 
 // A Guide is a selection followed by a comparison, wrapped up in a Step
 object Guide {
@@ -46,8 +45,8 @@ object Guide {
     nbest(Selection.latticeNeighbours[Particle[S, Double]])
 
   def crossover[S](
-    parentAttractors: NonEmptyList[Position[Double]],
-    op: NonEmptyList[Position[Double]] => RVar[NonEmptyList[Position[Double]]]
+    parentAttractors: NonEmptyVector[Position[Double]],
+    op: NonEmptyVector[Position[Double]] => RVar[NonEmptyVector[Position[Double]]]
   ): Guide[S, Double] =
     (_, _) => Step.liftR(op(parentAttractors).map(_.head))
 
@@ -79,7 +78,7 @@ object Guide {
         p         <- pb(collection, x)
         i         <- identity(collection, x)
         n         <- gb(collection, x)
-        parents   = NonEmptyList(p, i, n)
+        parents   = NonEmptyVector(p, i, n)
         offspring <- Step.liftR(pcx(parents))
       } yield offspring.head
     }
@@ -94,7 +93,7 @@ object Guide {
         p         <- pb(collection, x)
         i         <- identity(collection, x)
         n         <- gb(collection, x)
-        parents   = NonEmptyList(p, i, n)
+        parents   = NonEmptyVector(p, i, n)
         offspring <- Step.liftR(undx(parents))
       } yield offspring.head
     }

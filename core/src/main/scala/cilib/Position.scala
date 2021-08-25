@@ -161,17 +161,17 @@ object Position {
   def createPositions(
     domain: NonEmptyVector[Interval[Double]],
     n: Int Refined Positive
-  ): RVar[NonEmptyList[Position[Double]]] =
+  ): RVar[NonEmptyVector[Position[Double]]] =
     createPosition(domain)
       .replicateM(n.value)
       .map(list =>
-        NonEmptyList
+        NonEmptyVector
           .fromIterableOption(list)
           .getOrElse(sys.error("Impossible -> refinement requires n to be positive, i.e. n > 0"))
       )
 
   def createCollection[A](
     f: Position[Double] => A
-  )(domain: NonEmptyVector[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyList[A]] =
+  )(domain: NonEmptyVector[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyVector[A]] =
     createPositions(domain, n).map(_.map(f))
 }

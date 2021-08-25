@@ -72,6 +72,12 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
   def head: A =
     chunk.head
 
+  def init =
+    chunk.init
+
+  def last =
+    chunk.last
+
   def length =
     chunk.length
 

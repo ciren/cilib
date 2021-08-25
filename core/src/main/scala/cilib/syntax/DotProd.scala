@@ -23,8 +23,8 @@ object dotprod {
       A: NRoot[A],
       D: DotProd[F, A],
       M: LeftModule[F[A], Double]
-    ): NonEmptyList[F[A]] =
-      Algebra.orthonormalize(NonEmptyList(x))
+    ): NonEmptyVector[F[A]] =
+      Algebra.orthonormalize(NonEmptyVector(x))
   }
 
 }

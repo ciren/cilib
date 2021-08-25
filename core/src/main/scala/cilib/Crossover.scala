@@ -56,8 +56,8 @@ object Crossover {
   }
 
   def undx(sigma1: Double, sigma2: Double)(
-    parents: NonEmptyList[Position[Double]]
-  ): RVar[NonEmptyList[Position[Double]]] = {
+    parents: NonEmptyVector[Position[Double]]
+  ): RVar[NonEmptyVector[Position[Double]]] = {
     val n      = parents.head.pos.toChunk.length
     val bounds = parents.head.boundary
 
@@ -84,10 +84,10 @@ object Crossover {
     val dd = (parents.last - g).magnitude
 
     // create the remaining basis vectors
-    val initEta = NonEmptyList(parents.last - g)
+    val initEta = NonEmptyVector(parents.last - g)
     positiveInt(n - zeta.length) { value =>
       val reta = Position.createPositions(bounds, value) //n - zeta.length)
-      val eta  = reta.map(r => Algebra.orthonormalize(initEta ++ r))
+      val eta  = reta.map(r => Algebra.orthonormalize(initEta ++ r.toChunk))
 
       // construct the offspring
       for {
@@ -98,7 +98,7 @@ object Crossover {
         val vars      = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
         val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
 
-        NonEmptyList(offspring)
+        NonEmptyVector(offspring)
       }
     }
   }
