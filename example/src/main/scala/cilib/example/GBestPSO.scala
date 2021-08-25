@@ -15,7 +15,7 @@ object GBestPSO {
   val env =
     Environment(
       cmp = cilib.Comparison.dominance(Min),
-      eval = Eval.unconstrained((x: NonEmptyList[Double]) => Feasible(ExampleHelper.spherical(x)))
+      eval = Eval.unconstrained((x: NonEmptyVector[Double]) => Feasible(ExampleHelper.spherical(x)))
     )
 
   // Define a normal GBest PSO and run it for a single iteration
@@ -41,7 +41,7 @@ object GBestPSO {
       swarm,
       Runner.staticAlgorithm("gbestPSO", iter),
       problemStream,
-      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList]) => RVar.pure(x)
+      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
     )
 
     t.take(1000)

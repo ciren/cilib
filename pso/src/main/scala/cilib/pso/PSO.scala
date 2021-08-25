@@ -43,7 +43,7 @@ object PSO {
   def updatePBestBounds[S](
     p: Particle[S, Double]
   )(implicit M: HasMemory[S, Double]): Step[Particle[S, Double]] = {
-    val b = ForEach[NonEmptyList].foldLeft(p.pos.pos.zip(p.pos.boundary))(true)((a, c) => a && (c._2.contains(c._1)))
+    val b = ForEach[NonEmptyVector].foldLeft(p.pos.pos.zip(p.pos.boundary))(true)((a, c) => a && (c._2.contains(c._1)))
 
     if (b) updatePBest(p) else Step.pure(p)
   }

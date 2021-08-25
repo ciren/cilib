@@ -33,7 +33,7 @@ object GA {
     // point in their position.
     def mutation(distribution: Double => RVar[Double])(parents: List[Individual[S]]): RVar[List[Individual[S]]] =
       parents.forEach { parent =>
-        val newPos: RVar[NonEmptyList[Double]] = parent.pos.pos.forEach(distribution)
+        val newPos: RVar[NonEmptyVector[Double]] = parent.pos.pos.forEach(distribution)
 
         newPos.map { p =>
           parent.copy(pos = Lenses._vector[Double].set(parent.pos, p))

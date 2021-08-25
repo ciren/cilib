@@ -17,32 +17,32 @@ object PositionTests extends DefaultRunnableSpec {
 
   val dimGen = Gen.int(1, 100)
 
-  def nelGen(dim: Int) =
+  def nonEmptyVectorGen(dim: Int) =
     for {
       head <- Gen.int(-10, 10)
       tail <- Gen.listOfN(dim - 1)(Gen.int(-10, 10))
-    } yield NonEmptyList.fromIterable(head, tail)
+    } yield NonEmptyVector.fromIterable(head, tail)
 
-  def positionGen = nelGen(10).map(Position(_, boundary(10)))
+  def positionGen = nonEmptyVectorGen(10).map(Position(_, boundary(10)))
 
   val positionsGen = for {
     dim    <- dimGen
     bounds = boundary(dim)
-    head   <- nelGen(dim)
-    tail   <- Gen.listOfN(dim - 1)(nelGen(dim))
+    head   <- nonEmptyVectorGen(dim)
+    tail   <- Gen.listOfN(dim - 1)(nonEmptyVectorGen(dim))
   } yield NonEmptyList.fromIterable(Position(head, bounds), tail.map(Position(_, bounds)))
 
   val positionTuple = for {
     dim    <- dimGen
     bounds = boundary(dim)
-    a      <- nelGen(dim)
-    b      <- nelGen(dim)
-    c      <- nelGen(dim)
+    a      <- nonEmptyVectorGen(dim)
+    b      <- nonEmptyVectorGen(dim)
+    c      <- nonEmptyVectorGen(dim)
   } yield (Position(a, bounds), Position(b, bounds), Position(c, bounds))
 
-  val one  = Position(NonEmptyList(1.0, 1.0, 1.0), boundary(3))
-  val two  = Position(NonEmptyList(2.0, 2.0, 2.0), boundary(3))
-  val zero = Position(NonEmptyList(0.0, 0.0, 0.0), boundary(3))
+  val one  = Position(NonEmptyVector(1.0, 1.0, 1.0), boundary(3))
+  val two  = Position(NonEmptyVector(2.0, 2.0, 2.0), boundary(3))
+  val zero = Position(NonEmptyVector(0.0, 0.0, 0.0), boundary(3))
 
   // implicit val arbPosition       = Arbitrary { dimGen.flatMap(dim => positionGen(dim)) }
   // implicit val arbPositions      = Arbitrary { positionsGen }

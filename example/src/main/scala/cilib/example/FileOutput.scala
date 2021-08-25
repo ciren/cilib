@@ -99,7 +99,7 @@ object FileOutput extends zio.App {
 
   // A simple RVar.pure function that is called when the the environment changes
   // In this example our environments do not change.
-  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyList]) => RVar.pure(x)
+  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
 
   def simulation(env: Environment, stream: Stream[Nothing, Problem]) =
     List(Runner.staticAlgorithm("GBestPSO", gbestIter), Runner.staticAlgorithm("LBestPSO", lbestIter))

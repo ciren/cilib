@@ -23,12 +23,12 @@ sealed abstract class Position[+A] {
     this.forEach(f)
 
   def take(n: Int): List[A] =
-    pos.take(n)
+    pos.toChunk.take(n).toList
 
   def drop(n: Int): List[A] =
-    pos.drop(n)
+    pos.toChunk.drop(n).toList
 
-  def pos: NonEmptyList[A] =
+  def pos: NonEmptyVector[A] =
     this match {
       case Point(x, _)       => x
       case Solution(x, _, _) => x
@@ -46,7 +46,7 @@ sealed abstract class Position[+A] {
       case Solution(_, _, o) => Some(o)
     }
 
-  def boundary: NonEmptyList[Interval[Double]] =
+  def boundary: NonEmptyVector[Interval[Double]] =
     this match {
       case Point(_, b)       => b
       case Solution(_, b, _) => b
@@ -57,8 +57,8 @@ sealed abstract class Position[+A] {
 }
 
 object Position {
-  private final case class Point[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]]) extends Position[A]
-  private final case class Solution[A](x: NonEmptyList[A], b: NonEmptyList[Interval[Double]], o: Objective)
+  private final case class Point[A](x: NonEmptyVector[A], b: NonEmptyVector[Interval[Double]]) extends Position[A]
+  private final case class Solution[A](x: NonEmptyVector[A], b: NonEmptyVector[Interval[Double]], o: Objective)
       extends Position[A]
 
   implicit def positionEqual[A: zio.prelude.Equal]: zio.prelude.Equal[Position[A]] =
@@ -69,13 +69,13 @@ object Position {
   implicit val positionForEach: ForEach[Position] =
     new ForEach[Position] {
       def forEach[G[+_]: IdentityBoth: Covariant, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
-        ForEach[NonEmptyList].forEach(fa.pos)(f).map(Point(_, fa.boundary))
+        ForEach[NonEmptyVector].forEach(fa.pos)(f).map(Point(_, fa.boundary))
     }
 
   implicit val positionNonEmptyForEach: NonEmptyForEach[Position] =
     new NonEmptyForEach[Position] {
       def forEach1[G[+_]: AssociativeBoth: Covariant, A, B](fa: Position[A])(f: A => G[B]): G[Position[B]] =
-        NonEmptyForEach[NonEmptyList].forEach1(fa.pos)(f).map(Point(_, fa.boundary))
+        NonEmptyForEach[NonEmptyVector].forEach1(fa.pos)(f).map(Point(_, fa.boundary))
     }
 
   implicit def positionDotProd[A](implicit A: Numeric[A]): algebra.DotProd[Position, A] =
@@ -99,15 +99,16 @@ object Position {
       def scalar: Ring[A] = sc
 
       def negate(x: Position[A]) = x.map(scalar.negate)
-      def zero                   = Position(NonEmptyList(scalar.zero), NonEmptyList(spire.math.Interval(0.0, 0.0)))
+      def zero                   = Position(NonEmptyVector(scalar.zero), NonEmptyVector(spire.math.Interval(0.0, 0.0)))
 
       def plus(x: Position[A], y: Position[A]) = {
         val combined =
-          align(x.pos, y.pos).map(_ match {
-            case These.Left(l)    => l
-            case These.Right(r)   => r
-            case These.Both(l, r) => scalar.plus(l, r)
-          })
+          x.pos.zipAllWith(y.pos.toChunk)(identity, identity)(scalar.plus(_, _))
+          // align(x.pos, y.pos).map(_ match {
+          //   case These.Left(l)    => l
+          //   case These.Right(r)   => r
+          //   case These.Both(l, r) => scalar.plus(l, r)
+          // })
 
         Point(combined, x.boundary)
       }
@@ -133,14 +134,15 @@ object Position {
       M.negate(x)
 
     def isZero(implicit R: Ring[A]): Boolean = {
-      @annotation.tailrec
-      def test(xs: List[A]): Boolean =
-        xs match {
-          case Nil      => true
-          case x :: xss => if (x != R.zero) false else test(xss)
-        }
+      x.forall(_ == R.zero)
+      // @annotation.tailrec
+    //   def test(xs: List[A]): Boolean =
+    //     xs match {
+    //       case Nil      => true
+    //       case x :: xss => if (x != R.zero) false else test(xss)
+    //     }
 
-      test(x.pos.toList)
+    //   test(x.pos.toList)
     }
   }
 
@@ -150,7 +152,7 @@ object Position {
         a.objective
     }
 
-  def eval[A](e: Eval[NonEmptyList], pos: Position[A]): RVar[Position[A]] =
+  def eval[A](e: Eval[NonEmptyVector], pos: Position[A]): RVar[Position[A]] =
     pos match {
       case Point(x, b) =>
         e.eval.map { f =>
@@ -162,17 +164,17 @@ object Position {
         RVar.pure(x)
     }
 
-  def apply[A](xs: NonEmptyList[A], b: NonEmptyList[Interval[Double]]): Position[A] =
+  def apply[A](xs: NonEmptyVector[A], b: NonEmptyVector[Interval[Double]]): Position[A] =
     Point(xs, b)
 
-  def createPosition[A](domain: NonEmptyList[Interval[Double]]): RVar[Position[Double]] =
-    ForEach[NonEmptyList]
+  def createPosition[A](domain: NonEmptyVector[Interval[Double]]): RVar[Position[Double]] =
+    ForEach[NonEmptyVector]
       .forEach(domain)(Dist.uniform)
       .map(znel => Position(znel, domain))
   //domain.traverse(Dist.uniform).map(x => Position(x, domain))
 
   def createPositions(
-    domain: NonEmptyList[Interval[Double]],
+    domain: NonEmptyVector[Interval[Double]],
     n: Int Refined Positive
   ): RVar[NonEmptyList[Position[Double]]] =
     createPosition(domain)
@@ -185,6 +187,6 @@ object Position {
 
   def createCollection[A](
     f: Position[Double] => A
-  )(domain: NonEmptyList[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyList[A]] =
+  )(domain: NonEmptyVector[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyList[A]] =
     createPositions(domain, n).map(_.map(f))
 }

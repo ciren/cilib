@@ -70,8 +70,8 @@ object Lenses {
       set = (e, c) => e.copy(pos = c)
     )
 
-  def _vector[A: zio.prelude.Equal]: Lens[Position[A], NonEmptyList[A]] =
-    Lens[Position[A], NonEmptyList[A]](
+  def _vector[A: zio.prelude.Equal]: Lens[Position[A], NonEmptyVector[A]] =
+    Lens[Position[A], NonEmptyVector[A]](
       get = _.pos,
       set = (e, c) => if (e.pos === c) e else Position(c, e.boundary)
     )

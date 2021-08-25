@@ -25,43 +25,43 @@ object BoundarySpec extends DefaultRunnableSpec {
     testM("absorb") {
       check(Gen.anyDouble, intervalGen) {
         case (double, interval) =>
-          val p = Position(NonEmptyList(double), NonEmptyList(interval))
+          val p = Position(NonEmptyVector(double), NonEmptyVector(interval))
           val enforced =
             Id.unwrap(Boundary.enforce(p, Boundary.absorb[Double]))
 
-          assert(enforced.toList.forall(interval.contains))(Assertion.isTrue)
+          assert(enforced.forall(interval.contains))(Assertion.isTrue)
       }
     },
     testM("random") {
       check(Gen.anyDouble, intervalGen, Gen.anyLong) {
         case (a, b, seed) =>
-          val p = Position(NonEmptyList(a), NonEmptyList(b))
+          val p = Position(NonEmptyVector(a), NonEmptyVector(b))
           val enforced =
             Boundary
               .enforce(p, Boundary.random[Double])
               .runResult(RNG.init(seed))
 
-          assert(enforced.toList.forall(b.contains))(Assertion.isTrue)
+          assert(enforced.forall(b.contains))(Assertion.isTrue)
       }
     },
     testM("reflect") {
       check(intervalPairGen) {
         case ((double, interval)) =>
-          val p = Position(NonEmptyList(double), NonEmptyList(interval))
+          val p = Position(NonEmptyVector(double), NonEmptyVector(interval))
           val enforced =
             Id.unwrap(Boundary.enforce(p, Boundary.reflect[Double]))
 
-          assert(enforced.toList.forall(interval.contains))(Assertion.isTrue)
+          assert(enforced.forall(interval.contains))(Assertion.isTrue)
       }
     },
     testM("toroidal") {
       check(Gen.anyDouble, intervalGen) {
         case (double, interval) =>
-          val p = Position(NonEmptyList(double), NonEmptyList(interval))
+          val p = Position(NonEmptyVector(double), NonEmptyVector(interval))
           val enforced =
             Id.unwrap(Boundary.enforce(p, Boundary.toroidal[Double]))
 
-          assert(enforced.toList.forall(interval.contains))(Assertion.isTrue)
+          assert(enforced.forall(interval.contains))(Assertion.isTrue)
       }
     }
   )

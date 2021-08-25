@@ -69,7 +69,7 @@ object TimeVaryingGBestPSO extends zio.App {
         updateParams
       ),
       problemStream,
-      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList]) => RVar.pure(x)
+      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
     )
 
     t.take(1000)

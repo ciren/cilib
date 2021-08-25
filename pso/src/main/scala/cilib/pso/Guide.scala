@@ -60,8 +60,8 @@ object Guide {
 
         for {
           chos     <- chosen
-          parents  = chos.map(c => NonEmptyList.fromIterable(x.pos, c.map(_.pos)))
-          children <- parents.map(crossover).getOrElse(RVar.pure(NonEmptyList(x.pos)))
+          parents  = chos.map(c => NonEmptyVector.fromIterable(x.pos, c.map(_.pos)))
+          children <- parents.map(crossover).getOrElse(RVar.pure(NonEmptyVector(x.pos)))
           probs    <- x.pos.traverse(_ => Dist.stdUniform)
         } yield {
           val zipped = x.pos.zip(children.head).zip(probs)

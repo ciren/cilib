@@ -2,7 +2,6 @@ package cilib
 
 import spire.implicits._
 import spire.math.Interval
-import zio.prelude._
 import zio.test._
 
 import cilib.algebra._
@@ -12,13 +11,13 @@ object DotProdTest extends DefaultRunnableSpec {
   val interval           = Interval(-10.0, 10.0)
   def boundary(dim: Int) = interval ^ dim
 
-  def nelGen(dim: Int) =
+  def nonEmptyVectorGen(dim: Int) =
     for {
       head <- Gen.int(-10, 10)
       tail <- Gen.listOfN(dim - 1)(Gen.int(-10, 10))
-    } yield NonEmptyList.fromIterable(head, tail)
+    } yield NonEmptyVector.fromIterable(head, tail)
 
-  def positionGen(dim: Int) = nelGen(dim).map(Position(_, boundary(dim)))
+  def positionGen(dim: Int) = nonEmptyVectorGen(dim).map(Position(_, boundary(dim)))
 
   val D = implicitly[DotProd[Position, Int]]
   val N = implicitly[Numeric[Int]]

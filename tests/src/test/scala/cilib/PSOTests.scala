@@ -14,7 +14,7 @@ object PSOTests extends DefaultRunnableSpec {
     for {
       head <- Gen.double(-10, 10)
       tail <- Gen.listOfN(dim - 1)(Gen.double(-10, 10))
-    } yield NonEmptyList.fromIterable(head, tail)
+    } yield NonEmptyVector.fromIterable(head, tail)
 
   def positionGen = nelGen(10).map(Position(_, boundary(10)))
 
@@ -25,7 +25,7 @@ object PSOTests extends DefaultRunnableSpec {
           val p = Entity(Mem(x, x.zeroed), x)
           val env = Environment(
             cmp = Comparison.dominance(Min),
-            eval = Eval.unconstrained((_: NonEmptyList[Double]) => Feasible(0.0))
+            eval = Eval.unconstrained((_: NonEmptyVector[Double]) => Feasible(0.0))
           )
 
           val (_, result) =

@@ -18,8 +18,8 @@ package object cilib extends EvalInstances {
   type RandIndexSelection[A] = (NonEmptyList[A], A) => RVar[List[A]]
 
   implicit class IntervalOps[A](private val interval: Interval[A]) extends AnyVal {
-    def ^(n: Int): NonEmptyList[Interval[A]] =
-      NonEmptyList.fromIterable(interval, List.fill(n - 1)(interval))
+    def ^(n: Int): NonEmptyVector[Interval[A]] =
+      NonEmptyVector.fromIterable(interval, List.fill(n - 1)(interval))
 
     private def getValue(b: Bound[A]) =
       ValueBound.unapply(b).getOrElse(sys.error("Empty and Unbounded bounds are not supported"))

@@ -88,13 +88,13 @@ object RVar {
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
-  def shuffle[A](xs: NonEmptyList[A]): RVar[NonEmptyList[A]] = {
+  def shuffle[A](xs: NonEmptyVector[A]): RVar[NonEmptyVector[A]] = {
     sealed trait BinTree
     final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
     final case class Leaf(element: A)                            extends BinTree
 
-    def buildTree(zs: NonEmptyList[A]): BinTree =
-      growLevel(zs.toList.map(Leaf(_): BinTree))
+    def buildTree(zs: NonEmptyVector[A]): BinTree =
+      growLevel(zs.map(Leaf(_): BinTree).toChunk.toList)
 
     def growLevel(zs: List[BinTree]): BinTree =
       zs match {
@@ -149,7 +149,7 @@ object RVar {
       }
 
     rseq(xs.length).map(r =>
-      NonEmptyList
+      NonEmptyVector
         .fromIterableOption(local(buildTree(xs), r))
         .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
     )

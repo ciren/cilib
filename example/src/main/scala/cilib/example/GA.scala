@@ -33,7 +33,7 @@ object GAExample extends zio.App {
           List(
             a.pos.take(p) ++ b.pos.drop(p),
             b.pos.take(p) ++ a.pos.drop(p)
-          ).forEach(x => NonEmptyList.fromIterableOption(x).map(x => Entity((), Position(x, a.pos.boundary))))
+          ).forEach(x => NonEmptyVector.fromIterableOption(x).map(x => Entity((), Position(x, a.pos.boundary))))
             .getOrElse(List.empty[Ind])
         )
       case _ => sys.error("Incorrect number of parents")

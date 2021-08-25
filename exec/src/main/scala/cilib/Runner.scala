@@ -8,7 +8,7 @@ import zio.prelude._
 import zio.stream._
 
 final case class Algorithm[A](name: String Refined NonEmpty, value: A)
-final case class Problem(name: String Refined NonEmpty, env: Env, eval: Eval[NonEmptyList])
+final case class Problem(name: String Refined NonEmpty, env: Env, eval: Eval[NonEmptyVector])
 final case class Progress[A] private (
   algorithm: String,
   problem: String,
@@ -71,7 +71,7 @@ object Runner {
    */
   def staticProblem[S, A](
     name: String Refined NonEmpty,
-    eval: Eval[NonEmptyList]
+    eval: Eval[NonEmptyVector]
   ): UStream[Problem] =
     Stream.repeat(Problem(name, Unchanged, eval))
 
@@ -85,14 +85,14 @@ object Runner {
    * @param rng
    * @return
    */
-  def problem[S, A](name: String Refined NonEmpty, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyList])])(
+  def problem[S, A](name: String Refined NonEmpty, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyVector])])(
     env: UStream[Env],
     rng: RNG
   ): UStream[Problem] = {
     val (rng2, (s2, e)) = state.flatMap(next).run(rng)
 
-    def go2: ((S, Eval[NonEmptyList], RNG), Env) => ((S, Eval[NonEmptyList], RNG), Problem) =
-      (s: (S, Eval[NonEmptyList], RNG), e: Env) => {
+    def go2: ((S, Eval[NonEmptyVector], RNG), Env) => ((S, Eval[NonEmptyVector], RNG), Problem) =
+      (s: (S, Eval[NonEmptyVector], RNG), e: Env) => {
         val (state, eval, r) = s
 
         e match {
@@ -117,7 +117,7 @@ object Runner {
     collection: RVar[F[B]],
     alg: UStream[Algorithm[Kleisli[Step[*], F[B], F[B]]]],
     env: UStream[Problem],
-    onChange: (F[B], Eval[NonEmptyList]) => RVar[F[B]]
+    onChange: (F[B], Eval[NonEmptyVector]) => RVar[F[B]]
   ): Stream[Exception, Progress[F[B]]] = {
 
     // Convert to a StepS with Unit as the state parameter
@@ -135,7 +135,7 @@ object Runner {
     collection: RVar[F[B]],
     alg: UStream[Algorithm[Kleisli[StepS[S, *], F[B], F[B]]]],
     env: UStream[Problem],
-    onChange: (F[B], Eval[NonEmptyList]) => RVar[F[B]]
+    onChange: (F[B], Eval[NonEmptyVector]) => RVar[F[B]]
   ): Stream[Exception, Progress[(S, F[B])]] = {
 
     val (rng2, current) = collection.run(rng) // the collection of entities

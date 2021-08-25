@@ -11,12 +11,12 @@ import cilib.syntax.dotprod._
 
 object Crossover {
 
-  def nmpc(parents: NonEmptyList[Position[Double]]): RVar[NonEmptyList[Position[Double]]] = {
+  def nmpc(parents: NonEmptyVector[Position[Double]]): RVar[NonEmptyVector[Position[Double]]] = {
     def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
 
     Dist.stdUniform.replicateM(4).map { coef =>
       val s: Double                    = coef.sum
-      val scaled: NonEmptyList[Double] = NonEmptyList.fromIterableOption(coef.map(x => norm(x, s))).get
+      val scaled: NonEmptyVector[Double] = NonEmptyVector.fromIterableOption(coef.map(x => norm(x, s))).get
 
       parents.zip(scaled).map(t => t._2 *: t._1)
     }
@@ -58,7 +58,7 @@ object Crossover {
   def undx(sigma1: Double, sigma2: Double)(
     parents: NonEmptyList[Position[Double]]
   ): RVar[NonEmptyList[Position[Double]]] = {
-    val n      = parents.head.pos.length
+    val n      = parents.head.pos.toChunk.length
     val bounds = parents.head.boundary
 
     // calculate mean of parents except main parents

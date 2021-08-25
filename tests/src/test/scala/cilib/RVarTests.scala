@@ -18,7 +18,7 @@ object RVarTests extends DefaultRunnableSpec {
     for {
       head <- Gen.double(-10, 10)
       tail <- Gen.listOfN(dim - 1)(Gen.double(-10, 10))
-    } yield NonEmptyList.fromIterable(head, tail)
+    } yield NonEmptyVector.fromIterable(head, tail)
 
   def positionGen = nelGen(10).map(Position(_, boundary(10)))
 
@@ -29,7 +29,7 @@ object RVarTests extends DefaultRunnableSpec {
           val shuffled = RVar.shuffle(xs).run(RNG.fromTime)._2
 
           assert(shuffled.length)(Assertion.equalTo(xs.length)) &&
-          assert(shuffled.sorted)(Assertion.equalTo(xs.sorted))
+          assert(shuffled.toChunk.sorted)(Assertion.equalTo(xs.toChunk.sorted))
       }
     },
     testM("sampling") {
