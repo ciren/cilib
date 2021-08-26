@@ -30,13 +30,8 @@ inThisBuild(
 
 addCommandAlias("build", "prepare; test")
 addCommandAlias("prepare", "fix; fmt")
-addCommandAlias("fix", "all compile/scalafix test/scalafix")
-addCommandAlias(
-  "fixCheck",
-  "; compile/scalafix --check ; test/scalafix --check"
-)
-addCommandAlias("fmt", "all root/scalafmtSbt root/scalafmtAll")
-addCommandAlias("fmtCheck", "all root/scalafmtSbtCheck root/scalafmtCheckAll")
+addCommandAlias("fix", "; all compile:scalafix test:scalafix; all scalafmtSbt scalafmtAll")
+addCommandAlias("check", "; scalafmtSbtCheck; scalafmtCheckAll; compile:scalafix --check; test:scalafix --check")
 
 // lazy val publishSettings = Seq(
 //   autoAPIMappings := true,
