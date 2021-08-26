@@ -36,8 +36,9 @@ object EncodeCsv {
   def foldableEncodeCsv[F[+_], A](implicit F: ForEach[F], A: EncodeCsv[A]) =
     createEncoder[F[A]](l => List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
 
-  implicit def listEncodeCsv[A: EncodeCsv]         = foldableEncodeCsv[List, A]
-  implicit def nonEmptyListEncodeCsv[A: EncodeCsv] = foldableEncodeCsv[NonEmptyList, A]
+  implicit def listEncodeCsv[A: EncodeCsv]           = foldableEncodeCsv[List, A]
+  implicit def nonEmptyListEncodeCsv[A: EncodeCsv]   = foldableEncodeCsv[NonEmptyList, A]
+  implicit def nonEmptyVectorEncodeCsv[A: EncodeCsv] = foldableEncodeCsv[NonEmptyVector, A]
 
   implicit val envEncodeCsv =
     createEncoder[Env](_ match {

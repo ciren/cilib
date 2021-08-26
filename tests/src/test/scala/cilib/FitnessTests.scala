@@ -48,7 +48,7 @@ object FitnessTest extends DefaultRunnableSpec {
   def multiObjectiveGen =
     for {
       nel <- Gen.listOfBounded(2, 10)(singleObjectiveGen)
-    } yield Multi(Objective.multi(NonEmptyList.fromIterableOption(nel).get.map(Single.unwrap)))
+    } yield Multi(Objective.multi(NonEmptyVector.fromIterableOption(nel).get.map(Single.unwrap)))
 
   implicit def idFitness: Fitness[Option, Objective, Int] =
     new Fitness[Option, Objective, Int] {

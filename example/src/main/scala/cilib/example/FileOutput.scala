@@ -76,7 +76,7 @@ object FileOutput extends zio.App {
 
   // A performance measure that we apply to the collection at the end of each iteration.
   def performanceMeasure =
-    measure[NonEmptyList[Entity[Mem[Double], Double]], Results] { collection =>
+    measure[NonEmptyVector[Entity[Mem[Double], Double]], Results] { collection =>
       val fitnessValues = collection.map(x =>
         x.pos.objective
           .flatMap(_.fitness match {
@@ -94,18 +94,18 @@ object FileOutput extends zio.App {
       // val fitnessValues =
       //   collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
 
-      Results(fitnessValues.min, fitnessValues.reduceLeft(_ + _) / fitnessValues.size)
+      Results(fitnessValues.toChunk.min, fitnessValues.toChunk.reduceLeft(_ + _) / fitnessValues.size)
     }
 
   // A simple RVar.pure function that is called when the the environment changes
   // In this example our environments do not change.
-  val onChange = (x: NonEmptyList[Entity[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
+  val onChange = (x: NonEmptyVector[Entity[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
 
   def simulation(env: Environment, stream: Stream[Nothing, Problem]) =
     List(Runner.staticAlgorithm("GBestPSO", gbestIter), Runner.staticAlgorithm("LBestPSO", lbestIter))
       .map(alg => Runner.foldStep(env, rng, swarm, alg, stream, onChange))
 
-  val simulations: List[Stream[Exception, Progress[NonEmptyList[Entity[Mem[Double], Double]]]]] =
+  val simulations: List[Stream[Exception, Progress[NonEmptyVector[Entity[Mem[Double], Double]]]]] =
     List.concat(
       simulation(absolute, absoluteStream),
       simulation(ackley, ackleyStream),

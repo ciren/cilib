@@ -13,9 +13,8 @@ object Boundary {
   def enforce[F[+_]: AssociativeBoth: Covariant, A: spire.math.Numeric](
     x: Position[A],
     f: Enforce[F, A]
-  ): F[NonEmptyVector[A]] = {
+  ): F[NonEmptyVector[A]] =
     NonEmptyForEach[NonEmptyVector].forEach1(x.pos.zip(x.boundary))(f.f.tupled)
-  }
 
   def enforceTo[F[+_], A: spire.math.Numeric, B](x: Position[A], z: Position[A], f: EnforceTo[F, A])(
     implicit F: Covariant[F] with IdentityBoth[F]

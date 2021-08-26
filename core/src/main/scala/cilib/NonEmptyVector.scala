@@ -1,10 +1,9 @@
 package cilib
 
-import zio.{Chunk, ZIO}
+import zio.{ Chunk, ZIO }
 
 import cilib.NonEmptyVector._
 import zio.prelude._
-
 
 /**
  * A `NonEmptyChunk` is a `Chunk` that is guaranteed to contain at least one
@@ -46,7 +45,7 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
   override def equals(that: Any): Boolean =
     that match {
       case that: NonEmptyVector[_] => self.chunk == that.chunk
-      case _                      => false
+      case _                       => false
     }
 
   /**
@@ -253,7 +252,7 @@ object NonEmptyVector {
    */
   def fromChunk[A](chunk: Chunk[A]): Option[NonEmptyVector[A]] =
     if (chunk.isEmpty) None else Some(NonEmptyVector.nonEmpty(chunk))
-    //chunk.nonEmptyOrElse[Option[NonEmptyVector[A]]](None)(Some(_))
+  //chunk.nonEmptyOrElse[Option[NonEmptyVector[A]]](None)(Some(_))
 
   /**
    * Constructs a `NonEmptyChunk` from the `::` case of a `List`.
@@ -272,7 +271,7 @@ object NonEmptyVector {
    */
   def fromIterableOption[A](iterable: Iterable[A]): Option[NonEmptyVector[A]] =
     iterable.toList match {
-      case Nil => None
+      case Nil    => None
       case h :: t => Some(fromIterable(h, t))
     }
 

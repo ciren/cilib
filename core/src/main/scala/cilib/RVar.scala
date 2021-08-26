@@ -81,10 +81,10 @@ object RVar {
   def doubles(n: Int): RVar[List[Double]] =
     next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
-  def choose[A](xs: NonEmptyList[A]): RVar[A] =
+  def choose[A](xs: NonEmptyVector[A]): RVar[A] =
     Dist
       .uniformInt(Interval(0, xs.size - 1))
-      .map(i => xs.lift(i).getOrElse(xs.head))
+      .map(i => xs.toChunk.lift(i).getOrElse(xs.head))
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt

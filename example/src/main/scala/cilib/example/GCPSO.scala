@@ -5,7 +5,6 @@ import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
-import zio.prelude.{ Comparison => _, _ }
 
 import cilib.exec._
 import cilib.pso.Defaults._
@@ -23,7 +22,7 @@ object GCPSO extends zio.App {
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive = Guide.pbest[Mem[Double], Double]
   val social    = Guide.gbest[Mem[Double]]
-  val gcPSO: NonEmptyList[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[
+  val gcPSO: NonEmptyVector[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[
     PSO.GCParams,
     Particle[Mem[Double], Double]
   ] =

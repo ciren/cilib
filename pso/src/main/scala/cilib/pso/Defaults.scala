@@ -3,7 +3,6 @@ package pso
 
 import PSO._
 import spire.implicits._
-import zio.prelude.NonEmptyList
 
 object Defaults {
 
@@ -28,7 +27,7 @@ object Defaults {
   )(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
+  ): NonEmptyVector[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x =>
         for {
@@ -48,7 +47,7 @@ object Defaults {
   )(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
+  ): NonEmptyVector[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x => {
         for {
@@ -68,7 +67,7 @@ object Defaults {
   )(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
+  ): NonEmptyVector[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x => {
         for {
@@ -91,7 +90,7 @@ object Defaults {
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
     //S: MonadState[StepS[GCParams, *], GCParams]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => StepS[GCParams, Particle[S, Double]] =
+  ): NonEmptyVector[Particle[S, Double]] => Particle[S, Double] => StepS[GCParams, Particle[S, Double]] =
     collection =>
       x => {
         val g = Guide.gbest[S]
@@ -138,7 +137,7 @@ object Defaults {
   )(
     implicit M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
+  ): NonEmptyVector[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x =>
         for {
@@ -156,7 +155,7 @@ object Defaults {
     guide: Guide[S, Double]
   )(
     implicit M: HasMemory[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
+  ): NonEmptyVector[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x =>
         for {
@@ -172,7 +171,7 @@ object Defaults {
     guide: Guide[S, Double]
   )(
     implicit M: HasMemory[S, Double]
-  ): NonEmptyList[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
+  ): NonEmptyVector[Particle[S, Double]] => Particle[S, Double] => Step[Particle[S, Double]] =
     collection =>
       x =>
         for {

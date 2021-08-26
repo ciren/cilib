@@ -157,7 +157,7 @@ object PSO {
     }
 
   def acceleration[S](
-    collection: NonEmptyList[Particle[S, Double]],
+    collection: NonEmptyVector[Particle[S, Double]],
     x: Particle[S, Double],
     distance: (Position[Double], Position[Double]) => Double,
     rp: Double,
@@ -167,7 +167,7 @@ object PSO {
       C._charge.get(x.state)
 
     Step.pure(
-      collection
+      collection.toChunk
         .filter(z => charge(z) > 0.0)
         .foldLeft(x.pos.zeroed) { (p1, p2) =>
           val d = distance(x.pos, p2.pos)

@@ -15,7 +15,7 @@ object Crossover {
     def norm(x: Double, sum: Double) = 5.0 * (x / sum) - 1
 
     Dist.stdUniform.replicateM(4).map { coef =>
-      val s: Double                    = coef.sum
+      val s: Double                      = coef.sum
       val scaled: NonEmptyVector[Double] = NonEmptyVector.fromIterableOption(coef.map(x => norm(x, s))).get
 
       parents.zip(scaled).map(t => t._2 *: t._1)
@@ -23,8 +23,8 @@ object Crossover {
   }
 
   def pcx(sigma1: Double, sigma2: Double)(
-    parents: NonEmptyList[Position[Double]]
-  ): RVar[NonEmptyList[Position[Double]]] = {
+    parents: NonEmptyVector[Position[Double]]
+  ): RVar[NonEmptyVector[Position[Double]]] = {
 
     val mean = Algebra.meanVector(parents)
     val k    = parents.size
@@ -38,7 +38,7 @@ object Crossover {
         val e = Algebra.orthogonalize(d, a._2.toList)
 
         if (e.isZero) a
-        else (a._1 + e.magnitude, NonEmptyList.fromIterable(e.normalize, a._2))
+        else (a._1 + e.norm, NonEmptyList.fromIterable(e.normalize, a._2))
       }
     }
 
@@ -49,7 +49,7 @@ object Crossover {
       s2 <- Dist.gaussian(0.0, sigma2)
     } yield {
       val offspring = parents.last + (s1 *: e_eta.head)
-      NonEmptyList(e_eta.tail.foldLeft(offspring) { (c, e) =>
+      NonEmptyVector(e_eta.tail.foldLeft(offspring) { (c, e) =>
         c + (s2 *: (distance *: e))
       })
     }
@@ -63,7 +63,7 @@ object Crossover {
 
     // calculate mean of parents except main parents
     val g = Algebra.meanVector(
-      NonEmptyList.fromIterableOption(parents.init).getOrElse(sys.error("UNDX requires at least 3 parents"))
+      NonEmptyVector.fromIterableOption(parents.init).getOrElse(sys.error("UNDX requires at least 3 parents"))
     )
 
     // basis vectors defined by parents
@@ -73,7 +73,7 @@ object Crossover {
 
       if (d.isZero) z
       else {
-        val dbar = d.magnitude
+        val dbar = d.norm
         val e    = Algebra.orthogonalize(d, z)
 
         if (e.isZero) z
@@ -81,7 +81,7 @@ object Crossover {
       }
     }
 
-    val dd = (parents.last - g).magnitude
+    val dd = (parents.last - g).norm
 
     // create the remaining basis vectors
     val initEta = NonEmptyVector(parents.last - g)

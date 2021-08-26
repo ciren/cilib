@@ -4,7 +4,6 @@ package example
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
-import zio.prelude._
 
 import cilib.exec._
 import cilib.pso.Defaults._
@@ -38,7 +37,7 @@ object GBestPSO extends zio.App {
       swarm,
       Runner.staticAlgorithm("gbestPSO", iter),
       problemStream,
-      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
+      (x: NonEmptyVector[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
     )
 
     t.take(1000)

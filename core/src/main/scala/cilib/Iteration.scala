@@ -27,36 +27,36 @@ object Iteration {
   //Kleisli.kleisli((l: List[A]) => l traverseU f(l))//Functor[M].map(l traverseU f(l))(x => x))
 
   def sync_[M[+_]: Covariant: IdentityBoth, A, B](
-    f: NonEmptyList[A] => A => M[B]
-  ): NonEmptyList[A] => M[NonEmptyList[B]] =
-    (l: NonEmptyList[A]) => ForEach[NonEmptyList].forEach(l)(f(l))
+    f: NonEmptyVector[A] => A => M[B]
+  ): NonEmptyVector[A] => M[NonEmptyVector[B]] =
+    (l: NonEmptyVector[A]) => ForEach[NonEmptyVector].forEach(l)(f(l))
 
-  def sync[A, B](f: NonEmptyList[A] => A => Step[B]): NonEmptyList[A] => Step[NonEmptyList[B]] =
+  def sync[A, B](f: NonEmptyVector[A] => A => Step[B]): NonEmptyVector[A] => Step[NonEmptyVector[B]] =
     sync_[zio.prelude.fx.ZPure[Nothing, RNG, RNG, Environment, Exception, +*], A, B](f)
 
-  def syncS[S, A, B](f: NonEmptyList[A] => A => StepS[S, B]): NonEmptyList[A] => StepS[S, NonEmptyList[B]] =
+  def syncS[S, A, B](f: NonEmptyVector[A] => A => StepS[S, B]): NonEmptyVector[A] => StepS[S, NonEmptyVector[B]] =
     sync_[StepS[S, +*], A, B](f)
 
   def async_[M[+_]: Covariant: IdentityBoth: IdentityFlatten, A](
-    f: NonEmptyList[A] => A => M[A]
-  ): NonEmptyList[A] => M[NonEmptyList[A]] =
-    (l: NonEmptyList[A]) => {
+    f: NonEmptyVector[A] => A => M[A]
+  ): NonEmptyVector[A] => M[NonEmptyVector[A]] =
+    (l: NonEmptyVector[A]) => {
       val intermediate: M[List[A]] =
-        ForEach[NonEmptyList].foldLeftM(l)(List.empty[A]) { (a, c) =>
+        ForEach[NonEmptyVector].foldLeftM(l)(List.empty[A]) { (a, c) =>
           val p1: List[A] = a
-          val p2: List[A] = l.drop(p1.length)
-          val nel         = NonEmptyList.fromIterableOption(p1 ++ p2).getOrElse(sys.error("asdasd"))
+          val p2: List[A] = l.toChunk.drop(p1.length).toList
+          val nel         = NonEmptyVector.fromIterableOption(p1 ++ p2).getOrElse(sys.error("asdasd"))
 
           f(nel).apply(c).map(x => a ++ List(x))
         }
 
-      intermediate.map(x => NonEmptyList.fromIterableOption(x).getOrElse(sys.error("")))
+      intermediate.map(x => NonEmptyVector.fromIterableOption(x).getOrElse(sys.error("")))
     }
 
-  def async[A](f: NonEmptyList[A] => A => Step[A]): NonEmptyList[A] => Step[NonEmptyList[A]] =
+  def async[A](f: NonEmptyVector[A] => A => Step[A]): NonEmptyVector[A] => Step[NonEmptyVector[A]] =
     async_[Step[+*], A](f)
 
-  def asyncS[S, A](f: NonEmptyList[A] => A => StepS[S, A]): NonEmptyList[A] => StepS[S, NonEmptyList[A]] =
+  def asyncS[S, A](f: NonEmptyVector[A] => A => StepS[S, A]): NonEmptyVector[A] => StepS[S, NonEmptyVector[A]] =
     async_[zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), Environment, Exception, +*], A](f)
 
 }

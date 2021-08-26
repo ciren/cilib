@@ -51,10 +51,10 @@ object GAExample extends zio.App {
       newPos.map(p => _position.set(x, p))
     }
 
-  val randomSelection: NonEmptyList[Ind] => RVar[List[Ind]] =
-    (l: NonEmptyList[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
+  val randomSelection: NonEmptyVector[Ind] => RVar[List[Ind]] =
+    (l: NonEmptyVector[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
 
-  val ga: NonEmptyList[Ind] => Ind => Step[List[Ind]] =
+  val ga: NonEmptyVector[Ind] => Ind => Step[List[Ind]] =
     GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
 
   val swarm = Position.createCollection[Ind](x => Entity((), x))(bounds, populationSize)
@@ -63,19 +63,19 @@ object GAExample extends zio.App {
    * produced from the collection into a single container type to
    * match the expected type signature for an algorithm
    */
-  val cullingGA: NonEmptyList[Ind] => Step[NonEmptyList[Ind]] =
-    (collection: NonEmptyList[Ind]) => {
+  val cullingGA: NonEmptyVector[Ind] => Step[NonEmptyVector[Ind]] =
+    (collection: NonEmptyVector[Ind]) => {
       Iteration
         .sync(ga)
         .apply(collection)
-        .map(_.toList.flatten)
+        .map(_.toChunk.toList.flatten)
         .flatMap(offspring =>
           Step
             .withCompare(o =>
-              (collection.toList ++ offspring).sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o))
+              (collection.toChunk.toList ++ offspring).sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o))
             )
             .map(offspring =>
-              NonEmptyList.fromIterableOption(offspring.take(populationSize)).getOrElse(sys.error("asdas"))
+              NonEmptyVector.fromIterableOption(offspring.take(populationSize)).getOrElse(sys.error("asdas"))
             )
         )
     }

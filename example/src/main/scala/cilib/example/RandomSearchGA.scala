@@ -5,7 +5,6 @@ import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
-import zio.prelude.{ Comparison => _, _ }
 
 import cilib.exec._
 import cilib.ga._
@@ -20,23 +19,23 @@ object RandomSearchGA extends zio.App {
       eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
-  val randomSelection = (l: NonEmptyList[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
+  val randomSelection = (l: NonEmptyVector[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
   val distribution    = (position: Double) => Dist.stdNormal.flatMap(_ => Dist.gaussian(0, 1.25)).map(_ + position)
 
   val ga = GA.randomSearch(randomSelection, distribution)
 
   val swarm = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
-  val myGA: NonEmptyList[Ind] => Step[NonEmptyList[Ind]] =
-    (collection: NonEmptyList[Ind]) => {
+  val myGA: NonEmptyVector[Ind] => Step[NonEmptyVector[Ind]] =
+    (collection: NonEmptyVector[Ind]) => {
       Iteration
         .sync(ga)
         .apply(collection)
-        .map(_.toList.flatten)
+        .map(_.toChunk.toList.flatten)
         .flatMap(r =>
           Step
             .withCompare(o => r.sortWith((x, y) => Comparison.fitter(x.pos, y.pos).apply(o)))
             .map(offspring =>
-              NonEmptyList.fromIterableOption(offspring.take(20)).getOrElse(sys.error("Impossible -> List is empty?"))
+              NonEmptyVector.fromIterableOption(offspring.take(20)).getOrElse(sys.error("Impossible -> List is empty?"))
             )
         )
     }

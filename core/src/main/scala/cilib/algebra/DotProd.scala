@@ -10,7 +10,7 @@ trait DotProd[F[_], A] {
   def dot(a: F[A], b: F[A]): Double
 
   def normsqr(a: F[A]): Double = dot(a, a)
-  def norm(a: F[A]): Double    = math.sqrt(normsqr(a))
+  def norm(a: F[A]): Double    = math.sqrt(dot(a,a))
   def lensqr(a: F[A]): Double  = normsqr(a)
   def len(a: F[A]): Double     = norm(a)
 }
@@ -23,9 +23,7 @@ trait Pointwise[F[_], A] {
   def pointwise(a: F[A], b: F[A]): F[A] // Pointwise multiplication
 }
 
-trait Orthongonal { // Need to examine the name of this typeclass??
-
-}
+trait Orthongonal {} // Need to examine the name of this typeclass??
 
 object Algebra {
 
@@ -35,7 +33,7 @@ object Algebra {
     else (1.0 / mag) *: a
   }
 
-  def magnitude[F[_], A](a: F[A])(implicit D: DotProd[F, A]): Double =
+  def norm[F[_], A](a: F[A])(implicit D: DotProd[F, A]): Double =
     D.norm(a)
 
   def distance[F[_], A](a: F[A], b: F[A])(implicit D: DotProd[F, A], M: LeftModule[F[A], Double]): Double =
@@ -44,10 +42,10 @@ object Algebra {
   def pointwise[F[_], A](a: F[A], b: F[A])(implicit P: Pointwise[F, A]): F[A] =
     P.pointwise(a, b)
 
-  def vectorSum[F[_], A](xs: NonEmptyList[F[A]])(implicit M: LeftModule[F[A], Double]): F[A] =
-    xs.reduceLeft(M.plus)
+  def vectorSum[F[_], A](xs: NonEmptyVector[F[A]])(implicit M: LeftModule[F[A], Double]): F[A] =
+    NonEmptyForEach[NonEmptyVector].reduceAll(xs)(M.plus)
 
-  def meanVector[F[_], A](xs: NonEmptyList[F[A]])(implicit M: LeftModule[F[A], Double]): F[A] =
+  def meanVector[F[_], A](xs: NonEmptyVector[F[A]])(implicit M: LeftModule[F[A], Double]): F[A] =
     (1.0 / xs.length) *: vectorSum(xs)
 
   def orthogonalize[F[+_]: Covariant, A](

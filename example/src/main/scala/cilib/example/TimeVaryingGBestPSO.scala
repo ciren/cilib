@@ -4,7 +4,6 @@ package example
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
-import zio.prelude.{ Comparison => _, _ }
 
 import cilib.exec._
 import cilib.pso.Defaults._
@@ -69,7 +68,7 @@ object TimeVaryingGBestPSO extends zio.App {
         updateParams
       ),
       problemStream,
-      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
+      (x: NonEmptyVector[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
     )
 
     t.take(1000)

@@ -53,7 +53,7 @@ object Guide {
   def nmpc[S](prob: Double): Guide[S, Double] =
     (collection, x) =>
       Step.liftR {
-        val col       = collection.filter(_ ne x)
+        val col       = collection.toChunk.filter(_ ne x)
         val chosen    = RVar.sample(3, col)
         val crossover = Crossover.nmpc(_)
 

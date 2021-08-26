@@ -83,6 +83,7 @@ object Position {
       import spire.implicits._
 
       def dot(a: Position[A], b: Position[A]): Double =
+        // FIXME: Is this actually wrong?
         a.zip(b).pos.foldLeft(A.zero) { case (a, b) => a + (b._1 * b._2) }.toDouble
     }
 

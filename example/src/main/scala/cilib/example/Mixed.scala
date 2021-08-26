@@ -5,7 +5,6 @@ import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math._
 import zio.console._
-import zio.prelude.{ Comparison => _, _ }
 
 import cilib.de._
 import cilib.exec._
@@ -34,7 +33,7 @@ object Mixed extends zio.App {
   val swarm =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
-  val combinedAlg: NonEmptyList[Entity[Mem[Double], Double]] => Entity[Mem[Double], Double] => Step[Entity[Mem[
+  val combinedAlg: NonEmptyVector[Entity[Mem[Double], Double]] => Entity[Mem[Double], Double] => Step[Entity[Mem[
     Double
   ], Double]] =
     collection =>
