@@ -2,9 +2,9 @@ package cilib
 package example
 
 import cilib.example.TimeVaryingGBestPSO
-import cilib.exec.{Kleisli, _}
+import cilib.exec.{ Kleisli, _ }
 import cilib.pso.Defaults._
-import cilib.pso.{Particle, _}
+import cilib.pso.{ Particle, _ }
 import cilib.{ Mem, NonEmptyVector, Step }
 import eu.timepit.refined.auto._
 import spire.implicits._

@@ -3,7 +3,7 @@ package cilib
 import spire.algebra._
 import spire.implicits._
 import zio.random.Random
-import zio.test.{TestResult, _}
+import zio.test.{ TestResult, _ }
 
 object MetricSpaceTest extends DefaultRunnableSpec {
 

@@ -96,7 +96,9 @@ object Problems {
                       (2.0 * d.upperValue - p - s, -1.0 * s)
                     }
                 }
-                .toChunk.toList.unzip(x => x)
+                .toChunk
+                .toList
+                .unzip(x => x)
 
             val newHeight = {
               val change = s1 * hSeverity

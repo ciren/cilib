@@ -1,7 +1,7 @@
 package cilib
 package example
 import cilib.exec.Runner._
-import cilib.exec.{Progress, _}
+import cilib.exec.{ Progress, _ }
 import cilib.io._
 import cilib.pso.Defaults._
 import cilib.pso._

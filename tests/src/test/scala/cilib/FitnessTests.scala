@@ -4,7 +4,7 @@ import cilib.Constraint
 import spire.implicits._
 import zio.prelude._
 import zio.random.Random
-import zio.test.{Gen, _}
+import zio.test.{ Gen, _ }
 
 object FitnessTest extends DefaultRunnableSpec {
 

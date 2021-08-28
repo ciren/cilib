@@ -83,6 +83,6 @@ object GAExample extends zio.App {
     }
 
   // Our IO[Unit] that runs at the end of the world
-  def run(args: List[String]): URIO[Console with Console,ExitCode] =
+  def run(args: List[String]): URIO[Console with Console, ExitCode] =
     putStrLn(exec.Runner.repeat(1000, cullingGA, swarm).provide(env).runAll(RNG.fromTime).toString).exitCode
 }

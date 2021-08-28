@@ -5,7 +5,7 @@ import spire.implicits._
 import spire.math.Interval
 import zio.prelude._
 import zio.random.Random
-import zio.test.{Gen, _}
+import zio.test.{ Gen, _ }
 
 object PSOTests extends DefaultRunnableSpec {
 

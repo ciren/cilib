@@ -20,20 +20,23 @@ object GCPSO extends zio.App {
     )
 
   // Define a normal GBest PSO and run it for a single iteration
-  val cognitive: Guide[Mem[Double],Double] = Guide.pbest[Mem[Double], Double]
-  val social: Guide[Mem[Double],Double]    = Guide.gbest[Mem[Double]]
+  val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]
+  val social: Guide[Mem[Double], Double]    = Guide.gbest[Mem[Double]]
   val gcPSO: NonEmptyVector[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[
     PSO.GCParams,
     Particle[Mem[Double], Double]
   ] =
     gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
-  val iter: NonEmptyVector[Particle[Mem[Double],Double]] => StepS[PSO.GCParams,NonEmptyVector[Particle[Mem[Double],Double]]] = Iteration.syncS(gcPSO)
+  val iter: NonEmptyVector[Particle[Mem[Double], Double]] => StepS[PSO.GCParams, NonEmptyVector[
+    Particle[Mem[Double], Double]
+  ]] = Iteration.syncS(gcPSO)
 
-  val swarm: RVar[NonEmptyVector[Particle[Mem[Double],Double]]] = Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
+  val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  def run(args: List[String]): URIO[Console with Console,ExitCode] = {
+  def run(args: List[String]): URIO[Console with Console, ExitCode] = {
     val algParams = PSO.defaultGCParams
 
     val result =

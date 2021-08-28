@@ -5,7 +5,7 @@ import cilib.algebra._
 import spire.implicits._
 import spire.math.Interval
 import zio.random.Random
-import zio.test.{Gen, _}
+import zio.test.{ Gen, _ }
 
 object DotProdTest extends DefaultRunnableSpec {
 
