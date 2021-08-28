@@ -93,7 +93,8 @@ lazy val core = project
   .in(file("core"))
   .settings(BuildHelper.stdSettings("core"))
   .settings(BuildHelper.crossProjectSettings)
-  .settings(BuildHelper.buildInfoSettings("cilib"))
+  .settings(BuildHelper.buildInfoSettings("net.cilib"))
+  .settings(Compile / console / scalacOptions ~= { _.filterNot(Set("-Xfatal-warnings")) })
   .settings(
     libraryDependencies ++= Seq(
       zio,
