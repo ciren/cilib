@@ -56,8 +56,8 @@ object Selection {
 
   def distanceNeighbours[F[+_]: ForEach, A: Ord](
     distance: MetricSpace[F[A], A]
-  )(n: Int): (NonEmptyList[F[A]], F[A]) => List[F[A]] =
-    (l: NonEmptyList[F[A]], x: F[A]) => l.toList.sortBy(li => distance.dist(li, x))(implicitly[Ord[A]].toScala).take(n)
+  )(n: Int): (NonEmptyVector[F[A]], F[A]) => List[F[A]] =
+    (l: NonEmptyVector[F[A]], x: F[A]) => l.toChunk.toList.sortBy(li => distance.dist(li, x))(implicitly[Ord[A]].toScala).take(n)
 
   def wheel[A]: (NonEmptyVector[A], A) => List[A] =
     (l: NonEmptyVector[A], a: A) =>
@@ -67,12 +67,11 @@ object Selection {
   def star[A]: (NonEmptyVector[A], A) => List[A] =
     (l: NonEmptyVector[A], _: A) => l.toChunk.toList
 
-  def tournament[F[_], A](n: Int Refined Positive, l: NonEmptyList[F[A]])(
+  def tournament[F[_], A](n: Int Refined Positive, l: NonEmptyVector[F[A]])(
     implicit F: Fitness[F, A, A]
   ): Comparison => RVar[Option[F[A]]] =
     o =>
-      RVar
-        .sample(n, l) // RVar[Option[List[F[A]]]]
+      RVar.sample(n, l)
         .map(_.flatMap(_.reduceLeftOption((a, c) => o.apply(a, c))))
 
 }

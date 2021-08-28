@@ -5,7 +5,7 @@ trait Input[F[_]] {
 }
 
 sealed abstract class Eval[F[_]] {
-  def eval =
+  def eval: RVar[NonEmptyVector[Any] => Objective] =
     this match {
       case a @ Eval.Unconstrained(_, _)  => a.eval2
       case b @ Eval.Constrained(_, _, _) => b.eval2

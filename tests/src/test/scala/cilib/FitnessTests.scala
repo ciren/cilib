@@ -1,8 +1,10 @@
 package cilib
 
+import cilib.Constraint
 import spire.implicits._
 import zio.prelude._
-import zio.test._
+import zio.random.Random
+import zio.test.{Gen, _}
 
 object FitnessTest extends DefaultRunnableSpec {
 
@@ -11,16 +13,16 @@ object FitnessTest extends DefaultRunnableSpec {
   object Multi extends Newtype[Objective]
   type Multi = Multi.Type
 
-  val genFeasibleFitness =
+  val genFeasibleFitness: Gen[Random, Feasible] =
     Gen.double(-1000, 1000).map(Feasible(_))
 
-  val genInfeasibleFitenss =
+  val genInfeasibleFitenss: Gen[Random, Infeasible] =
     Gen.double(-1000, 1000).map(Infeasible(_))
 
-  val genPenaltyFitness =
+  val genPenaltyFitness: Gen[Random, Fit] =
     genInfeasibleFitenss.map(_.adjust(identity _))
 
-  def simpleViolationGen =
+  def simpleViolationGen: Gen[Random, Constraint] =
     for {
       value    <- Gen.double(-100.0, 100.0)
       function = ConstraintFunction(_ => 0.0)
@@ -34,7 +36,7 @@ object FitnessTest extends DefaultRunnableSpec {
                    )
     } yield constraint
 
-  def singleObjectiveGen =
+  def singleObjectiveGen: Gen[Random, Single.newtype.Type with Single.Tag] =
     for {
       violationCount <- Gen.int(1, 5)
       violations     <- Gen.listOfN(violationCount)(simpleViolationGen)
@@ -45,7 +47,7 @@ object FitnessTest extends DefaultRunnableSpec {
             )
     } yield obj
 
-  def multiObjectiveGen =
+  def multiObjectiveGen: Gen[Random, Multi.newtype.Type with Multi.Tag] =
     for {
       nel <- Gen.listOfBounded(2, 10)(singleObjectiveGen)
     } yield Multi(Objective.multi(NonEmptyVector.fromIterableOption(nel).get.map(Single.unwrap)))
@@ -72,8 +74,8 @@ object FitnessTest extends DefaultRunnableSpec {
       case (_, None)    => x
     }
 
-  val min = better(Min) _
-  val max = better(Max) _
+  val min: (Option[Objective], Option[Objective]) => Option[Objective] = better(Min) _
+  val max: (Option[Objective], Option[Objective]) => Option[Objective] = better(Max) _
 
   override def spec: ZSpec[Environment, Failure] = suite("Fitness")(
     testM("single objective min") {

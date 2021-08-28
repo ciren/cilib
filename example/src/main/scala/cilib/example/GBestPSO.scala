@@ -1,36 +1,41 @@
 package cilib
 package example
 
-import eu.timepit.refined.auto._
-import spire.implicits._
-import spire.math.Interval
-
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
+import eu.timepit.refined.auto._
+import spire.implicits._
+import spire.math.Interval
+import zio.stream.UStream
+import zio.{ ExitCode, URIO }
 
 object GBestPSO extends zio.App {
-  val bounds = Interval(-5.12, 5.12) ^ 30
-  val env =
+  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
+  val env: Environment =
     Environment(
       cmp = cilib.Comparison.dominance(Min),
       eval = Eval.unconstrained((x: NonEmptyVector[Double]) => Feasible(ExampleHelper.spherical(x)))
     )
 
   // Define a normal GBest PSO and run it for a single iteration
-  val cognitive = Guide.pbest[Mem[Double], Double]
-  val social    = Guide.gbest[Mem[Double]]
-  val gbestPSO  = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
+  val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]
+  val social: Guide[Mem[Double], Double]    = Guide.gbest[Mem[Double]]
+  val gbestPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
+    Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
+  ) = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
   // RVar
-  val swarm =
+  val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
-  val iter = Kleisli(Iteration.sync(gbestPSO))
+  val iter
+    : Kleisli[Step, NonEmptyVector[Particle[Mem[Double], Double]], NonEmptyVector[Particle[Mem[Double], Double]]] =
+    Kleisli(Iteration.sync(gbestPSO))
 
-  val problemStream = Runner.staticProblem("spherical", env.eval)
+  val problemStream: UStream[Problem] = Runner.staticProblem("spherical", env.eval)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  def run(args: List[String]) = {
+  def run(args: List[String]): URIO[Any with zio.console.Console, ExitCode] = {
     val t = Runner.foldStep(
       env,
       RNG.fromTime,

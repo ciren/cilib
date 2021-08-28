@@ -1,9 +1,8 @@
 package cilib
 
-import zio.{ Chunk, ZIO }
-
 import cilib.NonEmptyVector._
 import zio.prelude._
+import zio.{ Chunk, ZIO }
 
 /**
  * A `NonEmptyChunk` is a `Chunk` that is guaranteed to contain at least one

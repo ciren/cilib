@@ -7,8 +7,8 @@ import eu.timepit.refined.numeric._
 import spire.algebra._
 import spire.implicits.{ eu => _, _ }
 import spire.math._
-import zio.prelude.{ Comparison => _, _ }
 import zio.ChunkBuilder
+import zio.prelude.{ Comparison => _, _ }
 
 object DE {
 

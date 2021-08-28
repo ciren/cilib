@@ -2,21 +2,22 @@ package cilib
 
 import spire.algebra._
 import spire.implicits._
-import zio.test._
+import zio.random.Random
+import zio.test.{TestResult, _}
 
 object MetricSpaceTest extends DefaultRunnableSpec {
 
-  val doubleGen     = Gen.double(-1000000.0, 1000000.0)
-  val doubleListGen = Gen.listOf(doubleGen)
+  val doubleGen: Gen[Random, Double]                      = Gen.double(-1000000.0, 1000000.0)
+  val doubleListGen: Gen[Random with Sized, List[Double]] = Gen.listOf(doubleGen)
 
-  val listTuple2 = Gen.sized { size =>
+  val listTuple2: Gen[Sized with Random, (List[Double], List[Double])] = Gen.sized { size =>
     for {
       x <- Gen.listOfN(size)(doubleGen)
       y <- Gen.listOfN(size)(doubleGen)
     } yield (x, y)
   }
 
-  val listTuple3 = Gen.sized { size =>
+  val listTuple3: Gen[Sized with Random, (List[Double], List[Double], List[Double])] = Gen.sized { size =>
     for {
       x <- Gen.listOfN(size)(doubleGen)
       y <- Gen.listOfN(size)(doubleGen)
@@ -24,23 +25,23 @@ object MetricSpaceTest extends DefaultRunnableSpec {
     } yield (x, y, z)
   }
 
-  val euclidean = MetricSpace.euclidean[List, Double, Double]
-  val manhattan = MetricSpace.manhattan[List, Double, Double]
-  val chebyshev = MetricSpace.chebyshev[List, Double]
-  val hamming   = MetricSpace.hamming[List, Double]
+  val euclidean: MetricSpace[List[Double], Double] = MetricSpace.euclidean[List, Double, Double]
+  val manhattan: MetricSpace[List[Double], Double] = MetricSpace.manhattan[List, Double, Double]
+  val chebyshev: MetricSpace[List[Double], Double] = MetricSpace.chebyshev[List, Double]
+  val hamming: MetricSpace[List[Double], Int]      = MetricSpace.hamming[List, Double]
 
-  def nonnegative[A, B](m: MetricSpace[A, B], x: A, y: A)(implicit ev: IsReal[B]) =
+  def nonnegative[A, B](m: MetricSpace[A, B], x: A, y: A)(implicit ev: IsReal[B]): TestResult =
     assert(ev.toDouble(m.dist(x, y)))(Assertion.isGreaterThanEqualTo(0.0))
 
-  def indisc[A, B](m: MetricSpace[A, B], x: A)(implicit E: Eq[B], F: Field[B]) =
+  def indisc[A, B](m: MetricSpace[A, B], x: A)(implicit E: Eq[B], F: Field[B]): TestResult =
     assert(E.eqv(m.dist(x, x), F.zero))(Assertion.isTrue)
 
-  def symmetry[A, B](m: MetricSpace[A, B], x: A, y: A)(implicit E: Eq[B]) =
+  def symmetry[A, B](m: MetricSpace[A, B], x: A, y: A)(implicit E: Eq[B]): TestResult =
     assert(E.eqv(m.dist(x, y), m.dist(y, x)))(Assertion.isTrue)
 
   // Some discussion: https://en.wikipedia.org/wiki/Triangle_inequality
   // Look at section on Metric Spaces
-  def triangle[A, B](m: MetricSpace[A, B], a: A, b: A, c: A)(implicit F: Field[B], O: Order[B]) =
+  def triangle[A, B](m: MetricSpace[A, B], a: A, b: A, c: A)(implicit F: Field[B], O: Order[B]): Boolean =
     O.lteqv(m.dist(a, c), m.dist(a, b) + m.dist(b, c))
 
   override def spec: ZSpec[Environment, Failure] = suite("metric space")(

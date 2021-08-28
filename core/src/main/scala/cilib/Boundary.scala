@@ -2,8 +2,8 @@ package cilib
 
 import spire.implicits._
 import spire.math.Interval
-import zio.prelude._
 import zio.Chunk
+import zio.prelude._
 
 object Boundary {
 

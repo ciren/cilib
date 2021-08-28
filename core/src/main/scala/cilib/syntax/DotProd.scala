@@ -1,10 +1,9 @@
 package cilib
 package syntax
 
+import cilib.algebra._
 import spire.algebra._
 import zio.prelude._
-
-import cilib.algebra._
 
 object dotprod {
   implicit class DotProdSyntax[F[_], A](private val x: F[A]) extends AnyVal {

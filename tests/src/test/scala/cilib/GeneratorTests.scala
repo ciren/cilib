@@ -4,18 +4,18 @@ import zio.test._
 
 object GeneratorTest extends DefaultRunnableSpec {
 
-  def sizedGen(r: RVar[Double]) =
+  def sizedGen(r: RVar[Double]): Gen[Any, Vector[Double]] =
     Gen.const(r.replicateM(250).run(RNG.fromTime)._2.toVector)
 
-  val gaussianRandom =
+  val gaussianRandom: Gen[Any, Vector[Double]] =
     sizedGen(Dist.stdNormal)
 
   @annotation.tailrec
   def until[A](p: A => Boolean)(f: A => A)(z: A): A = if (p(z)) z else until(p)(f)(f(z))
 
-  def phi_gauss(x: Double) = math.exp(-x * x / 2) / math.sqrt(2 * math.Pi)
+  def phi_gauss(x: Double): Double = math.exp(-x * x / 2) / math.sqrt(2 * math.Pi)
 
-  def cdf_gauss = (z: Double) => {
+  def cdf_gauss: Double => Double = (z: Double) => {
     if (z < -8.0) 0.0
     else if (z > 8.0) 1.0
     else {
@@ -26,7 +26,7 @@ object GeneratorTest extends DefaultRunnableSpec {
   }
 
   // NB: java.util.math.log is really ln
-  def S(x: Seq[Double], F: Double => Double) = {
+  def S(x: Seq[Double], F: Double => Double): Double = {
     val n      = x.size
     val m      = x.foldLeft(0.0)(_ + _) / x.size
     val stdDev = math.sqrt((1.0 / (n - 1)) * x.foldLeft(0.0)((a, b) => a + (b - m) * (b - m)))

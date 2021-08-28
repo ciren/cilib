@@ -48,15 +48,4 @@ package object cilib extends EvalInstances {
       ForEach[List].forEach(List.fill(n)(rvar))(identity)
   }
 
-  // def align[A, B](a: NonEmptyList[A], b: NonEmptyList[B]): NonEmptyList[These[A, B]] = {
-  //   def loop(list1: List[A], list2: List[B]): List[These[A, B]] =
-  //     (list1, list2) match {
-  //       case (Nil, _)             => list2.map(These.Right(_))
-  //       case (_, Nil)             => list1.map(These.Left(_))
-  //       case (ah :: at, bh :: bt) => These.Both(ah, bh) :: loop(at, bt)
-  //     }
-
-  //   NonEmptyList.fromIterable(These.Both(a.head, b.head), loop(a.tail, b.tail))
-  // }
-
 }

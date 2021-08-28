@@ -3,18 +3,19 @@ package cilib
 import spire.implicits._
 import spire.math.Interval
 import zio.prelude._
+import zio.random.Random
 import zio.test._
 
 object BoundarySpec extends DefaultRunnableSpec {
 
-  val intervalGen =
+  val intervalGen: Gen[Random, Interval[Double]] =
     for {
       a <- Gen.anyDouble
       b <- Gen.anyDouble
       if b > a
     } yield Interval(a, b)
 
-  val intervalPairGen =
+  val intervalPairGen: Gen[Random, (Double, Interval[Double])] =
     for {
       b     <- intervalGen
       a     <- Gen.elements(b.lowerValue, b.upperValue)

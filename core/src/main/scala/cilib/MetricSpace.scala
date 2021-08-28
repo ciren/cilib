@@ -2,8 +2,7 @@ package cilib
 
 import spire.algebra.{ Semigroup => _, _ }
 import spire.implicits._
-import spire.math._
-import spire.math.{ abs, max }
+import spire.math.{ abs, max, _ }
 import zio.prelude._
 
 /**

@@ -16,10 +16,9 @@ import zio.prelude._
  *
  * NB: Should consider trying to define this based on the Free monad?
  */
-sealed trait Iteration[M[_], A] {
-  def run(l: NonEmptyList[A]): M[List[A]]
-}
-
+// sealed trait Iteration[M[_], A] {
+//   def run(l: NonEmptyList[A]): M[List[A]]
+// }
 object Iteration {
 
   // iterations have the shape: [a] -> a -> Step [a]

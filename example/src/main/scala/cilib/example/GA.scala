@@ -1,7 +1,8 @@
 package cilib
 package example
 
-import Lenses._
+import cilib.exec._
+import cilib.ga._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.auto._
 import eu.timepit.refined.numeric._
@@ -9,17 +10,18 @@ import spire.implicits._
 import spire.math.Interval
 import zio.console._
 import zio.prelude.{ Comparison => _, _ }
+import zio.{ ExitCode, URIO }
 
-import cilib.ga._
+import Lenses._
 
 object GAExample extends zio.App {
   type Ind = Individual[Unit]
 
   val populationSize: Int Refined Positive = 20
 
-  val bounds = Interval(-5.12, 5.12) ^ 30
+  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
 
-  val env =
+  val env: Environment =
     Environment(
       cmp = Comparison.dominance(Min),
       eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
@@ -57,7 +59,7 @@ object GAExample extends zio.App {
   val ga: NonEmptyVector[Ind] => Ind => Step[List[Ind]] =
     GA.ga(0.7, randomSelection, onePoint, mutation(0.2))
 
-  val swarm = Position.createCollection[Ind](x => Entity((), x))(bounds, populationSize)
+  val swarm: RVar[NonEmptyVector[Ind]] = Position.createCollection[Ind](x => Entity((), x))(bounds, populationSize)
 
   /* We need to convert the produced lists of Individuals that are
    * produced from the collection into a single container type to
@@ -81,6 +83,6 @@ object GAExample extends zio.App {
     }
 
   // Our IO[Unit] that runs at the end of the world
-  def run(args: List[String]) =
+  def run(args: List[String]): URIO[Console with Console,ExitCode] =
     putStrLn(exec.Runner.repeat(1000, cullingGA, swarm).provide(env).runAll(RNG.fromTime).toString).exitCode
 }

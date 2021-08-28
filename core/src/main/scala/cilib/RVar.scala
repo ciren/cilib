@@ -151,7 +151,7 @@ object RVar {
     rseq(xs.length).map(r =>
       NonEmptyVector
         .fromIterableOption(local(buildTree(xs), r))
-        .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
+        .getOrElse(sys.error("Impossible - NonEmptyVector is guaranteed to be non-empty"))
     )
   }
 
@@ -204,18 +204,18 @@ object Generator {
     RVar(_.next(bits))
 
   implicit object DoubleGen extends Generator[Double] {
-    def gen =
+    def gen: RVar[Double] =
       zio.prelude.fx.ZPure.mapN(nextBits(26), nextBits(27)) { (a, b) =>
         ((a.toLong << 27) + b) / (1L << 53).toDouble
       }
   }
 
   implicit object IntGen extends Generator[Int] {
-    def gen = nextBits(32)
+    def gen: RVar[Int] = nextBits(32)
   }
 
   implicit object LongGen extends Generator[Long] {
-    def gen =
+    def gen: RVar[Long] =
       for {
         upper <- nextBits(32)
         lower <- nextBits(32)
@@ -223,6 +223,6 @@ object Generator {
   }
 
   implicit object BooleanGen extends Generator[Boolean] {
-    def gen = nextBits(1).map(_ == 1)
+    def gen: RVar[Boolean] = nextBits(1).map(_ == 1)
   }
 }

@@ -11,9 +11,9 @@ import zio.prelude._
 
 object ExampleHelper {
 
-  val absoluteValue = (xs: NonEmptyVector[Double]) => xs.map(math.abs).sum
+  val absoluteValue: NonEmptyVector[Double] => Double = (xs: NonEmptyVector[Double]) => xs.map(math.abs).sum
 
-  val ackley = (xs: NonEmptyVector[Double]) => {
+  val ackley: NonEmptyVector[Double] => Double = (xs: NonEmptyVector[Double]) => {
     val n      = xs.size
     val sumcos = xs.map(xi => cos(2 * pi * xi)).sum
     val sumsqr = xs.map(_ ** 2).sum
@@ -21,7 +21,7 @@ object ExampleHelper {
     -20 * exp(-0.2 * sqrt(sumsqr / n)) - exp(sumcos / n) + 20 + e
   }
 
-  val quadric = (xs: NonEmptyVector[Double]) => {
+  val quadric: NonEmptyVector[Double] => Double = (xs: NonEmptyVector[Double]) => {
     val list = xs.toChunk.toList
 
     (1 to xs.size).toList.map { i =>
@@ -29,6 +29,6 @@ object ExampleHelper {
     }.sum
   }
 
-  val spherical = (xs: NonEmptyVector[Double]) => xs.map(x => x * x).sum
+  val spherical: NonEmptyVector[Double] => Double = (xs: NonEmptyVector[Double]) => xs.map(x => x * x).sum
 
 }

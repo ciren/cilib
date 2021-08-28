@@ -1,8 +1,9 @@
 package cilib
 package pso
 
-import PSO._
 import spire.implicits._
+
+import PSO._
 
 object Defaults {
 

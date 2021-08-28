@@ -1,7 +1,11 @@
 package cilib
 package example
-import java.io.File
-
+import cilib.exec.Runner._
+import cilib.exec.{Progress, _}
+import cilib.io._
+import cilib.pso.Defaults._
+import cilib.pso._
+import cilib.{ Entity, Mem, NonEmptyVector }
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
@@ -11,71 +15,75 @@ import zio.console._
 import zio.prelude.{ Comparison => _, _ }
 import zio.stream._
 
-import cilib.exec.Runner._
-import cilib.exec._
-import cilib.io._
-import cilib.pso.Defaults._
-import cilib.pso._
+import java.io.File
 
 object FileOutput extends zio.App {
 
   // An example showing how to compare multiple algorithms across multiple
   // benchmarks and save the results to a a file (either csv or parquet).
 
-  val bounds = Interval(-5.12, 5.12) ^ 30
-  val rng    = RNG.init(12L)
+  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
+  val rng: RNG                                 = RNG.init(12L)
 
   // Define the benchmarks. These functions are hardcoded, but it would be better to consider
   // using https://github.com/ciren/benchmarks which is a far more extensive and
   // complete set of benchmark functions and suites.
-  val absolute = Environment(
+  val absolute: Environment = Environment(
     cmp = Comparison.dominance(Max),
     eval = Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible)
   )
 
-  val ackley = Environment(
+  val ackley: Environment = Environment(
     cmp = Comparison.dominance(Max),
     eval = Eval.unconstrained(ExampleHelper.ackley andThen Feasible)
   )
 
-  val quadric = Environment(
+  val quadric: Environment = Environment(
     cmp = Comparison.dominance(Max),
     eval = Eval.unconstrained(ExampleHelper.quadric andThen Feasible)
   )
 
-  val spherical = Environment(
+  val spherical: Environment = Environment(
     cmp = Comparison.dominance(Max),
     eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
   )
 
   // Define the problem streams
-  val absoluteStream  = Runner.staticProblem("absolute", absolute.eval)
-  val ackleyStream    = Runner.staticProblem("ackley", ackley.eval)
-  val sphericalStream = Runner.staticProblem("spherical", spherical.eval)
-  val quadricStream   = Runner.staticProblem("quadric", quadric.eval)
+  val absoluteStream: UStream[Problem]  = Runner.staticProblem("absolute", absolute.eval)
+  val ackleyStream: UStream[Problem]    = Runner.staticProblem("ackley", ackley.eval)
+  val sphericalStream: UStream[Problem] = Runner.staticProblem("spherical", spherical.eval)
+  val quadricStream: UStream[Problem]   = Runner.staticProblem("quadric", quadric.eval)
 
   // Define the guides for our PSO algorithms
-  val cognitive  = Guide.pbest[Mem[Double], Double]
-  val gbestGuide = Guide.gbest[Mem[Double]]
-  val lbestGuide = Guide.lbest[Mem[Double]](3)
+  val cognitive: Guide[Mem[Double], Double]  = Guide.pbest[Mem[Double], Double]
+  val gbestGuide: Guide[Mem[Double], Double] = Guide.gbest[Mem[Double]]
+  val lbestGuide: Guide[Mem[Double], Double] = Guide.lbest[Mem[Double]](3)
 
   // Define our algorithms
-  val gbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, gbestGuide)
-  val lbestPSO = gbest(0.729844, 1.496180, 1.496180, cognitive, lbestGuide)
+  val gbestPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
+    Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
+  ) = gbest(0.729844, 1.496180, 1.496180, cognitive, gbestGuide)
+  val lbestPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
+    Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
+  ) = gbest(0.729844, 1.496180, 1.496180, cognitive, lbestGuide)
 
   // Define iterators for the algorithms
-  val gbestIter = Kleisli(Iteration.sync(gbestPSO))
-  val lbestIter = Kleisli(Iteration.sync(lbestPSO))
+  val gbestIter
+    : Kleisli[Step, NonEmptyVector[Particle[Mem[Double], Double]], NonEmptyVector[Particle[Mem[Double], Double]]] =
+    Kleisli(Iteration.sync(gbestPSO))
+  val lbestIter
+    : Kleisli[Step, NonEmptyVector[Particle[Mem[Double], Double]], NonEmptyVector[Particle[Mem[Double], Double]]] =
+    Kleisli(Iteration.sync(lbestPSO))
 
   // Define the initial swarm
-  val swarm =
+  val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
   // A class to hold the results that we want to save at the end of each iteration
   final case class Results(min: Double, average: Double)
 
   // A performance measure that we apply to the collection at the end of each iteration.
-  def performanceMeasure =
+  def performanceMeasure: Progress[NonEmptyVector[Entity[Mem[Double], Double]]] => Measurement[Results] =
     measure[NonEmptyVector[Entity[Mem[Double], Double]], Results] { collection =>
       val fitnessValues = collection.map(x =>
         x.pos.objective
@@ -99,9 +107,14 @@ object FileOutput extends zio.App {
 
   // A simple RVar.pure function that is called when the the environment changes
   // In this example our environments do not change.
-  val onChange = (x: NonEmptyVector[Entity[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
+  val onChange: (NonEmptyVector[Entity[Mem[Double], Double]], Eval[NonEmptyVector]) => RVar[
+    NonEmptyVector[Entity[Mem[Double], Double]]
+  ] = (x: NonEmptyVector[Entity[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
 
-  def simulation(env: Environment, stream: Stream[Nothing, Problem]) =
+  def simulation(
+    env: Environment,
+    stream: Stream[Nothing, Problem]
+  ): List[zio.stream.Stream[Exception, Progress[NonEmptyVector[Entity[Mem[Double], Double]]]]] =
     List(Runner.staticAlgorithm("GBestPSO", gbestIter), Runner.staticAlgorithm("LBestPSO", lbestIter))
       .map(alg => Runner.foldStep(env, rng, swarm, alg, stream, onChange))
 
@@ -114,7 +127,7 @@ object FileOutput extends zio.App {
     )
 
   sealed abstract class Choice {
-    def filename =
+    def filename: String =
       this match {
         case CSV     => "results.csv"
         case Parquet => "results.parquet"
@@ -141,7 +154,7 @@ object FileOutput extends zio.App {
   def run(args: List[String]) =
     myAppLogic.exitCode
 
-  val myAppLogic =
+  val myAppLogic: ZIO[Blocking with Console, Throwable, Unit] =
     for {
       _      <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
       result <- getStrLn

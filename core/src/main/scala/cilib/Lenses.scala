@@ -50,7 +50,7 @@ case class Lens[A, B](
   get: A => B,
   set: (A, B) => A
 ) {
-  def modify(a: A, f: B => B) =
+  def modify(a: A, f: B => B): A =
     set(a, f(get(a)))
 }
 

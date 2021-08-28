@@ -1,13 +1,12 @@
 package cilib
 
 import _root_.eu.timepit.refined.auto._
-import spire.implicits._
-import spire.math.sqrt
-import zio.prelude._
-
 import cilib.Position._
 import cilib.algebra._
 import cilib.syntax.dotprod._
+import spire.implicits._
+import spire.math.sqrt
+import zio.prelude._
 
 object Crossover {
 

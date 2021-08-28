@@ -3,14 +3,14 @@ package algebra
 
 import spire.algebra._
 import spire.implicits._
-import zio.prelude._
 import zio.Chunk
+import zio.prelude._
 
 trait DotProd[F[_], A] {
   def dot(a: F[A], b: F[A]): Double
 
   def normsqr(a: F[A]): Double = dot(a, a)
-  def norm(a: F[A]): Double    = math.sqrt(dot(a,a))
+  def norm(a: F[A]): Double    = math.sqrt(dot(a, a))
   def lensqr(a: F[A]): Double  = normsqr(a)
   def len(a: F[A]): Double     = norm(a)
 }

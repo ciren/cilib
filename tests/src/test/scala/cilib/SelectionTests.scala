@@ -1,17 +1,18 @@
 package cilib
 
 import spire.implicits._
-import zio.prelude._
+import zio.random.Random
 import zio.test._
 
 object SelectionTests extends DefaultRunnableSpec {
 
-  val star         = Selection.star[Int]
-  val ring         = Selection.indexNeighbours[Int](3)
-  val wheel        = Selection.wheel[Int]
-  val ringDistance = Selection.distanceNeighbours[NonEmptyList, Double](MetricSpace.euclidean)(3)
+  val star: (NonEmptyVector[Int], Int) => List[Int]  = Selection.star[Int]
+  val ring: (NonEmptyVector[Int], Int) => List[Int]  = Selection.indexNeighbours[Int](3)
+  val wheel: (NonEmptyVector[Int], Int) => List[Int] = Selection.wheel[Int]
+  val ringDistance: (NonEmptyVector[NonEmptyVector[Double]], NonEmptyVector[Double]) => List[NonEmptyVector[Double]] =
+    Selection.distanceNeighbours[NonEmptyVector, Double](MetricSpace.euclidean)(3)
 
-  def nelGen(dim: Int) =
+  def nelGen(dim: Int): Gen[Random, NonEmptyVector[Int]] =
     Gen
       .listOfN(dim)(Gen.int(-10, 10))
       .map(x => NonEmptyVector.fromIterableOption(x).get)
@@ -76,12 +77,12 @@ object SelectionTests extends DefaultRunnableSpec {
     //   }
     // },
     test("ring distance units") {
-      val a = NonEmptyList(1.0, 2.0)
-      val b = NonEmptyList(3.0, 4.0)
-      val c = NonEmptyList(5.0, 6.0)
-      val d = NonEmptyList(7.0, 8.0)
-      val e = NonEmptyList(9.0, 10.0)
-      val l = NonEmptyList(a, b, c, d, e)
+      val a = NonEmptyVector(1.0, 2.0)
+      val b = NonEmptyVector(3.0, 4.0)
+      val c = NonEmptyVector(5.0, 6.0)
+      val d = NonEmptyVector(7.0, 8.0)
+      val e = NonEmptyVector(9.0, 10.0)
+      val l = NonEmptyVector(a, b, c, d, e)
 
       assert(ringDistance(l, a))(Assertion.equalTo(List(a, b, c))) &&
       assert(ringDistance(l, c))(Assertion.equalTo(List(c, b, d))) &&
