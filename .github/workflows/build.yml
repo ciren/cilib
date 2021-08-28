@@ -15,7 +15,7 @@ jobs:
       - uses: cachix/install-nix-action@v12
 
       - name: Lint check
-        run: nix-shell --run 'sbt -Dsbt.supershell=false ";fixCheck;fmtCheck"'
+        run: nix-shell --run 'sbt -Dsbt.supershell=false check'
 
       - name: Test
         run: nix-shell --run 'sbt -Dsbt.supershell=false test'
