@@ -5,16 +5,17 @@ import zio.prelude._
 import zio.{ Chunk, ZIO }
 
 /**
- * A `NonEmptyChunk` is a `Chunk` that is guaranteed to contain at least one
- * element. As a result, operations which would not be safe when performed on
- * `Chunk`, such as `head` or `reduce`, are safe when performed on
- * `NonEmptyChunk`. Operations on `NonEmptyChunk` which could potentially
- * return an empty chunk will return a `Chunk` instead.
+ * A `NonEmptyVector` is a structure that is guaranteed to contain at
+ * least one element. As a result, operations which would not be safe
+ * when performed on `Vector`, such as `head` or `reduce`, are safe
+ * when performed on `NonEmptyVector`. Operations on `NonEmptyVector`
+ * which could potentially return an empty structure will return a
+ * `Chunk` instead.
  */
 final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
 
   /**
-   * Appends a single element to the end of this `NonEmptyChunk`.
+   * Appends a single element to the end of this `NonEmptyVector`.
    */
   def :+[A1 >: A](a: A1): NonEmptyVector[A1] =
     nonEmpty(chunk :+ a)
@@ -113,14 +114,14 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
     chunk.mapMPar(f).map(nonEmpty)
 
   /**
-   * Materialize the elements of this `NonEmptyChunk` into a `NonEmptyChunk`
+   * Materialize the elements of this `NonEmptyVector` into a `NonEmptyVector`
    * backed by an array.
    */
   def materialize[A1 >: A]: NonEmptyVector[A1] =
     nonEmpty(chunk.materialize)
 
   /**
-   * Prepends the specified `Chunk` to the beginning of this `NonEmptyChunk`.
+   * Prepends the specified `Chunk` to the beginning of this `NonEmptyVector`.
    */
   def prepend[A1 >: A](that: Chunk[A1]): NonEmptyVector[A1] =
     nonEmpty(that ++ chunk)
@@ -129,86 +130,63 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
     nonEmpty(that ++ chunk)
 
   /**
-   * Reduces the elements of this `NonEmptyChunk` from left to right using the
+   * Reduces the elements of this `NonEmptyVector` from left to right using the
    * function `map` to transform the first value to the type `B` and then the
    * function `reduce` to combine the `B` value with each other `A` value.
    */
   def reduceMapLeft[B](map: A => B)(reduce: (B, A) => B): B = {
     val iterator = chunk.materialize.toIterator
     var b: B     = null.asInstanceOf[B]
+
     while (iterator.hasNext) {
       val a = iterator.next()
       if (b == null) b = map(a) else b = reduce(b, a)
     }
+
     b
-    // val iterator = chunk.materialize.iterator//.arrayIterator
-    // var b: B     = null.asInstanceOf[B]
-    // while (iterator.hasNext) {
-    //   val array  = iterator.next()
-    //   val length = array.length
-    //   var i      = 0
-    //   while (i < length) {
-    //     val a = array(i)
-    //     if (b == null) b = map(a) else b = reduce(b, a)
-    //     i += 1
-    //   }
-    // }
-    // b
   }
 
   /**
-   * Reduces the elements of this `NonEmptyChunk` from right to left using the
+   * Reduces the elements of this `NonEmptyVector` from right to left using the
    * function `map` to transform the first value to the type `B` and then the
    * function `reduce` to combine the `B` value with each other `A` value.
    */
   def reduceMapRight[B](map: A => B)(reduce: (A, B) => B): B = {
     val iterator = chunk.materialize.reverse.toIterator
     var b: B     = null.asInstanceOf[B]
+
     while (iterator.hasNext) {
       val a = iterator.next()
       if (b == null) b = map(a) else b = reduce(a, b)
     }
-    b
 
-    // val iterator = chunk.reverseArrayIterator
-    // var b: B     = null.asInstanceOf[B]
-    // while (iterator.hasNext) {
-    //   val array  = iterator.next()
-    //   val length = array.length
-    //   var i      = length - 1
-    //   while (i >= 0) {
-    //     val a = array(i)
-    //     if (b == null) b = map(a) else b = reduce(a, b)
-    //     i -= 1
-    //   }
-    // }
-    // b
+    b
   }
 
   def forEach[F[+_]: AssociativeBoth: Covariant, B](f: A => F[B]): F[NonEmptyVector[B]] =
-    reduceMapRight(f(_).map(single))((a, fas) => f(a).zipWith(fas)((h, t) => Chunk(h) +: t)) //single(h).app ++ t))
+    reduceMapRight(f(_).map(single))((a, fas) => f(a).zipWith(fas)((h, t) => Chunk(h) +: t))
 
   /**
-   * Converts this `NonEmptyChunk` to a `Chunk`, discarding information about
+   * Converts this `NonEmptyVector` to a `Chunk`, discarding information about
    * it not being empty.
    */
   def toChunk: Chunk[A] =
     chunk
 
   /**
-   * Converts this `NonEmptyChunk` to the `::` case of a `List`.
+   * Converts this `NonEmptyVector` to the `::` case of a `List`.
    */
   def toCons[A1 >: A]: ::[A1] =
     ::(chunk(0), chunk.drop(1).toList)
 
   /**
-   * Renders this `NonEmptyChunk` as a `String`.
+   * Renders this `NonEmptyVector` as a `String`.
    */
   override def toString: String =
     chunk.mkString("NonEmptyVector(", ", ", ")")
 
   /**
-   * Zips this `NonEmptyChunk` with the specified `Chunk`, using the specified
+   * Zips this `NonEmptyVector` with the specified `Chunk`, using the specified
    * functions to "fill in" missing values if one chunk has fewer elements
    * than the other.
    */
@@ -218,20 +196,20 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
     nonEmpty(chunk.zipAllWith(that)(left, right)(both))
 
   /**
-   * Zips this `NonEmptyCHunk` with the specified `NonEmptyChunk`, only
-   * keeping as many elements as are in the smaller chunk.
+   * Zips this `NonEmptyVector` with the specified `NonEmptyVector`, only
+   * keeping as many elements as are in the smaller `NonEmptyVector`.
    */
   final def zipWith[B, C](that: NonEmptyVector[B])(f: (A, B) => C): NonEmptyVector[C] =
     nonEmpty(chunk.zipWith(that.chunk)(f))
 
   /**
-   * Annotates each element of this `NonEmptyChunk` with its index.
+   * Annotates each element of this `NonEmptyVector` with its index.
    */
   def zipWithIndex: NonEmptyVector[(A, Int)] =
     nonEmpty(chunk.zipWithIndex)
 
   /**
-   * Annotates each element of this `NonEmptyChunk` with its index, with the
+   * Annotates each element of this `NonEmptyVector` with its index, with the
    * specified offset.
    */
   final def zipWithIndexFrom(indexOffset: Int): NonEmptyVector[(A, Int)] =
@@ -241,32 +219,31 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
 object NonEmptyVector {
 
   /**
-   * Constructs a `NonEmptyChunk` from one or more values.
+   * Constructs a `NonEmptyVector` from one or more values.
    */
   def apply[A](a: A, as: A*): NonEmptyVector[A] =
     nonEmpty(Chunk(a) ++ Chunk.fromIterable(as))
 
   /**
-   * Checks if a `chunk` is not empty and constructs a `NonEmptyChunk` from it.
+   * Checks if a `chunk` is not empty and constructs a `NonEmptyVector` from it.
    */
   def fromChunk[A](chunk: Chunk[A]): Option[NonEmptyVector[A]] =
     if (chunk.isEmpty) None else Some(NonEmptyVector.nonEmpty(chunk))
-  //chunk.nonEmptyOrElse[Option[NonEmptyVector[A]]](None)(Some(_))
 
   /**
-   * Constructs a `NonEmptyChunk` from the `::` case of a `List`.
+   * Constructs a `NonEmptyVector` from the `::` case of a `List`.
    */
   def fromCons[A](as: ::[A]): NonEmptyVector[A] =
     as match { case h :: t => fromIterable(h, t) }
 
   /**
-   * Constructs a `NonEmptyChunk` from an `Iterable`.
+   * Constructs a `NonEmptyVector` from an `Iterable`.
    */
   def fromIterable[A](a: A, as: Iterable[A]): NonEmptyVector[A] =
     nonEmpty(Chunk.single(a) ++ Chunk.fromIterable(as))
 
   /**
-   * Constructs a `NonEmptyChunk` from an `Iterable`.
+   * Constructs a `NonEmptyVector` from an `Iterable`.
    */
   def fromIterableOption[A](iterable: Iterable[A]): Option[NonEmptyVector[A]] =
     iterable.toList match {
@@ -275,13 +252,13 @@ object NonEmptyVector {
     }
 
   /**
-   * Constructs a `NonEmptyChunk` from a single value.
+   * Constructs a `NonEmptyVector` from a single value.
    */
   def single[A](a: A): NonEmptyVector[A] =
     NonEmptyVector(a)
 
   /**
-   * Extracts the elements from a `NonEmptyChunk`.
+   * Extracts the elements from a `NonEmptyVector`.
    */
   def unapplySeq[A](seq: Seq[A]): Option[Seq[A]] =
     seq match {
@@ -290,7 +267,7 @@ object NonEmptyVector {
     }
 
   /**
-   * The unit non-empty chunk.
+   * The unit `NonEmptyVector`.
    */
   val unit: NonEmptyVector[Unit] = single(())
 
@@ -302,7 +279,7 @@ object NonEmptyVector {
   //   nonEmptyChunk.chunk
 
   /**
-   * Constructs a `NonEmptyChunk` from a `Chunk`. This should only be used
+   * Constructs a `NonEmptyVector` from a `Chunk`. This should only be used
    * when it is statically known that the `Chunk` must have at least one
    * element.
    */
@@ -319,6 +296,9 @@ object NonEmptyVector {
         fa.flatMap(a => fb.map(b => (a, b)))
     }
 
+  /**
+   * The `NonEmptyForEach` instance for `NonEmptyVector`.
+   */
   implicit val nonEmptyVectorForEach: NonEmptyForEach[NonEmptyVector] =
     new NonEmptyForEach[NonEmptyVector] {
       def forEach1[G[+_]: AssociativeBoth: Covariant, A, B](fa: NonEmptyVector[A])(f: A => G[B]): G[NonEmptyVector[B]] =
