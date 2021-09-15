@@ -17,11 +17,11 @@
             src = pkgs.fetchFromGitHub {
               owner = "jakeswenson";
               repo = pname;
-              rev = version;
-              sha256 = "1hqps7l5qrjh9f914r5i6kmcz6f1yb951nv4lby0cjnp5l253kps";
+              rev = "004993608f34df7cfbb0f7ef6c877a6d276d1715";
+              sha256 = "F4xOkBd9lphEAIFc5S1ai06rvWC/ceSAP13X8TxcWmg=";
             };
 
-            cargoSha256 = "x6ncQ+H6xHmSOmM0BiGauEEkau/Y2cvFUG32X3HC7J4=";
+            cargoSha256 = "cc1KtAUN7EDYEFIGZ1QlJlG6ByHC7s4b+njVMUX0OXE=";
 
             meta = with pkgs.lib; {
               description = "";
@@ -34,12 +34,15 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            openjdk11
+            openjdk16
             sbt
             yarn
             nodejs
+
             nushell
             nu_plugin_from_parquet
+            pqrs
+
             #node2nix
             #yarn2nix
           ];
