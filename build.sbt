@@ -237,9 +237,8 @@ lazy val io = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      "com.chuusai"              %% "shapeless"      % "2.3.3",
       "com.github.mjakubowski84" %% "parquet4s-core" % Version.parquet4s,
-      "org.apache.hadoop"        % "hadoop-client"   % "2.7.3",
+      "org.apache.hadoop"        % "hadoop-client"   % "2.8.5",
       zio,
       zioStreams
     )

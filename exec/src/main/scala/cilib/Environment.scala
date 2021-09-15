@@ -34,16 +34,33 @@ object Env {
         }
     }
 
-  import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver._
-  import org.apache.parquet.schema._
+  import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver.TypedSchemaDef
+  import com.github.mjakubowski84.parquet4s.{ValueCodec, Value}
+  import org.apache.parquet.io.api.Binary
+  import org.apache.parquet.schema.{LogicalTypeAnnotation, PrimitiveType}
+
+  implicit val envCodec: ValueCodec[Env] =
+    new OptionalValueCodec[Env] {
+      override protected def decodeNonNull(value: Value, configuration: ValueCodecConfiguration): Env = value match {
+        case BinaryValue(binary) => binary.toStringUsingUTF8 match {
+          case "Unchanged" => Unchanged
+          case "Changed"   => Change
+          case name @ _    => throw new IllegalArgumentException(s"Invalid environment type: $name")
+        }
+      }
+      override protected def encodeNonNull(data: Env, configuration: ValueCodecConfiguration): Value =
+        BinaryValue(Binary.fromString(data match {
+          case Unchanged => "Unchanged"
+          case Change => "Change"
+        }))
+
+    }
 
   implicit val envTypeSchema: TypedSchemaDef[Env] = { // Save the data as a String in the schema
-    typedSchemaDef[Env](
-      PrimitiveSchemaDef(
-        primitiveType = PrimitiveType.PrimitiveTypeName.BINARY,
-        required = true,
-        originalType = Some(OriginalType.UTF8)
-      )
-    )
+    SchemaDef.primitive(
+      primitiveType = PrimitiveType.PrimitiveTypeName.BINARY,
+      required = true,
+      logicalTypeAnnotation = Some(LogicalTypeAnnotation.stringType())
+    ).typed[Env]
   }
 }
