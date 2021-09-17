@@ -1,13 +1,11 @@
 package cilib
 
-import zio.prelude.NonEmptyList
-
 trait Input[F[_]] {
-  def toInput[A](a: NonEmptyList[A]): F[A]
+  def toInput[A](a: NonEmptyVector[A]): F[A]
 }
 
 sealed abstract class Eval[F[_]] {
-  def eval =
+  def eval: RVar[NonEmptyVector[Any] => Objective] =
     this match {
       case a @ Eval.Unconstrained(_, _)  => a.eval2
       case b @ Eval.Constrained(_, _, _) => b.eval2
@@ -21,8 +19,8 @@ sealed abstract class Eval[F[_]] {
 
 object Eval {
   private final case class Unconstrained[F[_], A](f: F[A] => Fit, F: Input[F]) extends Eval[F] {
-    def eval2: RVar[NonEmptyList[A] => Objective] =
-      RVar.pure { (fa: NonEmptyList[A]) =>
+    def eval2: RVar[NonEmptyVector[A] => Objective] =
+      RVar.pure { (fa: NonEmptyVector[A]) =>
         Objective.single(f(F.toInput(fa)), List.empty)
       }
 
@@ -34,8 +32,8 @@ object Eval {
   }
 
   private final case class Constrained[F[_], A](run: F[A] => Fit, cs: List[Constraint], F: Input[F]) extends Eval[F] {
-    def eval2: RVar[NonEmptyList[A] => Objective] =
-      RVar.pure { (fa: NonEmptyList[A]) =>
+    def eval2: RVar[NonEmptyVector[A] => Objective] =
+      RVar.pure { (fa: NonEmptyVector[A]) =>
         cs.filter(c => !Constraint.satisfies(c, fa)) match {
           case Nil => Objective.single(run(F.toInput(fa)), List.empty)
           case xs =>
@@ -66,16 +64,27 @@ object Eval {
 
 trait EvalInstances {
 
-  implicit val nelInput: Input[NonEmptyList] = new Input[NonEmptyList] {
-    def toInput[A](a: NonEmptyList[A]): NonEmptyList[A] = a
+  implicit val nonEmptyListInput: Input[zio.prelude.NonEmptyList] =
+    new Input[zio.prelude.NonEmptyList] {
+      def toInput[A](a: NonEmptyVector[A]): zio.prelude.NonEmptyList[A] =
+        // Safe as there _will always be_ at least 1 element
+        zio.prelude.NonEmptyList.fromIterableOption(a.toChunk.toIterable).get
+    }
+
+  implicit val nonEmptyVectorInput: Input[NonEmptyVector] = new Input[NonEmptyVector] {
+    def toInput[A](a: NonEmptyVector[A]): NonEmptyVector[A] = a
   }
 
   implicit val pairInput: Input[Lambda[x => (x, x)]] =
     new Input[Lambda[x => (x, x)]] {
-      def toInput[A](a: NonEmptyList[A]): (A, A) =
-        a.toList match {
-          case a :: b :: _ => (a, b)
-          case _           => sys.error("error producing a pair")
-        }
+      def toInput[A](a: NonEmptyVector[A]): (A, A) = {
+        val grouped = a.toChunk.toList.grouped(2)
+        if (grouped.hasNext) {
+          grouped.next().toList match {
+            case a :: b :: _ => (a, b)
+            case _           => sys.error("error producing a pair")
+          }
+        } else sys.error("Too few elements provided. Need at least 2.")
+      }
     }
 }

@@ -1,9 +1,8 @@
 package cilib
 package io
 
-import zio.prelude._
-
 import cilib.exec.{ Change, Env, Unchanged }
+import zio.prelude._
 
 @annotation.implicitNotFound("""
 EncodeCsv derivation error for type: ${A}
@@ -36,8 +35,9 @@ object EncodeCsv {
   def foldableEncodeCsv[F[+_], A](implicit F: ForEach[F], A: EncodeCsv[A]) =
     createEncoder[F[A]](l => List(F.toList(l).flatMap(A.encode).mkString("[", ",", "]")))
 
-  implicit def listEncodeCsv[A: EncodeCsv]         = foldableEncodeCsv[List, A]
-  implicit def nonEmptyListEncodeCsv[A: EncodeCsv] = foldableEncodeCsv[NonEmptyList, A]
+  implicit def listEncodeCsv[A: EncodeCsv]           = foldableEncodeCsv[List, A]
+  implicit def nonEmptyListEncodeCsv[A: EncodeCsv]   = foldableEncodeCsv[NonEmptyList, A]
+  implicit def nonEmptyVectorEncodeCsv[A: EncodeCsv] = foldableEncodeCsv[NonEmptyVector, A]
 
   implicit val envEncodeCsv =
     createEncoder[Env](_ match {
@@ -102,6 +102,8 @@ object ColumnNameEncoder {
     createEncoder((_: List[A]) => List.empty)
   implicit def nonEmptyListColumnNameEncoder[A: ColumnNameEncoder] =
     createEncoder((_: NonEmptyList[A]) => List.empty)
+  implicit def nonEmptyVectorColumnNameEncoder[A: ColumnNameEncoder] =
+    createEncoder((_: NonEmptyVector[A]) => List.empty)
 
   implicit val hnilColumnNameEncoder: ColumnNameEncoder[HNil] =
     createEncoder(_ => List.empty)

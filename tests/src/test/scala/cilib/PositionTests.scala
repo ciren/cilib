@@ -1,53 +1,61 @@
 package cilib
 
-import scala.Predef.{ any2stringadd => _, assert => _ }
-
-import spire.implicits._
-import spire.math.{ sqrt, Interval }
-import zio.prelude._
-import zio.test._
-
 import cilib.algebra._
 import cilib.syntax.dotprod._
+import spire.implicits._
+import spire.math.{ Interval }
+import zio.prelude._
+import zio.random.Random
+import zio.test.AssertionM.Render.param
+import zio.test.{ Gen, _ }
 
 object PositionTests extends DefaultRunnableSpec {
 
-  val interval           = Interval(-10.0, 10.0)
-  def boundary(dim: Int) = interval ^ dim
+  val interval: Interval[Double]                           = Interval(-10.0, 10.0)
+  def boundary(dim: Int): NonEmptyVector[Interval[Double]] = interval ^ dim
 
-  val dimGen = Gen.int(1, 100)
+  val dimGen: Gen[Random, Int] = Gen.int(1, 100)
 
-  def nelGen(dim: Int) =
+  def nonEmptyVectorGen(dim: Int): Gen[Random, NonEmptyVector[Int]] =
     for {
       head <- Gen.int(-10, 10)
       tail <- Gen.listOfN(dim - 1)(Gen.int(-10, 10))
-    } yield NonEmptyList.fromIterable(head, tail)
+    } yield NonEmptyVector.fromIterable(head, tail)
 
-  def positionGen = nelGen(10).map(Position(_, boundary(10)))
+  def positionGen: Gen[Random, Position[Int]] = nonEmptyVectorGen(10).map(Position(_, boundary(10)))
 
-  val positionsGen = for {
+  val positionsGen: Gen[Random, NonEmptyVector[Position[Int]]] = for {
     dim    <- dimGen
     bounds = boundary(dim)
-    head   <- nelGen(dim)
-    tail   <- Gen.listOfN(dim - 1)(nelGen(dim))
-  } yield NonEmptyList.fromIterable(Position(head, bounds), tail.map(Position(_, bounds)))
+    head   <- nonEmptyVectorGen(dim)
+    tail   <- Gen.listOfN(dim - 1)(nonEmptyVectorGen(dim))
+  } yield NonEmptyVector.fromIterable(Position(head, bounds), tail.map(Position(_, bounds)))
 
-  val positionTuple = for {
+  val positionTuple: Gen[Random, (Position[Int], Position[Int], Position[Int])] = for {
     dim    <- dimGen
     bounds = boundary(dim)
-    a      <- nelGen(dim)
-    b      <- nelGen(dim)
-    c      <- nelGen(dim)
+    a      <- nonEmptyVectorGen(dim)
+    b      <- nonEmptyVectorGen(dim)
+    c      <- nonEmptyVectorGen(dim)
   } yield (Position(a, bounds), Position(b, bounds), Position(c, bounds))
 
-  val one  = Position(NonEmptyList(1.0, 1.0, 1.0), boundary(3))
-  val two  = Position(NonEmptyList(2.0, 2.0, 2.0), boundary(3))
-  val zero = Position(NonEmptyList(0.0, 0.0, 0.0), boundary(3))
+  val one: Position[Double]  = Position(NonEmptyVector(1.0, 1.0, 1.0), boundary(3))
+  val two: Position[Double]  = Position(NonEmptyVector(2.0, 2.0, 2.0), boundary(3))
+  val zero: Position[Double] = Position(NonEmptyVector(0.0, 0.0, 0.0), boundary(3))
 
-  // implicit val arbPosition       = Arbitrary { dimGen.flatMap(dim => positionGen(dim)) }
-  // implicit val arbPositions      = Arbitrary { positionsGen }
-  // implicit val arbPositionTuple  = Arbitrary { positionTuple }
-  // implicit val arbPositionDouble = Arbitrary { Gen.oneOf(zero, one, two) }
+  def conditionalApproxEqual[A: Numeric](referenceA: A, referenceB: A, tolerance: A): Assertion[A] =
+    Assertion.assertion("conditionalApproxEqual")(param(referenceA), param(referenceB), param(tolerance)) { actual =>
+      val referenceType = implicitly[Numeric[A]]
+      val maxA          = referenceType.plus(referenceA, tolerance)
+      val minA          = referenceType.minus(referenceA, tolerance)
+      val maxB          = referenceType.plus(referenceB, tolerance)
+      val minB          = referenceType.minus(referenceB, tolerance)
+
+      val testA = referenceType.gteq(actual, minA) && referenceType.lteq(actual, maxA)
+      val testB = referenceType.gteq(actual, minB) && referenceType.lteq(actual, maxB)
+
+      testA || testB
+    }
 
   override def spec: ZSpec[Environment, Failure] = suite("Position")(
     testM("addition") {
@@ -105,24 +113,23 @@ object PositionTests extends DefaultRunnableSpec {
             assert((2 *: a) ∙ (3 *: b))(Assertion.equalTo(2 * 3 * (a ∙ b)))
       }
     },
-    testM("magnitude") {
+    testM("norm") {
       check(positionGen) {
         case a =>
-          assert(a.magnitude)(Assertion.isGreaterThanEqualTo(0.0)) &&
-            assert(zero.magnitude)(Assertion.equalTo(0.0)) &&
-            assert(one.magnitude)(Assertion.equalTo(sqrt(3.0)))
+          assert(a.norm)(Assertion.isGreaterThanEqualTo(0.0)) &&
+            assert(zero.norm)(Assertion.equalTo(0.0)) &&
+            assert(one.norm)(Assertion.equalTo(3.0))
       }
     },
     testM("normalize") {
       check(positionGen.map(_.map(_.toDouble))) {
         case a =>
-          assert(a.normalize.magnitude)(Assertion.approximatelyEquals(1.0, 0.0001)) &&
-            //assert(a.normalize.pos.toIterable)(Assertion.forall(Assertion.isLessThanEqualTo(0.0))) &&
-            assert(zero.normalize.magnitude)(Assertion.approximatelyEquals(0.0, 0.0001))
+          assert(a.normalize.norm)(conditionalApproxEqual(0.0, 1.0, 0.0001)) &&
+            assert(zero.normalize.norm)(Assertion.approximatelyEquals(0.0, 0.0001))
       }
     },
     test("mean") {
-      val ps   = NonEmptyList(zero, one, two)
+      val ps   = NonEmptyVector(zero, one, two)
       val mean = Algebra.meanVector(ps)
 
       assert(mean)(Assertion.equalTo(one)) &&
@@ -130,7 +137,7 @@ object PositionTests extends DefaultRunnableSpec {
       assert(ps.forall(_.pos.length === mean.pos.length))(Assertion.isTrue)
     },
     test("orthonormalize") {
-      val ps   = NonEmptyList(zero, one, two)
+      val ps   = NonEmptyVector(zero, one, two)
       val orth = Algebra.orthonormalize(ps)
 
       assert(orth.forall(_.boundary === one.boundary))(Assertion.isTrue) &&

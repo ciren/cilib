@@ -29,8 +29,8 @@ object ViolationCount {
     }
 }
 
-final case class ConstraintFunction(f: NonEmptyList[_] => Double) {
-  def apply[A](a: NonEmptyList[A]): Double =
+final case class ConstraintFunction(f: NonEmptyVector[_] => Double) {
+  def apply[A](a: NonEmptyVector[A]): Double =
     f(a)
 }
 
@@ -48,7 +48,7 @@ object Constraint {
 //    M.map(ma)(_.constrainBy(cs))
   private val ev = Eq[Double]
 
-  def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint], cs: NonEmptyList[A]): Double =
+  def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint], cs: NonEmptyVector[A]): Double =
     constraints
       .map(_ match {
         case LessThan(f, v) =>
@@ -104,11 +104,11 @@ object Constraint {
       })
       .sum
 
-  def violationCount[A](constraints: List[Constraint], cs: NonEmptyList[A]): ViolationCount =
+  def violationCount[A](constraints: List[Constraint], cs: NonEmptyVector[A]): ViolationCount =
     ViolationCount(constraints.map(satisfies(_, cs)).filterNot(x => x).length)
       .getOrElse(ViolationCount.zero)
 
-  def satisfies[A](constraint: Constraint, cs: NonEmptyList[A]): Boolean =
+  def satisfies[A](constraint: Constraint, cs: NonEmptyVector[A]): Boolean =
     constraint match {
       case LessThan(f, v)      => f(cs) < v
       case LessThanEqual(f, v) => f(cs) <= v

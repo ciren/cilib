@@ -1,6 +1,5 @@
 package cilib
 
-import _root_.scala.Predef.{ any2stringadd => _ }
 import spire.implicits._
 import zio.prelude._
 
@@ -8,7 +7,7 @@ object Problems {
 
   // Attempt to implment the moving peaks in such a way that it does not suck
 
-  def defaultPeaks(n: Int)(domain: NonEmptyList[spire.math.Interval[Double]]) =
+  def defaultPeaks(n: Int)(domain: NonEmptyVector[spire.math.Interval[Double]]): RVar[NonEmptyVector[PeakCone]] =
     initPeaks(
       n,
       domain,
@@ -20,12 +19,12 @@ object Problems {
 
   def initPeaks(
     n: Int,
-    domain: NonEmptyList[spire.math.Interval[Double]],
+    domain: NonEmptyVector[spire.math.Interval[Double]],
     minWidth: Double,
     maxWidth: Double,
     minHeight: Double,
     maxHeight: Double
-  ): RVar[NonEmptyList[PeakCone]] =
+  ): RVar[NonEmptyVector[PeakCone]] =
     // TODO: Change the parameters for the min and max height and width
     domain
       .forEach(x => Dist.uniform(x))
@@ -37,7 +36,7 @@ object Problems {
         )
       }
       .replicateM(n)
-      .map(x => NonEmptyList.fromIterableOption(x).getOrElse(sys.error("List cannot be empty")))
+      .map(x => NonEmptyVector.fromIterableOption(x).getOrElse(sys.error("List cannot be empty")))
 
   sealed trait PeakMovement
   // final case object Linear extends PeakMovement
@@ -48,21 +47,21 @@ object Problems {
    The provided function `f` applies the _kind_ of peak update
    */
   def modifyPeaks(
-    peaks: NonEmptyList[PeakCone],
+    peaks: NonEmptyVector[PeakCone],
     movement: PeakMovement,
     changeSeverity: Double = 10.0,
     hSeverity: Double = 7.0,
     wSeverity: Double = 1.0,
     lambda: Double = 1.0 // Random environemnt when lambda is 0.0
-  ): RVar[NonEmptyList[PeakCone]] =
+  ): RVar[NonEmptyVector[PeakCone]] =
     movement match {
       case Random =>
         peaks.forEach { p =>
-          val r: RVar[NonEmptyList[Double]]     = p.shift.forEach(_ => Dist.stdNormal)
-          val term1: RVar[NonEmptyList[Double]] = r.map(_.map(_ * (1.0 - lambda) * changeSeverity))
-          val linComb: RVar[NonEmptyList[Double]] =
+          val r: RVar[NonEmptyVector[Double]]     = p.shift.forEach(_ => Dist.stdNormal)
+          val term1: RVar[NonEmptyVector[Double]] = r.map(_.map(_ * (1.0 - lambda) * changeSeverity))
+          val linComb: RVar[NonEmptyVector[Double]] =
             term1.map { t1 =>
-              val term2: NonEmptyList[Double] = p.shift.map(_ * lambda)
+              val term2: NonEmptyVector[Double] = p.shift.map(_ * lambda)
 
               t1.zip(term2).map { case (a, b) => a + b }
             }
@@ -97,6 +96,8 @@ object Problems {
                       (2.0 * d.upperValue - p - s, -1.0 * s)
                     }
                 }
+                .toChunk
+                .toList
                 .unzip(x => x)
 
             val newHeight = {
@@ -118,8 +119,8 @@ object Problems {
             }
 
             p.copy(
-              location = NonEmptyList.fromIterableOption(newPos).getOrElse(sys.error("")),
-              shift = NonEmptyList.fromIterableOption(newShift).getOrElse(sys.error("")),
+              location = NonEmptyVector.fromIterableOption(newPos).getOrElse(sys.error("")),
+              shift = NonEmptyVector.fromIterableOption(newShift).getOrElse(sys.error("")),
               height = newHeight,
               width = newWidth
             )
@@ -130,15 +131,15 @@ object Problems {
   case class PeakCone(
     height: Double,
     width: Double,
-    location: NonEmptyList[Double],
-    shift: NonEmptyList[Double],
-    domain: NonEmptyList[spire.math.Interval[Double]],
+    location: NonEmptyVector[Double],
+    shift: NonEmptyVector[Double],
+    domain: NonEmptyVector[spire.math.Interval[Double]],
     minWidth: Double,
     maxWidth: Double,
     minHeight: Double,
     maxHeight: Double
   ) {
-    def eval(x: NonEmptyList[Double]) = {
+    def eval(x: NonEmptyVector[Double]): Double = {
       val sum = x.zip(location).map(a => (a._1 - a._2) * (a._1 - a._2)).foldLeft(0.0)(_ + _)
       val c   = math.sqrt(sum)
 
@@ -148,9 +149,9 @@ object Problems {
     }
   }
 
-  def peakEval(peaks: NonEmptyList[PeakCone]): Eval[NonEmptyList] =
-    Eval.unconstrained { (a: NonEmptyList[Double]) =>
-      val x = peaks.map(_.eval(a)).max
+  def peakEval(peaks: NonEmptyVector[PeakCone]): Eval[NonEmptyVector] =
+    Eval.unconstrained { (a: NonEmptyVector[Double]) =>
+      val x = peaks.map(_.eval(a)).toChunk.max
       val r = if (x == Double.NaN) Infeasible(0.0) else Feasible(x)
 
       r

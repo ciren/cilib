@@ -1,34 +1,39 @@
 package cilib
 package example
 
-import eu.timepit.refined.auto._
-import spire.implicits._
-import spire.math.Interval
-import zio.console._
-
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
+import eu.timepit.refined.auto._
+import spire.implicits._
+import spire.math.Interval
+import zio.ZIO
+import zio.console._
+
+import java.io.IOException
 
 object UNDXPSO extends zio.App {
-  val bounds = Interval(-5.12, 5.12) ^ 30
-  val env =
+  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
+  val env: Environment =
     Environment(
       cmp = Comparison.dominance(Min),
       eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
     )
 
-  val guide   = Guide.undx[Mem[Double]](1.0, 0.1)
-  val undxPSO = crossoverPSO(guide)
+  val guide: Guide[Mem[Double], Double] = Guide.undx[Mem[Double]](1.0, 0.1)
+  val undxPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
+    Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
+  ) = crossoverPSO(guide)
 
-  val swarm =
+  val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
-  val iter = Iteration.sync(undxPSO)
+  val iter: NonEmptyVector[Particle[Mem[Double], Double]] => Step[NonEmptyVector[Particle[Mem[Double], Double]]] =
+    Iteration.sync(undxPSO)
 
   def run(args: List[String]) =
     program.exitCode
 
-  val program =
+  val program: ZIO[Console, IOException, Unit] =
     putStrLn(Runner.repeat(1000, iter, swarm).provide(env).runAll(RNG.fromTime).toString)
 
 }

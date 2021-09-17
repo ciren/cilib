@@ -101,9 +101,9 @@ sealed abstract class Opt {
 }
 
 final case object Min extends Opt {
-  val D = Ord[Double].reverse
+  val D: Ord[Double] = Ord[Double].reverse
 }
 
 final case object Max extends Opt {
-  val D = Ord[Double]
+  val D: Ord[Double] = Ord[Double]
 }

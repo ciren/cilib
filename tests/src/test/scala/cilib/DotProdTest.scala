@@ -1,27 +1,27 @@
 package cilib
 
+import cilib.NonEmptyVector
+import cilib.algebra._
 import spire.implicits._
 import spire.math.Interval
-import zio.prelude._
-import zio.test._
-
-import cilib.algebra._
+import zio.random.Random
+import zio.test.{ Gen, _ }
 
 object DotProdTest extends DefaultRunnableSpec {
 
-  val interval           = Interval(-10.0, 10.0)
-  def boundary(dim: Int) = interval ^ dim
+  val interval: Interval[Double]                           = Interval(-10.0, 10.0)
+  def boundary(dim: Int): NonEmptyVector[Interval[Double]] = interval ^ dim
 
-  def nelGen(dim: Int) =
+  def nonEmptyVectorGen(dim: Int): Gen[Random, NonEmptyVector[Int]] =
     for {
       head <- Gen.int(-10, 10)
       tail <- Gen.listOfN(dim - 1)(Gen.int(-10, 10))
-    } yield NonEmptyList.fromIterable(head, tail)
+    } yield NonEmptyVector.fromIterable(head, tail)
 
-  def positionGen(dim: Int) = nelGen(dim).map(Position(_, boundary(dim)))
+  def positionGen(dim: Int): Gen[Random, Position[Int]] = nonEmptyVectorGen(dim).map(Position(_, boundary(dim)))
 
-  val D = implicitly[DotProd[Position, Int]]
-  val N = implicitly[Numeric[Int]]
+  val D: DotProd[Position, Int] = implicitly[DotProd[Position, Int]]
+  val N: Numeric[Int]           = implicitly[Numeric[Int]]
 
   override def spec: ZSpec[Environment, Failure] = suite("dot product")(
     testM("commutativity") {

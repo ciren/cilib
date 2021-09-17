@@ -11,7 +11,7 @@ private final class CMWC(val seed: Long, carry: Long, index: Int, state: Vector[
   val multiplier = 18782L //1030770L
   val r          = 4096L
 
-  def next(bits: Int) = {
+  def next(bits: Int): (CMWC, Int) = {
     val t: Long = multiplier * state(index) + carry
     // carry = t / b (done in an unsigned way)
     val div32: Long = t >>> 32 // div32 = t / (b+1)

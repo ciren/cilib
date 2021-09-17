@@ -9,10 +9,10 @@ object GA {
   // to the crossover and mutation operators etc.
   def ga[S](
     p_c: Double,
-    parentSelection: NonEmptyList[Individual[S]] => RVar[List[Individual[S]]], // the number of parents should already be applied
+    parentSelection: NonEmptyVector[Individual[S]] => RVar[List[Individual[S]]], // the number of parents should already be applied
     crossover: List[Individual[S]] => RVar[List[Individual[S]]],
     mutation: List[Individual[S]] => RVar[List[Individual[S]]]
-  ): NonEmptyList[Individual[S]] => Individual[S] => Step[List[Individual[S]]] =
+  ): NonEmptyVector[Individual[S]] => Individual[S] => Step[List[Individual[S]]] =
     collection =>
       _ =>
         for {
@@ -25,15 +25,15 @@ object GA {
         } yield evaluated
 
   def randomSearch[S](
-    parentSelection: NonEmptyList[Individual[S]] => RVar[List[Individual[S]]],
+    parentSelection: NonEmptyVector[Individual[S]] => RVar[List[Individual[S]]],
     distribution: Double => RVar[Double]
-  ): NonEmptyList[Individual[S]] => Individual[S] => Step[List[Individual[S]]] = {
+  ): NonEmptyVector[Individual[S]] => Individual[S] => Step[List[Individual[S]]] = {
     // The mutation method is applied to all the parents.
     // The parents are mutated by adding a random value gaussian distribution to
     // point in their position.
     def mutation(distribution: Double => RVar[Double])(parents: List[Individual[S]]): RVar[List[Individual[S]]] =
       parents.forEach { parent =>
-        val newPos: RVar[NonEmptyList[Double]] = parent.pos.pos.forEach(distribution)
+        val newPos: RVar[NonEmptyVector[Double]] = parent.pos.pos.forEach(distribution)
 
         newPos.map { p =>
           parent.copy(pos = Lenses._vector[Double].set(parent.pos, p))

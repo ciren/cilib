@@ -81,20 +81,20 @@ object RVar {
   def doubles(n: Int): RVar[List[Double]] =
     next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
-  def choose[A](xs: NonEmptyList[A]): RVar[A] =
+  def choose[A](xs: NonEmptyVector[A]): RVar[A] =
     Dist
       .uniformInt(Interval(0, xs.size - 1))
-      .map(i => xs.lift(i).getOrElse(xs.head))
+      .map(i => xs.toChunk.lift(i).getOrElse(xs.head))
 
   // implementation of Oleg Kiselgov's perfect shuffle:
   // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
-  def shuffle[A](xs: NonEmptyList[A]): RVar[NonEmptyList[A]] = {
+  def shuffle[A](xs: NonEmptyVector[A]): RVar[NonEmptyVector[A]] = {
     sealed trait BinTree
     final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
     final case class Leaf(element: A)                            extends BinTree
 
-    def buildTree(zs: NonEmptyList[A]): BinTree =
-      growLevel(zs.toList.map(Leaf(_): BinTree))
+    def buildTree(zs: NonEmptyVector[A]): BinTree =
+      growLevel(zs.map(Leaf(_): BinTree).toChunk.toList)
 
     def growLevel(zs: List[BinTree]): BinTree =
       zs match {
@@ -149,9 +149,9 @@ object RVar {
       }
 
     rseq(xs.length).map(r =>
-      NonEmptyList
+      NonEmptyVector
         .fromIterableOption(local(buildTree(xs), r))
-        .getOrElse(sys.error("Impossible - NonEmptyList is guaranteed to be non-empty"))
+        .getOrElse(sys.error("Impossible - NonEmptyVector is guaranteed to be non-empty"))
     )
   }
 
@@ -204,18 +204,18 @@ object Generator {
     RVar(_.next(bits))
 
   implicit object DoubleGen extends Generator[Double] {
-    def gen =
+    def gen: RVar[Double] =
       zio.prelude.fx.ZPure.mapN(nextBits(26), nextBits(27)) { (a, b) =>
         ((a.toLong << 27) + b) / (1L << 53).toDouble
       }
   }
 
   implicit object IntGen extends Generator[Int] {
-    def gen = nextBits(32)
+    def gen: RVar[Int] = nextBits(32)
   }
 
   implicit object LongGen extends Generator[Long] {
-    def gen =
+    def gen: RVar[Long] =
       for {
         upper <- nextBits(32)
         lower <- nextBits(32)
@@ -223,6 +223,6 @@ object Generator {
   }
 
   implicit object BooleanGen extends Generator[Boolean] {
-    def gen = nextBits(1).map(_ == 1)
+    def gen: RVar[Boolean] = nextBits(1).map(_ == 1)
   }
 }

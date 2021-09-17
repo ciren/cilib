@@ -7,20 +7,20 @@ object EDA {
 
   def eda[M, S, A](
     sample: (M, Entity[S, A]) => RVar[Entity[S, A]],
-    //selection: NonEmptyList[Entity[S, A]] => RVar[NonEmptyList[Entity[S, A]]],
-    generateModel: NonEmptyList[Entity[S, A]] => RVar[M]
-  ): NonEmptyList[Entity[S, A]] => Step[NonEmptyList[Entity[S, A]]] =
+    //selection: NonEmptyVector[Entity[S, A]] => RVar[NonEmptyVector[Entity[S, A]]],
+    generateModel: NonEmptyVector[Entity[S, A]] => RVar[M]
+  ): NonEmptyVector[Entity[S, A]] => Step[NonEmptyVector[Entity[S, A]]] =
     collection =>
       for {
         //selected <- Step.liftR(selection(collection))
         newModel  <- Step.liftR(generateModel(collection))
-        generated <- Step.liftR(ForEach[NonEmptyList].forEach(collection)(x => sample(newModel, x)))
-        evaluated <- ForEach[NonEmptyList].forEach(generated)(x => Step.eval((v: Position[A]) => v)(x))
+        generated <- Step.liftR(ForEach[NonEmptyVector].forEach(collection)(x => sample(newModel, x)))
+        evaluated <- ForEach[NonEmptyVector].forEach(generated)(x => Step.eval((v: Position[A]) => v)(x))
       } yield evaluated
 
-  def UDMAc[A](xs: NonEmptyList[Position[Double]]): NonEmptyList[RVar[Double]] = {
+  def UDMAc[A](xs: NonEmptyVector[Position[Double]]): NonEmptyVector[RVar[Double]] = {
     val mean = xs.map(p => p.sum / p.size)
-    val mv: NonEmptyList[(Double, Double)] = xs.zip(mean).map {
+    val mv: NonEmptyVector[(Double, Double)] = xs.zip(mean).map {
       case (vec, mean) =>
         (mean, vec.map(x => (x - mean) * (x - mean)).sum)
     }

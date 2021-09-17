@@ -1,22 +1,24 @@
 package cilib
 
+import cilib.NonEmptyVector
 import spire.implicits._
 import spire.math.Interval
 import zio.prelude._
-import zio.test._
+import zio.random.Random
+import zio.test.{ Gen, _ }
 
 object PSOTests extends DefaultRunnableSpec {
 
-  val interval           = Interval(-10.0, 10.0)
-  def boundary(dim: Int) = interval ^ dim
+  val interval: Interval[Double]                           = Interval(-10.0, 10.0)
+  def boundary(dim: Int): NonEmptyVector[Interval[Double]] = interval ^ dim
 
-  def nelGen(dim: Int) =
+  def nelGen(dim: Int): Gen[Random, NonEmptyVector[Double]] =
     for {
       head <- Gen.double(-10, 10)
       tail <- Gen.listOfN(dim - 1)(Gen.double(-10, 10))
-    } yield NonEmptyList.fromIterable(head, tail)
+    } yield NonEmptyVector.fromIterable(head, tail)
 
-  def positionGen = nelGen(10).map(Position(_, boundary(10)))
+  def positionGen: Gen[Random, Position[Double]] = nelGen(10).map(Position(_, boundary(10)))
 
   def spec: ZSpec[Environment, Failure] = suite("QPSO")(
     testM("Uniform sampled cloud <= R") {
@@ -25,7 +27,7 @@ object PSOTests extends DefaultRunnableSpec {
           val p = Entity(Mem(x, x.zeroed), x)
           val env = Environment(
             cmp = Comparison.dominance(Min),
-            eval = Eval.unconstrained((_: NonEmptyList[Double]) => Feasible(0.0))
+            eval = Eval.unconstrained((_: NonEmptyVector[Double]) => Feasible(0.0))
           )
 
           val (_, result) =

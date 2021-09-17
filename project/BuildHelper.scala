@@ -1,10 +1,12 @@
 import sbt._
 import Keys._
+import sbtbuildinfo.BuildInfoKeys._
 import sbtbuildinfo._
-import BuildInfoKeys._
 import scalafix.sbt.ScalafixPlugin.autoImport._
 
 object BuildHelper {
+
+  def isScalaDotty(version: String): Boolean = version.startsWith("3.")
 
   private val stdOptions = Seq(
     "-deprecation", // Emit warning and location for usages of deprecated APIs.
@@ -13,7 +15,13 @@ object BuildHelper {
     "-explaintypes", // Explain type errors in more detail.
     "-feature",      // Emit warning and location for usages of features that should be imported explicitly.
     "-unchecked"     // Enable additional warnings where generated code depends on assumptions.
-  )
+  ) ++ {
+    if (sys.env.contains("CI")) {
+      Seq("-Xfatal-warnings")
+    } else {
+      Nil // to enable Scalafix locally
+    }
+  }
 
   private val std2xOptions = Seq(
     "-language:higherKinds",  // Allow higher-kinded types
@@ -23,30 +31,16 @@ object BuildHelper {
     "-Xlint:_,-missing-interpolator,-type-parameter-shadow",
     "-Ywarn-numeric-widen", // Warn when numerics are widened.
     "-Ywarn-value-discard"  // Warn when non-Unit expression results are unused
-  ) ++ customOptions
+  )
 
   private def optimizerOptions(optimize: Boolean) =
-    if (optimize)
-      Seq(
-        "-opt:l:inline"
-      )
+    if (optimize) Seq("-opt:l:inline")
     else Seq.empty
-
-  private def propertyFlag(property: String, default: Boolean) =
-    sys.props.get(property).map(_.toBoolean).getOrElse(default)
-
-  private def customOptions =
-    if (propertyFlag("fatal.warnings", true)) {
-      Seq("-Xfatal-warnings")
-    } else {
-      Seq.empty
-    }
 
   def buildInfoSettings(packageName: String) =
     Seq(
-      buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion, isSnapshot),
-      buildInfoPackage := packageName,
-      buildInfoObject := "BuildInfo"
+      buildInfoKeys := Seq[BuildInfoKey](organization, moduleName, name, version, scalaVersion, sbtVersion, isSnapshot),
+      buildInfoPackage := packageName
     )
 
   def extraOptions(scalaVersion: String, optimize: Boolean) =
@@ -96,13 +90,13 @@ object BuildHelper {
       case _ => Seq.empty
     }
 
-
-  def platformSpecificSources(/*platform: String,*/ conf: String, baseDirectory: File)(versions: String*) = for {
-    platform <- List("shared")//, platform)
-    version  <- "scala" :: versions.toList.map("scala-" + _)
-    result    = baseDirectory.getParentFile / platform.toLowerCase / "src" / conf / version
-    if result.exists
-  } yield result
+  def platformSpecificSources( /*platform: String,*/ conf: String, baseDirectory: File)(versions: String*) =
+    for {
+      platform <- List("shared") //, platform)
+      version  <- "scala" :: versions.toList.map("scala-" + _)
+      result   = baseDirectory.getParentFile / platform.toLowerCase / "src" / conf / version
+      if result.exists
+    } yield result
 
   def crossPlatformSources(scalaVer: String, /*platform: String,*/ conf: String, baseDir: File) = {
     val versions = CrossVersion.partialVersion(scalaVer) match {
@@ -117,7 +111,7 @@ object BuildHelper {
       case _ =>
         List()
     }
-    platformSpecificSources(/*platform,*/ conf, baseDir)(versions: _*)
+    platformSpecificSources( /*platform,*/ conf, baseDir)(versions: _*)
   }
 
   lazy val crossProjectSettings = Seq(
@@ -139,25 +133,47 @@ object BuildHelper {
     }
   )
 
-
   def stdSettings(prjName: String) = Seq(
     name := prjName,
-    crossScalaVersions := Seq("2.12.12", "2.13.5", "3.0.0"),
+    crossScalaVersions := Seq("2.12.13", "2.13.5", "3.0.0"),
     ThisBuild / scalaVersion := crossScalaVersions.value.head,
-    testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
     scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
-    Compile / console / scalacOptions ~= { _.filterNot(Set("-Xfatal-warnings")) },
     libraryDependencies ++= {
-      Seq(
-        compilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full)
-      )
+      if (isScalaDotty(scalaVersion.value))
+        Seq(
+          //"com.github.ghik" % s"silencer-lib_$Scala213" % Version.SilencerVersion % Provided
+        )
+      else
+        Seq(
+          "com.github.ghik" % "silencer-lib" % Version.SilencerVersion % Provided cross CrossVersion.full,
+          compilerPlugin("com.github.ghik" % "silencer-plugin" % Version.SilencerVersion cross CrossVersion.full),
+          compilerPlugin("org.typelevel"   %% "kind-projector" % "0.13.0" cross CrossVersion.full)
+        )
     },
-    semanticdbEnabled := true
-  ) //  ++ (if (scalaVersion.value != "'3.0.0") Seq(
+    semanticdbEnabled := !isScalaDotty(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
+    semanticdbOptions += "-P:semanticdb:synthetics:on",
+    semanticdbVersion := scalafixSemanticdb.revision, // use Scalafix compatible version
+    ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
+    ThisBuild / scalafixDependencies ++= List(
+      "com.github.liancheng" %% "organize-imports" % "0.5.0",
+      "com.github.vovapolu"  %% "scaluzzi"         % "0.1.18"
+    ),
+    incOptions ~= (_.withLogRecompileOnMacro(false)),
+    testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
+    Test / parallelExecution := true
+  )
+  // ) ++ Seq(if (scalaVersion.value != "3.0.0") Seq(
+  //   scalafixScalaBinaryVersion := scalaBinaryVersion.value,
+  //   scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0",
   //   semanticdbEnabled := scalaVersion.value != "3.0.0", // enable SemanticDB
-  //   semanticdbOptions += "-P:semanticdb:synthetics:on",
-  //   semanticdbVersion := scalafixSemanticdb.revision // use Scalafix compatible version
-  // ) else Seq())
+  //   semanticdbVersion := scalafixSemanticdb.revision,   // only required for Scala 2.x
+  //   scalacOptions += "-Ywarn-unused-import"           // Scala 2.x only, required by `RemoveUnused`
+  // )
+  // //  ++ (if (scalaVersion.value != "'3.0.0") Seq(
+  // //   semanticdbEnabled := scalaVersion.value != "3.0.0", // enable SemanticDB
+  // //   semanticdbOptions += "-P:semanticdb:synthetics:on",
+  // //   semanticdbVersion := scalafixSemanticdb.revision // use Scalafix compatible version
+  //  else Seq())
 
   def welcomeMessage = onLoadMessage := {
     import scala.Console

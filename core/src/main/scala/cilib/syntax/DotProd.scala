@@ -1,10 +1,9 @@
 package cilib
 package syntax
 
+import cilib.algebra._
 import spire.algebra._
 import zio.prelude._
-
-import cilib.algebra._
 
 object dotprod {
   implicit class DotProdSyntax[F[_], A](private val x: F[A]) extends AnyVal {
@@ -12,9 +11,11 @@ object dotprod {
   }
 
   implicit class AlgebraSyntax[F[+_], A](private val x: F[A]) extends AnyVal {
-    def normalize(implicit M: LeftModule[F[A], Double], D: DotProd[F, A]): F[A] = Algebra.normalize(x)
+    def normalize(implicit M: LeftModule[F[A], Double], D: DotProd[F, A]): F[A] =
+      Algebra.normalize(x)
 
-    def magnitude(implicit D: DotProd[F, A]): Double = Algebra.magnitude(x)
+    def norm(implicit D: DotProd[F, A]): Double =
+      D.norm(x)
 
     def orthonormalize(
       implicit F: Covariant[F],
@@ -23,8 +24,8 @@ object dotprod {
       A: NRoot[A],
       D: DotProd[F, A],
       M: LeftModule[F[A], Double]
-    ): NonEmptyList[F[A]] =
-      Algebra.orthonormalize(NonEmptyList(x))
+    ): NonEmptyVector[F[A]] =
+      Algebra.orthonormalize(NonEmptyVector(x))
   }
 
 }

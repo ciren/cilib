@@ -2,10 +2,10 @@ package cilib
 
 import zio.prelude._
 
-final class MultiEval[F[+_]](objectives: NonEmptyList[Eval[F]]) {
+final class MultiEval[F[+_]](objectives: NonEmptyVector[Eval[F]]) {
 
   def eval[A](p: Position[A]): RVar[Objective] =
-    ForEach[NonEmptyList]
+    ForEach[NonEmptyVector]
       .forEach(objectives)(x => x.eval.map(_.apply(p.pos)))
       .map(Objective.multi(_))
 
@@ -13,7 +13,7 @@ final class MultiEval[F[+_]](objectives: NonEmptyList[Eval[F]]) {
 
 object MultiEval {
 
-  def apply[F[+_]](a: NonEmptyList[Eval[F]]) =
+  def apply[F[+_]](a: NonEmptyVector[Eval[F]]) =
     new MultiEval(a)
 
 }

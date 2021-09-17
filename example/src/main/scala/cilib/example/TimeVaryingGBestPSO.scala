@@ -1,18 +1,20 @@
 package cilib
 package example
 
+import cilib.example.TimeVaryingGBestPSO
+import cilib.exec.{ Kleisli, _ }
+import cilib.pso.Defaults._
+import cilib.pso.{ Particle, _ }
+import cilib.{ Mem, NonEmptyVector, Step }
 import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
-import zio.prelude.{ Comparison => _, _ }
-
-import cilib.exec._
-import cilib.pso.Defaults._
-import cilib.pso._
+import zio.URIO
+import zio.stream.UStream
 
 object TimeVaryingGBestPSO extends zio.App {
-  val bounds = Interval(-5.12, 5.12) ^ 30
-  val env =
+  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
+  val env: Environment =
     Environment(
       cmp = Comparison.dominance(Min),
       eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
@@ -24,11 +26,11 @@ object TimeVaryingGBestPSO extends zio.App {
   final case class GBestParams(inertia: Double, c1: Double, c2: Double)
 
   // 2. We need a default initial value of our data type
-  val initial = GBestParams(0.729844, 1.496180, 1.496180)
+  val initial: GBestParams = GBestParams(0.729844, 1.496180, 1.496180)
 
   // 3. We need a function to create a new set of parameters, given the current set as input
   //    We need to define the maximum number of iterations as a stream effectively has no end
-  def updateParams(params: GBestParams, iterations: Runner.IterationCount) = {
+  def updateParams(params: GBestParams, iterations: Runner.IterationCount): TimeVaryingGBestPSO.GBestParams = {
     val i = Runner.IterationCount.unwrap(iterations)
     def linear(a: Double, b: Double) =
       a + (b - a) * (i.toDouble / 1000.0)
@@ -37,7 +39,9 @@ object TimeVaryingGBestPSO extends zio.App {
   }
 
   // 4. Now we need a function to take the parameters and then create an algorithm
-  def mkAlgorithm(params: GBestParams) = {
+  def mkAlgorithm(
+    params: GBestParams
+  ): Kleisli[Step, NonEmptyVector[Particle[Mem[Double], Double]], NonEmptyVector[Particle[Mem[Double], Double]]] = {
     // Define a normal GBest PSO and run it for a single iteration
     val cognitive = Guide.pbest[Mem[Double], Double]
     val social    = Guide.gbest[Mem[Double]]
@@ -48,16 +52,16 @@ object TimeVaryingGBestPSO extends zio.App {
   }
 
   // RVar
-  val swarm =
+  val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
-  val problemStream = Runner.staticProblem("spherical", env.eval)
+  val problemStream: UStream[Problem] = Runner.staticProblem("spherical", env.eval)
 
   def run(args: List[String]) =
     runner.exitCode
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  val runner = {
+  val runner: URIO[Any, Unit] = {
     val t = Runner.foldStep(
       env,
       RNG.fromTime,
@@ -69,7 +73,7 @@ object TimeVaryingGBestPSO extends zio.App {
         updateParams
       ),
       problemStream,
-      (x: NonEmptyList[Particle[Mem[Double], Double]], _: Eval[NonEmptyList]) => RVar.pure(x)
+      (x: NonEmptyVector[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
     )
 
     t.take(1000)

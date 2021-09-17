@@ -7,6 +7,7 @@ import eu.timepit.refined.numeric._
 import spire.algebra._
 import spire.implicits.{ eu => _, _ }
 import spire.math._
+import zio.ChunkBuilder
 import zio.prelude.{ Comparison => _, _ }
 
 object DE {
@@ -14,10 +15,10 @@ object DE {
   def de[S, A: Numeric: Equal](
     p_r: Double,
     p_m: Double,
-    targetSelection: NonEmptyList[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
+    targetSelection: NonEmptyVector[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
     y: Int Refined Positive,
-    z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]] // Double check this shape
-  ): NonEmptyList[Individual[S, A]] => Individual[S, A] => Step[Individual[S, A]] =
+    z: (Double, Position[A]) => RVar[NonEmptyVector[Boolean]] // Double check this shape
+  ): NonEmptyVector[Individual[S, A]] => Individual[S, A] => Step[Individual[S, A]] =
     collection =>
       x =>
         for {
@@ -31,9 +32,9 @@ object DE {
 
   def basicMutation[S, A: Ring: Equal](
     p_m: A,
-    selection: NonEmptyList[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
+    selection: NonEmptyVector[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
     y: Int Refined Positive,
-    collection: NonEmptyList[Individual[S, A]],
+    collection: NonEmptyVector[Individual[S, A]],
     x: Individual[S, A]
   ): Step[Position[A]] = {
 
@@ -45,16 +46,16 @@ object DE {
       }
 
     val target: Step[(Individual[S, A], Position[A])] = selection(collection)
-    val filtered                                      = target.map(t => collection.filterNot(a => a === t._1 || a === x))
+    val filtered                                      = target.map(t => collection.toChunk.filterNot(a => a === t._1 || a === x))
     val pairs: Step[List[Position[A]]] =
       filtered.flatMap(x =>
-        NonEmptyList.fromIterableOption(x) match {
+        NonEmptyVector.fromIterableOption(x) match {
           case Some(l) =>
             Step.liftR(
               RVar
                 .shuffle(l)
                 .map(a =>
-                  createPairs(List.empty[(Individual[S, A], Individual[S, A])], a.toList.take(2 * y)).map {
+                  createPairs(List.empty[(Individual[S, A], Individual[S, A])], a.toChunk.toList.take(2 * y)).map {
                     case (z1, z2) => z1.pos - z2.pos
                   }
                 )
@@ -70,7 +71,7 @@ object DE {
     } yield p.foldLeft(t._2)((a, c) => a + (p_m *: c))
   }
 
-  def crossover[S, A](target: Individual[S, A], trial: Position[A], pivots: NonEmptyList[Boolean]) =
+  def crossover[S, A](target: Individual[S, A], trial: Position[A], pivots: NonEmptyVector[Boolean]) =
     target.copy(pos = {
       target.pos.zip(trial).zip(Position(pivots, trial.boundary)).map {
         case ((a, b), p) => // Position apply function :(
@@ -81,7 +82,7 @@ object DE {
   def bin[F[+_], A](
     p_r: Double,
     parent: F[A]
-  )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyList[Boolean]] =
+  )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyVector[Boolean]] =
     Dist
       .uniformInt(spire.math.Interval(0, F.size(parent) - 1))
       .flatMap { j =>
@@ -91,12 +92,12 @@ object DE {
             else Dist.stdUniform.map(_ < p_r)
         }
       }
-      .map(_.toNonEmptyList)
+      .map(x => NonEmptyVector.nonEmpty(F.reduceMapLeft(x)(ChunkBuilder.make() += _)(_ += _).result()))
 
   def exp[F[+_], A](
     p_r: Double,
     parent: F[A]
-  )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyList[Boolean]] = {
+  )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyVector[Boolean]] = {
     val length = F.size(parent)
     for {
       start    <- Dist.uniformInt(spire.math.Interval(0, length - 1))
@@ -109,18 +110,18 @@ object DE {
       val options = (0 to length)
         .foldRight(List.empty[Boolean])((c, a) => adjacent.find(_._1 == c).isDefined :: a)
 
-      NonEmptyList
+      NonEmptyVector
         .fromIterableOption(options)
         .getOrElse(sys.error("Impossible -> there has to be at least 1 element"))
     }
   }
 
   // Selections
-  def randSelection[S, A](collection: NonEmptyList[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
+  def randSelection[S, A](collection: NonEmptyVector[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     Step.liftR(RVar.choose(collection).map(x => (x, x.pos)))
 
-  def bestSelection[S, A](collection: NonEmptyList[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
-    collection.tail
+  def bestSelection[S, A](collection: NonEmptyVector[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
+    collection.toChunk.tail
       .foldLeftM(collection.head) {
         case (acc, curr) =>
           Comparison.fittest(acc, curr)
@@ -129,7 +130,7 @@ object DE {
 
   def randToBestSelection[S, A: Numeric](
     gamma: Double
-  )(collection: NonEmptyList[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
+  )(collection: NonEmptyVector[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     for {
       best <- bestSelection(collection)
       rand <- randSelection(collection)
@@ -143,7 +144,7 @@ object DE {
 
   def currentToBestSelection[S, A: Numeric](
     p_m: Double
-  )(collection: NonEmptyList[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
+  )(collection: NonEmptyVector[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     for {
       best <- bestSelection(collection)
       rand <- randSelection(collection)
@@ -178,7 +179,7 @@ object DE {
     p_m: Double,
     gamma: Double,
     y: Int Refined Positive,
-    z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]]
+    z: (Double, Position[A]) => RVar[NonEmptyVector[Boolean]]
   ) =
     de(p_r, p_m, randToBestSelection[S, A](gamma), y, z)
 
@@ -186,7 +187,7 @@ object DE {
     p_r: Double,
     p_m: Double,
     y: Int Refined Positive,
-    z: (Double, Position[A]) => RVar[NonEmptyList[Boolean]]
+    z: (Double, Position[A]) => RVar[NonEmptyVector[Boolean]]
   ) =
     de(p_r, p_m, currentToBestSelection[S, A](p_m), y, z)
 

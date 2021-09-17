@@ -2,7 +2,6 @@ package cilib
 package pso
 
 import eu.timepit.refined.auto._
-import zio.prelude.NonEmptyList
 
 // A Guide is a selection followed by a comparison, wrapped up in a Step
 object Guide {
@@ -46,22 +45,22 @@ object Guide {
     nbest(Selection.latticeNeighbours[Particle[S, Double]])
 
   def crossover[S](
-    parentAttractors: NonEmptyList[Position[Double]],
-    op: NonEmptyList[Position[Double]] => RVar[NonEmptyList[Position[Double]]]
+    parentAttractors: NonEmptyVector[Position[Double]],
+    op: NonEmptyVector[Position[Double]] => RVar[NonEmptyVector[Position[Double]]]
   ): Guide[S, Double] =
     (_, _) => Step.liftR(op(parentAttractors).map(_.head))
 
   def nmpc[S](prob: Double): Guide[S, Double] =
     (collection, x) =>
       Step.liftR {
-        val col       = collection.filter(_ ne x)
+        val col       = collection.toChunk.filter(_ ne x)
         val chosen    = RVar.sample(3, col)
         val crossover = Crossover.nmpc(_)
 
         for {
           chos     <- chosen
-          parents  = chos.map(c => NonEmptyList.fromIterable(x.pos, c.map(_.pos)))
-          children <- parents.map(crossover).getOrElse(RVar.pure(NonEmptyList(x.pos)))
+          parents  = chos.map(c => NonEmptyVector.fromIterable(x.pos, c.map(_.pos)))
+          children <- parents.map(crossover).getOrElse(RVar.pure(NonEmptyVector(x.pos)))
           probs    <- x.pos.traverse(_ => Dist.stdUniform)
         } yield {
           val zipped = x.pos.zip(children.head).zip(probs)
@@ -79,7 +78,7 @@ object Guide {
         p         <- pb(collection, x)
         i         <- identity(collection, x)
         n         <- gb(collection, x)
-        parents   = NonEmptyList(p, i, n)
+        parents   = NonEmptyVector(p, i, n)
         offspring <- Step.liftR(pcx(parents))
       } yield offspring.head
     }
@@ -94,7 +93,7 @@ object Guide {
         p         <- pb(collection, x)
         i         <- identity(collection, x)
         n         <- gb(collection, x)
-        parents   = NonEmptyList(p, i, n)
+        parents   = NonEmptyVector(p, i, n)
         offspring <- Step.liftR(undx(parents))
       } yield offspring.head
     }
