@@ -67,12 +67,12 @@ object Step {
   def withCompare[A](a: Comparison => A): Step[A] =
     for {
       env <- zio.prelude.fx.ZPure.environment
-    } yield a.apply(env.cmp)
+    } yield a.apply(env._1)
 
   def withCompareR[A](f: Comparison => RVar[A]): Step[A] =
     for {
-      env <- zio.prelude.fx.ZPure.environment[RNG, Environment]
-      a   <- liftR(f(env.cmp))
+      env <- zio.prelude.fx.ZPure.environment[RNG, (Comparison, Eval[NonEmptyVector])]
+      a   <- liftR(f(env._1))
     } yield a
 
   def eval[S, A](f: Position[A] => Position[A])(entity: Entity[S, A]): Step[Entity[S, A]] =
@@ -80,56 +80,15 @@ object Step {
 
   def evalP[A](pos: Position[A]): Step[Position[A]] =
     for {
-      env <- zio.prelude.fx.ZPure.environment[RNG, Environment]
-      a   <- liftR(Position.eval[A](env.eval, pos))
+      env <- zio.prelude.fx.ZPure.environment[RNG, (Comparison, Eval[NonEmptyVector])]
+      a   <- liftR(Position.eval[A](env._2, pos))
     } yield a
-}
+ }
 
-// final case class StepS[A, S, B](run: StateT[S, Step[A, *], B]) {
-//   def map[C](f: B => C): StepS[A, S, C] =
-//     StepS(run.map(f))
-//
-//   def flatMap[C](f: B => StepS[A, S, C]): StepS[A, S, C] =
-//     StepS(run.flatMap(f(_).run))
-//
-//   def zoom[S2](l: monocle.Lens[S2, S]): StepS[A, S2, B] =
-//     StepS(run.zoom(StepS.lensIso.reverseGet(l)))
-// }
 
 object StepS {
 
-  // def lensIso[A, B]: monocle.Iso[scalaz.Lens[A, B], monocle.Lens[A, B]] =
-  //   monocle.Iso[scalaz.Lens[A, B], monocle.Lens[A, B]]((s: scalaz.Lens[A, B]) =>
-  //     monocle.Lens[A, B](s.get)(b => a => s.set(a, b))
-  //   )((m: monocle.Lens[A, B]) => scalaz.Lens.lensu[A, B]((a, b) => m.set(b)(a), m.get(_)))
-
-  // implicit def stepSMonad[A, S]: Monad[StepS[A, S, *]] =
-  //   new Monad[StepS[A, S, *]] {
-  //     def point[B](a: => B): StepS[A, S, B] =
-  //       StepS(StateT[S, Step[A, *], B]((s: S) => Step.pure((s, a))))
-
-  //     def bind[B, C](fa: StepS[A, S, B])(f: B => StepS[A, S, C]): StepS[A, S, C] =
-  //       fa.flatMap(f)
-  //   }
-
-  // implicit def stepSMonadState[A, S]: MonadState[StepS[A, S, *], S] =
-  //   new MonadState[StepS[A, S, *], S] {
-  //     private val M = StateT.stateTMonadState[S, Step[A, *]]
-
-  //     def point[B](a: => B) = StepS(M.pure(a))
-
-  //     def bind[B, C](fa: StepS[A, S, B])(f: B => StepS[A, S, C]): StepS[A, S, C] =
-  //       fa.flatMap(f)
-
-  //     def get: StepS[A, S, S] =
-  //       StepS(M.get)
-
-  //     override def init = StepS(M.get)
-
-  //     def put(s: S) =
-  //       StepS(M.put(s))
-  //   }
-  def getState[S]: zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), Environment, Exception, S] =
+  def getState[S]: zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), (Comparison, Eval[NonEmptyVector]), Exception, S] =
     zio.prelude.fx.ZPure.get.map(_._2)
 
   def modifyState[S](f: S => S): StepS[S, Unit] =
@@ -143,7 +102,7 @@ object StepS {
 
   def liftStep[S, A](a: Step[A]): StepS[S, A] =
     for {
-      env <- zio.prelude.fx.ZPure.environment[(RNG, S), Environment]
+      env <- zio.prelude.fx.ZPure.environment[(RNG, S), (Comparison, Eval[NonEmptyVector])]
       x <- zio.prelude.fx.ZPure.modify { (s: (RNG, S)) =>
             val (_, either) = a.provide(env).runAll(s._1)
 
@@ -155,9 +114,4 @@ object StepS {
           }
     } yield x
 
-  // def liftK[S, A](a: Comparison => A)(implicit ev: Exception <:< Nothing): StepS[S, A] =
-  //   liftStep(Step.withCompare(a))
-
-  // def liftS[A, S, B](a: State[S, B]): StepS[A, S, B] =
-  //   StepS(a.lift[Step[A, *]])
 }

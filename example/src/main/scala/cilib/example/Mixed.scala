@@ -13,11 +13,8 @@ import zio.{ ExitCode, URIO }
 object Mixed extends zio.App {
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val env: Environment =
-    Environment(
-      cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
-    )
+  val cmp = Comparison.dominance(Min)
+  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   // Define the DE
   val de: NonEmptyVector[Individual[Mem[Double], Double]] => (
@@ -53,5 +50,5 @@ object Mixed extends zio.App {
     Iteration.sync(combinedAlg)
 
   def run(args: List[String]): URIO[Console with Console, ExitCode] =
-    putStrLn(Runner.repeat(1000, alg, swarm).provide(env).runAll(RNG.fromTime).toString).exitCode
+    putStrLn(Runner.repeat(1000, alg, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString).exitCode
 }

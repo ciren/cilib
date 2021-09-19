@@ -31,7 +31,7 @@ object Iteration {
     (l: NonEmptyVector[A]) => ForEach[NonEmptyVector].forEach(l)(f(l))
 
   def sync[A, B](f: NonEmptyVector[A] => A => Step[B]): NonEmptyVector[A] => Step[NonEmptyVector[B]] =
-    sync_[zio.prelude.fx.ZPure[Nothing, RNG, RNG, Environment, Exception, +*], A, B](f)
+    sync_[zio.prelude.fx.ZPure[Nothing, RNG, RNG, (Comparison, Eval[NonEmptyVector]), Exception, +*], A, B](f)
 
   def syncS[S, A, B](f: NonEmptyVector[A] => A => StepS[S, B]): NonEmptyVector[A] => StepS[S, NonEmptyVector[B]] =
     sync_[StepS[S, +*], A, B](f)
@@ -56,6 +56,6 @@ object Iteration {
     async_[Step[+*], A](f)
 
   def asyncS[S, A](f: NonEmptyVector[A] => A => StepS[S, A]): NonEmptyVector[A] => StepS[S, NonEmptyVector[A]] =
-    async_[zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), Environment, Exception, +*], A](f)
+    async_[zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), (Comparison, Eval[NonEmptyVector]), Exception, +*], A](f)
 
 }

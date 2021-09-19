@@ -14,11 +14,9 @@ import java.io.IOException
 
 object UNDXPSO extends zio.App {
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val env: Environment =
-    Environment(
-      cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
-    )
+  val cmp = Comparison.dominance(Min)
+  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+
 
   val guide: Guide[Mem[Double], Double] = Guide.undx[Mem[Double]](1.0, 0.1)
   val undxPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
@@ -34,6 +32,6 @@ object UNDXPSO extends zio.App {
     program.exitCode
 
   val program: ZIO[Console, IOException, Unit] =
-    putStrLn(Runner.repeat(1000, iter, swarm).provide(env).runAll(RNG.fromTime).toString)
+    putStrLn(Runner.repeat(1000, iter, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString)
 
 }

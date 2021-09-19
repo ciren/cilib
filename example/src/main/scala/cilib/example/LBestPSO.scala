@@ -12,11 +12,8 @@ import zio.{ ExitCode, URIO }
 
 object LBestPSO extends zio.App {
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val env: Environment =
-    Environment(
-      cmp = Comparison.quality(Min),
-      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
-    )
+  val cmp = Comparison.quality(Min)
+  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   // LBest is a network topology where every Paricle 'x' has (n/2) neighbours
   // on each side. For example, a neighbourhood size of 3 means that there is
@@ -37,6 +34,6 @@ object LBestPSO extends zio.App {
     Iteration.sync(lbestPSO)
 
   def run(args: List[String]): URIO[Console with Console, ExitCode] =
-    putStrLn(Runner.repeat(1000, iter, swarm).provide(env).runAll(RNG.fromTime).toString).exitCode
+    putStrLn(Runner.repeat(1000, iter, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString).exitCode
 
 }

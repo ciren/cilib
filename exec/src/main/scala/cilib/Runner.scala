@@ -112,7 +112,7 @@ object Runner {
    *  Interpreter for algorithm execution
    */
   def foldStep[F[_], A, B](
-    initialConfig: Environment,
+    initialConfig: cilib.Comparison,
     rng: RNG,
     collection: RVar[F[B]],
     alg: UStream[Algorithm[Kleisli[Step[*], F[B], F[B]]]],
@@ -129,7 +129,7 @@ object Runner {
   }
 
   def foldStepS[F[_], S, A, B](
-    initialConfig: Environment,
+    initialConfig: cilib.Comparison,
     initialState: S,
     rng: RNG,
     collection: RVar[F[B]],
@@ -140,24 +140,18 @@ object Runner {
 
     val (rng2, current) = collection.run(rng) // the collection of entities
 
-    final case class FoldState(iteration: Int, r: RNG, current: F[B], config: Environment, state: S)
+    final case class FoldState(iteration: Int, r: RNG, current: F[B], config: cilib.Comparison, state: S)
 
     env
       .zipWith(alg)(Tuple2.apply)
       .mapAccumM(FoldState(1, rng2, current, initialConfig, initialState)) {
         case (FoldState(iteration, r, current, config, state), (Problem(problem, e, eval), algorithm)) =>
-          val newConfig =
-            e match {
-              case Unchanged => config
-              case Change    => config.copy(eval = eval)
-            }
-
           val (_, result) =
             e match {
-              case Unchanged => algorithm.value.run(current).provide(newConfig).runAll((r, state))
+              case Unchanged => algorithm.value.run(current).provide((config, eval)).runAll((r, state))
               case Change =>
-                val (r3, updated) = onChange(current, newConfig.eval).run(r)
-                algorithm.value.run(updated).provide(newConfig).runAll((r3, state))
+                val (r3, updated) = onChange(current, eval).run(r)
+                algorithm.value.run(updated).provide((config, eval)).runAll((r3, state))
             }
 
           result match {
@@ -166,7 +160,7 @@ object Runner {
               val progress =
                 Progress(algorithm.name.value, problem.value, r2.seed, iteration, e, (newState, value))
 
-              ZIO.succeed((FoldState(iteration + 1, r2, value, newConfig, newState), progress))
+              ZIO.succeed((FoldState(iteration + 1, r2, value, config, newState), progress))
           }
       }
   }

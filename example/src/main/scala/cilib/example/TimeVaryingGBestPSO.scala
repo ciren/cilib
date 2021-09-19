@@ -14,11 +14,9 @@ import zio.stream.UStream
 
 object TimeVaryingGBestPSO extends zio.App {
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val env: Environment =
-    Environment(
-      cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
-    )
+  val cmp = Comparison.dominance(Min)
+  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+
 
   // To define one or more parameters for an algorithm, we need a few pieces:
 
@@ -55,7 +53,7 @@ object TimeVaryingGBestPSO extends zio.App {
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
 
-  val problemStream: UStream[Problem] = Runner.staticProblem("spherical", env.eval)
+  val problemStream: UStream[Problem] = Runner.staticProblem("spherical", eval)
 
   def run(args: List[String]) =
     runner.exitCode
@@ -63,7 +61,7 @@ object TimeVaryingGBestPSO extends zio.App {
   // Our IO[Unit] that runs the algorithm, at the end of the world
   val runner: URIO[Any, Unit] = {
     val t = Runner.foldStep(
-      env,
+      cmp,
       RNG.fromTime,
       swarm,
       Runner.algorithm( // We now create a stream of algorithms that are updated based on our custom functions

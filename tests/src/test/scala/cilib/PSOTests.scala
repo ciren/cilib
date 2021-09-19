@@ -1,6 +1,5 @@
 package cilib
 
-import cilib.NonEmptyVector
 import spire.implicits._
 import spire.math.Interval
 import zio.prelude._
@@ -25,15 +24,13 @@ object PSOTests extends DefaultRunnableSpec {
       check(positionGen, Gen.anyLong) {
         case (x, seed) =>
           val p = Entity(Mem(x, x.zeroed), x)
-          val env = Environment(
-            cmp = Comparison.dominance(Min),
-            eval = Eval.unconstrained((_: NonEmptyVector[Double]) => Feasible(0.0))
-          )
+          val cmp = Comparison.dominance(Min)
+          val eval = Eval.unconstrained((_: NonEmptyVector[Double]) => Feasible(0.0))
 
           val (_, result) =
             cilib.pso.PSO
               .quantum(p.pos, RVar.pure(10.0), (a, b) => Dist.uniform(spire.math.Interval(a, b)))
-              .provide(env)
+              .provide((cmp, eval))
               .runAll(RNG.init(seed))
 
           result match {

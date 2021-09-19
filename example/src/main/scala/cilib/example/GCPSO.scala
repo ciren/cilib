@@ -13,11 +13,8 @@ import zio.{ ExitCode, URIO }
 object GCPSO extends zio.App {
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val env: Environment =
-    Environment(
-      cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
-    )
+  val cmp = Comparison.dominance(Min)
+  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]
@@ -40,7 +37,7 @@ object GCPSO extends zio.App {
     val algParams = PSO.defaultGCParams
 
     val result =
-      Runner.repeat(1000, iter, swarm).provide(env).runAll((RNG.fromTime, algParams))
+      Runner.repeat(1000, iter, swarm).provide((cmp, eval)).runAll((RNG.fromTime, algParams))
 
     putStrLn(result.toString).exitCode
   }

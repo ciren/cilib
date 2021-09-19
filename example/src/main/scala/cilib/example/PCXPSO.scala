@@ -12,11 +12,8 @@ import zio.{ ExitCode, URIO }
 
 object PCXPSO extends zio.App {
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val env: Environment =
-    Environment(
-      cmp = Comparison.dominance(Min),
-      eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
-    )
+  val cmp = Comparison.dominance(Min)
+  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   val guide: Guide[Mem[Double], Double] = Guide.pcx[Mem[Double]](2.0, 2.0)
   val pcxPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
@@ -29,6 +26,6 @@ object PCXPSO extends zio.App {
     Iteration.sync(pcxPSO)
 
   def run(args: List[String]): URIO[Console with Console, ExitCode] =
-    putStrLn(Runner.repeat(1000, iter, swarm).provide(env).runAll(RNG.fromTime).toString).exitCode
+    putStrLn(Runner.repeat(1000, iter, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString).exitCode
 
 }

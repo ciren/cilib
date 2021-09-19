@@ -24,35 +24,21 @@ object FileOutput extends zio.App {
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
   val rng: RNG                                 = RNG.init(12L)
+  val cmp                                      = Comparison.dominance(Max)
 
-  // Define the benchmarks. These functions are hardcoded, but it would be better to consider
-  // using https://github.com/ciren/benchmarks which is a far more extensive and
-  // complete set of benchmark functions and suites.
-  val absolute: Environment = Environment(
-    cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible)
-  )
-
-  val ackley: Environment = Environment(
-    cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained(ExampleHelper.ackley andThen Feasible)
-  )
-
-  val quadric: Environment = Environment(
-    cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained(ExampleHelper.quadric andThen Feasible)
-  )
-
-  val spherical: Environment = Environment(
-    cmp = Comparison.dominance(Max),
-    eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
-  )
-
-  // Define the problem streams
-  val absoluteStream: UStream[Problem]  = Runner.staticProblem("absolute", absolute.eval)
-  val ackleyStream: UStream[Problem]    = Runner.staticProblem("ackley", ackley.eval)
-  val sphericalStream: UStream[Problem] = Runner.staticProblem("spherical", spherical.eval)
-  val quadricStream: UStream[Problem]   = Runner.staticProblem("quadric", quadric.eval)
+  // Define the benchmarks. These functions are hardcoded but it would
+  // be better to consider using https://github.com/ciren/benchmarks
+  // which is a far more extensive and complete set of benchmark
+  // functions and suites.
+  // The problems are repesented as streams:
+  val absoluteStream: UStream[Problem]  = Runner.staticProblem("absolute",
+    Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible))
+  val ackleyStream: UStream[Problem]    = Runner.staticProblem("ackley",
+    Eval.unconstrained(ExampleHelper.ackley andThen Feasible))
+  val sphericalStream: UStream[Problem] = Runner.staticProblem("spherical",
+     Eval.unconstrained(ExampleHelper.spherical andThen Feasible))
+  val quadricStream: UStream[Problem]   = Runner.staticProblem("quadric",
+    Eval.unconstrained(ExampleHelper.quadric andThen Feasible))
 
   // Define the guides for our PSO algorithms
   val cognitive: Guide[Mem[Double], Double]  = Guide.pbest[Mem[Double], Double]
@@ -112,7 +98,7 @@ object FileOutput extends zio.App {
   ] = (x: NonEmptyVector[Entity[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
 
   def simulation(
-    env: Environment,
+    env: cilib.Comparison,
     stream: Stream[Nothing, Problem]
   ): List[zio.stream.Stream[Exception, Progress[NonEmptyVector[Entity[Mem[Double], Double]]]]] =
     List(Runner.staticAlgorithm("GBestPSO", gbestIter), Runner.staticAlgorithm("LBestPSO", lbestIter))
@@ -120,10 +106,10 @@ object FileOutput extends zio.App {
 
   val simulations: List[Stream[Exception, Progress[NonEmptyVector[Entity[Mem[Double], Double]]]]] =
     List.concat(
-      simulation(absolute, absoluteStream),
-      simulation(ackley, ackleyStream),
-      simulation(quadric, quadricStream),
-      simulation(spherical, sphericalStream)
+      simulation(cmp, absoluteStream),
+      simulation(cmp, ackleyStream),
+      simulation(cmp, quadricStream),
+      simulation(cmp, sphericalStream)
     )
 
   sealed abstract class Choice {
