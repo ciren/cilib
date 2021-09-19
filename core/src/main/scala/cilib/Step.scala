@@ -83,8 +83,7 @@ object Step {
       env <- zio.prelude.fx.ZPure.environment[RNG, (Comparison, Eval[NonEmptyVector])]
       a   <- liftR(Position.eval[A](env._2, pos))
     } yield a
- }
-
+}
 
 object StepS {
 

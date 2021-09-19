@@ -24,21 +24,21 @@ object FileOutput extends zio.App {
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
   val rng: RNG                                 = RNG.init(12L)
-  val cmp                                      = Comparison.dominance(Max)
+  val cmp: Comparison                          = Comparison.dominance(Max)
 
   // Define the benchmarks. These functions are hardcoded but it would
   // be better to consider using https://github.com/ciren/benchmarks
   // which is a far more extensive and complete set of benchmark
   // functions and suites.
   // The problems are repesented as streams:
-  val absoluteStream: UStream[Problem]  = Runner.staticProblem("absolute",
-    Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible))
-  val ackleyStream: UStream[Problem]    = Runner.staticProblem("ackley",
-    Eval.unconstrained(ExampleHelper.ackley andThen Feasible))
-  val sphericalStream: UStream[Problem] = Runner.staticProblem("spherical",
-     Eval.unconstrained(ExampleHelper.spherical andThen Feasible))
-  val quadricStream: UStream[Problem]   = Runner.staticProblem("quadric",
-    Eval.unconstrained(ExampleHelper.quadric andThen Feasible))
+  val absoluteStream: UStream[Problem] =
+    Runner.staticProblem("absolute", Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible))
+  val ackleyStream: UStream[Problem] =
+    Runner.staticProblem("ackley", Eval.unconstrained(ExampleHelper.ackley andThen Feasible))
+  val sphericalStream: UStream[Problem] =
+    Runner.staticProblem("spherical", Eval.unconstrained(ExampleHelper.spherical andThen Feasible))
+  val quadricStream: UStream[Problem] =
+    Runner.staticProblem("quadric", Eval.unconstrained(ExampleHelper.quadric andThen Feasible))
 
   // Define the guides for our PSO algorithms
   val cognitive: Guide[Mem[Double], Double]  = Guide.pbest[Mem[Double], Double]

@@ -14,9 +14,8 @@ import zio.stream.UStream
 
 object TimeVaryingGBestPSO extends zio.App {
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp = Comparison.dominance(Min)
-  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
-
+  val cmp: Comparison                          = Comparison.dominance(Min)
+  val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   // To define one or more parameters for an algorithm, we need a few pieces:
 

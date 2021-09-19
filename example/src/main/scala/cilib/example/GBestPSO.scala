@@ -12,7 +12,7 @@ import zio.{ ExitCode, URIO }
 
 object GBestPSO extends zio.App {
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp = cilib.Comparison.dominance(Min)
+  val cmp: Comparison                          = cilib.Comparison.dominance(Min)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]
@@ -28,8 +28,10 @@ object GBestPSO extends zio.App {
     : Kleisli[Step, NonEmptyVector[Particle[Mem[Double], Double]], NonEmptyVector[Particle[Mem[Double], Double]]] =
     Kleisli(Iteration.sync(gbestPSO))
 
-  val problemStream: UStream[Problem] = Runner.staticProblem("spherical",
-     Eval.unconstrained((x: NonEmptyVector[Double]) => Feasible(ExampleHelper.spherical(x))))
+  val problemStream: UStream[Problem] = Runner.staticProblem(
+    "spherical",
+    Eval.unconstrained((x: NonEmptyVector[Double]) => Feasible(ExampleHelper.spherical(x)))
+  )
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   def run(args: List[String]): URIO[Any with zio.console.Console, ExitCode] = {

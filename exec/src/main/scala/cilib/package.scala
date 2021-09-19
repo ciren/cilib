@@ -9,7 +9,8 @@ package object exec {
         Step.liftR(r)
     }
 
-  implicit def StepSMonadStep[S]: MonadStep[ZPure[Nothing, (RNG, S), (RNG, S), (Comparison, Eval[NonEmptyVector]), Exception, +*]] =
+  implicit def StepSMonadStep[S]
+    : MonadStep[ZPure[Nothing, (RNG, S), (RNG, S), (Comparison, Eval[NonEmptyVector]), Exception, +*]] =
     new MonadStep[StepS[S, +*]] {
       def liftR[A](r: RVar[A]): StepS[S, A] =
         StepS.liftR(r)

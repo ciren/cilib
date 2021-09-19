@@ -13,8 +13,8 @@ import zio.{ ExitCode, URIO }
 object NMPCPSO extends zio.App {
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp = Comparison.quality(Min)
-  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val cmp: Comparison                          = Comparison.quality(Min)
+  val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   val guide: Guide[Mem[Double], Double] = Guide.nmpc[Mem[Double]](0.5)
   val nmpcPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (

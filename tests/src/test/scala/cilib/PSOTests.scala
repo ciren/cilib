@@ -23,8 +23,8 @@ object PSOTests extends DefaultRunnableSpec {
     testM("Uniform sampled cloud <= R") {
       check(positionGen, Gen.anyLong) {
         case (x, seed) =>
-          val p = Entity(Mem(x, x.zeroed), x)
-          val cmp = Comparison.dominance(Min)
+          val p    = Entity(Mem(x, x.zeroed), x)
+          val cmp  = Comparison.dominance(Min)
           val eval = Eval.unconstrained((_: NonEmptyVector[Double]) => Feasible(0.0))
 
           val (_, result) =

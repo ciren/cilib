@@ -21,8 +21,8 @@ object GAExample extends zio.App {
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
 
-  val cmp = Comparison.dominance(Min)
-  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val cmp: Comparison            = Comparison.dominance(Min)
+  val eval: Eval[NonEmptyVector] = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   def onePoint(xs: List[Ind]): RVar[List[Ind]] =
     xs match {
@@ -81,9 +81,11 @@ object GAExample extends zio.App {
 
   // Our IO[Unit] that runs at the end of the world
   def run(args: List[String]): URIO[Console with Console, ExitCode] =
-    putStrLn(exec.Runner.repeat(1000, cullingGA, swarm)
-      .provide((cmp, eval))
-      .runAll(RNG.fromTime)
-      .toString
+    putStrLn(
+      exec.Runner
+        .repeat(1000, cullingGA, swarm)
+        .provide((cmp, eval))
+        .runAll(RNG.fromTime)
+        .toString
     ).exitCode
 }

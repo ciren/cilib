@@ -6,9 +6,10 @@ import spire.math.interval.{ Bound, ValueBound }
 
 package object cilib extends EvalInstances {
 
-  type RVar[+A]     = zio.prelude.State[RNG, A] /// zio.prelude.fx.ZPure[Nothing, S, S, Any, Nothing, A]
-  type Step[+A]     = zio.prelude.fx.ZPure[Nothing, RNG, RNG, (cilib.Comparison, Eval[NonEmptyVector]), Exception, A]
-  type StepS[S, +A] = zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), (cilib.Comparison, Eval[NonEmptyVector]), Exception, A]
+  type RVar[+A] = zio.prelude.State[RNG, A] /// zio.prelude.fx.ZPure[Nothing, S, S, Any, Nothing, A]
+  type Step[+A] = zio.prelude.fx.ZPure[Nothing, RNG, RNG, (cilib.Comparison, Eval[NonEmptyVector]), Exception, A]
+  type StepS[S, +A] =
+    zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), (cilib.Comparison, Eval[NonEmptyVector]), Exception, A]
 
   // Should expand into a typeclass? Getter?
   type Selection[A]          = NonEmptyVector[A] => List[A]

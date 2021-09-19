@@ -14,8 +14,8 @@ object RandomSearchGA extends zio.App {
   type Ind = Individual[Unit]
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp = Comparison.dominance(Min)
-  val eval = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val cmp: Comparison                          = Comparison.dominance(Min)
+  val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   val randomSelection: NonEmptyVector[Ind] => ZPure[Nothing, RNG, RNG, Any, Nothing, List[Ind]] =
     (l: NonEmptyVector[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
