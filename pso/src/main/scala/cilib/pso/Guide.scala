@@ -17,7 +17,7 @@ object Guide {
   )(implicit M: HasMemory[S, Double]): Guide[S, Double] = { (collection, x) =>
     Step.withCompare { o =>
       val selected: List[Particle[S, Double]] = neighbourhood(collection, x)
-      val fittest = selected
+      val fittest                             = selected
         .map(e => M._memory.get(e.state))
         .reduceLeftOption((a, c) => Comparison.compare(a, c).apply(o))
       fittest.getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
@@ -59,7 +59,7 @@ object Guide {
 
         for {
           chos     <- chosen
-          parents  = chos.map(c => NonEmptyVector.fromIterable(x.pos, c.map(_.pos)))
+          parents   = chos.map(c => NonEmptyVector.fromIterable(x.pos, c.map(_.pos)))
           children <- parents.map(crossover).getOrElse(RVar.pure(NonEmptyVector(x.pos)))
           probs    <- x.pos.traverse(_ => Dist.stdUniform)
         } yield {
@@ -78,7 +78,7 @@ object Guide {
         p         <- pb(collection, x)
         i         <- identity(collection, x)
         n         <- gb(collection, x)
-        parents   = NonEmptyVector(p, i, n)
+        parents    = NonEmptyVector(p, i, n)
         offspring <- Step.liftR(pcx(parents))
       } yield offspring.head
     }
@@ -93,7 +93,7 @@ object Guide {
         p         <- pb(collection, x)
         i         <- identity(collection, x)
         n         <- gb(collection, x)
-        parents   = NonEmptyVector(p, i, n)
+        parents    = NonEmptyVector(p, i, n)
         offspring <- Step.liftR(undx(parents))
       } yield offspring.head
     }

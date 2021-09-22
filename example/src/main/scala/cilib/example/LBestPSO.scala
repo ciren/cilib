@@ -28,7 +28,7 @@ object LBestPSO extends zio.App {
   ) =
     gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
-  val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
+  val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]]                                                 =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
   val iter: NonEmptyVector[Particle[Mem[Double], Double]] => Step[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Iteration.sync(lbestPSO)

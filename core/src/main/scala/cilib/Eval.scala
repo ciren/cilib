@@ -36,7 +36,7 @@ object Eval {
       RVar.pure { (fa: NonEmptyVector[A]) =>
         cs.filter(c => !Constraint.satisfies(c, fa)) match {
           case Nil => Objective.single(run(F.toInput(fa)), List.empty)
-          case xs =>
+          case xs  =>
             val result =
               run(F.toInput(fa)) match {
                 case Feasible(v)       => Infeasible(v)

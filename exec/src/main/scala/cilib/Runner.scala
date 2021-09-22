@@ -37,8 +37,6 @@ object Runner {
     Stream.repeat(Algorithm(name, a))
 
   /**
-   *
-   *
    * @param name
    * @param config
    * @param f
@@ -63,8 +61,6 @@ object Runner {
   }
 
   /**
-   *
-   *
    * @param name
    * @param eval
    * @return
@@ -76,8 +72,6 @@ object Runner {
     Stream.repeat(Problem(name, Unchanged, eval))
 
   /**
-   *
-   *
    * @param name
    * @param state
    * @param next
@@ -149,13 +143,13 @@ object Runner {
           val (_, result) =
             e match {
               case Unchanged => algorithm.value.run(current).provide((config, eval)).runAll((r, state))
-              case Change =>
+              case Change    =>
                 val (r3, updated) = onChange(current, eval).run(r)
                 algorithm.value.run(updated).provide((config, eval)).runAll((r3, state))
             }
 
           result match {
-            case Left(error) => sys.error(error.toString())
+            case Left(error)                    => sys.error(error.toString())
             case Right(((r2, newState), value)) =>
               val progress =
                 Progress(algorithm.name.value, problem.value, r2.seed, iteration, e, (newState, value))
@@ -175,8 +169,8 @@ object Runner {
       Measurement(algorithm, problem, iteration, env, seed, f(state, value))
   }
 
-  def repeat[M[+_]: IdentityFlatten: Covariant, F[+_], A](n: Int, alg: F[A] => M[F[A]], collection: RVar[F[A]])(
-    implicit M: MonadStep[M]
+  def repeat[M[+_]: IdentityFlatten: Covariant, F[+_], A](n: Int, alg: F[A] => M[F[A]], collection: RVar[F[A]])(implicit
+    M: MonadStep[M]
   ): M[F[A]] =
     M.liftR(collection)
       .flatMap(coll =>

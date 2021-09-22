@@ -15,19 +15,17 @@ object EDA {
         //selected <- Step.liftR(selection(collection))
         newModel  <- Step.liftR(generateModel(collection))
         generated <- Step.liftR(ForEach[NonEmptyVector].forEach(collection)(x => sample(newModel, x)))
-        evaluated <- ForEach[NonEmptyVector].forEach(generated)(x => Step.eval((v: Position[A]) => v)(x))
+        evaluated <- ForEach[NonEmptyVector].forEach(generated)(x => Step.eval(x)(identity))
       } yield evaluated
 
   def UDMAc[A](xs: NonEmptyVector[Position[Double]]): NonEmptyVector[RVar[Double]] = {
-    val mean = xs.map(p => p.sum / p.size)
-    val mv: NonEmptyVector[(Double, Double)] = xs.zip(mean).map {
-      case (vec, mean) =>
-        (mean, vec.map(x => (x - mean) * (x - mean)).sum)
+    val mean                                 = xs.map(p => p.sum / p.size)
+    val mv: NonEmptyVector[(Double, Double)] = xs.zip(mean).map { case (vec, mean) =>
+      (mean, vec.map(x => (x - mean) * (x - mean)).sum)
     }
 
-    mv.map {
-      case (mean, variance) =>
-        Dist.gaussian(mean, variance)
+    mv.map { case (mean, variance) =>
+      Dist.gaussian(mean, variance)
     }
   }
 

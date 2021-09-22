@@ -16,7 +16,7 @@ trait EncodeCsv[A] {
   def encode(a: A): List[String]
 }
 
-object EncodeCsv {
+object EncodeCsv           {
   import shapeless._
 
   final def createEncoder[A](f: A => List[String]) = new EncodeCsv[A] {
@@ -45,8 +45,8 @@ object EncodeCsv {
       case Change    => List("Changed")
     })
 
-  implicit def genericEncodeCsv[A, H](
-    implicit gen: Generic.Aux[A, H],
+  implicit def genericEncodeCsv[A, H](implicit
+    gen: Generic.Aux[A, H],
     enc: Lazy[EncodeCsv[H]]
   ): EncodeCsv[A] =
     createEncoder(a => enc.value.encode(gen.to(a)))
@@ -55,13 +55,12 @@ object EncodeCsv {
   implicit val hnilToEncodeCsv: EncodeCsv[HNil] =
     createEncoder(_ => Nil)
 
-  implicit def hconsToEncodeCsv[H, T <: HList](
-    implicit
+  implicit def hconsToEncodeCsv[H, T <: HList](implicit
     hEncode: EncodeCsv[H],
     tEncode: EncodeCsv[T]
   ): EncodeCsv[H :: T] =
-    createEncoder {
-      case h :: t => hEncode.encode(h) ++ tEncode.encode(t)
+    createEncoder { case h :: t =>
+      hEncode.encode(h) ++ tEncode.encode(t)
     }
 
   @inline def apply[A](implicit c: EncodeCsv[A]): EncodeCsv[A] = c
@@ -98,9 +97,9 @@ object ColumnNameEncoder {
   implicit val stringColumnNameEncoder  = createEncoder((_: String) => List.empty)
   implicit val envEncodeCsv             = createEncoder((_: Env) => List.empty)
 
-  implicit def listColumnNameEncoder[A: ColumnNameEncoder] =
+  implicit def listColumnNameEncoder[A: ColumnNameEncoder]           =
     createEncoder((_: List[A]) => List.empty)
-  implicit def nonEmptyListColumnNameEncoder[A: ColumnNameEncoder] =
+  implicit def nonEmptyListColumnNameEncoder[A: ColumnNameEncoder]   =
     createEncoder((_: NonEmptyList[A]) => List.empty)
   implicit def nonEmptyVectorColumnNameEncoder[A: ColumnNameEncoder] =
     createEncoder((_: NonEmptyVector[A]) => List.empty)
@@ -108,8 +107,7 @@ object ColumnNameEncoder {
   implicit val hnilColumnNameEncoder: ColumnNameEncoder[HNil] =
     createEncoder(_ => List.empty)
 
-  implicit def hconsColumnNameEncoder[K <: Symbol, H, T <: HList](
-    implicit
+  implicit def hconsColumnNameEncoder[K <: Symbol, H, T <: HList](implicit
     witness: Witness.Aux[K],
     hEncoder: Lazy[ColumnNameEncoder[H]],
     tEncoder: ColumnNameEncoder[T]
@@ -124,8 +122,7 @@ object ColumnNameEncoder {
     }
   }
 
-  implicit def genericProductEncoder[A, H](
-    implicit
+  implicit def genericProductEncoder[A, H](implicit
     generic: LabelledGeneric.Aux[A, H],
     hEncoder: Lazy[ColumnNameEncoder[H]]
   ): ColumnNameEncoder[A] =

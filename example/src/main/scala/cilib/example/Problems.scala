@@ -57,8 +57,8 @@ object Problems {
     movement match {
       case Random =>
         peaks.forEach { p =>
-          val r: RVar[NonEmptyVector[Double]]     = p.shift.forEach(_ => Dist.stdNormal)
-          val term1: RVar[NonEmptyVector[Double]] = r.map(_.map(_ * (1.0 - lambda) * changeSeverity))
+          val r: RVar[NonEmptyVector[Double]]       = p.shift.forEach(_ => Dist.stdNormal)
+          val term1: RVar[NonEmptyVector[Double]]   = r.map(_.map(_ * (1.0 - lambda) * changeSeverity))
           val linComb: RVar[NonEmptyVector[Double]] =
             term1.map { t1 =>
               val term2: NonEmptyVector[Double] = p.shift.map(_ * lambda)
@@ -79,22 +79,21 @@ object Problems {
             s1     <- Dist.stdNormal
             s2     <- Dist.stdNormal
           } yield {
-            val shift = lin.map(_ * scalar)
+            val shift                                            = lin.map(_ * scalar)
             val (newPos, newShift): (List[Double], List[Double]) =
               shift
                 .zip(p.location)
                 .zip(p.domain)
-                .map {
-                  case ((s, p), d) =>
-                    val trial = p + s
+                .map { case ((s, p), d) =>
+                  val trial = p + s
 
-                    if (d.contains(trial)) {
-                      (trial, s)
-                    } else if (d.lowerValue > trial) {
-                      (2.0 * d.lowerValue - p - s, -1.0 * s)
-                    } else {
-                      (2.0 * d.upperValue - p - s, -1.0 * s)
-                    }
+                  if (d.contains(trial)) {
+                    (trial, s)
+                  } else if (d.lowerValue > trial) {
+                    (2.0 * d.lowerValue - p - s, -1.0 * s)
+                  } else {
+                    (2.0 * d.upperValue - p - s, -1.0 * s)
+                  }
                 }
                 .toChunk
                 .toList

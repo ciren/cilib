@@ -16,8 +16,8 @@ object Boundary {
   ): F[NonEmptyVector[A]] =
     NonEmptyForEach[NonEmptyVector].forEach1(x.pos.zip(x.boundary))(f.f.tupled)
 
-  def enforceTo[F[+_], A: spire.math.Numeric, B](x: Position[A], z: Position[A], f: EnforceTo[F, A])(
-    implicit F: Covariant[F] with IdentityBoth[F]
+  def enforceTo[F[+_], A: spire.math.Numeric, B](x: Position[A], z: Position[A], f: EnforceTo[F, A])(implicit
+    F: Covariant[F] with IdentityBoth[F]
   ): F[NonEmptyVector[A]] =
     x.pos
       .zip(x.boundary)
@@ -48,9 +48,9 @@ object Boundary {
     )
 
   /**
-    J. Ronkkonen, S. Kukkonen, and K. Price, “Real-parameter optimization
-    with  differential  evolution,”  in Evolutionary  Computation,  2005.  The
-    2005 IEEE Congress on, vol. 1, Sept 2005, pp. 506–513 Vol.1
+   *    J. Ronkkonen, S. Kukkonen, and K. Price, “Real-parameter optimization
+   *    with  differential  evolution,”  in Evolutionary  Computation,  2005.  The
+   *    2005 IEEE Congress on, vol. 1, Sept 2005, pp. 506–513 Vol.1
    */
   def reflect[A](implicit N: spire.math.Numeric[A]): Enforce[Id, A] =
     Enforce((a: A, b: Interval[Double]) =>

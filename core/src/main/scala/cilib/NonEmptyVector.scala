@@ -91,7 +91,7 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
    * Maps over the elements of this `NonEmptyChunk`, maintaining some state
    * along the way.
    */
-  def mapAccum[S, B](s: S)(f: (S, A) => (S, B)): (S, NonEmptyVector[B]) =
+  def mapAccum[S, B](s: S)(f: (S, A) => (S, B)): (S, NonEmptyVector[B])                              =
     chunk.mapAccum(s)(f) match { case (s, chunk) => (s, nonEmpty(chunk)) }
 
   /**
@@ -104,7 +104,7 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
   /**
    * Effectfully maps the elements of this `NonEmptyChunk`.
    */
-  def mapM[R, E, B](f: A => ZIO[R, E, B]): ZIO[R, E, NonEmptyVector[B]] =
+  def mapM[R, E, B](f: A => ZIO[R, E, B]): ZIO[R, E, NonEmptyVector[B]]                              =
     chunk.mapM(f).map(nonEmpty)
 
   /**
@@ -233,7 +233,7 @@ object NonEmptyVector {
   /**
    * Constructs a `NonEmptyVector` from the `::` case of a `List`.
    */
-  def fromCons[A](as: ::[A]): NonEmptyVector[A] =
+  def fromCons[A](as: ::[A]): NonEmptyVector[A]                 =
     as match { case h :: t => fromIterable(h, t) }
 
   /**
@@ -291,7 +291,7 @@ object NonEmptyVector {
    */
   implicit val NonEmptyVectorIdentityBoth: IdentityBoth[NonEmptyVector] =
     new IdentityBoth[NonEmptyVector] {
-      val any: NonEmptyVector[Any] = single(())
+      val any: NonEmptyVector[Any]                                                               = single(())
       def both[A, B](fa: => NonEmptyVector[A], fb: => NonEmptyVector[B]): NonEmptyVector[(A, B)] =
         fa.flatMap(a => fb.map(b => (a, b)))
     }

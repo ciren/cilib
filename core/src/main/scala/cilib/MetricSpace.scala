@@ -6,15 +6,15 @@ import spire.math.{ abs, max, _ }
 import zio.prelude._
 
 /**
-  A MetricSpace is a set together with a notion of distance between elements.
-  Distance is computed by a function dist which has the following four laws:
-
-  1.  non-negative: forall x y. dist x y >= 0
-  1.  identity of indiscernibles: forall x y. dist x y == 0 <=> x == y
-  1.  symmetry: forall x y. dist x y == dist y x
-  1.  triangle inequality: forall x y z. dist x z <= dist x y + dist y z
-
-  See the Wikipedia article on metric spaces for more details.
+ *  A MetricSpace is a set together with a notion of distance between elements.
+ *  Distance is computed by a function dist which has the following four laws:
+ *
+ *  1.  non-negative: forall x y. dist x y >= 0
+ *  1.  identity of indiscernibles: forall x y. dist x y == 0 <=> x == y
+ *  1.  symmetry: forall x y. dist x y == dist y x
+ *  1.  triangle inequality: forall x y z. dist x z <= dist x y + dist y z
+ *
+ *  See the Wikipedia article on metric spaces for more details.
  */
 trait MetricSpace[A, B] { self =>
   def dist(x: A, y: A): B
@@ -45,7 +45,7 @@ object MetricSpace {
               zio.prelude.fx.ZPure.modify(memo =>
                 memo.get((i, j)) match {
                   case Some(value) => (memo, value)
-                  case None =>
+                  case None        =>
                     (for {
                       a <- f(i - 1, j)
                       b <- f(i, j - 1)

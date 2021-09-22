@@ -1,7 +1,6 @@
 package cilib
 package example
 
-import cilib.example.TimeVaryingGBestPSO
 import cilib.exec.{ Kleisli, _ }
 import cilib.pso.Defaults._
 import cilib.pso.{ Particle, _ }
@@ -28,7 +27,7 @@ object TimeVaryingGBestPSO extends zio.App {
   // 3. We need a function to create a new set of parameters, given the current set as input
   //    We need to define the maximum number of iterations as a stream effectively has no end
   def updateParams(params: GBestParams, iterations: Runner.IterationCount): TimeVaryingGBestPSO.GBestParams = {
-    val i = Runner.IterationCount.unwrap(iterations)
+    val i                            = Runner.IterationCount.unwrap(iterations)
     def linear(a: Double, b: Double) =
       a + (b - a) * (i.toDouble / 1000.0)
 

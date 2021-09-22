@@ -9,19 +9,21 @@ object GA {
   // to the crossover and mutation operators etc.
   def ga[S](
     p_c: Double,
-    parentSelection: NonEmptyVector[Individual[S]] => RVar[List[Individual[S]]], // the number of parents should already be applied
+    parentSelection: NonEmptyVector[Individual[S]] => RVar[
+      List[Individual[S]]
+    ], // the number of parents should already be applied
     crossover: List[Individual[S]] => RVar[List[Individual[S]]],
     mutation: List[Individual[S]] => RVar[List[Individual[S]]]
   ): NonEmptyVector[Individual[S]] => Individual[S] => Step[List[Individual[S]]] =
     collection =>
       _ =>
         for {
-          parents <- Step.liftR(parentSelection(collection))
-          r       <- Step.liftR(Dist.stdUniform.map(_ < p_c))
-          crossed <- if (r) Step.liftR[List[Individual[S]]](crossover(parents))
-                    else Step.pure[List[Individual[S]]](parents)
+          parents   <- Step.liftR(parentSelection(collection))
+          r         <- Step.liftR(Dist.stdUniform.map(_ < p_c))
+          crossed   <- if (r) Step.liftR[List[Individual[S]]](crossover(parents))
+                       else Step.pure[List[Individual[S]]](parents)
           mutated   <- Step.liftR[List[Individual[S]]](mutation(crossed))
-          evaluated <- ForEach[List].forEach(mutated)(x => Step.eval((v: Position[Double]) => v)(x))
+          evaluated <- ForEach[List].forEach(mutated)(x => Step.eval(x)(identity))
         } yield evaluated
 
   def randomSearch[S](

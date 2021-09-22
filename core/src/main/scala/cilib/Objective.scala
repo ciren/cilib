@@ -3,12 +3,12 @@ package cilib
 import zio.prelude._
 
 /**
-  An `Objective` represents the result of an evaluation.
-
-  In most cases, `Objective` values are `Single` values that contain
-  the fitness and the violation count of an objective function evaluation.
-
-  `Multi` duplicates the evaluation for multiple potential objective functions.
+ *  An `Objective` represents the result of an evaluation.
+ *
+ *  In most cases, `Objective` values are `Single` values that contain
+ *  the fitness and the violation count of an objective function evaluation.
+ *
+ *  `Multi` duplicates the evaluation for multiple potential objective functions.
  */
 sealed abstract class Objective {
   import Objective._
@@ -25,7 +25,7 @@ sealed abstract class Objective {
   def fitness: Either[Fit, List[Fit]] = // Should this be tail-recursive?
     this match {
       case Single(f, _) => Left(f)
-      case Multi(xs) =>
+      case Multi(xs)    =>
         Right(xs.toChunk.toList.flatMap(_.fitness match {
           case Left(f)   => List(f)
           case Right(fs) => fs

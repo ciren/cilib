@@ -24,12 +24,12 @@ inThisBuild(
     ),
     scmInfo := Some(
       ScmInfo(url("https://github.com/ciren/cilib/"), "scm:git:git@github.com:ciren/cilib.git")
-    )
+    ),
+    semanticdbVersion := "4.4.28" //scalafixSemanticdb.revision, // use Scalafix compatible version
   )
 )
 
 addCommandAlias("build", "prepare; test")
-addCommandAlias("prepare", "fix; fmt")
 addCommandAlias("fix", "; all compile:scalafix test:scalafix; all scalafmtSbt scalafmtAll")
 addCommandAlias("check", "; scalafmtSbtCheck; scalafmtCheckAll; compile:scalafix --check; test:scalafix --check")
 

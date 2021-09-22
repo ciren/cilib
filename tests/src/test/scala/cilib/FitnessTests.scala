@@ -29,7 +29,7 @@ object FitnessTest extends DefaultRunnableSpec {
       constraint <- Gen.oneOf(
                      Gen.const(LessThan(function, value)),
                      Gen.const(LessThanEqual(function, value)),
-                     Gen.const(Equal(function, value)),
+                     Gen.const(cilib.Equal(function, value)),
                      Gen.const(GreaterThan(function, value)),
                      Gen.const(GreaterThanEqual(function, value)),
                      Gen.const(InInterval(function, spire.math.Interval(-5.12, 5.12)))
@@ -63,9 +63,9 @@ object FitnessTest extends DefaultRunnableSpec {
       case (Some(a), Some(b)) =>
         (a.fitness, b.fitness) match {
           case (Left(f1), Left(f2)) =>
-            if (Comparison.fitCompare(opt, f1, f2, a.violationCount, b.violationCount) == Ordering.GreaterThan) x else y
+            if (cilib.Comparison.fitCompare(opt, f1, f2, a.violationCount, b.violationCount) == Ordering.GreaterThan) x else y
           case (Right(f1), Right(f2)) =>
-            if (Comparison.multiFitCompare(opt, f1, f2, a.violationCount, b.violationCount) == Ordering.GreaterThan) x
+            if (cilib.Comparison.multiFitCompare(opt, f1, f2, a.violationCount, b.violationCount) == Ordering.GreaterThan) x
             else y
           case _ => x
         }
@@ -84,7 +84,7 @@ object FitnessTest extends DefaultRunnableSpec {
           val a = x.map(Single.unwrap)
           val b = y.map(Single.unwrap)
 
-          assert(Comparison.quality(Min)(a, b))(Assertion.equalTo(min(a, b)))
+          assert(cilib.Comparison.quality(Min)(a, b))(Assertion.equalTo(min(a, b)))
       }
     },
     testM("single objective max") {
@@ -93,7 +93,7 @@ object FitnessTest extends DefaultRunnableSpec {
           val a = x.map(Single.unwrap)
           val b = y.map(Single.unwrap)
 
-          assert(Comparison.quality(Max)(a, b))(Assertion.equalTo(max(a, b)))
+          assert(cilib.Comparison.quality(Max)(a, b))(Assertion.equalTo(max(a, b)))
       }
     },
     testM("multi objective dominance min") {
@@ -102,7 +102,7 @@ object FitnessTest extends DefaultRunnableSpec {
           val a = x.map(Multi.unwrap)
           val b = y.map(Multi.unwrap)
 
-          assert(Comparison.quality(Min)(a, b))(Assertion.equalTo(min(a, b)))
+          assert(cilib.Comparison.quality(Min)(a, b))(Assertion.equalTo(min(a, b)))
       }
     },
     testM("multi objective dominance max") {
@@ -111,7 +111,7 @@ object FitnessTest extends DefaultRunnableSpec {
           val a = x.map(Multi.unwrap)
           val b = y.map(Multi.unwrap)
 
-          assert(Comparison.quality(Max)(a, b))(Assertion.equalTo(max(a, b)))
+          assert(cilib.Comparison.quality(Max)(a, b))(Assertion.equalTo(max(a, b)))
       }
     }
   )

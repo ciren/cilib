@@ -28,7 +28,7 @@ object Crossover {
     val mean = Algebra.meanVector(parents)
     val k    = parents.size
 
-    val initEta = NonEmptyList(parents.last - mean)
+    val initEta     = NonEmptyList(parents.last - mean)
     val (dd, e_eta) = parents.init.foldLeft((0.0, initEta)) { (a, b) =>
       val d = b - mean
 
@@ -67,7 +67,7 @@ object Crossover {
 
     // basis vectors defined by parents
     val initZeta = List[Position[Double]]()
-    val zeta = parents.init.foldLeft(initZeta) { (z, p) =>
+    val zeta     = parents.init.foldLeft(initZeta) { (z, p) =>
       val d = p - g
 
       if (d.isZero) z

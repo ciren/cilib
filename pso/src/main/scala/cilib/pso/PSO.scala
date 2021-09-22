@@ -32,10 +32,6 @@ object PSO {
       soc <- (social - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
     } yield (w *: V._velocity.get(entity.state)) + (c1 *: cog) + (c2 *: soc))
 
-  // Step to evaluate the particle, without any modifications
-  def evalParticle[S](entity: Particle[S, Double]) =
-    Step.eval[S, Double](x => x)(entity)
-
   def updatePBest[S](p: Particle[S, Double])(implicit M: HasMemory[S, Double]): Step[Particle[S, Double]] =
     Step
       .withCompare(Comparison.compare(p.pos, M._memory.get(p.state)))
@@ -49,8 +45,8 @@ object PSO {
     if (b) updatePBest(p) else Step.pure(p)
   }
 
-  def updateVelocity[S](p: Particle[S, Double], v: Position[Double])(
-    implicit V: HasVelocity[S, Double]
+  def updateVelocity[S](p: Particle[S, Double], v: Position[Double])(implicit
+    V: HasVelocity[S, Double]
   ): Step[Particle[S, Double]] =
     Step.liftR(RVar.pure(Entity(V._velocity.set(p.state, v), p.pos)))
 
@@ -139,15 +135,15 @@ object PSO {
   ): Step[Position[Double]] =
     Step.liftR {
       for {
-        r_i <- x.traverse(_ => Dist.stdUniform) //(0.0, 1.0))
+        r_i      <- x.traverse(_ => Dist.stdUniform) //(0.0, 1.0))
         //_ = println("r_i: " + r_i)
         originSum = math.sqrt(r_i.pos.foldLeft(0.0)((a, c) => a + c * c))
         //_ = println("originSum: " + originSum)
-        scale <- r.flatMap { a =>
-                  /*println("r: " + a); */
-                  val g = dist(0.0, a); /*println("g: " + g);*/
-                  g
-                } // Use the provided distribution to scale the cloud radius
+        scale    <- r.flatMap { a =>
+                      /*println("r: " + a); */
+                      val g = dist(0.0, a); /*println("g: " + g);*/
+                      g
+                    } // Use the provided distribution to scale the cloud radius
       } yield {
         //println("scale: " + scale)
         val z = (scale / originSum) *: r_i

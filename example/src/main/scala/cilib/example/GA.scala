@@ -35,7 +35,7 @@ object GAExample extends zio.App {
           ).forEach(x => NonEmptyVector.fromIterableOption(x).map(x => Entity((), Position(x, a.pos.boundary))))
             .getOrElse(List.empty[Ind])
         )
-      case _ => sys.error("Incorrect number of parents")
+      case _           => sys.error("Incorrect number of parents")
     }
 
   def mutation(p_m: Double)(xs: List[Ind]): RVar[List[Ind]] =
@@ -63,7 +63,7 @@ object GAExample extends zio.App {
    * match the expected type signature for an algorithm
    */
   val cullingGA: NonEmptyVector[Ind] => Step[NonEmptyVector[Ind]] =
-    (collection: NonEmptyVector[Ind]) => {
+    (collection: NonEmptyVector[Ind]) =>
       Iteration
         .sync(ga)
         .apply(collection)
@@ -77,7 +77,6 @@ object GAExample extends zio.App {
               NonEmptyVector.fromIterableOption(offspring.take(populationSize)).getOrElse(sys.error("asdas"))
             )
         )
-    }
 
   // Our IO[Unit] that runs at the end of the world
   def run(args: List[String]): URIO[Console with Console, ExitCode] =

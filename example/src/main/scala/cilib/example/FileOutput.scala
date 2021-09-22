@@ -31,13 +31,13 @@ object FileOutput extends zio.App {
   // which is a far more extensive and complete set of benchmark
   // functions and suites.
   // The problems are repesented as streams:
-  val absoluteStream: UStream[Problem] =
+  val absoluteStream: UStream[Problem]  =
     Runner.staticProblem("absolute", Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible))
-  val ackleyStream: UStream[Problem] =
+  val ackleyStream: UStream[Problem]    =
     Runner.staticProblem("ackley", Eval.unconstrained(ExampleHelper.ackley andThen Feasible))
   val sphericalStream: UStream[Problem] =
     Runner.staticProblem("spherical", Eval.unconstrained(ExampleHelper.spherical andThen Feasible))
-  val quadricStream: UStream[Problem] =
+  val quadricStream: UStream[Problem]   =
     Runner.staticProblem("quadric", Eval.unconstrained(ExampleHelper.quadric andThen Feasible))
 
   // Define the guides for our PSO algorithms
@@ -79,7 +79,7 @@ object FileOutput extends zio.App {
                 case Feasible(v) => Some(v)
                 case _           => None
               }
-            case _ => None
+            case _       => None
           })
           .getOrElse(Double.PositiveInfinity)
       )
@@ -120,7 +120,7 @@ object FileOutput extends zio.App {
         case Invalid => throw new Exception("Invalid choice")
       }
   }
-  final case object CSV     extends Choice
+  final case object CSV extends Choice
   final case object Parquet extends Choice
   final case object Invalid extends Choice
 
@@ -145,12 +145,12 @@ object FileOutput extends zio.App {
       _      <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
       result <- getStrLn
       choice <- ZIO.fromTry(scala.util.Try(result.toInt))
-      _ <- writeResults(choice match {
-            case 1 => Parquet
-            case 2 => CSV
-            case _ => Invalid
-          })
-      _ <- putStrLn("Complete.")
+      _      <- writeResults(choice match {
+                  case 1 => Parquet
+                  case 2 => CSV
+                  case _ => Invalid
+                })
+      _      <- putStrLn("Complete.")
     } yield ()
 
 }

@@ -9,12 +9,12 @@ import spire.implicits._
 import spire.math._
 
 /**
-RVar is essentially a newtype wrapper of the a State monad with the
-state type fixed to RNG.
-
-The wrapper is used to prevent access to the internal state monad,
-thereby preventing the use of state modification functions (i.e.:
-functions such as MonadState[RVar].modify and MonadState[RVar].puts)
+ * RVar is essentially a newtype wrapper of the a State monad with the
+ * state type fixed to RNG.
+ *
+ * The wrapper is used to prevent access to the internal state monad,
+ * thereby preventing the use of state modification functions (i.e.:
+ * functions such as MonadState[RVar].modify and MonadState[RVar].puts)
  */
 // sealed abstract class RVar[A](private val state: StateT[RNG, Trampoline, A]) { self: RVar[A] =>
 //   def run(rng: RNG)  = state.run(rng).run
@@ -129,15 +129,15 @@ object RVar {
 
     def extractTree(target: Int, tree: BinTree, next: BinTree => List[A]): List[A] =
       (target, tree, next) match {
-        case (0, Node(_, Leaf(e), r), k)           => e :: k(r)
-        case (1, Node(2, l @ Leaf(_), Leaf(r)), k) => r :: k(l)
-        case (n, Node(c, l @ Leaf(_), r), k) =>
+        case (0, Node(_, Leaf(e), r), k)                 => e :: k(r)
+        case (1, Node(2, l @ Leaf(_), Leaf(r)), k)       => r :: k(l)
+        case (n, Node(c, l @ Leaf(_), r), k)             =>
           extractTree(n - 1, r, new_r => k(Node(c - 1, l, new_r)))
         case (n, Node(n1, l, Leaf(e)), k) if n + 1 == n1 => e :: k(l)
-        case (n, Node(c, l @ Node(c1, _, _), r), k) =>
+        case (n, Node(c, l @ Node(c1, _, _), r), k)      =>
           if (n < c1) extractTree(n, l, new_l => k(Node(c - 1, new_l, r)))
           else extractTree(n - c1, r, new_r => k(Node(c - 1, l, new_r)))
-        case _ =>
+        case _                                           =>
           sys.error("???")
       }
 
@@ -171,7 +171,7 @@ object RVar {
         def dropIndex(target: Int, l: List[A]): List[A] = {
           def innerDropIndex(count: Int, current: List[A]): List[A] =
             current match {
-              case Nil => Nil
+              case Nil     => Nil
               case x :: xs =>
                 if (count == target) xs else x :: innerDropIndex(count + 1, xs)
             }
@@ -186,7 +186,7 @@ object RVar {
                 case Some(element) => element :: go(rest, dropIndex(index, current))
                 case None          => List.empty[A]
               }
-            case _ => List.empty[A]
+            case _             => List.empty[A]
           }
 
         Some(go(l, F.toList(xs)))

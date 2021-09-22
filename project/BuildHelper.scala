@@ -135,7 +135,7 @@ object BuildHelper {
 
   def stdSettings(prjName: String) = Seq(
     name := prjName,
-    crossScalaVersions := Seq("2.12.13", "2.13.5", "3.0.0"),
+    crossScalaVersions := Seq("2.13.6", "2.12.15", "3.0.0"),
     ThisBuild / scalaVersion := crossScalaVersions.value.head,
     scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
@@ -147,12 +147,14 @@ object BuildHelper {
         Seq(
           "com.github.ghik" % "silencer-lib" % Version.SilencerVersion % Provided cross CrossVersion.full,
           compilerPlugin("com.github.ghik" % "silencer-plugin" % Version.SilencerVersion cross CrossVersion.full),
-          compilerPlugin("org.typelevel"   %% "kind-projector" % "0.13.0" cross CrossVersion.full)
+          compilerPlugin("org.typelevel"   %% "kind-projector" % "0.13.0" cross CrossVersion.full),
+
+          "org.scalameta" % "semanticdb-scalac_2.13.6" % "4.4.28"
         )
     },
     semanticdbEnabled := !isScalaDotty(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
     semanticdbOptions += "-P:semanticdb:synthetics:on",
-    semanticdbVersion := scalafixSemanticdb.revision, // use Scalafix compatible version
+    ThisBuild / semanticdbVersion := "4.4.28", //scalafixSemanticdb.revision, // use Scalafix compatible version
     ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
     ThisBuild / scalafixDependencies ++= List(
       "com.github.liancheng" %% "organize-imports" % "0.5.0",
@@ -190,10 +192,8 @@ object BuildHelper {
         |${header(" \\____|___|_| \\_\\___|_| \\_|")}    ${version.value}
         |
         |Useful sbt tasks:
-        |${item("build")} - Prepares sources, compiles and runs tests.
-        |${item("prepare")} - Prepares sources by applying both scalafix and scalafmt
-        |${item("fix")} - Fixes sources files using scalafix
-        |${item("fmt")} - Formats source files using scalafmt
+        |${item("build")} - Prepare and fix sources, compile and run tests.
+        |${item("fix")} - Fixes  files using scalafix and scalafmt
         |${item("~compile")} - Compiles all modules (file-watch enabled)
         |${item("test")} - Runs all tests
         |${item("docs/docusaurusCreateSite")} - Generates the website

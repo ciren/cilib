@@ -12,13 +12,13 @@ private final class CMWC(val seed: Long, carry: Long, index: Int, state: Vector[
   val r          = 4096L
 
   def next(bits: Int): (CMWC, Int) = {
-    val t: Long = multiplier * state(index) + carry
+    val t: Long     = multiplier * state(index) + carry
     // carry = t / b (done in an unsigned way)
     val div32: Long = t >>> 32 // div32 = t / (b+1)
-    val newCarry    = div32 + (if ((t & 0xFFFFFFFFL) >= 0xFFFFFFFFL - div32) 1L else 0L)
+    val newCarry    = div32 + (if ((t & 0xffffffffL) >= 0xffffffffL - div32) 1L else 0L)
     // seeds[n] = (b-1)-t%b (done in an unsigned way)
-    val result  = 0xFFFFFFFEL - (t & 0xFFFFFFFFL) - (newCarry - div32 << 32) - newCarry & 0xFFFFFFFFL
-    val updated = state.updated(index, result)
+    val result      = 0xfffffffeL - (t & 0xffffffffL) - (newCarry - div32 << 32) - newCarry & 0xffffffffL
+    val updated     = state.updated(index, result)
 
     (new CMWC(seed, newCarry, (index + 1 & r - 1).toInt, updated), (result >>> 32 - bits).toInt)
   }
@@ -31,7 +31,7 @@ object RNG {
 
   def init(seed: Long): RNG = {
     val seedGen      = initLCG(seed)
-    val seedGenState = RVar.next[Int].map(_ & 0xFFFFFFFFL).replicateM(4097).runResult(seedGen).toVector
+    val seedGenState = RVar.next[Int].map(_ & 0xffffffffL).replicateM(4097).runResult(seedGen).toVector
 
     new CMWC(seed, seedGenState(4096), 4095, seedGenState.take(4096))
   }
@@ -47,7 +47,7 @@ object RNG {
   }
 
   private def initLCG(seed: Long): RNG =
-    new LCG((seed ^ 0x5DEECE66DL) & ((1L << 48) - 1))
+    new LCG((seed ^ 0x5deece66dL) & ((1L << 48) - 1))
 
   def split(r: RNG): (RNG, RNG) =
     (init(r.seed - 1), init(r.seed + 1))

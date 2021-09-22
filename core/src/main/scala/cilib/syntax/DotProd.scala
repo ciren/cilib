@@ -17,8 +17,8 @@ object dotprod {
     def norm(implicit D: DotProd[F, A]): Double =
       D.norm(x)
 
-    def orthonormalize(
-      implicit F: Covariant[F],
+    def orthonormalize(implicit
+      F: Covariant[F],
       F2: ForEach[F],
       F3: Field[A],
       A: NRoot[A],

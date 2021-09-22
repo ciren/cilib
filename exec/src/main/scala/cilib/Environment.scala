@@ -49,7 +49,7 @@ object Env {
             case name @ _    => throw new IllegalArgumentException(s"Invalid environment type: $name")
           }
       }
-      override protected def encodeNonNull(data: Env, configuration: ValueCodecConfiguration): Value =
+      override protected def encodeNonNull(data: Env, configuration: ValueCodecConfiguration): Value  =
         BinaryValue(Binary.fromString(data match {
           case Unchanged => "Unchanged"
           case Change    => "Change"
@@ -57,7 +57,7 @@ object Env {
 
     }
 
-  implicit val envTypeSchema: TypedSchemaDef[Env] = { // Save the data as a String in the schema
+  implicit val envTypeSchema: TypedSchemaDef[Env] = // Save the data as a String in the schema
     SchemaDef
       .primitive(
         primitiveType = PrimitiveType.PrimitiveTypeName.BINARY,
@@ -65,5 +65,4 @@ object Env {
         logicalTypeAnnotation = Some(LogicalTypeAnnotation.stringType())
       )
       .typed[Env]
-  }
 }

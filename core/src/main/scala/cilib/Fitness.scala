@@ -51,21 +51,19 @@ object Comparison {
       case (Feasible(_), Infeasible(_))     => Ordering.GreaterThan
       case (Infeasible(_), Adjusted(_, _))  => Ordering.LessThan
       case (Infeasible(_), Feasible(_))     => Ordering.LessThan
-      case (Infeasible(a), Infeasible(b)) =>
+      case (Infeasible(a), Infeasible(b))   =>
         if (xv == yv) opt.D.compare(a, b)
         else opt.I.compare(xv, yv)
     }
 
   def multiFitCompare(opt: Opt, xs: List[Fit], ys: List[Fit], xsv: => Int, ysv: => Int): Ordering = {
-    val z = xs.zip(ys)
-    val x2 = z.forall {
-      case (a, b) =>
-        val r = fitCompare(opt, a, b, xsv, ysv)
-        r == Ordering.GreaterThan || r == Ordering.Equals
+    val z  = xs.zip(ys)
+    val x2 = z.forall { case (a, b) =>
+      val r = fitCompare(opt, a, b, xsv, ysv)
+      r == Ordering.GreaterThan || r == Ordering.Equals
     }
-    val y2 = z.exists {
-      case (a, b) =>
-        fitCompare(opt, a, b, xsv, ysv) == Ordering.GreaterThan
+    val y2 = z.exists { case (a, b) =>
+      fitCompare(opt, a, b, xsv, ysv) == Ordering.GreaterThan
     }
 
     if (x2 && y2) Ordering.GreaterThan else if (x2) Ordering.Equals else Ordering.LessThan
@@ -76,16 +74,16 @@ object Comparison {
       (F.fitness(a), F.fitness(b)) match {
         case (Some(f1), Some(f2)) =>
           (f1.fitness, f2.fitness) match {
-            case (Left(x), Left(y)) =>
+            case (Left(x), Left(y))   =>
               if (fitCompare(opt, x, y, f1.violationCount, f2.violationCount) === Ordering.GreaterThan) a else b
             case (Right(x), Right(y)) =>
               val r = multiFitCompare(opt, x, y, f1.violationCount, f2.violationCount)
               if (r != Ordering.LessThan) a else b
-            case _ => a
+            case _                    => a
           }
-        case (None, None) => a
-        case (None, _)    => b
-        case (_, None)    => a
+        case (None, None)         => a
+        case (None, _)            => b
+        case (_, None)            => a
       }
   }
 

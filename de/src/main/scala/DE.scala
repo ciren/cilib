@@ -22,11 +22,11 @@ object DE {
     collection =>
       x =>
         for {
-          evaluated          <- Step.eval((a: Position[A]) => a)(x)
+          evaluated          <- Step.eval(x)(identity)
           trial              <- basicMutation(Numeric[A].fromDouble(p_m), targetSelection, y, collection, x)
           pivots             <- Step.liftR(z(p_r, evaluated.pos))
-          offspring          = crossover(x, trial, pivots)
-          evaluatedOffspring <- Step.eval((a: Position[A]) => a)(offspring)
+          offspring           = crossover(x, trial, pivots)
+          evaluatedOffspring <- Step.eval(offspring)(identity)
           fittest            <- Comparison.fittest(evaluated, evaluatedOffspring)
         } yield fittest
 
@@ -47,7 +47,7 @@ object DE {
 
     val target: Step[(Individual[S, A], Position[A])] = selection(collection)
     val filtered                                      = target.map(t => collection.toChunk.filterNot(a => a === t._1 || a === x))
-    val pairs: Step[List[Position[A]]] =
+    val pairs: Step[List[Position[A]]]                =
       filtered.flatMap(x =>
         NonEmptyVector.fromIterableOption(x) match {
           case Some(l) =>
@@ -60,7 +60,7 @@ object DE {
                   }
                 )
             )
-          case None =>
+          case None    =>
             Step.pure(List.empty)
         }
       )
@@ -72,11 +72,9 @@ object DE {
   }
 
   def crossover[S, A](target: Individual[S, A], trial: Position[A], pivots: NonEmptyVector[Boolean]) =
-    target.copy(pos = {
-      target.pos.zip(trial).zip(Position(pivots, trial.boundary)).map {
-        case ((a, b), p) => // Position apply function :(
-          if (p) b else a
-      }
+    target.copy(pos = target.pos.zip(trial).zip(Position(pivots, trial.boundary)).map {
+      case ((a, b), p) => // Position apply function :(
+        if (p) b else a
     })
 
   def bin[F[+_], A](
@@ -86,10 +84,9 @@ object DE {
     Dist
       .uniformInt(spire.math.Interval(0, F.size(parent) - 1))
       .flatMap { j =>
-        F.zipWithIndex(parent).forEach1 {
-          case (_, i) =>
-            if (i == j) RVar.pure(true)
-            else Dist.stdUniform.map(_ < p_r)
+        F.zipWithIndex(parent).forEach1 { case (_, i) =>
+          if (i == j) RVar.pure(true)
+          else Dist.stdUniform.map(_ < p_r)
         }
       }
       .map(x => NonEmptyVector.nonEmpty(F.reduceMapLeft(x)(ChunkBuilder.make() += _)(_ += _).result()))
@@ -100,9 +97,9 @@ object DE {
   )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyVector[Boolean]] = {
     val length = F.size(parent)
     for {
-      start    <- Dist.uniformInt(spire.math.Interval(0, length - 1))
+      start   <- Dist.uniformInt(spire.math.Interval(0, length - 1))
       circular = Iterator.continually((0 to length).toList).flatMap(x => x)
-      randoms  <- Dist.stdUniform.replicateM(length).map(_.toList)
+      randoms <- Dist.stdUniform.replicateM(length).map(_.toList)
     } yield {
       val paired   = circular.drop(start).take(length).toList.zip(randoms)
       val adjacent = paired.head :: paired.tail.takeWhile(t => t._2 < p_r)
@@ -122,9 +119,8 @@ object DE {
 
   def bestSelection[S, A](collection: NonEmptyVector[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     collection.toChunk.tail
-      .foldLeftM(collection.head) {
-        case (acc, curr) =>
-          Comparison.fittest(acc, curr)
+      .foldLeftM(collection.head) { case (acc, curr) =>
+        Comparison.fittest(acc, curr)
       }
       .map(x => (x, x.pos))
 
@@ -135,7 +131,7 @@ object DE {
       best <- bestSelection(collection)
       rand <- randSelection(collection)
     } yield {
-      val R = implicitly[Numeric[A]]
+      val R           = implicitly[Numeric[A]]
       val combination =
         (R.fromDouble(gamma) *: best._2) + (R.fromDouble(1.0 - gamma) *: rand._2)
 

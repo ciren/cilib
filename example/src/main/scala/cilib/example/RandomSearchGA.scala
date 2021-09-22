@@ -19,15 +19,15 @@ object RandomSearchGA extends zio.App {
 
   val randomSelection: NonEmptyVector[Ind] => ZPure[Nothing, RNG, RNG, Any, Nothing, List[Ind]] =
     (l: NonEmptyVector[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
-  val distribution: Double => ZPure[Nothing, RNG, RNG, Any, Nothing, Double] = (position: Double) =>
+  val distribution: Double => ZPure[Nothing, RNG, RNG, Any, Nothing, Double]                    = (position: Double) =>
     Dist.stdNormal.flatMap(_ => Dist.gaussian(0, 1.25)).map(_ + position)
 
   val ga: NonEmptyVector[Individual[Unit]] => (Individual[Unit] => Step[List[Individual[Unit]]]) =
     GA.randomSearch(randomSelection, distribution)
 
-  val swarm: RVar[NonEmptyVector[Ind]] = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
+  val swarm: RVar[NonEmptyVector[Ind]]                       = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
   val myGA: NonEmptyVector[Ind] => Step[NonEmptyVector[Ind]] =
-    (collection: NonEmptyVector[Ind]) => {
+    (collection: NonEmptyVector[Ind]) =>
       Iteration
         .sync(ga)
         .apply(collection)
@@ -39,7 +39,6 @@ object RandomSearchGA extends zio.App {
               NonEmptyVector.fromIterableOption(offspring.take(20)).getOrElse(sys.error("Impossible -> List is empty?"))
             )
         )
-    }
 
   def run(args: List[String]): URIO[Console with Console, ExitCode] =
     putStrLn(Runner.repeat(1000, myGA, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString).exitCode

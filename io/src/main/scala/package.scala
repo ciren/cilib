@@ -76,8 +76,8 @@ package object io {
 
   def csvHeaderSink[A: EncodeCsv](
     file: java.io.File
-  )(
-    implicit A: EncodeCsv[Measurement[A]],
+  )(implicit
+    A: EncodeCsv[Measurement[A]],
     N: ColumnNameEncoder[Measurement[A]]
   ): ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] = {
     val managedChannel = ZManaged.make(
@@ -108,8 +108,8 @@ package object io {
   def writeParquet[F[+_], A: ParquetRecordEncoder: ParquetSchemaResolver](
     file: java.io.File,
     data: F[A]
-  )(
-    implicit F: ForEach[F],
+  )(implicit
+    F: ForEach[F],
     encoder: ParquetRecordEncoder[Measurement[A]],
     schema: ParquetSchemaResolver[Measurement[A]]
   ): Unit = {
@@ -124,8 +124,8 @@ package object io {
     ParquetWriter.writeAndClose(file.getAbsolutePath, list, options)
   }
 
-  def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File)(
-    implicit encoder: ParquetRecordEncoder[Measurement[A]],
+  def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File)(implicit
+    encoder: ParquetRecordEncoder[Measurement[A]],
     schema: ParquetSchemaResolver[Measurement[A]]
   ): ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] = {
     val options = ParquetWriter.Options(

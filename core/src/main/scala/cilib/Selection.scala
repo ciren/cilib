@@ -8,8 +8,8 @@ object Selection {
 
   def indexNeighbours[A](n: Int): (NonEmptyVector[A], A) => List[A] =
     (list: NonEmptyVector[A], x: A) => {
-      val size = list.size
-      val point =
+      val size              = list.size
+      val point             =
         list.zipWithIndex.find(_._1 == x) match {
           case None         => 0
           case Some((_, i)) => (i - (n / 2) + size) % size
@@ -36,16 +36,16 @@ object Selection {
         if (r == nRows - 1) np - r * sqSide else sqSide
 
       val result = for {
-        r <- row
-        c <- col
+        r     <- row
+        c     <- col
         north <- list
-                  .find(
-                    _._2 == indexInto(
-                      (r - 1 + nRows) % nRows - (if (c >= colsInRow(r - 1 + nRows) % nRows) 1 else 0),
-                      c
-                    )
-                  )
-                  .map(_._1)
+                   .find(
+                     _._2 == indexInto(
+                       (r - 1 + nRows) % nRows - (if (c >= colsInRow(r - 1 + nRows) % nRows) 1 else 0),
+                       c
+                     )
+                   )
+                   .map(_._1)
         south <- list.find(_._2 == indexInto(if (c >= colsInRow(r + 1) % nRows) 0 else (r + 1) % nRows, c)).map(_._1)
         east  <- list.find(_._2 == indexInto(r, (c + 1) % colsInRow(r))).map(_._1)
         west  <- list.find(_._2 == indexInto(r, (c - 1 + colsInRow(r)) % colsInRow(r))).map(_._1)
@@ -68,9 +68,9 @@ object Selection {
   def star[A]: (NonEmptyVector[A], A) => List[A] =
     (l: NonEmptyVector[A], _: A) => l.toChunk.toList
 
-  def tournament[F[_], A](n: Int Refined Positive, l: NonEmptyVector[F[A]])(
-    implicit F: Fitness[F, A, A]
-  ): Comparison => RVar[Option[F[A]]] =
+  def tournament[F[_], A](n: Int Refined Positive, l: NonEmptyVector[F[A]])(implicit
+    F: Fitness[F, A, A]
+  ): cilib.Comparison => RVar[Option[F[A]]] =
     o =>
       RVar
         .sample(n, l)

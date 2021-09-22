@@ -94,7 +94,7 @@ object Dist {
   }
 
   def exponential(l: Double): RVar[Double] =
-    stdUniform.map { math.log(_) / l }
+    stdUniform.map(math.log(_) / l)
 
   def laplace(b0: Double, b1: Double): RVar[Double] =
     stdUniform.map { x =>
@@ -152,18 +152,18 @@ object Dist {
   def gaussian(mean: Double, dev: Double): RVar[Double] =
     for {
       u <- stdUniform.map(2.0 * _ - 1)
-      i <- next[Int].map(a => ((a & 0xFFFFFFFFL) % 127).toInt)
+      i <- next[Int].map(a => ((a & 0xffffffffL) % 127).toInt)
       r <- if (math.abs(u) < ratios(i)) RVar.pure(u * blocks(i))
-          else if (i == 0) DRandNormalTail(ZIGNOR_R, u < 0)
-          else {
-            val x  = u * blocks(i)
-            val f0 = math.exp(-0.5 * (blocks(i) * blocks(i) - x * x))
-            val f1 = math.exp(-0.5 * (blocks(i + 1) * blocks(i + 1) - x * x))
-            stdUniform.flatMap(a =>
-              if (f1 + a * (f0 - f1) < 1.0) RVar.pure(x)
-              else gaussian(mean, dev)
-            )
-          }
+           else if (i == 0) DRandNormalTail(ZIGNOR_R, u < 0)
+           else {
+             val x  = u * blocks(i)
+             val f0 = math.exp(-0.5 * (blocks(i) * blocks(i) - x * x))
+             val f1 = math.exp(-0.5 * (blocks(i + 1) * blocks(i + 1) - x * x))
+             stdUniform.flatMap(a =>
+               if (f1 + a * (f0 - f1) < 1.0) RVar.pure(x)
+               else gaussian(mean, dev)
+             )
+           }
     } yield mean + dev * r
 
   private def invErf(x: Double) = {

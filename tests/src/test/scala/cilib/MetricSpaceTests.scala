@@ -1,6 +1,6 @@
 package cilib
 
-import spire.algebra._
+import spire.algebra.{ MetricSpace => _, _ }
 import spire.implicits._
 import zio.random.Random
 import zio.test.{ TestResult, _ }
@@ -77,7 +77,7 @@ object MetricSpaceTest extends DefaultRunnableSpec {
             assert(chebyshev.dist(x, x))(Assertion.equalTo(0.0))
 
         // TODO: Another test to verify
-//    hamming.dist(x, x) === 0 &&
+        //    hamming.dist(x, x) === 0 &&
         // (x =!= y) ==> (euclidean.dist(x, y) =!= 0.0) &&
         //     (x =!= y) ==> (manhattan.dist(x, y) =!= 0.0) &&
         //     (x =!= y) ==> (chebyshev.dist(x, y) =!= 0.0) //&&
