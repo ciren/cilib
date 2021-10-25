@@ -7,8 +7,8 @@ import spire.implicits._
 import spire.math.Interval
 import zio.console._
 import zio.prelude.fx.ZPure
-import zio.{ ExitCode, URIO }
 import zio.prelude.newtypes.Natural
+import zio.{ ExitCode, URIO }
 
 object RandomSearchGA extends zio.App {
   type Ind = Individual[Unit]

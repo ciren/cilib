@@ -1,12 +1,12 @@
 package cilib
 package pso
 
+import cilib.{ Position, Step }
 import spire.algebra._
 import spire.implicits._
 import zio.prelude.{ Comparison => _, _ }
 
 import Position._
-import cilib.{ Position, Step }
 
 object PSO {
   import Lenses._

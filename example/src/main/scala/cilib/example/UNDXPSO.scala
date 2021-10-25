@@ -8,9 +8,9 @@ import spire.implicits._
 import spire.math.Interval
 import zio.ZIO
 import zio.console._
+import zio.prelude.newtypes.Natural
 
 import java.io.IOException
-import zio.prelude.newtypes.Natural
 
 object UNDXPSO extends zio.App {
   val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)

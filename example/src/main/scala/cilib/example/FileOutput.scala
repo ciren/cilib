@@ -11,11 +11,11 @@ import spire.math.Interval
 import zio._
 import zio.blocking.Blocking
 import zio.console._
+import zio.prelude.newtypes.Natural
 import zio.prelude.{ Comparison => _, _ }
 import zio.stream._
 
 import java.io.File
-import zio.prelude.newtypes.Natural
 
 object FileOutput extends zio.App {
 

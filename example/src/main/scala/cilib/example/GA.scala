@@ -6,11 +6,11 @@ import cilib.ga._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
+import zio.prelude.newtypes.Natural
 import zio.prelude.{ Comparison => _, _ }
 import zio.{ ExitCode, URIO }
 
 import Lenses._
-import zio.prelude.newtypes.Natural
 
 object GAExample extends zio.App {
   type Ind = Individual[Unit]

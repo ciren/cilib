@@ -8,8 +8,8 @@ import cilib.{ Mem, NonEmptyVector, Step }
 import spire.implicits._
 import spire.math.Interval
 import zio.URIO
-import zio.stream.UStream
 import zio.prelude.newtypes.Natural
+import zio.stream.UStream
 
 object TimeVaryingGBestPSO extends zio.App {
   val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
