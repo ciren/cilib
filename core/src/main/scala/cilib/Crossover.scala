@@ -83,8 +83,8 @@ object Crossover {
 
     // create the remaining basis vectors
     val initEta = NonEmptyVector(parents.last - g)
-    val reta = Position.createPositions(bounds, positiveInt(n - zeta.length))
-    val eta  = reta.map(r => Algebra.orthonormalize(initEta ++ r.toChunk))
+    val reta    = Position.createPositions(bounds, positiveInt(n - zeta.length))
+    val eta     = reta.map(r => Algebra.orthonormalize(initEta ++ r.toChunk))
 
     // construct the offspring
     for {

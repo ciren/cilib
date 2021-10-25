@@ -5,7 +5,6 @@ import zio._
 import zio.prelude._
 import zio.stream._
 
-
 final case class Algorithm[A](name: Name, value: A)
 final case class Problem(name: Name, env: Env, eval: Eval[NonEmptyVector])
 final case class Progress[A] private (
@@ -89,7 +88,7 @@ object Runner {
     env: UStream[Env],
     rng: RNG
   ): UStream[Problem] = {
-    val n = toName(name)
+    val n               = toName(name)
     val (rng2, (s2, e)) = state.flatMap(next).run(rng)
 
     def go2: ((S, Eval[NonEmptyVector], RNG), Env) => ((S, Eval[NonEmptyVector], RNG), Problem) =

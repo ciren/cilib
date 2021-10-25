@@ -1,13 +1,11 @@
 package cilib
 
+import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver.TypedSchemaDef
+import com.github.mjakubowski84.parquet4s.{ Value, ValueCodec, _ }
+import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
+import zio.prelude.ZValidation
 import zio.prelude.fx._
 import zio.test.Assertion
-import com.github.mjakubowski84.parquet4s._
-import zio.prelude.ZValidation
-import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver.TypedSchemaDef
-import com.github.mjakubowski84.parquet4s.{ Value, ValueCodec }
-import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
-
 
 package object exec {
 
@@ -23,7 +21,6 @@ package object exec {
       def liftR[A](r: RVar[A]): StepS[S, A] =
         StepS.liftR(r)
     }
-
 
   object Name extends zio.prelude.NewtypeSmart[String](Assertion.hasSizeString(Assertion.isGreaterThanEqualTo(1))) {
     // def assertion = assert {

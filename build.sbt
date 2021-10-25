@@ -12,9 +12,9 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 inThisBuild(
   List(
     organization := "ciren",
-    homepage := Some(url("https://cilib,net")),
-    licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-    developers := List(
+    homepage     := Some(url("https://cilib,net")),
+    licenses     := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+    developers   := List(
       Developer(
         "gpampara",
         "Gary Pamparà",
@@ -22,7 +22,7 @@ inThisBuild(
         url("http://gpampara.github.io")
       )
     ),
-    scmInfo := Some(
+    scmInfo      := Some(
       ScmInfo(url("https://github.com/ciren/cilib/"), "scm:git:git@github.com:ciren/cilib.git")
     )
   )
@@ -71,7 +71,7 @@ lazy val root = project
   .in(file("."))
   .settings(
     publish / skip := true,
-    console := (core / Compile / console).value,
+    console        := (core / Compile / console).value,
     BuildHelper.welcomeMessage
   )
   .aggregate(
@@ -98,7 +98,7 @@ lazy val core = project
     libraryDependencies ++= Seq(
       zio,
       zioPrelude,
-      "org.typelevel" %% "spire"   % Version.spire
+      "org.typelevel" %% "spire" % Version.spire
     )
   )
   .enablePlugins(BuildInfoPlugin)
@@ -189,7 +189,7 @@ lazy val io = project
   .settings(
     libraryDependencies ++= Seq(
       "com.github.mjakubowski84" %% "parquet4s-core" % Version.parquet4s,
-      "org.apache.hadoop"        % "hadoop-client"   % "2.8.5",
+      "org.apache.hadoop"         % "hadoop-client"  % "2.8.5",
       zio,
       zioStreams
     )

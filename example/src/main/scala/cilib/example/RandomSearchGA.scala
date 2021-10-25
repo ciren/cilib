@@ -8,14 +8,15 @@ import spire.math.Interval
 import zio.console._
 import zio.prelude.fx.ZPure
 import zio.{ ExitCode, URIO }
+import zio.prelude.newtypes.Natural
 
 object RandomSearchGA extends zio.App {
   type Ind = Individual[Unit]
 
-  val populationSize = positiveInt(20)
-  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                          = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val populationSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
+  val bounds: NonEmptyVector[Interval[Double]]              = Interval(-5.12, 5.12) ^ 30
+  val cmp: Comparison                                       = Comparison.dominance(Min)
+  val eval: Eval[NonEmptyVector]                            = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   val randomSelection: NonEmptyVector[Ind] => ZPure[Nothing, RNG, RNG, Any, Nothing, List[Ind]] =
     (l: NonEmptyVector[Ind]) => RVar.sample(positiveInt(2), l).map(_.getOrElse(List.empty))

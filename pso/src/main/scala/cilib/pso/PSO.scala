@@ -6,6 +6,7 @@ import spire.implicits._
 import zio.prelude.{ Comparison => _, _ }
 
 import Position._
+import cilib.{ Position, Step }
 
 object PSO {
   import Lenses._
@@ -62,7 +63,7 @@ object PSO {
 
   final case class GCParams(p: Double, successes: Int, failures: Int, e_s: Double, e_f: Double)
 
-  def defaultGCParams =
+  def defaultGCParams: GCParams =
     GCParams(p = 1.0, successes = 0, failures = 0, e_s = 15, e_f = 5)
 
   def gcVelocity[S](
@@ -77,7 +78,9 @@ object PSO {
         .map(a => -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a)
     )
 
-  def barebones[S](p: Particle[S, Double], global: Position[Double])(implicit M: HasMemory[S, Double]) =
+  def barebones[S](p: Particle[S, Double], global: Position[Double])(implicit
+    M: HasMemory[S, Double]
+  ): Step[Position[Double]] =
     Step.liftR {
       val pbest  = M._memory.get(p.state)
       val zipped = pbest.zip(global)

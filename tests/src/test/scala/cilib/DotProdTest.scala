@@ -25,31 +25,27 @@ object DotProdTest extends DefaultRunnableSpec {
 
   override def spec: ZSpec[Environment, Failure] = suite("dot product")(
     testM("commutativity") {
-      check(positionGen(10), positionGen(10)) {
-        case (a, b) =>
-          assert(D.dot(a, b) == D.dot(b, a))(Assertion.isTrue)
+      check(positionGen(10), positionGen(10)) { case (a, b) =>
+        assert(D.dot(a, b) == D.dot(b, a))(Assertion.isTrue)
       }
     },
     testM("distributive") {
-      check(positionGen(10), positionGen(10), positionGen(10)) {
-        case (a, b, c) =>
-          assert(D.dot(a, b + c) == D.dot(a, b) + D.dot(a, c))(Assertion.isTrue)
+      check(positionGen(10), positionGen(10), positionGen(10)) { case (a, b, c) =>
+        assert(D.dot(a, b + c) == D.dot(a, b) + D.dot(a, c))(Assertion.isTrue)
       }
     },
     testM("bilinear") {
-      check(positionGen(10), positionGen(10), positionGen(10), Gen.int(-10000, 10000)) {
-        case (a, b, c, r) =>
-          val result = D.dot(a, r *: b + c) == r * D.dot(a, b) + D.dot(a, c)
+      check(positionGen(10), positionGen(10), positionGen(10), Gen.int(-10000, 10000)) { case (a, b, c, r) =>
+        val result = D.dot(a, r *: b + c) == r * D.dot(a, b) + D.dot(a, c)
 
-          assert(result)(Assertion.isTrue)
+        assert(result)(Assertion.isTrue)
       }
     },
     testM("scalar multiplication") {
-      check(positionGen(10), positionGen(10), Gen.int(-1000, 1000), Gen.int(-1000, 1000)) {
-        case (a, b, c1, c2) =>
-          val result = D.dot(c1 *: a, c2 *: b) == c1 * c2 * D.dot(a, b)
+      check(positionGen(10), positionGen(10), Gen.int(-1000, 1000), Gen.int(-1000, 1000)) { case (a, b, c1, c2) =>
+        val result = D.dot(c1 *: a, c2 *: b) == c1 * c2 * D.dot(a, b)
 
-          assert(result)(Assertion.isTrue)
+        assert(result)(Assertion.isTrue)
       }
     }
   )

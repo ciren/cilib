@@ -10,11 +10,12 @@ import zio.prelude.{ Comparison => _, _ }
 import zio.{ ExitCode, URIO }
 
 import Lenses._
+import zio.prelude.newtypes.Natural
 
 object GAExample extends zio.App {
   type Ind = Individual[Unit]
 
-  val populationSize = positiveInt(20)
+  val populationSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
 

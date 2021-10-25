@@ -8,13 +8,14 @@ import spire.implicits._
 import spire.math.Interval
 import zio.console._
 import zio.{ ExitCode, URIO }
+import zio.prelude.newtypes.Natural
 
 object VonNeumannPSO extends zio.App {
 
-  val swarmSize = positiveInt(20)
-  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                          = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
+  val bounds: NonEmptyVector[Interval[Double]]         = Interval(-5.12, 5.12) ^ 30
+  val cmp: Comparison                                  = Comparison.dominance(Min)
+  val eval: Eval[NonEmptyVector]                       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]

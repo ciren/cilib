@@ -7,14 +7,14 @@ import cilib.pso._
 import spire.implicits._
 import spire.math._
 import zio.console._
-import zio.{ ExitCode, URIO }
 import zio.prelude.newtypes.Natural
+import zio.{ ExitCode, URIO }
 
 object Mixed extends zio.App {
-  val swarmSize = positiveInt(20)
-  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                          = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
+  val bounds: NonEmptyVector[Interval[Double]]         = Interval(-5.12, 5.12) ^ 30
+  val cmp: Comparison                                  = Comparison.dominance(Min)
+  val eval: Eval[NonEmptyVector]                       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   // Define the DE
   val de: NonEmptyVector[Individual[Mem[Double], Double]] => (

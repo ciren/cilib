@@ -23,26 +23,24 @@ object RVarTests extends DefaultRunnableSpec {
 
   def spec: ZSpec[Environment, Failure] = suite("RVar")(
     testM("shuffle") {
-      check(nelGen(10)) {
-        case xs =>
-          val shuffled = RVar.shuffle(xs).run(RNG.fromTime)._2
+      check(nelGen(10)) { case xs =>
+        val shuffled = RVar.shuffle(xs).run(RNG.fromTime)._2
 
-          assert(shuffled.length)(Assertion.equalTo(xs.length)) &&
-          assert(shuffled.toChunk.sorted)(Assertion.equalTo(xs.toChunk.sorted))
+        assert(shuffled.length)(Assertion.equalTo(xs.length)) &&
+        assert(shuffled.toChunk.sorted)(Assertion.equalTo(xs.toChunk.sorted))
       }
     },
     testM("sampling") {
-      check(Gen.int(1, 10), Gen.int(1, 20)) {
-        case (sampleSize, listSize) =>
-          val elements = NonEmptyVector.fromIterableOption((1 to listSize).toList).get
+      check(Gen.int(1, 10), Gen.int(1, 20)) { case (sampleSize, listSize) =>
+        val elements = NonEmptyVector.fromIterableOption((1 to listSize).toList).get
 
-          val selected: List[Int] =
-            RVar.sample(positiveInt(sampleSize), elements).runResult(rng).getOrElse(List.empty)
+        val selected: List[Int] =
+          RVar.sample(positiveInt(sampleSize), elements).runResult(rng).getOrElse(List.empty)
 
-          if (elements.length < sampleSize) assert(selected)(Assertion.isEmpty)
-          else
-            assert(selected.length)(Assertion.isLessThanEqualTo(sampleSize)) &&
-            assert(selected.forall(s => elements.contains(s)))(Assertion.isTrue)
+        if (elements.length < sampleSize) assert(selected)(Assertion.isEmpty)
+        else
+          assert(selected.length)(Assertion.isLessThanEqualTo(sampleSize)) &&
+          assert(selected.forall(s => elements.contains(s)))(Assertion.isTrue)
       }
     }
   )

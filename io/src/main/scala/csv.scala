@@ -1,7 +1,7 @@
 package cilib
 package io
 
-import cilib.exec.{ Change, Env, Unchanged, Name }
+import cilib.exec.{ Change, Env, Name, Unchanged }
 import zio.prelude._
 
 @annotation.implicitNotFound("""

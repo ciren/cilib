@@ -9,12 +9,13 @@ import spire.implicits._
 import spire.math.Interval
 import zio.URIO
 import zio.stream.UStream
+import zio.prelude.newtypes.Natural
 
 object TimeVaryingGBestPSO extends zio.App {
-  val swarmSize = positiveInt(20)
-  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                          = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
+  val bounds: NonEmptyVector[Interval[Double]]         = Interval(-5.12, 5.12) ^ 30
+  val cmp: Comparison                                  = Comparison.dominance(Min)
+  val eval: Eval[NonEmptyVector]                       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   // To define one or more parameters for an algorithm, we need a few pieces:
 

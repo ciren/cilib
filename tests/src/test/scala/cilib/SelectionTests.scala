@@ -6,9 +6,9 @@ import zio.test._
 
 object SelectionTests extends DefaultRunnableSpec {
 
-  val star: (NonEmptyVector[Int], Int) => List[Int]  = Selection.star[Int]
-  val ring: (NonEmptyVector[Int], Int) => List[Int]  = Selection.indexNeighbours[Int](3)
-  val wheel: (NonEmptyVector[Int], Int) => List[Int] = Selection.wheel[Int]
+  val star: (NonEmptyVector[Int], Int) => List[Int]                                                                  = Selection.star[Int]
+  val ring: (NonEmptyVector[Int], Int) => List[Int]                                                                  = Selection.indexNeighbours[Int](3)
+  val wheel: (NonEmptyVector[Int], Int) => List[Int]                                                                 = Selection.wheel[Int]
   val ringDistance: (NonEmptyVector[NonEmptyVector[Double]], NonEmptyVector[Double]) => List[NonEmptyVector[Double]] =
     Selection.distanceNeighbours[NonEmptyVector, Double](MetricSpace.euclidean)(3)
 
@@ -19,12 +19,11 @@ object SelectionTests extends DefaultRunnableSpec {
 
   override def spec: ZSpec[Environment, Failure] = suite("selection")(
     testM("star") {
-      check(nelGen(10)) {
-        case (a) =>
-          val selection = star(a, a.head)
+      check(nelGen(10)) { case (a) =>
+        val selection = star(a, a.head)
 
-          assert(selection.length == a.length)(Assertion.isTrue) &&
-          assert(selection)(Assertion.hasSubset(a.toChunk))
+        assert(selection.length == a.length)(Assertion.isTrue) &&
+        assert(selection)(Assertion.hasSubset(a.toChunk))
       }
     },
     test("star units") {
@@ -34,13 +33,12 @@ object SelectionTests extends DefaultRunnableSpec {
       assert(star(NonEmptyVector(1, 2, 3, 4, 5), 3))(Assertion.equalTo(List(1, 2, 3, 4, 5)))
     },
     testM("indexNeighbours") {
-      check(nelGen(10)) {
-        case (a) =>
-          val selection = ring(a, a.head)
+      check(nelGen(10)) { case (a) =>
+        val selection = ring(a, a.head)
 
-          assert(selection.length)(Assertion.equalTo(3))
-        //assert(selection)(Assertion.hasSubset(a))
-        //assert(selection)(Assertion.contains(a.head))
+        assert(selection.length)(Assertion.equalTo(3))
+      //assert(selection)(Assertion.hasSubset(a))
+      //assert(selection)(Assertion.contains(a.head))
       }
     },
     test("ring units") {
@@ -51,12 +49,11 @@ object SelectionTests extends DefaultRunnableSpec {
       assert(ring(NonEmptyVector(1, 2, 3, 4, 5), 5))(Assertion.equalTo(List(4, 5, 1)))
     },
     testM("wheel") {
-      check(nelGen(10)) {
-        case a =>
-          val wheelHead = wheel(a, a.head)
+      check(nelGen(10)) { case a =>
+        val wheelHead = wheel(a, a.head)
 
-          assert(wheelHead.length)(Assertion.equalTo(a.length)) &&
-          assert(wheelHead)(Assertion.hasSubset(a.toChunk)) // && assert(wheel(a, a.last))(Assertion.hasSubset(a))
+        assert(wheelHead.length)(Assertion.equalTo(a.length)) &&
+        assert(wheelHead)(Assertion.hasSubset(a.toChunk)) // && assert(wheel(a, a.last))(Assertion.hasSubset(a))
       }
     },
     test("wheel units") {

@@ -30,14 +30,13 @@ package object cilib extends EvalInstances {
   implicit def intervalEqualZio[A]: zio.prelude.Equal[Interval[A]] =
     zio.prelude.Equal.make((l, r) => l == r)
 
-
   /** Positive integers are the set of inegers that are greater than 0 */
-  def positiveInt(n: Int) =
+  def positiveInt(n: Int): Natural.subtype.Type with Natural.Tag =
     Natural.make(n) match {
       case ZValidation.Failure(_, err) => sys.error(err.toString())
       case ZValidation.Success(_, v)   => v
     }
- 
+
   implicit final class RichRVarOps[+A](rvar: RVar[A]) {
     def replicateM(n: Int): RVar[List[A]] =
       ForEach[List].forEach(List.fill(n)(rvar))(identity)

@@ -15,7 +15,7 @@ object GeneratorTest extends DefaultRunnableSpec {
 
   def phi_gauss(x: Double): Double = math.exp(-x * x / 2) / math.sqrt(2 * math.Pi)
 
-  def cdf_gauss: Double => Double = (z: Double) => {
+  def cdf_gauss: Double => Double = (z: Double) =>
     if (z < -8.0) 0.0
     else if (z > 8.0) 1.0
     else {
@@ -23,7 +23,6 @@ object GeneratorTest extends DefaultRunnableSpec {
       def sum  = (a: Double, b: Double, i: Int) => (a + b, b * z * z / i, i + 2)
       0.5 + until(test.tupled)(sum.tupled)((0.0, z, 3))._1 * phi_gauss(z)
     }
-  }
 
   // NB: java.util.math.log is really ln
   def S(x: Seq[Double], F: Double => Double): Double = {
@@ -40,12 +39,11 @@ object GeneratorTest extends DefaultRunnableSpec {
   override def spec: ZSpec[Environment, Failure] = suite("Distribution")(
     // Perform a hypothesis test using the Anderson-Darling test for normality
     testM("stdNormal") {
-      check(gaussianRandom) {
-        case a =>
-          val n  = a.size
-          val a2 = -n - S(a, cdf_gauss)
+      check(gaussianRandom) { case a =>
+        val n  = a.size
+        val a2 = -n - S(a, cdf_gauss)
 
-          assert(a2)(Assertion.isLessThan(2.492)) // 5% significance  -- 3.857
+        assert(a2)(Assertion.isLessThan(2.492)) // 5% significance  -- 3.857
       }
     }
   )

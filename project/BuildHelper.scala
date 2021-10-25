@@ -9,7 +9,7 @@ object BuildHelper {
   def isScalaDotty(version: String): Boolean = version.startsWith("3.")
 
   private val stdOptions = Seq(
-    "-deprecation", // Emit warning and location for usages of deprecated APIs.
+    "-deprecation",  // Emit warning and location for usages of deprecated APIs.
     "-encoding",
     "utf-8",         // Specify character encoding used by source files.
     "-explaintypes", // Explain type errors in more detail.
@@ -29,8 +29,8 @@ object BuildHelper {
     "-explaintypes",
     "-Yrangepos",
     "-Xlint:_,-missing-interpolator,-type-parameter-shadow",
-    "-Ywarn-numeric-widen", // Warn when numerics are widened.
-    "-Ywarn-value-discard"  // Warn when non-Unit expression results are unused
+    "-Ywarn-numeric-widen",   // Warn when numerics are widened.
+    "-Ywarn-value-discard"    // Warn when non-Unit expression results are unused
   )
 
   private def optimizerOptions(optimize: Boolean) =
@@ -39,13 +39,13 @@ object BuildHelper {
 
   def buildInfoSettings(packageName: String) =
     Seq(
-      buildInfoKeys := Seq[BuildInfoKey](organization, moduleName, name, version, scalaVersion, sbtVersion, isSnapshot),
+      buildInfoKeys    := Seq[BuildInfoKey](organization, moduleName, name, version, scalaVersion, sbtVersion, isSnapshot),
       buildInfoPackage := packageName
     )
 
   def extraOptions(scalaVersion: String, optimize: Boolean) =
     CrossVersion.partialVersion(scalaVersion) match {
-      case Some((0, _)) =>
+      case Some((0, _))  =>
         Seq(
           "-language:implicitConversions",
           "-Xignore-scala2-macros"
@@ -87,14 +87,14 @@ object BuildHelper {
           "-Xmax-classfile-name",
           "242"
         ) ++ std2xOptions
-      case _ => Seq.empty
+      case _             => Seq.empty
     }
 
   def platformSpecificSources( /*platform: String,*/ conf: String, baseDirectory: File)(versions: String*) =
     for {
       platform <- List("shared") //, platform)
       version  <- "scala" :: versions.toList.map("scala-" + _)
-      result   = baseDirectory.getParentFile / platform.toLowerCase / "src" / conf / version
+      result    = baseDirectory.getParentFile / platform.toLowerCase / "src" / conf / version
       if result.exists
     } yield result
 
@@ -106,9 +106,9 @@ object BuildHelper {
         List("2.12", "2.11+", "2.12+", "2.11-2.12", "2.12-2.13", "2.x")
       case Some((2, 13)) =>
         List("2.13", "2.11+", "2.12+", "2.13+", "2.12-2.13", "2.x")
-      case Some((3, 0)) =>
+      case Some((3, 0))  =>
         List("dotty", "2.11+", "2.12+", "2.13+", "3.x")
-      case _ =>
+      case _             =>
         List()
     }
     platformSpecificSources( /*platform,*/ conf, baseDir)(versions: _*)
@@ -134,10 +134,10 @@ object BuildHelper {
   )
 
   def stdSettings(prjName: String) = Seq(
-    name := prjName,
-    crossScalaVersions := Seq("2.13.6", "2.12.15", "3.0.0"),
-    scalaVersion := crossScalaVersions.value.head,
-    scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
+    name                                   := prjName,
+    crossScalaVersions                     := Seq("2.13.6", "2.12.15", "3.0.0"),
+    scalaVersion                           := crossScalaVersions.value.head,
+    scalacOptions                          := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
       if (isScalaDotty(scalaVersion.value))
         Seq(
@@ -147,20 +147,20 @@ object BuildHelper {
         Seq(
           "com.github.ghik" % "silencer-lib" % Version.SilencerVersion % Provided cross CrossVersion.full,
           compilerPlugin("com.github.ghik" % "silencer-plugin" % Version.SilencerVersion cross CrossVersion.full),
-          compilerPlugin("org.typelevel"   %% "kind-projector" % "0.13.0" cross CrossVersion.full)
+          compilerPlugin("org.typelevel"  %% "kind-projector"  % "0.13.0" cross CrossVersion.full)
         )
     },
-    semanticdbEnabled := true, //!isScalaDotty(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
+    semanticdbEnabled                      := true,     //!isScalaDotty(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
     //semanticdbOptions += "-P:semanticdb:synthetics:on",
-    semanticdbVersion := "4.4.18", //scalafixSemanticdb.revision, // use Scalafix compatible version
-    //ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
-    scalafixDependencies ++= List(
+    semanticdbVersion                      := "4.4.18", //scalafixSemanticdb.revision, // use Scalafix compatible version
+    ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
+    ThisBuild / scalafixDependencies ++= List(
       "com.github.liancheng" %% "organize-imports" % "0.5.0",
       "com.github.vovapolu"  %% "scaluzzi"         % "0.1.18"
     ),
     incOptions ~= (_.withLogRecompileOnMacro(false)),
-    testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
-    Test / parallelExecution := true,
+    testFrameworks                         := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
+    Test / parallelExecution               := true
   )
   // ) ++ Seq(if (scalaVersion.value != "3.0.0") Seq(
   //   scalafixScalaBinaryVersion := scalaBinaryVersion.value,

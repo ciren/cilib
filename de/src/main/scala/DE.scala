@@ -5,8 +5,8 @@ import spire.algebra._
 import spire.implicits.{ eu => _, _ }
 import spire.math._
 import zio.ChunkBuilder
-import zio.prelude.{ Comparison => _, _ }
 import zio.prelude.newtypes.Natural
+import zio.prelude.{ Comparison => _, _ }
 
 object DE {
 

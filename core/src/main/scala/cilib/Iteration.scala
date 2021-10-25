@@ -56,6 +56,9 @@ object Iteration {
     async_[Step[+*], A](f)
 
   def asyncS[S, A](f: NonEmptyVector[A] => A => StepS[S, A]): NonEmptyVector[A] => StepS[S, NonEmptyVector[A]] =
-    async_[zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), (cilib.Comparison, Eval[NonEmptyVector]), Exception, +*], A](f)
+    async_[
+      zio.prelude.fx.ZPure[Nothing, (RNG, S), (RNG, S), (cilib.Comparison, Eval[NonEmptyVector]), Exception, +*],
+      A
+    ](f)
 
 }
