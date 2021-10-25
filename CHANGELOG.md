@@ -11,7 +11,7 @@ Notable changes include:
 
 - `zio`, `zio-stream` and `zio-prelude` are new dependencies,
   replacing `scalaz` and `scalaz-stream`/`fs2`.
-- The dependency on monocle has been removed to reduce the size of
+- The dependency on `monocle` has been removed to reduce the size of
   transitive dependencies.
 - `RVar`, `Step` and `StepS` data types have been simplified, with a
   type parameter being removed from both `Step` and `StepS`.
@@ -21,8 +21,12 @@ Notable changes include:
 - The heterogeneous PSO has been removed in favour of a new, far
   simpler implementation.
 - Data types now have variance annotations where relevant, allowing
-  for better error messages from the compiler and aids in the
+  for better error messages from the compiler, aiding in the
   simplification of types (e.g. the `Eval` instances).
+- The `cilib.Environment` type has been removed and values are now
+  just used directly (the indirection has now been reduced).
+- Removed the `refined` library in favour of using `newtype`s from
+  `zio-prelude`.
 
 
 ## [2.0.0]
