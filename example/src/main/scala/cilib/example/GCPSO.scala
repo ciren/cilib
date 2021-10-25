@@ -4,7 +4,6 @@ package example
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
-import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
@@ -12,6 +11,7 @@ import zio.{ ExitCode, URIO }
 
 object GCPSO extends zio.App {
 
+  val swarmSize = positiveInt(20)
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                          = Comparison.dominance(Min)
   val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
@@ -30,7 +30,7 @@ object GCPSO extends zio.App {
   ]] = Iteration.syncS(gcPSO)
 
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   def run(args: List[String]): URIO[Console with Console, ExitCode] = {

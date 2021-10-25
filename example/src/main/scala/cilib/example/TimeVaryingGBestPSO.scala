@@ -5,13 +5,13 @@ import cilib.exec.{ Kleisli, _ }
 import cilib.pso.Defaults._
 import cilib.pso.{ Particle, _ }
 import cilib.{ Mem, NonEmptyVector, Step }
-import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import zio.URIO
 import zio.stream.UStream
 
 object TimeVaryingGBestPSO extends zio.App {
+  val swarmSize = positiveInt(20)
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                          = Comparison.dominance(Min)
   val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
@@ -49,7 +49,7 @@ object TimeVaryingGBestPSO extends zio.App {
 
   // RVar
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)
 
   val problemStream: UStream[Problem] = Runner.staticProblem("spherical", eval)
 

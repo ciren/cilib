@@ -2,11 +2,9 @@ package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _, _ }
 import _root_.zio.prelude._
-import eu.timepit.refined.api._
-import eu.timepit.refined.auto._
-import eu.timepit.refined.numeric.Positive
 import spire.implicits._
-import spire.math._
+import spire.math.Interval
+import zio.prelude.newtypes.Natural
 
 /**
  * RVar is essentially a newtype wrapper of the a State monad with the
@@ -66,11 +64,14 @@ import spire.math._
 
 object RVar {
 
+  def apply0[A](f: RNG => (A, RNG)): RVar[A] =
+    zio.prelude.fx.ZPure.modify(state => f(state).swap)
+
   def apply[A](f: RNG => (RNG, A)): RVar[A] =
-    zio.prelude.fx.ZPure.modify(f)
+    zio.prelude.fx.ZPure.modify(state => f(state))
 
   def pure[A](a: => A): RVar[A] =
-    zio.prelude.fx.ZPure.succeed(a)
+    zio.prelude.fx.ZPure.modify(state => (state, a))
 
   def next[A](implicit e: Generator[A]): RVar[A] =
     e.gen
@@ -155,15 +156,15 @@ object RVar {
     )
   }
 
-  def sample[F[+_]: ForEach, A](n: Int Refined Positive, xs: F[A]): RVar[Option[List[A]]] =
+  def sample[F[+_]: ForEach, A](n: Natural, xs: F[A]): RVar[Option[List[A]]] =
     choices(n, xs)
 
-  def choices[F[+_], A](n: Int Refined Positive, xs: F[A])(implicit F: ForEach[F]): RVar[Option[List[A]]] =
+  def choices[F[+_], A](n: Natural, xs: F[A])(implicit F: ForEach[F]): RVar[Option[List[A]]] =
     if (F.size(xs) < n) RVar.pure(None)
     else {
       val length = F.size(xs)
       val backsaw: RVar[List[Int]] = {
-        val l = length - 1 to length - n by -1
+        val l = length - 1 to length - Natural.unwrap(n) by -1
         ForEach[List].forEach(l.toList)(x => Dist.uniformInt(Interval(0, x)))
       }
 

@@ -3,7 +3,6 @@ package example
 
 import cilib.exec._
 import cilib.ga._
-import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
@@ -13,19 +12,21 @@ import zio.{ ExitCode, URIO }
 object RandomSearchGA extends zio.App {
   type Ind = Individual[Unit]
 
+  val populationSize = positiveInt(20)
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                          = Comparison.dominance(Min)
   val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   val randomSelection: NonEmptyVector[Ind] => ZPure[Nothing, RNG, RNG, Any, Nothing, List[Ind]] =
-    (l: NonEmptyVector[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
-  val distribution: Double => ZPure[Nothing, RNG, RNG, Any, Nothing, Double]                    = (position: Double) =>
-    Dist.stdNormal.flatMap(_ => Dist.gaussian(0, 1.25)).map(_ + position)
+    (l: NonEmptyVector[Ind]) => RVar.sample(positiveInt(2), l).map(_.getOrElse(List.empty))
+  val distribution: Double => ZPure[Nothing, RNG, RNG, Any, Nothing, Double]                    =
+    (position: Double) => Dist.stdNormal.flatMap(_ => Dist.gaussian(0, 1.25)).map(_ + position)
 
   val ga: NonEmptyVector[Individual[Unit]] => (Individual[Unit] => Step[List[Individual[Unit]]]) =
     GA.randomSearch(randomSelection, distribution)
 
-  val swarm: RVar[NonEmptyVector[Ind]]                       = Position.createCollection[Ind](x => Entity((), x))(bounds, 20)
+  val swarm: RVar[NonEmptyVector[Ind]]                       =
+    Position.createCollection[Ind](x => Entity((), x))(bounds, populationSize)
   val myGA: NonEmptyVector[Ind] => Step[NonEmptyVector[Ind]] =
     (collection: NonEmptyVector[Ind]) =>
       Iteration

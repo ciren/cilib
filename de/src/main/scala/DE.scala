@@ -1,14 +1,12 @@
 package cilib
 package de
 
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.auto._
-import eu.timepit.refined.numeric._
 import spire.algebra._
 import spire.implicits.{ eu => _, _ }
 import spire.math._
 import zio.ChunkBuilder
 import zio.prelude.{ Comparison => _, _ }
+import zio.prelude.newtypes.Natural
 
 object DE {
 
@@ -16,7 +14,7 @@ object DE {
     p_r: Double,
     p_m: Double,
     targetSelection: NonEmptyVector[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
-    y: Int Refined Positive,
+    y: Natural,
     z: (Double, Position[A]) => RVar[NonEmptyVector[Boolean]] // Double check this shape
   ): NonEmptyVector[Individual[S, A]] => Individual[S, A] => Step[Individual[S, A]] =
     collection =>
@@ -33,7 +31,7 @@ object DE {
   def basicMutation[S, A: Ring: Equal](
     p_m: A,
     selection: NonEmptyVector[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
-    y: Int Refined Positive,
+    y: Natural,
     collection: NonEmptyVector[Individual[S, A]],
     x: Individual[S, A]
   ): Step[Position[A]] = {
@@ -150,31 +148,31 @@ object DE {
     }
 
   def best_1_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
-    best_bin(p_r, p_m, 1)
+    best_bin(p_r, p_m, positiveInt(1))
 
   def rand_1_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
-    rand_bin(p_r, p_m, 1)
+    rand_bin(p_r, p_m, positiveInt(1))
 
   def best_1_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
-    best_exp(p_r, p_m, 1)
+    best_exp(p_r, p_m, positiveInt(1))
 
-  def best_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Int Refined Positive) =
+  def best_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Natural) =
     de(p_r, p_m, bestSelection[S, A], y, bin[Position, A])
 
-  def rand_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Int Refined Positive) =
+  def rand_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Natural) =
     de(p_r, p_m, randSelection[S, A], y, bin[Position, A])
 
-  def best_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Int Refined Positive) =
+  def best_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Natural) =
     de(p_r, p_m, bestSelection[S, A], y, exp[Position, A])
 
-  def rand_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Int Refined Positive) =
+  def rand_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Natural) =
     de(p_r, p_m, randSelection[S, A], y, exp[Position, A])
 
   def randToBest[S, A: Numeric: Equal](
     p_r: Double,
     p_m: Double,
     gamma: Double,
-    y: Int Refined Positive,
+    y: Natural,
     z: (Double, Position[A]) => RVar[NonEmptyVector[Boolean]]
   ) =
     de(p_r, p_m, randToBestSelection[S, A](gamma), y, z)
@@ -182,7 +180,7 @@ object DE {
   def currentToBest[S, A: Numeric: Equal](
     p_r: Double,
     p_m: Double,
-    y: Int Refined Positive,
+    y: Natural,
     z: (Double, Position[A]) => RVar[NonEmptyVector[Boolean]]
   ) =
     de(p_r, p_m, currentToBestSelection[S, A](p_m), y, z)

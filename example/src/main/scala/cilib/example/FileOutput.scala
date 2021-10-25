@@ -6,7 +6,6 @@ import cilib.io._
 import cilib.pso.Defaults._
 import cilib.pso._
 import cilib.{ Entity, Mem, NonEmptyVector }
-import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import zio._
@@ -22,6 +21,7 @@ object FileOutput extends zio.App {
   // An example showing how to compare multiple algorithms across multiple
   // benchmarks and save the results to a a file (either csv or parquet).
 
+  val swarmSize = positiveInt(20)
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
   val rng: RNG                                 = RNG.init(12L)
   val cmp: Comparison                          = Comparison.dominance(Max)
@@ -63,7 +63,7 @@ object FileOutput extends zio.App {
 
   // Define the initial swarm
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)
 
   // A class to hold the results that we want to save at the end of each iteration
   final case class Results(min: Double, average: Double)

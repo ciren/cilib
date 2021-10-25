@@ -1,8 +1,7 @@
-import eu.timepit.refined._
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.numeric._
 import spire.math.Interval
 import spire.math.interval.{ Bound, ValueBound }
+import zio.prelude.newtypes.Natural
+import zio.prelude.{ ForEach, ZValidation }
 
 package object cilib extends EvalInstances {
 
@@ -31,20 +30,15 @@ package object cilib extends EvalInstances {
   implicit def intervalEqualZio[A]: zio.prelude.Equal[Interval[A]] =
     zio.prelude.Equal.make((l, r) => l == r)
 
-  /* Refinement definitions */
-  def refine[A, B, C](a: A)(f: A Refined B => C)(implicit ev: eu.timepit.refined.api.Validate[A, B]): C =
-    refineV[B](a) match {
-      case Left(error)  => sys.error(error)
-      case Right(value) => f(value)
-    }
 
   /** Positive integers are the set of inegers that are greater than 0 */
-  def positiveInt[A](n: Int)(f: Int Refined Positive => A): A =
-    refine(n)((x: Int Refined Positive) => f(x))
-
+  def positiveInt(n: Int) =
+    Natural.make(n) match {
+      case ZValidation.Failure(_, err) => sys.error(err.toString())
+      case ZValidation.Success(_, v)   => v
+    }
+ 
   implicit final class RichRVarOps[+A](rvar: RVar[A]) {
-    import zio.prelude._
-
     def replicateM(n: Int): RVar[List[A]] =
       ForEach[List].forEach(List.fill(n)(rvar))(identity)
   }

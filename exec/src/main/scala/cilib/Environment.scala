@@ -2,9 +2,7 @@ package cilib
 package exec
 
 import com.github.mjakubowski84.parquet4s._
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.auto._
-import eu.timepit.refined.numeric._
+import zio.prelude.newtypes.Natural
 
 sealed abstract class Env
 final case object Unchanged extends Env
@@ -14,7 +12,7 @@ object Env {
   def unchanging: Stream[Env] =
     Stream(Unchanged: Env) ++ unchanging
 
-  def frequency[A](n: Int Refined Positive): Stream[Env] =
+  def frequency[A](n: Natural): Stream[Env] =
     unchanging.take(n - 1) ++ Stream(Change: Env) ++ frequency(n)
 
   implicit val envTypeCodec: RequiredValueCodec[Env] =

@@ -136,7 +136,7 @@ object BuildHelper {
   def stdSettings(prjName: String) = Seq(
     name := prjName,
     crossScalaVersions := Seq("2.13.6", "2.12.15", "3.0.0"),
-    ThisBuild / scalaVersion := crossScalaVersions.value.head,
+    scalaVersion := crossScalaVersions.value.head,
     scalacOptions := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
       if (isScalaDotty(scalaVersion.value))
@@ -147,22 +147,20 @@ object BuildHelper {
         Seq(
           "com.github.ghik" % "silencer-lib" % Version.SilencerVersion % Provided cross CrossVersion.full,
           compilerPlugin("com.github.ghik" % "silencer-plugin" % Version.SilencerVersion cross CrossVersion.full),
-          compilerPlugin("org.typelevel"   %% "kind-projector" % "0.13.0" cross CrossVersion.full),
-
-          "org.scalameta" % "semanticdb-scalac_2.13.6" % "4.4.28"
+          compilerPlugin("org.typelevel"   %% "kind-projector" % "0.13.0" cross CrossVersion.full)
         )
     },
-    semanticdbEnabled := !isScalaDotty(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
-    semanticdbOptions += "-P:semanticdb:synthetics:on",
-    ThisBuild / semanticdbVersion := "4.4.28", //scalafixSemanticdb.revision, // use Scalafix compatible version
-    ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
-    ThisBuild / scalafixDependencies ++= List(
+    semanticdbEnabled := true, //!isScalaDotty(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
+    //semanticdbOptions += "-P:semanticdb:synthetics:on",
+    semanticdbVersion := "4.4.18", //scalafixSemanticdb.revision, // use Scalafix compatible version
+    //ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
+    scalafixDependencies ++= List(
       "com.github.liancheng" %% "organize-imports" % "0.5.0",
       "com.github.vovapolu"  %% "scaluzzi"         % "0.1.18"
     ),
     incOptions ~= (_.withLogRecompileOnMacro(false)),
     testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
-    Test / parallelExecution := true
+    Test / parallelExecution := true,
   )
   // ) ++ Seq(if (scalaVersion.value != "3.0.0") Seq(
   //   scalafixScalaBinaryVersion := scalaBinaryVersion.value,
@@ -193,7 +191,7 @@ object BuildHelper {
         |
         |Useful sbt tasks:
         |${item("build")} - Prepare and fix sources, compile and run tests.
-        |${item("fix")} - Fixes  files using scalafix and scalafmt
+        |${item("fix")} - Fixes files using scalafix and scalafmt
         |${item("~compile")} - Compiles all modules (file-watch enabled)
         |${item("test")} - Runs all tests
         |${item("docs/docusaurusCreateSite")} - Generates the website

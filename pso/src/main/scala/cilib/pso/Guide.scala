@@ -1,8 +1,6 @@
 package cilib
 package pso
 
-import eu.timepit.refined.auto._
-
 // A Guide is a selection followed by a comparison, wrapped up in a Step
 object Guide {
 
@@ -54,7 +52,7 @@ object Guide {
     (collection, x) =>
       Step.liftR {
         val col       = collection.toChunk.filter(_ ne x)
-        val chosen    = RVar.sample(3, col)
+        val chosen    = RVar.sample(positiveInt(3), col)
         val crossover = Crossover.nmpc(_)
 
         for {

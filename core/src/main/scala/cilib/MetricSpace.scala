@@ -4,6 +4,7 @@ import spire.algebra.{ Semigroup => _, _ }
 import spire.implicits._
 import spire.math.{ abs, max, _ }
 import zio.prelude._
+import zio.prelude.fx._
 
 /**
  *  A MetricSpace is a set together with a notion of distance between elements.
@@ -37,29 +38,23 @@ object MetricSpace {
       type Memo = Map[(Int, Int), Int]
 
       def dist(x: String, y: String): B = {
-        def f(i: Int, j: Int): State[Memo, Int] =
+        def f(i: Int, j: Int, memo: Memo): (Memo, Int) =
           (i, j) match {
-            case (i, 0) => zio.prelude.fx.ZPure.succeed(i)
-            case (0, j) => zio.prelude.fx.ZPure.succeed(j)
+            case (i, 0) => (memo, i)
+            case (0, j) => (memo, j)
             case (i, j) =>
-              zio.prelude.fx.ZPure.modify(memo =>
-                memo.get((i, j)) match {
-                  case Some(value) => (memo, value)
-                  case None        =>
-                    (for {
-                      a <- f(i - 1, j)
-                      b <- f(i, j - 1)
-                      c <- f(i - 1, j - 1)
-                    } yield NonEmptyList(
-                      a + 1,
-                      b + 1,
-                      c + (if (x(i - 1) == y(j - 1)) 0 else 1)
-                    ).min).run(memo)
-                }
-              )
+              memo.get((i, j)) match {
+                case Some(value) => (memo, value)
+                case None        =>
+                  val (m1, a) = f(i - 1, j, memo)
+                  val (m2, b) = f(i, j - 1, m1)
+                  val (m3, c) = f(i - 1, j - 1, m2)
+
+                  (m3, NonEmptyList(a + 1, b + 1, c + (if (x(i - 1) == y(j - 1)) 0 else 1)).min)
+              }
           }
 
-        B.fromInt(f(x.length, y.length).runResult(Map.empty))
+        B.fromInt(f(x.length, y.length, Map.empty)._2)
       }
     }
 

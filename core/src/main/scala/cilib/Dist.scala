@@ -1,6 +1,5 @@
 package cilib
 
-import _root_.eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 

@@ -24,8 +24,7 @@ inThisBuild(
     ),
     scmInfo := Some(
       ScmInfo(url("https://github.com/ciren/cilib/"), "scm:git:git@github.com:ciren/cilib.git")
-    ),
-    semanticdbVersion := "4.4.28" //scalafixSemanticdb.revision, // use Scalafix compatible version
+    )
   )
 )
 
@@ -99,50 +98,10 @@ lazy val core = project
     libraryDependencies ++= Seq(
       zio,
       zioPrelude,
-      "org.typelevel" %% "spire"   % Version.spire,
-      "eu.timepit"    %% "refined" % "0.9.15"
+      "org.typelevel" %% "spire"   % Version.spire
     )
   )
   .enablePlugins(BuildInfoPlugin)
-
-//       wartremoverErrors in (Compile, compile) ++= Seq(
-//         //Wart.Any,
-//         Wart.AnyVal,
-//         Wart.ArrayEquals,
-//         Wart.AsInstanceOf,
-//         Wart.DefaultArguments,
-//         Wart.ExplicitImplicitTypes,
-//         Wart.Enumeration,
-//         //Wart.Equals,
-//         Wart.FinalCaseClass,
-//         Wart.FinalVal,
-//         Wart.ImplicitConversion,
-//         Wart.ImplicitParameter,
-//         Wart.IsInstanceOf,
-//         Wart.JavaConversions,
-//         Wart.JavaSerializable,
-//         Wart.LeakingSealed,
-//         Wart.MutableDataStructures,
-//         Wart.NonUnitStatements,
-//         //Wart.Nothing,
-//         Wart.Null,
-//         Wart.Option2Iterable,
-//         Wart.OptionPartial,
-//         Wart.Overloading,
-//         Wart.Product,
-//         Wart.PublicInference,
-//         Wart.Return,
-//         //Wart.Recursion,
-//         Wart.Serializable,
-//         Wart.StringPlusAny,
-//         Wart.Throw,
-//         Wart.ToString,
-//         Wart.TraversableOps,
-//         Wart.TryPartial,
-//         Wart.Var,
-//         Wart.While
-//       )
-//     ))
 
 lazy val eda = project
   .in(file("eda"))
@@ -239,6 +198,7 @@ lazy val io = project
 
 lazy val docs = project
   .in(file("cilib-docs"))
+  .settings(BuildHelper.stdSettings("docs"))
   .settings(mdocVariables := Map("CILIB_VERSION" -> version.value))
   .settings(publish / skip := true)
   .dependsOn(core, pso, exec, io)

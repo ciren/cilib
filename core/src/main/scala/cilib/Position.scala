@@ -1,11 +1,10 @@
 package cilib
 
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.numeric._
 import spire.algebra.{ LeftModule, Ring }
 import spire.implicits._
-import spire.math._
+import spire.math.Interval
 import zio.prelude._
+import zio.prelude.newtypes.Natural
 
 sealed abstract class Position[+A] {
   import Position._
@@ -78,16 +77,16 @@ object Position {
         NonEmptyForEach[NonEmptyVector].forEach1(fa.pos)(f).map(Point(_, fa.boundary))
     }
 
-  implicit def positionDotProd[A](implicit A: Numeric[A]): algebra.DotProd[Position, A] =
+  implicit def positionDotProd[A](implicit A: spire.math.Numeric[A]): algebra.DotProd[Position, A] =
     new algebra.DotProd[Position, A] {
       import spire.implicits._
 
       def dot(a: Position[A], b: Position[A]): Double =
         // FIXME: Is this actually wrong?
-        a.zip(b).pos.foldLeft(A.zero) { case (a, b) => a + (b._1 * b._2) }.toDouble
+        a.zip(b).pos.foldLeft(A.zero) { case (a, b) => a + (b._1 * b._2) }.toDouble()
     }
 
-  implicit def positionPointwise[A](implicit A: Numeric[A]): algebra.Pointwise[Position, A] =
+  implicit def positionPointwise[A](implicit A: spire.math.Numeric[A]): algebra.Pointwise[Position, A] =
     new algebra.Pointwise[Position, A] {
       import spire.implicits._
 
@@ -161,10 +160,10 @@ object Position {
 
   def createPositions(
     domain: NonEmptyVector[Interval[Double]],
-    n: Int Refined Positive
+    n: Natural
   ): RVar[NonEmptyVector[Position[Double]]] =
     createPosition(domain)
-      .replicateM(n.value)
+      .replicateM(Natural.unwrap(n))
       .map(list =>
         NonEmptyVector
           .fromIterableOption(list)
@@ -173,6 +172,6 @@ object Position {
 
   def createCollection[A](
     f: Position[Double] => A
-  )(domain: NonEmptyVector[Interval[Double]], n: Int Refined Positive): RVar[NonEmptyVector[A]] =
+  )(domain: NonEmptyVector[Interval[Double]], n: Natural): RVar[NonEmptyVector[A]] =
     createPositions(domain, n).map(_.map(f))
 }

@@ -1,6 +1,5 @@
 package cilib
 
-import _root_.eu.timepit.refined.auto._
 import cilib.Position._
 import cilib.algebra._
 import cilib.syntax.dotprod._
@@ -84,21 +83,19 @@ object Crossover {
 
     // create the remaining basis vectors
     val initEta = NonEmptyVector(parents.last - g)
-    positiveInt(n - zeta.length) { value =>
-      val reta = Position.createPositions(bounds, value) //n - zeta.length)
-      val eta  = reta.map(r => Algebra.orthonormalize(initEta ++ r.toChunk))
+    val reta = Position.createPositions(bounds, positiveInt(n - zeta.length))
+    val eta  = reta.map(r => Algebra.orthonormalize(initEta ++ r.toChunk))
 
-      // construct the offspring
-      for {
-        s1    <- Dist.gaussian(0.0, sigma1)
-        s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
-        e_eta <- eta
-      } yield {
-        val vars      = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
-        val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
+    // construct the offspring
+    for {
+      s1    <- Dist.gaussian(0.0, sigma1)
+      s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
+      e_eta <- eta
+    } yield {
+      val vars      = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))
+      val offspring = e_eta.foldLeft(vars)((vr, e) => vr + ((dd * s2) *: e))
 
-        NonEmptyVector(offspring)
-      }
+      NonEmptyVector(offspring)
     }
   }
 

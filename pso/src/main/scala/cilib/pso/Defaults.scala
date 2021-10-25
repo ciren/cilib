@@ -107,7 +107,7 @@ object Defaults {
           p3      <- StepS.liftStep(updateVelocity(p2, v))
           updated <- StepS.liftStep(updatePBest(p3))
           failure <- StepS.liftStep(
-                       Step.withCompare[Boolean](Comparison.compare(x.pos, updated.pos).andThen(_ eq x.pos))
+                       Step.withCompare[Boolean](cilib.Comparison.compare(x.pos, updated.pos).andThen(_ eq x.pos))
                      )
           _       <- StepS.modifyState((params: GCParams) =>
                        if (isBest) {

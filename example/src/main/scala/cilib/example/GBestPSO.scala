@@ -4,7 +4,6 @@ package example
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
-import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import zio.stream.UStream
@@ -23,7 +22,7 @@ object GBestPSO extends zio.App {
 
   // RVar
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]]                                                  =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, positiveInt(20))
   val iter
     : Kleisli[Step, NonEmptyVector[Particle[Mem[Double], Double]], NonEmptyVector[Particle[Mem[Double], Double]]] =
     Kleisli(Iteration.sync(gbestPSO))

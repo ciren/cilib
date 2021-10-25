@@ -1,8 +1,7 @@
 package cilib
 
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.numeric.Positive
 import zio.prelude._
+import zio.prelude.newtypes.Natural
 
 object Selection {
 
@@ -68,7 +67,7 @@ object Selection {
   def star[A]: (NonEmptyVector[A], A) => List[A] =
     (l: NonEmptyVector[A], _: A) => l.toChunk.toList
 
-  def tournament[F[_], A](n: Int Refined Positive, l: NonEmptyVector[F[A]])(implicit
+  def tournament[F[_], A](n: Natural, l: NonEmptyVector[F[A]])(implicit
     F: Fitness[F, A, A]
   ): cilib.Comparison => RVar[Option[F[A]]] =
     o =>

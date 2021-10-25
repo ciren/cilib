@@ -1,17 +1,16 @@
 package cilib
 package exec
 
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.collection._
 import zio._
 import zio.prelude._
 import zio.stream._
 
-final case class Algorithm[A](name: String Refined NonEmpty, value: A)
-final case class Problem(name: String Refined NonEmpty, env: Env, eval: Eval[NonEmptyVector])
+
+final case class Algorithm[A](name: Name, value: A)
+final case class Problem(name: Name, env: Env, eval: Eval[NonEmptyVector])
 final case class Progress[A] private (
-  algorithm: String,
-  problem: String,
+  algorithm: Name,
+  problem: Name,
   seed: Long,
   iteration: Int,
   env: Env,
@@ -23,6 +22,13 @@ object Runner {
   object IterationCount extends Newtype[Int]
   type IterationCount = IterationCount.Type
 
+  // Should this be a compile-time macro????
+  def toName(n: String): Name =
+    Name.make(n) match {
+      case ZValidation.Failure(_, error) => sys.error(error.toString)
+      case ZValidation.Success(_, value) => value
+    }
+
   /**
    * Define a stream of algorithm where the algorithm remains unchanged.
    *
@@ -31,10 +37,10 @@ object Runner {
    * @return
    */
   def staticAlgorithm[M[+_]: IdentityFlatten: Covariant, F[_], A](
-    name: String Refined NonEmpty,
+    name: String,
     a: Kleisli[M, F[A], F[A]]
   ) =
-    Stream.repeat(Algorithm(name, a))
+    Stream.repeat(Algorithm(toName(name), a))
 
   /**
    * @param name
@@ -44,7 +50,7 @@ object Runner {
    * @return
    */
   def algorithm[M[+_]: IdentityFlatten: Covariant, F[+_]: NonEmptyForEach, A, B](
-    name: String Refined NonEmpty,
+    name: String,
     config: A,
     f: A => Kleisli[M, F[B], F[B]],
     updater: (A, IterationCount) => A
@@ -53,7 +59,7 @@ object Runner {
     def go(current: A, iteration: Int): UStream[Algorithm[Kleisli[M, F[B], F[B]]]] = {
       val next = f(current)
 
-      Stream.succeed(Algorithm(name, next)) ++
+      Stream.succeed(Algorithm(toName(name), next)) ++
         go(updater(current, IterationCount(iteration)), iteration + 1)
     }
 
@@ -66,10 +72,10 @@ object Runner {
    * @return
    */
   def staticProblem[S, A](
-    name: String Refined NonEmpty,
+    name: String,
     eval: Eval[NonEmptyVector]
   ): UStream[Problem] =
-    Stream.repeat(Problem(name, Unchanged, eval))
+    Stream.repeat(Problem(toName(name), Unchanged, eval))
 
   /**
    * @param name
@@ -79,10 +85,11 @@ object Runner {
    * @param rng
    * @return
    */
-  def problem[S, A](name: String Refined NonEmpty, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyVector])])(
+  def problem[S, A](name: String, state: RVar[S], next: S => RVar[(S, Eval[NonEmptyVector])])(
     env: UStream[Env],
     rng: RNG
   ): UStream[Problem] = {
+    val n = toName(name)
     val (rng2, (s2, e)) = state.flatMap(next).run(rng)
 
     def go2: ((S, Eval[NonEmptyVector], RNG), Env) => ((S, Eval[NonEmptyVector], RNG), Problem) =
@@ -91,11 +98,11 @@ object Runner {
 
         e match {
           case Unchanged =>
-            (s, Problem(name, e, eval))
+            (s, Problem(n, e, eval))
 
           case Change =>
             val (rng2, (s1, c1)) = next(state).run(r)
-            ((s1, c1, rng2), Problem(name, e, c1))
+            ((s1, c1, rng2), Problem(n, e, c1))
         }
       }
 
@@ -152,7 +159,7 @@ object Runner {
             case Left(error)                    => sys.error(error.toString())
             case Right(((r2, newState), value)) =>
               val progress =
-                Progress(algorithm.name.value, problem.value, r2.seed, iteration, e, (newState, value))
+                Progress(algorithm.name, problem, r2.seed, iteration, e, (newState, value))
 
               ZIO.succeed((FoldState(iteration + 1, r2, value, config, newState), progress))
           }

@@ -4,14 +4,14 @@ package example
 import cilib.de._
 import cilib.exec._
 import cilib.pso._
-import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math._
 import zio.console._
 import zio.{ ExitCode, URIO }
+import zio.prelude.newtypes.Natural
 
 object Mixed extends zio.App {
-
+  val swarmSize = positiveInt(20)
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                          = Comparison.dominance(Min)
   val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
@@ -19,7 +19,7 @@ object Mixed extends zio.App {
   // Define the DE
   val de: NonEmptyVector[Individual[Mem[Double], Double]] => (
     Individual[Mem[Double], Double] => Step[Individual[Mem[Double], Double]]
-  ) = DE.de(0.5, 0.5, DE.randSelection[Mem[Double], Double], 1, DE.bin[Position, Double])
+  ) = DE.de(0.5, 0.5, DE.randSelection[Mem[Double], Double], Natural.one, DE.bin[Position, Double])
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]
@@ -32,7 +32,7 @@ object Mixed extends zio.App {
   // so in the case of DE and PSO, the state from the particle is needed to be
   // managed
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]] =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)
 
   val combinedAlg: NonEmptyVector[Entity[Mem[Double], Double]] => Entity[Mem[Double], Double] => Step[Entity[Mem[
     Double

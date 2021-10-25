@@ -4,7 +4,6 @@ package example
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
-import eu.timepit.refined.auto._
 import spire.implicits._
 import spire.math.Interval
 import zio.ZIO
@@ -13,6 +12,7 @@ import zio.console._
 import java.io.IOException
 
 object UNDXPSO extends zio.App {
+  val swarmSize = positiveInt(20)
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                          = Comparison.dominance(Min)
   val eval: Eval[NonEmptyVector]               = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
@@ -23,7 +23,7 @@ object UNDXPSO extends zio.App {
   )                                     = crossoverPSO(guide)
 
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]]                                                 =
-    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, 20)
+    Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)
   val iter: NonEmptyVector[Particle[Mem[Double], Double]] => Step[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Iteration.sync(undxPSO)
 

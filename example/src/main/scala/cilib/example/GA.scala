@@ -3,9 +3,6 @@ package example
 
 import cilib.exec._
 import cilib.ga._
-import eu.timepit.refined.api.Refined
-import eu.timepit.refined.auto._
-import eu.timepit.refined.numeric._
 import spire.implicits._
 import spire.math.Interval
 import zio.console._
@@ -17,7 +14,7 @@ import Lenses._
 object GAExample extends zio.App {
   type Ind = Individual[Unit]
 
-  val populationSize: Int Refined Positive = 20
+  val populationSize = positiveInt(20)
 
   val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
 
@@ -51,7 +48,7 @@ object GAExample extends zio.App {
     }
 
   val randomSelection: NonEmptyVector[Ind] => RVar[List[Ind]] =
-    (l: NonEmptyVector[Ind]) => RVar.sample(2, l).map(_.getOrElse(List.empty))
+    (l: NonEmptyVector[Ind]) => RVar.sample(positiveInt(2), l).map(_.getOrElse(List.empty))
 
   val ga: NonEmptyVector[Ind] => Ind => Step[List[Ind]] =
     GA.ga(0.7, randomSelection, onePoint, mutation(0.2))

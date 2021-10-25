@@ -1,7 +1,5 @@
 package cilib
 
-import eu.timepit.refined._
-import eu.timepit.refined.numeric.Positive
 import spire.implicits._
 import spire.math.Interval
 import zio.prelude._
@@ -36,19 +34,15 @@ object RVarTests extends DefaultRunnableSpec {
     testM("sampling") {
       check(Gen.int(1, 10), Gen.int(1, 20)) {
         case (sampleSize, listSize) =>
-          refineV[Positive](sampleSize) match {
-            case Left(error) => sys.error(s"Cannot refine: $error")
-            case Right(value) =>
-              val elements = NonEmptyVector.fromIterableOption((1 to listSize).toList).get
+          val elements = NonEmptyVector.fromIterableOption((1 to listSize).toList).get
 
-              val selected: List[Int] =
-                RVar.sample(value, elements).runResult(rng).getOrElse(List.empty)
+          val selected: List[Int] =
+            RVar.sample(positiveInt(sampleSize), elements).runResult(rng).getOrElse(List.empty)
 
-              if (elements.length < sampleSize) assert(selected)(Assertion.isEmpty)
-              else
-                assert(selected.length)(Assertion.isLessThanEqualTo(sampleSize)) &&
-                assert(selected.forall(s => elements.contains(s)))(Assertion.isTrue)
-          }
+          if (elements.length < sampleSize) assert(selected)(Assertion.isEmpty)
+          else
+            assert(selected.length)(Assertion.isLessThanEqualTo(sampleSize)) &&
+            assert(selected.forall(s => elements.contains(s)))(Assertion.isTrue)
       }
     }
   )
