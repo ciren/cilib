@@ -135,7 +135,7 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
    * function `reduce` to combine the `B` value with each other `A` value.
    */
   def reduceMapLeft[B](map: A => B)(reduce: (B, A) => B): B = {
-    val iterator = chunk.materialize.toIterator
+    val iterator = chunk.materialize.iterator
     var b: B     = null.asInstanceOf[B]
 
     while (iterator.hasNext) {
@@ -152,7 +152,7 @@ final class NonEmptyVector[+A] private (private val chunk: Chunk[A]) { self =>
    * function `reduce` to combine the `B` value with each other `A` value.
    */
   def reduceMapRight[B](map: A => B)(reduce: (A, B) => B): B = {
-    val iterator = chunk.materialize.reverse.toIterator
+    val iterator = chunk.materialize.reverse.iterator
     var b: B     = null.asInstanceOf[B]
 
     while (iterator.hasNext) {

@@ -4,7 +4,6 @@ import spire.algebra.{ Semigroup => _, _ }
 import spire.implicits._
 import spire.math.{ abs, max, _ }
 import zio.prelude._
-import zio.prelude.fx._
 
 /**
  *  A MetricSpace is a set together with a notion of distance between elements.

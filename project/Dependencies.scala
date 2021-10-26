@@ -9,6 +9,6 @@ object Version {
   val spire      = "0.17.0-RC1"
   val parquet4s  = "1.9.3"
 
-  val SilencerVersion = "1.7.5"
+  val SilencerVersion = "1.7.6"
 
 }

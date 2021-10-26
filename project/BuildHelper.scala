@@ -6,7 +6,7 @@ import scalafix.sbt.ScalafixPlugin.autoImport._
 
 object BuildHelper {
 
-  def isScalaDotty(version: String): Boolean = version.startsWith("3.")
+  def isScala3(version: String): Boolean = version.startsWith("3.")
 
   private val stdOptions = Seq(
     "-deprecation",  // Emit warning and location for usages of deprecated APIs.
@@ -139,7 +139,7 @@ object BuildHelper {
     scalaVersion                           := crossScalaVersions.value.head,
     scalacOptions                          := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
-      if (isScalaDotty(scalaVersion.value))
+      if (isScala3(scalaVersion.value))
         Seq(
           //"com.github.ghik" % s"silencer-lib_$Scala213" % Version.SilencerVersion % Provided
         )
@@ -147,12 +147,12 @@ object BuildHelper {
         Seq(
           "com.github.ghik" % "silencer-lib" % Version.SilencerVersion % Provided cross CrossVersion.full,
           compilerPlugin("com.github.ghik" % "silencer-plugin" % Version.SilencerVersion cross CrossVersion.full),
-          compilerPlugin("org.typelevel"  %% "kind-projector"  % "0.13.0" cross CrossVersion.full)
+          compilerPlugin("org.typelevel"  %% "kind-projector"  % "0.13.2" cross CrossVersion.full)
         )
     },
-    semanticdbEnabled                      := true,     //!isScalaDotty(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
+    semanticdbEnabled                      := true,                        //!isScala3(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
     //semanticdbOptions += "-P:semanticdb:synthetics:on",
-    semanticdbVersion                      := "4.4.18", //scalafixSemanticdb.revision, // use Scalafix compatible version
+    semanticdbVersion                      := scalafixSemanticdb.revision, // use Scalafix compatible version
     ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
     ThisBuild / scalafixDependencies ++= List(
       "com.github.liancheng" %% "organize-imports" % "0.5.0",

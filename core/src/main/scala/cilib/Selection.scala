@@ -7,15 +7,17 @@ object Selection {
 
   def indexNeighbours[A](n: Int): (NonEmptyVector[A], A) => List[A] =
     (list: NonEmptyVector[A], x: A) => {
-      val size              = list.size
-      val point             =
+      val size  = list.size
+      val point =
         list.zipWithIndex.find(_._1 == x) match {
           case None         => 0
           case Some((_, i)) => (i - (n / 2) + size) % size
         }
-      lazy val c: Stream[A] = Stream(list.toChunk: _*) #::: c
+      val chunk = list.toChunk
 
-      c.drop(point).take(n).toList
+      (0 until n).toList.map { c =>
+        chunk((point + c) % size)
+      }
     }
 
   def latticeNeighbours[A: zio.prelude.Equal]: (NonEmptyVector[A], A) => List[A] =
