@@ -10,15 +10,17 @@ jobs:
   build:
     name: Build and run tests
     runs-on: ubuntu-latest
+    matrix:
+      scala: [ "2.11.15", "2.13.6" ]
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: cachix/install-nix-action@v14
 
       - name: Lint check
-        run: nix-shell --run 'sbt -Dsbt.supershell=false check'
+        run: nix-shell --run 'sbt -Dsbt.supershell=false ++${{ matrix.scala }} check'
 
       - name: Test
-        run: nix-shell --run 'sbt -Dsbt.supershell=false test'
+        run: nix-shell --run 'sbt -Dsbt.supershell=false ++${{ matrix.scala }} test'
 
       - name: Generate docs and build website
         run: nix-shell --run 'sbt docs/docusaurusCreateSite'
