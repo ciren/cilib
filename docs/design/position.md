@@ -1,9 +1,7 @@
 ```scala mdoc:invisible
 import cilib._
-import cilib.algebra._
 import spire.implicits._
 import spire.math._
-import zio.prelude._
 ```
 
 # Position
