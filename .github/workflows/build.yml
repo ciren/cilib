@@ -10,8 +10,9 @@ jobs:
   build:
     name: Build and run tests
     runs-on: ubuntu-latest
-    matrix:
-      scala: [ "2.11.15", "2.13.6" ]
+    strategy:
+      matrix:
+        scala: [ "2.11.15", "2.13.6" ]
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: cachix/install-nix-action@v14
