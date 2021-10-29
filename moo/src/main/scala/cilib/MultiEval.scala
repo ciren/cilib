@@ -6,7 +6,7 @@ final class MultiEval[F[+_]](objectives: NonEmptyVector[Eval[F]]) {
 
   def eval[A](p: Position[A]): RVar[Objective] =
     ForEach[NonEmptyVector]
-      .forEach(objectives)(x => x.eval.map(_.apply(p.pos)))
+      .forEach(objectives)(x => x.eval(p.pos))
       .map(Objective.multi(_))
 
 }

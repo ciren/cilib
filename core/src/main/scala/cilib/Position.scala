@@ -141,10 +141,7 @@ object Position {
   def eval[A](e: Eval[NonEmptyVector], pos: Position[A]): RVar[Position[A]] =
     pos match {
       case Point(x, b) =>
-        e.eval.map { f =>
-          val s: Objective = f.apply(x)
-          Solution(x, b, s)
-        }
+        e.eval(x).map(s => Solution(x, b, s))
 
       case x @ Solution(_, _, _) =>
         RVar.pure(x)
