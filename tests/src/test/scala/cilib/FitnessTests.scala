@@ -1,6 +1,5 @@
 package cilib
 
-import cilib.Constraint
 import zio.prelude._
 import zio.random.Random
 import zio.test.{ Gen, _ }

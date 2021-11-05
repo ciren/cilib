@@ -1,6 +1,5 @@
 package cilib
 
-import cilib.NonEmptyVector
 import cilib.algebra._
 import zio.random.Random
 import zio.test.{ Gen, _ }

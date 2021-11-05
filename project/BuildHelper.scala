@@ -136,45 +136,35 @@ object BuildHelper {
 
   def stdSettings(prjName: String) = Seq(
     name                                   := prjName,
-    crossScalaVersions                     := Seq("2.13.6", "2.12.15"),    // "3.0.0"),
+    crossScalaVersions                     := Seq("2.13.6", "2.12.15"),      // "3.0.0"),
     scalaVersion                           := crossScalaVersions.value.head,
     scalacOptions                          := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
-      if (isScala3(scalaVersion.value))
-        Seq(
-          //"com.github.ghik" % s"silencer-lib_$Scala213" % Version.SilencerVersion % Provided
-        )
-      else
-        Seq(
-          "com.github.ghik" % "silencer-lib" % Version.SilencerVersion % Provided cross CrossVersion.full,
-          compilerPlugin("com.github.ghik" % "silencer-plugin" % Version.SilencerVersion cross CrossVersion.full),
-          compilerPlugin("org.typelevel"  %% "kind-projector"  % "0.13.2" cross CrossVersion.full)
-        )
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((3, _)) =>
+          Seq(
+            //"com.github.ghik" % s"silencer-lib_$Scala213" % Version.SilencerVersion % Provided
+          )
+        case _            =>
+          Seq(
+            "com.github.ghik" % "silencer-lib" % Version.SilencerVersion % Provided cross CrossVersion.full,
+            compilerPlugin("com.github.ghik" % "silencer-plugin" % Version.SilencerVersion cross CrossVersion.full),
+            compilerPlugin("org.typelevel"  %% "kind-projector"  % "0.13.2" cross CrossVersion.full)
+          )
+      }
     },
-    semanticdbEnabled                      := true,                        //!isScala3(scalaVersion.value), // != ScalaDotty, // enable SemanticDB
-    //semanticdbOptions += "-P:semanticdb:synthetics:on",
-    semanticdbVersion                      := scalafixSemanticdb.revision, // use Scalafix compatible version
+    testFrameworks                         := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
+    Test / parallelExecution               := true,
+    semanticdbEnabled                      := !isScala3(scalaVersion.value), // enable SemanticDB
+    semanticdbOptions += "-P:semanticdb:synthetics:on",
+    semanticdbVersion                      := scalafixSemanticdb.revision,   // use Scalafix compatible version
     ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
     ThisBuild / scalafixDependencies ++= List(
       "com.github.liancheng" %% "organize-imports" % "0.5.0",
-      "com.github.vovapolu"  %% "scaluzzi"         % "0.1.18"
+      "com.github.vovapolu"  %% "scaluzzi"         % "0.1.20"
     ),
-    incOptions ~= (_.withLogRecompileOnMacro(false)),
-    testFrameworks                         := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
-    Test / parallelExecution               := true
+    incOptions ~= (_.withLogRecompileOnMacro(false))
   )
-  // ) ++ Seq(if (scalaVersion.value != "3.0.0") Seq(
-  //   scalafixScalaBinaryVersion := scalaBinaryVersion.value,
-  //   scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.0",
-  //   semanticdbEnabled := scalaVersion.value != "3.0.0", // enable SemanticDB
-  //   semanticdbVersion := scalafixSemanticdb.revision,   // only required for Scala 2.x
-  //   scalacOptions += "-Ywarn-unused-import"           // Scala 2.x only, required by `RemoveUnused`
-  // )
-  // //  ++ (if (scalaVersion.value != "'3.0.0") Seq(
-  // //   semanticdbEnabled := scalaVersion.value != "3.0.0", // enable SemanticDB
-  // //   semanticdbOptions += "-P:semanticdb:synthetics:on",
-  // //   semanticdbVersion := scalafixSemanticdb.revision // use Scalafix compatible version
-  //  else Seq())
 
   def welcomeMessage = onLoadMessage := {
     import scala.Console

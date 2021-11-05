@@ -31,7 +31,7 @@ object MetricSpaceTest extends DefaultRunnableSpec {
   val chebyshev: MetricSpace[List[Double], Double] = MetricSpace.chebyshev[List, Double]
   val hamming: MetricSpace[List[Double], Int]      = MetricSpace.hamming[List, Double]
 
-  val doubleEq: Equal[Double] = Equal.DoubleEqualWithEpsilon()
+  val doubleEq: zio.prelude.Equal[Double] = zio.prelude.Equal.DoubleEqualWithEpsilon()
 
   def nonnegative[A, B: Ord](m: MetricSpace[A, B], x: A, y: A)(implicit ev: scala.math.Numeric[B]): TestResult =
     assert(ev.toDouble(m.dist(x, y)))(Assertion.isGreaterThanEqualTo(0.0))

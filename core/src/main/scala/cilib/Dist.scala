@@ -94,7 +94,7 @@ object Dist {
   def laplace(b0: Double, b1: Double): RVar[Double] =
     stdUniform.map { x =>
       val rr = x - 0.5
-      b0 - b1 * (math.log(1 - 2 * rr.abs)) * rr.sign
+      b0 - b1 * (math.log(1 - 2 * math.abs(rr))) * math.signum(rr)
     }
 
   def lognormal(mean: Double, dev: Double): RVar[Double] =

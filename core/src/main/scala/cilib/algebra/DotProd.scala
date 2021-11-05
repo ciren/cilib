@@ -69,7 +69,7 @@ object Algebra {
   )(implicit M: VectorOps[F, A], A: scala.math.Numeric[A]): F[Double] = {
     val l = 1.0 / xs.length
 
-    Covariant[F].map((x: A) => Numeric[A].toDouble(x) * l)(vectorSum(xs))
+    Covariant[F].map((x: A) => A.toDouble(x) * l)(vectorSum(xs))
   }
 
   def orthogonalize[F[+_]: Covariant](

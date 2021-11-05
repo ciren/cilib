@@ -24,7 +24,6 @@ object BoundarySpec extends DefaultRunnableSpec {
     testM("absorb") {
       check(Gen.anyDouble, intervalGen) { case (double, interval) =>
         val p        = Position(NonEmptyVector(double), NonEmptyVector(interval))
-        println(s"p: $p")
         val enforced =
           Id.unwrap(Boundary.enforce(p, Boundary.absorb))
 
