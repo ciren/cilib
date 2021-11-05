@@ -2,15 +2,15 @@ package cilib
 
 import cilib.NonEmptyVector
 import cilib.algebra._
-import spire.implicits._
-import spire.math.Interval
 import zio.random.Random
 import zio.test.{ Gen, _ }
 
+import Predef.{ any2stringadd => _, assert => _, _ }
+
 object DotProdTest extends DefaultRunnableSpec {
 
-  val interval: Interval[Double]                           = Interval(-10.0, 10.0)
-  def boundary(dim: Int): NonEmptyVector[Interval[Double]] = interval ^ dim
+  val interval: Interval                           = Interval(-10.0, 10.0)
+  def boundary(dim: Int): NonEmptyVector[Interval] = interval ^ dim
 
   def nonEmptyVectorGen(dim: Int): Gen[Random, NonEmptyVector[Int]] =
     for {

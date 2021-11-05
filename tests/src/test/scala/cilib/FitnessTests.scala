@@ -1,7 +1,6 @@
 package cilib
 
 import cilib.Constraint
-import spire.implicits._
 import zio.prelude._
 import zio.random.Random
 import zio.test.{ Gen, _ }
@@ -32,7 +31,7 @@ object FitnessTest extends DefaultRunnableSpec {
                       Gen.const(cilib.Equal(function, value)),
                       Gen.const(GreaterThan(function, value)),
                       Gen.const(GreaterThanEqual(function, value)),
-                      Gen.const(InInterval(function, spire.math.Interval(-5.12, 5.12)))
+                      Gen.const(InInterval(function, Interval(-5.12, 5.12)))
                     )
     } yield constraint
 

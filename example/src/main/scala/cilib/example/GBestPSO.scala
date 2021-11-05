@@ -4,14 +4,12 @@ package example
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
-import spire.implicits._
-import spire.math.Interval
 import zio.stream.UStream
 import zio.{ ExitCode, URIO }
 
 object GBestPSO extends zio.App {
-  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                          = cilib.Comparison.dominance(Min)
+  val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
+  val cmp: Comparison                  = cilib.Comparison.dominance(Min)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]

@@ -206,8 +206,6 @@ You are given the following code to start with
 
 ```scala :silent
 import cilib._
-import spire.implicits._
-import spire.math.Interval
 
 val coins = 400
 val rng = RNG.fromTime

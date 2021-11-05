@@ -108,8 +108,6 @@ import zio.prelude._
 
 mdoc:silent
 
-import spire.implicits._
-
 val sumLessThanCons = LessThan(sumCF, 12.0)
 ```
 ```scala
@@ -128,8 +126,6 @@ An `Int` is returned representing the number of `Constraints` the list violated.
 ```scala
 
 mdoc:silent
-import spire.implicits._
-import spire.algebra.Eq
 
 // A constraint that ensures the first element of a list is 4
 val firstNumberCons = cilib.Equal(ConstraintFunction((l: NonEmptyList[Double]) => l.head), 4.0)
@@ -165,13 +161,11 @@ Define a `Constraint` to ensure that the head of a list is between 5 and 10.
 mdoc:invisible
 import cilib._
 import zio.prelude._
-import spire.implicits._
 ```
 
 ```scala
 
 mdoc:silent
-import spire.math.Interval
 InInterval(ConstraintFunction((l: NonEmptyList[Double]) => l.head), Interval(5, 10))
 ```
 

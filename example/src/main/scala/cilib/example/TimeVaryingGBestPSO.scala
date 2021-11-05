@@ -5,15 +5,13 @@ import cilib.exec.{ Kleisli, _ }
 import cilib.pso.Defaults._
 import cilib.pso.{ Particle, _ }
 import cilib.{ Mem, NonEmptyVector, Step }
-import spire.implicits._
-import spire.math.Interval
 import zio.URIO
 import zio.prelude.newtypes.Natural
 import zio.stream.UStream
 
 object TimeVaryingGBestPSO extends zio.App {
   val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
-  val bounds: NonEmptyVector[Interval[Double]]         = Interval(-5.12, 5.12) ^ 30
+  val bounds: NonEmptyVector[Interval]                 = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                                  = Comparison.dominance(Min)
   val eval: Eval[NonEmptyVector]                       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 

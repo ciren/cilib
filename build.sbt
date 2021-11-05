@@ -97,8 +97,7 @@ lazy val core = project
   .settings(
     libraryDependencies ++= Seq(
       zio,
-      zioPrelude,
-      "org.typelevel" %% "spire" % Version.spire
+      zioPrelude
     )
   )
   .enablePlugins(BuildInfoPlugin)

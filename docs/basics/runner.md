@@ -109,8 +109,6 @@ We will be using the following `imports` for our GA.
 import cilib._
 import cilib.ga._
 import eu.timepit.refined.auto._
-import spire.implicits.{eu => _, _}
-import spire.math.Interval
 ```
 
 ### The Problem Environment

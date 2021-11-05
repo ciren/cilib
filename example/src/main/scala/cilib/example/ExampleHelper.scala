@@ -1,9 +1,9 @@
 package cilib
 package example
 
-import spire.implicits._
-import spire.math._
 import zio.prelude._
+
+import scala.math._
 
 // Define the benchmarks. These functions are hardcoded, but it would be better to consider
 // using https://github.com/ciren/benchmarks which is a far more extensive and
@@ -15,17 +15,18 @@ object ExampleHelper {
 
   val ackley: NonEmptyVector[Double] => Double = (xs: NonEmptyVector[Double]) => {
     val n      = xs.size
-    val sumcos = xs.map(xi => cos(2 * pi * xi)).sum
-    val sumsqr = xs.map(_ ** 2).sum
+    val sumcos = xs.map(xi => math.cos(2 * math.Pi * xi)).sum
+    val sumsqr = xs.map(a => a * a).sum
 
-    -20 * exp(-0.2 * sqrt(sumsqr / n)) - exp(sumcos / n) + 20 + e
+    -20 * exp(-0.2 * sqrt(sumsqr / n)) - exp(sumcos / n) + 20 + E
   }
 
   val quadric: NonEmptyVector[Double] => Double = (xs: NonEmptyVector[Double]) => {
     val list = xs.toChunk.toList
 
     (1 to xs.size).toList.map { i =>
-      list.take(i).sum ** 2
+      val t = list.take(i).sum
+      t * t
     }.sum
   }
 

@@ -1,8 +1,5 @@
 package cilib
 
-import spire.algebra.{ LeftModule, Ring }
-import spire.implicits._
-import spire.math.Interval
 import zio.prelude._
 import zio.prelude.newtypes.Natural
 
@@ -45,7 +42,7 @@ sealed abstract class Position[+A] {
       case Solution(_, _, o) => Some(o)
     }
 
-  def boundary: NonEmptyVector[Interval[Double]] =
+  def boundary: NonEmptyVector[Interval] =
     this match {
       case Point(_, b)       => b
       case Solution(_, b, _) => b
@@ -56,8 +53,8 @@ sealed abstract class Position[+A] {
 }
 
 object Position {
-  private final case class Point[A](x: NonEmptyVector[A], b: NonEmptyVector[Interval[Double]]) extends Position[A]
-  private final case class Solution[A](x: NonEmptyVector[A], b: NonEmptyVector[Interval[Double]], o: Objective)
+  private final case class Point[A](x: NonEmptyVector[A], b: NonEmptyVector[Interval]) extends Position[A]
+  private final case class Solution[A](x: NonEmptyVector[A], b: NonEmptyVector[Interval], o: Objective)
       extends Position[A]
 
   implicit def positionEqual[A: zio.prelude.Equal]: zio.prelude.Equal[Position[A]] =
@@ -77,58 +74,65 @@ object Position {
         NonEmptyForEach[NonEmptyVector].forEach1(fa.pos)(f).map(Point(_, fa.boundary))
     }
 
-  implicit def positionDotProd[A](implicit A: spire.math.Numeric[A]): algebra.DotProd[Position, A] =
+  implicit def positionDotProd[A](implicit A: scala.math.Numeric[A]): algebra.DotProd[Position, A] =
     new algebra.DotProd[Position, A] {
-      import spire.implicits._
-
       def dot(a: Position[A], b: Position[A]): Double =
         // FIXME: Is this actually wrong?
-        a.zip(b).pos.foldLeft(A.zero) { case (a, b) => a + (b._1 * b._2) }.toDouble()
+        A.toDouble(a.zip(b).pos.foldLeft(A.zero) { case (a, b) => A.plus(a, A.times(b._1, b._2)) })
     }
 
-  implicit def positionPointwise[A](implicit A: spire.math.Numeric[A]): algebra.Pointwise[Position, A] =
+  implicit def positionPointwise[A](implicit A: scala.math.Numeric[A]): algebra.Pointwise[Position, A] =
     new algebra.Pointwise[Position, A] {
-      import spire.implicits._
-
       def pointwise(a: Position[A], b: Position[A]) =
-        a.zip(b).map(x => x._1 * x._2)
+        a.zip(b).map(x => A.times(x._1, x._2))
     }
 
-  implicit def positionModule[A](implicit sc: Ring[A]): LeftModule[Position[A], A] =
-    new LeftModule[Position[A], A] {
-      def scalar: Ring[A] = sc
+  implicit def positionVectorOps[A]: algebra.VectorOps[Position, A] =
+    new algebra.VectorOps[Position, A] {
+      def zeroed(a: Position[A])(implicit A: scala.math.Numeric[A]): Position[A] =
+        a.map(_ => A.zero)
 
-      def negate(x: Position[A]) = x.map(scalar.negate)
-      def zero                   = Position(NonEmptyVector(scalar.zero), NonEmptyVector(spire.math.Interval(0.0, 0.0)))
-
-      def plus(x: Position[A], y: Position[A]) = {
+      def +(a: Position[A], b: Position[A])(implicit M: scala.math.Numeric[A]): Position[A] = {
         val combined =
-          x.pos.zipAllWith(y.pos.toChunk)(identity, identity)(scalar.plus(_, _))
+          a.pos.zipAllWith(b.pos.toChunk)(identity, identity)(M.plus(_, _))
 
-        Point(combined, x.boundary)
+        Point(combined, a.boundary)
       }
 
-      def timesl(r: A, v: Position[A]): Position[A] =
-        v.map(scalar.times(r, _))
+      def -(a: Position[A], b: Position[A])(implicit M: scala.math.Numeric[A]): Position[A] = {
+        val combined =
+          a.pos.zipAllWith(b.pos.toChunk)(identity, identity)(M.minus(_, _))
+
+        Point(combined, a.boundary)
+      }
+
+      def *:(scalar: A, a: Position[A])(implicit M: scala.math.Numeric[A]): Position[A] =
+        a.map(x => M.times(scalar, x))
+
+      def unary_-(a: Position[A])(implicit M: scala.math.Numeric[A]): Position[A] =
+        a.map(x => M.negate(x))
+
+      def isZero(a: Position[A])(implicit R: scala.math.Numeric[A]): Boolean =
+        a.pos.forall(_ == R.zero)
     }
 
   implicit class PositionVectorOps[A](private val x: Position[A]) extends AnyVal {
-    def zeroed(implicit A: Ring[A]): Position[A] =
+    def zeroed(implicit A: scala.math.Numeric[A]): Position[A] =
       x.map(_ => A.zero)
 
-    def +(other: Position[A])(implicit M: LeftModule[Position[A], A]): Position[A] =
-      M.plus(x, other)
+    def +(other: Position[A])(implicit M: algebra.VectorOps[Position, A], A: scala.math.Numeric[A]): Position[A] =
+      M.+(x, other)
 
-    def -(other: Position[A])(implicit M: LeftModule[Position[A], A]): Position[A] =
-      M.minus(x, other)
+    def -(other: Position[A])(implicit M: algebra.VectorOps[Position, A], A: scala.math.Numeric[A]): Position[A] =
+      M.-(x, other)
 
-    def *:(scalar: A)(implicit M: LeftModule[Position[A], A]): Position[A] =
-      M.timesl(scalar, x)
+    def *:(scalar: A)(implicit M: algebra.VectorOps[Position, A], A: scala.math.Numeric[A]): Position[A] =
+      M.*:(scalar, x)
 
-    def unary_-(implicit M: LeftModule[Position[A], A]): Position[A] =
-      M.negate(x)
+    def unary_-(implicit M: algebra.VectorOps[Position, A], A: scala.math.Numeric[A]): Position[A] =
+      M.unary_-(x)
 
-    def isZero(implicit R: Ring[A]): Boolean =
+    def isZero(implicit R: scala.math.Numeric[A]): Boolean =
       x.forall(_ == R.zero)
   }
 
@@ -147,16 +151,16 @@ object Position {
         RVar.pure(x)
     }
 
-  def apply[A](xs: NonEmptyVector[A], b: NonEmptyVector[Interval[Double]]): Position[A] =
+  def apply[A](xs: NonEmptyVector[A], b: NonEmptyVector[Interval]): Position[A] =
     Point(xs, b)
 
-  def createPosition[A](domain: NonEmptyVector[Interval[Double]]): RVar[Position[Double]] =
+  def createPosition[A](domain: NonEmptyVector[Interval]): RVar[Position[Double]] =
     ForEach[NonEmptyVector]
       .forEach(domain)(Dist.uniform)
       .map(z => Position(z, domain))
 
   def createPositions(
-    domain: NonEmptyVector[Interval[Double]],
+    domain: NonEmptyVector[Interval],
     n: Natural
   ): RVar[NonEmptyVector[Position[Double]]] =
     createPosition(domain)
@@ -169,6 +173,6 @@ object Position {
 
   def createCollection[A](
     f: Position[Double] => A
-  )(domain: NonEmptyVector[Interval[Double]], n: Natural): RVar[NonEmptyVector[A]] =
+  )(domain: NonEmptyVector[Interval], n: Natural): RVar[NonEmptyVector[A]] =
     createPositions(domain, n).map(_.map(f))
 }

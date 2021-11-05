@@ -18,8 +18,6 @@ benchmarks in your program as an example use.
 ```scala :silent
 import cilib._
 import cilib.benchmarks._ // Import for benchmarks
-import spire.implicits._
-import spire.math.Interval
 
 // Example use
 val bounds = Interval(-5.12,5.12)^30

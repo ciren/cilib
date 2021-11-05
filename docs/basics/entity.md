@@ -67,8 +67,6 @@ Thus we could pass a `Unit` for the state to create an individual.
 
 ```scala mdoc:invisible
 import cilib._
-import spire.implicits.{eu => _, _}
-import spire.math._
 ```
 ```scala mdoc:silent
 val interval = Interval(-5.12,5.12)^3

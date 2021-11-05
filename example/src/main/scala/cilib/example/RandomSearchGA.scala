@@ -3,8 +3,6 @@ package example
 
 import cilib.exec._
 import cilib.ga._
-import spire.implicits._
-import spire.math.Interval
 import zio.console._
 import zio.prelude.fx.ZPure
 import zio.prelude.newtypes.Natural
@@ -14,7 +12,7 @@ object RandomSearchGA extends zio.App {
   type Ind = Individual[Unit]
 
   val populationSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
-  val bounds: NonEmptyVector[Interval[Double]]              = Interval(-5.12, 5.12) ^ 30
+  val bounds: NonEmptyVector[Interval]                      = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                                       = Comparison.dominance(Min)
   val eval: Eval[NonEmptyVector]                            = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 

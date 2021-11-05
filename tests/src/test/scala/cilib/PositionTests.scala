@@ -2,17 +2,17 @@ package cilib
 
 import cilib.algebra._
 import cilib.syntax.dotprod._
-import spire.implicits._
-import spire.math.Interval
 import zio.prelude._
 import zio.random.Random
 import zio.test.AssertionM.Render.param
 import zio.test.{ Gen, _ }
 
+import Predef.{ any2stringadd => _, assert => _, _ }
+
 object PositionTests extends DefaultRunnableSpec {
 
-  val interval: Interval[Double]                           = Interval(-10.0, 10.0)
-  def boundary(dim: Int): NonEmptyVector[Interval[Double]] = interval ^ dim
+  val interval: Interval                           = Interval(-10.0, 10.0)
+  def boundary(dim: Int): NonEmptyVector[Interval] = interval ^ dim
 
   val dimGen: Gen[Random, Int] = Gen.int(1, 100)
 
@@ -109,9 +109,11 @@ object PositionTests extends DefaultRunnableSpec {
     },
     testM("norm") {
       check(positionGen) { case a =>
-        assert(a.norm)(Assertion.isGreaterThanEqualTo(0.0)) &&
-          assert(zero.norm)(Assertion.equalTo(0.0)) &&
-          assert(one.norm)(Assertion.equalTo(3.0))
+        val norm = Algebra.norm(a)
+
+        assert(norm)(Assertion.isGreaterThanEqualTo(0.0)) &&
+        assert(zero.norm)(Assertion.equalTo(0.0)) &&
+        assert(one.norm)(Assertion.equalTo(3.0))
       }
     },
     testM("normalize") {

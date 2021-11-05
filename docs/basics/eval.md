@@ -177,10 +177,6 @@ As you can see, we are using -1.0 to indicate an infeasible solution.
 
 Now we can put everything together and test our code.
 
-```scala :invisible
-import spire.implicits._
-import spire.math.Interval
-```
 ```scala :silent
 val rng = RNG.init(12L)
 val interval = Interval(0.0, 50.0)

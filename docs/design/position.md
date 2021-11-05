@@ -1,7 +1,5 @@
 ```scala mdoc:invisible
 import cilib._
-import spire.implicits._
-import spire.math._
 ```
 
 # Position
@@ -37,17 +35,16 @@ at least a single dimension (the zero-dimensional search is trivial) and, a
 A `NonEmptyList` is a list that is guaranteed to have at least one
 contained element.
 
-A search space is determined by a list of `Interval` instances (provided
-by spire), one for each dimension. The `Interval` need not be the same
-for each dimension and differing `Interval`s may be placed together in a
-`NonEmptyList` to define the problem search space. As it is rather common
-to define a search space where an interval repeats `n` times, some syntax
-has been added to the `Interval` data constructor to allow for repetition in
-a more convenient way. This syntax models the
-text parser used in CIlib 1.0 for the "domain string", but is now available
-at the type level and verifiable during compilation.
-As an example, let's create a 30-dimensional vector in the interval
-$[-5.12, 5.12]$:
+A search space is determined by a list of `Interval` instances, one
+for each dimension. The `Interval` need not be the same for each
+dimension and differing `Interval`s may be placed together in a
+`NonEmptyList` to define the problem search space. As it is rather
+common to define a search space where an interval repeats `n` times,
+some syntax has been added to the `Interval` data constructor to allow
+for repetition in a more convenient way. This syntax models the text
+parser used in CIlib 1.0 for the "domain string", but is now available
+at the type level and verifiable during compilation. As an example,
+let's create a 30-dimensional vector in the interval $[-5.12, 5.12]$:
 
 ```scala mdoc
 Interval(-5.12,5.12)^30

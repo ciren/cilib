@@ -6,8 +6,6 @@ import cilib.io._
 import cilib.pso.Defaults._
 import cilib.pso._
 import cilib.{ Entity, Mem, NonEmptyVector }
-import spire.implicits._
-import spire.math.Interval
 import zio._
 import zio.blocking.Blocking
 import zio.console._
@@ -23,7 +21,7 @@ object FileOutput extends zio.App {
   // benchmarks and save the results to a a file (either csv or parquet).
 
   val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
-  val bounds: NonEmptyVector[Interval[Double]]         = Interval(-5.12, 5.12) ^ 30
+  val bounds: NonEmptyVector[Interval]                 = Interval(-5.12, 5.12) ^ 30
   val rng: RNG                                         = RNG.init(12L)
   val cmp: Comparison                                  = Comparison.dominance(Max)
 

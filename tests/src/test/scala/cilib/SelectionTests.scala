@@ -1,6 +1,5 @@
 package cilib
 
-import spire.implicits._
 import zio.random.Random
 import zio.test._
 

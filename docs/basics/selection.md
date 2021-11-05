@@ -49,8 +49,6 @@ However, ``distanceNeighbours`` and ``tournament`` are a bit unique so we will e
 ```scala :silent
 import cilib._
 import eu.timepit.refined.auto._
-import spire.implicits.{eu => _, _}
-import spire.math.Interval
 
 val rng = RNG.init(12L)
 val intervals = NonEmptyList(Interval(-5.0, 5.0), Interval(10.0, 15.0))
@@ -68,7 +66,6 @@ We then passed the solutions to the tournament selection along with an `Int` tha
 
 ```scala :silent
 import cilib._
-import spire.implicits._
 
 val a = NonEmptyList(1.0, 2.0)
 val b = NonEmptyList(3.0, 4.0)

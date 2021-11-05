@@ -3,8 +3,6 @@ package cilib
 import cilib.Position._
 import cilib.algebra._
 import cilib.syntax.dotprod._
-import spire.implicits._
-import spire.math.sqrt
 import zio.prelude._
 
 object Crossover {
@@ -89,7 +87,7 @@ object Crossover {
     // construct the offspring
     for {
       s1    <- Dist.gaussian(0.0, sigma1)
-      s2    <- Dist.gaussian(0.0, sigma2 / sqrt(n.toDouble))
+      s2    <- Dist.gaussian(0.0, sigma2 / math.sqrt(n.toDouble))
       e_eta <- eta
     } yield {
       val vars      = zeta.foldLeft(g)((vr, z) => vr + (s1 *: z))

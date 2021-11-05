@@ -4,8 +4,6 @@ mdoc:invisible
 import cilib._
 import cilib.pso._
 import cilib.pso.PSO._
-import spire.algebra._
-import spire.implicits._
 import zio.prelude._
 ```
 

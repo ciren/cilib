@@ -2,8 +2,6 @@
 
 mdoc:invisible
 import cilib._
-import spire.math._
-import spire.implicits._
 ```
 
 # Entity

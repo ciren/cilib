@@ -1,9 +1,5 @@
 package cilib
 
-import spire.algebra.Eq
-import spire.implicits._
-import spire.math._
-import spire.math.interval._
 import zio.prelude._
 
 final class ViolationCount(val count: Int) extends AnyVal
@@ -35,18 +31,18 @@ final case class ConstraintFunction(f: NonEmptyVector[_] => Double) {
 }
 
 sealed abstract class Constraint
-final case class LessThan[A](f: ConstraintFunction, v: Double)                    extends Constraint
-final case class LessThanEqual[A](f: ConstraintFunction, v: Double)               extends Constraint
-final case class Equal[A](f: ConstraintFunction, v: Double)                       extends Constraint
-final case class InInterval[A](f: ConstraintFunction, interval: Interval[Double]) extends Constraint
-final case class GreaterThan[A](f: ConstraintFunction, v: Double)                 extends Constraint
-final case class GreaterThanEqual[A](f: ConstraintFunction, v: Double)            extends Constraint
+final case class LessThan[A](f: ConstraintFunction, v: Double)            extends Constraint
+final case class LessThanEqual[A](f: ConstraintFunction, v: Double)       extends Constraint
+final case class Equal[A](f: ConstraintFunction, v: Double)               extends Constraint
+final case class InInterval[A](f: ConstraintFunction, interval: Interval) extends Constraint
+final case class GreaterThan[A](f: ConstraintFunction, v: Double)         extends Constraint
+final case class GreaterThanEqual[A](f: ConstraintFunction, v: Double)    extends Constraint
 
 object Constraint {
 
 //  def constrain[M[_]](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
 //    M.map(ma)(_.constrainBy(cs))
-  private val ev = Eq[Double]
+  private val ev = zio.prelude.Equal.DoubleEqualWithEpsilon()
 
   def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint], cs: NonEmptyVector[A]): Double =
     constraints
@@ -61,7 +57,7 @@ object Constraint {
           else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
         case Equal(f, v)            =>
           val v2 = f(cs)
-          if (ev.eqv(v2, v)) 0.0 // Doubles are "equal" if they are equivalent using IEEE floats.
+          if (ev.equal(v2, v)) 0.0 // Doubles are "equal" if they are equivalent using IEEE floats.
           else math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
         case InInterval(f, i)       =>
           val v2    = f(cs)
@@ -112,7 +108,7 @@ object Constraint {
     constraint match {
       case LessThan(f, v)         => f(cs) < v
       case LessThanEqual(f, v)    => f(cs) <= v
-      case Equal(f, v)            => ev.eqv(f(cs), v)
+      case Equal(f, v)            => ev.equal(f(cs), v)
       case InInterval(f, i)       =>
         val v2 = f(cs)
         val c1 = i.lowerBound match {

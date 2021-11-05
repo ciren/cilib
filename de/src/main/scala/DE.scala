@@ -1,16 +1,15 @@
 package cilib
 package de
 
-import spire.algebra._
-import spire.implicits.{ eu => _, _ }
-import spire.math._
 import zio.ChunkBuilder
 import zio.prelude.newtypes.Natural
 import zio.prelude.{ Comparison => _, _ }
 
+import Predef.{ any2stringadd => _, _ }
+
 object DE {
 
-  def de[S, A: Numeric: Equal](
+  def de[S, A: Numeric: Equal: NumericTo](
     p_r: Double,
     p_m: Double,
     targetSelection: NonEmptyVector[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
@@ -21,26 +20,25 @@ object DE {
       x =>
         for {
           evaluated          <- Step.eval(x)(identity)
-          trial              <- basicMutation(Numeric[A].fromDouble(p_m), targetSelection, y, collection, x)
+          trial              <- basicMutation(p_m, targetSelection, y, collection, x)
           pivots             <- Step.liftR(z(p_r, evaluated.pos))
           offspring           = crossover(x, trial, pivots)
           evaluatedOffspring <- Step.eval(offspring)(identity)
           fittest            <- Comparison.fittest(evaluated, evaluatedOffspring)
         } yield fittest
 
-  def basicMutation[S, A: Ring: Equal](
-    p_m: A,
+  def basicMutation[S, A: Equal: scala.math.Numeric: NumericTo](
+    p_m: Double,
     selection: NonEmptyVector[Individual[S, A]] => Step[(Individual[S, A], Position[A])],
     y: Natural,
     collection: NonEmptyVector[Individual[S, A]],
     x: Individual[S, A]
   ): Step[Position[A]] = {
-
     def createPairs[Z](acc: List[(Z, Z)], xs: List[Z]): List[(Z, Z)] =
       xs match {
         case Nil           => acc
         case a :: b :: xss => createPairs((a, b) :: acc, xss)
-        case _             => sys.error("ugg")
+        case _             => sys.error("Incorrect number of individuals")
       }
 
     val target: Step[(Individual[S, A], Position[A])] = selection(collection)
@@ -66,7 +64,7 @@ object DE {
     for {
       t <- target
       p <- pairs
-    } yield p.foldLeft(t._2)((a, c) => a + (p_m *: c))
+    } yield p.foldLeft(t._2)((a, c) => a + (NumericTo[A].fromDouble(p_m) *: c))
   }
 
   def crossover[S, A](target: Individual[S, A], trial: Position[A], pivots: NonEmptyVector[Boolean]) =
@@ -80,7 +78,7 @@ object DE {
     parent: F[A]
   )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyVector[Boolean]] =
     Dist
-      .uniformInt(spire.math.Interval(0, F.size(parent) - 1))
+      .uniformInt(0, F.size(parent) - 1)
       .flatMap { j =>
         F.zipWithIndex(parent).forEach1 { case (_, i) =>
           if (i == j) RVar.pure(true)
@@ -95,7 +93,7 @@ object DE {
   )(implicit F: NonEmptyForEach[F]): RVar[NonEmptyVector[Boolean]] = {
     val length = F.size(parent)
     for {
-      start   <- Dist.uniformInt(spire.math.Interval(0, length - 1))
+      start   <- Dist.uniformInt(0, length - 1)
       circular = Iterator.continually((0 to length).toList).flatMap(x => x)
       randoms <- Dist.stdUniform.replicateM(length).map(_.toList)
     } yield {
@@ -122,53 +120,53 @@ object DE {
       }
       .map(x => (x, x.pos))
 
-  def randToBestSelection[S, A: Numeric](
+  def randToBestSelection[S, A: Numeric: NumericTo](
     gamma: Double
   )(collection: NonEmptyVector[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     for {
       best <- bestSelection(collection)
       rand <- randSelection(collection)
     } yield {
-      val R           = implicitly[Numeric[A]]
+      val R           = NumericTo[A]
       val combination =
         (R.fromDouble(gamma) *: best._2) + (R.fromDouble(1.0 - gamma) *: rand._2)
 
       (rand._1, combination)
     }
 
-  def currentToBestSelection[S, A: Numeric](
+  def currentToBestSelection[S, A: Numeric: NumericTo](
     p_m: Double
   )(collection: NonEmptyVector[Entity[S, A]]): Step[(Entity[S, A], Position[A])] =
     for {
       best <- bestSelection(collection)
       rand <- randSelection(collection)
     } yield {
-      val x = rand._2 + Numeric[A].fromDouble(p_m) *: (best._2 - rand._2)
+      val x = rand._2 + NumericTo[A].fromDouble(p_m) *: (best._2 - rand._2)
       (rand._1, x)
     }
 
-  def best_1_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
+  def best_1_bin[S, A: Numeric: Equal: NumericTo](p_r: Double, p_m: Double) =
     best_bin(p_r, p_m, positiveInt(1))
 
-  def rand_1_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
+  def rand_1_bin[S, A: Numeric: Equal: NumericTo](p_r: Double, p_m: Double) =
     rand_bin(p_r, p_m, positiveInt(1))
 
-  def best_1_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double) =
+  def best_1_exp[S, A: Numeric: Equal: NumericTo](p_r: Double, p_m: Double) =
     best_exp(p_r, p_m, positiveInt(1))
 
-  def best_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Natural) =
+  def best_bin[S, A: Numeric: Equal: NumericTo](p_r: Double, p_m: Double, y: Natural) =
     de(p_r, p_m, bestSelection[S, A], y, bin[Position, A])
 
-  def rand_bin[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Natural) =
+  def rand_bin[S, A: Numeric: Equal: NumericTo](p_r: Double, p_m: Double, y: Natural) =
     de(p_r, p_m, randSelection[S, A], y, bin[Position, A])
 
-  def best_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Natural) =
+  def best_exp[S, A: Numeric: Equal: NumericTo](p_r: Double, p_m: Double, y: Natural) =
     de(p_r, p_m, bestSelection[S, A], y, exp[Position, A])
 
-  def rand_exp[S, A: Numeric: Equal](p_r: Double, p_m: Double, y: Natural) =
+  def rand_exp[S, A: Numeric: Equal: NumericTo](p_r: Double, p_m: Double, y: Natural) =
     de(p_r, p_m, randSelection[S, A], y, exp[Position, A])
 
-  def randToBest[S, A: Numeric: Equal](
+  def randToBest[S, A: Numeric: Equal: NumericTo](
     p_r: Double,
     p_m: Double,
     gamma: Double,
@@ -177,7 +175,7 @@ object DE {
   ) =
     de(p_r, p_m, randToBestSelection[S, A](gamma), y, z)
 
-  def currentToBest[S, A: Numeric: Equal](
+  def currentToBest[S, A: Numeric: Equal: NumericTo](
     p_r: Double,
     p_m: Double,
     y: Natural,

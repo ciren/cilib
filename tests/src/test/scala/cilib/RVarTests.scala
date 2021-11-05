@@ -1,7 +1,5 @@
 package cilib
 
-import spire.implicits._
-import spire.math.Interval
 import zio.prelude._
 import zio.random.Random
 import zio.test.{ Gen, _ }
@@ -10,8 +8,8 @@ object RVarTests extends DefaultRunnableSpec {
 
   val rng = RNG.fromTime
 
-  val interval: Interval[Double]                           = Interval(-10.0, 10.0)
-  def boundary(dim: Int): NonEmptyVector[Interval[Double]] = interval ^ dim
+  val interval: Interval                           = Interval(-10.0, 10.0)
+  def boundary(dim: Int): NonEmptyVector[Interval] = interval ^ dim
 
   def nelGen(dim: Int): Gen[Random, NonEmptyVector[Double]] =
     for {

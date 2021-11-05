@@ -14,7 +14,6 @@
 
 
 [Scalaz-link]: https://github.com/scalaz/scalaz
-[Spire-link]: https://github.com/non/spire
 [Monocle-link]: http://julien-truffaut.github.io/Monocle/
 [Shapeless-link]: https://github.com/milessabin/shapeless
 [Refined-link]: https://github.com/fthomas/refined?#using-refined

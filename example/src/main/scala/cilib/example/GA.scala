@@ -3,8 +3,6 @@ package example
 
 import cilib.exec._
 import cilib.ga._
-import spire.implicits._
-import spire.math.Interval
 import zio.console._
 import zio.prelude.newtypes.Natural
 import zio.prelude.{ Comparison => _, _ }
@@ -17,7 +15,7 @@ object GAExample extends zio.App {
 
   val populationSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
 
-  val bounds: NonEmptyVector[Interval[Double]] = Interval(-5.12, 5.12) ^ 30
+  val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
 
   val cmp: Comparison            = Comparison.dominance(Min)
   val eval: Eval[NonEmptyVector] = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
@@ -25,7 +23,7 @@ object GAExample extends zio.App {
   def onePoint(xs: List[Ind]): RVar[List[Ind]] =
     xs match {
       case a :: b :: _ =>
-        val point: RVar[Int] = Dist.uniformInt(Interval(0, a.pos.pos.size - 1))
+        val point: RVar[Int] = Dist.uniformInt(0, a.pos.pos.size - 1)
         point.map(p =>
           List(
             a.pos.take(p) ++ b.pos.drop(p),

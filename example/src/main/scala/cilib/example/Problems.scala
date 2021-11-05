@@ -1,13 +1,12 @@
 package cilib
 
-import spire.implicits._
 import zio.prelude._
 
 object Problems {
 
   // Attempt to implment the moving peaks in such a way that it does not suck
 
-  def defaultPeaks(n: Int)(domain: NonEmptyVector[spire.math.Interval[Double]]): RVar[NonEmptyVector[PeakCone]] =
+  def defaultPeaks(n: Int)(domain: NonEmptyVector[Interval]): RVar[NonEmptyVector[PeakCone]] =
     initPeaks(
       n,
       domain,
@@ -19,7 +18,7 @@ object Problems {
 
   def initPeaks(
     n: Int,
-    domain: NonEmptyVector[spire.math.Interval[Double]],
+    domain: NonEmptyVector[Interval],
     minWidth: Double,
     maxWidth: Double,
     minHeight: Double,
@@ -132,7 +131,7 @@ object Problems {
     width: Double,
     location: NonEmptyVector[Double],
     shift: NonEmptyVector[Double],
-    domain: NonEmptyVector[spire.math.Interval[Double]],
+    domain: NonEmptyVector[Interval],
     minWidth: Double,
     maxWidth: Double,
     minHeight: Double,
@@ -156,10 +155,9 @@ object Problems {
       r
     }
   //  def printForPlot: Seq[(Double, Double, Double)] = {
-//     import spire.implicits._
 
-//     val init: RVar[NonEmptyList[PeakCone]] = defaultPeaks(2, spire.math.Interval(0.0, 100.0)^2)
-//     val init2: RVar[NonEmptyList[PeakCone]] = defaultPeaks(5, spire.math.Interval(0.0, 100.0)^2)
+//     val init: RVar[NonEmptyList[PeakCone]] = defaultPeaks(2, Interval(0.0, 100.0)^2)
+//     val init2: RVar[NonEmptyList[PeakCone]] = defaultPeaks(5, Interval(0.0, 100.0)^2)
 //     val (rng2, evaluator): (RNG, NonEmptyList[Double] => Objective[Double]) = init.flatMap(peakEval(_).eval).run(RNG.init(1234))
 //     val (rng3, overlay) = init2.flatMap(peakEval(_).eval).run(rng2)
 

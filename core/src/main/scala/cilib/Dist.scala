@@ -1,8 +1,5 @@
 package cilib
 
-import spire.implicits._
-import spire.math.Interval
-
 object Dist {
   import RVar._
 
@@ -15,16 +12,15 @@ object Dist {
   val stdLognormal: RVar[Double]   = lognormal(0.0, 1.0)
 
   /** Generate a discrete uniform value in [from, to]. Note that the upper bound is *inclusive* */
-  def uniformInt(i: Interval[Int]): RVar[Int] =
+  def uniformInt(from: Int, to: Int): RVar[Int] =
     next[Int].map { x =>
-      val (from, to) = (i.lowerValue, i.upperValue)
-      val (ll, hh)   = if (to < from) (to, from) else (from, to)
-      val diff       = hh.toLong - ll.toLong
+      val (ll, hh) = if (to < from) (to, from) else (from, to)
+      val diff     = hh.toLong - ll.toLong
       if (diff == 0) ll
       else (ll.toLong + (math.abs(x.toLong) % (diff + 1))).toInt
     }
 
-  def uniform(i: Interval[Double]): RVar[Double] =
+  def uniform(i: Interval): RVar[Double] =
     stdUniform.map { x =>
       i.lowerValue + x * (i.upperValue - i.lowerValue)
     }

@@ -2,8 +2,6 @@ package cilib
 package pso
 
 import cilib.{ Position, Step }
-import spire.algebra._
-import spire.implicits._
 import zio.prelude.{ Comparison => _, _ }
 
 import Position._
@@ -12,11 +10,11 @@ object PSO {
   import Lenses._
 
   // Constrain this better - Not numeric. Operation for vector addition
-  def stdPosition[S, A](
+  def stdPosition[S, A: scala.math.Numeric](
     c: Particle[S, A],
     v: Position[A]
-  )(implicit A: LeftModule[Position[A], A]): Step[Particle[S, A]] =
-    Step.pure(_position.modify(c, _ + v))
+  )(implicit A: algebra.VectorOps[Position, A]): Step[Particle[S, A]] =
+    Step.pure(_position.modify(c, z => A.+(z, v)))
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists

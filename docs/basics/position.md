@@ -77,9 +77,6 @@ The following imports should be sufficient
 import cilib._
 
 import eu.timepit.refined.auto._
-
-import spire.implicits.{eu => _, _}
-import spire.math.Interval
 ```
 :::
 
@@ -119,9 +116,6 @@ For `eval` we will need to supply a `Position`, which we will create, as well as
 This method will an `RVar` of type `Solution` (another `Position`type).
 ```scala
 import cilib._
-import spire.implicits.{eu => _, _}
-import spire.math._
-
 val rng = RNG.init(12)
 ```
 ```scala

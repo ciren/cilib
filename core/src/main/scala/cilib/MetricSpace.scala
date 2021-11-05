@@ -1,8 +1,5 @@
 package cilib
 
-import spire.algebra.{ Semigroup => _, _ }
-import spire.implicits._
-import spire.math.{ abs, max, _ }
 import zio.prelude._
 
 /**
@@ -62,35 +59,33 @@ object MetricSpace {
       def dist(x: A, y: A) = B.fromInt(if (A.equal(x, y)) 0 else 1)
     }
 
-  def minkowski[F[+_], A: Signed: Field, B](
+  def minkowski[F[+_], A](
     alpha: Int
-  )(implicit F: ForEach[F], A: Fractional[A], ev: Field[B]): MetricSpace[F[A], B] =
-    new MetricSpace[F[A], B] {
-      def dist(x: F[A], y: F[A]) =
-        ev.fromDouble(
-          F.toList(x)
-            .zip(F.toList(y))
-            .map { case (ai, bi) => abs(ai - bi) ** alpha }
-            .foldLeft(0.0) { (ai, bi) =>
-              (ai + A.toDouble(bi)) ** (1.0 / alpha)
-            }
-        )
-    }
-
-  def manhattan[F[+_]: ForEach, A: Signed: Field: Fractional, B: Fractional: Field]: MetricSpace[F[A], B] =
-    minkowski[F, A, B](1)
-
-  def euclidean[F[+_]: ForEach, A: Signed: Field: Fractional, B: Fractional: Field]: MetricSpace[F[A], B] =
-    minkowski[F, A, B](2)
-
-  def chebyshev[F[+_], A: Order: Signed](implicit ev: Ring[A], F: ForEach[F]): MetricSpace[F[A], A] =
-    new MetricSpace[F[A], A] {
+  )(implicit F: ForEach[F], ev: scala.math.Numeric[A]): MetricSpace[F[A], Double] =
+    new MetricSpace[F[A], Double] {
       def dist(x: F[A], y: F[A]) =
         F.toList(x)
           .zip(F.toList(y))
-          .map { case (ai, bi) => abs(ai - bi) }
-          .foldLeft(ev.zero) { (ai, bi) =>
-            max(ai, bi)
+          .map { case (ai, bi) => math.pow(math.abs(ev.toDouble(ai) - ev.toDouble(bi)), alpha.toDouble) }
+          .foldLeft(0.0) { (ai, bi) =>
+            math.pow(ai + bi, 1.0 / alpha)
+          }
+    }
+
+  def manhattan[F[+_]: ForEach, A: scala.math.Numeric]: MetricSpace[F[A], Double] =
+    minkowski[F, A](1)
+
+  def euclidean[F[+_]: ForEach, A: scala.math.Numeric]: MetricSpace[F[A], Double] =
+    minkowski[F, A](2)
+
+  def chebyshev[F[+_], A](implicit F: ForEach[F], A: scala.math.Numeric[A]): MetricSpace[F[A], Double] =
+    new MetricSpace[F[A], Double] {
+      def dist(x: F[A], y: F[A]) =
+        F.toList(x)
+          .zip(F.toList(y))
+          .map { case (ai, bi) => math.abs(A.toDouble(ai) - A.toDouble(bi)) }
+          .foldLeft(0.0) { (ai, bi) =>
+            math.max(ai, bi)
           }
     }
 

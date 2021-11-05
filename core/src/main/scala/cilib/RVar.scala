@@ -2,8 +2,6 @@ package cilib
 
 import _root_.scala.Predef.{ any2stringadd => _, _ }
 import _root_.zio.prelude._
-import spire.implicits._
-import spire.math.Interval
 import zio.prelude.newtypes.Natural
 
 /**
@@ -84,7 +82,7 @@ object RVar {
 
   def choose[A](xs: NonEmptyVector[A]): RVar[A] =
     Dist
-      .uniformInt(Interval(0, xs.size - 1))
+      .uniformInt(0, xs.size - 1)
       .map(i => xs.toChunk.lift(i).getOrElse(xs.head))
 
   // implementation of Oleg Kiselgov's perfect shuffle:
@@ -125,7 +123,7 @@ object RVar {
 
     def rseq(n: Int): RVar[List[Int]] = {
       val list = (n - 1 to 1 by -1).toList
-      ForEach[List].forEach(list)(x => Dist.uniformInt(Interval(0, x)))
+      ForEach[List].forEach(list)(x => Dist.uniformInt(0, x))
     }
 
     def extractTree(target: Int, tree: BinTree, next: BinTree => List[A]): List[A] =
@@ -165,7 +163,7 @@ object RVar {
       val length = F.size(xs)
       val backsaw: RVar[List[Int]] = {
         val l = length - 1 to length - Natural.unwrap(n) by -1
-        ForEach[List].forEach(l.toList)(x => Dist.uniformInt(Interval(0, x)))
+        ForEach[List].forEach(l.toList)(x => Dist.uniformInt(0, x))
       }
 
       backsaw.map { l =>

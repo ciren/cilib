@@ -1,8 +1,6 @@
 package cilib
 package algebra
 
-import spire.algebra._
-import spire.implicits._
 import zio.Chunk
 import zio.prelude._
 
@@ -23,52 +21,78 @@ trait Pointwise[F[_], A] {
   def pointwise(a: F[A], b: F[A]): F[A] // Pointwise multiplication
 }
 
+trait VectorOps[F[_], A] {
+
+  def zeroed(a: F[A])(implicit A: scala.math.Numeric[A]): F[A]
+
+  def +(a: F[A], b: F[A])(implicit M: scala.math.Numeric[A]): F[A]
+
+  def -(a: F[A], b: F[A])(implicit M: scala.math.Numeric[A]): F[A]
+
+  def *:(scalar: A, a: F[A])(implicit M: scala.math.Numeric[A]): F[A]
+
+  def unary_-(a: F[A])(implicit M: scala.math.Numeric[A]): F[A]
+
+  def isZero(a: F[A])(implicit R: scala.math.Numeric[A]): Boolean
+
+}
+
+object VectorOps {
+  @inline def apply[F[_], A](implicit V: VectorOps[F, A]) =
+    V
+}
+
 trait Orthongonal {} // Need to examine the name of this typeclass??
 
 object Algebra {
 
-  def normalize[F[_], A](a: F[A])(implicit M: LeftModule[F[A], Double], D: DotProd[F, A]): F[A] = {
+  def normalize[F[+_]: Covariant](a: F[Double])(implicit D: DotProd[F, Double]): F[Double] = {
     val mag = D.norm(a)
     if (mag === 0.0) a
-    else (1.0 / mag) *: a
+    else Covariant[F].map((x: Double) => x * (1.0 / mag))(a)
   }
 
   def norm[F[_], A](a: F[A])(implicit D: DotProd[F, A]): Double =
     D.norm(a)
 
-  def distance[F[_], A](a: F[A], b: F[A])(implicit D: DotProd[F, A], M: LeftModule[F[A], Double]): Double =
-    D.norm(M.minus(a, b))
+  def distance[F[_], A: scala.math.Numeric](a: F[A], b: F[A])(implicit D: DotProd[F, A], M: VectorOps[F, A]): Double =
+    D.norm(M.-(a, b))
 
   def pointwise[F[_], A](a: F[A], b: F[A])(implicit P: Pointwise[F, A]): F[A] =
     P.pointwise(a, b)
 
-  def vectorSum[F[_], A](xs: NonEmptyVector[F[A]])(implicit M: LeftModule[F[A], Double]): F[A] =
-    NonEmptyForEach[NonEmptyVector].reduceAll(xs)(M.plus)
+  def vectorSum[F[_], A: scala.math.Numeric](xs: NonEmptyVector[F[A]])(implicit M: VectorOps[F, A]): F[A] =
+    NonEmptyForEach[NonEmptyVector].reduceAll(xs)(M.+)
 
-  def meanVector[F[_], A](xs: NonEmptyVector[F[A]])(implicit M: LeftModule[F[A], Double]): F[A] =
-    (1.0 / xs.length) *: vectorSum(xs)
+  def meanVector[F[+_]: Covariant, A](
+    xs: NonEmptyVector[F[A]]
+  )(implicit M: VectorOps[F, A], A: scala.math.Numeric[A]): F[Double] = {
+    val l = 1.0 / xs.length
 
-  def orthogonalize[F[+_]: Covariant, A](
-    x: F[A],
-    vs: List[F[A]]
-  )(implicit D: DotProd[F, A], F: Field[A], M: LeftModule[F[A], Double]): F[A] =
-    vs.foldLeft(x)((a, b) => a - project(a, b))
+    Covariant[F].map((x: A) => Numeric[A].toDouble(x) * l)(vectorSum(xs))
+  }
 
-  def project[F[+_], A](
-    x: F[A],
-    other: F[A]
-  )(implicit D: DotProd[F, A], F: Covariant[F], F2: Field[A], M: LeftModule[F[A], Double]): F[A] =
-    if (D.dot(other, other) == F2.zero) F.map((_: Any) => F2.zero)(other)
-    else (D.dot(x, other) / D.dot(other, other)) *: other
+  def orthogonalize[F[+_]: Covariant](
+    x: F[Double],
+    vs: List[F[Double]]
+  )(implicit D: DotProd[F, Double], M: VectorOps[F, Double]): F[Double] =
+    vs.foldLeft(x)((a, b) => M.-(a, project(a, b)))
 
-  def orthonormalize[F[+_]: Covariant: ForEach, A: NRoot](
-    vs: NonEmptyVector[F[A]]
-  )(implicit D: DotProd[F, A], M: LeftModule[F[A], Double], A: Field[A]): NonEmptyVector[F[A]] = {
+  def project[F[+_]](
+    x: F[Double],
+    other: F[Double]
+  )(implicit D: DotProd[F, Double], F: Covariant[F], M: VectorOps[F, Double]): F[Double] =
+    if (D.dot(other, other) == 0.0) F.map((_: Double) => 0.0)(other)
+    else F.map((a: Double) => a * (D.dot(x, other) / D.dot(other, other)))(other)
+
+  def orthonormalize[F[+_]: Covariant: ForEach](
+    vs: NonEmptyVector[F[Double]]
+  )(implicit D: DotProd[F, Double], M: VectorOps[F, Double]): NonEmptyVector[F[Double]] = {
     val bases = vs.foldLeft(NonEmptyVector(vs.head)) { (ob, v) =>
       val ui = ob.foldLeft(v) { (u, o) =>
-        u - project(v, o)
+        M.-(u, project(v, o))
       }
-      if (ui.foldLeft(A.zero)(A.plus) == A.zero) ob
+      if (ui.sum == 0.0) ob
       else ob ++ Chunk(ui)
     }
 

@@ -1,9 +1,10 @@
 package cilib
 
-import spire.algebra.{ MetricSpace => _, _ }
-import spire.implicits._
+import zio.prelude._
 import zio.random.Random
 import zio.test.{ TestResult, _ }
+
+import Predef.{ any2stringadd => _, assert => _, _ }
 
 object MetricSpaceTest extends DefaultRunnableSpec {
 
@@ -25,24 +26,26 @@ object MetricSpaceTest extends DefaultRunnableSpec {
     } yield (x, y, z)
   }
 
-  val euclidean: MetricSpace[List[Double], Double] = MetricSpace.euclidean[List, Double, Double]
-  val manhattan: MetricSpace[List[Double], Double] = MetricSpace.manhattan[List, Double, Double]
+  val euclidean: MetricSpace[List[Double], Double] = MetricSpace.euclidean[List, Double]
+  val manhattan: MetricSpace[List[Double], Double] = MetricSpace.manhattan[List, Double]
   val chebyshev: MetricSpace[List[Double], Double] = MetricSpace.chebyshev[List, Double]
   val hamming: MetricSpace[List[Double], Int]      = MetricSpace.hamming[List, Double]
 
-  def nonnegative[A, B](m: MetricSpace[A, B], x: A, y: A)(implicit ev: IsReal[B]): TestResult =
+  val doubleEq: Equal[Double] = Equal.DoubleEqualWithEpsilon()
+
+  def nonnegative[A, B: Ord](m: MetricSpace[A, B], x: A, y: A)(implicit ev: scala.math.Numeric[B]): TestResult =
     assert(ev.toDouble(m.dist(x, y)))(Assertion.isGreaterThanEqualTo(0.0))
 
-  def indisc[A, B](m: MetricSpace[A, B], x: A)(implicit E: Eq[B], F: Field[B]): TestResult =
-    assert(E.eqv(m.dist(x, x), F.zero))(Assertion.isTrue)
+  def indisc[A, B](m: MetricSpace[A, B], x: A)(implicit F: scala.math.Numeric[B]): TestResult =
+    assert(doubleEq.equal(F.toDouble(m.dist(x, x)), F.toDouble(F.zero)))(Assertion.isTrue)
 
-  def symmetry[A, B](m: MetricSpace[A, B], x: A, y: A)(implicit E: Eq[B]): TestResult =
-    assert(E.eqv(m.dist(x, y), m.dist(y, x)))(Assertion.isTrue)
+  def symmetry[A, B](m: MetricSpace[A, B], x: A, y: A)(implicit F: scala.math.Numeric[B]): TestResult =
+    assert(doubleEq.equal(F.toDouble(m.dist(x, y)), F.toDouble(m.dist(y, x))))(Assertion.isTrue)
 
   // Some discussion: https://en.wikipedia.org/wiki/Triangle_inequality
   // Look at section on Metric Spaces
-  def triangle[A, B](m: MetricSpace[A, B], a: A, b: A, c: A)(implicit F: Field[B], O: Order[B]): Boolean =
-    O.lteqv(m.dist(a, c), m.dist(a, b) + m.dist(b, c))
+  def triangle[A, B](m: MetricSpace[A, B], a: A, b: A, c: A)(implicit O: Ord[B], F: scala.math.Numeric[B]): Boolean =
+    O.lessOrEqual(m.dist(a, c), F.plus(m.dist(a, b), m.dist(b, c)))
 
   override def spec: ZSpec[Environment, Failure] = suite("metric space")(
     testM("non-negativity") {

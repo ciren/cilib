@@ -1,15 +1,13 @@
 package cilib
 
-import spire.implicits._
-import spire.math.Interval
 import zio.prelude._
 import zio.random.Random
 import zio.test.{ Gen, _ }
 
 object PSOTests extends DefaultRunnableSpec {
 
-  val interval: Interval[Double]                           = Interval(-10.0, 10.0)
-  def boundary(dim: Int): NonEmptyVector[Interval[Double]] = interval ^ dim
+  val interval: Interval                           = Interval(-10.0, 10.0)
+  def boundary(dim: Int): NonEmptyVector[Interval] = interval ^ dim
 
   def nelGen(dim: Int): Gen[Random, NonEmptyVector[Double]] =
     for {
@@ -28,7 +26,7 @@ object PSOTests extends DefaultRunnableSpec {
 
         val (_, result) =
           cilib.pso.PSO
-            .quantum(p.pos, RVar.pure(10.0), (a, b) => Dist.uniform(spire.math.Interval(a, b)))
+            .quantum(p.pos, RVar.pure(10.0), (a, b) => Dist.uniform(Interval(a, b)))
             .provide((cmp, eval))
             .runAll(RNG.init(seed))
 

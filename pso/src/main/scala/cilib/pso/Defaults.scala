@@ -1,13 +1,12 @@
 package cilib
 package pso
 
-import spire.implicits._
-
+import Predef.{ any2stringadd => _, _ }
 import PSO._
 
 object Defaults {
 
-  // def pso[S,A:spire.math.Numeric](
+  // def pso[S,A:scala.math.Numeric](
   //   velocity: (Entity[S,A]) => Step[A,Position[A]],
   //   position: (Entity[S,A], Position[A]) => Step[A,Entity[S,A]]
   // ): List[Entity[S,A]] => Entity[S,A] => Step[A,Entity[S,A]] =

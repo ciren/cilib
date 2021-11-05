@@ -136,8 +136,6 @@ Take note of the evaluated `Entity` and its contents.
 
 ```scala :invisible
 import cilib._
-import spire.implicits.{eu => _, _}
-import spire.math._
 ```
 ```scala :silent
 
@@ -225,9 +223,6 @@ Will provide a `Lens` that we may use to *zoom* in on the state of an `Entity`.
 
 ```scala :invisible
 import cilib.{Lenses, _}
-import spire.implicits.{eu => _, _}
-
-import spire.math._
 ```
 ```scala :silent
 val rng = RNG.init(12)
