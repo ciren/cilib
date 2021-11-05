@@ -4,7 +4,7 @@ import zio.prelude._
 import zio.random.Random
 import zio.test.{ TestResult, _ }
 
-import Predef.{ any2stringadd => _, assert => _, _ }
+import Predef.{ any2stringadd => _, assert => _ }
 
 object MetricSpaceTest extends DefaultRunnableSpec {
 
