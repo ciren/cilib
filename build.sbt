@@ -11,7 +11,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(
   List(
-    organization := "ciren",
+    organization := "net.cilib",
     homepage     := Some(url("https://cilib,net")),
     licenses     := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     developers   := List(

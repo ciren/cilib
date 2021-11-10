@@ -5,6 +5,6 @@ addSbtPlugin("com.github.cb372" % "sbt-explicit-dependencies" % "0.2.16")
 addSbtPlugin("com.eed3si9n"     % "sbt-buildinfo"             % "0.10.0")
 addSbtPlugin("org.scalameta"    % "sbt-scalafmt"              % "2.4.3")
 addSbtPlugin("org.scalameta"    % "sbt-mdoc"                  % "2.2.22")
-addSbtPlugin("com.geirsson"     % "sbt-ci-release"            % "1.5.7")
+addSbtPlugin("com.geirsson"     % "sbt-ci-release"            % "1.5.10")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-scala3-migrate" % "0.4.4")

@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    #branches: [master]
+    #branches: [master,main]
     tags: ["*"]
 
 jobs:
@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
       - uses: cachix/install-nix-action@v12
 
       - name: Lint check
-        run: nix-shell --run 'sbt -Dsbt.supershell=false ";fixCheck;fmtCheck"'
+        run: nix-shell --run 'sbt -Dsbt.supershell=false check'
 
       - name: Publish ${{ github.ref }}
         run: nix-shell --run 'sbt -Dsbt.supershell=false ci-release'
