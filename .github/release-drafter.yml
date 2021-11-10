@@ -1,0 +1,36 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+template: |
+  # What's Changed
+  $CHANGES
+categories:
+  - title: 'Breaking'
+    label: 'breaking'
+  - title: 'New'
+    label: 'enhancement'
+  - title: 'Bug Fixes'
+    label: 'bug'
+  - title: 'Maintenance'
+    label: 'maintenance'
+  - title: 'Documentation'
+    label: 'documentation'
+  - title: 'Dependency Updates'
+    label: 'dependencies'
+
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+  minor:
+    labels:
+      - 'enhancement'
+  patch:
+    labels:
+      - 'bug'
+      - 'maintenance'
+      - 'documentation'
+      - 'dependencies'
+      - 'security'
+
+exclude-labels:
+  - 'skip-changelog'
