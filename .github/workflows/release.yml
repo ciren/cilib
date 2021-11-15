@@ -29,6 +29,6 @@ jobs:
         run: nix-shell --run 'sbt docs/docusaurusCreateSite'
 
       - name: Publish gh-pages
-        run: nix-shell --run 'sbt -Dsbt.supershell=false sbt/docusaurusPublishGhpages'
+        run: nix-shell --run 'sbt -Dsbt.supershell=false docs/docusaurusPublishGhpages'
         env:
           GIT_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
