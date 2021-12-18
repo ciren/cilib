@@ -12,14 +12,11 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            openjdk16
             sbt
             yarn
             nodejs
-
             nushell
             #pqrs
-
             #node2nix
             #yarn2nix
           ];
