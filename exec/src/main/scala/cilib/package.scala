@@ -1,12 +1,12 @@
 package cilib
 
-import scala.annotation.nowarn
 import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver.TypedSchemaDef
 import com.github.mjakubowski84.parquet4s.{ Value, _ }
 import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
 import zio.prelude.fx._
-import zio.prelude.{ Assertion, Subtype, ZValidation }
-import zio.prelude.QuotedAssertion
+import zio.prelude.{ Assertion, QuotedAssertion, Subtype, ZValidation }
+
+import scala.annotation.nowarn
 
 package object exec {
 

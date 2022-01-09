@@ -21,10 +21,11 @@ object Env {
 
       override protected def decodeNonNull(value: Value, configuration: ValueCodecConfiguration): Env =
         value match {
-          case BinaryValue(binary) => binary.toStringUsingUTF8 match {
-            case "Unchanged" => Unchanged
-            case "Change"    => Change
-          }
+          case BinaryValue(binary) =>
+            binary.toStringUsingUTF8 match {
+              case "Unchanged" => Unchanged
+              case "Change"    => Change
+            }
         }
 
       override protected def encodeNonNull(data: Env, configuration: ValueCodecConfiguration): Value =
