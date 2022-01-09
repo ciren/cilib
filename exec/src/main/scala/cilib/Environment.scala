@@ -17,18 +17,20 @@ object Env {
 
   implicit val envTypeCodec: RequiredValueCodec[Env] =
     new RequiredValueCodec[Env] {
-      val stringCodec = implicitly[ValueCodec[String]]
+      //val stringCodec = implicitly[ValueCodec[String]]
 
       override protected def decodeNonNull(value: Value, configuration: ValueCodecConfiguration): Env =
-        stringCodec.decode(value, configuration) match {
-          case "Unchanged" => Unchanged
-          case "Change"    => Change
+        value match {
+          case BinaryValue(binary) => binary.toStringUsingUTF8 match {
+            case "Unchanged" => Unchanged
+            case "Change"    => Change
+          }
         }
 
       override protected def encodeNonNull(data: Env, configuration: ValueCodecConfiguration): Value =
         data match {
-          case Unchanged => stringCodec.encode("Unchanged", configuration)
-          case Change    => stringCodec.encode("Change", configuration)
+          case Unchanged => BinaryValue("Unchanged")
+          case Change    => BinaryValue("Change")
         }
     }
 

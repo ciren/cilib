@@ -121,7 +121,7 @@ package object io {
 
     val list: List[A] = F.toList(data)
 
-    ParquetWriter.writeAndClose(file.getAbsolutePath, list, options)
+    ParquetWriter.writeAndClose(Path(file.getAbsolutePath), list, options)
   }
 
   def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File)(implicit
@@ -136,7 +136,7 @@ package object io {
 
     val managedChannel = ZManaged.make(
       blocking.effectBlockingInterrupt {
-        ParquetWriter.writer[Measurement[A]](file.getAbsolutePath, options)
+        ParquetWriter.writer[Measurement[A]](Path(file.getAbsolutePath), options)
       }
     )(chan => blocking.effectBlocking(chan.close()).orDie)
 

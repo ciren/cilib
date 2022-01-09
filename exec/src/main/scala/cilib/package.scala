@@ -1,7 +1,8 @@
 package cilib
 
+import scala.annotation.nowarn
 import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver.TypedSchemaDef
-import com.github.mjakubowski84.parquet4s.{ Value, ValueCodec, _ }
+import com.github.mjakubowski84.parquet4s.{ Value, _ }
 import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
 import zio.prelude.fx._
 import zio.prelude.{ Assertion, Subtype, ZValidation }
@@ -29,16 +30,20 @@ package object exec {
 
     implicit val nameCodec: RequiredValueCodec[Name] =
       new RequiredValueCodec[Name] {
-        val stringCodec = implicitly[ValueCodec[String]]
+        //val stringCodec = implicitly[ValueCodec[String]]
 
+        @nowarn
         override protected def decodeNonNull(value: Value, configuration: ValueCodecConfiguration): Name =
-          Name.make(stringCodec.decode(value, configuration)) match {
-            case ZValidation.Failure(_, error) => sys.error(error.toString)
-            case ZValidation.Success(_, value) => value
+          value match {
+            case BinaryValue(binary) =>
+              Name.make(binary.toStringUsingUTF8()) match {
+                case ZValidation.Failure(_, error) => sys.error(error.toString)
+                case ZValidation.Success(_, value) => value
+              }
           }
 
         override protected def encodeNonNull(data: Name, configuration: ValueCodecConfiguration): Value =
-          stringCodec.encode(Name.unwrap(data), configuration)
+          BinaryValue(Name.unwrap(data))
       }
 
     implicit val nameTypeSchema: TypedSchemaDef[Name] = // Save the data as a String in the schema
