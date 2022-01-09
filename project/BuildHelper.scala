@@ -142,14 +142,11 @@ object BuildHelper {
     libraryDependencies ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((3, _)) =>
+          Seq.empty
+
+        case _ =>
           Seq(
-            //"com.github.ghik" % s"silencer-lib_$Scala213" % Version.SilencerVersion % Provided
-          )
-        case _            =>
-          Seq(
-            "com.github.ghik" % "silencer-lib" % Version.SilencerVersion % Provided cross CrossVersion.full,
-            compilerPlugin("com.github.ghik" % "silencer-plugin" % Version.SilencerVersion cross CrossVersion.full),
-            compilerPlugin("org.typelevel"  %% "kind-projector"  % "0.13.2" cross CrossVersion.full)
+            compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full)
           )
       }
     },

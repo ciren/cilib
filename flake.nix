@@ -15,7 +15,7 @@
             sbt
             yarn
             nodejs
-            nushell
+            #nushell
             #pqrs
             #node2nix
             #yarn2nix

@@ -3,9 +3,9 @@ package cilib
 import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver.TypedSchemaDef
 import com.github.mjakubowski84.parquet4s.{ Value, ValueCodec, _ }
 import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
-import zio.prelude.ZValidation
 import zio.prelude.fx._
-import zio.test.Assertion
+import zio.prelude.{ Assertion, Subtype, ZValidation }
+import zio.prelude.QuotedAssertion
 
 package object exec {
 
@@ -22,10 +22,11 @@ package object exec {
         StepS.liftR(r)
     }
 
-  object Name extends zio.prelude.NewtypeSmart[String](Assertion.hasSizeString(Assertion.isGreaterThanEqualTo(1))) {
-    // def assertion = assert {
-    //   Assertion.hasLength(Assertion.greaterThanOrEqualTo(1))
-    // }
+  object Name extends Subtype[String] {
+    override def assertion: QuotedAssertion[String] = assert {
+      Assertion.hasLength(Assertion.greaterThanOrEqualTo(1))
+    }
+
     implicit val nameCodec: RequiredValueCodec[Name] =
       new RequiredValueCodec[Name] {
         val stringCodec = implicitly[ValueCodec[String]]

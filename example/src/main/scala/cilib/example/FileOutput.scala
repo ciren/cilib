@@ -20,10 +20,10 @@ object FileOutput extends zio.App {
   // An example showing how to compare multiple algorithms across multiple
   // benchmarks and save the results to a a file (either csv or parquet).
 
-  val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
-  val bounds: NonEmptyVector[Interval]                 = Interval(-5.12, 5.12) ^ 30
-  val rng: RNG                                         = RNG.init(12L)
-  val cmp: Comparison                                  = Comparison.dominance(Max)
+  val swarmSize: Natural               = positiveInt(20)
+  val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
+  val rng: RNG                         = RNG.init(12L)
+  val cmp: Comparison                  = Comparison.dominance(Max)
 
   // Define the benchmarks. These functions are hardcoded but it would
   // be better to consider using https://github.com/ciren/benchmarks

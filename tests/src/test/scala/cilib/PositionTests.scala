@@ -2,7 +2,7 @@ package cilib
 
 import cilib.algebra._
 import cilib.syntax.dotprod._
-import zio.prelude._
+import zio.prelude.{ Assertion => _, _ }
 import zio.random.Random
 import zio.test.AssertionM.Render.param
 import zio.test.{ Gen, _ }

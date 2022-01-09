@@ -13,7 +13,7 @@ import Lenses._
 object GAExample extends zio.App {
   type Ind = Individual[Unit]
 
-  val populationSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
+  val populationSize: Natural = positiveInt(20)
 
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
 

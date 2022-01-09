@@ -63,13 +63,13 @@ import zio.prelude.newtypes.Natural
 object RVar {
 
   def apply0[A](f: RNG => (A, RNG)): RVar[A] =
-    zio.prelude.fx.ZPure.modify(state => f(state).swap)
-
-  def apply[A](f: RNG => (RNG, A)): RVar[A] =
     zio.prelude.fx.ZPure.modify(state => f(state))
 
+  def apply[A](f: RNG => (RNG, A)): RVar[A] =
+    zio.prelude.fx.ZPure.modify(state => f(state).swap)
+
   def pure[A](a: => A): RVar[A] =
-    zio.prelude.fx.ZPure.modify(state => (state, a))
+    zio.prelude.fx.ZPure.modify(state => (a, state))
 
   def next[A](implicit e: Generator[A]): RVar[A] =
     e.gen

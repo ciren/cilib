@@ -15,7 +15,7 @@ package object cilib extends EvalInstances {
   type RandIndexSelection[A] = (NonEmptyVector[A], A) => RVar[List[A]]
 
   /** Positive integers are the set of inegers that are greater than 0 */
-  def positiveInt(n: Int): Natural.subtype.Type with Natural.Tag =
+  def positiveInt(n: Int): Natural =
     Natural.make(n) match {
       case ZValidation.Failure(_, err) => sys.error(err.toString())
       case ZValidation.Success(_, v)   => v

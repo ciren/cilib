@@ -1,6 +1,6 @@
 package cilib
 
-import zio.prelude._
+import zio.prelude.{ Assertion => _, _ }
 import zio.random.Random
 import zio.test.{ Gen, _ }
 
@@ -34,7 +34,7 @@ object FitnessTest extends DefaultRunnableSpec {
                     )
     } yield constraint
 
-  def singleObjectiveGen: Gen[Random, Single.newtype.Type with Single.Tag] =
+  def singleObjectiveGen: Gen[Random, Single] =
     for {
       violationCount <- Gen.int(1, 5)
       violations     <- Gen.listOfN(violationCount)(simpleViolationGen)
@@ -45,7 +45,7 @@ object FitnessTest extends DefaultRunnableSpec {
                         )
     } yield obj
 
-  def multiObjectiveGen: Gen[Random, Multi.newtype.Type with Multi.Tag] =
+  def multiObjectiveGen: Gen[Random, Multi] =
     for {
       nel <- Gen.listOfBounded(2, 10)(singleObjectiveGen)
     } yield Multi(Objective.multi(NonEmptyVector.fromIterableOption(nel).get.map(Single.unwrap)))

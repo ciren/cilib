@@ -25,7 +25,7 @@ object Step {
     zio.prelude.fx.ZPure.succeed(a)
 
   def liftR[A](a: RVar[A]): Step[A] =
-    zio.prelude.fx.ZPure.modify((s: RNG) => a.run(s))
+    zio.prelude.fx.ZPure.modify((s: RNG) => a.run(s).swap)
 
   def withCompare[A](a: Comparison => A): Step[A] =
     for {
@@ -54,12 +54,12 @@ object StepS {
     zio.prelude.fx.ZPure.get.map(_._2)
 
   def modifyState[S](f: S => S): StepS[S, Unit] =
-    zio.prelude.fx.ZPure.modify((s: (RNG, S)) => ((s._1, f(s._2)), ()))
+    zio.prelude.fx.ZPure.modify((s: (RNG, S)) => ((), (s._1, f(s._2))))
 
   def liftR[S, A](a: RVar[A]): StepS[S, A] =
     zio.prelude.fx.ZPure.modify { (s: (RNG, S)) =>
       val (rng2, b) = a.run(s._1)
-      ((rng2, s._2), b)
+      (b, (rng2, s._2))
     }
 
   def liftStep[S, A](a: Step[A]): StepS[S, A] =
@@ -70,9 +70,8 @@ object StepS {
 
                either match {
                  case Left(_)               => sys.error("Unable to lift Step into StepS")
-                 case Right((rng2, result)) => ((rng2, s._2), result)
+                 case Right((rng2, result)) => (result, (rng2, s._2))
                }
-
              }
     } yield x
 

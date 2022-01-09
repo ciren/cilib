@@ -11,10 +11,10 @@ import zio.prelude.newtypes.Natural
 import java.io.IOException
 
 object UNDXPSO extends zio.App {
-  val swarmSize: Natural.subtype.Type with Natural.Tag = positiveInt(20)
-  val bounds: NonEmptyVector[Interval]                 = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                                  = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]                       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val swarmSize: Natural               = positiveInt(20)
+  val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
+  val cmp: Comparison                  = Comparison.dominance(Min)
+  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
 
   val guide: Guide[Mem[Double], Double] = Guide.undx[Mem[Double]](1.0, 0.1)
   val undxPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (

@@ -1,6 +1,6 @@
 package cilib
 
-import zio.prelude._
+import zio.prelude.{ Assertion => _, _ }
 import zio.random.Random
 import zio.test.{ Gen, _ }
 
