@@ -6,8 +6,6 @@ import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
 import zio.prelude.fx._
 import zio.prelude.{ Assertion, QuotedAssertion, Subtype, ZValidation }
 
-import scala.annotation.nowarn
-
 package object exec {
 
   implicit val StepMonadStep: MonadStep[ZPure[Nothing, RNG, RNG, (Comparison, Eval[NonEmptyVector]), Exception, +*]] =
@@ -30,9 +28,6 @@ package object exec {
 
     implicit val nameCodec: RequiredValueCodec[Name] =
       new RequiredValueCodec[Name] {
-        //val stringCodec = implicitly[ValueCodec[String]]
-
-        @nowarn
         override protected def decodeNonNull(value: Value, configuration: ValueCodecConfiguration): Name =
           value match {
             case BinaryValue(binary) =>

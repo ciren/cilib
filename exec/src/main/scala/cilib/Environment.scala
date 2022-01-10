@@ -17,8 +17,6 @@ object Env {
 
   implicit val envTypeCodec: RequiredValueCodec[Env] =
     new RequiredValueCodec[Env] {
-      //val stringCodec = implicitly[ValueCodec[String]]
-
       override protected def decodeNonNull(value: Value, configuration: ValueCodecConfiguration): Env =
         value match {
           case BinaryValue(binary) =>
@@ -26,6 +24,7 @@ object Env {
               case "Unchanged" => Unchanged
               case "Change"    => Change
             }
+          case _                   => sys.error("Impossible state: Not possible to decode an Env type from data file")
         }
 
       override protected def encodeNonNull(data: Env, configuration: ValueCodecConfiguration): Value =
@@ -36,30 +35,7 @@ object Env {
     }
 
   import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver.TypedSchemaDef
-  import com.github.mjakubowski84.parquet4s.{ Value, ValueCodec }
-  import org.apache.parquet.io.api.Binary
   import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
-
-  implicit val envCodec: ValueCodec[Env] =
-    new OptionalValueCodec[Env] {
-      override protected def decodeNonNull(value: Value, configuration: ValueCodecConfiguration): Env =
-        value match {
-          case BinaryValue(binary) =>
-            binary.toStringUsingUTF8 match {
-              case "Unchanged" => Unchanged
-              case "Changed"   => Change
-              case name @ _    => throw new IllegalArgumentException(s"Invalid environment type: $name")
-            }
-
-          case _ => sys.error("Invalid value found for Env type")
-        }
-      override protected def encodeNonNull(data: Env, configuration: ValueCodecConfiguration): Value  =
-        BinaryValue(Binary.fromString(data match {
-          case Unchanged => "Unchanged"
-          case Change    => "Change"
-        }))
-
-    }
 
   implicit val envTypeSchema: TypedSchemaDef[Env] = // Save the data as a String in the schema
     SchemaDef
