@@ -35,6 +35,7 @@ package object exec {
                 case ZValidation.Failure(_, error) => sys.error(error.toString)
                 case ZValidation.Success(_, value) => value
               }
+            case _                   => sys.error("Value found that is not binary")
           }
 
         override protected def encodeNonNull(data: Name, configuration: ValueCodecConfiguration): Value =

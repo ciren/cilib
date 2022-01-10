@@ -105,6 +105,12 @@ package object io {
     writer
   }
 
+  val parquetOptions: ParquetWriter.Options = ParquetWriter.Options(
+    compressionCodecName = CompressionCodecName.SNAPPY,
+    pageSize = 4 * 1024 * 1024,
+    rowGroupSize = 16 * 1024 * 1024
+  )
+
   def writeParquet[F[+_], A: ParquetRecordEncoder: ParquetSchemaResolver](
     file: java.io.File,
     data: F[A]
@@ -113,30 +119,24 @@ package object io {
     encoder: ParquetRecordEncoder[Measurement[A]],
     schema: ParquetSchemaResolver[Measurement[A]]
   ): Unit = {
-    val options = ParquetWriter.Options(
-      compressionCodecName = CompressionCodecName.SNAPPY,
-      pageSize = 4 * 1024 * 1024,
-      rowGroupSize = 16 * 1024 * 1024
-    )
-
     val list: List[A] = F.toList(data)
 
-    ParquetWriter.writeAndClose(Path(file.getAbsolutePath), list, options)
+    ParquetWriter
+      .of[A]
+      .options(parquetOptions)
+      .writeAndClose(Path(file.getAbsolutePath), list)
   }
 
   def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File)(implicit
     encoder: ParquetRecordEncoder[Measurement[A]],
     schema: ParquetSchemaResolver[Measurement[A]]
   ): ZSink[Blocking, Throwable, Measurement[A], Measurement[A], Unit] = {
-    val options = ParquetWriter.Options(
-      compressionCodecName = CompressionCodecName.SNAPPY,
-      pageSize = 4 * 1024 * 1024,
-      rowGroupSize = 16 * 1024 * 1024
-    )
-
     val managedChannel = ZManaged.make(
       blocking.effectBlockingInterrupt {
-        ParquetWriter.writer[Measurement[A]](Path(file.getAbsolutePath), options)
+        ParquetWriter
+          .of[Measurement[A]]
+          .options(parquetOptions)
+          .build(Path(file.getAbsolutePath))
       }
     )(chan => blocking.effectBlocking(chan.close()).orDie)
 
