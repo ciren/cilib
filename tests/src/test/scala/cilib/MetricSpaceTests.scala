@@ -1,24 +1,24 @@
 package cilib
 
+import zio.Scope
 import zio.prelude.{ Assertion => _, _ }
-import zio.random.Random
-import zio.test.{ TestResult, _ }
+import zio.test._
 
 import Predef.{ any2stringadd => _, assert => _ }
 
-object MetricSpaceTest extends DefaultRunnableSpec {
+object MetricSpaceTest extends ZIOSpecDefault {
 
-  val doubleGen: Gen[Random, Double]                      = Gen.double(-1000000.0, 1000000.0)
-  val doubleListGen: Gen[Random with Sized, List[Double]] = Gen.listOf(doubleGen)
+  val doubleGen: Gen[Any, Double]                      = Gen.double(-1000000.0, 1000000.0)
+  val doubleListGen: Gen[Any with Sized, List[Double]] = Gen.listOf(doubleGen)
 
-  val listTuple2: Gen[Sized with Random, (List[Double], List[Double])] = Gen.sized { size =>
+  val listTuple2: Gen[Sized, (List[Double], List[Double])] = Gen.sized { size =>
     for {
       x <- Gen.listOfN(size)(doubleGen)
       y <- Gen.listOfN(size)(doubleGen)
     } yield (x, y)
   }
 
-  val listTuple3: Gen[Sized with Random, (List[Double], List[Double], List[Double])] = Gen.sized { size =>
+  val listTuple3: Gen[Sized, (List[Double], List[Double], List[Double])] = Gen.sized { size =>
     for {
       x <- Gen.listOfN(size)(doubleGen)
       y <- Gen.listOfN(size)(doubleGen)
@@ -47,29 +47,29 @@ object MetricSpaceTest extends DefaultRunnableSpec {
   def triangle[A, B](m: MetricSpace[A, B], a: A, b: A, c: A)(implicit O: Ord[B], F: scala.math.Numeric[B]): Boolean =
     O.lessOrEqual(m.dist(a, c), F.plus(m.dist(a, b), m.dist(b, c)))
 
-  override def spec: ZSpec[Environment, Failure] = suite("metric space")(
-    testM("non-negativity") {
+  def spec: Spec[Environment with TestEnvironment with Scope, Any] = suite("Metric space")(
+    test("non-negativity") {
       check(listTuple2) { case (x, y) =>
         nonnegative(euclidean, x, y) &&
           nonnegative(manhattan, x, y) &&
           nonnegative(chebyshev, x, y)
       }
     },
-    testM("hamming metric space") {
+    test("hamming metric space") {
       check(doubleListGen, doubleListGen) { case (x, y) =>
         nonnegative(hamming, x, y) &&
           symmetry(hamming, x, y) &&
           assert(hamming.dist(x, x))(Assertion.equalTo(0))
       }
     },
-    testM("identity of indiscernibles") {
+    test("identity of indiscernibles") {
       check(doubleListGen) { case l =>
         indisc(euclidean, l) &&
           indisc(manhattan, l) &&
           indisc(chebyshev, l)
       }
     },
-    testM("identity") {
+    test("identity") {
       check(listTuple2) { case (x, _) =>
         assert(euclidean.dist(x, x))(Assertion.equalTo(0.0)) &&
           assert(manhattan.dist(x, x))(Assertion.equalTo(0.0)) &&
@@ -83,14 +83,14 @@ object MetricSpaceTest extends DefaultRunnableSpec {
       // (x =!= y) ==> (hamming.dist(x, y) =!= 0)
       }
     },
-    testM("symmetry") {
+    test("symmetry") {
       check(listTuple2) { case (x, y) =>
         symmetry(euclidean, x, y) &&
           symmetry(manhattan, x, y) &&
           symmetry(chebyshev, x, y)
       }
     },
-    testM("triangle-inequality") {
+    test("triangle-inequality") {
       check(listTuple3) { case (x, y, z) =>
         assert(triangle(euclidean, x, y, z))(Assertion.isTrue) &&
           assert(triangle(manhattan, x, y, z))(Assertion.isTrue) &&

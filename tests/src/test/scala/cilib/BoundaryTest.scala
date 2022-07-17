@@ -1,37 +1,36 @@
 package cilib
 
-import zio.prelude.{ Assertion => _, _ }
-import zio.random.Random
+import zio.Scope
+import zio.prelude.Id
 import zio.test._
 
-object BoundarySpec extends DefaultRunnableSpec {
+object BoundarySpec extends ZIOSpecDefault {
 
-  val intervalGen: Gen[Random, Interval] =
+  val intervalGen: Gen[Any, Interval] =
     for {
-      a <- Gen.anyDouble
-      b <- Gen.anyDouble
+      a <- Gen.double
+      b <- Gen.double
       if b > a
     } yield Interval(a, b)
 
-  val intervalPairGen: Gen[Random, (Double, Interval)] =
+  val intervalPairGen: Gen[Any, (Double, Interval)] =
     for {
       b     <- intervalGen
       a     <- Gen.elements(b.lowerValue, b.upperValue)
       scale <- Gen.elements(1, 50)
     } yield (a * scale, b)
 
-  override def spec: ZSpec[Environment, Failure] = suite("Boundary enforcement")(
-    testM("absorb") {
-      check(Gen.anyDouble, intervalGen) { case (double, interval) =>
+  def spec: Spec[Environment with TestEnvironment with Scope, Any] = suite("Boundary enforcement")(
+    test("absorb") {
+      check(Gen.double, intervalGen) { case (double, interval) =>
         val p        = Position(NonEmptyVector(double), NonEmptyVector(interval))
-        val enforced =
-          Id.unwrap(Boundary.enforce(p, Boundary.absorb))
+        val enforced = Id.unwrap(Boundary.enforce(p, Boundary.absorb))
 
-        assert(enforced.forall(interval.contains))(Assertion.isTrue)
+        assert(enforced.forall(interval.contains(_)))(Assertion.isTrue)
       }
     },
-    testM("random") {
-      check(Gen.anyDouble, intervalGen, Gen.anyLong) { case (a, b, seed) =>
+    test("random") {
+      check(Gen.double, intervalGen, Gen.long) { case (a, b, seed) =>
         val p        = Position(NonEmptyVector(a), NonEmptyVector(b))
         val enforced =
           Boundary
@@ -41,7 +40,7 @@ object BoundarySpec extends DefaultRunnableSpec {
         assert(enforced.forall(b.contains))(Assertion.isTrue)
       }
     },
-    testM("reflect") {
+    test("reflect") {
       check(intervalPairGen) { case ((double, interval)) =>
         val p        = Position(NonEmptyVector(double), NonEmptyVector(interval))
         val enforced =
@@ -50,8 +49,8 @@ object BoundarySpec extends DefaultRunnableSpec {
         assert(enforced.forall(interval.contains))(Assertion.isTrue)
       }
     },
-    testM("toroidal") {
-      check(Gen.anyDouble, intervalGen) { case (double, interval) =>
+    test("toroidal") {
+      check(Gen.double, intervalGen) { case (double, interval) =>
         val p        = Position(NonEmptyVector(double), NonEmptyVector(interval))
         val enforced =
           Id.unwrap(Boundary.enforce(p, Boundary.toroidal))
@@ -60,4 +59,5 @@ object BoundarySpec extends DefaultRunnableSpec {
       }
     }
   )
+
 }

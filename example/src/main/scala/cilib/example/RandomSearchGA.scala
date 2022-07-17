@@ -3,12 +3,11 @@ package example
 
 import cilib.exec._
 import cilib.ga._
-import zio.console._
 import zio.prelude.fx.ZPure
 import zio.prelude.newtypes.Natural
-import zio.{ ExitCode, URIO }
+import zio.{ Console, ExitCode, URIO, ZEnvironment }
 
-object RandomSearchGA extends zio.App {
+object RandomSearchGA extends zio.ZIOAppDefault {
   type Ind = Individual[Unit]
 
   val populationSize: Natural          = positiveInt(20)
@@ -40,6 +39,8 @@ object RandomSearchGA extends zio.App {
             )
         )
 
-  def run(args: List[String]): URIO[Console with Console, ExitCode] =
-    putStrLn(Runner.repeat(1000, myGA, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString).exitCode
+  def run: URIO[Any, ExitCode] = {
+    val env = ZEnvironment((cmp, eval))
+    Console.printLine(Runner.repeat(1000, myGA, swarm).provideEnvironment(env).runAll(RNG.fromTime).toString).exitCode
+  }
 }

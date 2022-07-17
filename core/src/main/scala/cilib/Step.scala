@@ -30,12 +30,12 @@ object Step {
   def withCompare[A](a: Comparison => A): Step[A] =
     for {
       env <- zio.prelude.fx.ZPure.environment
-    } yield a.apply(env._1)
+    } yield a.apply(env.get._1)
 
   def withCompareR[A](f: Comparison => RVar[A]): Step[A] =
     for {
       env <- zio.prelude.fx.ZPure.environment[RNG, (Comparison, Eval[NonEmptyVector])]
-      a   <- liftR(f(env._1))
+      a   <- liftR(f(env.get._1))
     } yield a
 
   def eval[S, A](entity: Entity[S, A])(f: Position[A] => Position[A]): Step[Entity[S, A]] =
@@ -44,7 +44,7 @@ object Step {
   def evalP[A](pos: Position[A]): Step[Position[A]] =
     for {
       env <- zio.prelude.fx.ZPure.environment[RNG, (Comparison, Eval[NonEmptyVector])]
-      a   <- liftR(Position.eval[A](env._2, pos))
+      a   <- liftR(Position.eval[A](env.get._2, pos))
     } yield a
 }
 
@@ -66,7 +66,7 @@ object StepS {
     for {
       env <- zio.prelude.fx.ZPure.environment[(RNG, S), (Comparison, Eval[NonEmptyVector])]
       x   <- zio.prelude.fx.ZPure.modify { (s: (RNG, S)) =>
-               val (_, either) = a.provide(env).runAll(s._1)
+               val (_, either) = a.provideEnvironment(env).runAll(s._1)
 
                either match {
                  case Left(_)               => sys.error("Unable to lift Step into StepS")

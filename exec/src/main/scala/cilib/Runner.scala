@@ -39,7 +39,7 @@ object Runner {
     name: String,
     a: Kleisli[M, F[A], F[A]]
   ) =
-    Stream.repeat(Algorithm(toName(name), a))
+    ZStream.repeat(Algorithm(toName(name), a))
 
   /**
    * @param name
@@ -58,7 +58,7 @@ object Runner {
     def go(current: A, iteration: Int): UStream[Algorithm[Kleisli[M, F[B], F[B]]]] = {
       val next = f(current)
 
-      Stream.succeed(Algorithm(toName(name), next)) ++
+      ZStream.succeed(Algorithm(toName(name), next)) ++
         go(updater(current, IterationCount(iteration)), iteration + 1)
     }
 
@@ -74,7 +74,7 @@ object Runner {
     name: String,
     eval: Eval[NonEmptyVector]
   ): UStream[Problem] =
-    Stream.repeat(Problem(toName(name), Unchanged, eval))
+    ZStream.repeat(Problem(toName(name), Unchanged, eval))
 
   /**
    * @param name
@@ -144,14 +144,15 @@ object Runner {
 
     env
       .zipWith(alg)(Tuple2.apply)
-      .mapAccumM(FoldState(1, rng2, current, initialConfig, initialState)) {
+      .mapAccumZIO(FoldState(1, rng2, current, initialConfig, initialState)) {
         case (FoldState(iteration, r, current, config, state), (Problem(problem, e, eval), algorithm)) =>
+          val environment = ZEnvironment((config, eval))
           val (_, result) =
             e match {
-              case Unchanged => algorithm.value.run(current).provide((config, eval)).runAll((r, state))
+              case Unchanged => algorithm.value.run(current).provideEnvironment(environment).runAll((r, state))
               case Change    =>
                 val (r3, updated) = onChange(current, eval).run(r)
-                algorithm.value.run(updated).provide((config, eval)).runAll((r3, state))
+                algorithm.value.run(updated).provideEnvironment(environment).runAll((r3, state))
             }
 
           result match {

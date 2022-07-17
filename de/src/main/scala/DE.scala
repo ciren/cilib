@@ -85,7 +85,10 @@ object DE {
           else Dist.stdUniform.map(_ < p_r)
         }
       }
-      .map(x => NonEmptyVector.nonEmpty(F.reduceMapLeft(x)(ChunkBuilder.make() += _)(_ += _).result()))
+      .map { x =>
+        val chunk = F.reduceMapLeft(x)(ChunkBuilder.make() += _)(_ += _).result().toList
+        NonEmptyVector(chunk.head, chunk.tail: _*)
+      }
 
   def exp[F[+_], A](
     p_r: Double,

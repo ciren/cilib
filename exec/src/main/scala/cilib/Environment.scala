@@ -9,11 +9,11 @@ final case object Unchanged extends Env
 final case object Change    extends Env
 
 object Env {
-  def unchanging: UStream[Env] =
-    UStream(Unchanged: Env) ++ unchanging
+  def unchanging: zio.stream.UStream[Env] =
+    ZStream(Unchanged: Env) ++ unchanging
 
   def frequency[A](n: Long): UStream[Env] =
-    unchanging.take(n - 1) ++ UStream(Change: Env) ++ frequency(n)
+    unchanging.take(n - 1) ++ ZStream(Change: Env) ++ frequency(n)
 
   implicit val envTypeCodec: RequiredValueCodec[Env] =
     new RequiredValueCodec[Env] {

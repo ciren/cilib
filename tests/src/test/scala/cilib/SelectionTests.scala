@@ -1,9 +1,9 @@
 package cilib
 
-import zio.random.Random
+import zio.Scope
 import zio.test._
 
-object SelectionTests extends DefaultRunnableSpec {
+object SelectionTests extends ZIOSpecDefault {
 
   val star: (NonEmptyVector[Int], Int) => List[Int]                                                                  = Selection.star[Int]
   val ring: (NonEmptyVector[Int], Int) => List[Int]                                                                  = Selection.indexNeighbours[Int](3)
@@ -11,13 +11,13 @@ object SelectionTests extends DefaultRunnableSpec {
   val ringDistance: (NonEmptyVector[NonEmptyVector[Double]], NonEmptyVector[Double]) => List[NonEmptyVector[Double]] =
     Selection.distanceNeighbours[NonEmptyVector, Double](MetricSpace.euclidean)(3)
 
-  def nelGen(dim: Int): Gen[Random, NonEmptyVector[Int]] =
+  def nelGen(dim: Int): Gen[Any, NonEmptyVector[Int]] =
     Gen
       .listOfN(dim)(Gen.int(-10, 10))
       .map(x => NonEmptyVector.fromIterableOption(x).get)
 
-  override def spec: ZSpec[Environment, Failure] = suite("selection")(
-    testM("star") {
+  def spec: Spec[Environment with TestEnvironment with Scope, Any] = suite("selection")(
+    test("star") {
       check(nelGen(10)) { case (a) =>
         val selection = star(a, a.head)
 
@@ -31,7 +31,7 @@ object SelectionTests extends DefaultRunnableSpec {
       assert(star(NonEmptyVector(1, 2, 3), 1))(Assertion.equalTo(List(1, 2, 3))) &&
       assert(star(NonEmptyVector(1, 2, 3, 4, 5), 3))(Assertion.equalTo(List(1, 2, 3, 4, 5)))
     },
-    testM("indexNeighbours") {
+    test("indexNeighbours") {
       check(nelGen(10)) { case (a) =>
         val selection = ring(a, a.head)
 
@@ -47,7 +47,7 @@ object SelectionTests extends DefaultRunnableSpec {
       assert(ring(NonEmptyVector(1, 2, 3, 4, 5), 3))(Assertion.equalTo(List(2, 3, 4))) &&
       assert(ring(NonEmptyVector(1, 2, 3, 4, 5), 5))(Assertion.equalTo(List(4, 5, 1)))
     },
-    testM("wheel") {
+    test("wheel") {
       check(nelGen(10)) { case a =>
         val wheelHead = wheel(a, a.head)
 
@@ -63,7 +63,7 @@ object SelectionTests extends DefaultRunnableSpec {
       assert(wheel(NonEmptyVector(1, 2, 3, 4, 5), 5))(Assertion.equalTo(List(1, 5)))
     },
     // TODO: Fix this test and generator
-    // testM("distance neighbours") {
+    // test("distance neighbours") {
     //   check(nelGen(10)) { case a =>
     //     val selection: Int = ringDistance(a, a.head)
     //

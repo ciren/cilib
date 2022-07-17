@@ -4,11 +4,10 @@ package example
 import cilib.de._
 import cilib.exec._
 import cilib.pso._
-import zio.console._
 import zio.prelude.newtypes.Natural
-import zio.{ ExitCode, URIO }
+import zio.{ Console, ExitCode, URIO, ZEnvironment }
 
-object Mixed extends zio.App {
+object Mixed extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = Comparison.dominance(Min)
@@ -47,6 +46,8 @@ object Mixed extends zio.App {
   val alg: NonEmptyVector[Entity[Mem[Double], Double]] => Step[NonEmptyVector[Entity[Mem[Double], Double]]] =
     Iteration.sync(combinedAlg)
 
-  def run(args: List[String]): URIO[Console with Console, ExitCode] =
-    putStrLn(Runner.repeat(1000, alg, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString).exitCode
+  def run: URIO[Any, ExitCode] = {
+    val env = ZEnvironment((cmp, eval))
+    Console.printLine(Runner.repeat(1000, alg, swarm).provideEnvironment(env).runAll(RNG.fromTime).toString).exitCode
+  }
 }

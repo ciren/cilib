@@ -1,26 +1,26 @@
 package cilib
 
+import zio.Scope
 import zio.prelude.{ Assertion => _, _ }
-import zio.random.Random
-import zio.test.{ Gen, _ }
+import zio.test._
 
-object RVarTests extends DefaultRunnableSpec {
+object RVarTests extends ZIOSpecDefault {
 
   val rng = RNG.fromTime
 
   val interval: Interval                           = Interval(-10.0, 10.0)
   def boundary(dim: Int): NonEmptyVector[Interval] = interval ^ dim
 
-  def nelGen(dim: Int): Gen[Random, NonEmptyVector[Double]] =
+  def nelGen(dim: Int): Gen[Any, NonEmptyVector[Double]] =
     for {
       head <- Gen.double(-10, 10)
       tail <- Gen.listOfN(dim - 1)(Gen.double(-10, 10))
     } yield NonEmptyVector.fromIterable(head, tail)
 
-  def positionGen: Gen[Random, Position[Double]] = nelGen(10).map(Position(_, boundary(10)))
+  def positionGen: Gen[Any, Position[Double]] = nelGen(10).map(Position(_, boundary(10)))
 
-  def spec: ZSpec[Environment, Failure] = suite("RVar")(
-    testM("shuffle") {
+  def spec: Spec[Environment with TestEnvironment with Scope, Any] = suite("RVar")(
+    test("shuffle") {
       check(nelGen(10)) { case xs =>
         val shuffled = RVar.shuffle(xs).run(RNG.fromTime)._2
 
@@ -28,7 +28,7 @@ object RVarTests extends DefaultRunnableSpec {
         assert(shuffled.toChunk.sorted)(Assertion.equalTo(xs.toChunk.sorted))
       }
     },
-    testM("sampling") {
+    test("sampling") {
       check(Gen.int(1, 10), Gen.int(1, 20)) { case (sampleSize, listSize) =>
         val elements = NonEmptyVector.fromIterableOption((1 to listSize).toList).get
 

@@ -1,5 +1,6 @@
 package cilib
 package example
+
 import cilib.exec.Runner._
 import cilib.exec.{ Progress, _ }
 import cilib.io._
@@ -7,15 +8,13 @@ import cilib.pso.Defaults._
 import cilib.pso._
 import cilib.{ Entity, Mem, NonEmptyVector }
 import zio._
-import zio.blocking.Blocking
-import zio.console._
 import zio.prelude.newtypes.Natural
 import zio.prelude.{ Comparison => _, _ }
 import zio.stream._
 
 import java.io.File
 
-object FileOutput extends zio.App {
+object FileOutput extends zio.ZIOAppDefault {
 
   // An example showing how to compare multiple algorithms across multiple
   // benchmarks and save the results to a a file (either csv or parquet).
@@ -123,7 +122,7 @@ object FileOutput extends zio.App {
   final case object Parquet extends Choice
   final case object Invalid extends Choice
 
-  def writeResults(choice: Choice): ZIO[Blocking, Throwable, Unit] = {
+  def writeResults(choice: Choice): ZIO[Any, Throwable, Unit] = {
     val measured: List[ZStream[Any, Exception, Measurement[Results]]] =
       simulations.map(_.take(1000).map(performanceMeasure))
 
@@ -136,20 +135,17 @@ object FileOutput extends zio.App {
       })
   }
 
-  def run(args: List[String]) =
-    myAppLogic.exitCode
-
-  val myAppLogic: ZIO[Blocking with Console, Throwable, Unit] =
+  def run: ZIO[Environment with ZIOAppArgs with Scope, Any, Any] =
     for {
-      _      <- putStrLn("Please enter the output format type: (1) for Parquet or (2) for CSV")
-      result <- getStrLn
+      _      <- Console.printLine("Please enter the output format type: (1) for Parquet or (2) for CSV")
+      result <- Console.readLine
       choice <- ZIO.fromTry(scala.util.Try(result.toInt))
       _      <- writeResults(choice match {
                   case 1 => Parquet
                   case 2 => CSV
                   case _ => Invalid
                 })
-      _      <- putStrLn("Complete.")
+      _      <- Console.printLine("Complete.")
     } yield ()
 
 }

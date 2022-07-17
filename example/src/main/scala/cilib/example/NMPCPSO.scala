@@ -4,11 +4,10 @@ package example
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
-import zio.console._
 import zio.prelude.newtypes.Natural
-import zio.{ ExitCode, URIO }
+import zio.{ Console, ExitCode, URIO, ZEnvironment }
 
-object NMPCPSO extends zio.App {
+object NMPCPSO extends zio.ZIOAppDefault {
 
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
@@ -25,7 +24,9 @@ object NMPCPSO extends zio.App {
   val iter: NonEmptyVector[Particle[Mem[Double], Double]] => Step[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Iteration.sync(nmpcPSO)
 
-  def run(args: List[String]): URIO[Console with Console, ExitCode] =
-    putStrLn(Runner.repeat(1000, iter, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString).exitCode
+  def run: URIO[Any, ExitCode] = {
+    val env = ZEnvironment((cmp, eval))
+    Console.printLine(Runner.repeat(1000, iter, swarm).provideEnvironment(env).runAll(RNG.fromTime).toString).exitCode
+  }
 
 }

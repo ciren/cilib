@@ -4,13 +4,12 @@ package example
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
-import zio.ZIO
-import zio.console._
 import zio.prelude.newtypes.Natural
+import zio.{ Console, IO, ZEnvironment }
 
 import java.io.IOException
 
-object UNDXPSO extends zio.App {
+object UNDXPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = Comparison.dominance(Min)
@@ -26,10 +25,9 @@ object UNDXPSO extends zio.App {
   val iter: NonEmptyVector[Particle[Mem[Double], Double]] => Step[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Iteration.sync(undxPSO)
 
-  def run(args: List[String]) =
-    program.exitCode
-
-  val program: ZIO[Console, IOException, Unit] =
-    putStrLn(Runner.repeat(1000, iter, swarm).provide((cmp, eval)).runAll(RNG.fromTime).toString)
+  def run: IO[IOException, Unit] = {
+    val env = ZEnvironment((cmp, eval))
+    Console.printLine(Runner.repeat(1000, iter, swarm).provideEnvironment(env).runAll(RNG.fromTime).toString)
+  }
 
 }

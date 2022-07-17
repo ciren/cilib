@@ -1,6 +1,5 @@
 package cilib
 
-import zio.Chunk
 import zio.prelude._
 
 object Boundary {
@@ -20,7 +19,7 @@ object Boundary {
     x.pos
       .zip(x.boundary)
       .zipWith(z.pos) { case ((a, b), c) => f.f(a, b, c) }
-      .reduceMapRight(F.map(NonEmptyVector.single))((f, fas) => f.zipWith(fas)((h, t) => Chunk(h) +: t))
+      .reduceMapRight(F.map(NonEmptyVector.single))((f, fas) => f.zipWith(fas)((h, t) => h +: t))
 
   def clamp: Enforce[Id, Double] =
     absorb

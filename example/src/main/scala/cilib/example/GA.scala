@@ -3,14 +3,13 @@ package example
 
 import cilib.exec._
 import cilib.ga._
-import zio.console._
 import zio.prelude.newtypes.Natural
 import zio.prelude.{ Comparison => _, _ }
-import zio.{ ExitCode, URIO }
+import zio.{ Console, ExitCode, URIO, ZEnvironment }
 
 import Lenses._
 
-object GAExample extends zio.App {
+object GAExample extends zio.ZIOAppDefault {
   type Ind = Individual[Unit]
 
   val populationSize: Natural = positiveInt(20)
@@ -75,12 +74,17 @@ object GAExample extends zio.App {
         )
 
   // Our IO[Unit] that runs at the end of the world
-  def run(args: List[String]): URIO[Console with Console, ExitCode] =
-    putStrLn(
-      exec.Runner
-        .repeat(1000, cullingGA, swarm)
-        .provide((cmp, eval))
-        .runAll(RNG.fromTime)
-        .toString
-    ).exitCode
+  def run: URIO[Any, ExitCode] = {
+    val env = ZEnvironment((cmp, eval))
+
+    Console
+      .printLine(
+        exec.Runner
+          .repeat(1000, cullingGA, swarm)
+          .provideEnvironment(env)
+          .runAll(RNG.fromTime)
+          .toString
+      )
+      .exitCode
+  }
 }

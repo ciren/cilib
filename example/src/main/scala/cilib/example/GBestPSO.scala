@@ -7,7 +7,7 @@ import cilib.pso._
 import zio.stream.UStream
 import zio.{ ExitCode, URIO }
 
-object GBestPSO extends zio.App {
+object GBestPSO extends zio.ZIOAppDefault {
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = cilib.Comparison.dominance(Min)
 
@@ -31,7 +31,7 @@ object GBestPSO extends zio.App {
   )
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  def run(args: List[String]): URIO[Any with zio.console.Console, ExitCode] = {
+  def run: URIO[Any, ExitCode] = {
     val t = Runner.foldStep(
       cmp,
       RNG.fromTime,

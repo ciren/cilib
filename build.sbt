@@ -1,12 +1,6 @@
 import sbt._
 import sbt.Keys._
 
-val zio        = "dev.zio" %% "zio"          % Version.zio
-val zioStreams = "dev.zio" %% "zio-streams"  % Version.zio
-val zioPrelude = "dev.zio" %% "zio-prelude"  % Version.zioPrelude
-val zioTest    = "dev.zio" %% "zio-test"     % Version.zio % Test
-val zioTestSbt = "dev.zio" %% "zio-test-sbt" % Version.zio % Test
-
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(
@@ -96,8 +90,8 @@ lazy val core = project
   .settings(Compile / console / scalacOptions ~= { _.filterNot(Set("-Xfatal-warnings")) })
   .settings(
     libraryDependencies ++= Seq(
-      zio,
-      zioPrelude
+      Dependencies.zio,
+      Dependencies.zioPrelude
     )
   )
   .enablePlugins(BuildInfoPlugin)
@@ -132,9 +126,9 @@ lazy val exec = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      zio,
-      zioStreams,
-      "com.github.mjakubowski84" %% "parquet4s-core" % Version.parquet4s
+      Dependencies.zio,
+      Dependencies.zioStreams,
+      Dependencies.parquet4s
     )
   )
   .enablePlugins(BuildInfoPlugin)
@@ -176,7 +170,12 @@ lazy val tests = project
   .settings(publish / skip := true)
   .settings(test / javaOptions += "-Xmx1G")
   .settings(run / fork := true)
-  .settings(libraryDependencies ++= Seq(zioTest, zioTestSbt))
+  .settings(
+    libraryDependencies ++= Seq(
+      Dependencies.zioTest,
+      Dependencies.zioTestSbt
+    )
+  )
   .enablePlugins(BuildInfoPlugin)
 
 lazy val io = project
@@ -187,10 +186,10 @@ lazy val io = project
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
-      "com.github.mjakubowski84" %% "parquet4s-core" % Version.parquet4s,
-      "org.apache.hadoop"         % "hadoop-client"  % "2.8.5",
-      zio,
-      zioStreams
+      Dependencies.parquet4s,
+      Dependencies.hadoopClient,
+      Dependencies.zio,
+      Dependencies.zioStreams
     )
   )
   .enablePlugins(BuildInfoPlugin)

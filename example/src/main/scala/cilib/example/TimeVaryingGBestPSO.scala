@@ -9,7 +9,7 @@ import zio.URIO
 import zio.prelude.newtypes.Natural
 import zio.stream.UStream
 
-object TimeVaryingGBestPSO extends zio.App {
+object TimeVaryingGBestPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = Comparison.dominance(Min)
@@ -52,11 +52,8 @@ object TimeVaryingGBestPSO extends zio.App {
 
   val problemStream: UStream[Problem] = Runner.staticProblem("spherical", eval)
 
-  def run(args: List[String]) =
-    runner.exitCode
-
-  // Our IO[Unit] that runs the algorithm, at the end of the world
-  val runner: URIO[Any, Unit] = {
+  def run: URIO[Any, Unit] = {
+    // Our IO[Unit] that runs the algorithm, at the end of the world
     val t = Runner.foldStep(
       cmp,
       RNG.fromTime,

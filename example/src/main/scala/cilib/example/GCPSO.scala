@@ -4,11 +4,10 @@ package example
 import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
-import zio.console._
 import zio.prelude.newtypes.Natural
-import zio.{ ExitCode, URIO }
+import zio.{ Console, ExitCode, URIO, ZEnvironment }
 
-object GCPSO extends zio.App {
+object GCPSO extends zio.ZIOAppDefault {
 
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
@@ -32,13 +31,14 @@ object GCPSO extends zio.App {
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  def run(args: List[String]): URIO[Console with Console, ExitCode] = {
+  def run: URIO[Any, ExitCode] = {
     val algParams = PSO.defaultGCParams
+    val env       = ZEnvironment((cmp, eval))
 
     val result =
-      Runner.repeat(1000, iter, swarm).provide((cmp, eval)).runAll((RNG.fromTime, algParams))
+      Runner.repeat(1000, iter, swarm).provideEnvironment(env).runAll((RNG.fromTime, algParams))
 
-    putStrLn(result.toString).exitCode
+    Console.printLine(result.toString).exitCode
   }
 
 }

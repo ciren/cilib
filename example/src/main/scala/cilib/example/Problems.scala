@@ -81,9 +81,8 @@ object Problems {
             val shift                                            = lin.map(_ * scalar)
             val (newPos, newShift): (List[Double], List[Double]) =
               shift
-                .zip(p.location)
-                .zip(p.domain)
-                .map { case ((s, p), d) =>
+                .zip(p.location.zip(p.domain))
+                .map { case (s, (p, d)) =>
                   val trial = p + s
 
                   if (d.contains(trial)) {
@@ -94,7 +93,6 @@ object Problems {
                     (2.0 * d.upperValue - p - s, -1.0 * s)
                   }
                 }
-                .toChunk
                 .toList
                 .unzip(x => x)
 

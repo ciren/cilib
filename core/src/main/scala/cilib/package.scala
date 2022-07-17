@@ -26,4 +26,7 @@ package object cilib extends EvalInstances {
       ForEach[List].forEach(List.fill(n)(rvar))(identity)
   }
 
+  type NonEmptyVector[+A] = zio.NonEmptyChunk[A]
+  val NonEmptyVector = zio.NonEmptyChunk
+
 }

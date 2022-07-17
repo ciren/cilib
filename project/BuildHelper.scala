@@ -45,6 +45,8 @@ object BuildHelper {
 
   def extraOptions(scalaVersion: String, optimize: Boolean) =
     CrossVersion.partialVersion(scalaVersion) match {
+      case Some((3, _))  =>
+        Seq("-Ykind-projector")
       case Some((0, _))  =>
         Seq(
           "-language:implicitConversions",
@@ -136,7 +138,7 @@ object BuildHelper {
 
   def stdSettings(prjName: String) = Seq(
     name                                   := prjName,
-    crossScalaVersions                     := Seq("2.13.6", "2.12.15"),      // "3.0.0"),
+    crossScalaVersions                     := Seq("2.13.8", "3.1.3"),
     scalaVersion                           := crossScalaVersions.value.head,
     scalacOptions                          := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
@@ -152,8 +154,7 @@ object BuildHelper {
     },
     testFrameworks                         := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
     Test / parallelExecution               := true,
-    semanticdbEnabled                      := !isScala3(scalaVersion.value), // enable SemanticDB
-    semanticdbOptions += "-P:semanticdb:synthetics:on",
+    semanticdbEnabled                      := true, //!isScala3(scalaVersion.value), // enable SemanticDB
     semanticdbVersion                      := scalafixSemanticdb.revision,   // use Scalafix compatible version
     ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
     ThisBuild / scalafixDependencies ++= List(

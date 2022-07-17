@@ -110,7 +110,7 @@ trait EvalInstances {
     new Input[zio.prelude.NonEmptyList] {
       def toInput[A](a: NonEmptyVector[A]): zio.prelude.NonEmptyList[A] =
         // Safe as there _will always be_ at least 1 element
-        zio.prelude.NonEmptyList.fromIterableOption(a.toChunk.toIterable).get
+        zio.prelude.NonEmptyList.fromIterableOption(a.toChunk.toList).get
     }
 
   implicit val nonEmptyVectorInput: Input[NonEmptyVector] = new Input[NonEmptyVector] {

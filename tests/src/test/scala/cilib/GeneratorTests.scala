@@ -1,8 +1,9 @@
 package cilib
 
+import zio.Scope
 import zio.test._
 
-object GeneratorTest extends DefaultRunnableSpec {
+object GeneratorTest extends ZIOSpecDefault {
 
   def sizedGen(r: RVar[Double]): Gen[Any, Vector[Double]] =
     Gen.const(r.replicateM(250).run(RNG.fromTime)._2.toVector)
@@ -36,9 +37,9 @@ object GeneratorTest extends DefaultRunnableSpec {
     }
   }
 
-  override def spec: ZSpec[Environment, Failure] = suite("Distribution")(
+  def spec: Spec[Environment with TestEnvironment with Scope, Any] = suite("Distribution")(
     // Perform a hypothesis test using the Anderson-Darling test for normality
-    testM("stdNormal") {
+    test("stdNormal") {
       check(gaussianRandom) { case a =>
         val n  = a.size
         val a2 = -n - S(a, cdf_gauss)
