@@ -34,7 +34,7 @@ object Env {
         }
     }
 
-  import com.github.mjakubowski84.parquet4s.ParquetSchemaResolver.TypedSchemaDef
+  import com.github.mjakubowski84.parquet4s.TypedSchemaDef
   import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
 
   implicit val envTypeSchema: TypedSchemaDef[Env] = // Save the data as a String in the schema
