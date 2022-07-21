@@ -18,10 +18,10 @@ jobs:
       - uses: cachix/install-nix-action@v14
 
       - name: Lint check
-        run: nix-shell --run 'sbt -Dsbt.supershell=false ++${{ matrix.scala }} check'
+        run: nix shell --command 'sbt -Dsbt.supershell=false ++${{ matrix.scala }} check'
 
       - name: Test
-        run: nix-shell --run 'sbt -Dsbt.supershell=false ++${{ matrix.scala }} test'
+        run: nix shell --command 'sbt -Dsbt.supershell=false ++${{ matrix.scala }} test'
 
       - name: Generate docs and build website
-        run: nix-shell --run 'sbt docs/docusaurusCreateSite'
+        run: nix shell --command 'sbt docs/docusaurusCreateSite'
