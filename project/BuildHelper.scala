@@ -157,8 +157,8 @@ object BuildHelper {
     },
     testFrameworks                         := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
     Test / parallelExecution               := true,
-    semanticdbEnabled                      := true, //!isScala3(scalaVersion.value), // enable SemanticDB
-    semanticdbVersion                      := scalafixSemanticdb.revision,   // use Scalafix compatible version
+    semanticdbEnabled                      := true,                        //!isScala3(scalaVersion.value), // enable SemanticDB
+    semanticdbVersion                      := scalafixSemanticdb.revision, // use Scalafix compatible version
     ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
     ThisBuild / scalafixDependencies ++= List(
       "com.github.liancheng" %% "organize-imports" % "0.5.0",
