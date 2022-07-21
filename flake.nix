@@ -16,7 +16,7 @@
             yarn
             nodejs
             #nushell
-            #pqrs
+            pqrs
             #node2nix
             #yarn2nix
           ];
