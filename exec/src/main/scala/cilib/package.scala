@@ -1,6 +1,6 @@
 package cilib
 
-import com.github.mjakubowski84.parquet4s.{TypedSchemaDef, Value, _}
+import com.github.mjakubowski84.parquet4s.{ TypedSchemaDef, Value, _ }
 import org.apache.parquet.schema.{ LogicalTypeAnnotation, PrimitiveType }
 import zio.prelude.fx._
 import zio.prelude.{ Assertion, QuotedAssertion, Subtype, ZValidation }
