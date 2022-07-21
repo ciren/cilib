@@ -6,12 +6,9 @@
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
+      with import nixpkgs { system = "${system}"; };
       let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
-        devShell = pkgs.mkShell {
-          buildInputs = with pkgs; [
+        buildInputs =  [
             sbt
             yarn
             nodejs
@@ -20,7 +17,13 @@
             #node2nix
             #yarn2nix
           ];
-        };
+      in
+      {
+        packages.pkg = callPackage ./default.nix { inherit buildInputs; };
+
+        defaultPackage = self.packages.${system}.pkg;
+
+        devShell = mkShell { inherit buildInputs; };
       }
     );
 }
