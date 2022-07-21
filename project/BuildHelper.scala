@@ -146,10 +146,13 @@ object BuildHelper {
         case Some((3, _)) =>
           Seq.empty
 
-        case _ =>
+        case Some((2, _)) =>
           Seq(
             compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full)
           )
+
+        case _ =>
+          Seq.empty
       }
     },
     testFrameworks                         := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),

@@ -1,7 +1,7 @@
 {
   description = "cilib";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/master";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/22.05";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils }:
@@ -16,7 +16,7 @@
             yarn
             nodejs
             #nushell
-            pqrs
+            #pqrs
             #node2nix
             #yarn2nix
           ];
