@@ -1,7 +1,7 @@
 # CIlib - Computational Intelligence Library
 
 ![CI](https://github.com/ciren/cilib/workflows/CI/badge.svg?branch=master&event=push)
-[![Join the chat at https://gitter.im/cirg-up/cilib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cirg-up/cilib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![Discord](https://img.shields.io/discord/997122192909291550?style=flat-square)
 [![Maven Central](https://img.shields.io/maven-central/v/net.cilib/cilib-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/net.cilib/cilib-core_2.12)
 [![Javadocs](https://javadoc.io/badge/net.cilib/cilib-core_2.12.svg)](https://javadoc.io/doc/net.cilib/cilib-core_2.12)
 
@@ -28,10 +28,4 @@ intelligence algorithms and uses several typeclasses such as `Functor` and
 * The source code of the project also contains several examples, have
   a look in the [example](https://github.com/ciren/cilib/tree/master/example/src/main/scala/cilib/example) directory
 * If you run into trouble, please open an issue
-* For help, discussion about best practices, or any other conversation that would benefit from being searchable:
-
-  [Discuss CIlib on GitHub](https://github.com/ciren/cilib/discussions)
-
-  For some casual chit-chat with others:
-
-  [Join the Gitter channel](https://gitter.im/cirg-up/cilib)
+* For help, consider using either the GitHub discussions or come chat to us on Discord.
