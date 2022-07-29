@@ -18,9 +18,6 @@ object Step {
   def fail[A](reason: String, error: Exception): Step[A] =
     zio.prelude.fx.ZPure.fail(new Exception(reason, error))
 
-  // def failString[A, B](reason: String): Step[A, B] =
-  //   Halt(reason, None)
-
   def pure[A](a: A): Step[A] =
     zio.prelude.fx.ZPure.succeed(a)
 
@@ -39,7 +36,12 @@ object Step {
     } yield a
 
   def eval[S, A](entity: Entity[S, A])(f: Position[A] => Position[A]): Step[Entity[S, A]] =
-    evalP(f(entity.pos)).map(p => Lenses._position.set(entity, p))
+    evalP(f(entity.pos)).flatMap(p =>
+      Lenses._position.set(p)(entity) match {
+        case Right(value) => Step.pure(value)
+        case Left(reason) => Step.fail(reason, new Exception)
+      }
+    )
 
   def evalP[A](pos: Position[A]): Step[Position[A]] =
     for {

@@ -42,7 +42,7 @@ object GAExample extends zio.ZIOAppDefault {
         } yield zb
       }
 
-      newPos.map(p => _position.set(x, p))
+      newPos.map(p => _position.set(p)(x).toOption.get)
     }
 
   val randomSelection: NonEmptyVector[Ind] => RVar[List[Ind]] =
