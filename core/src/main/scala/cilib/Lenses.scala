@@ -2,7 +2,6 @@ package cilib
 
 import zio.optics._
 
-
 final case class Mem[A](b: Position[A], v: Position[A])
 
 @annotation.implicitNotFound("A HasMemory instance cannot be found for the provided state type ${S}")
@@ -44,7 +43,6 @@ trait HasPBestStagnation[A] {
   def _pbestStagnation: Lens[A, Int]
 }
 
-
 object Lenses {
   import zio.prelude._
 
@@ -64,6 +62,7 @@ object Lenses {
   def _vector[A: zio.prelude.Equal]: Lens[Position[A], NonEmptyVector[A]] =
     Lens[Position[A], NonEmptyVector[A]](
       position => Right(position.pos),
-      newPosition => position => Right(if (position.pos === newPosition) position else Position(newPosition, position.boundary))
+      newPosition =>
+        position => Right(if (position.pos === newPosition) position else Position(newPosition, position.boundary))
     )
 }
