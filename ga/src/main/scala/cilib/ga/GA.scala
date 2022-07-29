@@ -38,7 +38,7 @@ object GA {
         val newPos: RVar[NonEmptyVector[Double]] = parent.pos.pos.forEach(distribution)
 
         newPos.map { p =>
-          parent.copy(pos = Lenses._vector[Double].set(parent.pos, p))
+          parent.copy(pos = Lenses._vector[Double].set(p)(parent.pos).toOption.get)
         }
       }
 

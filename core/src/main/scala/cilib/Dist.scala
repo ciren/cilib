@@ -51,36 +51,6 @@ object Dist {
         }
 
       a.repeatUntil { case (zeta, eta) => eta > math.pow(zeta, delta - 1) * math.exp(-zeta) }.map(_._1)
-
-      // a.flatMap(a0 =>
-      //   BindRec[RVar].tailrecM(a0) { (x: (Double, Double)) =>
-      //     val (zeta, eta) = x
-      //     if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) a.map(_.left[Double])
-      //     else RVar.pure(zeta.right[(Double, Double)])
-      //   }
-      //)
-
-      // def inner: RVar[Double] =
-      //   for {
-      //     u1 <- stdUniform
-      //     u2 <- stdUniform
-      //     u3 <- stdUniform
-      //     (zeta, eta) = {
-      //       val v0 = math.E / (math.E + delta)
-      //       if (u1 <= v0) {
-      //         val zeta = math.pow(u2, 1.0 / delta)
-      //         val eta = u3 * math.pow(zeta, delta - 1)
-      //         (zeta, eta)
-      //       } else {
-      //         val zeta = 1 - math.log(u2)
-      //         val eta = u3 * math.exp(-zeta)
-      //         (zeta, eta)
-      //       }
-      //     }
-      //     r <- if (eta > math.pow(zeta, delta - 1) * math.exp(-zeta)) inner else RVar.pure(zeta)
-      //   } yield r
-      //
-      // inner
     }
 
     zio.prelude.fx.ZPure.mapN(gammaInt, gammaFrac) { (a, b) =>
@@ -141,7 +111,6 @@ object Dist {
     }
 
     (blocks, blocks.zip(blocks.drop(1)).map(a => a._1 / a._2))
-    //(blocks, ???)//blocks.zip apzip(_.drop(1)).map(a => a._1 / a._2))
   }
 
   def gaussian(mean: Double, dev: Double): RVar[Double] =

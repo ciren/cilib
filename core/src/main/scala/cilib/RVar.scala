@@ -5,88 +5,45 @@ import _root_.zio.prelude._
 import zio.prelude.newtypes.Natural
 
 /**
- * RVar is essentially a newtype wrapper of the a State monad with the
- * state type fixed to RNG.
- *
- * The wrapper is used to prevent access to the internal state monad,
- * thereby preventing the use of state modification functions (i.e.:
- * functions such as MonadState[RVar].modify and MonadState[RVar].puts)
+ * RVar represents the application of randomness as a type.
  */
-// sealed abstract class RVar[A](private val state: StateT[RNG, Trampoline, A]) { self: RVar[A] =>
-//   def run(rng: RNG)  = state.run(rng).run
-//   def eval(rng: RNG) = state.eval(rng).run
-//   def exec(rng: RNG) = state.exec(rng).run
-
-//   def map[B](f: A => B): RVar[B] =
-//     new RVar[B](self.state.map(f)) {}
-
-//   def flatMap[B](f: A => RVar[B]): RVar[B] =
-//     new RVar[B](self.state.flatMap(f(_).state)) {}
-// }
-
-// sealed abstract class RVarInstances1 {
-//   implicit val rvarCatsFunctor: cats.Functor[RVar] =
-//     new cats.Functor[RVar] {
-//       def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
-//         fa.map(f)
-//     }
-// }
-
-//sealed abstract class RVarInstances0 /* extends RVarInstances1*/ {
-// implicit val rvarMonad: scalaz.Monad[RVar] =
-//   new scalaz.Monad[RVar] {
-//     def bind[A, B](a: RVar[A])(f: A => RVar[B]) =
-//       a.flatMap(f)
-
-//     def point[A](a: => A) =
-//       RVar.pure(a)
-//   }
-//}
-
-//sealed abstract class RVarInstances extends RVarInstances0 {
-// implicit val rvarBindRec: BindRec[RVar] =
-//   new BindRec[RVar] {
-//     def bind[A, B](fa: RVar[A])(f: A => RVar[B]): RVar[B] =
-//       fa.flatMap(f)
-
-//     def map[A, B](fa: RVar[A])(f: A => B): RVar[B] =
-//       fa.map(f)
-
-//     def tailrecM[A, B](a: A)(f: A => RVar[A \/ B]): RVar[B] =
-//       f(a).flatMap {
-//         case -\/(a0) => tailrecM(a0)(f)
-//         case \/-(b)  => RVar.pure(b)
-//       }
-//   }
-//}
-
 object RVar {
 
+  /** Use the given [[cilib.RNG]] to generate a value as well as the modified [[cilib.RNG]] */
   def apply0[A](f: RNG => (A, RNG)): RVar[A] =
     zio.prelude.fx.ZPure.modify(state => f(state))
 
+  /** Argument flipped version of [[cilib.RVar#apply0]] */
   def apply[A](f: RNG => (RNG, A)): RVar[A] =
     zio.prelude.fx.ZPure.modify(state => f(state).swap)
 
+  /** Lift a value into a [[cilib.RVar]], without applying any randomness */
   def pure[A](a: => A): RVar[A] =
     zio.prelude.fx.ZPure.modify(state => (a, state))
 
-  def next[A](implicit e: Generator[A]): RVar[A] =
+  /** Generate the next `A` value in the random stream */
+  def next[A](implicit e: Generator.Generator[A]): RVar[A] =
     e.gen
 
+  /** Generate the next `n` random [[scala.Int]] values */
   def ints(n: Int): RVar[List[Int]] =
     next[Int](Generator.IntGen).replicateM(n).map(_.toList)
 
+  /** Generate the next `n` random [[scala.Double]] values */
   def doubles(n: Int): RVar[List[Double]] =
     next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
+  /** Randomly select a value from [[cilib.NonEmptyVector]] */
   def choose[A](xs: NonEmptyVector[A]): RVar[A] =
     Dist
       .uniformInt(0, xs.size - 1)
       .map(i => xs.toChunk.lift(i).getOrElse(xs.head))
 
-  // implementation of Oleg Kiselgov's perfect shuffle:
-  // http://okmij.org/ftp/Haskell/perfect-shuffle.txt
+  /**
+   * Shuffle the [[cilib.NonEmptyVector]] elements randomly.
+   *
+   * Implementation of [[http://okmij.org/ftp/Haskell/perfect-shuffle.txt Oleg Kiselgov's perfect shuffle]]
+   */
   def shuffle[A](xs: NonEmptyVector[A]): RVar[NonEmptyVector[A]] = {
     sealed trait BinTree
     final case class Node(c: Int, left: BinTree, right: BinTree) extends BinTree
@@ -154,9 +111,11 @@ object RVar {
     )
   }
 
+  /** Alias for [[cilib.RVar#choices]] */
   def sample[F[+_]: ForEach, A](n: Natural, xs: F[A]): RVar[Option[List[A]]] =
     choices(n, xs)
 
+  /** Select `n` distince elements from the given container type */
   def choices[F[+_], A](n: Natural, xs: F[A])(implicit F: ForEach[F]): RVar[Option[List[A]]] =
     if (F.size(xs) < n) RVar.pure(None)
     else {
@@ -193,11 +152,11 @@ object RVar {
     }
 }
 
-sealed trait Generator[A] {
-  def gen: RVar[A]
-}
-
 object Generator {
+
+  sealed trait Generator[A] {
+    def gen: RVar[A]
+  }
 
   private def nextBits(bits: Int): RVar[Int] =
     RVar(_.next(bits))

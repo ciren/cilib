@@ -21,6 +21,7 @@ sealed abstract class Fit {
 final case class Feasible(v: Double)                                                              extends Fit
 final case class Infeasible(v: Double)                                                            extends Fit
 final case class Adjusted private[cilib] (original: Either[Feasible, Infeasible], adjust: Double) extends Fit
+
 @annotation.implicitNotFound("No instance of Fitness[${F},${A},${B}] is available in current scope.")
 trait Fitness[F[_], A, B] {
   def fitness(a: F[A]): Option[Objective]

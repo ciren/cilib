@@ -107,13 +107,4 @@ object MetricSpace {
           def dist(x: A, y: A) = B.combine(l.dist(x, y), r.dist(x, y))
         }
     }
-
-  // implicit def metricSpaceMonad[A]: Monad[MetricSpace[A, *]] =
-  //   new Monad[MetricSpace[A, *]] {
-  //     def point[B](a: => B): MetricSpace[A, B] =
-  //       MetricSpace.pure[A, B](a)
-  //
-  //     def bind[B, C](fa: MetricSpace[A, B])(f: B => MetricSpace[A, C]): MetricSpace[A, C] =
-  //       fa.flatMap(f)
-  //   }
 }

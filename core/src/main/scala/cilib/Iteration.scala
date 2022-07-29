@@ -16,14 +16,7 @@ import zio.prelude._
  *
  * NB: Should consider trying to define this based on the Free monad?
  */
-// sealed trait Iteration[M[_], A] {
-//   def run(l: NonEmptyList[A]): M[List[A]]
-// }
 object Iteration {
-
-  // iterations have the shape: [a] -> a -> Step [a]
-  //def sync_[M[_]:Applicative,A,B:Monoid](f: List[A] => A => M[B]): Kleisli[M,List[A],List[B]] =
-  //Kleisli.kleisli((l: List[A]) => l traverseU f(l))//Functor[M].map(l traverseU f(l))(x => x))
 
   def sync_[M[+_]: Covariant: IdentityBoth, A, B](
     f: NonEmptyVector[A] => A => M[B]

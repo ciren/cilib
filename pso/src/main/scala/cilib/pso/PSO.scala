@@ -14,7 +14,7 @@ object PSO {
     c: Particle[S, A],
     v: Position[A]
   )(implicit A: algebra.VectorOps[Position, A]): Step[Particle[S, A]] =
-    Step.pure(_position.modify(c, z => A.+(z, v)))
+    Step.pure(_position.update(c)(z => A.+(z, v)).toOption.get)
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists
@@ -29,12 +29,12 @@ object PSO {
     Step.liftR(for {
       cog <- (cognitive - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
       soc <- (social - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
-    } yield (w *: V._velocity.get(entity.state)) + (c1 *: cog) + (c2 *: soc))
+    } yield (w *: V._velocity.get(entity.state).toOption.get) + (c1 *: cog) + (c2 *: soc))
 
   def updatePBest[S](p: Particle[S, Double])(implicit M: HasMemory[S, Double]): Step[Particle[S, Double]] =
     Step
-      .withCompare(Comparison.compare(p.pos, M._memory.get(p.state)))
-      .map(x => Entity(M._memory.set(p.state, x), p.pos))
+      .withCompare(Comparison.compare(p.pos, M._memory.get(p.state).toOption.get))
+      .map(x => Entity(M._memory.set(x)(p.state).toOption.get, p.pos))
 
   def updatePBestBounds[S](
     p: Particle[S, Double]
@@ -47,7 +47,7 @@ object PSO {
   def updateVelocity[S](p: Particle[S, Double], v: Position[Double])(implicit
     V: HasVelocity[S, Double]
   ): Step[Particle[S, Double]] =
-    Step.liftR(RVar.pure(Entity(V._velocity.set(p.state, v), p.pos)))
+    Step.liftR(RVar.pure(Entity(V._velocity.set(v)(p.state).toOption.get, p.pos)))
 
   def singleComponentVelocity[S](
     entity: Particle[S, Double],
@@ -57,7 +57,7 @@ object PSO {
   )(implicit V: HasVelocity[S, Double]): Step[Position[Double]] =
     Step.liftR(for {
       comp <- (component - entity.pos).traverse(x => Dist.stdUniform.map(_ * x))
-    } yield (w *: V._velocity.get(entity.state)) + (c *: comp))
+    } yield (w *: V._velocity.get(entity.state).toOption.get) + (c *: comp))
 
   final case class GCParams(p: Double, successes: Int, failures: Int, e_s: Double, e_f: Double)
 
@@ -73,14 +73,14 @@ object PSO {
     Step.liftR(
       nbest
         .traverse(_ => Dist.stdUniform.map(x => s.p * (1 - 2 * x)))
-        .map(a => -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state) + a)
+        .map(a => -1.0 *: entity.pos + nbest + w *: V._velocity.get(entity.state).toOption.get + a)
     )
 
   def barebones[S](p: Particle[S, Double], global: Position[Double])(implicit
     M: HasMemory[S, Double]
   ): Step[Position[Double]] =
     Step.liftR {
-      val pbest  = M._memory.get(p.state)
+      val pbest  = M._memory.get(p.state).toOption.get
       val zipped = pbest.zip(global)
       val sigmas = zipped.map { case (x, y) => math.abs(x - y) }
       val means  = zipped.map { case (x, y) => (x + y) / 2.0 }
@@ -162,7 +162,7 @@ object PSO {
     rc: Double
   )(implicit C: HasCharge[S]): Step[Position[Double]] = {
     def charge(x: Particle[S, Double]) =
-      C._charge.get(x.state)
+      C._charge.get(x.state).toOption.get
 
     Step.pure(
       collection.toChunk
@@ -178,7 +178,7 @@ object PSO {
 
   // Naming?
   def replace[S](entity: Particle[S, Double], p: Position[Double]): Step[Particle[S, Double]] =
-    Step.pure(_position.set(entity, p))
+    Step.pure(_position.set(p)(entity).toOption.get)
 
   def better[S, A](a: Particle[S, A], b: Particle[S, A]): Step[Boolean] =
     Comparison.fittest(a, b).map(_ eq a)

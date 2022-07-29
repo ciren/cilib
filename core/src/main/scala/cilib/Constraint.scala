@@ -40,8 +40,6 @@ final case class GreaterThanEqual[A](f: ConstraintFunction, v: Double)    extend
 
 object Constraint {
 
-//  def constrain[M[_]](ma: M[Eval[Double]], cs: List[Constraint[Double,Double]])(implicit M: Functor[M]) =
-//    M.map(ma)(_.constrainBy(cs))
   private val ev = zio.prelude.Equal.DoubleEqualWithEpsilon()
 
   def violationMagnitude[A](beta: Double, eta: Double, constraints: List[Constraint], cs: NonEmptyVector[A]): Double =
