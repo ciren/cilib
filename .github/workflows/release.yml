@@ -15,10 +15,10 @@ jobs:
       - uses: cachix/install-nix-action@v17
 
       - name: Lint check
-        run: nix-shell --run 'sbt -Dsbt.supershell=false check'
+        run: nix shell --command 'sbt' -Dsbt.supershell=false check
 
       - name: Publish ${{ github.ref }}
-        run: nix-shell --run 'sbt -Dsbt.supershell=false ci-release'
+        run: nix shell --command 'sbt' -Dsbt.supershell=false ci-release
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
@@ -26,9 +26,9 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
 
       - name: Build website
-        run: nix-shell --run 'sbt docs/docusaurusCreateSite'
+        run: nix shell --command 'sbt' docs/docusaurusCreateSite
 
       - name: Publish gh-pages
-        run: nix-shell --run 'sbt -Dsbt.supershell=false docs/docusaurusPublishGhpages'
+        run: nix shell --command 'sbt' -Dsbt.supershell=false docs/docusaurusPublishGhpages
         env:
           GIT_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
