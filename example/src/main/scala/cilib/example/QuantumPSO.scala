@@ -1,12 +1,12 @@
 package cilib
 package example
 
+import cilib.NonEmptyVector
 import cilib.exec._
 import cilib.pso._
 import zio._
 import zio.optics._
 import zio.stream._
-import cilib.NonEmptyVector
 
 object QuantumPSO extends zio.ZIOAppDefault {
   import PSO._
