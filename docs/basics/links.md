@@ -15,7 +15,6 @@
 
 [Scalaz-link]: https://github.com/scalaz/scalaz
 [Monocle-link]: http://julien-truffaut.github.io/Monocle/
-[Shapeless-link]: https://github.com/milessabin/shapeless
 [Refined-link]: https://github.com/fthomas/refined?#using-refined
 
 [lens-link]: http://julien-truffaut.github.io/Monocle/optics/lens.html

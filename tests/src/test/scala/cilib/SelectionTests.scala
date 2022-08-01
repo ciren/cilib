@@ -36,8 +36,8 @@ object SelectionTests extends ZIOSpecDefault {
         val selection = ring(a, a.head)
 
         assert(selection.length)(Assertion.equalTo(3))
-      //assert(selection)(Assertion.hasSubset(a))
-      //assert(selection)(Assertion.contains(a.head))
+      // assert(selection)(Assertion.hasSubset(a))
+      // assert(selection)(Assertion.contains(a.head))
       }
     },
     test("ring units") {

@@ -5,13 +5,15 @@ trait Input[F[_]] {
 }
 
 sealed abstract class Eval[F[_]] {
-  def eval[A](v: NonEmptyVector[A]): RVar[Objective] =
+  def eval(v: Type[NonEmptyVector]): RVar[Objective] =
     this match {
       case a @ Eval.Unconstrained(_, _)   => a.eval2(v)
       case b @ Eval.Constrained(_, _, _)  => b.eval2(v)
       case c @ Eval.UnconstrainedR(_, _)  => c.eval2(v)
       case d @ Eval.ConstrainedR(_, _, _) => d.eval2(v)
     }
+
+  protected def eval2(fa: Type[NonEmptyVector]): RVar[Objective]
 
   def constrain(cs: List[Constraint]): Eval[F]
 
@@ -33,9 +35,9 @@ object Eval {
     ConstrainedR(f, cs, F)
 
   private final case class Unconstrained[F[_], A](f: F[A] => Fit, F: Input[F]) extends Eval[F] {
-    def eval2(fa: NonEmptyVector[A]): RVar[Objective] =
+    def eval2(fa: Type[NonEmptyVector]): RVar[Objective] =
       RVar.pure {
-        Objective.single(f(F.toInput(fa)), List.empty)
+        Objective.single(f(F.toInput(fa.asInstanceOf[NonEmptyVector[A]])), List.empty)
       }
 
     def constrain(cs: List[Constraint]): Eval[F] =
@@ -46,12 +48,13 @@ object Eval {
   }
 
   private final case class Constrained[F[_], A](run: F[A] => Fit, cs: List[Constraint], F: Input[F]) extends Eval[F] {
-    def eval2(fa: NonEmptyVector[A]): RVar[Objective] =
+    def eval2(fa: Type[NonEmptyVector]): RVar[Objective] = {
+      val input = F.toInput(fa.asInstanceOf[NonEmptyVector[A]])
       cs.filter(c => !Constraint.satisfies(c, fa)) match {
-        case Nil => RVar.pure(Objective.single(run(F.toInput(fa)), List.empty))
+        case Nil => RVar.pure(Objective.single(run(input), List.empty))
         case xs  =>
           val result =
-            run(F.toInput(fa)) match {
+            run(input) match {
               case Feasible(v)       => Infeasible(v)
               case Adjusted(_, a)    => Infeasible(a)
               case i @ Infeasible(_) => i
@@ -59,6 +62,7 @@ object Eval {
 
           RVar.pure(Objective.single[A](result, xs))
       }
+    }
 
     def constrain(cs: List[Constraint]): Eval[F] =
       Eval.Constrained(run, cs, F)
@@ -68,8 +72,8 @@ object Eval {
   }
 
   private final case class UnconstrainedR[F[_], A](f: F[A] => RVar[Fit], F: Input[F]) extends Eval[F] {
-    def eval2(fa: NonEmptyVector[A]): RVar[Objective] =
-      f(F.toInput(fa)).map(x => Objective.single(x, List.empty))
+    def eval2(fa: Type[NonEmptyVector]): RVar[Objective] =
+      f(F.toInput(fa.asInstanceOf[NonEmptyVector[A]])).map(x => Objective.single(x, List.empty))
 
     def constrain(cs: List[Constraint]): Eval[F] =
       Eval.ConstrainedR(f, cs, F)
@@ -80,8 +84,8 @@ object Eval {
 
   private final case class ConstrainedR[F[_], A](f: F[A] => RVar[Fit], cs: List[Constraint], F: Input[F])
       extends Eval[F] {
-    def eval2(fa: NonEmptyVector[A]): RVar[Objective] =
-      f(F.toInput(fa)).map { x =>
+    def eval2(fa: Type[NonEmptyVector]): RVar[Objective] =
+      f(F.toInput(fa.asInstanceOf[NonEmptyVector[A]])).map { x =>
         cs.filter(c => !Constraint.satisfies(c, fa)) match {
           case Nil => Objective.single(x, List.empty)
           case xs  =>

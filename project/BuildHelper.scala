@@ -97,22 +97,22 @@ object BuildHelper {
 
   def platformSpecificSources( /*platform: String,*/ conf: String, baseDirectory: File)(versions: String*) =
     for {
-      platform <- List("shared") //, platform)
-      version  <- "scala" :: versions.toList.map("scala-" + _)
-      result    = baseDirectory.getParentFile / platform.toLowerCase / "src" / conf / version
+      // platform <- List("shared") //, platform)
+      version <- "scala" :: versions.toList.map("scala-" + _)
+      result   = baseDirectory.getParentFile / "src" / conf / version
       if result.exists
     } yield result
 
   def crossPlatformSources(scalaVer: String, /*platform: String,*/ conf: String, baseDir: File) = {
     val versions = CrossVersion.partialVersion(scalaVer) match {
       case Some((2, 11)) =>
-        List("2.11", "2.11+", "2.11-2.12", "2.x")
+        List("2.11", "2.11+", "2.11-2.12")
       case Some((2, 12)) =>
-        List("2.12", "2.11+", "2.12+", "2.11-2.12", "2.12-2.13", "2.x")
+        List("2.12", "2.11+", "2.12+", "2.11-2.12", "2.12-2.13")
       case Some((2, 13)) =>
-        List("2.13", "2.11+", "2.12+", "2.13+", "2.12-2.13", "2.x")
+        List("2.13", "2.11+", "2.12+", "2.13+", "2.12-2.13")
       case Some((3, 0))  =>
-        List("dotty", "2.11+", "2.12+", "2.13+", "3.x")
+        List("2.11+", "2.12+", "2.13+", "3")
       case _             =>
         List()
     }
@@ -123,7 +123,7 @@ object BuildHelper {
     Compile / unmanagedSourceDirectories ++= {
       crossPlatformSources(
         scalaVersion.value,
-        //crossProjectPlatform.value.identifier,
+        // crossProjectPlatform.value.identifier,
         "main",
         baseDirectory.value
       )
@@ -131,7 +131,7 @@ object BuildHelper {
     Test / unmanagedSourceDirectories ++= {
       crossPlatformSources(
         scalaVersion.value,
-        //crossProjectPlatform.value.identifier,
+        // crossProjectPlatform.value.identifier,
         "test",
         baseDirectory.value
       )
@@ -159,7 +159,7 @@ object BuildHelper {
     },
     testFrameworks                         := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
     Test / parallelExecution               := true,
-    semanticdbEnabled                      := true,                        //!isScala3(scalaVersion.value), // enable SemanticDB
+    semanticdbEnabled                      := true,                        // !isScala3(scalaVersion.value), // enable SemanticDB
     semanticdbVersion                      := scalafixSemanticdb.revision, // use Scalafix compatible version
     ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
     ThisBuild / scalafixDependencies ++= List(

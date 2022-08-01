@@ -76,9 +76,9 @@ object Comparison {
         case (Some(f1), Some(f2)) =>
           (f1.fitness, f2.fitness) match {
             case (Left(x), Left(y))   =>
-              if (fitCompare(opt, x, y, f1.violationCount, f2.violationCount) === Ordering.GreaterThan) a else b
+              if (fitCompare(this.opt, x, y, f1.violationCount, f2.violationCount) === Ordering.GreaterThan) a else b
             case (Right(x), Right(y)) =>
-              val r = multiFitCompare(opt, x, y, f1.violationCount, f2.violationCount)
+              val r = multiFitCompare(this.opt, x, y, f1.violationCount, f2.violationCount)
               if (r != Ordering.LessThan) a else b
             case _                    => a
           }
@@ -99,10 +99,10 @@ sealed abstract class Opt {
   def D: Ord[Double]
 }
 
-final case object Min extends Opt {
+case object Min extends Opt {
   val D: Ord[Double] = Ord[Double].reverse
 }
 
-final case object Max extends Opt {
+case object Max extends Opt {
   val D: Ord[Double] = Ord[Double]
 }

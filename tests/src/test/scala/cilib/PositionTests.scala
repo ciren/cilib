@@ -60,50 +60,50 @@ object PositionTests extends ZIOSpecDefault {
     test("addition") {
       check(positionGen, positionGen, positionGen) { case (a, b, c) =>
         assert(a + b)(Assertion.equalTo(b + a)) &&
-          assert((a + b) + c)(Assertion.equalTo(a + (b + c))) &&
-          assert(a + a.zeroed)(Assertion.equalTo(a)) &&
-          assert(a + (-a))(Assertion.equalTo(a.zeroed))
+        assert((a + b) + c)(Assertion.equalTo(a + (b + c))) &&
+        assert(a + a.zeroed)(Assertion.equalTo(a)) &&
+        assert(a + (-a))(Assertion.equalTo(a.zeroed))
       }
     },
     test("subtraction") {
       check(positionGen) { case a =>
         assert(a - a.zeroed)(Assertion.equalTo(a)) &&
-          assert(a - a)(Assertion.equalTo(a.zeroed)) &&
-          assert(a - (-a))(Assertion.equalTo(a + a))
+        assert(a - a)(Assertion.equalTo(a.zeroed)) &&
+        assert(a - (-a))(Assertion.equalTo(a + a))
       }
     },
     test("scalar multiplication") {
       check(positionGen, positionGen, Gen.int, Gen.int) { case (a, b, n, m) =>
         assert((n *: a).boundary)(Assertion.equalTo(a.boundary)) &&
-          assert(1 *: a)(Assertion.equalTo(a)) &&
-          assert(2 *: a)(Assertion.equalTo(a + a)) &&
-          assert(2.0 *: zero)(Assertion.equalTo(zero)) &&
-          assert(0 *: a)(Assertion.equalTo(a.zeroed)) &&
-          assert(-1 *: a)(Assertion.equalTo(-a)) &&
-          assert((n + m) *: a)(Assertion.equalTo((n *: a) + (m *: a))) &&
-          assert(n *: (a + b))(Assertion.equalTo((n *: a) + (n *: b)))
+        assert(1 *: a)(Assertion.equalTo(a)) &&
+        assert(2 *: a)(Assertion.equalTo(a + a)) &&
+        assert(2.0 *: zero)(Assertion.equalTo(zero)) &&
+        assert(0 *: a)(Assertion.equalTo(a.zeroed)) &&
+        assert(-1 *: a)(Assertion.equalTo(-a)) &&
+        assert((n + m) *: a)(Assertion.equalTo((n *: a) + (m *: a))) &&
+        assert(n *: (a + b))(Assertion.equalTo((n *: a) + (n *: b)))
       }
     },
     test("negation") {
       check(positionGen) { case a =>
         assert(-a)(Assertion.not(Assertion.equalTo(a))) &&
-          assert(-a)(Assertion.equalTo(a.map(_ * -1))) &&
-          assert(a + (-a))(Assertion.equalTo(a.zeroed))
+        assert(-a)(Assertion.equalTo(a.map(_ * -1))) &&
+        assert(a + (-a))(Assertion.equalTo(a.zeroed))
       }
     },
     test("is zero") {
       check(positionGen) { case a =>
         assert(a.zeroed.sum)(Assertion.equalTo(0)) &&
-          assert(zero.sum)(Assertion.equalTo(0.0)) &&
-          assert(one.sum)(Assertion.not(Assertion.equalTo(0.0)))
+        assert(zero.sum)(Assertion.equalTo(0.0)) &&
+        assert(one.sum)(Assertion.not(Assertion.equalTo(0.0)))
       }
     },
     test("dot product") {
       check(positionGen, positionGen, positionGen) { case (a, b, c) =>
         assert(a ∙ b)(Assertion.equalTo(b ∙ a)) &&
-          assert(a ∙ (b + c))(Assertion.equalTo((a ∙ b) + (a ∙ c))) &&
-          assert(a ∙ ((2 *: b) + c))(Assertion.equalTo(2 * (a ∙ b) + (a ∙ c))) &&
-          assert((2 *: a) ∙ (3 *: b))(Assertion.equalTo(2 * 3 * (a ∙ b)))
+        assert(a ∙ (b + c))(Assertion.equalTo((a ∙ b) + (a ∙ c))) &&
+        assert(a ∙ ((2 *: b) + c))(Assertion.equalTo(2 * (a ∙ b) + (a ∙ c))) &&
+        assert((2 *: a) ∙ (3 *: b))(Assertion.equalTo(2 * 3 * (a ∙ b)))
       }
     },
     // test("norm") {

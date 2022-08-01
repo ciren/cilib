@@ -11,7 +11,7 @@ object Mixed extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply)
 
   // Define the DE
   val de: NonEmptyVector[Individual[Mem[Double], Double]] => (

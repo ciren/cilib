@@ -1,3 +1,5 @@
+import scala.language.implicitConversions
+
 import zio.prelude.newtypes.Natural
 import zio.prelude.{ ForEach, ZValidation }
 
@@ -43,8 +45,8 @@ package object cilib {
     def toInput[A](a: NonEmptyVector[A]): NonEmptyVector[A] = a
   }
 
-  implicit val pairInput: Input[Lambda[x => (x, x)]] =
-    new Input[Lambda[x => (x, x)]] {
+  implicit val pairInput: Input[[x] =>> (x, x)] =
+    new Input[[x] =>> (x, x)] {
       def toInput[A](a: NonEmptyVector[A]): (A, A) = {
         val grouped = a.toChunk.toList.grouped(2)
         if (grouped.hasNext) {
@@ -55,4 +57,15 @@ package object cilib {
         } else sys.error("Too few elements provided. Need at least 2.")
       }
     }
+
+
+
+  type Type[F[_]] <: (Any { type T })
+
+  implicit def wrap[F[_], A](value: F[A]): Type[F] =
+    value.asInstanceOf[Type[F]]
+
+  implicit def unwrap[F[_]](value: Type[F]): F[value.T] =
+    value.asInstanceOf[F[value.T]]
+
 }
