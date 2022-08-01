@@ -103,30 +103,3 @@ object Eval {
       Eval.UnconstrainedR(f, F)
   }
 }
-
-trait EvalInstances {
-
-  implicit val nonEmptyListInput: Input[zio.prelude.NonEmptyList] =
-    new Input[zio.prelude.NonEmptyList] {
-      def toInput[A](a: NonEmptyVector[A]): zio.prelude.NonEmptyList[A] =
-        // Safe as there _will always be_ at least 1 element
-        zio.prelude.NonEmptyList.fromIterableOption(a.toChunk.toList).get
-    }
-
-  implicit val nonEmptyVectorInput: Input[NonEmptyVector] = new Input[NonEmptyVector] {
-    def toInput[A](a: NonEmptyVector[A]): NonEmptyVector[A] = a
-  }
-
-  implicit val pairInput: Input[Lambda[x => (x, x)]] =
-    new Input[Lambda[x => (x, x)]] {
-      def toInput[A](a: NonEmptyVector[A]): (A, A) = {
-        val grouped = a.toChunk.toList.grouped(2)
-        if (grouped.hasNext) {
-          grouped.next().toList match {
-            case a :: b :: _ => (a, b)
-            case _           => sys.error("error producing a pair")
-          }
-        } else sys.error("Too few elements provided. Need at least 2.")
-      }
-    }
-}

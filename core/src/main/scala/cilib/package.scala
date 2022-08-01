@@ -1,7 +1,7 @@
 import zio.prelude.newtypes.Natural
 import zio.prelude.{ ForEach, ZValidation }
 
-package object cilib extends EvalInstances {
+package object cilib {
 
   type RVar[+A]     = zio.prelude.State[RNG, A] /// zio.prelude.fx.ZPure[Nothing, S, S, Any, Nothing, A]
   type Step[+A]     = zio.prelude.fx.ZPure[Nothing, RNG, RNG, (cilib.Comparison, Eval[NonEmptyVector]), Exception, A]
@@ -29,4 +29,30 @@ package object cilib extends EvalInstances {
   type NonEmptyVector[+A] = zio.NonEmptyChunk[A]
   val NonEmptyVector = zio.NonEmptyChunk
 
+  /*
+   * Implicits for the conversion of a NenEmptyVector to the needed Input type.
+   */
+  implicit val nonEmptyListInput: Input[zio.prelude.NonEmptyList] =
+    new Input[zio.prelude.NonEmptyList] {
+      def toInput[A](a: NonEmptyVector[A]): zio.prelude.NonEmptyList[A] =
+        // Safe as there _will always be_ at least 1 element
+        zio.prelude.NonEmptyList.fromIterableOption(a.toChunk.toList).get
+    }
+
+  implicit val nonEmptyVectorInput: Input[NonEmptyVector] = new Input[NonEmptyVector] {
+    def toInput[A](a: NonEmptyVector[A]): NonEmptyVector[A] = a
+  }
+
+  implicit val pairInput: Input[Lambda[x => (x, x)]] =
+    new Input[Lambda[x => (x, x)]] {
+      def toInput[A](a: NonEmptyVector[A]): (A, A) = {
+        val grouped = a.toChunk.toList.grouped(2)
+        if (grouped.hasNext) {
+          grouped.next().toList match {
+            case a :: b :: _ => (a, b)
+            case _           => sys.error("error producing a pair")
+          }
+        } else sys.error("Too few elements provided. Need at least 2.")
+      }
+    }
 }

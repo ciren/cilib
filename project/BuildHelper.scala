@@ -30,7 +30,9 @@ object BuildHelper {
     "-Yrangepos",
     "-Xlint:_,-missing-interpolator,-type-parameter-shadow",
     "-Ywarn-numeric-widen",   // Warn when numerics are widened.
-    "-Ywarn-value-discard"    // Warn when non-Unit expression results are unused
+    "-Ywarn-value-discard",   // Warn when non-Unit expression results are unused
+    "-Xsource:3",
+    "-P:kind-projector:underscore-placeholders"
   )
 
   private def optimizerOptions(optimize: Boolean) =

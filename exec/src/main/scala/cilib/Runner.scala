@@ -7,7 +7,7 @@ import zio.stream._
 
 final case class Algorithm[A](name: Name, value: A)
 final case class Problem(name: Name, env: Env, eval: Eval[NonEmptyVector])
-final case class Progress[A] private (
+final case class Progress[A](
   algorithm: Name,
   problem: Name,
   seed: Long,
