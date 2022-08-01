@@ -7,12 +7,12 @@ object EDA {
 
   def eda[M, S, A](
     sample: (M, Entity[S, A]) => RVar[Entity[S, A]],
-    //selection: NonEmptyVector[Entity[S, A]] => RVar[NonEmptyVector[Entity[S, A]]],
+    // selection: NonEmptyVector[Entity[S, A]] => RVar[NonEmptyVector[Entity[S, A]]],
     generateModel: NonEmptyVector[Entity[S, A]] => RVar[M]
   ): NonEmptyVector[Entity[S, A]] => Step[NonEmptyVector[Entity[S, A]]] =
     collection =>
       for {
-        //selected <- Step.liftR(selection(collection))
+        // selected <- Step.liftR(selection(collection))
         newModel  <- Step.liftR(generateModel(collection))
         generated <- Step.liftR(ForEach[NonEmptyVector].forEach(collection)(x => sample(newModel, x)))
         evaluated <- ForEach[NonEmptyVector].forEach(generated)(x => Step.eval(x)(identity))

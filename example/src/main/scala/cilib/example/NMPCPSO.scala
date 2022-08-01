@@ -17,7 +17,7 @@ object NMPCPSO extends zio.ZIOAppDefault {
   val guide: Guide[Mem[Double], Double] = Guide.nmpc[Mem[Double]](0.5)
   val nmpcPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
     Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
-  )                                     = nmpc(guide)
+  ) = nmpc(guide)
 
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]]                                                 =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)

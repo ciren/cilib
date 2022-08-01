@@ -20,7 +20,7 @@ object GCPSO extends zio.ZIOAppDefault {
   val gcPSO: NonEmptyVector[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[
     PSO.GCParams,
     Particle[Mem[Double], Double]
-  ]                                         =
+  ] =
     gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
   val iter: NonEmptyVector[Particle[Mem[Double], Double]] => StepS[PSO.GCParams, NonEmptyVector[

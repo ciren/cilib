@@ -136,20 +136,20 @@ object PSO {
   ): Step[Position[Double]] =
     Step.liftR {
       for {
-        r_i      <- x.traverse(_ => Dist.stdUniform) //(0.0, 1.0))
-        //_ = println("r_i: " + r_i)
+        r_i      <- x.traverse(_ => Dist.stdUniform) // (0.0, 1.0))
+        // _ = println("r_i: " + r_i)
         originSum = math.sqrt(r_i.pos.foldLeft(0.0)((a, c) => a + c * c))
-        //_ = println("originSum: " + originSum)
+        // _ = println("originSum: " + originSum)
         scale    <- r.flatMap { a =>
                       /*println("r: " + a); */
                       val g = dist(0.0, a); /*println("g: " + g);*/
                       g
                     } // Use the provided distribution to scale the cloud radius
       } yield {
-        //println("scale: " + scale)
+        // println("scale: " + scale)
         val z = (scale / originSum) *: r_i
-        //println("ratio: " + (scale / originSum))
-        //println(z.pos)
+        // println("ratio: " + (scale / originSum))
+        // println(z.pos)
         z
       }
     }

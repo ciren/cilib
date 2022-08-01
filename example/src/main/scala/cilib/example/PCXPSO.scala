@@ -16,7 +16,7 @@ object PCXPSO extends zio.ZIOAppDefault {
   val guide: Guide[Mem[Double], Double] = Guide.pcx[Mem[Double]](2.0, 2.0)
   val pcxPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
     Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
-  )                                     = crossoverPSO(guide)
+  ) = crossoverPSO(guide)
 
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]]                                                 =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)

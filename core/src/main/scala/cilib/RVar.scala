@@ -119,7 +119,7 @@ object RVar {
   def choices[F[+_], A](n: Natural, xs: F[A])(implicit F: ForEach[F]): RVar[Option[List[A]]] =
     if (F.size(xs) < n) RVar.pure(None)
     else {
-      val length = F.size(xs)
+      val length                   = F.size(xs)
       val backsaw: RVar[List[Int]] = {
         val l = length - 1 to length - Natural.unwrap(n) by -1
         ForEach[List].forEach(l.toList)(x => Dist.uniformInt(0, x))
@@ -162,11 +162,12 @@ object Generator {
   private def nextBits(bits: Int): RVar[Int] =
     RVar(_.next(bits))
 
-  /** Generate a random `Double`.
-    *
-    * The algorihm used is the same as that used within the Java SDK
-    * [[https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/Random.html#nextDouble() `Random#nextDouble()`]]
-    */
+  /**
+   * Generate a random `Double`.
+   *
+   * The algorihm used is the same as that used within the Java SDK
+   * [[https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/Random.html#nextDouble() `Random#nextDouble()`]]
+   */
   implicit object DoubleGen extends Generator[Double] {
     def gen: RVar[Double] =
       zio.prelude.fx.ZPure.mapN(nextBits(26), nextBits(27)) { (a, b) =>

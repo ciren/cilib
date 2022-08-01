@@ -82,7 +82,7 @@ object FileOutput extends zio.ZIOAppDefault {
           .getOrElse(Double.PositiveInfinity)
       )
 
-      //val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
+      // val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
       // val fitnessValues =
       //   collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
 

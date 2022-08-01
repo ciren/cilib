@@ -19,7 +19,7 @@ object VonNeumannPSO extends zio.ZIOAppDefault {
   val social: Guide[Mem[Double], Double]    = Guide.vonNeumann[Mem[Double]]
   val gbestPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
     Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
-  )                                         = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
+  ) = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
   // RVar
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]]                                                 =

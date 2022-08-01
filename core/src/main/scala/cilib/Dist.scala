@@ -31,8 +31,8 @@ object Dist {
     }
 
   def gamma(k: Double, theta: Double): RVar[Double] = {
-    val n        = k.toInt
-    val gammaInt = stdUniform.replicateM(n).map(_.map(x => -math.log(x)).sum)
+    val n         = k.toInt
+    val gammaInt  = stdUniform.replicateM(n).map(_.map(x => -math.log(x)).sum)
     val gammaFrac = {
       val delta = k - n
 
@@ -89,9 +89,9 @@ object Dist {
       .map(x => if (ineg) x._1 - min else min - x._1)
   }
 
-  //private val ZIGNOR_C = 128               // Number of blocks
-  private val ZIGNOR_R = 3.442619855899      // Start of the right tail
-  private val ZIGNOR_V = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
+  // private val ZIGNOR_C = 128               // Number of blocks
+  private val ZIGNOR_R         = 3.442619855899      // Start of the right tail
+  private val ZIGNOR_V         = 9.91256303526217e-3 // (R * phi(R) + Pr(X>=3)) * sqrt(2/pi)
   private val (blocks, ratios) = {
     def unfold[A, B](b: => B)(f: B => Option[(A, B)]): List[A] =
       f(b) match {
@@ -99,16 +99,15 @@ object Dist {
         case Some((a, r)) => a +: unfold(r)(f)
       }
 
-    val f           = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
-    val unfoldStart = (126, ZIGNOR_V / f, ZIGNOR_R)
-    val blocks: List[Double] = {
+    val f                    = math.exp(-0.5 * ZIGNOR_R * ZIGNOR_R)
+    val unfoldStart          = (126, ZIGNOR_V / f, ZIGNOR_R)
+    val blocks: List[Double] =
       List(ZIGNOR_V / f, ZIGNOR_R) ++
         (unfold(unfoldStart) { (a: (Int, Double, Double)) =>
           val f = math.exp(-0.5 * a._3 * a._3)
           val v = math.sqrt(-2.0 * math.log(ZIGNOR_V / a._2 + f))
           if (a._1 == 0) None else Some((v, (a._1 - 1, a._3, v)))
         }) ++ List(0.0)
-    }
 
     (blocks, blocks.zip(blocks.drop(1)).map(a => a._1 / a._2))
   }
