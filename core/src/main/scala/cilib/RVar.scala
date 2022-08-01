@@ -25,11 +25,11 @@ object RVar {
   def next[A](implicit e: Generator.Generator[A]): RVar[A] =
     e.gen
 
-  /** Generate the next `n` random [[scala.Int]] values */
+  /** Generate the next `n` random `scala.Int` values */
   def ints(n: Int): RVar[List[Int]] =
     next[Int](Generator.IntGen).replicateM(n).map(_.toList)
 
-  /** Generate the next `n` random [[scala.Double]] values */
+  /** Generate the next `n` random `scala.Double` values */
   def doubles(n: Int): RVar[List[Double]] =
     next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
