@@ -3,7 +3,10 @@ package cilib
 import _root_.scala.Predef.{ any2stringadd => _ }
 
 sealed trait RNG {
+  /** The seed that initialised the RNG instance */
   val seed: Long
+
+  /** Obtain the next `n` bits from the generator, producing an Int and the updated RNG state */
   def next(bits: Int): (RNG, Int)
 }
 
@@ -26,9 +29,29 @@ private final class CMWC(val seed: Long, carry: Long, index: Int, state: Vector[
 
 object RNG {
 
+  /** Create an `RNG` instance seeded weith the current systemj time.
+    *
+    * '''NOTE''': even though this function exists, it does so purely to
+    * allow for unpredictable results. It is _STRONGLY_ advised not to
+    * use this function for any real uses of the library.
+    */
   def fromTime: RNG =
     init(System.currentTimeMillis)
 
+  /** Generate a new `RNG` instance.
+    *
+    * The `seed` value is used as the seed for a
+    * [[https://en.wikipedia.org/wiki/Linear_congruential_generator
+    * LCG generator]], which is sampled for a seed in order to create
+    * a
+    * [[https://en.wikipedia.org/wiki/Multiply-with-carry_pseudorandom_number_generator
+    * `CMWC` instance]]. The CMWC generator is not only a fast
+    * generator of randomness, but it is a generator that has very
+    * strong generation capabilities, such as having a very long
+    * period. CIlib uses the CMWC generator by default for all
+    * randomness because it is a better generator than the popular
+    * Mersenne Twister.
+    */
   def init(seed: Long): RNG = {
     val seedGen      = initLCG(seed)
     val seedGenState = RVar.next[Int].map(_ & 0xffffffffL).replicateM(4097).runResult(seedGen).toVector
@@ -36,6 +59,11 @@ object RNG {
     new CMWC(seed, seedGenState(4096), 4095, seedGenState.take(4096))
   }
 
+  /** Generate `n` unique `RNG` instances,  applying the `init` effect repeatedly.
+    *
+    * The generator of the multiple `RNG`s samples an LCG generator
+    * `n` times and passes the generated seeds to the `init` function.
+    */
   def initN(n: Int, seed: Long): List[RNG] =
     RVar.next[Long].replicateM(n).map(_.map(init)).runResult(initLCG(seed)).toList
 
@@ -49,6 +77,7 @@ object RNG {
   private def initLCG(seed: Long): RNG =
     new LCG((seed ^ 0x5deece66dL) & ((1L << 48) - 1))
 
+  /** Split a given RNG into two by adjusting the seed */
   def split(r: RNG): (RNG, RNG) =
     (init(r.seed - 1), init(r.seed + 1))
 
