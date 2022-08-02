@@ -95,15 +95,14 @@ object BuildHelper {
       case _             => Seq.empty
     }
 
-  def platformSpecificSources( /*platform: String,*/ conf: String, baseDirectory: File)(versions: String*) =
+  def platformSpecificSources(conf: String, baseDirectory: File)(versions: List[String]) =
     for {
-      // platform <- List("shared") //, platform)
-      version <- "scala" :: versions.toList.map("scala-" + _)
-      result   = baseDirectory.getParentFile / "src" / conf / version
-      if result.exists
+      version <- "scala" :: versions.map("scala-" + _)
+      result   = baseDirectory / "src" / conf / version
+      if result.exists()
     } yield result
 
-  def crossPlatformSources(scalaVer: String, /*platform: String,*/ conf: String, baseDir: File) = {
+  def crossPlatformSources(scalaVer: String, conf: String, baseDir: File) = {
     val versions = CrossVersion.partialVersion(scalaVer) match {
       case Some((2, 11)) =>
         List("2.11", "2.11+", "2.11-2.12")
@@ -116,14 +115,13 @@ object BuildHelper {
       case _             =>
         List()
     }
-    platformSpecificSources( /*platform,*/ conf, baseDir)(versions: _*)
+    platformSpecificSources(conf, baseDir)(versions)
   }
 
   lazy val crossProjectSettings = Seq(
     Compile / unmanagedSourceDirectories ++= {
       crossPlatformSources(
         scalaVersion.value,
-        // crossProjectPlatform.value.identifier,
         "main",
         baseDirectory.value
       )
@@ -131,7 +129,6 @@ object BuildHelper {
     Test / unmanagedSourceDirectories ++= {
       crossPlatformSources(
         scalaVersion.value,
-        // crossProjectPlatform.value.identifier,
         "test",
         baseDirectory.value
       )
@@ -140,8 +137,8 @@ object BuildHelper {
 
   def stdSettings(prjName: String) = Seq(
     name                                   := prjName,
-    crossScalaVersions                     := Seq("2.13.8", "3.1.3"),
-    scalaVersion                           := crossScalaVersions.value.head,
+    crossScalaVersions                     := Seq("2.13.8", "2.12.16", "3.1.3"),
+    ThisBuild / scalaVersion               := crossScalaVersions.value.head,
     scalacOptions                          := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
