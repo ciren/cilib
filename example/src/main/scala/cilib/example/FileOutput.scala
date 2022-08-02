@@ -124,7 +124,6 @@ object FileOutput extends zio.ZIOAppDefault {
       .mergeAll(4)(measured: _*)
       .run(choice match {
         case Parquet => parquetSink(new File(choice.filename))
-        case _       => ZSink.fail(new Exception("Unsupported value. Please select a valid choice."))
       })
   }
 
