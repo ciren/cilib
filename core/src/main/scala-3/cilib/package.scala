@@ -58,8 +58,6 @@ package object cilib {
       }
     }
 
-
-
   type Type[F[_]] <: (Any { type T })
 
   implicit def wrap[F[_], A](value: F[A]): Type[F] =

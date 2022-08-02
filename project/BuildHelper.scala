@@ -2,7 +2,7 @@ import sbt._
 import Keys._
 import sbtbuildinfo.BuildInfoKeys._
 import sbtbuildinfo._
-import scalafix.sbt.ScalafixPlugin.autoImport._
+// import scalafix.sbt.ScalafixPlugin.autoImport._
 
 object BuildHelper {
 
@@ -136,10 +136,10 @@ object BuildHelper {
   )
 
   def stdSettings(prjName: String) = Seq(
-    name                                   := prjName,
-    crossScalaVersions                     := Seq("2.13.8", "2.12.16", "3.1.3"),
-    ThisBuild / scalaVersion               := crossScalaVersions.value.head,
-    scalacOptions                          := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
+    name                     := prjName,
+    crossScalaVersions       := Seq("2.13.8", "2.12.16", "3.1.3"),
+    ThisBuild / scalaVersion := crossScalaVersions.value.head,
+    scalacOptions            := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((3, _)) =>
@@ -154,15 +154,15 @@ object BuildHelper {
           Seq.empty
       }
     },
-    testFrameworks                         := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
-    Test / parallelExecution               := true,
-    semanticdbEnabled                      := true,                        // !isScala3(scalaVersion.value), // enable SemanticDB
-    semanticdbVersion                      := scalafixSemanticdb.revision, // use Scalafix compatible version
-    ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
-    ThisBuild / scalafixDependencies ++= List(
-      "com.github.liancheng" %% "organize-imports" % "0.5.0",
-      "com.github.vovapolu"  %% "scaluzzi"         % "0.1.20"
-    ),
+    testFrameworks           := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
+    Test / parallelExecution := true,
+    // semanticdbEnabled                      := true,                        // !isScala3(scalaVersion.value), // enable SemanticDB
+    // semanticdbVersion                      := scalafixSemanticdb.revision, // use Scalafix compatible version
+    // ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
+    // ThisBuild / scalafixDependencies ++= List(
+    //   "com.github.liancheng" %% "organize-imports" % "0.5.0",
+    //   "com.github.vovapolu"  %% "scaluzzi"         % "0.1.20"
+    // ),
     incOptions ~= (_.withLogRecompileOnMacro(false))
   )
 
@@ -181,8 +181,8 @@ object BuildHelper {
         |${header(" \\____|___|_| \\_\\___|_| \\_|")}    ${version.value}
         |
         |Useful sbt tasks:
-        |${item("build")} - Prepare and fix sources, compile and run tests.
-        |${item("fix")} - Fixes files using scalafix and scalafmt
+        |${item("build")} - Prepare sources, compile and run tests.
+        |${item("fmt")} - Formats sources using scalafmt
         |${item("~compile")} - Compiles all modules (file-watch enabled)
         |${item("test")} - Runs all tests
         |${item("docs/docusaurusCreateSite")} - Generates the website
