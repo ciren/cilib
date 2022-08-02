@@ -58,7 +58,6 @@ package object cilib {
       }
     }
 
-
   // https://dev.to/raquo/existential-crisis-implementing-mapk-in-scala-3-2fo1
   type Type[F[_]] <: (Any { type T })
 
