@@ -14,7 +14,7 @@ object PSO {
     c: Particle[S, A],
     v: Position[A]
   )(implicit A: algebra.VectorOps[Position, A]): Step[Particle[S, A]] =
-    Step.pure(_position.update(c)(z => A.+(z, v)).toOption.get)
+    Step.pure(_position.update(c)(z => A.plus(z, v)).toOption.get)
 
   // Dist \/ Double (scalar value)
   // This needs to be fleshed out to cater for the parameter constants // remember to extract Dists

@@ -87,50 +87,48 @@ object Position {
         a.zip(b).map(x => A.times(x._1, x._2))
     }
 
-  implicit def positionVectorOps[A]: algebra.VectorOps[Position, A] =
+  implicit def positionVectorOps[A](implicit A: scala.math.Numeric[A]): algebra.VectorOps[Position, A] =
     new algebra.VectorOps[Position, A] {
-      def zeroed(a: Position[A])(implicit A: scala.math.Numeric[A]): Position[A] =
+      def zeroed(a: Position[A]): Position[A] =
         a.map(_ => A.zero)
 
-      def +(a: Position[A], b: Position[A])(implicit M: scala.math.Numeric[A]): Position[A] = {
+      def plus(a: Position[A], b: Position[A]): Position[A] = {
         val combined =
-          a.pos.zipAllWith(b.pos.toChunk)(identity, identity)(M.plus(_, _))
+          a.pos.zipAllWith(b.pos.toChunk)(identity, identity)(A.plus(_, _))
 
         Point(combined, a.boundary)
       }
 
-      def -(a: Position[A], b: Position[A])(implicit M: scala.math.Numeric[A]): Position[A] = {
+      def minus(a: Position[A], b: Position[A]): Position[A] = {
         val combined =
-          a.pos.zipAllWith(b.pos.toChunk)(identity, identity)(M.minus(_, _))
+          a.pos.zipAllWith(b.pos.toChunk)(identity, identity)(A.minus(_, _))
 
         Point(combined, a.boundary)
       }
 
-      def *:(scalar: A, a: Position[A])(implicit M: scala.math.Numeric[A]): Position[A] =
-        a.map(x => M.times(scalar, x))
+      def scalarMultiply(scalar: A, a: Position[A]): Position[A] =
+        a.map(x => A.times(scalar, x))
 
-      def unary_-(a: Position[A])(implicit M: scala.math.Numeric[A]): Position[A] =
-        a.map(x => M.negate(x))
-
-      def isZero(a: Position[A])(implicit R: scala.math.Numeric[A]): Boolean =
-        a.pos.forall(_ == R.zero)
+      def isZero(a: Position[A]): Boolean =
+        a.pos.forall(_ == A.zero)
     }
 
-  implicit class PositionVectorOps[A](private val x: Position[A]) extends AnyVal {
+  implicit class PositionVectorOps[A](val x: Position[A]) extends AnyVal {
+
     def zeroed(implicit A: scala.math.Numeric[A]): Position[A] =
       x.map(_ => A.zero)
 
     def +(other: Position[A])(implicit M: algebra.VectorOps[Position, A], A: scala.math.Numeric[A]): Position[A] =
-      M.+(x, other)
+      M.plus(x, other)
 
     def -(other: Position[A])(implicit M: algebra.VectorOps[Position, A], A: scala.math.Numeric[A]): Position[A] =
-      M.-(x, other)
+      M.minus(x, other)
 
     def *:(scalar: A)(implicit M: algebra.VectorOps[Position, A], A: scala.math.Numeric[A]): Position[A] =
-      M.*:(scalar, x)
+      M.scalarMultiply(scalar, x)
 
     def unary_-(implicit M: algebra.VectorOps[Position, A], A: scala.math.Numeric[A]): Position[A] =
-      M.unary_-(x)
+      x.map(a => A.negate(a))
 
     def isZero(implicit R: scala.math.Numeric[A]): Boolean =
       x.forall(_ == R.zero)

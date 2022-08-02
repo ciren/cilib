@@ -23,7 +23,7 @@ package object cilib {
       case ZValidation.Success(_, v)   => v
     }
 
-  implicit final class RichRVarOps[+A](rvar: RVar[A]) {
+  implicit class RichRVarOps[+A](val rvar: RVar[A]) extends AnyVal {
     def replicateM(n: Int): RVar[List[A]] =
       ForEach[List].forEach(List.fill(n)(rvar))(identity)
   }
