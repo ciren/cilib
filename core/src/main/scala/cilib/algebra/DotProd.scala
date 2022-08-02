@@ -23,18 +23,15 @@ trait Pointwise[F[_], A] {
 
 trait VectorOps[F[_], A] {
 
-  def zeroed(a: F[A])(implicit A: scala.math.Numeric[A]): F[A]
+  def zeroed(a: F[A]): F[A]
 
-  def +(a: F[A], b: F[A])(implicit M: scala.math.Numeric[A]): F[A]
+  def plus(a: F[A], b: F[A]): F[A]
 
-  def -(a: F[A], b: F[A])(implicit M: scala.math.Numeric[A]): F[A]
+  def minus(a: F[A], b: F[A]): F[A]
 
-  def *:(scalar: A, a: F[A])(implicit M: scala.math.Numeric[A]): F[A]
+  def scalarMultiply(scalar: A, a: F[A]): F[A]
 
-  def unary_-(a: F[A])(implicit M: scala.math.Numeric[A]): F[A]
-
-  def isZero(a: F[A])(implicit R: scala.math.Numeric[A]): Boolean
-
+  def isZero(a: F[A]): Boolean
 }
 
 object VectorOps {
@@ -56,13 +53,13 @@ object Algebra {
     D.norm(a)
 
   def distance[F[_], A: scala.math.Numeric](a: F[A], b: F[A])(implicit D: DotProd[F, A], M: VectorOps[F, A]): Double =
-    D.norm(M.-(a, b))
+    D.norm(M.minus(a, b))
 
   def pointwise[F[_], A](a: F[A], b: F[A])(implicit P: Pointwise[F, A]): F[A] =
     P.pointwise(a, b)
 
   def vectorSum[F[_], A: scala.math.Numeric](xs: NonEmptyVector[F[A]])(implicit M: VectorOps[F, A]): F[A] =
-    NonEmptyForEach[NonEmptyVector].reduceAll(xs)(M.+)
+    NonEmptyForEach[NonEmptyVector].reduceAll(xs)(M.plus)
 
   def meanVector[F[+_]: Covariant, A](
     xs: NonEmptyVector[F[A]]
@@ -76,7 +73,7 @@ object Algebra {
     x: F[Double],
     vs: List[F[Double]]
   )(implicit D: DotProd[F, Double], M: VectorOps[F, Double]): F[Double] =
-    vs.foldLeft(x)((a, b) => M.-(a, project(a, b)))
+    vs.foldLeft(x)((a, b) => M.minus(a, project(a, b)))
 
   def project[F[+_]](
     x: F[Double],
@@ -90,7 +87,7 @@ object Algebra {
   )(implicit D: DotProd[F, Double], M: VectorOps[F, Double]): NonEmptyVector[F[Double]] = {
     val bases = vs.foldLeft(NonEmptyVector(vs.head)) { (ob, v) =>
       val ui = ob.foldLeft(v) { (u, o) =>
-        M.-(u, project(v, o))
+        M.minus(u, project(v, o))
       }
       if (ui.sum == 0.0) ob
       else ob ++ Chunk(ui)

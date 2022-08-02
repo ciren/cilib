@@ -87,7 +87,7 @@ object Defaults {
   def gcpso[S](w: Double, c1: Double, c2: Double, cognitive: Guide[S, Double])(implicit
     M: HasMemory[S, Double],
     V: HasVelocity[S, Double]
-    //S: MonadState[StepS[GCParams, *], GCParams]
+    // S: MonadState[StepS[GCParams, *], GCParams]
   ): NonEmptyVector[Particle[S, Double]] => Particle[S, Double] => StepS[GCParams, Particle[S, Double]] =
     collection =>
       x => {
@@ -96,7 +96,7 @@ object Defaults {
           gbest   <- StepS.liftStep(g(collection, x))
           cog     <- StepS.liftStep(cognitive(collection, x))
           isBest  <- StepS.liftStep(Step.pure[Boolean](x.pos eq gbest)) // Yes, we do want reference equality
-          s       <- StepS.getState[GCParams] //S.get
+          s       <- StepS.getState[GCParams]                           // S.get
           v       <- StepS.liftStep(
                        if (isBest) gcVelocity(x, gbest, w, s)
                        else stdVelocity(x, gbest, cog, w, c1, c2)

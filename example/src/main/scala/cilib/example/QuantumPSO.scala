@@ -99,7 +99,7 @@ object QuantumPSO extends zio.ZIOAppDefault {
   )
   val algStream: UStream[Algorithm[
     Kleisli[Step, NonEmptyVector[Particle[QuantumState, Double]], NonEmptyVector[Particle[QuantumState, Double]]]
-  ]]                                  =
+  ]] =
     Runner.staticAlgorithm("quantumPSO", qpso)
 
   def run: URIO[Any, ExitCode] = {

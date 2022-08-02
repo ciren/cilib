@@ -30,13 +30,13 @@ object FileOutput extends zio.ZIOAppDefault {
   // functions and suites.
   // The problems are repesented as streams:
   val absoluteStream: UStream[Problem]  =
-    Runner.staticProblem("absolute", Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible))
+    Runner.staticProblem("absolute", Eval.unconstrained(ExampleHelper.absoluteValue andThen Feasible.apply))
   val ackleyStream: UStream[Problem]    =
-    Runner.staticProblem("ackley", Eval.unconstrained(ExampleHelper.ackley andThen Feasible))
+    Runner.staticProblem("ackley", Eval.unconstrained(ExampleHelper.ackley andThen Feasible.apply))
   val sphericalStream: UStream[Problem] =
-    Runner.staticProblem("spherical", Eval.unconstrained(ExampleHelper.spherical andThen Feasible))
+    Runner.staticProblem("spherical", Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply))
   val quadricStream: UStream[Problem]   =
-    Runner.staticProblem("quadric", Eval.unconstrained(ExampleHelper.quadric andThen Feasible))
+    Runner.staticProblem("quadric", Eval.unconstrained(ExampleHelper.quadric andThen Feasible.apply))
 
   // Define the guides for our PSO algorithms
   val cognitive: Guide[Mem[Double], Double]  = Guide.pbest[Mem[Double], Double]
@@ -82,7 +82,7 @@ object FileOutput extends zio.ZIOAppDefault {
           .getOrElse(Double.PositiveInfinity)
       )
 
-      //val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
+      // val feasibleOptic = Lenses._singleFitness[Double].composePrism(Lenses._feasible)
       // val fitnessValues =
       //   collection.map(x => feasibleOptic.headOption(x.pos).getOrElse(Double.PositiveInfinity))
 
@@ -111,16 +111,10 @@ object FileOutput extends zio.ZIOAppDefault {
     )
 
   sealed abstract class Choice {
-    def filename: String =
-      this match {
-        case CSV     => "results.csv"
-        case Parquet => "results.parquet"
-        case Invalid => throw new Exception("Invalid choice")
-      }
+    def filename: String = "results.parquet"
   }
-  final case object CSV extends Choice
-  final case object Parquet extends Choice
-  final case object Invalid extends Choice
+
+  case object Parquet extends Choice
 
   def writeResults(choice: Choice): ZIO[Any, Throwable, Unit] = {
     val measured: List[ZStream[Any, Exception, Measurement[Results]]] =
@@ -129,23 +123,15 @@ object FileOutput extends zio.ZIOAppDefault {
     ZStream
       .mergeAll(4)(measured: _*)
       .run(choice match {
-        case CSV     => csvSink(new File(choice.filename))
         case Parquet => parquetSink(new File(choice.filename))
-        case _       => ZSink.fail(new Exception("Unsupported value. Please select a valid choice."))
       })
   }
 
   def run: ZIO[Environment with ZIOAppArgs with Scope, Any, Any] =
     for {
-      _      <- Console.printLine("Please enter the output format type: (1) for Parquet or (2) for CSV")
-      result <- Console.readLine
-      choice <- ZIO.fromTry(scala.util.Try(result.toInt))
-      _      <- writeResults(choice match {
-                  case 1 => Parquet
-                  case 2 => CSV
-                  case _ => Invalid
-                })
-      _      <- Console.printLine("Complete.")
+      _ <- Console.printLine("Writing data to parquet file...")
+      _ <- writeResults(Parquet)
+      _ <- Console.printLine("Complete")
     } yield ()
 
 }

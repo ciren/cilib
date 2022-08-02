@@ -1,32 +1,52 @@
 # Revision history for CIlib
 
-## [2.1.0]
+## [2.2.0]
 
 This release replaces some of the internal library code with zio and
 zio-prelude libraries. The changes are not fundamental and have
 allowed for some simplifications to some of the types within the
 library.
 
-Notable changes include:
+The list of Notable changes are found below.
 
+### Added
+
+- Support for Scala 3.x
+
+### Changed
+
+- Default version of Scala is now 2.13
 - `zio`, `zio-stream` and `zio-prelude` are new dependencies,
   replacing `scalaz` and `scalaz-stream`/`fs2`.
-- The dependency on `monocle` has been removed to reduce the size of
-  transitive dependencies.
 - `RVar`, `Step` and `StepS` data types have been simplified, with a
   type parameter being removed from both `Step` and `StepS`.
-- Scala 2.11 is no longer supported.
-- Preparation for Scala 3.0.0 as a new compilation target (currently
-  blocked due to depenencies needing to upgrade frist e.g. spire)
-- The heterogeneous PSO has been removed in favour of a new, far
-  simpler implementation.
 - Data types now have variance annotations where relevant, allowing
   for better error messages from the compiler, aiding in the
   simplification of types (e.g. the `Eval` instances).
-- The `cilib.Environment` type has been removed and values are now
-  just used directly (the indirection has now been reduced).
+- `zio-optics` is used for optics
+- The underlying list-like representation of `Position` has been
+  replaced with a much more performant and memory-efficient structure.
+- Updates to including required upgrades for project dependencies
+
+### Removed
+
+- Dropped Scala 2.11 and 2.12 support
+- Superfluous `hoist` syntax has been dropped
 - Removed the `refined` library in favour of using `newtype`s from
   `zio-prelude`.
+- The dependency on `monocle` has been removed to reduce the size of
+  transitive dependencies.
+- Removed the use of `spire` with CIlib
+- The heterogeneous PSO has been removed in favour of a new, far
+  simpler implementation.
+- The `cilib.Environment` type has been removed and values are now
+  just used directly (the indirection has now been reduced).
+- Support for outputting data in CSV format has been removed. The CSV
+  format is troublesome, dropping type information in favour of
+  `String`s. Instead, the only supported format is `parquet` and CSV
+  formats can be obtained through the conversion of the `parquet` file
+  using additional tools. This is preferred as the size of `parquet`
+  files is dramatically more reasonable than a plain-text encoding.
 
 
 ## [2.0.0]

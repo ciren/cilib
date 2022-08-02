@@ -51,29 +51,29 @@ object MetricSpaceTest extends ZIOSpecDefault {
     test("non-negativity") {
       check(listTuple2) { case (x, y) =>
         nonnegative(euclidean, x, y) &&
-          nonnegative(manhattan, x, y) &&
-          nonnegative(chebyshev, x, y)
+        nonnegative(manhattan, x, y) &&
+        nonnegative(chebyshev, x, y)
       }
     },
     test("hamming metric space") {
       check(doubleListGen, doubleListGen) { case (x, y) =>
         nonnegative(hamming, x, y) &&
-          symmetry(hamming, x, y) &&
-          assert(hamming.dist(x, x))(Assertion.equalTo(0))
+        symmetry(hamming, x, y) &&
+        assert(hamming.dist(x, x))(Assertion.equalTo(0))
       }
     },
     test("identity of indiscernibles") {
       check(doubleListGen) { case l =>
         indisc(euclidean, l) &&
-          indisc(manhattan, l) &&
-          indisc(chebyshev, l)
+        indisc(manhattan, l) &&
+        indisc(chebyshev, l)
       }
     },
     test("identity") {
       check(listTuple2) { case (x, _) =>
         assert(euclidean.dist(x, x))(Assertion.equalTo(0.0)) &&
-          assert(manhattan.dist(x, x))(Assertion.equalTo(0.0)) &&
-          assert(chebyshev.dist(x, x))(Assertion.equalTo(0.0))
+        assert(manhattan.dist(x, x))(Assertion.equalTo(0.0)) &&
+        assert(chebyshev.dist(x, x))(Assertion.equalTo(0.0))
 
       // TODO: Another test to verify
       //    hamming.dist(x, x) === 0 &&
@@ -86,15 +86,15 @@ object MetricSpaceTest extends ZIOSpecDefault {
     test("symmetry") {
       check(listTuple2) { case (x, y) =>
         symmetry(euclidean, x, y) &&
-          symmetry(manhattan, x, y) &&
-          symmetry(chebyshev, x, y)
+        symmetry(manhattan, x, y) &&
+        symmetry(chebyshev, x, y)
       }
     },
     test("triangle-inequality") {
       check(listTuple3) { case (x, y, z) =>
         assert(triangle(euclidean, x, y, z))(Assertion.isTrue) &&
-          assert(triangle(manhattan, x, y, z))(Assertion.isTrue) &&
-          assert(triangle(chebyshev, x, y, z))(Assertion.isTrue)
+        assert(triangle(manhattan, x, y, z))(Assertion.isTrue) &&
+        assert(triangle(chebyshev, x, y, z))(Assertion.isTrue)
       }
     }
   )

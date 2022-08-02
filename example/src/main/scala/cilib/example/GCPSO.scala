@@ -12,7 +12,7 @@ object GCPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]
@@ -20,7 +20,7 @@ object GCPSO extends zio.ZIOAppDefault {
   val gcPSO: NonEmptyVector[Particle[Mem[Double], Double]] => Particle[Mem[Double], Double] => StepS[
     PSO.GCParams,
     Particle[Mem[Double], Double]
-  ]                                         =
+  ] =
     gcpso(0.729844, 1.496180, 1.496180, cognitive)
 
   val iter: NonEmptyVector[Particle[Mem[Double], Double]] => StepS[PSO.GCParams, NonEmptyVector[

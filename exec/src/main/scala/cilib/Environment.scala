@@ -5,8 +5,8 @@ import com.github.mjakubowski84.parquet4s._
 import zio.stream._
 
 sealed abstract class Env
-final case object Unchanged extends Env
-final case object Change    extends Env
+case object Unchanged extends Env
+case object Change    extends Env
 
 object Env {
   def unchanging: zio.stream.UStream[Env] =

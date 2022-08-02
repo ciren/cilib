@@ -25,7 +25,7 @@ object ViolationCount {
     }
 }
 
-final case class ConstraintFunction(f: NonEmptyVector[_] => Double) {
+final case class ConstraintFunction(f: NonEmptyVector[Any] => Double) {
   def apply[A](a: NonEmptyVector[A]): Double =
     f(a)
 }

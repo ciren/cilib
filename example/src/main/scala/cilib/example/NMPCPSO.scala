@@ -12,12 +12,12 @@ object NMPCPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = Comparison.quality(Min)
-  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply)
 
   val guide: Guide[Mem[Double], Double] = Guide.nmpc[Mem[Double]](0.5)
   val nmpcPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
     Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
-  )                                     = nmpc(guide)
+  ) = nmpc(guide)
 
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]]                                                 =
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)

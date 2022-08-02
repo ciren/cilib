@@ -12,14 +12,14 @@ object VonNeumannPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]
   val social: Guide[Mem[Double], Double]    = Guide.vonNeumann[Mem[Double]]
   val gbestPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
     Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
-  )                                         = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
+  ) = gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
   // RVar
   val swarm: RVar[NonEmptyVector[Particle[Mem[Double], Double]]]                                                 =

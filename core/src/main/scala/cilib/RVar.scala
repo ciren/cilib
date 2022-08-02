@@ -25,11 +25,11 @@ object RVar {
   def next[A](implicit e: Generator.Generator[A]): RVar[A] =
     e.gen
 
-  /** Generate the next `n` random [[scala.Int]] values */
+  /** Generate the next `n` random `scala.Int` values */
   def ints(n: Int): RVar[List[Int]] =
     next[Int](Generator.IntGen).replicateM(n).map(_.toList)
 
-  /** Generate the next `n` random [[scala.Double]] values */
+  /** Generate the next `n` random `scala.Double` values */
   def doubles(n: Int): RVar[List[Double]] =
     next[Double](Generator.DoubleGen).replicateM(n).map(_.toList)
 
@@ -119,7 +119,7 @@ object RVar {
   def choices[F[+_], A](n: Natural, xs: F[A])(implicit F: ForEach[F]): RVar[Option[List[A]]] =
     if (F.size(xs) < n) RVar.pure(None)
     else {
-      val length = F.size(xs)
+      val length                   = F.size(xs)
       val backsaw: RVar[List[Int]] = {
         val l = length - 1 to length - Natural.unwrap(n) by -1
         ForEach[List].forEach(l.toList)(x => Dist.uniformInt(0, x))
@@ -158,9 +158,16 @@ object Generator {
     def gen: RVar[A]
   }
 
+  /** Return the next `bits` as an Int */
   private def nextBits(bits: Int): RVar[Int] =
     RVar(_.next(bits))
 
+  /**
+   * Generate a random `Double`.
+   *
+   * The algorihm used is the same as that used within the Java SDK
+   * [[https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/Random.html#nextDouble() `Random#nextDouble()`]]
+   */
   implicit object DoubleGen extends Generator[Double] {
     def gen: RVar[Double] =
       zio.prelude.fx.ZPure.mapN(nextBits(26), nextBits(27)) { (a, b) =>
@@ -168,10 +175,12 @@ object Generator {
       }
   }
 
+  /** Generate a 32-bit `Int` */
   implicit object IntGen extends Generator[Int] {
     def gen: RVar[Int] = nextBits(32)
   }
 
+  /** Generate a 64-bit `Long` */
   implicit object LongGen extends Generator[Long] {
     def gen: RVar[Long] =
       for {
@@ -180,6 +189,7 @@ object Generator {
       } yield (upper.toLong << 32) + lower
   }
 
+  /** Generate a random `Boolean` from a single random bit */
   implicit object BooleanGen extends Generator[Boolean] {
     def gen: RVar[Boolean] = nextBits(1).map(_ == 1)
   }

@@ -40,7 +40,7 @@ object Problems {
   sealed trait PeakMovement
   // final case object Linear extends PeakMovement
   // final case object Circular extends PeakMovement
-  final case object Random extends PeakMovement
+  case object Random extends PeakMovement
 
   /*
    The provided function `f` applies the _kind_ of peak update

@@ -74,7 +74,7 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} CIlib authors`
     },
     prism: {
-      additionalLanguages: ['scala', 'protobuf'],
+      additionalLanguages: ['java', 'scala', 'protobuf'],
       theme: require('prism-react-renderer/themes/nightOwlLight'),
       darkTheme: require('prism-react-renderer/themes/dracula')
     },

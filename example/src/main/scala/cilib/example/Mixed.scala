@@ -11,7 +11,7 @@ object Mixed extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
   val cmp: Comparison                  = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible)
+  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply)
 
   // Define the DE
   val de: NonEmptyVector[Individual[Mem[Double], Double]] => (
@@ -23,7 +23,7 @@ object Mixed extends zio.ZIOAppDefault {
   val social: Guide[Mem[Double], Double]    = Guide.gbest[Mem[Double]]
   val gbestPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (
     Particle[Mem[Double], Double] => Step[Particle[Mem[Double], Double]]
-  )                                         = cilib.pso.Defaults.gbest(0.729844, 1.496180, 1.496180, cognitive, social)
+  ) = cilib.pso.Defaults.gbest(0.729844, 1.496180, 1.496180, cognitive, social)
 
   // The swarm / population is the maximal set of features needed for the state,
   // so in the case of DE and PSO, the state from the particle is needed to be

@@ -22,9 +22,9 @@ inThisBuild(
   )
 )
 
-addCommandAlias("build", "prepare; test")
-addCommandAlias("fix", "; all compile:scalafix test:scalafix; all scalafmtSbt scalafmtAll")
-addCommandAlias("check", "; scalafmtSbtCheck; scalafmtCheckAll; compile:scalafix --check; test:scalafix --check")
+addCommandAlias("build", "; fmt; test")
+addCommandAlias("fmt", "; all root/scalafmtSbt root/scalafmtAll")
+addCommandAlias("check", "; scalafmtSbtCheck; scalafmtCheckAll")
 
 // lazy val publishSettings = Seq(
 //   autoAPIMappings := true,
@@ -101,6 +101,7 @@ lazy val eda = project
   .in(file("eda"))
   .dependsOn(core)
   .settings(BuildHelper.stdSettings("eda"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .enablePlugins(BuildInfoPlugin)
 
@@ -138,6 +139,7 @@ lazy val moo = project
   .in(file("moo"))
   .dependsOn(core)
   .settings(BuildHelper.stdSettings("moo"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .enablePlugins(BuildInfoPlugin)
 
@@ -145,6 +147,7 @@ lazy val pso = project
   .in(file("pso"))
   .dependsOn(core)
   .settings(BuildHelper.stdSettings("pso"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .enablePlugins(BuildInfoPlugin)
 
@@ -152,6 +155,7 @@ lazy val ga = project
   .in(file("ga"))
   .dependsOn(core)
   .settings(BuildHelper.stdSettings("ga"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .enablePlugins(BuildInfoPlugin)
 
@@ -159,6 +163,7 @@ lazy val de = project
   .in(file("de"))
   .dependsOn(core)
   .settings(BuildHelper.stdSettings("de"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .enablePlugins(BuildInfoPlugin)
 
@@ -167,6 +172,7 @@ lazy val tests = project
   .dependsOn(core)
   .dependsOn(pso)
   .settings(BuildHelper.stdSettings("tests"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(publish / skip := true)
   .settings(test / javaOptions += "-Xmx1G")
@@ -184,6 +190,7 @@ lazy val io = project
   .dependsOn(core)
   .dependsOn(exec)
   .settings(BuildHelper.stdSettings("io"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(BuildHelper.buildInfoSettings("cilib"))
   .settings(
     libraryDependencies ++= Seq(
@@ -198,6 +205,7 @@ lazy val io = project
 lazy val docs = project
   .in(file("cilib-docs"))
   .settings(BuildHelper.stdSettings("docs"))
+  .settings(BuildHelper.crossProjectSettings)
   .settings(mdocVariables := Map("CILIB_VERSION" -> version.value))
   .settings(publish / skip := true)
   .dependsOn(core, pso, exec, io)
