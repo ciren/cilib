@@ -12,7 +12,7 @@ package object io {
   val parquetOptions: ParquetWriter.Options = ParquetWriter.Options(
     compressionCodecName = CompressionCodecName.SNAPPY,
     pageSize = 4 * 1024 * 1024,
-    rowGroupSize = 16 * 1024 * 1024
+    rowGroupSize = 16 * 1024 * 1024L
   )
 
   def writeParquet[F[+_], A: ParquetRecordEncoder: ParquetSchemaResolver](

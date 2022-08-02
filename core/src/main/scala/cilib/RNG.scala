@@ -44,11 +44,10 @@ object RNG {
    * Generate a new `RNG` instance.
    *
    * The `seed` value is used as the seed for a
-   * [[https://en.wikipedia.org/wiki/Linear_congruential_generator
-   * LCG generator]], which is sampled for a seed in order to create
-   * a
-   * [[https://en.wikipedia.org/wiki/Multiply-with-carry_pseudorandom_number_generator
-   * `CMWC` instance]]. The CMWC generator is not only a fast
+   * [[https://en.wikipedia.org/wiki/Linear_congruential_generator LCG generator]],
+   * which is sampled for a seed in order to create a
+   * [[https://en.wikipedia.org/wiki/Multiply-with-carry_pseudorandom_number_generator `CMWC` instance]].
+   * The CMWC generator is not only a fast
    * generator of randomness, but it is a generator that has very
    * strong generation capabilities, such as having a very long
    * period. CIlib uses the CMWC generator by default for all
