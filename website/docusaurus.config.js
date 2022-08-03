@@ -6,7 +6,6 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "ciren",
   projectName: "cilib",
-  trailingSlash: false,
   themeConfig: {
     navbar: {
       title: "CIlib",
