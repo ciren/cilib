@@ -1,7 +1,7 @@
 # CIlib - Computational Intelligence Library
 
 ![CI](https://github.com/ciren/cilib/workflows/CI/badge.svg?branch=master&event=push)
-[![Discord](https://img.shields.io/discord/997122192909291550?style=flat-square)](https://discord.gg/gQaBp7bN)
+[![Discord](https://img.shields.io/discord/997122192909291550?style=flat-square)](https://discord.gg/pvcAX5scfv)
 [![Maven Central](https://img.shields.io/maven-central/v/net.cilib/cilib-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/net.cilib/cilib-core_2.12)
 [![Javadocs](https://javadoc.io/badge/net.cilib/cilib-core_2.12.svg)](https://javadoc.io/doc/net.cilib/cilib-core_2.12)
 
