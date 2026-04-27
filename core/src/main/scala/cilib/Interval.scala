@@ -3,85 +3,89 @@ package cilib
 sealed abstract class Bound {
   def value: Option[Double] =
     this match {
-      case Closed(value) => Some(value)
-      case Open(value)   => Some(value)
-      case Unbound()     => None
-      case EmptyBound()  => None
+      case Bound.Closed(value) => Some(value)
+      case Bound.Open(value)   => Some(value)
+      case Bound.Unbound()     => None
+      case Bound.EmptyBound()  => None
     }
 
   def toLeftPositionString: String =
     this match {
-      case Closed(value) => "[" ++ value.toString()
-      case Open(value)   => "(" ++ value.toString()
-      case Unbound()     => "(-infinity"
-      case EmptyBound()  => "{"
+      case Bound.Closed(value) => "[" ++ value.toString()
+      case Bound.Open(value)   => "(" ++ value.toString()
+      case Bound.Unbound()     => "(-infinity"
+      case Bound.EmptyBound()  => "{"
     }
 
   def toRightPositionString: String =
     this match {
-      case Closed(value) => value.toString() ++ "]"
-      case Open(value)   => value.toString() ++ ")"
-      case Unbound()     => "infinity)"
-      case EmptyBound()  => "}"
+      case Bound.Closed(value) => value.toString() ++ "]"
+      case Bound.Open(value)   => value.toString() ++ ")"
+      case Bound.Unbound()     => "infinity)"
+      case Bound.EmptyBound()  => "}"
     }
 
 }
 
-final case class Closed(private val v: Double) extends Bound
-final case class Open(private val v: Double)   extends Bound
-final case class Unbound()                     extends Bound
-final case class EmptyBound()                  extends Bound
+object Bound {
+  final case class Closed(private val v: Double) extends Bound
+  final case class Open(private val v: Double)   extends Bound
+  final case class Unbound()                     extends Bound
+  final case class EmptyBound()                  extends Bound
+}
 
 sealed abstract class Interval {
+  import Bound._
+
   override def toString(): String =
     this match {
-      case Bounded(lower, upper) => lower.toLeftPositionString + "," + upper.toRightPositionString
-      case Empty()               => "Empty boundary"
+      case Interval.Bounded(lower, upper) => lower.toLeftPositionString + "," + upper.toRightPositionString
+      case Interval.Empty()               => "Empty boundary"
     }
 
   def lowerBound: Bound =
     this match {
-      case Empty()           => EmptyBound()
-      case Bounded(lower, _) => lower
+      case Interval.Empty()           => EmptyBound()
+      case Interval.Bounded(lower, _) => lower
     }
 
   def lowerValue: Double =
     lowerBound match {
-      case Closed(v)    => v
-      case Open(v)      => v
-      case Unbound()    => Double.NegativeInfinity
-      case EmptyBound() => Double.NegativeInfinity
+      case Bound.Closed(v)    => v
+      case Bound.Open(v)      => v
+      case Bound.Unbound()    => Double.NegativeInfinity
+      case Bound.EmptyBound() => Double.NegativeInfinity
     }
 
   def upperBound: Bound =
     this match {
-      case Empty()           => EmptyBound()
-      case Bounded(_, upper) => upper
+      case Interval.Empty()           => EmptyBound()
+      case Interval.Bounded(_, upper) => upper
     }
 
   def upperValue: Double =
     upperBound match {
-      case Closed(v)    => v
-      case Open(v)      => v
-      case Unbound()    => Double.PositiveInfinity
-      case EmptyBound() => Double.PositiveInfinity
+      case Bound.Closed(v)    => v
+      case Bound.Open(v)      => v
+      case Bound.Unbound()    => Double.PositiveInfinity
+      case Bound.EmptyBound() => Double.PositiveInfinity
     }
 
   def contains(point: Double): Boolean = {
     val lhs =
       lowerBound match {
-        case Closed(v)    => point >= v
-        case Open(v)      => point > v
-        case Unbound()    => true
-        case EmptyBound() => false
+        case Bound.Closed(v)    => point >= v
+        case Bound.Open(v)      => point > v
+        case Bound.Unbound()    => true
+        case Bound.EmptyBound() => false
       }
 
     val rhs =
       upperBound match {
-        case Closed(v)    => point <= v
-        case Open(v)      => point < v
-        case Unbound()    => true
-        case EmptyBound() => false
+        case Bound.Closed(v)    => point <= v
+        case Bound.Open(v)      => point < v
+        case Bound.Unbound()    => true
+        case Bound.EmptyBound() => false
       }
 
     lhs && rhs
@@ -91,10 +95,11 @@ sealed abstract class Interval {
     NonEmptyVector.fromIterable(this, List.fill(n - 1)(this))
 }
 
-final case class Bounded private[cilib] (lower: Bound, upper: Bound) extends Interval
-final case class Empty private[cilib] ()                             extends Interval
-
 object Interval {
+  import Bound._
+
+  final case class Bounded(lower: Bound, upper: Bound) extends Interval
+  final case class Empty()                             extends Interval
 
   def apply(lower: Double, upper: Double): Interval =
     closed(lower, upper)

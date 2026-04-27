@@ -1,7 +1,7 @@
 {
   description = "cilib";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/22.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils }:
@@ -10,12 +10,9 @@
       let
         buildInputs =  [
             sbt
-            yarn
             nodejs
             #nushell
             #pqrs
-            #node2nix
-            #yarn2nix
           ];
       in
       {

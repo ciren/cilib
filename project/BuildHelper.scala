@@ -1,4 +1,5 @@
 import sbt._
+
 import Keys._
 import sbtbuildinfo.BuildInfoKeys._
 import sbtbuildinfo._
@@ -6,15 +7,17 @@ import sbtbuildinfo._
 
 object BuildHelper {
 
+  val Scala213: String = "2.13.18"
+  val Scala3: String   = "3.3.7"
+
   def isScala3(version: String): Boolean = version.startsWith("3.")
 
   private val stdOptions = Seq(
-    "-deprecation",  // Emit warning and location for usages of deprecated APIs.
+    "-deprecation", // Emit warning and location for usages of deprecated APIs.
     "-encoding",
-    "utf-8",         // Specify character encoding used by source files.
-    "-explaintypes", // Explain type errors in more detail.
-    "-feature",      // Emit warning and location for usages of features that should be imported explicitly.
-    "-unchecked"     // Enable additional warnings where generated code depends on assumptions.
+    "utf-8",        // Specify character encoding used by source files.
+    "-feature",     // Emit warning and location for usages of features that should be imported explicitly.
+    "-unchecked"    // Enable additional warnings where generated code depends on assumptions.
   ) ++ {
     if (sys.env.contains("CI")) {
       Seq("-Xfatal-warnings")
@@ -26,7 +29,6 @@ object BuildHelper {
   private val std2xOptions = Seq(
     "-language:higherKinds",  // Allow higher-kinded types
     "-language:existentials", // Existential types (besides wildcard types) can be written and inferred
-    "-explaintypes",
     "-Yrangepos",
     "-Xlint:_,-missing-interpolator,-type-parameter-shadow",
     "-Ywarn-numeric-widen",   // Warn when numerics are widened.
@@ -48,7 +50,12 @@ object BuildHelper {
   def extraOptions(scalaVersion: String, optimize: Boolean) =
     CrossVersion.partialVersion(scalaVersion) match {
       case Some((3, _))  =>
-        Seq("-Ykind-projector")
+        Seq(
+          "-Ykind-projector",
+          "-explain-types", // Explain type errors in more detail.
+          "-source:3.0-migration",
+          "-rewrite"
+        )
       case Some((0, _))  =>
         Seq(
           "-language:implicitConversions",
@@ -57,41 +64,9 @@ object BuildHelper {
       case Some((2, 13)) =>
         Seq(
           "-Ywarn-unused:params,-implicits",
+          "-explaintypes",          // Explain type errors in more detail.
           "-Xlint:-byname-implicit" // https://github.com/scala/bug/issues/12072
         ) ++ std2xOptions ++ optimizerOptions(optimize)
-      case Some((2, 12)) =>
-        Seq(
-          "-opt-warnings",
-          "-Ywarn-extra-implicit",
-          "-Ywarn-unused:_,imports",
-          "-Ywarn-unused:imports",
-          "-Ypartial-unification",
-          "-Yno-adapted-args",
-          "-Ywarn-inaccessible",     // Warn about inaccessible types in method signatures.
-          "-Ywarn-infer-any",        // Warn when a type argument is inferred to be `Any`.
-          "-Ywarn-nullary-override", // Warn when non-nullary `def f()' overrides nullary `def f'.
-          "-Ywarn-nullary-unit",     // Warn when nullary methods return Unit.
-          "-Ywarn-unused:params,-implicits",
-          "-Xfuture",
-          "-Xsource:2.13",
-          "-Xmax-classfile-name",
-          "242"
-        ) ++ std2xOptions ++ optimizerOptions(optimize)
-      case Some((2, 11)) =>
-        Seq(
-          "-Ypartial-unification",
-          "-Yno-adapted-args",
-          "-Ywarn-inaccessible",     // Warn about inaccessible types in method signatures.
-          "-Ywarn-infer-any",        // Warn when a type argument is inferred to be `Any`.
-          "-Ywarn-nullary-override", // Warn when non-nullary `def f()' overrides nullary `def f'.
-          "-Ywarn-nullary-unit",     // Warn when nullary methods return Unit.
-          "-Xexperimental",
-          "-Ywarn-unused-import",
-          "-Xfuture",
-          "-Xsource:2.13",
-          "-Xmax-classfile-name",
-          "242"
-        ) ++ std2xOptions
       case _             => Seq.empty
     }
 
@@ -104,10 +79,6 @@ object BuildHelper {
 
   def crossPlatformSources(scalaVer: String, conf: String, baseDir: File) = {
     val versions = CrossVersion.partialVersion(scalaVer) match {
-      case Some((2, 11)) =>
-        List("2.11", "2.11+", "2.11-2.12")
-      case Some((2, 12)) =>
-        List("2.12", "2.11+", "2.12+", "2.11-2.12", "2.12-2.13")
       case Some((2, 13)) =>
         List("2.13", "2.11+", "2.12+", "2.13+", "2.12-2.13")
       case Some((3, 0))  =>
@@ -137,7 +108,7 @@ object BuildHelper {
 
   def stdSettings(prjName: String) = Seq(
     name                     := prjName,
-    crossScalaVersions       := Seq("2.13.8", "2.12.16", "3.1.3"),
+    crossScalaVersions       := Seq(Scala213, Scala3),
     ThisBuild / scalaVersion := crossScalaVersions.value.head,
     scalacOptions            := stdOptions ++ extraOptions(scalaVersion.value, optimize = !isSnapshot.value),
     libraryDependencies ++= {
@@ -147,7 +118,7 @@ object BuildHelper {
 
         case Some((2, _)) =>
           Seq(
-            compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full)
+            compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.4" cross CrossVersion.full)
           )
 
         case _ =>
@@ -161,7 +132,7 @@ object BuildHelper {
     // ThisBuild / scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
     // ThisBuild / scalafixDependencies ++= List(
     //   "com.github.liancheng" %% "organize-imports" % "0.5.0",
-    //   "com.github.vovapolu"  %% "scaluzzi"         % "0.1.20"
+    //   "com.github.vovapolu"  %% "scaluzzi"         % "0.1.2"
     // ),
     incOptions ~= (_.withLogRecompileOnMacro(false))
   )

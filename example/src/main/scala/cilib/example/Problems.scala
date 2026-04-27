@@ -148,7 +148,7 @@ object Problems {
   def peakEval(peaks: NonEmptyVector[PeakCone]): Eval[NonEmptyVector] =
     Eval.unconstrained { (a: NonEmptyVector[Double]) =>
       val x = peaks.map(_.eval(a)).toChunk.max
-      val r = if (x == Double.NaN) Infeasible(0.0) else Feasible(x)
+      val r = if (x == Double.NaN) Fit.infeasible(0.0) else Fit.feasible(x)
 
       r
     }

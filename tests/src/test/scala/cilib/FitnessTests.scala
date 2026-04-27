@@ -11,11 +11,11 @@ object FitnessTest extends ZIOSpecDefault {
   object Multi extends Newtype[Objective]
   type Multi = Multi.Type
 
-  val genFeasibleFitness: Gen[Any, Feasible] =
-    Gen.double(-1000, 1000).map(Feasible(_))
+  val genFeasibleFitness: Gen[Any, Fit] =
+    Gen.double(-1000, 1000).map(Fit.feasible)
 
-  val genInfeasibleFitenss: Gen[Any, Infeasible] =
-    Gen.double(-1000, 1000).map(Infeasible(_))
+  val genInfeasibleFitenss: Gen[Any, Fit] =
+    Gen.double(-1000, 1000).map(Fit.infeasible)
 
   val genPenaltyFitness: Gen[Any, Fit] =
     genInfeasibleFitenss.map(_.adjust(identity _))
@@ -25,12 +25,12 @@ object FitnessTest extends ZIOSpecDefault {
       value      <- Gen.double(-100.0, 100.0)
       function    = ConstraintFunction(_ => 0.0)
       constraint <- Gen.oneOf(
-                      Gen.const(LessThan(function, value)),
-                      Gen.const(LessThanEqual(function, value)),
-                      Gen.const(cilib.Equal(function, value)),
-                      Gen.const(GreaterThan(function, value)),
-                      Gen.const(GreaterThanEqual(function, value)),
-                      Gen.const(InInterval(function, Interval(-5.12, 5.12)))
+                      Gen.const(Constraint.LessThan(function, value)),
+                      Gen.const(Constraint.LessThanEqual(function, value)),
+                      Gen.const(Constraint.Equal(function, value)),
+                      Gen.const(Constraint.GreaterThan(function, value)),
+                      Gen.const(Constraint.GreaterThanEqual(function, value)),
+                      Gen.const(Constraint.InInterval(function, Interval(-5.12, 5.12)))
                     )
     } yield constraint
 
@@ -75,8 +75,8 @@ object FitnessTest extends ZIOSpecDefault {
       case (_, None)          => x
     }
 
-  val min: (Option[Objective], Option[Objective]) => Option[Objective] = better(Min) _
-  val max: (Option[Objective], Option[Objective]) => Option[Objective] = better(Max) _
+  val min: (Option[Objective], Option[Objective]) => Option[Objective] = better(Opt.Min) _
+  val max: (Option[Objective], Option[Objective]) => Option[Objective] = better(Opt.Max) _
 
   def spec: Spec[Environment with TestEnvironment with Scope, Any] = suite("Fitness")(
     test("single objective min") {
@@ -84,7 +84,7 @@ object FitnessTest extends ZIOSpecDefault {
         val a = x.map(Single.unwrap)
         val b = y.map(Single.unwrap)
 
-        assert(cilib.Comparison.quality(Min)(a, b))(Assertion.equalTo(min(a, b)))
+        assert(cilib.Comparison.quality(Opt.Min)(a, b))(Assertion.equalTo(min(a, b)))
       }
     },
     test("single objective max") {
@@ -92,7 +92,7 @@ object FitnessTest extends ZIOSpecDefault {
         val a = x.map(Single.unwrap)
         val b = y.map(Single.unwrap)
 
-        assert(cilib.Comparison.quality(Max)(a, b))(Assertion.equalTo(max(a, b)))
+        assert(cilib.Comparison.quality(Opt.Max)(a, b))(Assertion.equalTo(max(a, b)))
       }
     },
     test("multi objective dominance min") {
@@ -100,7 +100,7 @@ object FitnessTest extends ZIOSpecDefault {
         val a = x.map(Multi.unwrap)
         val b = y.map(Multi.unwrap)
 
-        assert(cilib.Comparison.quality(Min)(a, b))(Assertion.equalTo(min(a, b)))
+        assert(cilib.Comparison.quality(Opt.Min)(a, b))(Assertion.equalTo(min(a, b)))
       }
     },
     test("multi objective dominance max") {
@@ -108,7 +108,7 @@ object FitnessTest extends ZIOSpecDefault {
         val a = x.map(Multi.unwrap)
         val b = y.map(Multi.unwrap)
 
-        assert(cilib.Comparison.quality(Max)(a, b))(Assertion.equalTo(max(a, b)))
+        assert(cilib.Comparison.quality(Opt.Max)(a, b))(Assertion.equalTo(max(a, b)))
       }
     }
   )

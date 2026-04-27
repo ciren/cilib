@@ -12,8 +12,8 @@ import java.io.IOException
 object UNDXPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                  = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply)
+  val cmp: Comparison                  = Comparison.dominance(Opt.Min)
+  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Fit.feasible)
 
   val guide: Guide[Mem[Double], Double] = Guide.undx[Mem[Double]](1.0, 0.1)
   val undxPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (

@@ -8,7 +8,7 @@ object Guide {
     (_, x) => Step.pure(x.pos)
 
   def pbest[S, A](implicit M: HasMemory[S, A]): Guide[S, A] =
-    (_, x) => Step.pure(M._memory.get(x.state).toOption.get)
+    (_, x) => Step.pure(M._memory.get(x.state))
 
   def nbest[S](
     neighbourhood: IndexSelection[Particle[S, Double]]
@@ -16,7 +16,7 @@ object Guide {
     Step.withCompare { o =>
       val selected: List[Particle[S, Double]] = neighbourhood(collection, x)
       val fittest                             = selected
-        .map(e => M._memory.get(e.state).toOption.get)
+        .map(e => M._memory.get(e.state))
         .reduceLeftOption((a, c) => Comparison.compare(a, c).apply(o))
       fittest.getOrElse(sys.error("Impossible: reduce on entity memory worked on empty memory member"))
     }

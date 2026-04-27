@@ -16,8 +16,8 @@ object GAExample extends zio.ZIOAppDefault {
 
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
 
-  val cmp: Comparison            = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector] = Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply)
+  val cmp: Comparison            = Comparison.dominance(Opt.Min)
+  val eval: Eval[NonEmptyVector] = Eval.unconstrained(ExampleHelper.spherical andThen Fit.feasible)
 
   def onePoint(xs: List[Ind]): RVar[List[Ind]] =
     xs match {
@@ -42,7 +42,7 @@ object GAExample extends zio.ZIOAppDefault {
         } yield zb
       }
 
-      newPos.map(p => _position.set(p)(x).toOption.get)
+      newPos.map(p => _position.set(x, p))
     }
 
   val randomSelection: NonEmptyVector[Ind] => RVar[List[Ind]] =

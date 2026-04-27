@@ -9,7 +9,7 @@ import zio.{ ExitCode, URIO }
 
 object GBestPSO extends zio.ZIOAppDefault {
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                  = cilib.Comparison.dominance(Min)
+  val cmp: Comparison                  = cilib.Comparison.dominance(Opt.Min)
 
   // Define a normal GBest PSO and run it for a single iteration
   val cognitive: Guide[Mem[Double], Double] = Guide.pbest[Mem[Double], Double]
@@ -27,7 +27,7 @@ object GBestPSO extends zio.ZIOAppDefault {
 
   val problemStream: UStream[Problem] = Runner.staticProblem(
     "spherical",
-    Eval.unconstrained((x: NonEmptyVector[Double]) => Feasible(ExampleHelper.spherical(x)))
+    Eval.unconstrained((x: NonEmptyVector[Double]) => Fit.Feasible(ExampleHelper.spherical(x)))
   )
 
   // Our IO[Unit] that runs the algorithm, at the end of the world

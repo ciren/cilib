@@ -10,8 +10,8 @@ import zio.{ Console, ExitCode, URIO, ZEnvironment }
 object PCXPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
-  val cmp: Comparison                  = Comparison.dominance(Min)
-  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Feasible.apply)
+  val cmp: Comparison                  = Comparison.dominance(Opt.Min)
+  val eval: Eval[NonEmptyVector]       = Eval.unconstrained(ExampleHelper.spherical andThen Fit.feasible)
 
   val guide: Guide[Mem[Double], Double] = Guide.pcx[Mem[Double]](2.0, 2.0)
   val pcxPSO: NonEmptyVector[Particle[Mem[Double], Double]] => (

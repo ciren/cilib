@@ -1,6 +1,7 @@
 package cilib
 
 import com.github.mjakubowski84.parquet4s._
+import org.apache.parquet.hadoop.ParquetFileWriter
 import org.apache.parquet.hadoop.metadata.CompressionCodecName
 import zio._
 import zio.prelude._
@@ -9,15 +10,25 @@ import zio.stream._
 package object io {
   import cilib.exec._
 
-  val parquetOptions: ParquetWriter.Options = ParquetWriter.Options(
-    compressionCodecName = CompressionCodecName.SNAPPY,
-    pageSize = 4 * 1024 * 1024,
-    rowGroupSize = 16 * 1024 * 1024L
-  )
+  def parquetOptions(writeMode: WriteMode): ParquetWriter.Options = {
+    val hadoopWriteMode =
+      writeMode match {
+        case Create    => ParquetFileWriter.Mode.CREATE
+        case Overwrite => ParquetFileWriter.Mode.OVERWRITE
+      }
+
+    ParquetWriter.Options(
+      writeMode = hadoopWriteMode,
+      compressionCodecName = CompressionCodecName.SNAPPY,
+      pageSize = 4 * 1024 * 1024,
+      rowGroupSize = 16 * 1024 * 1024L
+    )
+  }
 
   def writeParquet[F[+_], A: ParquetRecordEncoder: ParquetSchemaResolver](
     file: java.io.File,
-    data: F[A]
+    data: F[A],
+    writeMode: WriteMode
   )(implicit
     F: ForEach[F],
     encoder: ParquetRecordEncoder[Measurement[A]],
@@ -27,11 +38,12 @@ package object io {
 
     ParquetWriter
       .of[A]
-      .options(parquetOptions)
+      .options(parquetOptions(writeMode))
       .writeAndClose(Path(file.getAbsolutePath), list)
   }
 
-  def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File)(implicit
+  def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File, writeMode: WriteMode = Create)(
+    implicit
     encoder: ParquetRecordEncoder[Measurement[A]],
     schema: ParquetSchemaResolver[Measurement[A]]
   ): ZSink[Any, Throwable, Measurement[A], Measurement[A], Unit] = {
@@ -43,7 +55,7 @@ package object io {
         ZIO.attemptBlockingIO(
           ParquetWriter
             .of[Measurement[A]]
-            .options(parquetOptions)
+            .options(parquetOptions(writeMode))
             .build(Path(file.getAbsolutePath))
         )
       )(close)

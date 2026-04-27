@@ -5,7 +5,6 @@ import cilib.NonEmptyVector
 import cilib.exec._
 import cilib.pso._
 import zio._
-import zio.optics._
 import zio.stream._
 
 object QuantumPSO extends zio.ZIOAppDefault {
@@ -21,16 +20,16 @@ object QuantumPSO extends zio.ZIOAppDefault {
         with HasVelocity[QuantumState, Double]
         with HasCharge[QuantumState] {
       def _memory: Lens[QuantumState, Position[Double]]   = Lens[QuantumState, Position[Double]](
-        state => Right(state.b),
-        newB => state => Right(state.copy(b = newB))
+        state => state.b,
+        (state, newB) => state.copy(b = newB)
       )
       def _velocity: Lens[QuantumState, Position[Double]] = Lens[QuantumState, Position[Double]](
-        state => Right(state.v),
-        newV => state => Right(state.copy(v = newV))
+        state => state.v,
+        (state, newV) => state.copy(v = newV)
       )
       def _charge: Lens[QuantumState, Double]             = Lens[QuantumState, Double](
-        state => Right(state.charge),
-        newCharge => state => Right(state.copy(charge = newCharge))
+        state => state.charge,
+        (state, newCharge) => state.copy(charge = newCharge)
       )
     }
   }
@@ -53,7 +52,7 @@ object QuantumPSO extends zio.ZIOAppDefault {
           cog     <- cognitive(collection, x)
           soc     <- social(collection, x)
           v       <- stdVelocity(x, soc, cog, w, c1, c2)
-          p       <- if (C._charge.get(x.state).toOption.get < 0.01) stdPosition(x, v)
+          p       <- if (C._charge.get(x.state) < 0.01) stdPosition(x, v)
                      else quantum(x.pos, cloudR(soc, cog), (_, _) => Dist.stdUniform).flatMap(replace(x, _))
           p2      <- Step.eval(p)(identity)
           p3      <- updateVelocity(p2, v)
@@ -84,38 +83,35 @@ object QuantumPSO extends zio.ZIOAppDefault {
   def pop: RVar[NonEmptyVector[QuantumParticle]] =
     swarm.map { coll =>
       val C          = implicitly[HasCharge[QuantumState]]
-      val chargeLens = Lenses._state[QuantumState, Double] >>> C._charge
+      val chargeLens = Lenses._state[QuantumState, Double].compose(C._charge)
 
       coll.zipWithIndex.map { case (current, index) =>
-        chargeLens.update(current)(z => if (index % 2 == 1) 0.1 else z).toOption.get
+        chargeLens.modify(z => if (index % 2 == 1) 0.1 else z)(current)
       }
     }.flatMap(RVar.shuffle)
 
-  val comparison: Comparison = Comparison.dominance(Max)
+  val comparison: Comparison = Comparison.dominance(Opt.Max)
 
   val problemStream: UStream[Problem] = Runner.staticProblem(
     "spherical",
-    Eval.unconstrained((x: NonEmptyVector[Double]) => Feasible(ExampleHelper.spherical(x)))
+    Eval.unconstrained((x: NonEmptyVector[Double]) => Fit.feasible(ExampleHelper.spherical(x)))
   )
   val algStream: UStream[Algorithm[
     Kleisli[Step, NonEmptyVector[Particle[QuantumState, Double]], NonEmptyVector[Particle[QuantumState, Double]]]
   ]] =
     Runner.staticAlgorithm("quantumPSO", qpso)
 
-  def run: URIO[Any, ExitCode] = {
-    val t = Runner.foldStep(
-      comparison,
-      RNG.fromTime,
-      pop,
-      algStream,
-      problemStream,
-      (x: NonEmptyVector[Particle[QuantumState, Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
-    )
-
-    t.take(1000)
+  def run: ZIO[cilib.example.QuantumPSO.Environment with ZIOAppArgs with Scope, Any, Any] =
+    Runner
+      .foldStep(
+        comparison,
+        RNG.fromTime,
+        pop,
+        algStream,
+        problemStream,
+        (x: NonEmptyVector[Particle[QuantumState, Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
+      )
+      .take(1000)
       .runLast
       .fold(eh => println(eh.toString), ah => println(ah.toString))
-      .exitCode
-  }
-
 }

@@ -3,6 +3,8 @@ package cilib
 import zio.prelude._
 
 sealed abstract class Fit {
+  import Fit._
+
   def fold[Z](penalty: Adjusted => Z, valid: Feasible => Z, infeasible: Infeasible => Z): Z =
     this match {
       case p @ Adjusted(_, _) => penalty(p)
@@ -18,9 +20,17 @@ sealed abstract class Fit {
     }
 }
 
-final case class Feasible(v: Double)                                                              extends Fit
-final case class Infeasible(v: Double)                                                            extends Fit
-final case class Adjusted private[cilib] (original: Either[Feasible, Infeasible], adjust: Double) extends Fit
+object Fit {
+  final case class Feasible(v: Double)                                              extends Fit
+  final case class Infeasible(v: Double)                                            extends Fit
+  final case class Adjusted(original: Either[Feasible, Infeasible], adjust: Double) extends Fit
+
+  val feasible: Double => Fit =
+    Feasible.apply
+
+  val infeasible: Double => Fit =
+    Infeasible.apply
+}
 
 @annotation.implicitNotFound("No instance of Fitness[${F},${A},${B}] is available in current scope.")
 trait Fitness[F[_], A, B] {
@@ -32,6 +42,7 @@ abstract class Comparison(val opt: Opt) {
 }
 
 object Comparison {
+  import Fit._
 
   def compare[F[_], A, B](x: F[A], y: F[A])(implicit F: Fitness[F, A, B]): Comparison => F[A] =
     _.apply(x, y)
@@ -99,10 +110,12 @@ sealed abstract class Opt {
   def D: Ord[Double]
 }
 
-case object Min extends Opt {
-  val D: Ord[Double] = Ord[Double].reverse
-}
+object Opt {
+  case object Min extends Opt {
+    val D: Ord[Double] = Ord[Double].reverse
+  }
 
-case object Max extends Opt {
-  val D: Ord[Double] = Ord[Double]
+  case object Max extends Opt {
+    val D: Ord[Double] = Ord[Double]
+  }
 }

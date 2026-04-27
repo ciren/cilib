@@ -150,6 +150,14 @@ object RVar {
         Some(go(l, F.toList(xs)))
       }
     }
+
+  implicit object RVarCommutativeBoth extends CommutativeBoth[RVar] {
+    def both[A, B](fa: => RVar[A], fb: => RVar[B]): RVar[(A, B)] =
+      for {
+        a <- fa
+        b <- fb
+      } yield (a, b)
+  }
 }
 
 object Generator {
@@ -170,7 +178,7 @@ object Generator {
    */
   implicit object DoubleGen extends Generator[Double] {
     def gen: RVar[Double] =
-      zio.prelude.fx.ZPure.mapN(nextBits(26), nextBits(27)) { (a, b) =>
+      RVar.RVarCommutativeBoth.both(nextBits(26), nextBits(27)).map { case (a, b) =>
         ((a.toLong << 27) + b) / (1L << 53).toDouble
       }
   }

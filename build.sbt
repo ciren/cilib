@@ -92,7 +92,7 @@ lazy val core = project
     libraryDependencies ++= Seq(
       Dependencies.zio,
       Dependencies.zioPrelude,
-      Dependencies.zioOptics
+      Dependencies.zioBlocksSchema
     )
   )
   .enablePlugins(BuildInfoPlugin)

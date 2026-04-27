@@ -15,6 +15,9 @@ The list of Notable changes are found below.
 
 ### Changed
 
+Please have a look at the `examples` to see some of the refactoring
+and changes introduced by this release.
+
 - Default version of Scala is now 2.13
 - `zio`, `zio-stream` and `zio-prelude` are new dependencies,
   replacing `scalaz` and `scalaz-stream`/`fs2`.
@@ -27,6 +30,13 @@ The list of Notable changes are found below.
 - The underlying list-like representation of `Position` has been
   replaced with a much more performant and memory-efficient structure.
 - Updates to including required upgrades for project dependencies
+- ADT classes for `Opt`, `Constraint`, `Fit`, `Interval` and `Bound`
+  have been placed into companion objects to cleanup the overall
+  project namespace. This should only require a few minor renames to
+  reference the companion object.
+- The `Fit` constructors have been hidden to allow for simpler future
+  refactoring. Helper functions are now exposed to allow for the
+  creation of `feasible` and `infeasible` fitness values.
 
 ### Removed
 

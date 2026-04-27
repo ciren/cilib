@@ -37,10 +37,11 @@ object Step {
 
   def eval[S, A](entity: Entity[S, A])(f: Position[A] => Position[A]): Step[Entity[S, A]] =
     evalP(f(entity.pos)).flatMap(p =>
-      Lenses._position.set(p)(entity) match {
-        case Right(value) => Step.pure(value)
-        case Left(reason) => Step.fail(reason, new Exception)
-      }
+      // Lenses._position.set(entity, p) match {
+      //   case Right(value) => Step.pure(value)
+      //   case Left(reason) => Step.fail(reason, new Exception)
+      // }
+      Step.pure(Lenses._position.set(entity, p))
     )
 
   def evalP[A](pos: Position[A]): Step[Position[A]] =

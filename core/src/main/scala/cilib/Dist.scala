@@ -1,15 +1,36 @@
 package cilib
 
+import zio.prelude._
+
+/**
+ * Predefined distribution functions
+ *
+ * All the defined distributions sample random numbers from the
+ * defined distributions as [[cilib.RVar$]] values.
+ */
 object Dist {
   import RVar._
 
-  val stdUniform: RVar[Double]     = next[Double]
-  val stdNormal: RVar[Double]      = gaussian(0.0, 1.0)
-  val stdCauchy: RVar[Double]      = cauchy(0.0, 1.0)
+  /** Standard continuous uniform distribution within the interval [0, 1) */
+  val stdUniform: RVar[Double] = next[Double]
+
+  /** Standard normal / gaussian distribution with mean of 0 and stdev of 1 */
+  val stdNormal: RVar[Double] = gaussian(0.0, 1.0)
+
+  /** Standard cauchy distribution with mean of 0 and stdev of 1 */
+  val stdCauchy: RVar[Double] = cauchy(0.0, 1.0)
+
+  /** Standard exponential distribution */
   val stdExponential: RVar[Double] = exponential(1.0)
-  val stdGamma: RVar[Double]       = gamma(2, 2.0)
-  val stdLaplace: RVar[Double]     = laplace(0.0, 1.0)
-  val stdLognormal: RVar[Double]   = lognormal(0.0, 1.0)
+
+  /** Standard gamma distribution with `k=2` and `theta = 2.0` */
+  val stdGamma: RVar[Double] = gamma(2, 2.0)
+
+  /** Standard Laplace distribution */
+  val stdLaplace: RVar[Double] = laplace(0.0, 1.0)
+
+  /** Standard log-normal distribution with `mean = 0` and `stddev = 1` */
+  val stdLognormal: RVar[Double] = lognormal(0.0, 1.0)
 
   /** Generate a discrete uniform value in [from, to]. Note that the upper bound is *inclusive* */
   def uniformInt(from: Int, to: Int): RVar[Int] =
@@ -20,16 +41,19 @@ object Dist {
       else (ll.toLong + (math.abs(x.toLong) % (diff + 1))).toInt
     }
 
-  def uniform(i: Interval): RVar[Double] =
+  /** Sample a [[https://en.wikipedia.org/wiki/Continuous_uniform_distribution Continuous uniform random number]] within the given [[cilib.Interval]] */
+  def uniform(interval: Interval): RVar[Double] =
     stdUniform.map { x =>
-      i.lowerValue + x * (i.upperValue - i.lowerValue)
+      interval.lowerValue + x * (interval.upperValue - interval.lowerValue)
     }
 
-  def cauchy(l: Double, s: Double): RVar[Double] =
+  /** Sample a value from the [[https://en.wikipedia.org/wiki/Cauchy_distribution Cauchy distribution]] */
+  def cauchy(loc: Double, scale: Double): RVar[Double] =
     stdUniform.map { x =>
-      l + s * math.tan(math.Pi * (x - 0.5))
+      loc + scale * math.tan(math.Pi * (x - 0.5))
     }
 
+  /** Sample a value from the [[https://en.wikipedia.org/wiki/Gamma_distribution Gamma distribution]] */
   def gamma(k: Double, theta: Double): RVar[Double] = {
     val n         = k.toInt
     val gammaInt  = stdUniform.replicateM(n).map(_.map(x => -math.log(x)).sum)
@@ -37,7 +61,7 @@ object Dist {
       val delta = k - n
 
       val a: RVar[(Double, Double)] =
-        zio.prelude.fx.ZPure.mapN(stdUniform, stdUniform, stdUniform) { (u1, u2, u3) =>
+        (stdUniform <&> stdUniform <&> stdUniform).map { case ((u1, u2), u3) =>
           val v0 = math.E / (math.E + delta)
           if (u1 <= v0) {
             val zeta = math.pow(u2, 1.0 / delta)
@@ -53,29 +77,34 @@ object Dist {
       a.repeatUntil { case (zeta, eta) => eta > math.pow(zeta, delta - 1) * math.exp(-zeta) }.map(_._1)
     }
 
-    zio.prelude.fx.ZPure.mapN(gammaInt, gammaFrac) { (a, b) =>
+    (gammaInt <&> gammaFrac).map { case (a, b) =>
       (a + b) * theta
     }
   }
 
+  /** Sample the [[https://en.wikipedia.org/wiki/Exponential_distribution Exponential distribution]] */
   def exponential(l: Double): RVar[Double] =
     stdUniform.map(math.log(_) / l)
 
+  /** Sample the [[https://en.wikipedia.org/wiki/Laplace_distribution Laplace distribution]] */
   def laplace(b0: Double, b1: Double): RVar[Double] =
     stdUniform.map { x =>
       val rr = x - 0.5
       b0 - b1 * (math.log(1 - 2 * math.abs(rr))) * math.signum(rr)
     }
 
+  /** Sample the [[https://en.wikipedia.org/wiki/Log-normal_distribution Log-normal distribution]] */
   def lognormal(mean: Double, dev: Double): RVar[Double] =
     stdNormal.map(x => math.exp(mean + dev * x))
 
+  /** Sample the [[https://en.wikipedia.org/wiki/Dirichlet_distribution Dirichlet distribution]]. */
   def dirichlet(alphas: List[Double]): RVar[List[Double]] =
     zio.prelude.ForEach[List].forEach(alphas)(gamma(_, 1)).map { ys =>
       val sum = ys.sum
       ys.map(_ / sum)
     }
 
+  /** Sample the [[https://en.wikipedia.org/wiki/Weibull_distribution Weibull distribution]] */
   def weibull(shape: Double, scale: Double): RVar[Double] =
     stdUniform.map { x =>
       scale * math.pow(-math.log(1 - x), 1 / shape)
@@ -112,6 +141,7 @@ object Dist {
     (blocks, blocks.zip(blocks.drop(1)).map(a => a._1 / a._2))
   }
 
+  /** Sample the [[https://en.wikipedia.org/wiki/Normal_distribution Gaussian distribution]] */
   def gaussian(mean: Double, dev: Double): RVar[Double] =
     for {
       u <- stdUniform.map(2.0 * _ - 1)
@@ -142,8 +172,9 @@ object Dist {
 
   private def invErfc(x: Double) = invErf(1.0 - x) // check this. invErfc(1 - x) == invErf(x)
 
-  def levy(l: Double, s: Double): RVar[Double] =
+  /** Sample a value from the [[https://en.wikipedia.org/wiki/L%C3%A9vy_distribution Levy distribution]] */
+  def levy(loc: Double, scale: Double): RVar[Double] =
     stdUniform.map { x =>
-      l + s / (0.5 * invErfc(x) * invErfc(x))
+      loc + scale / (0.5 * invErfc(x) * invErfc(x))
     }
 }

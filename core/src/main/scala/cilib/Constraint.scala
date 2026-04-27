@@ -31,14 +31,15 @@ final case class ConstraintFunction(f: NonEmptyVector[Any] => Double) {
 }
 
 sealed abstract class Constraint
-final case class LessThan[A](f: ConstraintFunction, v: Double)            extends Constraint
-final case class LessThanEqual[A](f: ConstraintFunction, v: Double)       extends Constraint
-final case class Equal[A](f: ConstraintFunction, v: Double)               extends Constraint
-final case class InInterval[A](f: ConstraintFunction, interval: Interval) extends Constraint
-final case class GreaterThan[A](f: ConstraintFunction, v: Double)         extends Constraint
-final case class GreaterThanEqual[A](f: ConstraintFunction, v: Double)    extends Constraint
 
 object Constraint {
+
+  final case class LessThan[A](f: ConstraintFunction, v: Double)            extends Constraint
+  final case class LessThanEqual[A](f: ConstraintFunction, v: Double)       extends Constraint
+  final case class Equal[A](f: ConstraintFunction, v: Double)               extends Constraint
+  final case class InInterval[A](f: ConstraintFunction, interval: Interval) extends Constraint
+  final case class GreaterThan[A](f: ConstraintFunction, v: Double)         extends Constraint
+  final case class GreaterThanEqual[A](f: ConstraintFunction, v: Double)    extends Constraint
 
   private val ev = zio.prelude.Equal.DoubleEqualWithEpsilon()
 
@@ -60,31 +61,31 @@ object Constraint {
         case InInterval(f, i)       =>
           val v2    = f(cs)
           val left  = i.lowerBound match {
-            case Closed(value) => value <= v2
-            case Open(value)   => value < v2
-            case Unbound()     => true
-            case EmptyBound()  => false
+            case Bound.Closed(value) => value <= v2
+            case Bound.Open(value)   => value < v2
+            case Bound.Unbound()     => true
+            case Bound.EmptyBound()  => false
           }
           val right = i.upperBound match {
-            case Closed(value) => v2 <= value
-            case Open(value)   => v2 < value
-            case Unbound()     => true
-            case EmptyBound()  => false
+            case Bound.Closed(value) => v2 <= value
+            case Bound.Open(value)   => v2 < value
+            case Bound.Unbound()     => true
+            case Bound.EmptyBound()  => false
           }
 
           (left, right) match {
             case (true, true) => 0.0
             case (false, _)   =>
               i.lowerBound match {
-                case Closed(v) => math.pow(math.abs(v.toDouble - v2.toDouble), beta)
-                case Open(v)   => math.pow(math.abs(v.toDouble - v2.toDouble), beta) + eta
-                case _         => 0.0
+                case Bound.Closed(v) => math.pow(math.abs(v.toDouble - v2.toDouble), beta)
+                case Bound.Open(v)   => math.pow(math.abs(v.toDouble - v2.toDouble), beta) + eta
+                case _               => 0.0
               }
             case (_, false)   =>
               i.upperBound match {
-                case Closed(v) => math.pow(math.abs(v2.toDouble - v.toDouble), beta)
-                case Open(v)   => math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
-                case _         => 0.0
+                case Bound.Closed(v) => math.pow(math.abs(v2.toDouble - v.toDouble), beta)
+                case Bound.Open(v)   => math.pow(math.abs(v2.toDouble - v.toDouble), beta) + eta
+                case _               => 0.0
               }
           }
         case GreaterThan(f, v)      =>
@@ -110,16 +111,16 @@ object Constraint {
       case InInterval(f, i)       =>
         val v2 = f(cs)
         val c1 = i.lowerBound match {
-          case Open(value)   => value < v2
-          case Closed(value) => value <= v2
-          case Unbound()     => true
-          case EmptyBound()  => false
+          case Bound.Open(value)   => value < v2
+          case Bound.Closed(value) => value <= v2
+          case Bound.Unbound()     => true
+          case Bound.EmptyBound()  => false
         }
         val c2 = i.upperBound match {
-          case Open(value)   => v2 < value
-          case Closed(value) => v2 <= value
-          case Unbound()     => true
-          case EmptyBound()  => false
+          case Bound.Open(value)   => v2 < value
+          case Bound.Closed(value) => v2 <= value
+          case Bound.Unbound()     => true
+          case Bound.EmptyBound()  => false
         }
         c1 && c2
       case GreaterThan(f, v)      => f(cs) > v

@@ -1,6 +1,42 @@
 package cilib
 
-import zio.optics._
+case class Lens[S, A](
+  get: S => A,
+  set: (S, A) => S
+) {
+
+  def modify(f: A => A): S => S =
+    s => set(s, f(get(s)))
+
+  def compose[B](that: Lens[A, B]): Lens[S, B] =
+    Lens[S, B](
+      get = s => that.get(this.get(s)),
+      set = (s, b) => {
+        val a    = this.get(s)
+        val newA = that.set(a, b)
+        this.set(s, newA)
+      }
+    )
+}
+
+case class Prism[S, A](
+  getOption: S => Option[A],
+  reverseGet: A => S
+) {
+
+  def modify(f: A => A): S => S =
+    s =>
+      getOption(s) match {
+        case Some(a) => reverseGet(f(a))
+        case None    => s
+      }
+
+  def compose[B](that: Prism[A, B]): Prism[S, B] =
+    Prism[S, B](
+      getOption = s => this.getOption(s).flatMap(that.getOption),
+      reverseGet = b => this.reverseGet(that.reverseGet(b))
+    )
+}
 
 final case class Mem[A](b: Position[A], v: Position[A])
 
@@ -15,8 +51,8 @@ object HasMemory {
   implicit val memMemory: HasMemory[Mem[Double], Double] =
     new HasMemory[Mem[Double], Double] {
       def _memory = Lens[Mem[Double], Position[Double]](
-        mem => Right(mem.b),
-        pos => mem => Right(mem.copy(b = pos))
+        mem => mem.b,
+        (mem, pos) => mem.copy(b = pos)
       )
     }
 }
@@ -29,8 +65,8 @@ object HasVelocity {
   implicit val memVelocity: HasVelocity[Mem[Double], Double] =
     new HasVelocity[Mem[Double], Double] {
       def _velocity = Lens[Mem[Double], Position[Double]](
-        mem => Right(mem.v),
-        vel => mem => Right(mem.copy(v = vel))
+        mem => mem.v,
+        (mem, vel) => mem.copy(v = vel)
       )
     }
 }
@@ -44,25 +80,25 @@ trait HasPBestStagnation[A] {
 }
 
 object Lenses {
-  import zio.prelude._
 
   // Base Entity lenses
   def _state[S, A]: Lens[Entity[S, A], S] =
     Lens[Entity[S, A], S](
-      entity => Right(entity.state),
-      newState => entity => Right(entity.copy(state = newState))
+      entity => entity.state,
+      (entity, newState) => entity.copy(state = newState)
     )
 
   def _position[S, A]: Lens[Entity[S, A], Position[A]] =
     Lens[Entity[S, A], Position[A]](
-      entity => Right(entity.pos),
-      newPos => entity => Right(entity.copy(pos = newPos))
+      entity => entity.pos,
+      (entity, newPos) => entity.copy(pos = newPos)
     )
 
   def _vector[A: zio.prelude.Equal]: Lens[Position[A], NonEmptyVector[A]] =
     Lens[Position[A], NonEmptyVector[A]](
-      position => Right(position.pos),
-      newPosition =>
-        position => Right(if (position.pos === newPosition) position else Position(newPosition, position.boundary))
+      position => position.pos,
+      (position, newPosition) =>
+        if (implicitly[zio.prelude.Equal[NonEmptyVector[A]]].equal(position.pos, newPosition)) position
+        else Position(newPosition, position.boundary)
     )
 }

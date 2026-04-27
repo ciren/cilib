@@ -29,7 +29,7 @@ object Iteration {
   def syncS[S, A, B](f: NonEmptyVector[A] => A => StepS[S, B]): NonEmptyVector[A] => StepS[S, NonEmptyVector[B]] =
     sync_[StepS[S, +*], A, B](f)
 
-  def async_[M[+_]: Covariant: IdentityBoth: IdentityFlatten, A](
+  def async_[M[+_]: Covariant: IdentityFlatten, A](
     f: NonEmptyVector[A] => A => M[A]
   ): NonEmptyVector[A] => M[NonEmptyVector[A]] =
     (l: NonEmptyVector[A]) => {

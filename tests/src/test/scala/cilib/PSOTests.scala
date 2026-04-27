@@ -21,8 +21,8 @@ object PSOTests extends ZIOSpecDefault {
     test("Uniform sampled cloud <= R") {
       check(positionGen, Gen.long) { case (x, seed) =>
         val p    = Entity(Mem(x, x.zeroed), x)
-        val cmp  = cilib.Comparison.dominance(Min)
-        val eval = Eval.unconstrained((_: NonEmptyVector[Double]) => Feasible(0.0))
+        val cmp  = cilib.Comparison.dominance(Opt.Min)
+        val eval = Eval.unconstrained((_: NonEmptyVector[Double]) => Fit.feasible(0.0))
 
         val environment = ZEnvironment((cmp, eval))
 

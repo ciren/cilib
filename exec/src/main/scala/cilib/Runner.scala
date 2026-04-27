@@ -38,7 +38,7 @@ object Runner {
   def staticAlgorithm[M[+_]: IdentityFlatten: Covariant, F[_], A](
     name: String,
     a: Kleisli[M, F[A], F[A]]
-  ) =
+  ): ZStream[Any, Nothing, Algorithm[Kleisli[M, F[A], F[A]]]] =
     ZStream.repeat(Algorithm(toName(name), a))
 
   /**
