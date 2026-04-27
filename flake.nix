@@ -13,6 +13,7 @@
             nodejs
             #nushell
             #pqrs
+            gnupg
           ];
       in
       {

@@ -1,24 +1,22 @@
 name: Release
-
 on:
   push:
-    branches: [master,main]
-    tags: ["*"]
-
+    branches: [master, main]
+    tags: ["**"]
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: cachix/install-nix-action@v17
-
-      - name: Lint check
-        run: nix shell --command 'sbt' -Dsbt.supershell=false check
-
-      - name: Publish ${{ github.ref }}
-        run: nix shell --command 'sbt' -Dsbt.supershell=false ci-release
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: sbt
+      - uses: sbt/setup-sbt@v1
+      - run: sbt ci-release
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
