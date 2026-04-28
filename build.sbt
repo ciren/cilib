@@ -26,41 +26,6 @@ addCommandAlias("build", "; fmt; test")
 addCommandAlias("fmt", "; all root/scalafmtSbt root/scalafmtAll")
 addCommandAlias("check", "; scalafmtSbtCheck; scalafmtCheckAll")
 
-// lazy val publishSettings = Seq(
-//   autoAPIMappings := true,
-//   apiURL := Some(url("https://cilib.net/api/")),
-//   publishMavenStyle := true,
-//   //publishArtifact in packageDoc := false,
-//   publishArtifact in Test := false,
-//   pomIncludeRepository := { _ => false },
-//   publishTo := Some("releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"),
-//   //   {
-//   //   val nexus = "https://oss.sonatype.org/"
-//   //   if (isSnapshot.value)
-//   //     Some("snapshots" at nexus + "content/repositories/snapshots")
-//   //   else
-//   //     Some("releases" at nexus + "service/local/staging/deploy/maven2")
-//   // },
-//   pomExtra := (
-//     <developers>
-//       {
-//         Seq(
-//           ("gpampara", "Gary Pamparà"),
-//           ("filinep", "Filipe Nepomuceno"),
-//           ("benniel", "Bennie Leonard")
-//         ).map {
-//           case (id, name) =>
-//             <developer>
-//               <id>{id}</id>
-//               <name>{name}</name>
-//               <url>https://github.com/{id}</url>
-//             </developer>
-//         }
-//       }
-//     </developers>
-//   )
-// )
-
 lazy val root = project
   .in(file("."))
   .settings(
