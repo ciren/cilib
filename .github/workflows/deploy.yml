@@ -21,7 +21,7 @@ on:
 #       - uses: cachix/install-nix-action@v17
 
 #       - name: Build website
-#         run: nix shell --command 'sbt' docs/docusaurusCreateSite
+#         run: nix develop --command 'sbt' docs/docusaurusCreateSite
 
 #       # Popular action to deploy to GitHub Pages:
 #       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
