@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 import zio.prelude.newtypes.Natural
-import zio.{ Console, ExitCode, URIO, ZEnvironment }
+import zio.{ Console, ZEnvironment, ZIO }
 
 object NMPCPSO extends zio.ZIOAppDefault {
 
@@ -24,9 +24,15 @@ object NMPCPSO extends zio.ZIOAppDefault {
   val iter: NonEmptyVector[Particle[Mem[Double], Double]] => Step[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Iteration.sync(nmpcPSO)
 
-  def run: URIO[Any, ExitCode] = {
+  def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val env = ZEnvironment((cmp, eval))
-    Console.printLine(Runner.repeat(1000, iter, swarm).provideEnvironment(env).runAll(RNG.fromTime).toString).exitCode
+    Runner.repeat(1000, iter, swarm)
+      .provideEnvironment(env)
+      .toZIOWith(RNG.fromTime)
+      .fold(
+        failure = ex => ZIO.die(ex),
+        success = a => Console.printLine(a.toString())
+      )
   }
 
 }

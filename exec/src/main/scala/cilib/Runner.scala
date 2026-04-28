@@ -1,6 +1,8 @@
 package cilib
 package exec
 
+import annotation.unused
+
 import zio._
 import zio.prelude._
 import zio.stream._
@@ -38,8 +40,12 @@ object Runner {
   def staticAlgorithm[M[+_]: IdentityFlatten: Covariant, F[_], A](
     name: String,
     a: Kleisli[M, F[A], F[A]]
-  ): ZStream[Any, Nothing, Algorithm[Kleisli[M, F[A], F[A]]]] =
+  ): ZStream[Any, Nothing, Algorithm[Kleisli[M, F[A], F[A]]]] = {
+    @unused val ev1 = implicitly[IdentityFlatten[M]]
+    @unused val ev2 = implicitly[Covariant[M]]
+
     ZStream.repeat(Algorithm(toName(name), a))
+  }
 
   /**
    * @param name
@@ -54,6 +60,9 @@ object Runner {
     f: A => Kleisli[M, F[B], F[B]],
     updater: (A, IterationCount) => A
   ): UStream[Algorithm[Kleisli[M, F[B], F[B]]]] = {
+    @unused val ev1 = implicitly[IdentityFlatten[M]]
+    @unused val ev2 = implicitly[Covariant[M]]
+    @unused val ev3 = implicitly[NonEmptyForEach[F]]
 
     def go(current: A, iteration: Int): UStream[Algorithm[Kleisli[M, F[B], F[B]]]] = {
       val next = f(current)

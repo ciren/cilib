@@ -1,27 +1,26 @@
 {
   description = "cilib";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+  };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      with import nixpkgs { system = "${system}"; };
-      let
-        buildInputs =  [
-            sbt
-            nodejs
-            #nushell
-            #pqrs
-            gnupg
-          ];
-      in
-      {
-        packages.pkg = callPackage ./default.nix { inherit buildInputs; };
+  outputs = inputs@{ flake-parts, ...  }:
+    flake-parts.lib.mkFlake { inherit inputs; } (_: {
+      systems = [ "x86_64-linux" "x86_64-darwin" ];
 
-        defaultPackage = self.packages.${system}.pkg;
-
-        devShell = mkShell { inherit buildInputs; };
-      }
-    );
+      perSystem =
+        { pkgs, ... }:
+        {
+          config.devShells.default =
+            pkgs.mkShell {
+              buildInputs = [
+                pkgs.sbt
+                pkgs.nodejs
+                pkgs.gnupg
+              ];
+            };
+        };
+    });
 }

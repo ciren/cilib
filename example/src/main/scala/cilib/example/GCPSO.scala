@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 import zio.prelude.newtypes.Natural
-import zio.{ Console, ExitCode, URIO, ZEnvironment }
+import zio.{ ZIO, ZEnvironment }
 
 object GCPSO extends zio.ZIOAppDefault {
 
@@ -31,14 +31,17 @@ object GCPSO extends zio.ZIOAppDefault {
     Position.createCollection(PSO.createParticle(x => Entity(Mem(x, x.zeroed), x)))(bounds, swarmSize)
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  def run: URIO[Any, ExitCode] = {
+  def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val algParams = PSO.defaultGCParams
     val env       = ZEnvironment((cmp, eval))
 
-    val result =
-      Runner.repeat(1000, iter, swarm).provideEnvironment(env).runAll((RNG.fromTime, algParams))
-
-    Console.printLine(result.toString).exitCode
+    Runner.repeat(1000, iter, swarm)
+      .provideEnvironment(env)
+      .toZIOWith((RNG.fromTime, algParams))
+      .fold(
+        failure = ex => println(ex.toString()),
+        success = swarm => print(swarm.toString())
+      )
   }
 
 }

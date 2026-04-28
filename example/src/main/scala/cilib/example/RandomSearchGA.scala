@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.ga._
 import zio.prelude.fx.ZPure
 import zio.prelude.newtypes.Natural
-import zio.{ Console, ExitCode, URIO, ZEnvironment }
+import zio.{ Console, ZIO, ZEnvironment }
 
 object RandomSearchGA extends zio.ZIOAppDefault {
   type Ind = Individual[Unit]
@@ -39,8 +39,14 @@ object RandomSearchGA extends zio.ZIOAppDefault {
             )
         )
 
-  def run: URIO[Any, ExitCode] = {
+  def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val env = ZEnvironment((cmp, eval))
-    Console.printLine(Runner.repeat(1000, myGA, swarm).provideEnvironment(env).runAll(RNG.fromTime).toString).exitCode
+    Runner.repeat(1000, myGA, swarm)
+      .provideEnvironment(env)
+      .toZIOWith(RNG.fromTime)
+      .fold(
+        failure = ex => ZIO.die(ex),
+        success = a => Console.printLine(a.toString())
+      )
   }
 }

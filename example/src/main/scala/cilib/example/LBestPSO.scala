@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 import zio.prelude.newtypes.Natural
-import zio.{ Console, ExitCode, URIO, ZEnvironment }
+import zio.{ ZIO, Console, ZEnvironment }
 
 object LBestPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
@@ -31,10 +31,16 @@ object LBestPSO extends zio.ZIOAppDefault {
   val iter: NonEmptyVector[Particle[Mem[Double], Double]] => Step[NonEmptyVector[Particle[Mem[Double], Double]]] =
     Iteration.sync(lbestPSO)
 
-  def run: URIO[Any, ExitCode] = {
+  def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val environment = ZEnvironment((cmp, eval))
-    val result      = Runner.repeat(1000, iter, swarm).provideEnvironment(environment).runAll(RNG.fromTime).toString
-    Console.printLine(result).exitCode
+
+    Runner.repeat(1000, iter, swarm)
+      .provideEnvironment(environment)
+      .toZIOWith(RNG.fromTime)
+      .fold(
+        failure = ex => ZIO.die(ex),
+        success = a => Console.printLine(a)
+      )
   }
 
 }

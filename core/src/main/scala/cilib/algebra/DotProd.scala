@@ -1,6 +1,8 @@
 package cilib
 package algebra
 
+import annotation.unused
+
 import zio.Chunk
 import zio.prelude._
 
@@ -52,14 +54,18 @@ object Algebra {
   def norm[F[_], A](a: F[A])(implicit D: DotProd[F, A]): Double =
     D.norm(a)
 
-  def distance[F[_], A: scala.math.Numeric](a: F[A], b: F[A])(implicit D: DotProd[F, A], M: VectorOps[F, A]): Double =
+  def distance[F[_], A: scala.math.Numeric](a: F[A], b: F[A])(implicit D: DotProd[F, A], M: VectorOps[F, A]): Double = {
+    @unused val ev1 = implicitly[Numeric[A]]
     D.norm(M.minus(a, b))
+  }
 
   def pointwise[F[_], A](a: F[A], b: F[A])(implicit P: Pointwise[F, A]): F[A] =
     P.pointwise(a, b)
 
-  def vectorSum[F[_], A: scala.math.Numeric](xs: NonEmptyVector[F[A]])(implicit M: VectorOps[F, A]): F[A] =
+  def vectorSum[F[_], A: scala.math.Numeric](xs: NonEmptyVector[F[A]])(implicit M: VectorOps[F, A]): F[A] = {
+    @unused val ev1 = implicitly[Numeric[A]]
     NonEmptyForEach[NonEmptyVector].reduceAll(xs)(M.plus)
+  }
 
   def meanVector[F[+_]: Covariant, A](
     xs: NonEmptyVector[F[A]]
@@ -82,7 +88,7 @@ object Algebra {
     if (D.dot(other, other) == 0.0) F.map((_: Double) => 0.0)(other)
     else F.map((a: Double) => a * (D.dot(x, other) / D.dot(other, other)))(other)
 
-  def orthonormalize[F[+_]: Covariant: ForEach](
+  def orthonormalize[F[+_]: ForEach](
     vs: NonEmptyVector[F[Double]]
   )(implicit D: DotProd[F, Double], M: VectorOps[F, Double]): NonEmptyVector[F[Double]] = {
     val bases = vs.foldLeft(NonEmptyVector(vs.head)) { (ob, v) =>

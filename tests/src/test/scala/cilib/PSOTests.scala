@@ -1,6 +1,5 @@
 package cilib
 
-import zio.prelude.{ Assertion => _, _ }
 import zio.test._
 import zio.{ Scope, ZEnvironment }
 

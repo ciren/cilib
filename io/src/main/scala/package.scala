@@ -42,10 +42,10 @@ package object io {
       .writeAndClose(Path(file.getAbsolutePath), list)
   }
 
-  def parquetSink[A: ParquetRecordEncoder: ParquetSchemaResolver](file: java.io.File, writeMode: WriteMode = Create)(
+  def parquetSink[A](file: java.io.File, writeMode: WriteMode = Create)(
     implicit
     encoder: ParquetRecordEncoder[Measurement[A]],
-    schema: ParquetSchemaResolver[Measurement[A]]
+    schema: ParquetSchemaResolver[Measurement[A]],
   ): ZSink[Any, Throwable, Measurement[A], Measurement[A], Unit] = {
     def close(resource: java.io.Closeable): UIO[Unit] =
       ZIO.attempt(resource.close()).orDie

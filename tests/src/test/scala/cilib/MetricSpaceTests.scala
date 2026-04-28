@@ -33,7 +33,7 @@ object MetricSpaceTest extends ZIOSpecDefault {
 
   val doubleEq: zio.prelude.Equal[Double] = zio.prelude.Equal.DoubleEqualWithEpsilon()
 
-  def nonnegative[A, B: Ord](m: MetricSpace[A, B], x: A, y: A)(implicit ev: scala.math.Numeric[B]): TestResult =
+  def nonnegative[A, B](m: MetricSpace[A, B], x: A, y: A)(implicit ev: scala.math.Numeric[B]): TestResult =
     assert(ev.toDouble(m.dist(x, y)))(Assertion.isGreaterThanEqualTo(0.0))
 
   def indisc[A, B](m: MetricSpace[A, B], x: A)(implicit F: scala.math.Numeric[B]): TestResult =

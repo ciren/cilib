@@ -1,5 +1,7 @@
 package cilib
 
+import annotation.unused
+
 import zio.prelude._
 import zio.prelude.newtypes.Natural
 
@@ -22,6 +24,7 @@ object Selection {
 
   def latticeNeighbours[A: zio.prelude.Equal]: (NonEmptyVector[A], A) => List[A] =
     (l: NonEmptyVector[A], x: A) => {
+      @unused val ev1 = implicitly[Equal[A]]
       val list               = l.zipWithIndex
       val np                 = l.length
       val index: Option[Int] = list.find(_._1 == x).map(_._2)
@@ -57,9 +60,11 @@ object Selection {
 
   def distanceNeighbours[F[+_]: ForEach, A: Ord](
     distance: MetricSpace[F[A], A]
-  )(n: Int): (NonEmptyVector[F[A]], F[A]) => List[F[A]] =
-    (l: NonEmptyVector[F[A]], x: F[A]) =>
-      l.toChunk.toList.sortBy(li => distance.dist(li, x))(implicitly[Ord[A]].toScala).take(n)
+  )(n: Int): (NonEmptyVector[F[A]], F[A]) => List[F[A]] = {
+    @unused val ev1 = implicitly[ForEach[F]]
+
+    (l: NonEmptyVector[F[A]], x: F[A]) => l.toChunk.toList.sortBy(li => distance.dist(li, x))(implicitly[Ord[A]].toScala).take(n)
+  }
 
   def wheel[A]: (NonEmptyVector[A], A) => List[A] =
     (l: NonEmptyVector[A], a: A) =>

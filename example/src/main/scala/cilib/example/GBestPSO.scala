@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 import zio.stream.UStream
-import zio.{ ExitCode, URIO }
+import zio.{ ZIO }
 
 object GBestPSO extends zio.ZIOAppDefault {
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
@@ -31,8 +31,8 @@ object GBestPSO extends zio.ZIOAppDefault {
   )
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
-  def run: URIO[Any, ExitCode] = {
-    val t = Runner.foldStep(
+  def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] =
+    Runner.foldStep(
       cmp,
       RNG.fromTime,
       swarm,
@@ -40,10 +40,11 @@ object GBestPSO extends zio.ZIOAppDefault {
       problemStream,
       (x: NonEmptyVector[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
     )
-
-    t.take(1000)
+      .take(1000)
       .runLast
-      .fold(eh => println(eh.toString), ah => println(ah.toString))
-      .exitCode
-  }
+      .fold(
+        failure = eh => ZIO.die(eh),
+        success = ah => println(ah.toString)
+      )
+
 }

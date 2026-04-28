@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.ga._
 import zio.prelude.newtypes.Natural
 import zio.prelude.{ Comparison => _, _ }
-import zio.{ Console, ExitCode, URIO, ZEnvironment }
+import zio._
 
 import Lenses._
 
@@ -74,17 +74,13 @@ object GAExample extends zio.ZIOAppDefault {
         )
 
   // Our IO[Unit] that runs at the end of the world
-  def run: URIO[Any, ExitCode] = {
-    val env = ZEnvironment((cmp, eval))
-
-    Console
-      .printLine(
-        exec.Runner
-          .repeat(1000, cullingGA, swarm)
-          .provideEnvironment(env)
-          .runAll(RNG.fromTime)
-          .toString
+  def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] =
+    exec.Runner
+      .repeat(1000, cullingGA, swarm)
+      .provideEnvironment(ZEnvironment((cmp, eval)))
+      .toZIOWith(RNG.fromTime)
+      .fold(
+        failure = ex => ZIO.die(ex),
+        success = a => a
       )
-      .exitCode
-  }
 }

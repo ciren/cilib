@@ -5,7 +5,7 @@ import cilib.de._
 import cilib.exec._
 import cilib.pso._
 import zio.prelude.newtypes.Natural
-import zio.{ Console, ExitCode, URIO, ZEnvironment }
+import zio.{ ZIO, Console, ZEnvironment }
 
 object Mixed extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
@@ -46,8 +46,15 @@ object Mixed extends zio.ZIOAppDefault {
   val alg: NonEmptyVector[Entity[Mem[Double], Double]] => Step[NonEmptyVector[Entity[Mem[Double], Double]]] =
     Iteration.sync(combinedAlg)
 
-  def run: URIO[Any, ExitCode] = {
+  def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val env = ZEnvironment((cmp, eval))
-    Console.printLine(Runner.repeat(1000, alg, swarm).provideEnvironment(env).runAll(RNG.fromTime).toString).exitCode
+    Runner.repeat(1000, alg, swarm)
+      .provideEnvironment(env)
+      .toZIOWith(RNG.fromTime)
+      .fold(
+        failure = ex => ZIO.die(ex),
+        success = a => Console.printLine(a.toString())
+      )
   }
+
 }

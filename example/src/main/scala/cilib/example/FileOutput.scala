@@ -9,7 +9,6 @@ import cilib.pso._
 import cilib.{ Entity, Mem, NonEmptyVector }
 import zio._
 import zio.prelude.newtypes.Natural
-import zio.prelude.{ Comparison => _, _ }
 import zio.stream._
 
 import java.io.File
