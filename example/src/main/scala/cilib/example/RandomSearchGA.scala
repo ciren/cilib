@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.ga._
 import zio.prelude.fx.ZPure
 import zio.prelude.newtypes.Natural
-import zio.{ Console, ZIO, ZEnvironment }
+import zio.{ Console, ZEnvironment, ZIO }
 
 object RandomSearchGA extends zio.ZIOAppDefault {
   type Ind = Individual[Unit]
@@ -41,7 +41,8 @@ object RandomSearchGA extends zio.ZIOAppDefault {
 
   def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val env = ZEnvironment((cmp, eval))
-    Runner.repeat(1000, myGA, swarm)
+    Runner
+      .repeat(1000, myGA, swarm)
       .provideEnvironment(env)
       .toZIOWith(RNG.fromTime)
       .fold(

@@ -129,7 +129,7 @@ object RVar {
         def dropIndex(target: Int, l: List[A]): List[A] = {
           def innerDropIndex(count: Int, current: List[A]): List[A] =
             current match {
-              case Nil     => Nil
+              case Nil       => Nil
               case x :: rest =>
                 if (count == target) rest else x :: innerDropIndex(count + 1, rest)
             }

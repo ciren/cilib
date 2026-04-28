@@ -5,7 +5,7 @@ import cilib.de._
 import cilib.exec._
 import cilib.pso._
 import zio.prelude.newtypes.Natural
-import zio.{ ZIO, Console, ZEnvironment }
+import zio.{ Console, ZEnvironment, ZIO }
 
 object Mixed extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
@@ -48,7 +48,8 @@ object Mixed extends zio.ZIOAppDefault {
 
   def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val env = ZEnvironment((cmp, eval))
-    Runner.repeat(1000, alg, swarm)
+    Runner
+      .repeat(1000, alg, swarm)
       .provideEnvironment(env)
       .toZIOWith(RNG.fromTime)
       .fold(

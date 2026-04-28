@@ -9,6 +9,5 @@ abstract class MonadStep[M[+_]: IdentityFlatten: Covariant] {
   @unused val ev1 = implicitly[IdentityFlatten[M]]
   @unused val ev2 = implicitly[Covariant[M]]
 
-
   def liftR[A](r: RVar[A]): M[A]
 }

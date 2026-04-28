@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 import zio.prelude.newtypes.Natural
-import zio.{ Console, ZIO, ZEnvironment }
+import zio.{ Console, ZEnvironment, ZIO }
 
 object VonNeumannPSO extends zio.ZIOAppDefault {
 
@@ -29,7 +29,8 @@ object VonNeumannPSO extends zio.ZIOAppDefault {
 
   def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val env = ZEnvironment((cmp, eval))
-    Runner.repeat(1000, iter, swarm)
+    Runner
+      .repeat(1000, iter, swarm)
       .provideEnvironment(env)
       .toZIOWith(RNG.fromTime)
       .fold(

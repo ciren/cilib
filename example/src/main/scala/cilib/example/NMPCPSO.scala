@@ -26,7 +26,8 @@ object NMPCPSO extends zio.ZIOAppDefault {
 
   def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val env = ZEnvironment((cmp, eval))
-    Runner.repeat(1000, iter, swarm)
+    Runner
+      .repeat(1000, iter, swarm)
       .provideEnvironment(env)
       .toZIOWith(RNG.fromTime)
       .fold(

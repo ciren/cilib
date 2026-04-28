@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 import zio.prelude.newtypes.Natural
-import zio.{ ZIO, ZEnvironment }
+import zio.{ ZEnvironment, ZIO }
 
 object GCPSO extends zio.ZIOAppDefault {
 
@@ -35,7 +35,8 @@ object GCPSO extends zio.ZIOAppDefault {
     val algParams = PSO.defaultGCParams
     val env       = ZEnvironment((cmp, eval))
 
-    Runner.repeat(1000, iter, swarm)
+    Runner
+      .repeat(1000, iter, swarm)
       .provideEnvironment(env)
       .toZIOWith((RNG.fromTime, algParams))
       .fold(

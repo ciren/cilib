@@ -52,7 +52,7 @@ package object cilib {
         if (grouped.hasNext) {
           grouped.next().toList match {
             case h1 :: h2 :: _ => (h1, h2)
-            case _           => sys.error("error producing a pair")
+            case _             => sys.error("error producing a pair")
           }
         } else sys.error("Too few elements provided. Need at least 2.")
       }

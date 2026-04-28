@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 import zio.prelude.newtypes.Natural
-import zio.{ ZIO, Console, ZEnvironment }
+import zio.{ Console, ZEnvironment, ZIO }
 
 object LBestPSO extends zio.ZIOAppDefault {
   val swarmSize: Natural               = positiveInt(20)
@@ -34,7 +34,8 @@ object LBestPSO extends zio.ZIOAppDefault {
   def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] = {
     val environment = ZEnvironment((cmp, eval))
 
-    Runner.repeat(1000, iter, swarm)
+    Runner
+      .repeat(1000, iter, swarm)
       .provideEnvironment(environment)
       .toZIOWith(RNG.fromTime)
       .fold(

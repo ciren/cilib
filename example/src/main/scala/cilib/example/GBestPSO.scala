@@ -5,7 +5,7 @@ import cilib.exec._
 import cilib.pso.Defaults._
 import cilib.pso._
 import zio.stream.UStream
-import zio.{ ZIO }
+import zio.ZIO
 
 object GBestPSO extends zio.ZIOAppDefault {
   val bounds: NonEmptyVector[Interval] = Interval(-5.12, 5.12) ^ 30
@@ -32,14 +32,15 @@ object GBestPSO extends zio.ZIOAppDefault {
 
   // Our IO[Unit] that runs the algorithm, at the end of the world
   def run: ZIO[Environment & zio.ZIOAppArgs & zio.Scope, Any, Any] =
-    Runner.foldStep(
-      cmp,
-      RNG.fromTime,
-      swarm,
-      Runner.staticAlgorithm("gbestPSO", iter),
-      problemStream,
-      (x: NonEmptyVector[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
-    )
+    Runner
+      .foldStep(
+        cmp,
+        RNG.fromTime,
+        swarm,
+        Runner.staticAlgorithm("gbestPSO", iter),
+        problemStream,
+        (x: NonEmptyVector[Particle[Mem[Double], Double]], _: Eval[NonEmptyVector]) => RVar.pure(x)
+      )
       .take(1000)
       .runLast
       .fold(
